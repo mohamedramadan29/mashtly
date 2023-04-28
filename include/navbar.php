@@ -26,10 +26,7 @@
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item dropdown-footer">عرض جميع الإخطارات</a>
           </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i class="fa fa-th-large"></i></a>
-        </li>
+        </li> 
       </ul>
     </nav>
     <!-- /.navbar -->
@@ -77,7 +74,7 @@
                   <a href="main.php?dir=categories&page=report" class="nav-link">
                     <p> جميع الأقسام </p>
                   </a>
-                </li> 
+                </li>
               </ul>
             </li>
             <li class="nav-item">
@@ -89,12 +86,12 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="UI/general.html" class="nav-link">
+                  <a href="main.php?dir=products&page=report" class="nav-link">
                     <p> جميع المنتجات </p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="UI/icons.html" class="nav-link">
+                  <a href="main.php?dir=products&page=add" class="nav-link">
                     <p> اضافة منتج </p>
                   </a>
                 </li>

@@ -1,9 +1,9 @@
-<footer class="main-footer">
-  <strong>Created by Dietitian: <a> SULAIMAN ALHARBI </a>.</strong>
-  Under the supervision of Ms. Hanaa Noor, Head of Nutrition Care
+<!--<footer class="main-footer">
+  <strong>Created by Mohamed Ramadan </strong>
+ 
 
 </footer>
-
+-->
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
   <!-- Control sidebar content goes here -->
