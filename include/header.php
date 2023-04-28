@@ -35,11 +35,11 @@
   <!-- summernote -->
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="dist/adminlte/css/adminlte.min.css">
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- bootstrap rtl -->
-  <link rel="stylesheet" href="dist/adminlte/css/bootstrap-rtl.min.css">
+  <link rel="stylesheet" href="dist/css/bootstrap-rtl.min.css">
   <!-- template rtl version -->
-  <link rel="stylesheet" href="dist/adminlte/css/custom-style.css">
+  <link rel="stylesheet" href="dist/css/custom-style.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

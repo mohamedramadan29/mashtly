@@ -68,16 +68,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.0/jquery.timepicker.min.css" integrity="sha512-wlq3zFYkFJpXnb4v4A4p4KUJ10C4sB6xv2Sxum+8RLGhLXb/VyMDvQJH7DN/GvtJzGZcY+JrSErV7LmGm/ZuEg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.0/jquery.timepicker.min.js" integrity="sha512-vQYMD3qZh+pcpxmAHXcQT/rO9LJWmp4ev4vM6UzWWBb/ty6WTEfg8TQxLyRGJ/l1+m0NkV7n8a2zEdV7Jg+1eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<!-- End Time Picker -->
-
+<!-- End Time Picker --> 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
 <!-- jQuery -->
 
-<!-- Bootstrap 4 -->
-<script src="dist/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
-<script src="dist/adminlte/js/adminlte.min.js"></script>
+<script src="dist/js/adminlte.min.js"></script>
 <!-- Page specific script -->
 <!-- Page specific script -->
 <script>
@@ -151,7 +148,7 @@
               "equals": "تساوي",
               "notContains": "لا تحتوي",
               "notStartsWith": "لا تبدأ بـ",
-              "notEndsWith": "لا تنتهي بـ", 
+              "notEndsWith": "لا تنتهي بـ",
 
             },
             "array": {
@@ -237,8 +234,7 @@
     bsCustomFileInput.init();
   });
 </script>
-
-
+ 
 </body>
 
 </html>
