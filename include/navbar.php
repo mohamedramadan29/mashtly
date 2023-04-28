@@ -77,12 +77,7 @@
                   <a href="main.php?dir=categories&page=report" class="nav-link">
                     <p> جميع الأقسام </p>
                   </a>
-                </li>
-                <li class="nav-item">
-                  <a href="charts/flot.html" class="nav-link">
-                    <p> أضافة قسم </p>
-                  </a>
-                </li>
+                </li> 
               </ul>
             </li>
             <li class="nav-item">

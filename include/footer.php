@@ -68,13 +68,15 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.0/jquery.timepicker.min.css" integrity="sha512-wlq3zFYkFJpXnb4v4A4p4KUJ10C4sB6xv2Sxum+8RLGhLXb/VyMDvQJH7DN/GvtJzGZcY+JrSErV7LmGm/ZuEg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.0/jquery.timepicker.min.js" integrity="sha512-vQYMD3qZh+pcpxmAHXcQT/rO9LJWmp4ev4vM6UzWWBb/ty6WTEfg8TQxLyRGJ/l1+m0NkV7n8a2zEdV7Jg+1eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<!-- End Time Picker --> 
+<!-- End Time Picker -->
+<script src="plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
 <!-- jQuery -->
 
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
+<script src="dist/js/main.js"></script>
 <!-- Page specific script -->
 <!-- Page specific script -->
 <script>
@@ -92,8 +94,8 @@
     $('#my_table').DataTable({
       "paging": true,
       "lengthChange": false,
-      "searching": false,
-      "ordering": false,
+      "searching": true,
+      "ordering": true,
       "info": false,
       "autoWidth": false,
       language: {
@@ -198,29 +200,7 @@
             "صباحا",
             "مساءا"
           ],
-          "weekdays": [
-            "الأحد",
-            "الإثنين",
-            "الثلاثاء",
-            "الأربعاء",
-            "الخميس",
-            "الجمعة",
-            "السبت"
-          ],
-          "months": [
-            "يناير",
-            "فبراير",
-            "مارس",
-            "أبريل",
-            "مايو",
-            "يونيو",
-            "يوليو",
-            "أغسطس",
-            "سبتمبر",
-            "أكتوبر",
-            "نوفمبر",
-            "ديسمبر"
-          ]
+
         },
 
         "decimal": ",",
@@ -234,7 +214,22 @@
     bsCustomFileInput.init();
   });
 </script>
- 
+<!-- confirm delete message   -->
+<script>
+  // Select all the buttons with the "confirm-button" class
+  var buttons = document.querySelectorAll('.confirm');
+
+  // Loop through the buttons and add a click event listener
+  buttons.forEach(function(button) {
+    button.addEventListener('click', function(event) {
+      // Display the confirmation dialog
+      if (!confirm("هل انت متاكد من عملية الحذف ؟ ")) {
+        event.preventDefault(); // Prevent the button from doing anything
+      }
+    });
+  });
+</script>
+
 </body>
 
 </html>
