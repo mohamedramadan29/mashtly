@@ -5,6 +5,7 @@ if (isset($_POST['add_pro'])) {
   $name = $_POST['name'];
   $slug = createSlug($name);
   $description = $_POST['description'];
+  $product_adv = $_POST['product_adv'];
   $price = $_POST['price'];
   $sale_price = $_POST['sale_price'];
   $av_num = $_POST['av_num'];
@@ -17,7 +18,7 @@ if (isset($_POST['add_pro'])) {
   // main image
   if (empty($formerror)) {
     if (!empty($_FILES['main_image']['name'])) {
-      
+
       $main_image_name = $_FILES['main_image']['name'];
       $main_image_temp = $_FILES['main_image']['tmp_name'];
       $main_image_type = $_FILES['main_image']['type'];
@@ -42,7 +43,7 @@ if (isset($_POST['add_pro'])) {
       $file = str_replace(' ', '', $file);
       $file_tmp = $_FILES['more_images']['tmp_name'][$key];
       move_uploaded_file($file_tmp, $uploadplace . $file);
-      $location .= time() . $file . " ";
+      $location .= $file . ",";
     }
   }
   if (empty($name)) {
@@ -56,9 +57,9 @@ if (isset($_POST['add_pro'])) {
   }
 
   if (empty($formerror)) {
-    $stmt = $connect->prepare("INSERT INTO products (cat_id , name, slug , description ,main_image , more_images,
+    $stmt = $connect->prepare("INSERT INTO products (cat_id , name, slug , description,product_adv,main_image , more_images,
     price, sale_price , av_num)
-    VALUES (:zcat,:zname,:zslug,:zdesc,:zmain_images,:zmore_images,:zprice,:zsale_price,:zav_num)");
+    VALUES (:zcat,:zname,:zslug,:zdesc,:zproduct_adv,:zmain_images,:zmore_images,:zprice,:zsale_price,:zav_num)");
     $stmt->execute(array(
       "zcat" => $cat_id,
       "zname" => $name,
@@ -66,6 +67,7 @@ if (isset($_POST['add_pro'])) {
       "zdesc" => $description,
       "zmain_images" => $main_image_uploaded,
       "zmore_images" => $location,
+      "zproduct_adv" => $product_adv,
       "zprice" => $price,
       "zsale_price" => $sale_price,
       "zav_num" => $av_num,
@@ -183,9 +185,13 @@ if (isset($_POST['add_pro'])) {
                 <input type="number" id="av_num" name="av_num" class="form-control" value="<?php if (isset($_REQUEST['av_num'])) echo $_REQUEST['av_num'] ?>">
               </div>
               <div class="form-group">
+                <label for="description"> مميزات المنتج <span style="color: #c0392b; font-size: 14px;"> [ افصل بين كل ميزة والاخري ب (,) ] </span> </label>
+                <textarea id="product_adv" name="product_adv" class="form-control" rows="3"><?php if (isset($_REQUEST['product_adv'])) echo $_REQUEST['product_adv'] ?></textarea>
+              </div>
+              <div class="form-group">
                 <label for="customFile"> صورة المنتج </label>
                 <div class="custom-file">
-                  <input required type="file" class="custom-file-input" id="customFile" accept='image/*' name="main_image"  value="<?php if (isset($_REQUEST['main_image'])) echo $_REQUEST['main_image'] ?>">
+                  <input required type="file" class="custom-file-input" id="customFile" accept='image/*' name="main_image" value="<?php if (isset($_REQUEST['main_image'])) echo $_REQUEST['main_image'] ?>">
                   <label class="custom-file-label" for="customFile">اختر الصورة</label>
                 </div>
               </div>

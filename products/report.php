@@ -19,53 +19,15 @@
     <!-- /.container-fluid -->
 </section>
 <!-- /.content-header -->
-
-
 <!-- DOM/Jquery table start -->
 <section class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
-
                     <div class="card-header">
-                        <a href="main.php?dir=products&page=add" class="btn btn-primary waves-effect"> أضافة منتج جديد <i class="fa fa-plus"></i> </a>
+                        <a href="main.php?dir=products&page=add" class="btn btn-primary waves-effect btn-sm"> أضافة منتج جديد <i class="fa fa-plus"></i> </a>
                     </div>
-                    <?php
-                    if (isset($_SESSION['success_message'])) {
-                        $message = $_SESSION['success_message'];
-                        unset($_SESSION['success_message']);
-                    ?>
-                        <?php
-                        ?>
-                        <script src="plugins/jquery/jquery.min.js"></script>
-                        <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
-                        <script>
-                            $(function() {
-                                Swal.fire({
-                                    position: 'top-end',
-                                    icon: 'success',
-                                    title: '<?php echo $message; ?>',
-                                    showConfirmButton: false,
-                                    timer: 2000
-                                })
-                            })
-                        </script>
-                        <?php
-                    } elseif (isset($_SESSION['error_messages'])) {
-                        $formerror = $_SESSION['error_messages'];
-                        foreach ($formerror as $error) {
-                        ?>
-                            <div class="alert alert-danger alert-dismissible" style="max-width: 800px; margin:20px">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                <?php echo $error; ?>
-                            </div>
-                    <?php
-                        }
-                        unset($_SESSION['error_messages']);
-                    }
-                    ?>
-
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="my_table" class="table table-striped table-bordered">
@@ -73,29 +35,31 @@
                                     <tr>
                                         <th> # </th>
                                         <th>الأسم </th>
-                                        <th> النوع </th>
-                                        <th> slug </th>
+                                        <th> القسم </th>
+                                        <th> السعر </th>
+                                        <th> سعر التخفيض </th>
+                                        <th> الكمية </th>
+                                        <th> صورة المنتج </th>
                                         <th> </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $stmt = $connect->prepare("SELECT * FROM categories");
+                                    $stmt = $connect->prepare("SELECT * FROM products");
                                     $stmt->execute();
-                                    $allcat = $stmt->fetchAll();
+                                    $allpro = $stmt->fetchAll();
                                     $i = 0;
-                                    foreach ($allcat as $cat) {
+                                    foreach ($allpro as $pro) {
                                         $i++;
                                     ?>
                                         <tr>
                                             <td> <?php echo $i; ?> </td>
-                                            <td> <?php echo  $cat['name']; ?> </td>
+                                            <td> <?php echo  $pro['name']; ?> </td>
                                             <td> <?php
-                                                    if ($cat['parent_id'] != 0) { ?>
-                                                    <span class="badge badge-warning"> قسم فرعي </span>
+                                                    if ($pro['cat_id'] != null) { ?>
                                                     <?php
                                                         $stmt = $connect->prepare("SELECT * FROM categories WHERE id = ? LIMIT 1");
-                                                        $stmt->execute(array($cat['parent_id']));
+                                                        $stmt->execute(array($pro['cat_id']));
                                                         $sub_data = $stmt->fetch();
                                                     ?>
                                                     <span class="badge badge-info"> <?php echo $sub_data['name']; ?> </span>
@@ -103,14 +67,17 @@
                                                     ?>
                                                 <?php
                                                     } else { ?>
-                                                    <span class="badge badge-success"> قسم رئيسي </span>
+                                                    <span class="badge badge-danger"> لا يوجد </span>
                                                 <?php
                                                     }  ?>
                                             </td>
-                                            <td> <?php echo  $cat['slug']; ?> </td>
+                                            <td> <?php echo  $pro['price']; ?> </td>
+                                            <td> <?php echo  $pro['sale_price']; ?> </td>
+                                            <td> <?php echo  $pro['av_num']; ?> </td>
+                                            <td> <img style="width: 60px; height: 60px;" src="product_images/<?php echo  $pro['main_image']; ?>" alt=""> </td>
                                             <td>
-                                                <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $cat['id']; ?>"> تعديل <i class='fa fa-pen'></i> </button>
-                                                <a href="main.php?dir=categories&page=delete&cat_id=<?php echo $cat['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
+                                                <a href="main.php?dir=products&page=edit&pro_id=<?php echo $pro['id']; ?>" class="btn btn-success waves-effect btn-sm"> مشاهدة التفاصيل  <i class='fa fa-pen'></i></a>
+                                                <a href="main.php?dir=products&page=delete&pro_id=<?php echo $pro['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
                                             </td>
                                         </tr>
                                     <?php

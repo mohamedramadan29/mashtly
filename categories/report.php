@@ -29,7 +29,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <button type="button" class="btn btn-primary waves-effect" data-toggle="modal" data-target="#add-Modal"> أضافة قسم جديد <i class="fa fa-plus"></i> </button>
+                        <button type="button" class="btn btn-primary waves-effect btn-sm" data-toggle="modal" data-target="#add-Modal"> أضافة قسم جديد <i class="fa fa-plus"></i> </button>
                     </div>
                     <?php
                     if (isset($_SESSION['success_message'])) {
@@ -43,7 +43,7 @@
                         <script>
                             $(function() {
                                 Swal.fire({
-                                    position: 'top-end',
+                                    position: 'center',
                                     icon: 'success',
                                     title: '<?php echo $message; ?>',
                                     showConfirmButton: false,
