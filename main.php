@@ -49,6 +49,16 @@ if (isset($_SESSION['admin_username'])) {
     } elseif ($dir == 'products' && $page == 'report') {
         include "products/report.php";
     }
+    // START employee
+    if ($dir == 'employee' && $page == 'add') {
+        include "employee/add.php";
+    } elseif ($dir == 'employee' && $page == 'edit') {
+        include "employee/edit.php";
+    } elseif ($dir == 'employee' && $page == 'delete') {
+        include 'employee/delete.php';
+    } elseif ($dir == 'employee' && $page == 'report') {
+        include "employee/report.php";
+    }
 
     // START USER PROFILE
     if ($dir == 'profile' && $page == 'report') {

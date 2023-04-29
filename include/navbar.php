@@ -26,7 +26,7 @@
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item dropdown-footer">عرض جميع الإخطارات</a>
           </div>
-        </li> 
+        </li>
       </ul>
     </nav>
     <!-- /.navbar -->
@@ -113,6 +113,21 @@
                 <li class="nav-item">
                   <a href="UI/icons.html" class="nav-link">
                     <p> اضافة طلب </p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <p>
+                  الموظفين
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="main.php?dir=employee&page=report" class="nav-link">
+                    <p> جميع الموظفين </p>
                   </a>
                 </li>
               </ul>
