@@ -106,12 +106,12 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="UI/general.html" class="nav-link">
+                  <a href="main.php?dir=orders&page=report" class="nav-link">
                     <p> جميع الطلبات </p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="UI/icons.html" class="nav-link">
+                  <a href="main.php?dir=orders&page=add" class="nav-link">
                     <p> اضافة طلب </p>
                   </a>
                 </li>

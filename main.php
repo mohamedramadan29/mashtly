@@ -39,7 +39,7 @@ if (isset($_SESSION['admin_username'])) {
         include "categories/report.php";
     }
 
-    // START Items
+    // START products
     if ($dir == 'products' && $page == 'add') {
         include "products/add.php";
     } elseif ($dir == 'products' && $page == 'edit') {
@@ -48,6 +48,21 @@ if (isset($_SESSION['admin_username'])) {
         include 'products/delete.php';
     } elseif ($dir == 'products' && $page == 'report') {
         include "products/report.php";
+    }
+    // START orders
+    if ($dir == 'orders' && $page == 'add') {
+        include "orders/add.php";
+    } elseif ($dir == 'orders' && $page == 'add_order') {
+        include "orders/add_order.php";
+    } elseif ($dir == 'orders' && $page == 'edit') {
+        include "orders/edit.php";
+    } elseif ($dir == 'orders' && $page == 'delete') {
+        include 'orders/delete.php';
+    } elseif ($dir == 'orders' && $page == 'report') {
+        include "orders/report.php";
+    }
+    elseif ($dir == 'orders' && $page == 'order_details') {
+        include "orders/order_details.php";
     }
     // START employee
     if ($dir == 'employee' && $page == 'add') {
