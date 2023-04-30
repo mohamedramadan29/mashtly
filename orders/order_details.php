@@ -195,7 +195,13 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                   <div class="row">
                     <div class="col-12">
                       <div class="card">
-                        <button type="button" class="btn btn-warning waves-effect" data-toggle="modal" data-target="#add-Modal"> اضافة عملية جديدة علي الطلب <i class="fa fa-plus"></i> </button>
+                        <?php
+                        if (isset($_SESSION['admin_username'])) { ?>
+                          <button type="button" class="btn btn-warning waves-effect" data-toggle="modal" data-target="#add-Modal"> اضافة عملية جديدة علي الطلب <i class="fa fa-plus"></i> </button>
+                        <?php
+                        }
+
+                        ?>
                         <div class="card-body">
                           <div class="table-responsive">
                             <table id="my_table2" class="table table-striped table-bordered">
@@ -212,8 +218,14 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                               </thead>
                               <tbody>
                                 <?php
-                                $stmt = $connect->prepare("SELECT * FROM order_steps WHERE order_id=?");
-                                $stmt->execute(array($order_id));
+                                if (isset($_SESSION['username'])) {
+                                  $stmt = $connect->prepare("SELECT * FROM order_steps WHERE order_id=? AND username=?");
+                                  $stmt->execute(array($order_id, $_SESSION['id']));
+                                } else {
+                                  $stmt = $connect->prepare("SELECT * FROM order_steps WHERE order_id=?");
+                                  $stmt->execute(array($order_id));
+                                }
+
                                 $allsteps = $stmt->fetchAll();
                                 $i = 0;
                                 foreach ($allsteps as $step) {
@@ -232,7 +244,17 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                                     ?>
                                     <td> <?php echo  $user_data['username']; ?> </td>
                                     <td>
-                                      <a href="main.php?dir=orders&page=order_details&order_id=<?php echo $step['id']; ?>" class="btn btn-success waves-effect btn-sm"> متابعة العملية <i class='fa fa-eye'></i></a>
+                                      <?php
+                                      if (isset($_SESSION['admin_username'])) {
+                                      ?>
+                                        <a href="main.php?dir=orders&page=order_details&order_id=<?php echo $step['id']; ?>" class="btn btn-success waves-effect btn-sm"> متابعة العملية <i class='fa fa-eye'></i></a>
+                                      <?php
+                                      } elseif (isset($_SESSION['username'])) {
+                                      ?>
+                                        <a href="main.php?dir=orders&page=edit_step&step_id=<?php echo $step['id']; ?>&order_id=<?php echo $order_id ;?>" class="btn btn-info waves-effect btn-sm"> متابعة وتنفيذ العملية <i class='fa fa-eye'></i></a>
+                                      <?php
+                                      }
+                                      ?>
                                     </td>
                                   </tr>
                                 <?php

@@ -4,7 +4,7 @@ ob_start();
 session_start();
 $Nonavbar = '';
 include 'connect.php';
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['permision']) == 'admin') {
+if (isset($_POST['login']) == 'POST' && $_POST['permision'] == 'admin') {
   $username = $_POST['username'];
   $password = sha1($_POST['password']);
   $stmt = $connect->prepare(
@@ -18,6 +18,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['permision']) == 'admin
     $_SESSION['admin_username'] = $data['username'];
     $_SESSION['admin_id'] = $data['id'];
     header('Location:main.php?dir=dashboard&page=dashboard');
+    exit();
+  }
+} elseif (isset($_POST['login']) == 'POST' && $_POST['permision'] == 'emp') {
+  echo "good";
+  $username = $_POST['username'];
+  $password = sha1($_POST['password']);
+  $stmt = $connect->prepare(
+    'SELECT * FROM employes WHERE username=? AND password=?'
+  );
+  $stmt->execute([$username, $password]);
+  $data = $stmt->fetch();
+  $count = $stmt->rowCount();
+  if ($count > 0) {
+    echo "good";
+    $_SESSION['username'] = $data['username'];
+    $_SESSION['id'] = $data['id'];
+    header('Location:main.php?dir=dashboard&page=emp_dashboard');
     exit();
   }
 }
@@ -77,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['permision']) == 'admin
                   <span class="ml-auto"><a href="#" class="forgot-pass"> نسيت كلمة المرور
                     </a></span>
                 </div>
-                <input style="background-color: #2ecc71; border-color:#2ecc71" type="submit" value=" تسجيل دخول " class="btn btn-block py-2 btn-primary">
+                <input style="background-color: #2ecc71; border-color:#2ecc71" name="login" type="submit" value=" تسجيل دخول " class="btn btn-block py-2 btn-primary">
               </form>
             </div>
           </div>

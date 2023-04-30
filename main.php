@@ -6,6 +6,8 @@ include 'init.php';
 
 if (isset($_SESSION['admin_username'])) {
     include 'include/navbar.php';
+}if (isset($_SESSION['username'])) {
+    include 'include/emp_navbar.php';
 }
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -24,8 +26,6 @@ if (isset($_SESSION['admin_username'])) {
         include 'dashboard.php';
     } elseif ($dir == 'dashboard' && $page == 'emp_dashboard') {
         include 'emp_dashboard.php';
-    } elseif ($dir == 'dashboard' && $page == 'sup_dashboard') {
-        include 'sup_dashboard.php';
     }
     // END DASHBAORD
     // START Category
@@ -62,9 +62,10 @@ if (isset($_SESSION['admin_username'])) {
         include "orders/report.php";
     } elseif ($dir == 'orders' && $page == 'order_details') {
         include "orders/order_details.php";
-    }
-    elseif ($dir == 'orders' && $page == 'add_step') {
+    } elseif ($dir == 'orders' && $page == 'add_step') {
         include "orders/add_step.php";
+    } elseif ($dir == 'orders' && $page == 'edit_step') {
+        include "orders/edit_step.php";
     }
     // START employee
     if ($dir == 'employee' && $page == 'add') {
