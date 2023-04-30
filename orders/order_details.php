@@ -251,7 +251,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                                       <?php
                                       } elseif (isset($_SESSION['username'])) {
                                       ?>
-                                        <a href="main.php?dir=orders&page=edit_step&step_id=<?php echo $step['id']; ?>&order_id=<?php echo $order_id ;?>" class="btn btn-info waves-effect btn-sm"> متابعة وتنفيذ العملية <i class='fa fa-eye'></i></a>
+                                        <a href="main.php?dir=orders&page=edit_step&step_id=<?php echo $step['id']; ?>" class="btn btn-info waves-effect btn-sm"> متابعة وتنفيذ العملية <i class='fa fa-eye'></i></a>
                                       <?php
                                       }
                                       ?>
