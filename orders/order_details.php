@@ -1,3 +1,8 @@
+<style>
+  .nav-tabs .nav-link.active {
+    color: #111 !important;
+  }
+</style>
 <?php
 if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
   $order_id = $_GET['order_id'];
@@ -9,6 +14,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
   $stmt = $connect->prepare("SELECT * FROM order_details WHERE order_id = ?");
   $stmt->execute(array($order_id));
   $order_details_data = $stmt->fetchAll();
+  $items_count = $stmt->rowCount();
   // get order attachment 
   // get order process
 ?>
@@ -34,6 +40,40 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
   </section>
   <!-- /.content-header -->
   <!-- DOM/Jquery table start -->
+  <?php
+  if (isset($_SESSION['success_message'])) {
+    $message = $_SESSION['success_message'];
+    unset($_SESSION['success_message']);
+  ?>
+    <?php
+    ?>
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+    <script>
+      $(function() {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '<?php echo $message; ?>',
+          showConfirmButton: false,
+          timer: 2000
+        })
+      })
+    </script>
+    <?php
+  } elseif (isset($_SESSION['error_messages'])) {
+    $formerror = $_SESSION['error_messages'];
+    foreach ($formerror as $error) {
+    ?>
+      <div class="alert alert-danger alert-dismissible" style="max-width: 800px; margin:20px">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <?php echo $error; ?>
+      </div>
+  <?php
+    }
+    unset($_SESSION['error_messages']);
+  }
+  ?>
   <section class="content">
     <div class="container-fluid">
       <div class="row">
@@ -42,7 +82,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
             <div class="card-header p-0 pt-1">
               <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true"> العميل </a>
+                  <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true"> معلومات العميل </a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false"> تفاصيل الطلب </a>
@@ -84,10 +124,17 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                       <div class="col-lg-6">
                         <div class="">
                           <?php
+                          $total_price = 0;
                           foreach ($order_details_data as $order_details) {
                             $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
                             $stmt->execute(array($order_details['product_id']));
                             $product_data = $stmt->fetch();
+                            if ($order_details['sale_price'] != '' && $order_details['sale_price'] != null && $order_details['sale_price'] != 0) {
+                              $product_price = $order_details['sale_price'];
+                            } else {
+                              $product_price = $order_details['product_price'];
+                            }
+                            $total_price = $total_price + $product_price;
                           ?>
                             <div class="form-group">
                               <label for="inputStatus"> المنتج </label>
@@ -129,12 +176,15 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                           <textarea id="notes" name="notes" class="form-control" rows="3"><?php echo $order_data['notes'];  ?></textarea>
                         </div>
                         <div class="form-group">
-                          <p class="badge badge-warning" style="font-size: 16px;"> عدد المنتجات  </p>
-                          <span class="text-strong"> 2 </span>
+                          <p class="badge badge-warning" style="font-size: 16px;"> عدد المنتجات ::: </p>
+                          <?php
+
+                          ?>
+                          <span class="text-strong"> <strong> <?php echo $items_count; ?> </strong> </span>
                         </div>
                         <div class="form-group">
-                          <p class="badge badge-info"  style="font-size: 16px;"> السعر الكلي  </p>
-                          <span> 100 </span>
+                          <p class="badge badge-info" style="font-size: 16px;"> السعر الكلي ::: </p>
+                          <span> <strong> <?php echo $total_price; ?> </strong> ريال </span>
                         </div>
                       </div>
                     </div>
@@ -142,7 +192,107 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                   </form>
                 </div>
                 <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
-                  العمليات علي الطلب
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="card">
+                        <button type="button" class="btn btn-warning waves-effect" data-toggle="modal" data-target="#add-Modal"> اضافة عملية جديدة علي الطلب <i class="fa fa-plus"></i> </button>
+                        <div class="card-body">
+                          <div class="table-responsive">
+                            <table id="my_table2" class="table table-striped table-bordered">
+                              <thead>
+                                <tr>
+                                  <th> # </th>
+                                  <th> رقم الطلب </th>
+                                  <th> اسم العملية </th>
+                                  <th> تاريخ بدء العملية </th>
+                                  <th> حالة العملية </th>
+                                  <th> الموظف </th>
+                                  <th> </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php
+                                $stmt = $connect->prepare("SELECT * FROM order_steps WHERE order_id=?");
+                                $stmt->execute(array($order_id));
+                                $allsteps = $stmt->fetchAll();
+                                $i = 0;
+                                foreach ($allsteps as $step) {
+                                  $i++;
+                                ?>
+                                  <tr>
+                                    <td> <?php echo $i; ?> </td>
+                                    <td> <?php echo  $step['order_number']; ?> </td>
+                                    <td> <?php echo  $step['step_name']; ?> </td>
+                                    <td> <?php echo  $step['date']; ?> </td>
+                                    <td> <span class="badge badge-info"> <?php echo  $step['step_status']; ?> </span> </td>
+                                    <?php
+                                    $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
+                                    $stmt->execute(array($step['username']));
+                                    $user_data = $stmt->fetch();
+                                    ?>
+                                    <td> <?php echo  $user_data['username']; ?> </td>
+                                    <td>
+                                      <a href="main.php?dir=orders&page=order_details&order_id=<?php echo $step['id']; ?>" class="btn btn-success waves-effect btn-sm"> متابعة العملية <i class='fa fa-eye'></i></a>
+                                    </td>
+                                  </tr>
+                                <?php
+                                }
+                                ?>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <!-- /.col -->
+                    <!-- ADD NEW CATEGORY MODAL   -->
+                    <div class="modal fade" id="add-Modal" tabindex="-1" role="dialog">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h4 class="modal-title">أضافة عملية </h4>
+                          </div>
+                          <form action="main.php?dir=orders&page=add_step" method="post" enctype="multipart/form-data">
+                            <div class="modal-body">
+                              <div class="form-group">
+                                <input type="hidden" name="order_id" value="<?php echo $order_id ?>">
+                                <input type="hidden" name="order_number" value="<?php echo $order_data['order_number']; ?>">
+                                <label for="Company-2" class="block"> الموظف </label>
+                                <select required class='form-control select2' name='username'>
+                                  <option value=""> -- اختر -- </option>
+                                  <?php
+                                  $stmt = $connect->prepare("SELECT * FROM employes");
+                                  $stmt->execute();
+                                  $allemp = $stmt->fetchAll();
+                                  foreach ($allemp as $emp) {
+                                  ?>
+                                    <option value="<?php echo $emp['id']; ?>"> <?php echo $emp['username'] ?> </option>
+                                  <?php
+                                  }
+                                  ?>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="Company-2" class="block"> حدد العملية الجديدة </label>
+                                <select required class='form-control select2' name='step_name'>
+                                  <option value=""> -- اختر -- </option>
+                                  <option value="تواصل">تواصل</option>
+                                  <option value="تنفيذ">تنفيذ</option>
+                                  <option value="توصيل">توصيل</option>
+                                  <option value="تسليم">تسليم</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" name="add_cat" class="btn btn-primary waves-effect waves-light "> حفظ </button>
+                              <button type="button" class="btn btn-default waves-effect " data-dismiss="modal"> رجوع </button>
+
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
                   مرفقات الطلب

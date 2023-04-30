@@ -60,9 +60,11 @@ if (isset($_SESSION['admin_username'])) {
         include 'orders/delete.php';
     } elseif ($dir == 'orders' && $page == 'report') {
         include "orders/report.php";
-    }
-    elseif ($dir == 'orders' && $page == 'order_details') {
+    } elseif ($dir == 'orders' && $page == 'order_details') {
         include "orders/order_details.php";
+    }
+    elseif ($dir == 'orders' && $page == 'add_step') {
+        include "orders/add_step.php";
     }
     // START employee
     if ($dir == 'employee' && $page == 'add') {
