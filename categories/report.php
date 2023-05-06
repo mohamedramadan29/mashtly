@@ -75,6 +75,7 @@
                                         <th>الأسم </th>
                                         <th> النوع </th>
                                         <th> slug </th>
+                                        <th> صورة القسم  </th>
                                         <th> </th>
                                     </tr>
                                 </thead>
@@ -109,6 +110,9 @@
                                             </td>
                                             <td> <?php echo  $cat['slug']; ?> </td>
                                             <td>
+                                                <img style="width: 80px; height:80px;" src="category_images/<?php echo $cat['image']; ?>" alt="">
+                                            </td>
+                                            <td>
                                                 <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $cat['id']; ?>"> تعديل <i class='fa fa-pen'></i> </button>
                                                 <a href="main.php?dir=categories&page=delete&cat_id=<?php echo $cat['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
                                             </td>
@@ -120,7 +124,7 @@
                                                     <div class="modal-header">
                                                         <h4 class="modal-title"> تعديل القسم </h4>
                                                     </div>
-                                                    <form method="post" action="main.php?dir=categories&page=edit">
+                                                    <form method="post" action="main.php?dir=categories&page=edit" enctype="multipart/form-data">
                                                         <div class="modal-body">
                                                             <div class="form-group">
                                                                 <input type='hidden' name="cat_id" value="<?php echo $cat['id']; ?>">
@@ -143,6 +147,17 @@
                                                                     }
                                                                     ?>
                                                                 </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="Company-2" class="block"> الوصف </label>
+                                                                <textarea id="Company-2" name="description" class="form-control"><?php echo  $cat['description'] ?></textarea>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="customFile"> تعديل صورة القسم </label>
+                                                                <div class="custom-file">
+                                                                    <input type="file" class="custom-file-input" id="customFile" accept='image/*' name="main_image">
+                                                                    <label class="custom-file-label" for="customFile">اختر الصورة</label>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
@@ -188,9 +203,19 @@
                                                 <option value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
                                             <?php
                                             }
-
                                             ?>
                                         </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Company-2" class="block"> الوصف </label>
+                                        <textarea id="Company-2" name="description" class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="customFile"> صورة القسم </label>
+                                        <div class="custom-file">
+                                            <input required type="file" class="custom-file-input" id="customFile" accept='image/*' name="main_image">
+                                            <label class="custom-file-label" for="customFile">اختر الصورة</label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
