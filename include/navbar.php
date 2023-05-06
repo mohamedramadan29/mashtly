@@ -140,6 +140,21 @@
               </a>
             </li>
             <li class="nav-item">
+              <a href="#" class="nav-link">
+                <p>
+                  طلبات ووكومرس
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="main.php?dir=woocommerce&page=report" class="nav-link">
+                    <p> جميع الطلبات </p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
               <a href="logout" class="nav-link" style="color: #e74c3c;">
                 <p>
                   تسجيل خروج

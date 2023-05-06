@@ -5,7 +5,7 @@
 </footer>
 -->
 <!-- Control Sidebar -->
-<aside class="control-sidebar control-sidebar-dark">
+<aside style="display: none;" class="control-sidebar control-sidebar-dark">
   <!-- Control sidebar content goes here -->
 </aside>
 <!-- /.control-sidebar -->
@@ -94,7 +94,7 @@
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');*/
     $('#my_table').DataTable({
       "paging": true,
-      "lengthChange": false,
+      "lengthChange": true,
       "searching": true,
       "ordering": true,
       "info": false,

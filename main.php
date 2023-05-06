@@ -6,7 +6,8 @@ include 'init.php';
 
 if (isset($_SESSION['admin_username'])) {
     include 'include/navbar.php';
-}if (isset($_SESSION['username'])) {
+}
+if (isset($_SESSION['username'])) {
     include 'include/emp_navbar.php';
 }
 ?>
@@ -76,6 +77,16 @@ if (isset($_SESSION['admin_username'])) {
         include 'employee/delete.php';
     } elseif ($dir == 'employee' && $page == 'report') {
         include "employee/report.php";
+    }
+    // START Woocommerce
+    if ($dir == 'woocommerce' && $page == 'add') {
+        include "woocommerce/add.php";
+    } elseif ($dir == 'woocommerce' && $page == 'product') {
+        include "woocommerce/product.php";
+    } elseif ($dir == 'woocommerce' && $page == 'delete') {
+        include 'woocommerce/delete.php';
+    } elseif ($dir == 'woocommerce' && $page == 'report') {
+        include "woocommerce/report.php";
     }
 
     // START USER PROFILE
