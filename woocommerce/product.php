@@ -15,4 +15,5 @@ $woocommerce = new Client(
 );
 ?>  
 <?php /* echo json_encode($woocommerce->get('orders')); */  ?>
-<?php echo json_encode($woocommerce->get('orders', array('per_page'=>50) )); ?>
+
+<?php print_r($woocommerce->get('orders/67682')); ?>

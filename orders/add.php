@@ -166,22 +166,6 @@ if (isset($_SESSION['success_message'])) {
             </div>
             <div class="card-body">
               <div class="form-group">
-                <label for="inputStatus"> حدد القسم </label>
-                <select id="select2" class="form-control select2 custom-select" name="cat_id[]">
-                  <option selected disabled> -- اختر -- </option>
-                  <?php
-                  $stmt = $connect->prepare("SELECT * FROM categories");
-                  $stmt->execute();
-                  $allcat = $stmt->fetchAll();
-                  foreach ($allcat as $cat) {
-                  ?>
-                    <option <?php if (isset($_REQUEST['cat_id']) && $_REQUEST['cat_id'] == $cat['id']) echo "selected"; ?> value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
-                  <?php
-                  }
-                  ?>
-                </select>
-              </div>
-              <div class="form-group">
                 <label for="inputStatus"> اختر المنتج </label>
                 <select required class="form-control custom-select select2" name="pro_id[]">
                   <option selected disabled> -- اختر -- </option>
@@ -218,43 +202,27 @@ if (isset($_SESSION['success_message'])) {
                   // Create new inputs and append to container
                   var newInputs = document.createElement('div');
                   newInputs.innerHTML = `
-                  <div class="form-group">
-                <label for="inputStatus"> حدد القسم </label> 
-                <select id="" class="form-control select2 custom-select" name="cat_id[]">
-                  <option selected disabled> -- اختر -- </option>
-                  <?php
-                  $stmt = $connect->prepare("SELECT * FROM categories");
-                  $stmt->execute();
-                  $allcat = $stmt->fetchAll();
-                  foreach ($allcat as $cat) {
-                  ?>
-                    <option <?php if (isset($_REQUEST['cat_id']) && $_REQUEST['cat_id'] == $cat['id']) echo "selected"; ?> value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
-                  <?php
-                  }
-                  ?>
-                </select>
-              </div>
-      <div class="form-group">
-        <label for="inputStatus"> اسم المنتج </label>
-        <select required id="" class="form-control custom-select select2" name="pro_id[]">
-          <option selected disabled> -- اختر -- </option>
-          <?php
-          $stmt = $connect->prepare("SELECT * FROM products");
-          $stmt->execute();
-          $allcat = $stmt->fetchAll();
-          foreach ($allcat as $cat) {
-          ?>
-            <option <?php if (isset($_REQUEST['pro_id']) && $_REQUEST['pro_id'] == $cat['id']) echo "selected"; ?> value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
-          <?php
-          }
-          ?>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="inputName"> العدد </label>
-        <input required type="number" id="product_qty" name="product_qty[]" class="form-control" value="<?php if (isset($_REQUEST['product_qty'])) echo $_REQUEST['product_qty'] ?>">
-      </div>
-    `;
+                      <div class="form-group">
+                        <label for="inputStatus"> اسم المنتج </label>
+                        <select required id="" class="form-control custom-select select2" name="pro_id[]">
+                          <option selected disabled> -- اختر -- </option>
+                          <?php
+                          $stmt = $connect->prepare("SELECT * FROM products");
+                          $stmt->execute();
+                          $allcat = $stmt->fetchAll();
+                          foreach ($allcat as $cat) {
+                          ?>
+                            <option <?php if (isset($_REQUEST['pro_id']) && $_REQUEST['pro_id'] == $cat['id']) echo "selected"; ?> value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
+                          <?php
+                          }
+                          ?>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="inputName"> العدد </label>
+                        <input required type="number" id="product_qty" name="product_qty[]" class="form-control" value="<?php if (isset($_REQUEST['product_qty'])) echo $_REQUEST['product_qty'] ?>">
+                      </div>
+                    `;
                   newInputsContainer.appendChild(newInputs);
                 });
               </script>
@@ -273,13 +241,10 @@ if (isset($_SESSION['success_message'])) {
               <label for=""></label>
               <div class="form-group">
                 <br>
-                <label for="description"> وصف الطلب </label>
+                <label for="description">   ملاحظات  </label>
                 <textarea id="order_details" name="order_details" class="form-control" rows="3"><?php if (isset($_REQUEST['order_details'])) echo $_REQUEST['order_details'] ?></textarea>
               </div>
-              <div class="form-group">
-                <label for="description"> ملاحظات </label>
-                <textarea id="notes" name="notes" class="form-control" rows="3"><?php if (isset($_REQUEST['notes'])) echo $_REQUEST['notes'] ?></textarea>
-              </div>
+              
               <p class="badge badge-info"> اضافة مرفقات اضافية للطلب </p>
               <div class="form-group">
                 <label for="customFile"> المرفقات </label>

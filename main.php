@@ -83,8 +83,6 @@ if (isset($_SESSION['username'])) {
         include "woocommerce/add.php";
     } elseif ($dir == 'woocommerce' && $page == 'product') {
         include "woocommerce/product.php";
-    } elseif ($dir == 'woocommerce' && $page == 'delete') {
-        include 'woocommerce/delete.php';
     } elseif ($dir == 'woocommerce' && $page == 'report') {
         include "woocommerce/report.php";
     }

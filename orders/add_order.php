@@ -12,8 +12,7 @@ if (isset($_POST['add_order'])) {
     $ship_city = $_POST['ship_city'];
     $address = $_POST['address'];
     $ship_address = $_POST['ship_address'];
-    $order_details = $_POST['order_details'];
-    $notes = $_POST['notes'];
+    $order_details = $_POST['order_details']; 
     $ship_notes = $_POST['ship_notes'];
     $ship_price = $_POST['ship_price'];
     //$pro_id = $_POST['pro_id'];
@@ -97,9 +96,9 @@ if (isset($_POST['add_order'])) {
         // insert into  main order table
         $stmt = $connect->prepare("INSERT INTO orders (order_number , name, email , phone,area,city,address,
         ship_name,ship_phone,ship_area,ship_city,ship_address,ship_notes,ship_price,
-        order_details , notes,order_date,total_price)
+        order_details ,order_date,total_price)
     VALUES (:zorder_num,:zname,:zemail,:zphone,:zarea,:zcity,:zaddress,:zship_name,:zship_phone,:zship_area,
-    :zship_city,:zship_address,:zship_notes,:zship_price,:zorder_details,:znotes,:zorder_date,:ztotal)");
+    :zship_city,:zship_address,:zship_notes,:zship_price,:zorder_details,:zorder_date,:ztotal)");
         $stmt->execute(array(
             "zorder_num" => $order_number,
             "zname" => $name,
@@ -116,7 +115,6 @@ if (isset($_POST['add_order'])) {
             "zship_notes" => $ship_notes,
             "zship_price" => $ship_price,
             "zorder_details" => $order_details,
-            "znotes" => $notes,
             "zorder_date" => $date,
             "ztotal" => $order_total,
         ));
