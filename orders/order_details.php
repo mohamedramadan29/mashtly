@@ -100,22 +100,64 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                 <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
                   <!-- START USER ORDER  -->
                   <form action="" method="post">
-                    <div class="form-group">
-                      <label for="inputName"> الأسم </label>
-                      <input required type="text" id="name" name="name" class="form-control" value="<?php echo $order_data['name']; ?>">
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label for="inputName"> الأسم </label>
+                          <input required type="text" id="name" name="name" class="form-control" value="<?php echo $order_data['name']; ?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="inputName"> البريد الألكتروني </label>
+                          <input required type="text" id="email" name="email" class="form-control" value="<?php echo $order_data['email']; ?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="inputName"> رقم الهاتف </label>
+                          <input required type="text" id="phone" name="phone" class="form-control" value="<?php echo $order_data['phone']; ?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="inputName"> المنطقة </label>
+                          <input required type="text" id="area" name="area" class="form-control" value="<?php echo $order_data['area']; ?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="inputName"> المدينة </label>
+                          <input required type="text" id="city" name="city" class="form-control" value="<?php echo $order_data['city']; ?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="inputName"> الشارع او الحي </label>
+                          <input required type="text" id="address" name="address" class="form-control" value="<?php echo $order_data['address']; ?>">
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="card-header bg-warning">
+                          معلومات الشحن
+                        </div>
+                        <div class="form-group">
+                          <label for="inputName"> الأسم </label>
+                          <input required type="text" id="ship_name" name="ship_name" class="form-control" value="<?php echo $order_data['ship_name']; ?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="inputName"> رقم الهاتف </label>
+                          <input required type="text" id="ship_phone" name="ship_phone" class="form-control" value="<?php echo $order_data['ship_phone']; ?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="inputName"> المنطقة </label>
+                          <input required type="text" id="ship_area" name="ship_area" class="form-control" value="<?php echo $order_data['ship_area']; ?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="inputName"> المدينة </label>
+                          <input required type="text" id="ship_city" name="ship_city" class="form-control" value="<?php echo $order_data['ship_city']; ?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="inputName"> الشارع او الحي </label>
+                          <input required type="text" id="ship_address" name="ship_address" class="form-control" value="<?php echo $order_data['ship_address']; ?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="inputName"> ملاحظات الشحن </label>
+                          <textarea type="text" id="ship_notes" name="ship_notes" class="form-control"><?php echo $order_data['ship_notes']; ?></textarea>
+                        </div>
+                      </div>
                     </div>
-                    <div class="form-group">
-                      <label for="inputName"> البريد الألكتروني </label>
-                      <input required type="text" id="email" name="email" class="form-control" value="<?php echo $order_data['email']; ?>">
-                    </div>
-                    <div class="form-group">
-                      <label for="inputName"> رقم الهاتف </label>
-                      <input required type="text" id="phone" name="phone" class="form-control" value="<?php echo $order_data['phone']; ?>">
-                    </div>
-                    <div class="form-group">
-                      <label for="inputName"> العنوان </label>
-                      <input required type="text" id="address" name="address" class="form-control" value="<?php echo $order_data['address']; ?>">
-                    </div>
+
                   </form>
                 </div>
                 <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
@@ -124,22 +166,26 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                       <div class="col-lg-6">
                         <div class="">
                           <?php
-                          $total_price = 0;
                           foreach ($order_details_data as $order_details) {
                             $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
                             $stmt->execute(array($order_details['product_id']));
                             $product_data = $stmt->fetch();
-                            if ($order_details['sale_price'] != '' && $order_details['sale_price'] != null && $order_details['sale_price'] != 0) {
-                              $product_price = $order_details['sale_price'];
-                            } else {
-                              $product_price = $order_details['product_price'];
-                            }
-                            $total_price = $total_price + $product_price;
                           ?>
-                            <div class="form-group">
-                              <label for="inputStatus"> المنتج </label>
-                              <input type="text" name="pro_name" class="form-control" value="<?php echo $product_data['name']; ?>">
+                            <div class="row">
+                            <div class="col-lg-2">
+                                <div class="form-group"> 
+                                  <img style="width: 70px; height: 70px; border-radius: 10px;" src="product_images/<?php echo $product_data['main_image'];  ?>" alt="">
+                                </div>
+                              </div>
+                              <div class="col-lg-10">
+                                <div class="form-group">
+                                  <label for="inputStatus"> اسم المنتج </label>
+                                  <input type="text" name="pro_name" class="form-control" value="<?php echo $product_data['name']; ?>">
+                                </div>
+                              </div>
+                              
                             </div>
+
                             <div class="row">
                               <div class="col-4">
                                 <div class="form-group">
@@ -183,8 +229,12 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                           <span class="text-strong"> <strong> <?php echo $items_count; ?> </strong> </span>
                         </div>
                         <div class="form-group">
+                          <p class="badge badge-secondary" style="font-size: 16px;"> سعر الشحن ::: </p>
+                          <span> <strong> <?php echo $order_data['ship_price']; ?> </strong> ريال </span>
+                        </div>
+                        <div class="form-group">
                           <p class="badge badge-info" style="font-size: 16px;"> السعر الكلي ::: </p>
-                          <span> <strong> <?php echo $total_price; ?> </strong> ريال </span>
+                          <span> <strong> <?php echo $order_data['total_price']; ?> </strong> ريال </span>
                         </div>
                       </div>
                     </div>

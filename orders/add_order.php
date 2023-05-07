@@ -2,15 +2,45 @@
 if (isset($_POST['add_order'])) {
     $formerror = [];
     $name = $_POST['name'];
+    $ship_name = $_POST['ship_name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
+    $ship_phone = $_POST['ship_phone'];
+    $area = $_POST['area'];
+    $ship_area = $_POST['ship_area'];
+    $city = $_POST['city'];
+    $ship_city = $_POST['ship_city'];
     $address = $_POST['address'];
+    $ship_address = $_POST['ship_address'];
     $order_details = $_POST['order_details'];
     $notes = $_POST['notes'];
+    $ship_notes = $_POST['ship_notes'];
+    $ship_price = $_POST['ship_price'];
     //$pro_id = $_POST['pro_id'];
     //$product_qty = $_POST['product_qty'];
     $product_ids = $_POST['pro_id'];
+
+
     $product_quantities = $_POST['product_qty'];
+
+    // get products to get total price 
+    $total_price = 0;
+    for ($i = 0; $i < count($product_ids); $i++) {
+        $pro_id = $product_ids[$i];
+        $product_qty = $product_quantities[$i];
+        // get the product price 
+        $stmt = $connect->prepare("SELECT * FROM products WHERE id = ? LIMIT 1");
+        $stmt->execute(array($pro_id));
+        $product_detailss = $stmt->fetch();
+        if ($product_detailss['sale_price'] != '' && $product_detailss['sale_price'] != null) {
+            $product_price = $product_detailss['sale_price'] * $product_qty;
+        } else {
+            $product_price = $product_detailss['price'] * $product_qty;
+        }
+        $total_price = $total_price + $product_price;
+    }
+    $order_total = $total_price + $ship_price;
+
     // get the order number 
     // first need random number
     $length = 5; // Set the length of the random string
@@ -65,17 +95,30 @@ if (isset($_POST['add_order'])) {
 
     if (empty($formerror)) {
         // insert into  main order table
-        $stmt = $connect->prepare("INSERT INTO orders (order_number , name, email , phone,address,order_details , notes,order_date)
-    VALUES (:zorder_num,:zname,:zemail,:zphone,:zaddress,:zorder_details,:znotes,:zorder_date)");
+        $stmt = $connect->prepare("INSERT INTO orders (order_number , name, email , phone,area,city,address,
+        ship_name,ship_phone,ship_area,ship_city,ship_address,ship_notes,ship_price,
+        order_details , notes,order_date,total_price)
+    VALUES (:zorder_num,:zname,:zemail,:zphone,:zarea,:zcity,:zaddress,:zship_name,:zship_phone,:zship_area,
+    :zship_city,:zship_address,:zship_notes,:zship_price,:zorder_details,:znotes,:zorder_date,:ztotal)");
         $stmt->execute(array(
             "zorder_num" => $order_number,
             "zname" => $name,
             "zemail" => $email,
             "zphone" => $phone,
+            "zarea" => $area,
+            "zcity" => $city,
             "zaddress" => $address,
+            "zship_name" => $ship_name,
+            "zship_phone" => $ship_phone,
+            "zship_area" => $ship_area,
+            "zship_city" => $ship_city,
+            "zship_address" => $ship_address,
+            "zship_notes" => $ship_notes,
+            "zship_price" => $ship_price,
             "zorder_details" => $order_details,
             "znotes" => $notes,
             "zorder_date" => $date,
+            "ztotal" => $order_total,
         ));
         // insert into order details
         // get the last order data in the first 

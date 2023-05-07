@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark"> الطلبات الخاصة بك </h1>
+                <h1 class="m-0 text-dark"> الطلبات </h1>
             </div>
             <!-- /.col -->
             <div class="col-sm-6">
@@ -52,6 +52,7 @@
                                         <th> تاريخ الطلب </th>
                                         <th> حالة الطلب </th>
                                         <th> عنوان الطلب </th>
+                                        <th> السعر الكلي </th>
                                         <th> </th>
                                     </tr>
                                 </thead>
@@ -64,13 +65,14 @@
                                         $i = 0;
                                         foreach ($allorders as $order) {
                                             $i++;
-                                        ?>
+                                    ?>
                                             <tr>
                                                 <td> <?php echo $i; ?> </td>
                                                 <td> <?php echo  $order['order_number']; ?> </td>
                                                 <td> <?php echo  $order['order_date']; ?> </td>
                                                 <td> <span class="badge badge-info"> <?php echo  $order['status_value']; ?> </span> </td>
                                                 <td> <?php echo  $order['address']; ?> </td>
+                                                <td> <?php echo  $order['total_price']; ?> </td>
                                                 <td>
                                                     <a href="main.php?dir=orders&page=order_details&order_id=<?php echo $order['id']; ?>" class="btn btn-success waves-effect btn-sm"> تفاصيل الطلب <i class='fa fa-eye'></i></a>
                                                     <?php
@@ -82,13 +84,12 @@
                                                     ?>
                                                 </td>
                                             </tr>
-                                        <?php
+                                            <?php
                                         }
-                                        
-                                    } elseif(isset($_SESSION['username'])) {
+                                    } elseif (isset($_SESSION['username'])) {
                                         $stmt = $connect->prepare("SELECT * FROM order_steps WHERE username=?");
                                         $stmt->execute(array($_SESSION['id']));
-                                        $count = $stmt->rowCount(); 
+                                        $count = $stmt->rowCount();
                                         $allorder_steps = $stmt->fetchAll();
                                         foreach ($allorder_steps as $order_step) {
                                             $stmt = $connect->prepare("SELECT * FROM orders WHERE id=?");
@@ -115,15 +116,14 @@
                                                         ?>
                                                     </td>
                                                 </tr>
-                                            <?php
+                                    <?php
                                             }
-                                            
                                         }
-                                    }else{
+                                    } else {
                                         $allorders = 0;
                                     }
 
-        ?>
+                                    ?>
                             </table>
                         </div>
                     </div>

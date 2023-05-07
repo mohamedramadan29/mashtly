@@ -64,21 +64,95 @@ if (isset($_SESSION['success_message'])) {
               معلومات العميل
             </div>
             <div class="card-body">
-              <div class="form-group">
-                <label for="inputName"> الأسم </label>
-                <input required type="text" id="name" name="name" class="form-control" value="<?php if (isset($_REQUEST['name'])) echo $_REQUEST['name'] ?>">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="inputName"> الأسم </label>
+                    <input required type="text" id="name" name="name" class="form-control" value="<?php if (isset($_REQUEST['name'])) echo $_REQUEST['name'] ?>">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="inputName"> البريد الألكتروني </label>
+                    <input required type="text" id="email" name="email" class="form-control" value="<?php if (isset($_REQUEST['email'])) echo $_REQUEST['email'] ?>">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="inputName"> رقم الهاتف </label>
+                    <input required type="text" id="phone" name="phone" class="form-control" value="<?php if (isset($_REQUEST['phone'])) echo $_REQUEST['phone'] ?>">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="inputName"> المنطقة </label>
+                    <input required type="text" id="area" name="area" class="form-control" value="<?php if (isset($_REQUEST['area'])) echo $_REQUEST['area'] ?>">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="inputName"> المدينة </label>
+                    <input required type="text" id="city" name="city" class="form-control" value="<?php if (isset($_REQUEST['city'])) echo $_REQUEST['city'] ?>">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="inputName"> عنوان الشارع / الحي </label>
+                    <input required type="text" id="address" name="address" class="form-control" value="<?php if (isset($_REQUEST['address'])) echo $_REQUEST['address'] ?>">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <div class="card card-info">
+            <div class="card-header">
+              هل تودّ الشحن لعنوان مختلف
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="inputName"> الأسم </label>
+                    <input type="text" id="ship_name" name="ship_name" class="form-control" value="<?php if (isset($_REQUEST['ship_name'])) echo $_REQUEST['ship_name'] ?>">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="inputName"> رقم الهاتف </label>
+                    <input type="text" id="ship_phone" name="ship_phone" class="form-control" value="<?php if (isset($_REQUEST['ship_phone'])) echo $_REQUEST['ship_phone'] ?>">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="inputName"> المنطقة </label>
+                    <input type="text" id="ship_area" name="ship_area" class="form-control" value="<?php if (isset($_REQUEST['ship_area'])) echo $_REQUEST['ship_area'] ?>">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="inputName"> المدينة </label>
+                    <input type="text" id="ship_city" name="ship_city" class="form-control" value="<?php if (isset($_REQUEST['ship_city'])) echo $_REQUEST['ship_city'] ?>">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="inputName"> عنوان الشارع / الحي </label>
+                    <input type="text" id="ship_address" name="ship_address" class="form-control" value="<?php if (isset($_REQUEST['ship_address'])) echo $_REQUEST['ship_address'] ?>">
+                  </div>
+                </div>
               </div>
               <div class="form-group">
-                <label for="inputName"> البريد الألكتروني </label>
-                <input required type="text" id="email" name="email" class="form-control" value="<?php if (isset($_REQUEST['email'])) echo $_REQUEST['email'] ?>">
-              </div>
-              <div class="form-group">
-                <label for="inputName"> رقم الهاتف </label>
-                <input required type="text" id="phone" name="phone" class="form-control" value="<?php if (isset($_REQUEST['phone'])) echo $_REQUEST['phone'] ?>">
-              </div>
-              <div class="form-group">
-                <label for="inputName"> العنوان </label>
-                <input required type="text" id="address" name="address" class="form-control" value="<?php if (isset($_REQUEST['address'])) echo $_REQUEST['address'] ?>">
+                <label for="description"> ملاحظات </label>
+                <textarea id="ship_notes" name="ship_notes" class="form-control" rows="2"><?php if (isset($_REQUEST['ship_notes'])) echo $_REQUEST['ship_notes'] ?></textarea>
               </div>
             </div>
             <!-- /.card-body -->
@@ -92,16 +166,32 @@ if (isset($_SESSION['success_message'])) {
             </div>
             <div class="card-body">
               <div class="form-group">
-                <label for="inputStatus"> اسم المنتج </label>
-                <select required id="select2" class="form-control custom-select" name="pro_id[]">
+                <label for="inputStatus"> حدد القسم </label>
+                <select id="select2" class="form-control select2 custom-select" name="cat_id[]">
                   <option selected disabled> -- اختر -- </option>
                   <?php
-                  $stmt = $connect->prepare("SELECT * FROM products");
+                  $stmt = $connect->prepare("SELECT * FROM categories");
                   $stmt->execute();
                   $allcat = $stmt->fetchAll();
                   foreach ($allcat as $cat) {
                   ?>
-                    <option <?php if (isset($_REQUEST['pro_id']) && $_REQUEST['pro_id'] == $cat['id']) echo "selected"; ?> value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
+                    <option <?php if (isset($_REQUEST['cat_id']) && $_REQUEST['cat_id'] == $cat['id']) echo "selected"; ?> value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
+                  <?php
+                  }
+                  ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="inputStatus"> اختر المنتج </label>
+                <select required class="form-control custom-select select2" name="pro_id[]">
+                  <option selected disabled> -- اختر -- </option>
+                  <?php
+                  $stmt = $connect->prepare("SELECT * FROM products");
+                  $stmt->execute();
+                  $allpro = $stmt->fetchAll();
+                  foreach ($allpro as $pro) {
+                  ?>
+                    <option <?php if (isset($_REQUEST['pro_id']) && $_REQUEST['pro_id'] == $pro['id']) echo "selected"; ?> value="<?php echo $pro['id']; ?>"> <?php echo $pro['name'] ?> </option>
                   <?php
                   }
                   ?>
@@ -128,9 +218,25 @@ if (isset($_SESSION['success_message'])) {
                   // Create new inputs and append to container
                   var newInputs = document.createElement('div');
                   newInputs.innerHTML = `
+                  <div class="form-group">
+                <label for="inputStatus"> حدد القسم </label> 
+                <select id="" class="form-control select2 custom-select" name="cat_id[]">
+                  <option selected disabled> -- اختر -- </option>
+                  <?php
+                  $stmt = $connect->prepare("SELECT * FROM categories");
+                  $stmt->execute();
+                  $allcat = $stmt->fetchAll();
+                  foreach ($allcat as $cat) {
+                  ?>
+                    <option <?php if (isset($_REQUEST['cat_id']) && $_REQUEST['cat_id'] == $cat['id']) echo "selected"; ?> value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
+                  <?php
+                  }
+                  ?>
+                </select>
+              </div>
       <div class="form-group">
         <label for="inputStatus"> اسم المنتج </label>
-        <select required id="select2" class="form-control custom-select" name="pro_id[]">
+        <select required id="" class="form-control custom-select select2" name="pro_id[]">
           <option selected disabled> -- اختر -- </option>
           <?php
           $stmt = $connect->prepare("SELECT * FROM products");
@@ -182,7 +288,10 @@ if (isset($_SESSION['success_message'])) {
                   <label class="custom-file-label" for="customFile">اختر </label>
                 </div>
               </div>
-
+              <div class="form-group">
+                <label for="inputName"> سعر التوصيل والشحن </label>
+                <input type="number" id="ship_price" name="ship_price" class="form-control" value="<?php if (isset($_REQUEST['ship_price'])) echo $_REQUEST['ship_price'] ?>">
+              </div>
             </div>
             <!-- /.card-body -->
           </div>
