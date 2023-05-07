@@ -110,7 +110,14 @@
                                             </td>
                                             <td> <?php echo  $cat['slug']; ?> </td>
                                             <td>
-                                                <img style="width: 80px; height:80px;" src="category_images/<?php echo $cat['image']; ?>" alt="">
+                                                <?php if (strpos($cat['image'], "https://www.mshtly.com") !== false){?>
+                                                    <img style="width: 80px; height:80px;" src="<?php echo $cat['image']; ?>" alt="">
+                                                <?php
+                                                }else{
+                                                    ?>
+                                                    <img style="width: 80px; height:80px;" src="category_images/<?php echo $cat['image']; ?>" alt="">
+                                                    <?php
+                                                }?>
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $cat['id']; ?>"> تعديل <i class='fa fa-pen'></i> </button>

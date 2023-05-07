@@ -4,9 +4,11 @@ if (isset($_POST['add_pro'])) {
   $cat_id = $_POST['cat_id'];
   $name = $_POST['name'];
   $slug = createSlug($name);
-  $description = $_POST['description'];
+    $description = $_POST['description'];
+    $short_desc = $_POST['short_desc'];
   $product_adv = $_POST['product_adv'];
   $price = $_POST['price'];
+  $purchase_price = $_POST['purchase_price'];
   $sale_price = $_POST['sale_price'];
   $av_num = $_POST['av_num'];
   $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ?");
@@ -57,18 +59,20 @@ if (isset($_POST['add_pro'])) {
   }
 
   if (empty($formerror)) {
-    $stmt = $connect->prepare("INSERT INTO products (cat_id , name, slug , description,product_adv,main_image , more_images,
+    $stmt = $connect->prepare("INSERT INTO products (cat_id , name, slug , description,short_desc,product_adv,main_image , more_images,purchase_price,
     price, sale_price , av_num)
-    VALUES (:zcat,:zname,:zslug,:zdesc,:zproduct_adv,:zmain_images,:zmore_images,:zprice,:zsale_price,:zav_num)");
+    VALUES (:zcat,:zname,:zslug,:zdesc,:zshort_desc,:zproduct_adv,:zmain_images,:zmore_images,:zpurchase_price,:zprice,:zsale_price,:zav_num)");
     $stmt->execute(array(
       "zcat" => $cat_id,
       "zname" => $name,
       "zslug" => $slug,
-      "zdesc" => $description,
+        "zdesc" => $description,
+        "zshort_desc" => $short_desc,
       "zmain_images" => $main_image_uploaded,
       "zmore_images" => $location,
       "zproduct_adv" => $product_adv,
-      "zprice" => $price,
+        "zprice" => $price,
+        "zpurchase_price" => $purchase_price,
       "zsale_price" => $sale_price,
       "zav_num" => $av_num,
     ));
@@ -148,9 +152,13 @@ if (isset($_POST['add_pro'])) {
                 <label for="description"> الوصف </label>
                 <textarea id="description" name="description" class="form-control" rows="4"><?php if (isset($_REQUEST['description'])) echo $_REQUEST['description'] ?></textarea>
               </div>
+                <div class="form-group">
+                    <label for="description"> وصف مختصر  </label>
+                    <textarea id="short_desc" name="short_desc" class="form-control" rows="2"><?php if (isset($_REQUEST['short_desc'])) echo $_REQUEST['short_desc'] ?></textarea>
+                </div>
               <div class="form-group">
                 <label for="inputStatus"> القسم </label>
-                <select required id="select2" class="form-control custom-select" name="cat_id">
+                <select required id="" class="form-control custom-select select2" name="cat_id">
                   <option selected disabled> -- اختر -- </option>
                   <?php
                   $stmt = $connect->prepare("SELECT * FROM categories");
@@ -164,10 +172,7 @@ if (isset($_POST['add_pro'])) {
                   ?>
                 </select>
               </div>
-              <div class="form-group">
-                <label for="inputEstimatedBudget"> السعر </label>
-                <input required type="number" id="price" name="price" class="form-control" value="<?php if (isset($_REQUEST['price'])) echo $_REQUEST['price'] ?>">
-              </div>
+
             </div>
             <!-- /.card-body -->
           </div>
@@ -176,6 +181,14 @@ if (isset($_POST['add_pro'])) {
         <div class="col-md-6">
           <div class="card card-secondary">
             <div class="card-body">
+                <div class="form-group">
+                    <label for="inputEstimatedBudget"> سعر الشراء  </label>
+                    <input type="number" id="purchase_price" name="purchase_price" class="form-control" value="<?php if (isset($_REQUEST['purchase_price'])) echo $_REQUEST['purchase_price'] ?>">
+                </div>
+                <div class="form-group">
+                    <label for="inputEstimatedBudget"> سعر البيع  </label>
+                    <input required type="number" id="price" name="price" class="form-control" value="<?php if (isset($_REQUEST['price'])) echo $_REQUEST['price'] ?>">
+                </div>
               <div class="form-group">
                 <label for="inputEstimatedBudget"> سعر التخفيض </label>
                 <input type="number" id="sale_price" name="sale_price" class="form-control" value="<?php if (isset($_REQUEST['sale_price'])) echo $_REQUEST['sale_price'] ?>">
