@@ -50,6 +50,9 @@ if (isset($_SESSION['username'])) {
     } elseif ($dir == 'products' && $page == 'report') {
         include "products/report.php";
     }
+    elseif ($dir == 'products' && $page == 'get_variation') {
+        include "products/get_variation.php";
+    }
     // START orders
     if ($dir == 'orders' && $page == 'add') {
         include "orders/add.php";

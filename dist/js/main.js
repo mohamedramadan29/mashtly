@@ -1,4 +1,4 @@
-document.ready(function () {
+/*document.ready(function () {
     // Select all the buttons with the "confirm-button" class
     var buttons = document.querySelectorAll('.confirm');
 
@@ -11,4 +11,5 @@ document.ready(function () {
             }
         });
     });
-});
+});*/
+

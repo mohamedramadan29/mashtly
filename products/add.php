@@ -4,13 +4,16 @@ if (isset($_POST['add_pro'])) {
   $cat_id = $_POST['cat_id'];
   $name = $_POST['name'];
   $slug = createSlug($name);
-    $description = $_POST['description'];
-    $short_desc = $_POST['short_desc'];
+  $description = $_POST['description'];
+  $short_desc = $_POST['short_desc'];
   $product_adv = $_POST['product_adv'];
   $price = $_POST['price'];
   $purchase_price = $_POST['purchase_price'];
   $sale_price = $_POST['sale_price'];
   $av_num = $_POST['av_num'];
+  $pro_attribute = $_POST['pro_attribute'];
+  $pro_variation = $_POST['pro_variation'];
+  $pro_price = $_POST['pro_price'];
   $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ?");
   $stmt->execute(array($slug));
   $count = $stmt->rowCount();
@@ -66,17 +69,30 @@ if (isset($_POST['add_pro'])) {
       "zcat" => $cat_id,
       "zname" => $name,
       "zslug" => $slug,
-        "zdesc" => $description,
-        "zshort_desc" => $short_desc,
+      "zdesc" => $description,
+      "zshort_desc" => $short_desc,
       "zmain_images" => $main_image_uploaded,
       "zmore_images" => $location,
       "zproduct_adv" => $product_adv,
-        "zprice" => $price,
-        "zpurchase_price" => $purchase_price,
+      "zprice" => $price,
+      "zpurchase_price" => $purchase_price,
       "zsale_price" => $sale_price,
       "zav_num" => $av_num,
     ));
     if ($stmt) {
+      $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC LIMIT 1");
+      $stmt->execute();
+      $last_product = $stmt->fetch();
+      $last_pro_id = $last_product['id'];
+      $stmt = $connect->prepare("INSERT INTO product_details (pro_id,pro_attribute,pro_variation,pro_price) 
+      VALUES(:zpro_id,:zpro_att,:zpro_var,:zpro_price)
+      ");
+      $stmt->execute(array(
+        "zpro_id" => $last_pro_id,
+        "zpro_att" => $pro_attribute,
+        "zpro_var" => $pro_variation,
+        "zpro_price" => $pro_price,
+      ));
       $_SESSION['success_message'] = " تمت الأضافة بنجاح  ";
       if (isset($_SESSION['success_message'])) {
         $message = $_SESSION['success_message'];
@@ -152,10 +168,10 @@ if (isset($_POST['add_pro'])) {
                 <label for="description"> الوصف </label>
                 <textarea id="description" name="description" class="form-control" rows="4"><?php if (isset($_REQUEST['description'])) echo $_REQUEST['description'] ?></textarea>
               </div>
-                <div class="form-group">
-                    <label for="description"> وصف مختصر  </label>
-                    <textarea id="short_desc" name="short_desc" class="form-control" rows="2"><?php if (isset($_REQUEST['short_desc'])) echo $_REQUEST['short_desc'] ?></textarea>
-                </div>
+              <div class="form-group">
+                <label for="description"> وصف مختصر </label>
+                <textarea id="short_desc" name="short_desc" class="form-control" rows="2"><?php if (isset($_REQUEST['short_desc'])) echo $_REQUEST['short_desc'] ?></textarea>
+              </div>
               <div class="form-group">
                 <label for="inputStatus"> القسم </label>
                 <select required id="" class="form-control custom-select select2" name="cat_id">
@@ -172,7 +188,33 @@ if (isset($_POST['add_pro'])) {
                   ?>
                 </select>
               </div>
+              <div class="form-group">
+                <label for="inputStatus"> سمات المنتج </label>
+                <select id="pro_attribute" class="form-control custom-select select2" name="pro_attribute">
+                  <option selected disabled> -- اختر -- </option>
+                  <?php
+                  $stmt = $connect->prepare("SELECT * FROM product_attribute");
+                  $stmt->execute();
+                  $allatt = $stmt->fetchAll();
+                  foreach ($allatt as $att) {
+                  ?>
+                    <option <?php if (isset($_REQUEST['pro_attribute']) && $_REQUEST['pro_attribute'] == $att['id']) echo "selected"; ?> value="<?php echo $att['id']; ?>"> <?php echo $att['name'] ?> </option>
+                  <?php
+                  }
+                  ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="inputStatus"> المتغيرات </label>
+                <select id="pro_variation" class="form-control custom-select select2" name="pro_variation[]" multiple>
+                  <option disabled> -- اختر -- </option>
 
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="inputName"> اضافة سعر جديد للمتغير </label>
+                <input type="number" id="pro_price" name="pro_price" class="form-control" value="<?php if (isset($_REQUEST['pro_price'])) echo $_REQUEST['pro_price'] ?>">
+              </div>
             </div>
             <!-- /.card-body -->
           </div>
@@ -181,14 +223,14 @@ if (isset($_POST['add_pro'])) {
         <div class="col-md-6">
           <div class="card card-secondary">
             <div class="card-body">
-                <div class="form-group">
-                    <label for="inputEstimatedBudget"> سعر الشراء  </label>
-                    <input type="number" id="purchase_price" name="purchase_price" class="form-control" value="<?php if (isset($_REQUEST['purchase_price'])) echo $_REQUEST['purchase_price'] ?>">
-                </div>
-                <div class="form-group">
-                    <label for="inputEstimatedBudget"> سعر البيع  </label>
-                    <input required type="number" id="price" name="price" class="form-control" value="<?php if (isset($_REQUEST['price'])) echo $_REQUEST['price'] ?>">
-                </div>
+              <div class="form-group">
+                <label for="inputEstimatedBudget"> سعر الشراء </label>
+                <input type="number" id="purchase_price" name="purchase_price" class="form-control" value="<?php if (isset($_REQUEST['purchase_price'])) echo $_REQUEST['purchase_price'] ?>">
+              </div>
+              <div class="form-group">
+                <label for="inputEstimatedBudget"> سعر البيع </label>
+                <input required type="number" id="price" name="price" class="form-control" value="<?php if (isset($_REQUEST['price'])) echo $_REQUEST['price'] ?>">
+              </div>
               <div class="form-group">
                 <label for="inputEstimatedBudget"> سعر التخفيض </label>
                 <input type="number" id="sale_price" name="sale_price" class="form-control" value="<?php if (isset($_REQUEST['sale_price'])) echo $_REQUEST['sale_price'] ?>">

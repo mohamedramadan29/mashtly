@@ -11,7 +11,7 @@
 <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -20,6 +20,7 @@
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
+
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- ChartJS -->
@@ -63,10 +64,6 @@
 <!-- jQuery UI -->
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/smoothness/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
-
-<!-- jQuery Timepicker Addon -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.0/jquery.timepicker.min.css" integrity="sha512-wlq3zFYkFJpXnb4v4A4p4KUJ10C4sB6xv2Sxum+8RLGhLXb/VyMDvQJH7DN/GvtJzGZcY+JrSErV7LmGm/ZuEg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.0/jquery.timepicker.min.js" integrity="sha512-vQYMD3qZh+pcpxmAHXcQT/rO9LJWmp4ev4vM6UzWWBb/ty6WTEfg8TQxLyRGJ/l1+m0NkV7n8a2zEdV7Jg+1eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <!-- End Time Picker -->
 <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
@@ -201,9 +198,7 @@
             "صباحا",
             "مساءا"
           ],
-
         },
-
         "decimal": ",",
         "infoFiltered": "(مرشحة من مجموع _MAX_ مُدخل)",
         "searchPlaceholder": "بحث"
@@ -211,15 +206,15 @@
       //"responsive": true,
     });
   });
-  $(function() {
-    bsCustomFileInput.init();
-  });
+  /*
+    $(function() {
+      bsCustomFileInput.init();
+    });*/
 </script>
 <!-- confirm delete message   -->
 <script>
   // Select all the buttons with the "confirm-button" class
   var buttons = document.querySelectorAll('.confirm');
-
   // Loop through the buttons and add a click event listener
   buttons.forEach(function(button) {
     button.addEventListener('click', function(event) {
@@ -231,6 +226,28 @@
   });
 </script>
 
+<script>
+  jQuery(function($) {
+    // اختيار المتغيرات 
+    $('#pro_attribute').change(function() {
+      var pro_attribute = $(this).val();
+      if (pro_attribute != '') {
+        $.ajax({
+          url: "get_variation.php",
+          method: "POST",
+          data: {
+            pro_attribute: pro_attribute
+          },
+          success: function(data) {
+            $('#pro_variation').html(data);
+          }
+        });
+      } else {
+        $('#pro_variation').html('<option value="">-- اختر --</option>');
+      }
+    });
+  });
+</script>
 </body>
 
 </html>
