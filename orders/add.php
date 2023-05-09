@@ -241,10 +241,10 @@ if (isset($_SESSION['success_message'])) {
               <label for=""></label>
               <div class="form-group">
                 <br>
-                <label for="description">   ملاحظات  </label>
+                <label for="description"> ملاحظات </label>
                 <textarea id="order_details" name="order_details" class="form-control" rows="3"><?php if (isset($_REQUEST['order_details'])) echo $_REQUEST['order_details'] ?></textarea>
               </div>
-              
+
               <p class="badge badge-info"> اضافة مرفقات اضافية للطلب </p>
               <div class="form-group">
                 <label for="customFile"> المرفقات </label>

@@ -11,9 +11,9 @@ if (isset($_POST['add_pro'])) {
   $purchase_price = $_POST['purchase_price'];
   $sale_price = $_POST['sale_price'];
   $av_num = $_POST['av_num'];
-  $pro_attribute = $_POST['pro_attribute'];
-  $pro_variation = $_POST['pro_variation'];
-  $pro_price = $_POST['pro_price'];
+  $pro_attributes = $_POST['pro_attribute'];
+  $pro_variations = $_POST['pro_variation'];
+  $pro_prices = $_POST['pro_price'];
   $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ?");
   $stmt->execute(array($slug));
   $count = $stmt->rowCount();
@@ -79,20 +79,35 @@ if (isset($_POST['add_pro'])) {
       "zsale_price" => $sale_price,
       "zav_num" => $av_num,
     ));
+    $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC LIMIT 1");
+    $stmt->execute();
+    $last_product = $stmt->fetch();
+    $last_pro_id = $last_product['id'];
+    ////////////////////////////////
+    for ($j = 0; $j < count($pro_attributes); $j++) {
+      $pro_attribute = $pro_attributes[$j];
+      $pro_price = $pro_prices[$j];
+      for ($i = 0; $i < count($pro_variations); $i++) {
+        $var_id = $pro_variations[$i];
+        // get the product price 
+        /*
+        $stmt = $connect->prepare("SELECT * FROM product_variations WHERE id = ? LIMIT 1");
+        $stmt->execute(array($var_id));
+        $var_details = $stmt->fetch();
+        $var_parent = $var_details['attribute_id'];
+        */
+        $stmt = $connect->prepare("INSERT INTO product_details (pro_id,pro_attribute,pro_variation,pro_price) VALUES 
+  (:zpro_id,:zpro_att,:zpro_var,:zpro_price)");
+        $stmt->execute(array(
+          "zpro_id" => $last_pro_id,
+          "zpro_att" => $pro_attribute,
+          "zpro_var" => $var_id,
+          "zpro_price" => $pro_price,
+        ));
+      }
+    }
+
     if ($stmt) {
-      $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC LIMIT 1");
-      $stmt->execute();
-      $last_product = $stmt->fetch();
-      $last_pro_id = $last_product['id'];
-      $stmt = $connect->prepare("INSERT INTO product_details (pro_id,pro_attribute,pro_variation,pro_price) 
-      VALUES(:zpro_id,:zpro_att,:zpro_var,:zpro_price)
-      ");
-      $stmt->execute(array(
-        "zpro_id" => $last_pro_id,
-        "zpro_att" => $pro_attribute,
-        "zpro_var" => $pro_variation,
-        "zpro_price" => $pro_price,
-      ));
       $_SESSION['success_message'] = " تمت الأضافة بنجاح  ";
       if (isset($_SESSION['success_message'])) {
         $message = $_SESSION['success_message'];
@@ -115,7 +130,7 @@ if (isset($_POST['add_pro'])) {
         </script>
       <?php
       }
-      header('refresh:2;url=main?dir=products&page=report');
+      // header('refresh:2;url=main?dir=products&page=report');
     }
   } else {
     $_SESSION['error_messages'] = $formerror;
@@ -188,33 +203,91 @@ if (isset($_POST['add_pro'])) {
                   ?>
                 </select>
               </div>
-              <div class="form-group">
-                <label for="inputStatus"> سمات المنتج </label>
-                <select id="pro_attribute" class="form-control custom-select select2" name="pro_attribute">
-                  <option selected disabled> -- اختر -- </option>
-                  <?php
-                  $stmt = $connect->prepare("SELECT * FROM product_attribute");
-                  $stmt->execute();
-                  $allatt = $stmt->fetchAll();
-                  foreach ($allatt as $att) {
-                  ?>
-                    <option <?php if (isset($_REQUEST['pro_attribute']) && $_REQUEST['pro_attribute'] == $att['id']) echo "selected"; ?> value="<?php echo $att['id']; ?>"> <?php echo $att['name'] ?> </option>
-                  <?php
-                  }
-                  ?>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="inputStatus"> المتغيرات </label>
-                <select id="pro_variation" class="form-control custom-select select2" name="pro_variation[]" multiple>
-                  <option disabled> -- اختر -- </option>
 
-                </select>
+              <div id="attributes-container">
+                <div class="attribute-group">
+                  <div class="form-group">
+                    <br>
+                    <label for="inputStatus"> اختر السمه </label>
+                    <select id="pro_attribute" class="form-control custom-select select2" name="pro_attribute[]">
+                      <option selected disabled> -- اختر -- </option>
+                      <?php
+                      $stmt = $connect->prepare("SELECT * FROM product_attribute");
+                      $stmt->execute();
+                      $allatt = $stmt->fetchAll();
+                      foreach ($allatt as $att) {
+                      ?>
+                        <option <?php if (isset($_REQUEST['pro_attribute']) && $_REQUEST['pro_attribute'] == $att['id']) echo "selected"; ?> value="<?php echo $att['id']; ?>"> <?php echo $att['name'] ?> </option>
+                      <?php
+                      }
+                      ?>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputStatus"> المتغيرات </label>
+                    <select id="pro_variation" class="form-control custom-select select2" name="pro_variation[]" multiple>
+                      <option disabled> -- اختر -- </option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName">سعر جديد </label>
+                    <input type="number" id="pro_price" name="pro_price[]" class="form-control" value="<?php if (isset($_REQUEST['pro_price'])) echo $_REQUEST['pro_price'] ?>">
+                  </div>
+                </div>
               </div>
-              <div class="form-group">
-                <label for="inputName"> اضافة سعر جديد للمتغير </label>
-                <input type="number" id="pro_price" name="pro_price" class="form-control" value="<?php if (isset($_REQUEST['pro_price'])) echo $_REQUEST['pro_price'] ?>">
-              </div>
+              <div id="new-inputs"></div>
+              <button class="btn btn-warning btn-sm" id="add-inputs-btn"> اضافة سمه جديد <i class="fa fa-plus"></i> </button>
+              <!-- JavaScript code to add new inputs -->
+              <script>
+                /*
+                var addInputsBtn = document.getElementById('add-inputs-btn');
+                var newInputsContainer = document.getElementById('new-inputs');
+
+                addInputsBtn.addEventListener('click', function() {
+                  // Create new inputs and append to container
+                  var newInputs = document.createElement('div');
+                  newInputs.innerHTML = `
+      <div id="attributes-container">
+        <div class="attribute-group">
+          <div class="form-group">
+            <br>
+            <label for="inputStatus"> اختر السمه </label>
+            <select id="pro_attribute" class="form-control custom-select select2" name="pro_attribute[]">
+              <option selected disabled> -- اختر -- </option>
+              <?php
+              $stmt = $connect->prepare("SELECT * FROM product_attribute");
+              $stmt->execute();
+              $allatt = $stmt->fetchAll();
+              foreach ($allatt as $att) {
+              ?>
+                <option <?php if (isset($_REQUEST['pro_attribute']) && $_REQUEST['pro_attribute'] == $att['id']) echo "selected"; ?> value="<?php echo $att['id']; ?>"> <?php echo $att['name'] ?> </option>
+              <?php
+              }
+              ?>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="inputStatus"> المتغيرات </label>
+            <select id="pro_variation" class="form-control custom-select select2" name="pro_variation[]" multiple>
+              <option disabled> -- اختر -- </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="inputName">سعر جديد </label>
+            <input type="number" id="pro_price" name="pro_price[]" class="form-control" value="<?php if (isset($_REQUEST['pro_price'])) echo $_REQUEST['pro_price'] ?>">
+          </div>
+        </div>
+      </div>
+    `;
+                  newInputsContainer.appendChild(newInputs);
+
+                  // Initialize Select2 on the new select element
+                  $(newInputsContainer).find('.select2').select2();
+                });
+                */
+              </script>
+
+
             </div>
             <!-- /.card-body -->
           </div>

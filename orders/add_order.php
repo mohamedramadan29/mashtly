@@ -12,7 +12,7 @@ if (isset($_POST['add_order'])) {
     $ship_city = $_POST['ship_city'];
     $address = $_POST['address'];
     $ship_address = $_POST['ship_address'];
-    $order_details = $_POST['order_details']; 
+    $order_details = $_POST['order_details'];
     $ship_notes = $_POST['ship_notes'];
     $ship_price = $_POST['ship_price'];
     //$pro_id = $_POST['pro_id'];
