@@ -74,9 +74,18 @@
                                             <td> <?php echo  $pro['price']; ?> </td>
                                             <td> <?php echo  $pro['sale_price']; ?> </td>
                                             <td> <?php echo  $pro['av_num']; ?> </td>
-                                            <td> <img style="width: 60px; height: 60px;" src="product_images/<?php echo  $pro['main_image']; ?>" alt=""> </td>
                                             <td>
-                                                <a href="main.php?dir=products&page=edit&pro_id=<?php echo $pro['id']; ?>" class="btn btn-success waves-effect btn-sm"> مشاهدة التفاصيل  <i class='fa fa-pen'></i></a>
+                                                <?php if (strpos($pro['main_image'], "https://www.mshtly.com") !== false) { ?>
+                                                    <img style="width: 80px; height:80px;" src="<?php echo $pro['main_image']; ?>" alt="">
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <img style="width: 80px; height:80px;" src="product_images/<?php echo $pro['main_image']; ?>" alt="">
+                                                <?php
+                                                } ?>
+                                            </td>
+                                            <td>
+                                                <a href="main.php?dir=products&page=edit&pro_id=<?php echo $pro['id']; ?>" class="btn btn-success waves-effect btn-sm"> مشاهدة التفاصيل <i class='fa fa-pen'></i></a>
                                                 <a href="main.php?dir=products&page=delete&pro_id=<?php echo $pro['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
                                             </td>
                                         </tr>
