@@ -49,8 +49,7 @@ if (isset($_SESSION['username'])) {
         include 'products/delete.php';
     } elseif ($dir == 'products' && $page == 'report') {
         include "products/report.php";
-    }
-    elseif ($dir == 'products' && $page == 'get_variation') {
+    } elseif ($dir == 'products' && $page == 'get_variation') {
         include "products/get_variation.php";
     }
     // START orders
@@ -80,6 +79,8 @@ if (isset($_SESSION['username'])) {
         include 'employee/delete.php';
     } elseif ($dir == 'employee' && $page == 'report') {
         include "employee/report.php";
+    } elseif ($dir == 'employee' && $page == 'edit_profile') {
+        include "employee/edit_profile.php";
     }
     // START Woocommerce
     if ($dir == 'woocommerce' && $page == 'add') {

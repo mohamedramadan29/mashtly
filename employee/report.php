@@ -74,8 +74,7 @@
                                         <th> # </th>
                                         <th>اسم المستخدم </th>
                                         <th> البريد الألكتروني </th>
-                                        <th> رقم الهاتف </th>
-                                        <th> العنوان </th>
+                                        <th> رقم الهاتف </th> 
                                         <th> صلاحية الموظف </th>
                                         <th> </th>
                                     </tr>
@@ -93,11 +92,10 @@
                                             <td> <?php echo $i; ?> </td>
                                             <td> <?php echo  $emp['username']; ?> </td>
                                             <td> <?php echo  $emp['email']; ?> </td>
-                                            <td> <?php echo  $emp['phone']; ?> </td>
-                                            <td> <?php echo  $emp['address']; ?> </td>
+                                            <td> <?php echo  $emp['phone']; ?> </td> 
                                             <td> <span class="badge badge-warning"> <?php echo  $emp['role_name']; ?> </span> </td>
                                             <td>
-                                                <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $emp['id']; ?>"> تعديل <i class='fa fa-pen'></i> </button>
+                                                <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $emp['id']; ?>"> تعديل صلاحية <i class='fa fa-pen'></i> </button>
                                                 <a href="main.php?dir=employee&page=delete&emp_id=<?php echo $emp['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
                                             </td>
                                         </tr>
@@ -106,39 +104,20 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title"> تعديل الموظف </h4>
+                                                        <h4 class="modal-title"> تعديل صلاحية الموظف </h4>
                                                     </div>
-
                                                     <form method="post" action="main.php?dir=employee&page=edit">
                                                         <div class="modal-body">
                                                             <div class="form-group">
-                                                                <label for="Company-2" class="block"> اسم المستخدم </label>
-                                                                <input type='hidden' name="emp_id" value="<?php echo $emp['id']; ?>">
-                                                                <input required id="Company-2" name="username" type="text" class="form-control required" value="<?php echo $emp['username'] ?>">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="Company-2" class="block"> البريد الألكتروني </label>
-                                                                <input required id="Company-2" name="email" type="email" class="form-control required" value="<?php echo $emp['email'] ?>">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="Company-2" class="block"> رقم الهاتف </label>
-                                                                <input required id="Company-2" name="phone" type="text" class="form-control required" value="<?php echo $emp['phone'] ?>">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="Company-2" class="block"> العنوان </label>
-                                                                <input required id="Company-2" name="address" type="text" class="form-control required" value="<?php echo $emp['address'] ?>">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="Company-2" class="block"> كلمة المرور </label>
-                                                                <input required id="Company-2" name="password" type="text" class="form-control required" value="<?php echo $emp['password'] ?>">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="Company-2" class="block"> صلاحيات الموظف </label>
+                                                                <input type="hidden" name="emp_id" value="<?php echo $emp['id']; ?>">
+                                                                <label for="Company-2" class="block"> صلاحية الموظف </label>
                                                                 <select required class='form-control select2' name='role_name'>
                                                                     <option value="0"> -- اختر -- </option>
-                                                                    <option <?php if ($emp['role_name'] == 'تواصل') echo "selected"; ?> value="تواصل"> تواصل مع العملاء </option>
-                                                                    <option <?php if ($emp['role_name'] == 'تنفيذ') echo "selected"; ?> value="تنفيذ"> تنفيذ الطلبات </option>
-                                                                    <option <?php if ($emp['role_name'] == 'جودة') echo "selected"; ?> value="جودة"> الجودة </option>
+                                                                    <option <?php if ($emp['role_name'] == 'التواصل') echo "selected"; ?> value="التواصل"> التواصل </option>
+                                                                    <option <?php if ($emp['role_name'] == 'التجهيز') echo "selected"; ?> value="التجهيز"> التجهيز </option>
+                                                                    <option <?php if ($emp['role_name'] == 'التوصيل') echo "selected"; ?> value="التوصيل"> التوصيل </option>
+                                                                    <option <?php if ($emp['role_name'] == 'الجودة') echo "selected"; ?> value="الجودة"> الجودة </option>
+                                                                    <option <?php if ($emp['role_name'] == 'المحاسبة') echo "selected"; ?> value="المحاسبة"> المحاسبة </option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -167,32 +146,18 @@
                             <form action="main.php?dir=employee&page=add" method="post" enctype="multipart/form-data">
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label for="Company-2" class="block"> اسم المستخدم </label>
-                                        <input required id="Company-2" name="username" type="text" class="form-control required">
-                                    </div>
-                                    <div class="form-group">
                                         <label for="Company-2" class="block"> البريد الألكتروني </label>
                                         <input required id="Company-2" name="email" type="email" class="form-control required">
                                     </div>
                                     <div class="form-group">
-                                        <label for="Company-2" class="block"> رقم الهاتف </label>
-                                        <input required id="Company-2" name="phone" type="text" class="form-control required">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="Company-2" class="block"> العنوان </label>
-                                        <input required id="Company-2" name="address" type="text" class="form-control required">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="Company-2" class="block"> كلمة المرور </label>
-                                        <input required id="Company-2" name="password" type="text" class="form-control required">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="Company-2" class="block"> صلاحيات الموظف </label>
+                                        <label for="Company-2" class="block"> صلاحية الموظف </label>
                                         <select required class='form-control select2' name='role_name'>
                                             <option value="0"> -- اختر -- </option>
-                                            <option value="تواصل"> تواصل مع العملاء </option>
-                                            <option value="تنفيذ"> تنفيذ الطلبات </option>
-                                            <option value="جودة"> الجودة </option>
+                                            <option value="التواصل"> التواصل </option>
+                                            <option value="التجهيز"> التجهيز </option>
+                                            <option value="التوصيل"> التوصيل </option>
+                                            <option value="الجودة"> الجودة </option>
+                                            <option value="المحاسبة"> المحاسبة </option>
                                         </select>
                                     </div>
                                 </div>

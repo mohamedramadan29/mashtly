@@ -6,7 +6,7 @@ $Nonavbar = '';
 include 'connect.php';
 if (isset($_POST['login']) == 'POST' && $_POST['permision'] == 'admin') {
   $username = $_POST['username'];
-  $password = sha1($_POST['password']);
+  $password = $_POST['password'];
   $stmt = $connect->prepare(
     'SELECT * FROM admins WHERE username=? AND password=?'
   );
@@ -14,16 +14,14 @@ if (isset($_POST['login']) == 'POST' && $_POST['permision'] == 'admin') {
   $data = $stmt->fetch();
   $count = $stmt->rowCount();
   if ($count > 0) {
-    echo "good";
     $_SESSION['admin_username'] = $data['username'];
     $_SESSION['admin_id'] = $data['id'];
     header('Location:main.php?dir=dashboard&page=dashboard');
     exit();
   }
 } elseif (isset($_POST['login']) == 'POST' && $_POST['permision'] == 'emp') {
-  echo "good";
   $username = $_POST['username'];
-  $password = sha1($_POST['password']);
+  $password = $_POST['password'];
   $stmt = $connect->prepare(
     'SELECT * FROM employes WHERE username=? AND password=?'
   );
@@ -31,7 +29,6 @@ if (isset($_POST['login']) == 'POST' && $_POST['permision'] == 'admin') {
   $data = $stmt->fetch();
   $count = $stmt->rowCount();
   if ($count > 0) {
-    echo "good";
     $_SESSION['username'] = $data['username'];
     $_SESSION['id'] = $data['id'];
     header('Location:main.php?dir=dashboard&page=emp_dashboard');
