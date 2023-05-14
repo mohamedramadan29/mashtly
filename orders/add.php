@@ -88,17 +88,30 @@ if (isset($_SESSION['success_message'])) {
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label for="inputName"> المنطقة </label>
-                    <input required type="text" id="area" name="area" class="form-control" value="<?php if (isset($_REQUEST['area'])) echo $_REQUEST['area'] ?>">
+                    <select id="" class="form-control select2" name="area">
+                      <option value=""> - حدد المنطقة - </option>
+                      <?php
+                      $stmt = $connect->prepare("SELECT * FROM area");
+                      $stmt->execute();
+                      $allarea = $stmt->fetchAll();
+                      foreach ($allarea as $area) {
+                      ?>
+                        <option value="<?php echo $area['id']; ?>"> <?php echo $area['name']; ?> </option>
+                      <?php
+                      }
+                      ?>
+                    </select>
                   </div>
                 </div>
               </div>
               <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-6" style="display: none;">
                   <div class="form-group">
                     <label for="inputName"> المدينة </label>
-                    <input required type="text" id="city" name="city" class="form-control" value="<?php if (isset($_REQUEST['city'])) echo $_REQUEST['city'] ?>">
+                    <input required type="text" id="city" name="city" class="form-control" value="<?php echo "1"; ?>">
                   </div>
                 </div>
+
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label for="inputName"> عنوان الشارع / الحي </label>
@@ -132,10 +145,23 @@ if (isset($_SESSION['success_message'])) {
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label for="inputName"> المنطقة </label>
-                    <input type="text" id="ship_area" name="ship_area" class="form-control" value="<?php if (isset($_REQUEST['ship_area'])) echo $_REQUEST['ship_area'] ?>">
+                    <select id="" class="form-control select2" name="ship_area">
+                      <option value=""> - حدد المنطقة - </option>
+                      <?php
+                      $stmt = $connect->prepare("SELECT * FROM area");
+                      $stmt->execute();
+                      $allarea = $stmt->fetchAll();
+                      foreach ($allarea as $area) {
+                      ?>
+                        <option value="<?php echo $area['id']; ?>"> <?php echo $area['name']; ?> </option>
+                      <?php
+                      }
+                      ?>
+                    </select>
+
                   </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6" style="display: none;">
                   <div class="form-group">
                     <label for="inputName"> المدينة </label>
                     <input type="text" id="ship_city" name="ship_city" class="form-control" value="<?php if (isset($_REQUEST['ship_city'])) echo $_REQUEST['ship_city'] ?>">
@@ -150,10 +176,12 @@ if (isset($_SESSION['success_message'])) {
                   </div>
                 </div>
               </div>
+              <!--
               <div class="form-group">
                 <label for="description"> ملاحظات </label>
                 <textarea id="ship_notes" name="ship_notes" class="form-control" rows="2"><?php if (isset($_REQUEST['ship_notes'])) echo $_REQUEST['ship_notes'] ?></textarea>
               </div>
+                    -->
             </div>
             <!-- /.card-body -->
           </div>

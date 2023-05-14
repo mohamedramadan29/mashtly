@@ -19,8 +19,10 @@
             <span class="dropdown-item dropdown-header">15 اشعار</span>
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item">
-              <i class="fa fa-envelope ml-2"></i> 4 رسائل جديدة
-              <span class="float-left text-muted text-sm">3 دقائق</span>
+              <?php
+              include 'notification.php';
+              ?>
+              <span class="float-left text-muted text-sm"> </span>
             </a>
 
             <div class="dropdown-divider"></div>
@@ -34,9 +36,10 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="../index3.html" class="brand-link">
-        <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <a href="main.php?dir=dashboard&page=dashboard" class="brand-link">
         <span class="brand-text font-weight-light"> مشتلي </span>
+        <img src="uploads/logo.png" alt="AdminLTE Logo" class="brand-image elevation-3" style="box-shadow: none;">
+
       </a>
 
       <!-- Sidebar -->
@@ -44,10 +47,10 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
-            <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            <img src="uploads/logo.png" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <a href="#" class="d-block"> الأدمن </a>
+            <a href="#" class="d-block"> <?php echo  $_SESSION['admin_username']; ?> </a>
           </div>
         </div>
         <!-- Sidebar Menu -->
