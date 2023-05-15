@@ -12,6 +12,7 @@ $css = "themes/css/";
 $js  = "themes/js/";
 $fonts  = "themes/fonts/";
 include $tem . "header.php";
+date_default_timezone_set('Asia/Riyadh');
 // global functions 
 function createSlug($name)
 {

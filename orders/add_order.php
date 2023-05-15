@@ -18,10 +18,7 @@ if (isset($_POST['add_order'])) {
     //$pro_id = $_POST['pro_id'];
     //$product_qty = $_POST['product_qty'];
     $product_ids = $_POST['pro_id'];
-
-
     $product_quantities = $_POST['product_qty'];
-
     // get products to get total price 
     $total_price = 0;
     for ($i = 0; $i < count($product_ids); $i++) {
@@ -153,6 +150,23 @@ if (isset($_POST['add_order'])) {
             "zorder_id" => $last_order_id,
             "zorder_num" => $last_order_number,
             "zfiles" => $location
+        ));
+        // Add Order Steps 
+        $stmt = $connect->prepare("SELECT * FROM employes WHERE role_name='التواصل'");
+        $stmt->execute();
+        $emp_data = $stmt->fetch();
+        $stmt = $connect->prepare("INSERT INTO order_steps (order_id,order_number,username,date,step_name,description,step_status)
+        VALUES(:zorder_id,:zorder_number,:zusername,:zdate,:zstep_name,:zdescription,:zstep_status)
+        ");
+        $stmt->execute(array(
+            "zorder_id"=>$last_order_id,
+            "zorder_number"=>$last_order_number,
+            "zusername"=>$emp_data['id'],
+            "zdate"=>$date,
+            "zstep_name"=>'التواصل',
+            "zdescription"=>' التواصل مع العميل لبدء الطلب  ',
+            "zstep_status"=>'لم يبدا'
+
         ));
         if ($stmt) {
             $_SESSION['success_message'] = " تمت الأضافة بنجاح  ";

@@ -105,6 +105,7 @@
                                                     <td> <?php echo  $order['order_date']; ?> </td>
                                                     <td> <span class="badge badge-info"> <?php echo  $order['status_value']; ?> </span> </td>
                                                     <td> <?php echo  $order['address']; ?> </td>
+                                                    <td> <?php echo  $order['total_price']; ?> </td>
                                                     <td>
                                                         <a href="main.php?dir=orders&page=order_details&order_id=<?php echo $order['id']; ?>" class="btn btn-success waves-effect btn-sm"> تفاصيل الطلب <i class='fa fa-eye'></i></a>
                                                         <?php

@@ -281,7 +281,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                                   <th> # </th>
                                   <th> رقم الطلب </th>
                                   <th> اسم العملية </th>
-                                  <th> تاريخ بدء العملية </th>
+                                  <th> تاريخ العملية </th>
                                   <th> حالة العملية </th>
                                   <th> الموظف </th>
                                   <th> </th>
@@ -305,7 +305,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                                   <tr>
                                     <td> <?php echo $i; ?> </td>
                                     <td> <?php echo  $step['order_number']; ?> </td>
-                                    <td> <?php echo  $step['step_name']; ?> </td>
+                                    <td> <span class="badge badge-danger"> <?php echo  $step['step_name']; ?> </span> </td>
                                     <td> <?php echo  $step['date']; ?> </td>
                                     <td> <span class="badge badge-info"> <?php echo  $step['step_status']; ?> </span> </td>
                                     <?php
@@ -335,7 +335,6 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                           </div>
                         </div>
                       </div>
-
                     </div>
                     <!-- /.col -->
                     <!-- ADD NEW CATEGORY MODAL   -->
