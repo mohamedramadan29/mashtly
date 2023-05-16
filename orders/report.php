@@ -84,42 +84,46 @@
                                                     ?>
                                                 </td>
                                             </tr>
-                                            <?php
+                                        <?php
                                         }
                                     } elseif (isset($_SESSION['username'])) {
-                                        $stmt = $connect->prepare("SELECT * FROM order_steps WHERE username=?");
+
+                                        $stmt = $connect->prepare("SELECT DISTINCT o.id, o.order_number, o.order_date, o.status_value, o.address, o.total_price 
+                                        FROM orders o 
+                                        INNER JOIN order_steps os ON o.id = os.order_id 
+                                        WHERE os.username = ? 
+                                        ORDER BY o.id DESC");
                                         $stmt->execute(array($_SESSION['id']));
-                                        $count = $stmt->rowCount();
-                                        $allorder_steps = $stmt->fetchAll();
-                                        foreach ($allorder_steps as $order_step) {
-                                            $stmt = $connect->prepare("SELECT * FROM orders WHERE id=?");
-                                            $stmt->execute(array($order_step['order_id']));
-                                            $allorders = $stmt->fetchAll();
-                                            $i = 0;
-                                            foreach ($allorders as $order) {
-                                                $i++;
-                                            ?>
-                                                <tr>
-                                                    <td> <?php echo $i; ?> </td>
-                                                    <td> <?php echo  $order['order_number']; ?> </td>
-                                                    <td> <?php echo  $order['order_date']; ?> </td>
-                                                    <td> <span class="badge badge-info"> <?php echo  $order['status_value']; ?> </span> </td>
-                                                    <td> <?php echo  $order['address']; ?> </td>
-                                                    <td> <?php echo  $order['total_price']; ?> </td>
-                                                    <td>
-                                                        <a href="main.php?dir=orders&page=order_details&order_id=<?php echo $order['id']; ?>" class="btn btn-success waves-effect btn-sm"> تفاصيل الطلب <i class='fa fa-eye'></i></a>
-                                                        <?php
-                                                        if (isset($_SESSION['admin_username'])) {
-                                                        ?>
-                                                            <a href="main.php?dir=orders&page=delete&order_id=<?php echo $order['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
-                                                        <?php
-                                                        }
-                                                        ?>
-                                                    </td>
-                                                </tr>
+                                        $allorders = $stmt->fetchAll();
+                                        $count = count($allorders);
+                                        $i = 0;
+                                        foreach ($allorders as $order) {
+                                            $i++;
+                                        ?>
+                                            <tr>
+                                                <td> <?php echo $i; ?> </td>
+                                                <td> <?php echo  $order['order_number']; ?> </td>
+                                                <td> <?php echo  $order['order_date']; ?> </td>
+                                                <td> <span class="badge badge-info"> <?php echo  $order['status_value']; ?> </span> </td>
+                                                <td> <?php echo  $order['address']; ?> </td>
+                                                <td> <?php echo  $order['total_price']; ?> </td>
+                                                <td>
+                                                    <a href="main.php?dir=orders&page=order_details&order_id=<?php echo $order['id']; ?>" class="btn btn-success waves-effect btn-sm"> تفاصيل الطلب <i class='fa fa-eye'></i></a>
+                                                    <?php
+                                                    if (isset($_SESSION['admin_username'])) {
+                                                    ?>
+                                                        <a href="main.php?dir=orders&page=delete&order_id=<?php echo $order['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </td>
+                                            </tr>
                                     <?php
-                                            }
                                         }
+                                        //   }
+
+
+                                        // $stmt = $connect->prepare("SELECT * FROM orders WHERE id = ?");
                                     } else {
                                         $allorders = 0;
                                     }

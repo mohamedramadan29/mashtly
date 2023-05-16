@@ -38,9 +38,31 @@ if (isset($_POST['add_arrival_step'])) {
             "zarrival_date" => $arrival_date,
             "zstep_name" => $step_name,
             "zdesc" => $description,
-            "zstatus" => 'تم التواصل مع العميل',
+            "zstatus" => 'تمت مرحلة التواصل مع العميل ',
         ));
         if ($stmt) {
+            // بدء مرحلة تجهيز الطلب 
+            // 1 - تحديد الموظف الخاص بالتنفيذ
+            // 2 - تسجيل خطوة التنفيذ في خطوات الطلب 
+            $stmt = $connect->prepare("SELECT * FROM employes WHERE role_name='التجهيز'");
+            $stmt->execute();
+            $emp_data = $stmt->fetch();
+            $emp_id = $emp_data['id'];
+            // تسجيل خطوة التجهيز في خطوات تنفيذ الطلب 
+            $stmt = $connect->prepare("INSERT INTO order_steps (order_id , order_number, username ,date , step_name,description,step_status)
+        VALUES (:zorder_id,:zorder_number,:zusername,:zdate,:zstep_name,:zdesc,:zstatus)");
+            $stmt->execute(array(
+                "zorder_id" => $order_id,
+                "zorder_number" => $order_number,
+                "zusername" => $emp_id,
+                "zdate" => $date,
+                "zstep_name" => 'تجهيز الطلب ',
+                "zdesc" => $description,
+                "zstatus" => 'تم التواصل والان في مرحلة التجهيز',
+            ));
+            // تحديث بيانات الطلب 
+            $stmt = $connect->prepare("UPDATE orders SET status_value='تم التواصل' WHERE id=?");
+            $stmt->execute(array($order_id));
             $_SESSION['success_message'] = " تمت الأضافة بنجاح  ";
             header('Location:main.php?dir=orders&page=order_details&order_id=' . $order_id);
         }
