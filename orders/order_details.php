@@ -318,12 +318,22 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                                       <?php
                                       if (isset($_SESSION['admin_username'])) {
                                       ?>
-                                        <a href="main.php?dir=orders&page=order_details&order_id=<?php echo $step['id']; ?>" class="btn btn-success waves-effect btn-sm"> متابعة العملية <i class='fa fa-eye'></i></a>
-                                      <?php
+                                        <!--   <a href="main.php?dir=orders&page=order_details&order_id=<?php echo $step['id']; ?>" class="btn btn-success waves-effect btn-sm"> متابعة العملية <i class='fa fa-eye'></i></a> -->
+                                        <?php
                                       } elseif (isset($_SESSION['username'])) {
-                                      ?>
-                                        <a href="main.php?dir=orders&page=edit_step&step_id=<?php echo $step['id']; ?>" class="btn btn-info waves-effect btn-sm"> متابعة وتنفيذ العملية <i class='fa fa-eye'></i></a>
+                                        if ($user_data['role_name'] == 'التواصل') {
+                                        ?>
+                                          <a href="main.php?dir=orders&page=edit_step&step_id=<?php echo $step['id']; ?>" class="btn btn-info waves-effect btn-sm"> متابعه التواصل مع العميل <i class='fa fa-eye'></i></a>
+                                        <?php
+                                        } elseif ($user_data['role_name'] == 'التجهيز') {
+                                        ?>
+                                          <a href="main.php?dir=orders&page=prepare_order&step_id=<?php echo $step['id']; ?>" class="btn btn-info waves-effect btn-sm"> تجهيز الطلب <i class='fa fa-eye'></i></a>
+                                        <?php
+                                        } elseif ($user_data['role_name'] == 'الجودة') {
+                                        ?>
+                                          <a href="main.php?dir=orders&page=quality_order&step_id=<?php echo $step['id']; ?>" class="btn btn-info waves-effect btn-sm"> ملاحظات الجودة  <i class='fa fa-eye'></i></a>
                                       <?php
+                                        }
                                       }
                                       ?>
                                     </td>
@@ -378,7 +388,6 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                             <div class="modal-footer">
                               <button type="submit" name="add_cat" class="btn btn-primary waves-effect waves-light "> حفظ </button>
                               <button type="button" class="btn btn-default waves-effect " data-dismiss="modal"> رجوع </button>
-
                             </div>
                           </form>
                         </div>

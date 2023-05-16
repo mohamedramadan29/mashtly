@@ -69,6 +69,12 @@ if (isset($_SESSION['username'])) {
         include "orders/add_step.php";
     } elseif ($dir == 'orders' && $page == 'edit_step') {
         include "orders/edit_step.php";
+    } elseif ($dir == 'orders' && $page == 'edit_step') {
+        include "orders/edit_step.php";
+    } elseif ($dir == 'orders' && $page == 'prepare_order') {
+        include "orders/prepare_order.php";
+    } elseif ($dir == 'orders' && $page == 'quality_order') {
+        include "orders/quality_order.php";
     }
     // START employee
     if ($dir == 'employee' && $page == 'add') {
