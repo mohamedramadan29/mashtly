@@ -268,10 +268,9 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                       <div class="card">
                         <?php
                         if (isset($_SESSION['admin_username'])) { ?>
-                          <button type="button" class="btn btn-warning waves-effect" data-toggle="modal" data-target="#add-Modal"> اضافة عملية جديدة علي الطلب <i class="fa fa-plus"></i> </button>
+                          <!-- <button type="button" class="btn btn-warning waves-effect" data-toggle="modal" data-target="#add-Modal"> اضافة عملية جديدة علي الطلب <i class="fa fa-plus"></i> </button> -->
                         <?php
                         }
-
                         ?>
                         <div class="card-body">
                           <div class="table-responsive">
@@ -296,7 +295,6 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                                   $stmt = $connect->prepare("SELECT * FROM order_steps WHERE order_id=?");
                                   $stmt->execute(array($order_id));
                                 }
-
                                 $allsteps = $stmt->fetchAll();
                                 $i = 0;
                                 foreach ($allsteps as $step) {
@@ -336,13 +334,12 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                                         } elseif ($user_data['role_name'] == 'التوصيل') {
                                         ?>
                                           <a href="main.php?dir=orders&page=order_delivery&step_id=<?php echo $step['id']; ?>" class="btn btn-info waves-effect btn-sm"> توصيل واتمام الطلب <i class='fa fa-eye'></i></a>
+                                        <?php
+                                        } elseif ($user_data['role_name'] == 'المحاسبة') {
+                                        ?>
+                                          <a href="main.php?dir=orders&page=accounting&step_id=<?php echo $step['id']; ?>" class="btn btn-info waves-effect btn-sm"> المحاسبة <i class='fa fa-eye'></i></a>
                                       <?php
                                         }
-                                        elseif ($user_data['role_name'] == 'المحاسبة') {
-                                          ?>
-                                            <a href="main.php?dir=orders&page=accounting&step_id=<?php echo $step['id']; ?>" class="btn btn-info waves-effect btn-sm"> المحاسبة <i class='fa fa-eye'></i></a>
-                                        <?php
-                                          }
                                       }
                                       ?>
                                     </td>
@@ -405,7 +402,21 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                   </div>
                 </div>
                 <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
-                  مرفقات الطلب
+                  <table class="table table-bordered">
+                    <thead>
+                      <h6 class="badge badge-warning"> فاتورة الطلب </h6>
+                      <tr>
+                        <th> رقم الطلب </th>
+                        <th> -- </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td> <?php echo $order_data['order_number']; ?> </td>
+                        <td> <a href="main.php?dir=orders&page=order_invoice&order_id=<?php echo $order_id; ?>" class="btn btn-primary btn-sm"> مشاهدة الفاتورة <i class="fa fa-file-invoice"></i> </a> </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>

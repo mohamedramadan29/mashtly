@@ -77,8 +77,10 @@ if (isset($_SESSION['username'])) {
         include "orders/quality_order.php";
     } elseif ($dir == 'orders' && $page == 'order_delivery') {
         include "orders/order_delivery.php";
-    }elseif ($dir == 'orders' && $page == 'accounting') {
+    } elseif ($dir == 'orders' && $page == 'accounting') {
         include "orders/accounting.php";
+    } elseif ($dir == 'orders' && $page == 'order_invoice') {
+        include "orders/order_invoice.php";
     }
     // START employee
     if ($dir == 'employee' && $page == 'add') {
