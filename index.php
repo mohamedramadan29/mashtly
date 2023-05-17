@@ -81,7 +81,7 @@ if (isset($_POST['login']) == 'POST' && $_POST['permision'] == 'admin') {
                 </div>
                 <div class="form-group last mb-3">
                   <label for="password"> اختر الصلاحية </label>
-                  <select name="permision" id="" class="form-control">
+                  <select name="permision" id="" class="form-control custome_select">
                     <option value=""> -- اختر الصلاحية -- </option>
                     <option value="admin"> الأدمن </option>
                     <option value="emp"> موظف </option>

@@ -331,9 +331,18 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                                         <?php
                                         } elseif ($user_data['role_name'] == 'الجودة') {
                                         ?>
-                                          <a href="main.php?dir=orders&page=quality_order&step_id=<?php echo $step['id']; ?>" class="btn btn-info waves-effect btn-sm"> ملاحظات الجودة  <i class='fa fa-eye'></i></a>
+                                          <a href="main.php?dir=orders&page=quality_order&step_id=<?php echo $step['id']; ?>" class="btn btn-info waves-effect btn-sm"> ملاحظات الجودة <i class='fa fa-eye'></i></a>
+                                        <?php
+                                        } elseif ($user_data['role_name'] == 'التوصيل') {
+                                        ?>
+                                          <a href="main.php?dir=orders&page=order_delivery&step_id=<?php echo $step['id']; ?>" class="btn btn-info waves-effect btn-sm"> توصيل واتمام الطلب <i class='fa fa-eye'></i></a>
                                       <?php
                                         }
+                                        elseif ($user_data['role_name'] == 'المحاسبة') {
+                                          ?>
+                                            <a href="main.php?dir=orders&page=accounting&step_id=<?php echo $step['id']; ?>" class="btn btn-info waves-effect btn-sm"> المحاسبة <i class='fa fa-eye'></i></a>
+                                        <?php
+                                          }
                                       }
                                       ?>
                                     </td>
