@@ -79,8 +79,12 @@ if (isset($_SESSION['username'])) {
         include "orders/order_delivery.php";
     } elseif ($dir == 'orders' && $page == 'accounting') {
         include "orders/accounting.php";
+    } elseif ($dir == 'orders' && $page == 'order_products_rev') {
+        include "orders/order_products_rev.php";
     } elseif ($dir == 'orders' && $page == 'order_invoice') {
         include "orders/order_invoice.php";
+    } elseif ($dir == 'orders' && $page == 'order_done') {
+        include "orders/order_done.php";
     }
     // START employee
     if ($dir == 'employee' && $page == 'add') {

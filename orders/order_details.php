@@ -148,15 +148,28 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                           <input required type="text" id="ship_phone" name="ship_phone" class="form-control" value="<?php echo $order_data['ship_phone']; ?>">
                         </div>
                         <?php
-                        $stmt = $connect->prepare("SELECT * FROM area WHERE id=?");
-                        $stmt->execute(array($order_data['ship_area']));
-                        $ship_area = $stmt->fetch();
+                        if (!empty($order_data['ship_area'])) {
+                          $ship_area = $order_data['ship_area'];
+                          $stmt = $connect->prepare("SELECT * FROM area WHERE id=?");
+                          $stmt->execute(array($ship_area));
+                          $ship_area_data = $stmt->fetch();
+                        ?>
+                          <div class="form-group">
+                            <label for="inputName"> المنطقة </label>
+                            <input required type="text" id="ship_area" name="ship_area" class="form-control" value="<?php echo $ship_area_data['name']; ?>">
+                          </div>
+                        <?php
+                        }else{
+                          ?>
+                          <div class="form-group">
+                            <label for="inputName"> المنطقة </label>
+                            <input required type="text" id="ship_area" name="ship_area" class="form-control" value="">
+                          </div>
+                          <?php 
+                        }
 
                         ?>
-                        <div class="form-group">
-                          <label for="inputName"> المنطقة </label>
-                          <input required type="text" id="ship_area" name="ship_area" class="form-control" value="<?php echo $ship_area['name']; ?>">
-                        </div>
+
                         <!--
                         <div class="form-group">
                           <label for="inputName"> المدينة </label>
@@ -414,6 +427,36 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                       <tr>
                         <td> <?php echo $order_data['order_number']; ?> </td>
                         <td> <a href="main.php?dir=orders&page=order_invoice&order_id=<?php echo $order_id; ?>" class="btn btn-primary btn-sm"> مشاهدة الفاتورة <i class="fa fa-file-invoice"></i> </a> </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-bordered">
+                    <thead>
+                      <h6 class="badge badge-warning"> الصور بعد مراجعه الجودة </h6>
+                      <tr>
+                        <th> رقم الطلب </th>
+                        <th> -- </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td> <?php echo $order_data['order_number']; ?> </td>
+                        <td> <a href="main.php?dir=orders&page=order_products_rev&order_id=<?php echo $order_id; ?>" class="btn btn-primary btn-sm"> مشاهدة صور المنتجات <i class="fa fa-file-invoice"></i> </a> </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-bordered">
+                    <thead>
+                      <h6 class="badge badge-warning"> اثباتات تسليم الطلب </h6>
+                      <tr>
+                        <th> رقم الطلب </th>
+                        <th> -- </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td> <?php echo $order_data['order_number']; ?> </td>
+                        <td> <a href="main.php?dir=orders&page=order_done&order_id=<?php echo $order_id; ?>" class="btn btn-primary btn-sm"> مشاهدة اثباتات التسليم <i class="fa fa-file-invoice"></i> </a> </td>
                       </tr>
                     </tbody>
                   </table>
