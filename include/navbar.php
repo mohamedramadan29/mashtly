@@ -117,6 +117,11 @@
                   <a href="main.php?dir=orders&page=add" class="nav-link">
                     <p> اضافة طلب </p>
                   </a>
+                </li> 
+                <li class="nav-item">
+                  <a href="main.php?dir=orders&page=archieve" class="nav-link">
+                    <p> ارشيف الطلبات   </p>
+                  </a>
                 </li>
               </ul>
             </li>

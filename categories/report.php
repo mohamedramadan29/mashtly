@@ -81,7 +81,7 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $stmt = $connect->prepare("SELECT * FROM categories");
+                                    $stmt = $connect->prepare("SELECT * FROM categories ORDER BY id DESC");
                                     $stmt->execute();
                                     $allcat = $stmt->fetchAll();
                                     $i = 0;

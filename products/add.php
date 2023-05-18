@@ -2,6 +2,8 @@
 if (isset($_POST['add_pro'])) {
   $formerror = [];
   $cat_id = $_POST['cat_id'];
+  $more_cat = $_POST['more_cat'];
+  $more_cat_string = implode(',', (array) $more_cat);
   $name = $_POST['name'];
   $slug = createSlug($name);
   $description = $_POST['description'];
@@ -12,7 +14,7 @@ if (isset($_POST['add_pro'])) {
   $sale_price = $_POST['sale_price'];
   $av_num = $_POST['av_num'];
   $pro_attributes = $_POST['pro_attribute'];
-  $pro_variations = $_POST['pro_variation'];
+  $pro_variations = $_POST['pro_variations'];
   $pro_prices = $_POST['pro_price'];
   $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ?");
   $stmt->execute(array($slug));
@@ -62,11 +64,12 @@ if (isset($_POST['add_pro'])) {
   }
 
   if (empty($formerror)) {
-    $stmt = $connect->prepare("INSERT INTO products (cat_id , name, slug , description,short_desc,product_adv,main_image , more_images,purchase_price,
+    $stmt = $connect->prepare("INSERT INTO products (cat_id,more_cat,name, slug , description,short_desc,product_adv,main_image , more_images,purchase_price,
     price, sale_price , av_num)
-    VALUES (:zcat,:zname,:zslug,:zdesc,:zshort_desc,:zproduct_adv,:zmain_images,:zmore_images,:zpurchase_price,:zprice,:zsale_price,:zav_num)");
+    VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zshort_desc,:zproduct_adv,:zmain_images,:zmore_images,:zpurchase_price,:zprice,:zsale_price,:zav_num)");
     $stmt->execute(array(
       "zcat" => $cat_id,
+      "zmore_cat" => $more_cat_string,
       "zname" => $name,
       "zslug" => $slug,
       "zdesc" => $description,
@@ -84,31 +87,33 @@ if (isset($_POST['add_pro'])) {
     $last_product = $stmt->fetch();
     $last_pro_id = $last_product['id'];
     ////////////////////////////////
-    for ($j = 0; $j < count($pro_attributes); $j++) {
-      $pro_attribute = $pro_attributes[$j];
-      $pro_price = $pro_prices[$j];
-      for ($i = 0; $i < count($pro_variations); $i++) {
-        $var_id = $pro_variations[$i];
-        // get the product price 
-        /*
-        $stmt = $connect->prepare("SELECT * FROM product_variations WHERE id = ? LIMIT 1");
-        $stmt->execute(array($var_id));
-        $var_details = $stmt->fetch();
-        $var_parent = $var_details['attribute_id'];
-        */
-        $stmt = $connect->prepare("INSERT INTO product_details (pro_id,pro_attribute,pro_variation,pro_price) VALUES 
-  (:zpro_id,:zpro_att,:zpro_var,:zpro_price)");
-        $stmt->execute(array(
-          "zpro_id" => $last_pro_id,
-          "zpro_att" => $pro_attribute,
-          "zpro_var" => $var_id,
-          "zpro_price" => $pro_price,
-        ));
+    if (!empty($pro_attributes) && !empty($pro_variations)) {
+      for ($j = 0; $j < count($pro_attributes); $j++) {
+        $pro_attribute = $pro_attributes[$j];
+        $pro_price = $pro_prices[$j];
+        for ($i = 0; $i < count($pro_variations); $i++) {
+          $var_id = $pro_variations[$i];
+          // get the product price 
+          /*
+          $stmt = $connect->prepare("SELECT * FROM product_variations WHERE id = ? LIMIT 1");
+          $stmt->execute(array($var_id));
+          $var_details = $stmt->fetch();
+          $var_parent = $var_details['attribute_id'];
+          */
+          $stmt = $connect->prepare("INSERT INTO product_details (pro_id,pro_attribute,pro_variation,pro_price) VALUES 
+    (:zpro_id,:zpro_att,:zpro_var,:zpro_price)");
+          $stmt->execute(array(
+            "zpro_id" => $last_pro_id,
+            "zpro_att" => $pro_attribute,
+            "zpro_var" => $var_id,
+            "zpro_price" => $pro_price,
+          ));
+        }
       }
     }
-
     if ($stmt) {
       $_SESSION['success_message'] = " تمت الأضافة بنجاح  ";
+
       if (isset($_SESSION['success_message'])) {
         $message = $_SESSION['success_message'];
         unset($_SESSION['success_message']);
@@ -130,7 +135,7 @@ if (isset($_POST['add_pro'])) {
         </script>
       <?php
       }
-      // header('refresh:2;url=main?dir=products&page=report');
+      header('Location:main?dir=products&page=report');
     }
   } else {
     $_SESSION['error_messages'] = $formerror;
@@ -188,7 +193,7 @@ if (isset($_POST['add_pro'])) {
                 <textarea id="short_desc" name="short_desc" class="form-control" rows="2"><?php if (isset($_REQUEST['short_desc'])) echo $_REQUEST['short_desc'] ?></textarea>
               </div>
               <div class="form-group">
-                <label for="inputStatus"> القسم </label>
+                <label for="inputStatus"> القسم الرئيسي </label>
                 <select required id="" class="form-control custom-select select2" name="cat_id">
                   <option selected disabled> -- اختر -- </option>
                   <?php
@@ -204,6 +209,22 @@ if (isset($_POST['add_pro'])) {
                 </select>
               </div>
 
+              <div class="form-group">
+                <label for="inputStatus"> اضافة اقسام اخري </label>
+                <select required id="" class="form-control custom-select select2" name="more_cat" multiple>
+
+                  <?php
+                  $stmt = $connect->prepare("SELECT * FROM categories");
+                  $stmt->execute();
+                  $allcat = $stmt->fetchAll();
+                  foreach ($allcat as $cat) {
+                  ?>
+                    <option <?php if (isset($_REQUEST['more_cat']) && $_REQUEST['more_cat'] == $cat['id']) echo "selected"; ?> value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
+                  <?php
+                  }
+                  ?>
+                </select>
+              </div>
               <div id="attributes-container">
                 <div class="attribute-group">
                   <div class="form-group">

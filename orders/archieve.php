@@ -59,7 +59,7 @@
                                 <tbody>
                                     <?php
                                     if (isset($_SESSION['admin_username'])) {
-                                        $stmt = $connect->prepare("SELECT * FROM orders WHERE archieve = 0 ORDER By id DESC");
+                                        $stmt = $connect->prepare("SELECT * FROM orders WHERE archieve = 1");
                                         $stmt->execute();
                                         $allorders = $stmt->fetchAll();
                                         $i = 0;
@@ -121,8 +121,6 @@
                                     <?php
                                         }
                                         //   }
-
-
                                         // $stmt = $connect->prepare("SELECT * FROM orders WHERE id = ?");
                                     } else {
                                         $allorders = 0;

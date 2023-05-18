@@ -25,20 +25,22 @@
   <div class="container-fluid">
     <!-- Small boxes (Stat box) -->
     <div class="row">
+      <!-- ./col -->
       <div class="col-lg-3 col-6">
         <!-- small box -->
-        <div class="small-box bg-info">
+        <div class="small-box bg-danger">
           <div class="inner">
             <h3></h3>
 
-            <p class="text-bold"> المستخدمين </p>
+            <p class="text-bold"> الطلبات </p>
           </div>
           <div class="icon">
-            <i class="fa fa-users"></i>
+            <i class="fa fa-file"></i>
           </div>
-          <a href="main?dir=setting&page=report_emp" class="small-box-footer"> التقاصيل <i class="fas fa-arrow-circle-right"></i></a>
+          <a href="main.php?dir=orders&page=report" class="small-box-footer"> التقاصيل <i class="fas fa-arrow-circle-right"></i></a>
         </div>
       </div>
+
       <!-- ./col -->
       <div class="col-lg-3 col-6">
         <!-- small box -->
@@ -51,7 +53,7 @@
           <div class="icon">
             <i class="ion ion-stats-bars"></i>
           </div>
-          <a href="main.php?dir=setting&page=report_pre" class="small-box-footer"> التقاصيل <i class="fas fa-arrow-circle-right"></i></a>
+          <a href="main.php?dir=categories&page=report" class="small-box-footer"> التقاصيل <i class="fas fa-arrow-circle-right"></i></a>
         </div>
       </div>
       <!-- ./col -->
@@ -66,22 +68,20 @@
           <div class="icon">
             <i class="ion ion-bag"></i>
           </div>
-          <a href="main.php?dir=main_menu&page=report" class="small-box-footer"> التقاصيل <i class="fas fa-arrow-circle-right"></i></a>
+          <a href="main.php?dir=products&page=report" class="small-box-footer"> التقاصيل <i class="fas fa-arrow-circle-right"></i></a>
         </div>
       </div>
-      <!-- ./col -->
       <div class="col-lg-3 col-6">
         <!-- small box -->
-        <div class="small-box bg-danger">
+        <div class="small-box bg-info">
           <div class="inner">
             <h3></h3>
-
-            <p class="text-bold"> الطلبات </p>
+            <p class="text-bold"> الموظفين </p>
           </div>
           <div class="icon">
-            <i class="fa fa-file"></i>
+            <i class="fa fa-users"></i>
           </div>
-          <a href="main.php?dir=pdf_files&page=report" class="small-box-footer"> التقاصيل <i class="fas fa-arrow-circle-right"></i></a>
+          <a href="main.php?dir=employee&page=report" class="small-box-footer"> التقاصيل <i class="fas fa-arrow-circle-right"></i></a>
         </div>
       </div>
     </div>
@@ -108,36 +108,20 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td><a href="#">OR9842</a></td>
-
-                    <td><span class="badge badge-success"> تم التفيذ </span></td>
-                    <td><span class="text-strong"> 100 </span></td>
-                  </tr>
-                  <tr>
-                    <td><a href="#">OR9842</a></td>
-
-                    <td><span class="badge badge-warning"> تحت المراجعه </span></td>
-                    <td><span class="text-strong"> 200 </span></td>
-                  </tr>
-                  <tr>
-                    <td><a href="#">OR9842</a></td>
-
-                    <td><span class="badge badge-danger"> ملغي </span></td>
-                    <td><span class="text-strong"> 300 </span></td>
-                  </tr>
-                  <tr>
-                    <td><a href="#">OR9842</a></td>
-
-                    <td><span class="badge badge-danger"> ملغي </span></td>
-                    <td><span class="text-strong"> 300 </span></td>
-                  </tr>
-                  <tr>
-                    <td><a href="#">OR9842</a></td>
-
-                    <td><span class="badge badge-danger"> ملغي </span></td>
-                    <td><span class="text-strong"> 300 </span></td>
-                  </tr>
+                  <?php
+                  $stmt = $connect->prepare("SELECT * FROM orders WHERE archieve = 0 ORDER BY id DESC LIMIT 5");
+                  $stmt->execute();
+                  $allorders = $stmt->fetchAll();
+                  foreach ($allorders as $order) {
+                  ?>
+                    <tr>
+                      <td><a href="main.php?dir=orders&page=order_details&order_id=<?php echo $order['id']; ?>"> <?php echo $order['order_number'] ?> </a></td>
+                      <td><span class="badge badge-success"> <?php echo $order['status_value'] ?> </span></td>
+                      <td><span class="text-strong"> <?php echo $order['total_price'] ?> ر.س </span></td>
+                    </tr>
+                  <?php
+                  }
+                  ?>
                 </tbody>
               </table>
             </div>
@@ -145,7 +129,7 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer clearfix">
-            <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right"> مشاهدة جميع الطلبات </a>
+            <a href="main.php?dir=orders&page=report" class="btn btn-sm btn-secondary float-right"> مشاهدة جميع الطلبات </a>
           </div>
           <!-- /.card-footer -->
         </div>
@@ -157,82 +141,37 @@
         <div class="card">
           <div class="card-header">
             <h3 class="card-title"> اخر المنتجات </h3>
-
           </div>
           <!-- /.card-header -->
           <div class="card-body p-0">
             <ul class="products-list product-list-in-card pl-2 pr-2">
-              <li class="item">
-                <div class="product-img">
-                  <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                </div>
-                <div class="product-info">
-                  <a href="javascript:void(0)" class="product-title">برتقال أفندي ميخال
-                    <span class="badge badge-warning float-right">87 ر.س</span></a>
-                  <span class="product-description">
-                    برتقال أفندي ميخال هي من الأشجار المهمة اقتصادياً
-                  </span>
-                </div>
-              </li>
-              <!-- /.item -->
-              <li class="item">
-                <div class="product-img">
-                  <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                </div>
-                <div class="product-info">
-                  <a href="javascript:void(0)" class="product-title">برتقال أفندي ميخال
-                    <span class="badge badge-warning float-right">87 ر.س</span></a>
-                  <span class="product-description">
-                    برتقال أفندي ميخال هي من الأشجار المهمة اقتصادياً
-                  </span>
-                </div>
-              </li>
-              <!-- /.item -->
-              <li class="item">
-                <div class="product-img">
-                  <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                </div>
-                <div class="product-info">
-                  <a href="javascript:void(0)" class="product-title">برتقال أفندي ميخال
-                    <span class="badge badge-info float-right">87 ر.س</span></a>
-                  <span class="product-description">
-                    برتقال أفندي ميخال هي من الأشجار المهمة اقتصادياً
-                  </span>
-                </div>
-              </li>
-              <!-- /.item -->
-              <li class="item">
-                <div class="product-img">
-                  <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                </div>
-                <div class="product-info">
-                  <a href="javascript:void(0)" class="product-title">برتقال أفندي ميخال
-                    <span class="badge badge-success float-right">87 ر.س</span></a>
-                  <span class="product-description">
-                    برتقال أفندي ميخال هي من الأشجار المهمة اقتصادياً
-                  </span>
-                </div>
-              </li>
-              <!-- /.item -->
-              <!-- /.item -->
-              <li class="item">
-                <div class="product-img">
-                  <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                </div>
-                <div class="product-info">
-                  <a href="javascript:void(0)" class="product-title">برتقال أفندي ميخال
-                    <span class="badge badge-success float-right">87 ر.س</span></a>
-                  <span class="product-description">
-                    برتقال أفندي ميخال هي من الأشجار المهمة اقتصادياً
-                  </span>
-                </div>
-              </li>
+              <?php
+              $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC LIMIT 5");
+              $stmt->execute();
+              $allproducts = $stmt->fetchAll();
+              foreach ($allproducts as $product) {
+              ?>
+                <li class="item">
+                  <div class="product-img">
+                    <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
+                  </div>
+                  <div class="product-info">
+                    <a href="main.php?dir=products&page=edit&pro_id=<?php echo $product['id']; ?>" class="product-title"> <?php echo $product['name']; ?>
+                      <span class="badge badge-warning float-right"><?php echo $product['price']; ?> ر.س</span></a>
+                    <span class="product-description">
+                    <?php echo $product['short_desc']; ?>
+                    </span>
+                  </div>
+                </li>
+              <?php
+              }
+              ?> 
               <!-- /.item -->
             </ul>
           </div>
           <!-- /.card-body -->
           <div class="card-footer text-center">
-            <a href="javascript:void(0)" class="uppercase"> مشاهدة جميع المنتجات </a>
+            <a href="main.php?dir=products&page=report" class="uppercase"> مشاهدة جميع المنتجات </a>
           </div>
           <!-- /.card-footer -->
         </div>
@@ -290,7 +229,7 @@
 
     </div>
 
-    
+
   </div>
 </section>
 </div>

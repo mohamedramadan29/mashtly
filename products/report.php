@@ -27,6 +27,40 @@
                 <div class="card">
                     <div class="card-header">
                         <a href="main.php?dir=products&page=add" class="btn btn-primary waves-effect btn-sm"> أضافة منتج جديد <i class="fa fa-plus"></i> </a>
+                        <?php
+                        if (isset($_SESSION['success_message'])) {
+                            $message = $_SESSION['success_message'];
+                            unset($_SESSION['success_message']);
+                        ?>
+                            <?php
+                            ?>
+                            <script src="plugins/jquery/jquery.min.js"></script>
+                            <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+                            <script>
+                                $(function() {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: '<?php echo $message; ?>',
+                                        showConfirmButton: false,
+                                        timer: 2000
+                                    })
+                                })
+                            </script>
+                            <?php
+                        } elseif (isset($_SESSION['error_messages'])) {
+                            $formerror = $_SESSION['error_messages'];
+                            foreach ($formerror as $error) {
+                            ?>
+                                <div class="alert alert-danger alert-dismissible" style="max-width: 800px; margin:20px">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <?php echo $error; ?>
+                                </div>
+                        <?php
+                            }
+                            unset($_SESSION['error_messages']);
+                        }
+                        ?>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -45,7 +79,7 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $stmt = $connect->prepare("SELECT * FROM products");
+                                    $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC");
                                     $stmt->execute();
                                     $allpro = $stmt->fetchAll();
                                     $i = 0;
@@ -75,17 +109,14 @@
                                             <td> <?php echo  $pro['sale_price']; ?> </td>
                                             <td> <?php echo  $pro['av_num']; ?> </td>
                                             <td>
-                                                <?php if (strpos($pro['main_image'], "https://www.mshtly.com") !== false) { ?>
+                                                <?php if (!empty($pro['main_image']) && strpos($pro['main_image'], "https://www.mshtly.com") !== false) { ?>
                                                     <img style="width: 80px; height:80px;" src="<?php echo $pro['main_image']; ?>" alt="">
-                                                <?php
-                                                } else {
-                                                ?>
+                                                <?php } elseif (!empty($pro['main_image'])) { ?>
                                                     <img style="width: 80px; height:80px;" src="product_images/<?php echo $pro['main_image']; ?>" alt="">
-                                                <?php
-                                                } ?>
+                                                <?php } ?>
                                             </td>
                                             <td>
-                                                <a href="main.php?dir=products&page=edit&pro_id=<?php echo $pro['id']; ?>" class="btn btn-success waves-effect btn-sm"> مشاهدة التفاصيل <i class='fa fa-pen'></i></a>
+                                                <a href="main.php?dir=products&page=edit&pro_id=<?php echo $pro['id']; ?>" class="btn btn-success btn-sm"> مشاهدة التفاصيل <i class='fa fa-pen'></i></a>
                                                 <a href="main.php?dir=products&page=delete&pro_id=<?php echo $pro['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
                                             </td>
                                         </tr>

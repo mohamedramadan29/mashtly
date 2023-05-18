@@ -85,6 +85,8 @@ if (isset($_SESSION['username'])) {
         include "orders/order_invoice.php";
     } elseif ($dir == 'orders' && $page == 'order_done') {
         include "orders/order_done.php";
+    } elseif ($dir == 'orders' && $page == 'archieve') {
+        include "orders/archieve.php";
     }
     // START employee
     if ($dir == 'employee' && $page == 'add') {
