@@ -35,6 +35,8 @@
   <!-- summernote -->
   <link rel="stylesheet" href="plugins/ekko-lightbox/ekko-lightbox.css">
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+  <!-- custome text editor -->
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
     <!-- SweetAlert2 -->

@@ -12,6 +12,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
         $price = $_POST['price'];
         $sale_price = $_POST['sale_price'];
         $av_num = $_POST['av_num'];
+        $main_checked = $_POST['main_checked'];
         $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ? AND id !=?");
         $stmt->execute(array($slug, $pro_id));
         $count = $stmt->rowCount();
@@ -32,6 +33,22 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                 );
             } else {
                 $main_image_uploaded = '';
+            }
+        }
+        // main video
+        if (empty($formerror)) {
+            if (!empty($_FILES['video']['name'])) {
+                $video_name = $_FILES['video']['name'];
+                $video_temp = $_FILES['video']['tmp_name'];
+                $video_type = $_FILES['video']['type'];
+                $video_size = $_FILES['video']['size'];
+                $video_uploaded = time() . '_' . $video_name;
+                move_uploaded_file(
+                    $video_temp,
+                    'product_videos/' . $video_uploaded
+                );
+            } else {
+                $video_uploaded = '';
             }
         }
         // product gallary 
@@ -59,10 +76,10 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
         }
 
         if (empty($formerror)) {
-            $stmt = $connect->prepare("UPDATE products SET cat_id=? , name=? , description=?,product_adv=?,
+            $stmt = $connect->prepare("UPDATE products SET cat_id=? , name=? , description=?,product_adv=?,main_checked=?,
             price=?, sale_price=? , av_num=? WHERE id=?");
             $stmt->execute(array(
-                $cat_id, $name, $description, $product_adv, $price,  $sale_price, $av_num, $pro_id
+                $cat_id, $name, $description, $product_adv, $main_checked, $price,  $sale_price, $av_num, $pro_id
             ));
             if (!empty($_FILES['main_image']['name']) && $file_tmp != '') {
                 $stmt = $connect->prepare("UPDATE products SET main_image=?, more_images=? WHERE id=?");
@@ -80,6 +97,12 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                 $stmt = $connect->prepare("UPDATE products SET more_images=? WHERE id=?");
                 $stmt->execute(array(
                     $location, $pro_id
+                ));
+            }
+            if (!empty($_FILES['video']['name'])) {
+                $stmt = $connect->prepare("UPDATE products SET video=? WHERE id=?");
+                $stmt->execute(array(
+                    $video_uploaded, $pro_id
                 ));
             }
             if ($stmt) {
@@ -165,14 +188,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                                                                                                         echo $pro_data['name'];
                                                                                                                     } ?>">
                                 </div>
-                                <div class="form-group">
-                                    <label for="description"> الوصف </label>
-                                    <textarea id="description" name="description" class="form-control" rows="4"><?php if (isset($_REQUEST['description'])) {
-                                                                                                                    echo $_REQUEST['description'];
-                                                                                                                } else {
-                                                                                                                    echo $pro_data['description'];
-                                                                                                                }  ?></textarea>
-                                </div>
+
                                 <div class="form-group">
                                     <label for="inputStatus"> القسم </label>
                                     <select required id="select2" class="form-control custom-select" name="cat_id">
@@ -226,6 +242,14 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                                                                                                 } ?>">
                                 </div>
                                 <div class="form-group">
+                                    <label for="description"> الوصف </label>
+                                    <textarea id="summernote" name="description" class="form-control" rows="4"><?php if (isset($_REQUEST['description'])) {
+                                                                                                                    echo $_REQUEST['description'];
+                                                                                                                } else {
+                                                                                                                    echo $pro_data['description'];
+                                                                                                                }  ?></textarea>
+                                </div>
+                                <div class="form-group">
                                     <label for="product_adv"> مميزات المنتج </label>
                                     <textarea id="product_adv" name="product_adv" class="form-control" rows="4"><?php if (isset($_REQUEST['product_adv'])) {
                                                                                                                     echo $_REQUEST['product_adv'];
@@ -241,11 +265,37 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="customFile"> تعديل فيديو المنتج </label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="customFile" accept='video/*' name="video">
+                                        <label class="custom-file-label" for="customFile"> حمل الفيديو </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for=""> الرئيسي </label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" value="image" type="radio" name="main_checked" id="flexRadioDefault1" <?php if ($pro_data['main_checked'] == 'image') echo "checked"; ?>>
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            صورة المنتج
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" value="video" type="radio" name="main_checked" id="flexRadioDefault2" <?php if ($pro_data['main_checked'] == 'video') echo "checked"; ?>>
+                                        <label class="form-check-label" for="flexRadioDefault2">
+                                            الفيديو
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="customFile">تعديل معرض الصور </label>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="customFile" multiple accept='image/*' name="more_images[]">
                                         <label class="custom-file-label" for="customFile"> حدد المعرض </label>
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Company-2" class="block"> التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
+                                    <input required id="Company-2" name="tags" type="text" class="form-control" value="<?php echo $pro_data['tags']; ?>">
                                 </div>
                             </div>
                             <!-- /.card-body -->

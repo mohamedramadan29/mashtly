@@ -70,6 +70,7 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
 <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <!-- Ekko Lightbox -->
 <script src="plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 <!-- AdminLTE App -->
@@ -247,6 +248,17 @@
       }
     });
   });
+</script>
+<script>
+  $(function() {
+    // Summernote
+    $('#summernote').summernote({
+      tabsize: 2,
+      height: 200,
+      lang: 'ar-EG'
+    });
+
+  })
 </script>
 </body>
 

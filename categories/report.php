@@ -75,7 +75,8 @@
                                         <th>الأسم </th>
                                         <th> النوع </th>
                                         <th> slug </th>
-                                        <th> صورة القسم  </th>
+                                        <th> تاج </th>
+                                        <th> صورة القسم </th>
                                         <th> </th>
                                     </tr>
                                 </thead>
@@ -109,15 +110,16 @@
                                                     }  ?>
                                             </td>
                                             <td> <?php echo  $cat['slug']; ?> </td>
+                                            <td> <?php echo  $cat['tags']; ?> </td>
                                             <td>
-                                                <?php if (strpos($cat['image'], "https://www.mshtly.com") !== false){?>
+                                                <?php if (strpos($cat['image'], "https://www.mshtly.com") !== false) { ?>
                                                     <img style="width: 80px; height:80px;" src="<?php echo $cat['image']; ?>" alt="">
                                                 <?php
-                                                }else{
-                                                    ?>
+                                                } else {
+                                                ?>
                                                     <img style="width: 80px; height:80px;" src="category_images/<?php echo $cat['image']; ?>" alt="">
-                                                    <?php
-                                                }?>
+                                                <?php
+                                                } ?>
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $cat['id']; ?>"> تعديل <i class='fa fa-pen'></i> </button>
@@ -165,6 +167,10 @@
                                                                     <input type="file" class="custom-file-input" id="customFile" accept='image/*' name="main_image">
                                                                     <label class="custom-file-label" for="customFile">اختر الصورة</label>
                                                                 </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="Company-2" class="block"> اضافة التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
+                                                                <input required id="Company-2" name="tags" type="text" class="form-control" value="<?php echo  $cat['tags']; ?>">
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
@@ -224,11 +230,14 @@
                                             <label class="custom-file-label" for="customFile">اختر الصورة</label>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="Company-2" class="block"> اضافة التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
+                                        <input required id="Company-2" name="tags" type="text" class="form-control">
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="submit" name="add_cat" class="btn btn-primary waves-effect waves-light "> حفظ </button>
                                     <button type="button" class="btn btn-default waves-effect " data-dismiss="modal"> رجوع </button>
-
                                 </div>
                             </form>
                         </div>

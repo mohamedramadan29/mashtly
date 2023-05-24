@@ -16,6 +16,8 @@ if (isset($_POST['add_pro'])) {
   $pro_attributes = $_POST['pro_attribute'];
   $pro_variations = $_POST['pro_variations'];
   $pro_prices = $_POST['pro_price'];
+  $tags = $_POST['tags'];
+  $main_checked = $_POST['main_checked'];
   $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ?");
   $stmt->execute(array($slug));
   $count = $stmt->rowCount();
@@ -37,6 +39,22 @@ if (isset($_POST['add_pro'])) {
       );
     } else {
       $formerror[] = ' من فضلك ادخل صورة  المنتج   ';
+    }
+  }
+  // main video
+  if (empty($formerror)) {
+    if (!empty($_FILES['video']['name'])) {
+      $video_name = $_FILES['video']['name'];
+      $video_temp = $_FILES['video']['tmp_name'];
+      $video_type = $_FILES['video']['type'];
+      $video_size = $_FILES['video']['size'];
+      $video_uploaded = time() . '_' . $video_name;
+      move_uploaded_file(
+        $video_temp,
+        'product_videos/' . $video_uploaded
+      );
+    } else {
+      $video_uploaded = '';
     }
   }
   // product gallary 
@@ -64,9 +82,9 @@ if (isset($_POST['add_pro'])) {
   }
 
   if (empty($formerror)) {
-    $stmt = $connect->prepare("INSERT INTO products (cat_id,more_cat,name, slug , description,short_desc,product_adv,main_image , more_images,purchase_price,
-    price, sale_price , av_num)
-    VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zshort_desc,:zproduct_adv,:zmain_images,:zmore_images,:zpurchase_price,:zprice,:zsale_price,:zav_num)");
+    $stmt = $connect->prepare("INSERT INTO products (cat_id,more_cat,name, slug , description,short_desc,product_adv,main_image,video,main_checked,more_images,purchase_price,
+    price, sale_price , av_num,tags)
+    VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zshort_desc,:zproduct_adv,:zmain_images,:zvideo,:zmain_checked,:zmore_images,:zpurchase_price,:zprice,:zsale_price,:zav_num,:ztags)");
     $stmt->execute(array(
       "zcat" => $cat_id,
       "zmore_cat" => $more_cat_string,
@@ -75,12 +93,15 @@ if (isset($_POST['add_pro'])) {
       "zdesc" => $description,
       "zshort_desc" => $short_desc,
       "zmain_images" => $main_image_uploaded,
+      "zvideo" => $video_uploaded,
+      "zmain_checked" => $main_checked,
       "zmore_images" => $location,
       "zproduct_adv" => $product_adv,
       "zprice" => $price,
       "zpurchase_price" => $purchase_price,
       "zsale_price" => $sale_price,
       "zav_num" => $av_num,
+      "ztags" => $tags,
     ));
     $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC LIMIT 1");
     $stmt->execute();
@@ -183,10 +204,6 @@ if (isset($_POST['add_pro'])) {
               <div class="form-group">
                 <label for="inputName"> الأسم </label>
                 <input required type="text" id="name" name="name" class="form-control" value="<?php if (isset($_REQUEST['name'])) echo $_REQUEST['name'] ?>">
-              </div>
-              <div class="form-group">
-                <label for="description"> الوصف </label>
-                <textarea id="description" name="description" class="form-control" rows="4"><?php if (isset($_REQUEST['description'])) echo $_REQUEST['description'] ?></textarea>
               </div>
               <div class="form-group">
                 <label for="description"> وصف مختصر </label>
@@ -307,8 +324,6 @@ if (isset($_POST['add_pro'])) {
                 });
                 */
               </script>
-
-
             </div>
             <!-- /.card-body -->
           </div>
@@ -333,15 +348,41 @@ if (isset($_POST['add_pro'])) {
                 <label for="inputEstimatedBudget"> العدد المتاح </label>
                 <input type="number" id="av_num" name="av_num" class="form-control" value="<?php if (isset($_REQUEST['av_num'])) echo $_REQUEST['av_num'] ?>">
               </div>
+              <div class='form-group'>
+                <label> الوصف </label>
+                <textarea name="description" class="form-control" id="summernote" rows="4" style="min-height: 200px;"> <?php if (isset($_REQUEST['description'])) echo $_REQUEST['description'] ?> </textarea>
+              </div>
               <div class="form-group">
                 <label for="description"> مميزات المنتج <span style="color: #c0392b; font-size: 14px;"> [ افصل بين كل ميزة والاخري ب (,) ] </span> </label>
-                <textarea id="product_adv" name="product_adv" class="form-control" rows="3"><?php if (isset($_REQUEST['product_adv'])) echo $_REQUEST['product_adv'] ?></textarea>
+                <textarea id="product_adv" name="product_adv" class="form-control" rows="4"><?php if (isset($_REQUEST['product_adv'])) echo $_REQUEST['product_adv'] ?></textarea>
               </div>
               <div class="form-group">
                 <label for="customFile"> صورة المنتج </label>
                 <div class="custom-file">
-                  <input required type="file" class="custom-file-input" id="customFile" accept='image/*' name="main_image" value="<?php if (isset($_REQUEST['main_image'])) echo $_REQUEST['main_image'] ?>">
+                  <input type="file" class="custom-file-input" id="customFile" accept='image/*' name="main_image" value="<?php if (isset($_REQUEST['main_image'])) echo $_REQUEST['main_image'] ?>">
                   <label class="custom-file-label" for="customFile">اختر الصورة</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="customFile"> فيديو المنتج </label>
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="customFile" accept='video/*' name="video">
+                  <label class="custom-file-label" for="customFile"> حمل الفيديو </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for=""> الرئيسي </label>
+                <div class="form-check">
+                  <input class="form-check-input" value="image" type="radio" name="main_checked" id="flexRadioDefault1" checked>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    صورة المنتج
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" value="video" type="radio" name="main_checked" id="flexRadioDefault2">
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    الفيديو
+                  </label>
                 </div>
               </div>
               <div class="form-group">
@@ -350,6 +391,10 @@ if (isset($_POST['add_pro'])) {
                   <input type="file" class="custom-file-input" id="customFile" multiple accept='image/*' name="more_images[]">
                   <label class="custom-file-label" for="customFile"> حدد المعرض </label>
                 </div>
+              </div>
+              <div class="form-group">
+                <label for="Company-2" class="block"> اضافة التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
+                <input required id="Company-2" name="tags" type="text" class="form-control">
               </div>
             </div>
             <!-- /.card-body -->

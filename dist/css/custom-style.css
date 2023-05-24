@@ -260,3 +260,10 @@ ul {
         z-index: 1;
     }
 }
+
+.btn-group-sm>.btn,
+.btn-sm {
+    margin-bottom: 5px;
+    text-align: center;
+    display: block;
+}
