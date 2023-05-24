@@ -49,9 +49,11 @@
                                     <tr>
                                         <th> # </th>
                                         <th> رقم الطلب </th>
+                                        <th> اسم العميل </th>
+                                        <th> المدينة </th>
+                                        <th> البريد الالكتروني </th>
                                         <th> تاريخ الطلب </th>
                                         <th> حالة الطلب </th>
-                                        <th> عنوان الطلب </th>
                                         <th> السعر الكلي </th>
                                         <th> </th>
                                     </tr>
@@ -69,9 +71,12 @@
                                             <tr>
                                                 <td> <?php echo $i; ?> </td>
                                                 <td> <?php echo  $order['order_number']; ?> </td>
+                                                <td> <?php echo  $order['name']; ?> </td>
+                                                <td> <?php echo  $order['city']; ?> </td>
+                                                <td> <?php echo  $order['email']; ?> </td>
                                                 <td> <?php echo  $order['order_date']; ?> </td>
                                                 <td> <span class="badge badge-info"> <?php echo  $order['status_value']; ?> </span> </td>
-                                                <td> <?php echo  $order['address']; ?> </td>
+
                                                 <td> <?php echo  $order['total_price']; ?> </td>
                                                 <td>
                                                     <a href="main.php?dir=orders&page=order_details&order_id=<?php echo $order['id']; ?>" class="btn btn-success waves-effect btn-sm"> تفاصيل الطلب <i class='fa fa-eye'></i></a>
