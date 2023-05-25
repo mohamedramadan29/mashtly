@@ -75,6 +75,7 @@ if (isset($_GET['order_id'])) {
                                                                                                     $stmt->execute(array($order_data['area']));
                                                                                                     $area_data = $stmt->fetch();
                                                                                                     echo $area_data['name']; ?></li>
+                                            <li> المدينة : <?php echo $order_data['city']; ?></li>
                                             <li> العنوان : <?php echo $order_data['address']; ?></li>
                                         </ul>
                                     </div>
@@ -104,6 +105,13 @@ if (isset($_GET['order_id'])) {
                                                                                                     $area_data = $stmt->fetch();
                                                                                                     echo $area_data['name']; ?>
                                             </li>
+                                            <li> المدينة : <?php
+                                                            if (!empty($order_data['ship_city'])) {
+                                                                echo $order_data['ship_city'];
+                                                            } else {
+                                                                echo $order_data['city'];
+                                                            }
+                                                            ?></li>
                                             <li> العنوان : <?php
                                                             if (!empty($order_data['ship_address'])) {
                                                                 echo $order_data['ship_address'];
@@ -122,6 +130,7 @@ if (isset($_GET['order_id'])) {
                                     <thead>
                                         <tr>
                                             <th> المنتج </th>
+                                            <th> صورة المنتج </th>
                                             <th> الكمية </th>
                                             <th> السعر </th>
                                         </tr>
@@ -141,6 +150,13 @@ if (isset($_GET['order_id'])) {
                                                     $product_data = $stmt->fetch();
                                                     echo $product_data['name'];
                                                     ?>
+                                                </td>
+                                                <td>
+                                                    <?php if (!empty($product_data['main_image']) && strpos($product_data['main_image'], "https://www.mshtly.com") !== false) { ?>
+                                                        <img style="width: 80px; height:80px;" src="<?php echo $product_data['main_image']; ?>" alt="">
+                                                    <?php } elseif (!empty($product_data['main_image'])) { ?>
+                                                        <img style="width: 80px; height:80px;" src="product_images/<?php echo $product_data['main_image']; ?>" alt="">
+                                                    <?php } ?>
                                                 </td>
                                                 <td><?php echo $order_detail['qty']; ?> </td>
                                                 <td><?php echo $order_detail['total']; ?> ر.س </td>
@@ -171,13 +187,9 @@ if (isset($_GET['order_id'])) {
                             <button class="btn btn-primary btn-sm" id="print_Button" onclick="printDiv()"> <i class="fa fa-print"></i> طباعه الفاتورة </button>
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
-
-
     </div>
     <!-- /.container-fluid -->
 </section>

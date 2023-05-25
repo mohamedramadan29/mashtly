@@ -75,8 +75,20 @@
                                                 <td> <?php echo  $order['city']; ?> </td>
                                                 <td> <?php echo  $order['email']; ?> </td>
                                                 <td> <?php echo  $order['order_date']; ?> </td>
-                                                <td> <span class="badge badge-info"> <?php echo  $order['status_value']; ?> </span> </td>
+                                                <td> <span class="badge badge-info"> <?php echo  $order['status_value']; ?> </span>
+                                                    <?php
+                                                    $stmt = $connect->prepare("SELECT * FROM order_steps WHERE order_id = ? ORDER BY id DESC LIMIT 1");
+                                                    $stmt->execute(array($order['id']));
+                                                    $order_step = $stmt->fetch();
+                                                    $count = $stmt->rowCount();
+                                                    if ($count > 0) { ?>
+                                                        <span class="badge badge-info"> <?php echo $order_step['date']; ?> </span>
 
+                                                    <?php
+                                                    }
+
+                                                    ?>
+                                                </td>
                                                 <td> <?php echo  $order['total_price']; ?> </td>
                                                 <td>
                                                     <a href="main.php?dir=orders&page=order_details&order_id=<?php echo $order['id']; ?>" class="btn btn-success waves-effect btn-sm"> تفاصيل الطلب <i class='fa fa-eye'></i></a>
@@ -93,7 +105,7 @@
                                         }
                                     } elseif (isset($_SESSION['username'])) {
 
-                                        $stmt = $connect->prepare("SELECT DISTINCT o.id, o.order_number, o.order_date, o.status_value, o.address, o.total_price 
+                                        $stmt = $connect->prepare("SELECT DISTINCT o.id, o.order_number, o.order_date, o.status_value, o.address, o.total_price,o.name,o.city,o.email 
                                         FROM orders o 
                                         INNER JOIN order_steps os ON o.id = os.order_id 
                                         WHERE os.username = ? 
@@ -108,9 +120,11 @@
                                             <tr>
                                                 <td> <?php echo $i; ?> </td>
                                                 <td> <?php echo  $order['order_number']; ?> </td>
+                                                <td> <?php echo  $order['name']; ?> </td>
+                                                <td> <?php echo  $order['city']; ?> </td>
+                                                <td> <?php echo  $order['email']; ?> </td>
                                                 <td> <?php echo  $order['order_date']; ?> </td>
                                                 <td> <span class="badge badge-info"> <?php echo  $order['status_value']; ?> </span> </td>
-                                                <td> <?php echo  $order['address']; ?> </td>
                                                 <td> <?php echo  $order['total_price']; ?> </td>
                                                 <td>
                                                     <a href="main.php?dir=orders&page=order_details&order_id=<?php echo $order['id']; ?>" class="btn btn-success btn-sm"> تفاصيل الطلب <i class='fa fa-eye'></i></a>

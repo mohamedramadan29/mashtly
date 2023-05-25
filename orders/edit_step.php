@@ -23,13 +23,15 @@ if (isset($_POST['add_arrival_step'])) {
     $step_name = $_POST['step_name'];
     $description = $_POST['arrival_description'];
     $arrival_date = $_POST['arrival_date'];
+    $emp_public_note = $_POST['emp_public_note'];
+    $client_public_note = $_POST['client_public_note'];
     $formerror = [];
     if (empty($step_name)) {
         $formerror[] = ' من فضلك حدد حالة التواصل ';
     }
     if (empty($formerror)) {
-        $stmt = $connect->prepare("INSERT INTO order_steps (order_id , order_number, username ,date, arrival_date , step_name,description,step_status)
-        VALUES (:zorder_id,:zorder_number,:zusername,:zdate,:zarrival_date,:zstep_name,:zdesc,:zstatus)");
+        $stmt = $connect->prepare("INSERT INTO order_steps (order_id , order_number, username ,date, arrival_date , step_name,step_status,emp_public_note,client_public_note)
+        VALUES (:zorder_id,:zorder_number,:zusername,:zdate,:zarrival_date,:zstep_name,:zstatus,:zemp_public_note,:zcleint_public_note)");
         $stmt->execute(array(
             "zorder_id" => $order_id,
             "zorder_number" => $order_number,
@@ -37,8 +39,9 @@ if (isset($_POST['add_arrival_step'])) {
             "zdate" => $date,
             "zarrival_date" => $arrival_date,
             "zstep_name" => $step_name,
-            "zdesc" => $description,
             "zstatus" => 'تمت مرحلة التواصل مع العميل ',
+            "zemp_public_note" => $emp_public_note,
+            "zcleint_public_note" => $client_public_note,
         ));
         if ($stmt) {
             // بدء مرحلة تجهيز الطلب 
@@ -271,10 +274,20 @@ elseif (isset($_POST['cancel_return'])) {
                                     <option value="ملغي تم الاسترجاع"> ملغي تم الاسترجاع </option>
                                 </select>
                             </div>
-                            <div class="form-group" id="arrival_date">
-                                <label> موعد التوصيل هو :</label>
-                                <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                                    <input type="date" name="arrival_date" class="form-control" />
+                            <div class="" id="arrival_date">
+                                <div class="form-group" id="">
+                                    <label> موعد التوصيل هو :</label>
+                                    <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                                        <input type="date" name="arrival_date" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group" id="">
+                                    <label for=""> ملاحظات الموظف </label>
+                                    <textarea name="emp_public_note" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group" id="">
+                                    <label for=""> ملاحظات العميل </label>
+                                    <textarea name="client_public_note" class="form-control"></textarea>
                                 </div>
                             </div>
                             <div class="form-group" id="arrival_delay">
@@ -287,9 +300,9 @@ elseif (isset($_POST['cancel_return'])) {
                                 <label> صورة اثبات الأرجاع :</label>
                                 <input type="file" name="main_image" class="form-control" />
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="description">
                                 <label for="description"> ملاحظات :</label>
-                                <textarea id="description" name="arrival_description" class="form-control" rows="4"><?php if (isset($_REQUEST['description'])) echo $_REQUEST['description'] ?></textarea>
+                                <textarea id="" name="arrival_description" class="form-control" rows="4"><?php if (isset($_REQUEST['description'])) echo $_REQUEST['description'] ?></textarea>
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -323,6 +336,7 @@ elseif (isset($_POST['cancel_return'])) {
     const cancel_order = document.getElementById('cancel_order');
     const return_file = document.getElementById('return_file');
     const cancel_return = document.getElementById('cancel_return');
+    const description = document.getElementById('description');
     // أضف حدثًا onchange إلى القائمة المنسدلة
     selectEl.onchange = function() {
         const selectedValue = selectEl.value;
@@ -331,8 +345,10 @@ elseif (isset($_POST['cancel_return'])) {
             dateEl.style.display = 'block';
             not_respose.style.display = 'none';
             response_delay.style.display = 'none';
+            description.style.display = 'none';
         } else {
             dateEl.style.display = 'none';
+            description.style.display = 'block';
         }
         if (selectedValue === 'تواصل بدون رد') {
             not_respose.style.display = 'block';
@@ -391,6 +407,14 @@ elseif (isset($_POST['cancel_return'])) {
     }
 
     #cancel_return {
+        display: none;
+    }
+
+    #emp_public_note {
+        display: none;
+    }
+
+    #client_public_note {
         display: none;
     }
 </style>
