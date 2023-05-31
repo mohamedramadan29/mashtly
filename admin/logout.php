@@ -12,5 +12,5 @@ if (isset($_SESSION['supp_id'])) {
 if (isset($_SESSION['super_id'])) {
 	unset($_SESSION['super_id']);
 }
-header("location:index.php");
+header("location:index");
 session_destroy();
