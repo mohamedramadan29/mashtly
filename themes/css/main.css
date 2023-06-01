@@ -320,18 +320,60 @@ body {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
 /* START BOTTOM FOOTER*/
-.bottom_footer{
-background-color: #fff;
-padding: 10px;
-} 
-.bottom_footer p{
+.bottom_footer {
+    background-color: #fff;
+    padding: 10px;
+}
+
+.bottom_footer p {
     color: #000;
 }
-.bottom_footer .payment_method .images{
+
+.bottom_footer .payment_method .images {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-/* END BOTTOM FOOTER*/
+
+.mobile_footer {
+    display: none;
+}
+
+.mobile_footer .bottom_footer .payment_method .images {
+    flex-wrap: wrap;
+}
+
+.mobile_footer .bottom_footer .payment_method .images img {
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.mobile_footer .bottom_footer p {
+    text-align: center;
+}
+
+.mobile_footer .footer .data .info img {
+    margin-bottom: 20px;
+}
+
+.mobile_footer .footer .data .info a {
+    font-size: 15px;
+}
+
+.mobile_footer .footer .data .info p {
+    font-size: 13px;
+}
+
+@media (max-width:991px) {
+    .large_footer {
+        display: none;
+    }
+
+    .mobile_footer {
+        display: block;
+    }
+}
+
 /* END FOOTER */
