@@ -1,6 +1,5 @@
 body {
     font-family: 'Almarai', sans-serif;
-    min-height: 4000px;
 }
 
 /* START NAVBAR */
@@ -282,3 +281,57 @@ body {
 }
 
 /* END NAVBAR */
+
+/* START FOOTER */
+.footer {
+    background-color: var(--main-color);
+    padding: 20px;
+    color: #fff;
+}
+
+.footer .data {}
+
+.footer .data .info {}
+
+.footer .data .info img {}
+
+.footer .data .info p {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.footer .data .info .social_icon {}
+
+.footer .data .info .social_icon li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.footer .data .info a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.footer .data .info .social_icon i {
+    font-size: 25px;
+}
+
+.footer .data .info ul li {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+/* START BOTTOM FOOTER*/
+.bottom_footer{
+background-color: #fff;
+padding: 10px;
+} 
+.bottom_footer p{
+    color: #000;
+}
+.bottom_footer .payment_method .images{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/* END BOTTOM FOOTER*/
+/* END FOOTER */
