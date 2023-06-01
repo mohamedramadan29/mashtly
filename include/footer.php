@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="insta_info">
-                    <img src="uploads/insta4.png" alt="">
+                    <img src="uploads/insta2.png" alt="">
                     <div class="overlay">
                         <img src="uploads/insta_share_icon.svg" alt="">
                     </div>
@@ -268,3 +268,4 @@
     });
 
 </script>
+ 

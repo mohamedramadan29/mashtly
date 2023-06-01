@@ -287,6 +287,7 @@ body {
 .instagrame_footer {
     margin-bottom: 50px;
 }
+
 .instagrame_footer .data .insta_slider .insta_info {
     margin-right: 10px;
     margin-left: 10px;
@@ -449,3 +450,10 @@ body {
 }
 
 /* END FOOTER */
+
+/* start index page */
+.carousel-indicators [data-bs-target] {
+    width: 10px;
+    height: 10px;
+    background-color: var(--second-color);
+}
