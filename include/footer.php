@@ -1,6 +1,54 @@
+<div class="instagrame_footer">
+    <div class="container">
+        <div class="data">
+            <h2> شاركينا جمال بيتك - نباتات الحديقة </h2>
+            <p> أرسلي صور حديقة منزلك ونباتات حديقتك عبر انستجرام وسوف تظهر هنا </p>
+            <div class="insta_slider">
+                <div class="insta_info">
+                    <img src="uploads/insta1.png" alt="">
+                    <div class="overlay">
+                        <img src="uploads/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="uploads/insta2.png" alt="">
+                    <div class="overlay">
+                        <img src="uploads/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="uploads/insta3.png" alt="">
+                    <div class="overlay">
+                        <img src="uploads/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="uploads/insta4.png" alt="">
+                    <div class="overlay">
+                        <img src="uploads/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="uploads/insta1.png" alt="">
+                    <div class="overlay">
+                        <img src="uploads/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="uploads/insta2.png" alt="">
+                    <div class="overlay">
+                        <img src="uploads/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 <div class='large_footer'>
-
-
     <div class="footer">
         <div class="container">
             <div class="data">
@@ -81,7 +129,7 @@
     </div>
 </div>
 <div class="mobile_footer">
-     <div class="footer">
+    <div class="footer">
         <div class="container">
             <div class="data">
                 <div class="row">
@@ -89,10 +137,10 @@
                         <div class="info text-center">
                             <img src="uploads/footer_logo.png" alt="">
                         </div>
-                    </div> 
+                    </div>
                 </div>
                 <div class="row">
-                     <div class="col-6">
+                    <div class="col-6">
                         <div class="info">
                             <ul class="list-unstyled">
                                 <li> <a href="#"> المدونة </a> </li>
@@ -112,8 +160,8 @@
                     </div>
                 </div>
                 <div class="row">
-                     <div class="col-8">
-                         <div class="info"> 
+                    <div class="col-8">
+                        <div class="info">
                             <p> تابعونا علي منصات التواصل الاجتماعي عبر </p>
                             <ul class="list-unstyled social_icon">
                                 <li> <a href="#"> <i class='fa fa-twitter'> </i> </a> </li>
@@ -122,7 +170,7 @@
                             </ul>
                         </div>
                     </div>
-                   <div class="col-4">
+                    <div class="col-4">
                         <div class="info">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 width="109.058" height="110" viewBox="0 0 109.058 110">
@@ -135,14 +183,14 @@
                         </div>
                     </div>
                 </div>
-         
+
             </div>
         </div>
-     </div>
-       <div class="bottom_footer">
+    </div>
+    <div class="bottom_footer">
         <div class="container">
             <div class="data">
-                <div class="row"> 
+                <div class="row">
                     <div class="col-12">
                         <div class="payment_method">
                             <div class="images">
@@ -174,8 +222,49 @@
 <script src='themes/js/jquery.min.js'></script>
 <script src='themes/js/bootstrap.min.js'></script>
 <script src="https://kit.fontawesome.com/588e070751.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <script src='themes/js/select2.min.js'></script>
 <script src='themes/js/main.js'></script>
 </body>
 
 </html>
+
+
+<script>
+    $(document).ready(function () {
+        $('.insta_slider').slick({
+            rtl: true,
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 2000,
+            infinite: true,
+            prevArrow: false,
+            nextArrow: false,
+            centerMode: true,
+            variableWidth: true,
+            responsive: [
+                {
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 3,
+
+                    }
+                },
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2
+                    }
+                }
+                // You can unslick at a given breakpoint now by adding:
+                // settings: "unslick"
+                // instead of a settings object
+            ]
+
+        });
+    });
+
+</script>
