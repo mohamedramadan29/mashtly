@@ -32,7 +32,7 @@ include 'init.php';
                 <div class="overlay"></div>
                 <img src="uploads/header1.png" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5> العناية بالنباتات المنزلية  2 </h5>
+                    <h5> العناية بالنباتات المنزلية 2 </h5>
                     <p>يرغب في تمتعك بنباتات صحية ونامية، وأن تتوفق لأفضل المنتجات المناسبة لك ,لذلك وفرنا خبراء متخصصين
                         بالهندسة الزراعية لتقديم الدعم والتوجيه، ولنساعدك في اختيار
                     </p>
@@ -43,7 +43,7 @@ include 'init.php';
                 <div class="overlay"></div>
                 <img src="uploads/header1.png" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5> العناية بالنباتات المنزلية   3</h5>
+                    <h5> العناية بالنباتات المنزلية 3</h5>
                     <p> يرغب في تمتعك بنباتات صحية ونامية، وأن تتوفق لأفضل المنتجات المناسبة لك ,لذلك وفرنا خبراء
                         متخصصين بالهندسة الزراعية لتقديم الدعم والتوجيه، ولنساعدك في اختيار النباتات </p>
                     <a href="#" class="btn"> تواصل مع الخبير </a>
@@ -52,12 +52,18 @@ include 'init.php';
         </div>
     </div>
 </div>
+<!-- START AUTOMATIC SEARCH INDEX -->
+
+<div class="index_automatic_search">
+    <div class="container">
+        <div class="data">
+            test
+        </div>
+    </div>
+</div>
 
 
-
-
-
-
+<!-- END AUTOMATIC SEARCH INDEX -->
 <?php
 include $tem . 'footer.php';
 ob_end_flush();
