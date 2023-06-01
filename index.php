@@ -1,7 +1,10 @@
-
 <?php
+ob_start();
+session_start();
+$page_title = 'مشتلي - الرئيسية';
 include 'init.php';
 
-?>
+include $tem . 'footer.php';
 
-<button class="btn btn-primary"> button </button>
+ob_end_flush();
+?>
