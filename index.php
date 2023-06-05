@@ -17,21 +17,18 @@ include 'init.php';
         </div>
         <div class="carousel-inner">
 
-            <div class="carousel-item active">
+            <div class="carousel-item carousel-item1 active" style="backh">
                 <div class="overlay"></div>
-                <img src="uploads/header1.png" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
+                <div class="carousel-caption">
                     <h5>العناية بالنباتات المنزلية 1 </h5>
                     <p> يرغب في تمتعك بنباتات صحية ونامية، وأن تتوفق لأفضل المنتجات المناسبة لك ,لذلك وفرنا خبراء
                         متخصصين بالهندسة الزراعية لتقديم الدعم والتوجيه، ولنساعدك في اختيار النباتات </p>
                     <a href="#" class="btn"> تواصل مع الخبير </a>
                 </div>
-
             </div>
-            <div class="carousel-item">
+            <div class="carousel-item carousel-item1">
                 <div class="overlay"></div>
-                <img src="uploads/header1.png" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
+                <div class="carousel-caption">
                     <h5> العناية بالنباتات المنزلية 2 </h5>
                     <p>يرغب في تمتعك بنباتات صحية ونامية، وأن تتوفق لأفضل المنتجات المناسبة لك ,لذلك وفرنا خبراء متخصصين
                         بالهندسة الزراعية لتقديم الدعم والتوجيه، ولنساعدك في اختيار
@@ -39,14 +36,13 @@ include 'init.php';
                     <a href="#" class="btn"> تواصل مع الخبير </a>
                 </div>
             </div>
-            <div class="carousel-item">
+            <div class="carousel-item carousel-item1">
                 <div class="overlay"></div>
-                <img src="uploads/header1.png" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
+                <div class="carousel-caption">
                     <h5> العناية بالنباتات المنزلية 3</h5>
                     <p> يرغب في تمتعك بنباتات صحية ونامية، وأن تتوفق لأفضل المنتجات المناسبة لك ,لذلك وفرنا خبراء
                         متخصصين بالهندسة الزراعية لتقديم الدعم والتوجيه، ولنساعدك في اختيار النباتات </p>
-                    <a href="#" class="btn"> تواصل مع الخبير </a>
+                    <a href="#" class="btn global_buttom"> تواصل مع الخبير </a>
                 </div>
             </div>
         </div>
@@ -57,7 +53,22 @@ include 'init.php';
 <div class="index_automatic_search">
     <div class="container">
         <div class="data">
-            test
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="info info2">
+                        <h2> استخدم باحث مشتلي الآلي </h2>
+                        <p> إن تحديد المواصفات المرغوبة بشكل مسبق في النباتات التي تبحث عنها سيسهل عليك الوصول إليها
+                            ويساعدك في اختيار الأنسب، سواء كنت تبحث عن نبات يمتاز بشكل جمالي معين أو بسهولة العناية أو
+                            لاستخدامه في مكان محدد أو يتحمل ضروف بيئية معينة …. أو غير ذالك. </p>
+                        <a href="#" class="global_buttom"> جرب الباحث الآلي الآن <img src="uploads/search_arrow.svg" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="info">
+                        <img src="uploads/index_d_search.png" alt="">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
