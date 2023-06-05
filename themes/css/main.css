@@ -17,7 +17,7 @@ body {
     --third-color: #F26C25;
 }
 
-.global_buttom {
+.global_button {
     background-color: var(--second-color);
     color: #fff;
     border-radius: 25px;
@@ -28,8 +28,25 @@ body {
     outline: none;
 }
 
-.global_buttom:hover {
+.global_button:hover {
     color: #fff;
+}
+
+.header2 {
+    position: relative;
+    color: #1B1B1B;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.header2::after {
+    content: "";
+    position: absolute;
+    right: -35%;
+    top: 55%;
+    width: 49px;
+    height: 3px;
+    background-color: #A0B2B1;
 }
 
 /* end global temp  */
@@ -643,3 +660,180 @@ body {
 }
 
 /* END INDEX AUTOMATIC SEARCH  */
+/* START NEW PRODUCTS  */
+.new_producs {}
+
+.new_producs .data {}
+
+.new_producs .data .data_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.new_producs .data .data_header .data_header_name {
+    margin-right: 65px;
+}
+
+ 
+
+.new_producs .data .data_header p {
+    color: #797979;
+    font-size: 14px;
+}
+
+.new_producs .data .data_header .global_button {
+    color: var(--second-color);
+    border-color: var(--second-color);
+    background-color: transparent;
+    font-size: 13px;
+    padding: 7px 25px;
+}
+
+.new_producs .products {}
+
+.new_producs .products .product_info {
+    border: 1px solid #ccc;
+    border-radius: 3px 3px 0px 0px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.new_producs .products .product_info .main_image {
+    width: 250px;
+    border-radius: 3px 3px 0px 0px;
+}
+
+.new_producs .products .product_info .product_details {
+    padding: 15px;
+}
+
+.new_producs .products .product_info .product_details h2 {
+    color: #1B1B1B;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.new_producs .products .product_info .product_details .price {
+    color: var(--second-color);
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.new_producs .products .product_info .product_details .add_cart {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.new_producs .slick-slide img {
+    display: inline-block !important;
+    width: 19px;
+}
+
+.new_producs .products .product_info .product_details .add_cart .global_button {
+    color: var(--second-color);
+    border-color: var(--second-color);
+    background-color: transparent;
+    font-size: 13px;
+    padding: 7px 25px;
+}
+
+.new_producs .products .product_info .product_details .add_cart .heart {
+    border: 2px solid var(--second-color);
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+}
+
+.products .slick-prev {
+    right: -4%;
+    top: 41%;
+}
+
+.products .slick-prev,
+.products .slick-next {
+    position: absolute;
+
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0px 0px 7px #00000029;
+    color: var(--second-color);
+    border-color: #fff;
+    border: none;
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+}
+
+.products .slick-next {
+    left: -4%;
+    top: 41%;
+}
+
+/* END NEW PRODUCST  */
+
+/* START PLANTES REQUIREMENT INDEX */
+.planets_require_index {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.planets_require_index .data {
+    background-image: url(../../uploads/plants_req.svg);
+    background-size: cover;
+    background-position: center;
+    padding: 50px;
+    height: 200px;
+}
+
+/* END PLANTES REQUIREMENT INDEX*/
+/* START BEST PRODUCTS */
+.best_products .data .data_header h2::after {
+    right: -22%;
+}
+
+.best_products .products .product_info .badge {
+    position: absolute;
+    color: #fff;
+    background-color: #E00951;
+    border-radius: 3px;
+    padding: 8px;
+    top: 7px;
+    margin-right: 7px;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+@media(max-width:991px) {
+    .new_producs .data .data_header h2 {
+        font-size: 20px;
+    }
+
+    .new_producs .data .data_header h2::after {
+        width: 35px;
+        right: -30%;
+    }
+
+    .new_producs .data .data_header .data_header_name {
+        margin-right: 35px;
+    }
+
+    .new_producs .data .data_header p {
+        font-size: 11px;
+    }
+
+    .best_products .data .data_header h2::after {
+        right: -19%;
+    }
+
+    .products .slick-prev,
+    .products .slick-next {
+        display: none !important;
+    }
+}
+
+/* END BEST PRODUCTS*/

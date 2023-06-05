@@ -223,13 +223,15 @@
 <script src='themes/js/bootstrap.min.js'></script>
 <script src="https://kit.fontawesome.com/588e070751.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+ 
+    </script>
 <script src='themes/js/select2.min.js'></script>
 <script src='themes/js/main.js'></script>
 </body>
 
 </html>
 
-
+<!-- for insta footer -->
 <script>
     $(document).ready(function () {
         $('.insta_slider').slick({
@@ -268,4 +270,46 @@
     });
 
 </script>
+
+<!-- for products -->
+
+
+<script>
+    $(document).ready(function () {
+        $('.products').slick({
+            rtl: true,
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 2000,
+            infinite: true,
+            prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-chevron-right"></i></button>',
+            nextArrow: '<button type="button" class="slick-next"><i class="fa fa-chevron-left"></i></button>',
+            centerMode: false,
+            variableWidth: true,
+            responsive: [
+                {
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 4,
+                        slidesToScroll: 3,
+
+                    }
+                },
+                {
+                    breakpoint: 900,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2,
+                    }
+                }
+                // You can unslick at a given breakpoint now by adding:
+                // settings: "unslick"
+                // instead of a settings object
+            ]
+
+        });
+    });
+
+</script> 
  
