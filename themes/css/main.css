@@ -855,10 +855,10 @@ body {
 }
 
 .index_all_cat .data {
-        background: transparent linear-gradient(180deg, #F0F5F0 0%, #F0F5F0 100%) 0% 0% no-repeat padding-box;
-            box-shadow: 0px 12px 15px #00000017;
-            border-radius: 15px;
-            padding-bottom: 30px;
+    background: transparent linear-gradient(180deg, #F0F5F0 0%, #F0F5F0 100%) 0% 0% no-repeat padding-box;
+    box-shadow: 0px 12px 15px #00000017;
+    border-radius: 15px;
+    padding-bottom: 30px;
 }
 
 .index_all_cat .data .header2 {
@@ -872,8 +872,8 @@ body {
 }
 
 .index_all_cat .all_cat {
-        padding-right: 15px;
-} 
+    padding-right: 15px;
+}
 
 .index_all_cat .all_cat ul li {
     margin-top: 15px;
@@ -916,25 +916,122 @@ body {
 
 /* END INDEX ALLCAT */
 /*  START GARDEN SERVICES */
-.garden_services{ 
+.garden_services {
     margin-bottom: 40px;
 }
-.garden_services img{
+
+.garden_services img {
     max-width: 100%;
 }
+
 /*  END GARDEN SERVICES */
 /* START PRODUCTS DISCOUNT */
-.product_discounts .products .product_info .product_details .price_diffrent {}
-.product_discounts .products .product_info .product_details .price_diffrent h4{
+.product_discounts .products .product_info .product_details .price_diffrent {
+    background-image: url(../../uploads/section_background.svg);
+    background-size: cover;
+    background-position: center;
+}
+
+.product_discounts .products .product_info .product_details .price_diffrent h4 {
     display: inline-block;
 }
-.product_discounts .products .product_info .product_details .price_diffrent .price{
-color: #E00951;
+
+.product_discounts .products .product_info .product_details .price_diffrent .price {
+    color: #E00951;
 }
-.product_discounts .products .product_info .product_details .price_diffrent .old{
-color: #A0B2B1;
-font-size: 13px;
-margin-right: 12px;
-text-decoration: line-through;
+
+.product_discounts .products .product_info .product_details .price_diffrent .old {
+    color: #A0B2B1;
+    font-size: 13px;
+    margin-right: 12px;
+    text-decoration: line-through;
 }
+
 /*END PRODUCT DISCOUNT*/
+/* START EXPERT CONNECT  */
+.expert_connect {
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+
+.expert_connect .data {}
+
+.expert_connect .data .col-lg-5,
+.expert_connect .data .col-lg-7 {
+    padding: 0;
+}
+
+.expert_connect .data .info {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    background-color: #21522B;
+    position: relative;
+    padding-right: 45px;
+}
+
+.expert_connect .data .info::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 180px;
+    background-color: var(--second-color);
+    right: 0;
+    top: 26%;
+}
+
+.expert_connect .data .info h2 {
+    color: #fff;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1.8;
+}
+
+.expert_connect .data .info p {
+    color: #fff;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.expert_connect .data .image {
+    background-image: url(../../uploads/expert_contact.png);
+    background-position: center;
+    background-size: cover;
+    height: 100%;
+    position: relative;
+}
+
+.expert_connect .data .image img {
+    position: absolute;
+    bottom: 15px;
+    right: -71px;
+    width: 135px;
+}
+
+/* END EXPERT CONNECT  */
+
+/* START WHY MASHTLY  */
+.why_mashtly{
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+.why_mashtly .data{}
+
+.why_mashtly .data .data_header_name{
+    margin-right: 65px;
+}
+.why_mashtly .data .header2::after {
+        right: -6%;
+            top: 14px;
+}
+
+ .why_mashtly .data .info{
+    background-color: #fff;
+    border-radius: 5px;
+ }
+ .why_mashtly .data .info img{
+width: 160px;
+height: 160px;
+ }
+  .why_mashtly .data .info h4{}.why_mashtly .data .info p {}
+/* END WHY MASHTLY  */

@@ -60,7 +60,7 @@ include 'init.php';
                         <p> إن تحديد المواصفات المرغوبة بشكل مسبق في النباتات التي تبحث عنها سيسهل عليك الوصول إليها
                             ويساعدك في اختيار الأنسب، سواء كنت تبحث عن نبات يمتاز بشكل جمالي معين أو بسهولة العناية أو
                             لاستخدامه في مكان محدد أو يتحمل ضروف بيئية معينة …. أو غير ذالك. </p>
-                        <a href="#" class="global_button"> جرب الباحث الآلي الآن <img src="uploads/search_arrow.svg"
+                        <a href="#" class="global_button"> جرب الباحث الآلي الآن <img src="uploads/search_arrow.png"
                                 alt=""></a>
                     </div>
                 </div>
@@ -678,6 +678,182 @@ include 'init.php';
     </div>
 </div>
 <!-- END BEST  PRODUCTS  -->
+<!-- START EXPERT CONNECT -->
+<div class='expert_connect'>
+    <div class='container'>
+        <div class="data">
+            <div class='row'>
+                <div class="col-lg-5">
+                    <div class="info">
+                        <h2>تواصل مع الخبير <br> للعناية بنباتاتك المنزلية</h2>
+                        <p> يرغب في تمتعك بنباتات صحية ونامية، وأن تتوفق لأفضل المنتجات المناسبة لك ,لذلك وفرنا خبراء
+                            متخصصين بالهندسة الزراعية لتقديم الدعم والتوجيه، ولنساعدك في اختيار النباتات </p>
+                        <a href="#" class="btn global_button">تواصل مع الخبير</a>
+                    </div>
+                </div>
+                <div class='col-lg-7'>
+                    <div class='image'>
+                        <img src="uploads/points.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END EXPERT CONNECT -->
+<!-- START NEW DECORE  -->
+<div class="new_producs best_products">
+    <div class="container">
+        <div class="data">
+            <div class="data_header">
+                <div class="data_header_name">
+                    <h2 class='header2'> غيري شكل بيتك - النباتات المنزلية </h2>
+                    <p> النباتات المنزلية الداخلية تفعل الكثير أما الخارجية فتصنع السحر </p>
+                </div>
+                <div>
+                    <a href="#" class='global_button btn'> تصفح المزيد </a>
+                </div>
+            </div>
+            <div class="products" id='products'>
+                <div class="product_info">
+                    <img class="main_image" src="uploads/product.png" alt="">
+                    <div class="product_details">
+                        <h2>نبات ملكة النهار</h2>
+                        <h4 class='price'> 87.00 ر.س </h4>
+                        <div class='add_cart'>
+                            <div>
+                                <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                    الي السلة </a>
+                            </div>
+                            <div class="heart">
+                                <img src="uploads/heart.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product_info">
+                    <img class="main_image" src="uploads/product.png" alt="">
+                    <div class="product_details">
+                        <h2>نبات ملكة النهار</h2>
+                        <h4 class='price'> 87.00 ر.س </h4>
+                        <div class='add_cart'>
+                            <div>
+                                <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                    الي السلة </a>
+                            </div>
+                            <div class="heart">
+                                <img src="uploads/heart.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product_info">
+                    <img class="main_image" src="uploads/product.png" alt="">
+                    <div class="product_details">
+                        <h2>نبات ملكة النهار</h2>
+                        <h4 class='price'> 87.00 ر.س </h4>
+                        <div class='add_cart'>
+                            <div>
+                                <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                    الي السلة </a>
+                            </div>
+                            <div class="heart">
+                                <img src="uploads/heart.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product_info">
+                    <img class="main_image" src="uploads/product.png" alt="">
+                    <div class="product_details">
+                        <h2>نبات ملكة النهار</h2>
+                        <h4 class='price'> 87.00 ر.س </h4>
+                        <div class='add_cart'>
+                            <div>
+                                <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                    الي السلة </a>
+                            </div>
+                            <div class="heart">
+                                <img src="uploads/heart.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product_info">
+                    <img class="main_image" src="uploads/product.png" alt="">
+                    <div class="product_details">
+                        <h2>نبات ملكة النهار</h2>
+                        <h4 class='price'> 87.00 ر.س </h4>
+                        <div class='add_cart'>
+                            <div>
+                                <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                    الي السلة </a>
+                            </div>
+                            <div class="heart">
+                                <img src="uploads/heart.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product_info">
+                    <img class="main_image" src="uploads/product.png" alt="">
+                    <div class="product_details">
+                        <h2>نبات ملكة النهار</h2>
+                        <h4 class='price'> 87.00 ر.س </h4>
+                        <div class='add_cart'>
+                            <div>
+                                <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                    الي السلة </a>
+                            </div>
+                            <div class="heart">
+                                <img src="uploads/heart.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product_info">
+                    <img class="main_image" src="uploads/product.png" alt="">
+                    <div class="product_details">
+                        <h2>نبات ملكة النهار</h2>
+                        <h4 class='price'> 87.00 ر.س </h4>
+                        <div class='add_cart'>
+                            <div>
+                                <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                    الي السلة </a>
+                            </div>
+                            <div class="heart">
+                                <img src="uploads/heart.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END  NEW DECORE  -->
+<!-- START WHY MASHTLY -->
+<div class="why_mashtly">
+    <div class='container'>
+        <div class="data">
+            <div class="data_header_name">
+                <h2 class='header2'> لماذا مشتلي </h2>
+                <p> مزايا وخدمات موقع مشتلي، تستحق الإهتمام </p>
+            </div>
+            <div class='row'>
+                <div class='col-lg-3'>
+                    <div class="info">
+                        <img src="uploads/cash_on_delivery.png" alt="">
+                        <h4> الدفع عند الاستلام </h4>
+                        <p> حاليا داخل الرياض فقط </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END WHY MASHTLY -->
 <?php
 include $tem . 'footer.php';
 ob_end_flush();
