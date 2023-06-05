@@ -675,7 +675,7 @@ body {
     margin-right: 65px;
 }
 
- 
+
 
 .new_producs .data .data_header p {
     color: #797979;
@@ -692,47 +692,55 @@ body {
 
 .new_producs .products {}
 
-.new_producs .products .product_info {
+.new_producs .products .product_info,
+.index_all_cat .product_info {
     border: 1px solid #ccc;
     border-radius: 3px 3px 0px 0px;
     margin-right: 10px;
     margin-left: 10px;
 }
 
-.new_producs .products .product_info .main_image {
+.new_producs .products .product_info .main_image,
+.index_all_cat .product_info .main_image {
     width: 250px;
     border-radius: 3px 3px 0px 0px;
 }
 
-.new_producs .products .product_info .product_details {
+.new_producs .products .product_info .product_details,
+.index_all_cat .product_info .product_details {
     padding: 15px;
 }
 
-.new_producs .products .product_info .product_details h2 {
+.new_producs .products .product_info .product_details h2,
+.index_all_cat .product_info .product_details h2 {
     color: #1B1B1B;
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 12px;
 }
 
-.new_producs .products .product_info .product_details .price {
+.new_producs .products .product_info .product_details .price,
+.index_all_cat .product_info .product_details .price {
     color: var(--second-color);
     font-size: 16px;
     margin-bottom: 12px;
 }
 
-.new_producs .products .product_info .product_details .add_cart {
+.new_producs .products .product_info .product_details .add_cart,
+.index_all_cat .product_info .product_details .add_cart {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.new_producs .slick-slide img {
+.new_producs .slick-slide img,
+.index_all_cat .slick-slide img {
     display: inline-block !important;
     width: 19px;
 }
 
-.new_producs .products .product_info .product_details .add_cart .global_button {
+.new_producs .products .product_info .product_details .add_cart .global_button,
+.index_all_cat .product_info .product_details .add_cart .global_button {
     color: var(--second-color);
     border-color: var(--second-color);
     background-color: transparent;
@@ -740,7 +748,8 @@ body {
     padding: 7px 25px;
 }
 
-.new_producs .products .product_info .product_details .add_cart .heart {
+.new_producs .products .product_info .product_details .add_cart .heart,
+.index_all_cat .product_info .product_details .add_cart .heart {
     border: 2px solid var(--second-color);
     border-radius: 50%;
     width: 35px;
@@ -837,3 +846,95 @@ body {
 }
 
 /* END BEST PRODUCTS*/
+
+/* START INDEX ALLCAT  */
+.index_all_cat {
+    padding-top: 40px;
+    padding-bottom: 40px;
+
+}
+
+.index_all_cat .data {
+        background: transparent linear-gradient(180deg, #F0F5F0 0%, #F0F5F0 100%) 0% 0% no-repeat padding-box;
+            box-shadow: 0px 12px 15px #00000017;
+            border-radius: 15px;
+            padding-bottom: 30px;
+}
+
+.index_all_cat .data .header2 {
+    margin-right: 65px;
+}
+
+.index_all_cat .data .header2::after {
+
+    right: -64px;
+    top: 17px;
+}
+
+.index_all_cat .all_cat {
+        padding-right: 15px;
+} 
+
+.index_all_cat .all_cat ul li {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.index_all_cat .all_cat ul li a {
+    text-decoration: none;
+    color: #1B1B1B;
+    font-size: 17px;
+    transition: all 0.3s ease-in-out;
+}
+
+.index_all_cat .all_cat ul li:hover a {
+    color: var(--second-color);
+}
+
+.index_all_cat .all_cat ul li a.active {
+    color: var(--second-color);
+}
+
+.index_all_cat .product_info .main_image {
+    max-width: 100%;
+}
+
+.index_all_cat .product_info {
+    margin-top: 20px;
+}
+
+.index_all_cat .more_button {
+    margin: auto;
+    text-align: center;
+    background-color: transparent;
+    color: var(--second-color);
+    border-color: var(--second-color);
+    display: block;
+    width: 150px;
+    margin-top: 20px;
+}
+
+/* END INDEX ALLCAT */
+/*  START GARDEN SERVICES */
+.garden_services{ 
+    margin-bottom: 40px;
+}
+.garden_services img{
+    max-width: 100%;
+}
+/*  END GARDEN SERVICES */
+/* START PRODUCTS DISCOUNT */
+.product_discounts .products .product_info .product_details .price_diffrent {}
+.product_discounts .products .product_info .product_details .price_diffrent h4{
+    display: inline-block;
+}
+.product_discounts .products .product_info .product_details .price_diffrent .price{
+color: #E00951;
+}
+.product_discounts .products .product_info .product_details .price_diffrent .old{
+color: #A0B2B1;
+font-size: 13px;
+margin-right: 12px;
+text-decoration: line-through;
+}
+/*END PRODUCT DISCOUNT*/
