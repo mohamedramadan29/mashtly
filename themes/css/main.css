@@ -1132,29 +1132,34 @@ body {
     position: relative;
     padding-right: 30px;
 }
-.index_video .data::after{
+
+.index_video .data::after {
     content: '';
-    position: absolute;  
+    position: absolute;
     right: 0;
     width: 30px;
     height: 150px;
     background-color: var(--main-color);
     top: 30%;
 }
+
 .index_video .info {
     position: relative;
 }
-.index_video .info .video_data{
-    margin-top:100px;
+
+.index_video .info .video_data {
+    margin-top: 100px;
     margin-right: 50px;
     position: relative;
 }
-.index_video .info .video_data .arrow{
+
+.index_video .info .video_data .arrow {
     position: absolute;
-        right: -20%;
-        top: 22%;
-        width: 29px;
+    right: -20%;
+    top: 22%;
+    width: 29px;
 }
+
 .index_video .info span {
     color: #fff;
     font-weight: normal;
@@ -1162,7 +1167,7 @@ body {
 }
 
 .index_video .info h2 {
-color: #fff;
+    color: #fff;
     font-weight: bold;
     line-height: 1.6;
     margin-top: 10px;
@@ -1174,27 +1179,122 @@ color: #fff;
 .index_video .data .image1 {
     position: absolute;
     top: -60%;
-    right:-30%;
+    right: -30%;
     width: 140px;
 }
-.index_video .info .global_button{
+
+.index_video .info .global_button {
     border-color: #fff;
     margin-top: 20px;
 }
-.index_video .info .global_button img{
+
+.index_video .info .global_button img {
     width: 20px;
     margin-right: 5px;
 }
+
 .index_video .data .image2 {
     position: absolute;
     bottom: -85%;
     left: -7%;
     width: 140px;
 }
-.index_video .plyr__poster{
+
+.index_video .plyr__poster {
     background-size: cover;
 }
+
 .index_video .plyr--full-ui.plyr--video .plyr__control--overlaid {
     background-color: #ffffff78;
 }
+
 /* END INDEX VIDEO  */
+/* START TESTMONAILS */
+.testmonails {}
+
+.testmonails .data {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border-bottom: 3px solid #DBE6DB;
+}
+
+.testmonails .data {}
+
+.testmonails .data .data_header_name {
+    margin-right: 65px;
+}
+
+.testmonails .data .data_header_name .header2::after {
+    right: -6%;
+    top: 53%;
+}
+
+.testmonails .data .person_info {
+    background-color: var(--main-color);
+    color: #fff;
+    width: 540px;
+    padding: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+}
+
+.testmonails .data .person_info .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.testmonails .data .person_info .head h3 {
+    font-weight: bold;
+    font-size: 20px;
+    padding-top: 10px;
+    margin-bottom: 10px;
+}
+
+.testmonails .data .person_info .head img {
+    width: 60px;
+}
+
+.testmonails .data .person_info p {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.testmonails .data .person_info .foo {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+.testmonails .data .person_info .foo img {
+    width: 60px;
+margin-left: 15px;
+}
+
+.testmonails .right_arrow {
+    position: absolute;
+    top: -47px;
+    left: 90px;
+    width: 35px;
+    cursor: pointer;
+}
+
+.testmonails .left_arrow {
+    position: relative;
+    top: -260px;
+    left: -94%;
+    width: 35px;
+    cursor: pointer;
+}
+
+.testmonails .data .person_info .foo h5 {
+    font-size: 16px;
+}
+
+.testmonails .data .person_info .foo span {
+    font-size: 14px;
+}
+
+/* END TESTMONAILS */

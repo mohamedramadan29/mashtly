@@ -992,7 +992,7 @@ include 'init.php';
                             </span>
                             <img class="arrow" src="uploads/arrow.png" alt="">
                             <h2>كيف تغرس </br> الأشجار و النباتات الجديدة </h2>
-                            <a class='btn global_button'> جميع الفيديوهات <img src="uploads/arrow.png" alt="">  </a>
+                            <a class='btn global_button'> جميع الفيديوهات <img src="uploads/arrow.png" alt=""> </a>
                         </div>
 
                     </div>
@@ -1003,6 +1003,83 @@ include 'init.php';
     </div>
 </div>
 <!--- END INDEX VIDEO  -->
+<!-- START CUSTOMER TESTMON -->
+<div class='testmonails'>
+    <div class="container">
+        <div class="data">
+            <div class="data_header_name">
+                <h2 class='header2'> آراء العملاء </h2>
+                <p> ماذا يقول عملائنا عن منتجات مشتلي </p>
+            </div>
+            <div class="testmon" id='testmon'>
+                <div class="person_info">
+                    <div class='head'>
+                        <div>
+                            <h3> رائع وأحلي من الوصف </h3>
+                        </div>
+                        <div>
+                            <img src="uploads/quote.svg" alt="">
+                        </div>
+                    </div>
+                    <p>
+                        لقد كنت سعيدًا جدًا بخدمة العملاء الرائعة والنباتات الجميلة التي تلقيتها من هذا المتجر. كانت
+                        تجربة تسوق رائعة بالنسبة لي، وأنا أوصي بشدة هذا المتجر لجميع محبي النباتات
+                    </p>
+                    <div class='foo'>
+                        <div> <img src="uploads/person.png" alt=""> </div>
+                        <div>
+                            <h5> لجين محمد </h5>
+                            <span> ربة منزل </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="person_info">
+                    <div class='head'>
+                        <div>
+                            <h3> رائع وأحلي من الوصف </h3>
+                        </div>
+                        <div>
+                            <img src="uploads/quote.svg" alt="">
+                        </div>
+                    </div>
+                    <p>
+                        لقد كنت سعيدًا جدًا بخدمة العملاء الرائعة والنباتات الجميلة التي تلقيتها من هذا المتجر. كانت
+                        تجربة تسوق رائعة بالنسبة لي، وأنا أوصي بشدة هذا المتجر لجميع محبي النباتات
+                    </p>
+                    <div class='foo'>
+                        <div> <img src="uploads/person.png" alt=""> </div>
+                        <div>
+                            <h5> لجين محمد </h5>
+                            <span> ربة منزل </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="person_info">
+                    <div class='head'>
+                        <div>
+                            <h3> رائع وأحلي من الوصف </h3>
+                        </div>
+                        <div>
+                            <img src="uploads/quote.svg" alt="">
+                        </div>
+                    </div>
+                    <p>
+                        لقد كنت سعيدًا جدًا بخدمة العملاء الرائعة والنباتات الجميلة التي تلقيتها من هذا المتجر. كانت
+                        تجربة تسوق رائعة بالنسبة لي، وأنا أوصي بشدة هذا المتجر لجميع محبي النباتات
+                    </p>
+                    <div class='foo'>
+                        <div> <img src="uploads/person.png" alt=""> </div>
+                        <div>
+                            <h5> لجين محمد </h5>
+                            <span> ربة منزل </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END  CUSTOMER TESTMON -->
 <?php
 include $tem . 'footer.php';
 ob_end_flush();

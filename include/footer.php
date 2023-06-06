@@ -224,7 +224,7 @@
 <script src="https://kit.fontawesome.com/588e070751.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <!-- nice vide -->
- <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+<script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 <script src='themes/js/select2.min.js'></script>
 <script src='themes/js/main.js'></script>
 </body>
@@ -312,9 +312,46 @@
     });
 
 </script>
-
+<!-- to video -->
 <script>
+    const player = new Plyr('#player');
+</script>
+<!-- for testmonails -->
+<script>
+    $(document).ready(function () {
+        $('.testmon').slick({
+            rtl: true,
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 2000,
+            infinite: true,
+            prevArrow: '<img class="right_arrow" src="./uploads/right_arrow.png">',
+            nextArrow: '<img class="left_arrow" src="./uploads/left_arrow.png">',
+            centerMode: false,
+            variableWidth: true,
+            responsive: [
+                {
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1,
 
-  const player = new Plyr('#player');
+                    }
+                },
+                {
+                    breakpoint: 900,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                    }
+                }
+                // You can unslick at a given breakpoint now by adding:
+                // settings: "unslick"
+                // instead of a settings object
+            ]
+
+        });
+    });
 
 </script>
