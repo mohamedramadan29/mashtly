@@ -13,10 +13,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Almarai&display=swap" rel="stylesheet">
     <!-- START NICE VIDEO  -->
-<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <!-- END NICE VIDEO  -->
     <link rel="stylesheet" href="themes/css/select2.min.css">
-    <link rel="stylesheet" href="themes/css/main.css">
+    <link rel="stylesheet" href="<?php echo $css ?>main.css">
     <title>
         <?php echo $page_title; ?>
     </title>

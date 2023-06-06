@@ -6,10 +6,10 @@ Phone:01011642731
 
 */
 include 'admin/connect.php';
-$tem = "include/";
-$css = "themes/css/";
-$js = "themes/js/";
-include $tem . "header.php";
+$tem = "../include/";
+$css = "../themes/css/";
+$js = "../themes/js/";
+include "../../" .$tem . "header.php";
 
 include $tem . "navbar.php";
 
