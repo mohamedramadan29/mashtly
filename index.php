@@ -849,11 +849,160 @@ include 'init.php';
                         <p> حاليا داخل الرياض فقط </p>
                     </div>
                 </div>
+                <div class='col-lg-3'>
+                    <div class="info">
+                        <img src="uploads/to_home.svg" alt="">
+                        <h4> التوصيل الى المنزل </h4>
+                        <p> حاليا داخل الرياض فقط </p>
+                    </div>
+                </div>
+                <div class='col-lg-3'>
+                    <div class="info">
+                        <img src="uploads/hary_delievry.svg" alt="">
+                        <h4> توصيل سريع </h4>
+                        <p> من 2- 6 أيام عمل </p>
+                    </div>
+                </div>
+                <div class='col-lg-3'>
+                    <div class="info">
+                        <img src="uploads/phone_contact.svg" alt="">
+                        <h4> تواصل معنا </h4>
+                        <p> 0530047542 </p>
+                    </div>
+                </div>
+                <div class='col-lg-3'>
+                    <div class="info">
+                        <img src="uploads/cus_services.svg" alt="">
+                        <h4> دعم الخبراء </h4>
+                        <p> مجانا قبل وبعد الشراء </p>
+                    </div>
+                </div>
+                <div class='col-lg-3'>
+                    <div class="info">
+                        <img src="uploads/quality.svg" alt="">
+                        <h4> ضمان غير محدود </h4>
+                        <p> نضمن لك استلام نباتات سليمة وصحية </p>
+                    </div>
+                </div>
+                <div class='col-lg-3'>
+                    <div class="info">
+                        <img src="uploads/down_price.svg" alt="">
+                        <h4> أسعار تنافسية </h4>
+                        <p> أسعارنا لا تقبل المنافسة </p>
+                    </div>
+                </div>
+                <div class='col-lg-3'>
+                    <div class="info">
+                        <img src="uploads/plants_requirement.svg" alt="">
+                        <h4> مستلزمات الزراعة </h4>
+                        <p> جميع المستلزمات الزراعية التي قد تحتاجها </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <!-- END WHY MASHTLY -->
+
+<!-- START POST INDEX -->
+<div class='index_posts'>
+    <div class="container">
+        <div class="data">
+            <div class='row'>
+                <div class="col-lg-6">
+                    <div class="info">
+                        <img src="uploads/main_post.png" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="info">
+                        <span> من المدونة </span>
+                        <h3> كيف تغرس الأشجار الجديدة؟ </h3>
+                        <p> هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على
+                            الشكل الخارجي للنص أو شكل توضع الفقرات في الصفحة التي يقرأها. ولذلك يتم استخدام طريقة لوريم
+                            إيبسوم لأنها تعطي توزيعاَ طبيعياَ -إلى حد ما- للأحرف عوضاً عن استخدام “هنا يوجد محتوى نصي،
+                            هنا يوجد محتوى نصي” فتجعلها تبدو (أي الأحرف) وكأنها نص مقروء. العديد من برامح النشر المكتبي
+                            وبرامح تحرير صفحات الويب تستخدم لوريم إيبسوم بشكل إفتراضي كنموذج عن النص، وإذا قمت بإدخال
+                            في أي محرك بحث ستظهر العديد من المواقع الحديثة العهد في نتائج البحث. </p>
+                        <a href='#' class='btn global_button'> اقرأ المزيد </a>
+                    </div>
+                </div>
+            </div>
+            <div class='from_blog'>
+                <div class='row'>
+                    <div class="col-lg-3">
+                        <div class="post_info">
+                            <img src="uploads/post1.png" alt="">
+                            <h4> زراعة النباتات الطبية والعطرية </h4>
+                            <p>هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي ا لى
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="post_info">
+                            <img src="uploads/post2.png" alt="">
+                            <h4> زراعة النباتات الطبية والعطرية </h4>
+                            <p>هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي ا لى
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="post_info">
+                            <img src="uploads/post1.png" alt="">
+                            <h4> زراعة النباتات الطبية والعطرية </h4>
+                            <p>هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي ا لى
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="post_info">
+                            <img src="uploads/post1.png" alt="">
+                            <h4> زراعة النباتات الطبية والعطرية </h4>
+                            <p>هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي ا لى
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END  POST INDEX -->
+<!-- START INDEX VIDEO  -->
+<div class='index_video'>
+    <div class='container'>
+        <div class='data'>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="info">
+                        <div class="plyr__video-embed" id="player">
+                            <iframe width="400px" height="400px" data-poster="uploads/poster.png"
+                                src="https://www.youtube.com/watch?v=gpr0ZxXlxKc" allowfullscreen allowtransparency
+                                allow="autoplay"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="info">
+                        <div class='video_data'>
+                            <img class="image1" src="uploads/points.png" alt="">
+                            <img class="image2" src="uploads/points.png" alt="">
+                            <span>
+                                فيديوهات ومقاطع مميزه
+                            </span>
+                            <img class="arrow" src="uploads/arrow.png" alt="">
+                            <h2>كيف تغرس </br> الأشجار و النباتات الجديدة </h2>
+                            <a class='btn global_button'> جميع الفيديوهات <img src="uploads/arrow.png" alt="">  </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--- END INDEX VIDEO  -->
 <?php
 include $tem . 'footer.php';
 ob_end_flush();

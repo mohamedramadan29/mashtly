@@ -223,8 +223,8 @@
 <script src='themes/js/bootstrap.min.js'></script>
 <script src="https://kit.fontawesome.com/588e070751.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
- 
-    </script>
+<!-- nice vide -->
+ <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 <script src='themes/js/select2.min.js'></script>
 <script src='themes/js/main.js'></script>
 </body>
@@ -311,5 +311,10 @@
         });
     });
 
-</script> 
- 
+</script>
+
+<script>
+
+  const player = new Plyr('#player');
+
+</script>
