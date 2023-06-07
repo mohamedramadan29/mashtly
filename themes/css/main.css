@@ -782,16 +782,19 @@ body {
     left: -4%;
     top: 41%;
 }
-.products .slick-next .fa-chevron-left{
-        position: absolute;
-            top: 28%;
-            right: 40%;
+
+.products .slick-next .fa-chevron-left {
+    position: absolute;
+    top: 28%;
+    right: 40%;
 }
+
 .products .slick-prev .fa-chevron-right {
     position: absolute;
     top: 28%;
     left: 40%;
 }
+
 /* END NEW PRODUCST  */
 
 /* START PLANTES REQUIREMENT INDEX */
@@ -1279,7 +1282,7 @@ body {
 
 .testmonails .data .person_info .foo img {
     width: 60px;
-margin-left: 15px;
+    margin-left: 15px;
 }
 
 .testmonails .right_arrow {
@@ -1307,3 +1310,252 @@ margin-left: 15px;
 }
 
 /* END TESTMONAILS */
+/***************************   START PROFILE PAGE   ******************************/
+.profile_page {
+    background-image: url(../../uploads/section_background.svg);
+    background-size: contain;
+    background-position: right;
+    background-repeat: no-repeat;
+}
+
+
+.data .breadcrump {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.data .breadcrump p {
+    color: #8F918F;
+}
+
+.data .breadcrump p a {
+    color: #8F918F;
+    text-decoration: none;
+}
+
+.data .breadcrump p span {}
+
+.profile_page .data .data_header_name {
+    margin-right: 65px;
+}
+
+.profile_page .data .header2::after {
+    right: -63px;
+    top: 17px;
+}
+
+.profile_page .data .info {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    border: 2px solid #D6E0DF;
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+.profile_page .data a {
+    text-decoration: none;
+}
+
+.profile_page .data .info img {
+    margin-left: 14px;
+    width: 75px;
+    margin-right: 10px;
+}
+
+.profile_page .data .info h3 {
+    color: var(--main-color);
+    font-weight: bold;
+    font-size: 17px;
+    margin-top: 10px;
+}
+
+.profile_page .data .info p {
+    color: #000000;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+@media(max-width:991px) {
+    .profile_page {
+        background-image: none;
+    }
+
+    .instagrame_footer .data h2 {
+        font-size: 22px;
+
+    }
+
+    .instagrame_footer .data p {
+        font-size: 13px;
+    }
+}
+
+/*************************** END PROFILE PAGE ******************************/
+/*************************** START PURCHES PAGE ******************************/
+.purches_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.purches_header .search form {
+    display: flex;
+}
+
+.purches_header .search .input_box input {
+    border: 2px solid #D1D3D4;
+    border-radius: 35px;
+    min-width: 400px;
+    padding: 10px;
+    box-shadow: none;
+}
+
+.purches_header .search .input_box input::placeholder {
+    color: #A0B2B1;
+}
+
+.purches_header .search .input_box button {
+    margin-right: 10px;
+    width: 135px;
+    padding: 10px;
+    font-size: 17px;
+}
+
+.purches_header .search .input_box button img {
+    margin-left: 5px;
+}
+
+/*  START PURCHES ORDERS   */
+.purches_orders {
+    margin-bottom: 25px;
+}
+
+.purches_orders .card {
+    border: 2px solid #D6E0DF;
+    border-radius: 25px;
+    background-color: #fff;
+}
+
+.purches_orders .card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    border-radius: 25px 25px 0 0;
+}
+
+.purches_orders .card .card-header .header_data {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 45%;
+}
+
+.purches_orders .card .card-header .header_data .order_num {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.purches_orders .card .card-header .header_data .order_num h6 {
+    color: #6D6E70;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.purches_orders .card .card-header .header_data .order_num p {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.purches_orders .card .card-header .print_section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 30%;
+}
+
+.purches_orders .card .card-header .print_section .total_invoice {}
+
+.purches_orders .card .card-header .print_section .total_invoice h6 {
+    color: #6D6E70;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+
+.purches_orders .card .card-header .print_section .total_invoice p {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.purches_orders .card .card-header .print_section .total_invoice a {
+    background: transparent;
+    color: var(--second-color);
+    border-color: var(--second-color);
+}
+
+.purches_orders .card .card-body {}
+
+.purches_orders .card .card-body .body_data {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 2px dashed #D6E0DF;
+    padding-bottom: 15px;
+}
+
+.purches_orders .card .card-body .body_data:nth-of-type(1) {
+    border-top: none;
+}
+
+.purches_orders .card .card-body .body_data .product_data {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.purches_orders .card .card-body .body_data .product_data img {
+    width: 100px;
+    margin-left: 15px;
+    border: 2px solid #D6E0DF;
+    border-radius: 10px;
+}
+
+.purches_orders .card .card-body .body_data .product_data h2 {
+    color: #1B1B1B;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.purches_orders .card .card-body .body_data .product_data span {
+    color: var(--second-color);
+}
+
+.purches_orders .card .card-body .body_data .order_status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.purches_orders .card .card-body .body_data .order_status p {
+    margin-top: 20px;
+    margin-left: 10px;
+    color: #000;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.purches_orders .card .card-body .body_data .order_status p span {}
+
+.purches_orders .card .card-body .body_data .order_status .return_product {
+    background-color: transparent;
+    color: var(--second-color);
+    border-color: var(--second-color)
+}
+
+/* END PURCHED ORDERS */
+/***************************   END   PURCHES PAGE   ******************************/
