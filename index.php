@@ -977,7 +977,7 @@ include 'init.php';
                     <div class="info">
                         <div class="plyr__video-embed" id="player">
                             <iframe width="400px" height="400px" data-poster="uploads/poster.png"
-                                src="https://www.youtube.com/watch?v=gpr0ZxXlxKc" allowfullscreen allowtransparency
+                                src="https://www.youtube.com/watch?v=Y4z2mZPKhm4" allowfullscreen allowtransparency
                                 allow="autoplay"></iframe>
                         </div>
                     </div>

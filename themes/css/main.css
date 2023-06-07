@@ -782,7 +782,16 @@ body {
     left: -4%;
     top: 41%;
 }
-
+.products .slick-next .fa-chevron-left{
+        position: absolute;
+            top: 28%;
+            right: 40%;
+}
+.products .slick-prev .fa-chevron-right {
+    position: absolute;
+    top: 28%;
+    left: 40%;
+}
 /* END NEW PRODUCST  */
 
 /* START PLANTES REQUIREMENT INDEX */

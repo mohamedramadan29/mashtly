@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-$page_title = 'مشتلي - الرئيسية';
+$page_title = ' اضافة عنوان ';
 include '../init.php';
 ?>
 <!-- END  CUSTOMER TESTMON -->

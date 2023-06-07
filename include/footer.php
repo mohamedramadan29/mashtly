@@ -5,39 +5,39 @@
             <p> أرسلي صور حديقة منزلك ونباتات حديقتك عبر انستجرام وسوف تظهر هنا </p>
             <div class="insta_slider">
                 <div class="insta_info">
-                    <img src="uploads/insta1.png" alt="">
+                    <img src="<?php echo $uploads ?>/insta1.png" alt="">
                     <div class="overlay">
-                        <img src="uploads/insta_share_icon.svg" alt="">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
                     </div>
                 </div>
                 <div class="insta_info">
-                    <img src="uploads/insta2.png" alt="">
+                    <img src="<?php echo $uploads ?>/insta2.png" alt="">
                     <div class="overlay">
-                        <img src="uploads/insta_share_icon.svg" alt="">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
                     </div>
                 </div>
                 <div class="insta_info">
-                    <img src="uploads/insta3.png" alt="">
+                    <img src="<?php echo $uploads ?>/insta3.png" alt="">
                     <div class="overlay">
-                        <img src="uploads/insta_share_icon.svg" alt="">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
                     </div>
                 </div>
                 <div class="insta_info">
-                    <img src="uploads/insta2.png" alt="">
+                    <img src="<?php echo $uploads ?>/insta2.png" alt="">
                     <div class="overlay">
-                        <img src="uploads/insta_share_icon.svg" alt="">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
                     </div>
                 </div>
                 <div class="insta_info">
-                    <img src="uploads/insta1.png" alt="">
+                    <img src="<?php echo $uploads ?>/insta1.png" alt="">
                     <div class="overlay">
-                        <img src="uploads/insta_share_icon.svg" alt="">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
                     </div>
                 </div>
                 <div class="insta_info">
-                    <img src="uploads/insta2.png" alt="">
+                    <img src="<?php echo $uploads ?>/insta2.png" alt="">
                     <div class="overlay">
-                        <img src="uploads/insta_share_icon.svg" alt="">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="info">
-                            <img src="uploads/footer_logo.png" alt="">
+                            <img src="<?php echo $uploads ?>/footer_logo.png" alt="">
                             <p> تابعونا علي منصات التواصل الاجتماعي عبر </p>
                             <ul class="list-unstyled social_icon">
                                 <li> <a href="#"> <i class='fa fa-twitter'> </i> </a> </li>
@@ -110,16 +110,16 @@
                     <div class="col-lg-8">
                         <div class="payment_method">
                             <div class="images">
-                                <img src="uploads/pay1.svg">
-                                <img src="uploads/pay2.svg">
-                                <img src="uploads/pay3.svg">
-                                <img src="uploads/pay4.svg">
-                                <img src="uploads/pay5.svg">
-                                <img src="uploads/pay6.svg">
-                                <img src="uploads/pay7.svg">
-                                <img src="uploads/pay8.svg">
-                                <img src="uploads/pay9.svg">
-                                <img src="uploads/pay10.svg">
+                                <img src="<?php echo $uploads ?>/pay1.svg">
+                                <img src="<?php echo $uploads ?>/pay2.svg">
+                                <img src="<?php echo $uploads ?>/pay3.svg">
+                                <img src="<?php echo $uploads ?>/pay4.svg">
+                                <img src="<?php echo $uploads ?>/pay5.svg">
+                                <img src="<?php echo $uploads ?>/pay6.svg">
+                                <img src="<?php echo $uploads ?>/pay7.svg">
+                                <img src="<?php echo $uploads ?>/pay8.svg">
+                                <img src="<?php echo $uploads ?>/pay9.svg">
+                                <img src="<?php echo $uploads ?>/pay10.svg">
                             </div>
                         </div>
                     </div>
@@ -135,7 +135,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="info text-center">
-                            <img src="uploads/footer_logo.png" alt="">
+                            <img src="<?php echo $uploads ?>/footer_logo.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -194,16 +194,16 @@
                     <div class="col-12">
                         <div class="payment_method">
                             <div class="images">
-                                <img src="uploads/pay1.svg">
-                                <img src="uploads/pay2.svg">
-                                <img src="uploads/pay3.svg">
-                                <img src="uploads/pay4.svg">
-                                <img src="uploads/pay5.svg">
-                                <img src="uploads/pay6.svg">
-                                <img src="uploads/pay7.svg">
-                                <img src="uploads/pay8.svg">
-                                <img src="uploads/pay9.svg">
-                                <img src="uploads/pay10.svg">
+                                <img src="<?php echo $uploads ?>/pay1.svg">
+                                <img src="<?php echo $uploads ?>/pay2.svg">
+                                <img src="<?php echo $uploads ?>/pay3.svg">
+                                <img src="<?php echo $uploads ?>/pay4.svg">
+                                <img src="<?php echo $uploads ?>/pay5.svg">
+                                <img src="<?php echo $uploads ?>/pay6.svg">
+                                <img src="<?php echo $uploads ?>/pay7.svg">
+                                <img src="<?php echo $uploads ?>/pay8.svg">
+                                <img src="<?php echo $uploads ?>/pay9.svg">
+                                <img src="<?php echo $uploads ?>/pay10.svg">
                             </div>
                         </div>
                     </div>
@@ -219,14 +219,14 @@
         </div>
     </div>
 </div>
-<script src='themes/js/jquery.min.js'></script>
-<script src='themes/js/bootstrap.min.js'></script>
+<script src='<?php echo $js; ?>/jquery.min.js'></script> 
+<script src='<?php echo $js; ?>/bootstrap.min.js'></script>
 <script src="https://kit.fontawesome.com/588e070751.js" crossorigin="anonymous"></script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+ <script src='<?php echo $js; ?>/slick.min.js'></script>
 <!-- nice vide -->
 <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
-<script src='themes/js/select2.min.js'></script>
-<script src='themes/js/main.js'></script>
+<script src='<?php echo $js; ?>/select2.min.js'></script>
+<script src='<?php echo $js; ?>/main.js'></script>
 </body>
 
 </html>
@@ -326,8 +326,8 @@
             autoplay: true,
             autoplaySpeed: 2000,
             infinite: true,
-            prevArrow: '<img class="right_arrow" src="./uploads/right_arrow.png">',
-            nextArrow: '<img class="left_arrow" src="./uploads/left_arrow.png">',
+            prevArrow: '<img class="right_arrow" src="./<?php echo $uploads ?>/right_arrow.png">',
+            nextArrow: '<img class="left_arrow" src="./<?php echo $uploads ?>/left_arrow.png">',
             centerMode: false,
             variableWidth: true,
             responsive: [

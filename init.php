@@ -9,8 +9,8 @@ include 'admin/connect.php';
 $tem = "include/";
 $css = "themes/css/";
 $js = "themes/js/";
+$uploads = "uploads/";
 include $tem . "header.php";
-
 include $tem . "navbar.php";
 
 

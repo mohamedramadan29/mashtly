@@ -5,7 +5,7 @@
         <div class="speed_contact">
           <p>للتواصل السريع أو الاستفسارات 0530047542 </p>
         </div>
-        <div class='country'> <img src="uploads/sudia_logo.png" alt=""> السعودية </div>
+        <div class='country'> <img src="<?php echo $uploads ?>/sudia_logo.png" alt=""> السعودية </div>
       </div>
     </div>
   </div>
@@ -15,7 +15,7 @@
         <div class="row d-flex align-items-center">
           <div class="col-lg-2">
             <div class="logo">
-              <img src="uploads/logo.png" alt="">
+              <img src="<?php echo $uploads ?>/logo.png" alt="">
             </div>
           </div>
           <div class="col-lg-7">
@@ -24,7 +24,7 @@
                 <div class="box">
                   <div class="box2">
                     <input type="text" name='search' placeholder="اكتب كلمة البحث…" class="form-control">
-                    <img src="uploads/search.png" alt="">
+                    <img src="<?php echo $uploads ?>/search.png" alt="">
                   </div>
                   <div class='box3'>
                     <button type='submit'> البحث المتقدم </button>
@@ -36,13 +36,13 @@
           <div class='col-lg-3'>
             <div class="info">
               <div class="cart">
-                <img src="uploads/shopping-cart.png" alt="">
+                <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
               </div>
               <div class="heart">
-                <img src="uploads/heart.png" alt="">
+                <img src="<?php echo $uploads ?>/heart.png" alt="">
               </div>
               <div class="sign_in">
-                <a href="#"> <img src="uploads/sign-in.png" alt=""> تسجيل الدخول </a>
+                <a href="#"> <img src="<?php echo $uploads ?>/sign-in.png" alt=""> تسجيل الدخول </a>
               </div>
             </div>
 
@@ -57,20 +57,20 @@
         <div class="row d-flex align-items-center">
           <div class="col-4">
             <div class="logo">
-              <img src="uploads/logo.png" alt="">
+              <img src="<?php echo $uploads ?>/logo.png" alt="">
             </div>
           </div>
           <div class='col-4'>
             <div class="info">
               <div class="cart">
-                <img src="uploads/shopping-cart.png" alt="">
+                <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
               </div>
               <div class="heart">
-                <img src="uploads/heart.png" alt="">
+                <img src="<?php echo $uploads ?>/heart.png" alt="">
               </div>
               <!--
               <div class="sign_in">
-                <a href="#"> <img src="uploads/sign-in.png" alt=""> تسجيل الدخول </a>
+                <a href="#"> <img src="<?php echo $uploads ?>/sign-in.png" alt=""> تسجيل الدخول </a>
               </div>
 -->
             </div>
@@ -86,7 +86,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="#"> <img src="uploads/home.svg" alt="">
+                      <a class="nav-link active" aria-current="page" href="#"> <img src="<?php echo $uploads ?>/home.svg" alt="">
                         الرئيسية </a>
                     </li>
                     <li class="nav-item dropdown">
@@ -138,7 +138,7 @@
                 <div class="box">
                   <div class="box2">
                     <input type="text" name='search' placeholder="اكتب كلمة البحث…" class="form-control">
-                    <img src="uploads/search.png" alt="">
+                    <img src="<?php echo $uploads ?>/search.png" alt="">
                   </div>
                   <div class='box3'>
                     <button type='submit'> البحث المتقدم </button>
@@ -161,7 +161,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#"> <img src="uploads/home.svg" alt=""> الرئيسية </a>
+            <a class="nav-link active" aria-current="page" href="#"> <img src="<?php echo $uploads ?>/home.svg" alt=""> الرئيسية </a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
