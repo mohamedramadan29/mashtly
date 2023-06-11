@@ -1727,7 +1727,10 @@ body {
     padding-right: 20px;
     box-shadow: none;
 }
-
+.add_new_address form .input_box input:focus,
+.add_new_address form .input_box select:focus{
+border: 2px solid #5C8E00;
+}
 .add_new_address form .input_box input::placeholder,
 .add_new_address form .input_box select::placeholder {
     color: #A0B2B1;
@@ -1774,6 +1777,44 @@ body {
 }
 
 /******************************* END New Address Page ***************************/
+/* START ADD NEW PAYMENT */
+.add_new_payment .submit_buttons{
+    justify-content: center;
+}
+/* END ADD NEW PAYEMNT*/
+/* ************************** START PAYEMTNS PAGE **************************** */
+.adress_page .addresses .payment_method .add_content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.adress_page .addresses .payment_method .add_content .card_image img {
+    width: 70px;
+}
+
+.adress_page .addresses .payment_method .add_content .card_data .number {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.adress_page .addresses .payment_method .add_content .card_data .end_date {
+    color: #A0B2B1;
+    font-size: 14px;
+}
+
+.adress_page .addresses .payment_method .add_content .card_data .end_date span {
+    color: var(--second-color);
+    font-size: 15px;
+}
+
+.adress_page .addresses .payment_method .add_content .card_data .name {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* ***************** END PAYEMTNS PAGE **************************/
 /******************************* START RETURN ORDERS  Page *******************/
 .retrun_orders {}
 
@@ -1852,14 +1893,17 @@ body {
 .retrun_orders .orders p.status {
     margin-top: 30px;
     color: var(--second-color);
-} 
-.retrun_orders .not_found_orders .info{
+}
+
+.retrun_orders .not_found_orders .info {
     background-color: #fff;
     border-radius: 10px;
     padding: 50px;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    border: none;;
- }
+    border: none;
+    ;
+}
+
 /******************************* END RETUN ORDERS Page ***************************/
