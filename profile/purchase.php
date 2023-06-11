@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-$page_title = ' حسابي  ';
+$page_title = ' مشترياتي  ';
 include 'init.php';
 ?>
 <div class="profile_page">

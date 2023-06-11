@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-$page_title = ' اضافة عنوان جديد  ';
+$page_title = ' عناويني  ';
 include 'init.php';
 ?>
 <div class="profile_page adress_page">

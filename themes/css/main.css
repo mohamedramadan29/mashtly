@@ -1558,4 +1558,126 @@ body {
 }
 
 /* END PURCHED ORDERS */
-/***************************   END   PURCHES PAGE   ******************************/
+/***************************   END PURCHES PAGE ******************************/
+/***************************   START ADREESS PAGE ******************************/
+.adress_page {}
+
+.adress_page .addresses {
+    margin-top: 20px;
+}
+
+.adress_page .addresses .address {
+    background-color: #fff;
+    border: 2px solid #D6E0DF;
+    border-radius: 25px;
+    padding: 15px;
+    margin-bottom: 20px;
+
+}
+
+.adress_page .addresses .active {
+    box-shadow: 0px 0px 14px #A1D0418D;
+    border: 2px solid #8EBF2D;
+}
+
+.adress_page .addresses .address .add_head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.adress_page .addresses .address .add_head .form-check {}
+
+.adress_page .addresses .address .add_head .form-check input:checked {
+    background-color: var(--second-color);
+    border-color: var(--second-color);
+    box-shadow: none;
+}
+
+.adress_page .addresses .address .add_head .form-check label {
+    color: #A0B2B1;
+    font-size: 15px;
+}
+
+.adress_page .addresses .address .add_head .form-check input:checked~label {
+    color: var(--second-color) !important;
+}
+
+.adress_page .addresses .address .remove_add {}
+
+.adress_page .addresses .address .remove_add button {
+    background-color: transparent;
+    border: none;
+    color: #A0B2B1;
+    font-size: 15px;
+}
+
+.adress_page .addresses .address .remove_add button i {
+    background-color: #A0B2B1;
+    color: #fff;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.adress_page .addresses .address .add_content {}
+
+.adress_page .addresses .address .add_content h2 {
+    color: #1B1B1B;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 15px 0;
+}
+
+.adress_page .addresses .address .add_content .add_title {
+    color: #1B1B1B;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1.8;
+
+}
+
+.adress_page .addresses .address .add_content .add_phone {
+    margin-bottom: 15px;
+}
+
+.adress_page .addresses .address .add_content .add_phone span {}
+
+.adress_page .addresses .address .edit {
+    display: flex;
+    justify-content: left;
+}
+
+.adress_page .addresses .address .edit a {
+    text-decoration: none;
+    color: var(--second-color);
+}
+
+.adress_page .addresses .add_new_address {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 100%;
+    background: #FFFFFF7C 0% 0% no-repeat padding-box;
+    border: 2px dashed #D6E0DF;
+    border-radius: 25px;
+    margin-bottom: 20px;
+
+}
+
+.adress_page .addresses .add_new_address a {
+    text-decoration: none;
+    color: var(--second-color);
+    text-align: center;
+}
+
+.adress_page .addresses .add_new_address h3 {
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+/***************************   END ADREESS PAGE   ******************************/
