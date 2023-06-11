@@ -1681,3 +1681,168 @@ body {
 }
 
 /***************************   END ADREESS PAGE   ******************************/
+
+/******************************* Start New Address Page ***************************/
+.new_address_page {}
+
+.new_address_page .add_new_address {
+    margin-top: 20px;
+}
+
+.add_new_address form .box {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+@media (max-width:991px) {
+    .add_new_address form .box {
+        flex-direction: column;
+    }
+}
+
+.add_new_address form .input_box {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 48%;
+}
+
+@media (max-width:991px) {
+    .add_new_address form .input_box {
+        width: 100%;
+    }
+}
+
+.add_new_address form .input_box label {
+    color: #6D6E70;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+.add_new_address form .input_box input,
+.add_new_address form .input_box select {
+    border: 2px solid #D1D3D4;
+    border-radius: 35px;
+    padding: 10px;
+    padding-right: 20px;
+    box-shadow: none;
+}
+
+.add_new_address form .input_box input::placeholder,
+.add_new_address form .input_box select::placeholder {
+    color: #A0B2B1;
+}
+
+.add_new_address form .input_box input[type='checkbox'] {
+    border-radius: 0;
+    padding: 9px;
+    margin-top: 0;
+
+}
+
+.add_new_address form .input_box input[type='checkbox']:checked {
+    background-color: var(--second-color);
+    border-color: var(--second-color);
+}
+
+.add_new_address form .input_box input[type='checkbox']~label {
+    margin-bottom: 0;
+    margin-right: 10px;
+}
+
+.add_new_address .submit_buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+@media (max-width:991px) {
+    .add_new_address .submit_buttons {
+        justify-content: center;
+    }
+}
+
+.add_new_address .submit_buttons button {
+    box-shadow: none;
+}
+
+.add_new_address .submit_buttons button[type='reset'] {
+    background-color: transparent;
+    color: var(--second-color);
+    border-color: var(--second-color);
+    margin-left: 15px;
+    box-shadow: none;
+}
+
+/******************************* END New Address Page ***************************/
+/******************************* START RETURN ORDERS  Page *******************/
+.retrun_orders {}
+
+.retrun_orders .orders {
+    margin-top: 20px;
+}
+
+.retrun_orders .orders thead {}
+
+.retrun_orders .orders thead tr {
+    background-color: var(--second-color);
+    color: #fff;
+    border-radius: 10px;
+}
+
+.retrun_orders .orders thead tr th {
+    padding: 14px; 
+        font-size: 16px;
+        font-weight: normal;
+}
+
+.retrun_orders .orders tbody {}
+ 
+.retrun_orders .orders tbody tr.d-table-row {
+    display: table-row;
+    margin-bottom: 20px;
+}
+
+.retrun_orders .orders tbody .product_data {
+    display: flex;
+    align-items: center;
+}
+.table tbody>.tbody-row {
+    margin-bottom: 20px;
+    /* أي تنسيقات إضافية للـ <tr> في <tbody> فقط */
+}
+.retrun_orders .orders tbody .product_data img {
+    border: 2px solid #D6E0DF;
+    border-radius: 10px;
+    width: 90px;
+    height: 90px;
+    margin-left: 15px;
+}
+
+.retrun_orders .orders .product_data h3 {
+    font-weight: bold;
+    font-size: 18px;
+
+}
+
+.retrun_orders .orders .product_data span {
+    color: var(--second-color);
+}
+
+.retrun_orders .orders .buy_date {
+    display: flex;
+    align-items: center;
+    height: 90px;
+}
+
+.retrun_orders .orders .buy_date img {
+    margin-left: 10px;
+}
+
+.retrun_orders .orders .buy_date span {}
+
+.retrun_orders .orders p.status {
+    margin-top:30px;
+    color: var(--second-color);
+}
+
+/******************************* END RETUN ORDERS Page ***************************/
