@@ -19,75 +19,88 @@ include 'init.php';
                 </div>
             </div>
             <div class="orders">
-                <table class="table">
-                    <thead>
-                        <tr class="thead-row">
-                            <th style="border-radius: 0 10px 10px 0;"> المنتج </th>
-                            <th> تاريخ الشراء </th>
-                            <th> تاريخ طلب الإرجاع </th>
-                            <th style="border-radius: 10px 0 0 10px;"> الحالة </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="tbody-row">
-                            <td>
-                                <div class="product_data">
-                                    <div>
-                                        <img src="<?php echo $uploads ?>product.png" alt="">
-                                    </div>
-                                    <div>
-                                        <h3>شجيرة التيكوما</h3>
-                                        <span>87.00 ر.س</span>
-                                    </div>
+                <div class="row">
+                    <div>
+                        <div class="orders_head">
+                            <p> المنتج </p>
+                            <p> تاريخ الشراء </p>
+                            <p> تاريخ طلب الإرجاع </p>
+                            <p> الحالة </p>
+                        </div>
+                        <div class="order_data">
+                            <div class="product_data">
+                                <div>
+                                    <img src="<?php echo $uploads ?>product.png" alt="">
                                 </div>
-                            </td>
-                            <td>
-                                <div class="buy_date">
-                                    <img src="<?php echo $uploads ?>calendar.svg" alt="">
-                                    <span> 19 أبريل 2023</span>
+                                <div>
+                                    <h3>شجيرة التيكوما</h3>
+                                    <span>87.00 ر.س</span>
                                 </div>
-                            </td>
-                            <td>
-                                <div class="buy_date">
-                                    <img src="<?php echo $uploads ?>calendar.svg" alt="">
-                                    <span> 19 أبريل 2023</span>
-                                </div>
-                            </td>
-                            <td>
+                            </div>
+                            <div class="buy_date">
+                                <img src="<?php echo $uploads ?>calendar.svg" alt="">
+                                <span> 19 أبريل 2023</span>
+                            </div>
+                            <div class="buy_date">
+                                <img src="<?php echo $uploads ?>calendar.svg" alt="">
+                                <span> 19 أبريل 2023</span>
+                            </div>
+                            <div>
                                 <p class="status">تم تنفيذ الطلب</p>
-                            </td>
-                        </tr>
-                        <span style="display: block; margin-bottom:15px"></span>
-                        <tr>
-                            <td>
-                                <div class="product_data">
-                                    <div>
-                                        <img src="<?php echo $uploads ?>product.png" alt="">
-                                    </div>
-                                    <div>
-                                        <h3>شجيرة التيكوما</h3>
-                                        <span>87.00 ر.س</span>
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="order_data">
+                            <div class="product_data">
+                                <div>
+                                    <img src="<?php echo $uploads ?>product.png" alt="">
                                 </div>
-                            </td>
-                            <td>
-                                <div class="buy_date">
-                                    <img src="<?php echo $uploads ?>calendar.svg" alt="">
-                                    <span> 19 أبريل 2023</span>
+                                <div>
+                                    <h3>شجيرة التيكوما</h3>
+                                    <span>87.00 ر.س</span>
                                 </div>
-                            </td>
-                            <td>
-                                <div class="buy_date">
-                                    <img src="<?php echo $uploads ?>calendar.svg" alt="">
-                                    <span> 19 أبريل 2023</span>
+                            </div>
+                            <div class="buy_date">
+                                <img src="<?php echo $uploads ?>calendar.svg" alt="">
+                                <span> 19 أبريل 2023</span>
+                            </div>
+                            <div class="buy_date">
+                                <img src="<?php echo $uploads ?>calendar.svg" alt="">
+                                <span> 19 أبريل 2023</span>
+                            </div>
+                            <div>
+                                <p class="status"> جاري تنفيذ الطلب ... </p>
+                            </div>
+                        </div>
+                        <div class="order_data">
+                            <div class="product_data">
+                                <div>
+                                    <img src="<?php echo $uploads ?>product.png" alt="">
                                 </div>
-                            </td>
-                            <td>
+                                <div>
+                                    <h3>شجيرة التيكوما</h3>
+                                    <span>87.00 ر.س</span>
+                                </div>
+                            </div>
+                            <div class="buy_date">
+                                <img src="<?php echo $uploads ?>calendar.svg" alt="">
+                                <span> 19 أبريل 2023</span>
+                            </div>
+                            <div class="buy_date">
+                                <img src="<?php echo $uploads ?>calendar.svg" alt="">
+                                <span> 19 أبريل 2023</span>
+                            </div>
+                            <div>
                                 <p class="status">تم تنفيذ الطلب</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="not_found_orders">
+                <div class="info">
+                    <img src="<?php echo $uploads ?>plant.png" alt="">
+                    <h3>لا يوجد طلبات إرجاع</h3>
+                </div>
             </div>
         </div>
     </div>

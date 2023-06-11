@@ -1781,40 +1781,49 @@ body {
     margin-top: 20px;
 }
 
-.retrun_orders .orders thead {}
+.retrun_orders .orders {}
 
-.retrun_orders .orders thead tr {
+.retrun_orders .orders .orders_head {
     background-color: var(--second-color);
     color: #fff;
     border-radius: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 55px;
+    padding-top: 13px;
 }
 
-.retrun_orders .orders thead tr th {
-    padding: 14px; 
-        font-size: 16px;
-        font-weight: normal;
+
+
+.retrun_orders .orders {}
+
+.retrun_orders .orders .order_data {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    margin-top: 10px;
+    padding: 12px;
+    border-radius: 13px;
 }
 
-.retrun_orders .orders tbody {}
- 
-.retrun_orders .orders tbody tr.d-table-row {
-    display: table-row;
-    margin-bottom: 20px;
-}
 
-.retrun_orders .orders tbody .product_data {
+.retrun_orders .orders .product_data {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+
 }
-.table tbody>.tbody-row {
-    margin-bottom: 20px;
-    /* أي تنسيقات إضافية للـ <tr> في <tbody> فقط */
-}
-.retrun_orders .orders tbody .product_data img {
+
+.retrun_orders .orders tr {}
+
+.retrun_orders .orders .product_data img {
     border: 2px solid #D6E0DF;
     border-radius: 10px;
-    width: 90px;
-    height: 90px;
+    width: 75px;
+    height: 75px;
     margin-left: 15px;
 }
 
@@ -1841,8 +1850,16 @@ body {
 .retrun_orders .orders .buy_date span {}
 
 .retrun_orders .orders p.status {
-    margin-top:30px;
+    margin-top: 30px;
     color: var(--second-color);
-}
-
+} 
+.retrun_orders .not_found_orders .info{
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border: none;;
+ }
 /******************************* END RETUN ORDERS Page ***************************/
