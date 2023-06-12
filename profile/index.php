@@ -69,7 +69,7 @@ include 'init.php';
                     </a>
                 </div>
                 <div class="col-lg-3">
-                    <a href="#">
+                    <a href="../cart">
                         <div class="info">
                             <div>
                                 <img src="<?php echo $uploads ?>/profile_payment.svg" alt="">

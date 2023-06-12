@@ -17,7 +17,7 @@ include 'init.php';
         </div>
         <div class="carousel-inner">
 
-            <div class="carousel-item carousel-item1 active" style="backh">
+            <div class="carousel-item carousel-item1 active">
                 <div class="overlay"></div>
                 <div class="carousel-caption">
                     <h5>العناية بالنباتات المنزلية 1 </h5>

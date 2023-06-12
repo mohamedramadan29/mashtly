@@ -56,11 +56,12 @@ body {
 
 /* START NAVBAR  */
 .main_navbar {
-    position: sticky;
+  /*  position: sticky;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 99999;
+    */
 }
 
 /* START TOP HEADER */
@@ -1907,3 +1908,156 @@ border: 2px solid #5C8E00;
 }
 
 /******************************* END RETUN ORDERS Page ***************************/
+
+/******************************* START CARD PAGE *****************************/
+.cart{
+   
+}
+.cart .card_items{
+    position: relative;
+display: flex;
+justify-content: space-between;
+align-items: center;
+background-color: #FFFFFF9A;
+border: 2px solid #D6E0DF;
+border-radius: 10px;
+margin-bottom: 15px;
+}
+.cart .card_items .remove_item{
+    position: absolute;
+    top: 8px;
+    left: 5px;
+    width: 26px;
+    background: #A0B2B1;
+    height: 26px;
+    text-align: center;
+    line-height: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #fff;
+    transition: all 0.2s ease-in-out;
+}
+.cart .card_items .remove_item:hover{
+    background-color: red;
+}
+.cart .card_items .product_data{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 15px;
+}
+.cart .card_items .product_data .product_image{}
+.cart .card_items .product_data .product_image img{
+    max-width: 90px;
+    border: 2px solid #D6E0DF;
+border-radius: 10px;
+margin-left: 15px;
+}
+.cart .card_items .product_data .product_info{}
+.cart .card_items .product_data .product_info h3{
+    color: #1B1B1B;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.cart .card_items .product_data .product_info .item_price{
+    color: #ACC288;
+    font-size: 13px;
+    margin-bottom: 9px;
+}
+.cart .card_items .product_data .product_info .item_price span{
+    font-weight: bold;
+    color: var(--second-color);
+}
+.cart .card_items .product_data .product_info .add_fav{
+    font-size: 14px;
+    color: var(--main-color);
+}
+.cart .card_items .product_data .product_info .add_fav img{
+    max-width: 18px;
+    margin-left: 5px;
+}
+.cart .card_items .product_data .product_info .img{}
+.cart .card_items .product_num{
+    margin-top: 15px;
+}
+.cart .card_items .product_num form{}
+.cart .card_items .product_num .counter{
+    text-align: center;
+    border: 2px solid var(--second-color);
+    border-radius: 35px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-around;
+    max-width: 146px;
+}
+.cart .card_items .product_num .counter img{}
+.cart .card_items .product_num .counter .count_number{
+    color: var(--second-color);
+}
+
+.cart .card_items .product_num p{
+    font-size: 12px;
+    margin-top: 10px;
+    color: #ACC288;
+}
+.cart .card_items .product_num p span{
+    color: var(--main-color);
+    font-weight: bold;
+}
+.cart .card_items .services{
+    border-right: 2px solid #ccc;
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-top: 15px;
+    width: 32%;
+}
+.cart .card_items .services form{}
+.cart .card_items .services form .form-check{}
+.cart .card_items .services form .form-check input{
+    width: 25px;
+    height: 25px;
+    margin-left: 15px;
+    box-shadow: none;
+}
+.cart .card_items .services form .form-check input:checked{
+    background-color: var(--second-color);
+    border-color: var(--second-color);
+}
+.cart .card_items .services form .form-check label{
+    color: #1b1b1b;
+    font-size: 15px;
+    font-weight: 600;
+}
+.cart .card_items .services form p{
+    color: #8F918F;
+    font-size: 14px;
+    margin-top: 3px;
+}
+.cart .card_items .services form p a{
+    text-decoration: underline;
+    color: var(--second-color);
+}
+.cart .card_items .services .gift{
+    display: flex;
+    justify-content: right;
+}
+.cart .card_items .services .gift .image{
+}
+.cart .card_items .services .gift .image img{
+    width: 50px;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+.cart .card_items .services .gift .gift_info{}
+.cart .card_items .services .gift .gift_info h3{
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+.cart .card_items .services .gift .gift_info p{
+    color: #8F918F;
+    font-size: 12px;
+}
+/********************************* END CARD PAGE ****************************/
