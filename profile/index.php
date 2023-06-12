@@ -95,7 +95,7 @@ include 'init.php';
                     </a>
                 </div>
                 <div class="col-lg-3">
-                    <a href="#">
+                    <a href="change_password">
                         <div class="info">
                             <div>
                                 <img src="<?php echo $uploads ?>/profile_payment.svg" alt="">
@@ -108,7 +108,7 @@ include 'init.php';
                     </a>
                 </div>
                 <div class="col-lg-3">
-                    <a href="#">
+                    <a href="edit_data">
                         <div class="info">
                             <div>
                                 <img src="<?php echo $uploads ?>/profile_payment.svg" alt="">

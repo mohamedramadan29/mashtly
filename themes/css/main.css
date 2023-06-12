@@ -1706,6 +1706,15 @@ body {
     margin-top: 15px;
     margin-bottom: 15px;
     width: 48%;
+    position: relative;
+}
+
+.add_new_address form .input_box .show_eye {
+    position: absolute;
+    top: 60%;
+    left: 20px;
+    color: var(--second-color);
+    cursor: pointer;
 }
 
 @media (max-width:991px) {
@@ -2293,3 +2302,17 @@ body {
 }
 
 /********************************* END FAVORITE  PAGE ************************/
+
+/******************************** START CHANGE PASSWORD PAGE **************/
+.add_new_address form ul {
+    
+}
+.add_new_address form ul li{
+    font-size: 14px;
+    margin-top: 10px;
+    color: #A0B2B1;
+}
+.add_new_address form ul li img{
+    width: 12px;
+}
+/******************************** END CHANGE PASSWORD PAGE ****************/
