@@ -2554,24 +2554,29 @@ body {
     border-color: var(--second-color);
     box-shadow: none;
 }
-.select_plants .brach_cat .global_button{
+
+.select_plants .brach_cat .global_button {
     display: none;
 }
-@media (max-width:991px){
-    .select_plants .data_header{
+
+@media (max-width:991px) {
+    .select_plants .data_header {
         justify-content: start;
         align-items: start;
         flex-direction: column;
     }
-    .select_plants .data_header .search_types{
+
+    .select_plants .data_header .search_types {
         display: flex;
     }
-    .select_plants .brach_cat .global_button{
+
+    .select_plants .brach_cat .global_button {
         padding: 10px 10px;
         margin-left: 15px;
         display: block;
     }
-    .select_plants .all_cat{
+
+    .select_plants .all_cat {
         display: none;
     }
 }
@@ -2676,7 +2681,8 @@ body {
         display: inline-block;
         width: 35px;
     }
-    .select_plan_head .data .head{
+
+    .select_plan_head .data .head {
         padding-right: 5px;
         padding-left: 5px;
     }
@@ -2684,3 +2690,149 @@ body {
 }
 
 /************************** END SELECT PLAN ********************/
+
+
+/************************* START ORDER TRACKING PAGE **********/
+.order_tracking {
+    background-color: #fff;
+    border: 2px solid #D6E0DF;
+    border-radius: 25px;
+}
+
+.order_tracking .data {
+    display: flex;
+    border-bottom: 1px solid #D6E0DF;
+    padding: 10px;
+}
+
+.order_tracking .data div {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.order_tracking .data div:nth-of-type(2) {
+    margin-right: 40px;
+}
+
+.order_tracking .data p {
+    font-size: 13px;
+    color: #6D6E70;
+}
+
+.order_tracking .data h4 {
+    color: #1b1b1b;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.order_tracking .order_steps {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 35px;
+}
+
+@media (max-width:991px) {
+    .order_tracking .order_steps {
+        flex-direction: column;
+    }
+}
+
+.order_tracking .order_steps .step {
+    margin-top: 10px;
+    text-align: center;
+    position: relative;
+    width: 24%;
+}
+
+.order_tracking .order_steps .step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 10%;
+    left: -51%;
+    width: calc(100% - 7px);
+    height: 2px;
+    border: 1px dashed #A0B2B1;
+    transform: translateY(-50%);
+}
+
+.order_tracking .order_steps .step.active:not(:last-child)::after {
+    border: 1px solid var(--second-color);
+}
+
+.order_tracking .order_steps .step span {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-color: #A0B2B1;
+    border-radius: 50%;
+    margin: auto;
+    margin-bottom: 15px;
+}
+
+.order_tracking .order_steps .step.active span {
+    background-color: var(--second-color);
+}
+
+.order_tracking .order_steps .step.active p,
+.order_tracking .order_steps .step.active h3 {
+    color: var(--second-color);
+}
+
+.order_tracking .order_steps .step h3 {
+    color: #A0B2B1;
+    font-size: 16px;
+}
+
+.order_tracking .order_steps .step p {
+    color: #A0B2B1;
+}
+
+.order_tracking .order_buttons div {
+    display: flex;
+    justify-content: end;
+    padding: 30px;
+}
+
+.order_tracking .order_buttons .cancel_button {
+    border: 2px solid var(--second-color);
+    color: var(--second-color);
+    background-color: transparent;
+    margin-left: 20px;
+}
+
+@media (max-width:991px) {
+    .order_tracking .order_steps {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .order_tracking .order_steps .step {
+        display: flex;
+        width: 80%;
+    }
+
+    .order_tracking .order_steps .step div {
+        width: 80%;
+        text-align: right;
+    }
+
+    .order_tracking .order_steps .step:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        top: 121%;
+        right: 9.8%;
+        height: calc(100% - 7px);
+        width: 2px;
+        border: 1px dashed #A0B2B1;
+        transform: translateY(-50%);
+    }
+
+    .order_tracking .order_steps .step p,
+    .order_tracking .order_steps .step h3 {
+        font-size: 14px;
+    }
+    .order_tracking .order_buttons .cancel_button{
+        font-size: 13px;
+    }
+}

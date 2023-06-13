@@ -22,8 +22,7 @@ include 'init.php';
                             <input type="text" placeholder="البحث برقم الطلب…" class='form-control'>
                         </div>
                         <div class="input_box">
-                            <button class="btn global_button" name="search_order" type='submit'> <img
-                                    src="<?php echo $uploads; ?>order_search.svg" alt=""> بحث </button>
+                            <button class="btn global_button" name="search_order" type='submit'> <img src="<?php echo $uploads; ?>order_search.svg" alt=""> بحث </button>
                         </div>
                     </form>
                 </div>
@@ -51,8 +50,7 @@ include 'init.php';
                                 <p> 280 ر. س </p>
                             </div>
                             <div class="total_invoice">
-                                <a href="#" class="btn global_button"> طباعة الفاتورة <img
-                                        src="<?php echo $uploads ?>print.svg" alt=""> </a>
+                                <a href="#" class="btn global_button"> طباعة الفاتورة <img src="<?php echo $uploads ?>print.svg" alt=""> </a>
                             </div>
                         </div>
                     </div>
@@ -68,7 +66,7 @@ include 'init.php';
                                 </div>
                             </div>
                             <div class='order_status'>
-                                <a href="#" class='btn global_button'> تتبع الطرد </a>
+                                <a href="order_tracking" class='btn global_button'> تتبع الطرد </a>
                             </div>
                         </div>
                         <div class="body_data">
@@ -82,7 +80,7 @@ include 'init.php';
                                 </div>
                             </div>
                             <div class='order_status'>
-                                <a href="#" class='btn global_button'> تتبع الطرد </a>
+                                <a href="order_tracking" class='btn global_button'> تتبع الطرد </a>
                             </div>
                         </div>
                     </div>
@@ -112,8 +110,7 @@ include 'init.php';
                                 <p> 280 ر. س </p>
                             </div>
                             <div class="total_invoice">
-                                <a href="#" class="btn global_button"> طباعة الفاتورة <img
-                                        src="<?php echo $uploads ?>print.svg" alt=""> </a>
+                                <a href="#" class="btn global_button"> طباعة الفاتورة <img src="<?php echo $uploads ?>print.svg" alt=""> </a>
                             </div>
                         </div>
                     </div>
@@ -143,7 +140,7 @@ include 'init.php';
                                 </div>
                             </div>
                             <div class='order_status'>
-                                   <p> تم التوصيل في: <span>5 أبريل 2023</span> </p>
+                                <p> تم التوصيل في: <span>5 أبريل 2023</span> </p>
                                 <a href="#" class='btn global_button return_product'>
                                     إرجاع المنتج </a>
                             </div>
