@@ -50,10 +50,29 @@
     });
 
   });
-    $('.options input[type="checkbox"]').change(function () {
-      var selectedOption = $(this).siblings('label').text().trim();
-      var icon = '<i class="fa fa-check"></i>'; // Replace with the desired icon class
-      $('.selected_search').html(selectedOption + ' ' + icon);
+  $('.options input[type="checkbox"]').change(function () {
+    var selectedOption = $(this).siblings('label').text().trim();
+    var icon = '<i class="fa fa-check"></i>'; // Replace with the desired icon class
+    $('.selected_search').html(selectedOption + ' ' + icon);
+  });
+
+  // select bracnhese in barch button
+
+  $(document).ready(function () {
+    var optionsVisiblebrach = false;
+
+    $('#brach_orders').click(function (event) {
+      event.stopPropagation(); // Prevent the event from bubbling up to the document
+      $(".select_plants .all_cat").toggle();
+      optionsVisiblebrach = !optionsVisiblebrach;
     });
 
-  })(jQuery);
+    $(document).click(function (event) {
+      if (!$(event.target).closest('.all_cat').length && optionsVisiblebrach) {
+        $(".select_plants .all_cat").hide();
+        optionsVisiblebrach = false;
+      }
+    });
+
+  });
+})(jQuery);

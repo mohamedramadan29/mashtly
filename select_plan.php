@@ -29,39 +29,44 @@ include 'init.php';
                     <h2 class='header2'> النباتات </h2>
                     <p> اجمالي نتائج البحث:<span> 1110 </span> </p>
                 </div>
-                <div class="search">
-                    <button class="global_button btn" id="search_orders"> رتب حسب: <span class="selected_search"> السعر من الاعلي الي الاقل </span> </button>
-                    <div class="options">
-                        <form action="">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheck1">
-                                <label class="form-check-label" for="flexCheck1">
-                                    السعر من الاعلي الي الاقل
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheck2">
-                                <label class="form-check-label" for="flexCheck2">
-                                    السعر من الاقل الي الاعلي
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheck3">
-                                <label class="form-check-label" for="flexCheck3">
-                                    الأكثر شعبية
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheck4">
-                                <label class="form-check-label" for="flexCheck4">
-                                    الأعلي تقييما
-                                </label>
-                            </div>
-                            <!-- Add more options here -->
-                        </form>
+                <div class="search_types">
+                    <div class="brach_cat">
+                        <button class="global_button btn" id="brach_orders"> <img src="<?php echo $uploads ?>filter.png" alt=""> تصنيف حسب </button>
                     </div>
-                </div>
+                    <div class="search">
+                        <button class="global_button btn" id="search_orders"> رتب حسب: <span class="selected_search"> ----- </span> </button>
+                        <div class="options">
+                            <form action="">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheck1">
+                                    <label class="form-check-label" for="flexCheck1">
+                                        السعر من الاعلي الي الاقل
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheck2">
+                                    <label class="form-check-label" for="flexCheck2">
+                                        السعر من الاقل الي الاعلي
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheck3">
+                                    <label class="form-check-label" for="flexCheck3">
+                                        الأكثر شعبية
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheck4">
+                                    <label class="form-check-label" for="flexCheck4">
+                                        الأعلي تقييما
+                                    </label>
+                                </div>
+                                <!-- Add more options here -->
+                            </form>
+                        </div>
+                    </div>
 
+                </div>
             </div>
             <div class="row">
                 <div class="col-lg-2">
@@ -672,7 +677,7 @@ include 'init.php';
                 </div>
                 <div class="col-lg-10">
                     <div class="row">
-                        <div class="col-lg-3">
+                        <div class="col-lg-3 col-6">
                             <div class="product_info">
                                 <img class="main_image" src="uploads/product.png" alt="">
                                 <div class="product_details">
@@ -690,7 +695,7 @@ include 'init.php';
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-3 col-6">
                             <div class="product_info">
                                 <img class="main_image" src="uploads/product.png" alt="">
                                 <div class="product_details">
@@ -708,7 +713,7 @@ include 'init.php';
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-3 col-6">
                             <div class="product_info">
                                 <img class="main_image" src="uploads/product.png" alt="">
                                 <div class="product_details">
@@ -726,7 +731,7 @@ include 'init.php';
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-3 col-6">
                             <div class="product_info">
                                 <img class="main_image" src="uploads/product.png" alt="">
                                 <div class="product_details">
@@ -744,7 +749,7 @@ include 'init.php';
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-3 col-6">
                             <div class="product_info">
                                 <img class="main_image" src="uploads/product.png" alt="">
                                 <div class="product_details">
@@ -762,7 +767,7 @@ include 'init.php';
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-3 col-6">
                             <div class="product_info">
                                 <img class="main_image" src="uploads/product.png" alt="">
                                 <div class="product_details">
@@ -780,7 +785,7 @@ include 'init.php';
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-3 col-6">
                             <div class="product_info">
                                 <img class="main_image" src="uploads/product.png" alt="">
                                 <div class="product_details">
@@ -798,7 +803,7 @@ include 'init.php';
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-3 col-6">
                             <div class="product_info">
                                 <img class="main_image" src="uploads/product.png" alt="">
                                 <div class="product_details">
@@ -816,7 +821,7 @@ include 'init.php';
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-3 col-6">
                             <div class="product_info">
                                 <img class="main_image" src="uploads/product.png" alt="">
                                 <div class="product_details">
@@ -834,7 +839,7 @@ include 'init.php';
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-3 col-6">
                             <div class="product_info">
                                 <img class="main_image" src="uploads/product.png" alt="">
                                 <div class="product_details">
@@ -852,7 +857,7 @@ include 'init.php';
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-3 col-6">
                             <div class="product_info">
                                 <img class="main_image" src="uploads/product.png" alt="">
                                 <div class="product_details">
@@ -870,7 +875,7 @@ include 'init.php';
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-3 col-6">
                             <div class="product_info">
                                 <img class="main_image" src="uploads/product.png" alt="">
                                 <div class="product_details">
