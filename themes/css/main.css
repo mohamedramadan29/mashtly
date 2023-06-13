@@ -1748,7 +1748,9 @@ body {
     padding-right: 20px;
     box-shadow: none;
 }
-
+.add_new_address form .input_box input[type='email']{
+    direction: rtl;
+}
 .add_new_address form .input_box input:focus,
 .add_new_address form .input_box select:focus {
     border: 2px solid #5C8E00;
@@ -2835,4 +2837,13 @@ body {
     .order_tracking .order_buttons .cancel_button{
         font-size: 13px;
     }
+}
+
+.data_header_name p{
+    color: #8F918F;
+}
+.forget_button{
+    margin: auto;
+    display: block;
+    width: 100%;
 }
