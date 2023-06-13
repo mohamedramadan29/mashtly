@@ -24,7 +24,7 @@ body {
     text-decoration: none;
     font-size: 14px;
     padding: 10px 25px;
-    box-shadow: none;
+    box-shadow: none !important;
     outline: none;
 }
 
@@ -35,7 +35,7 @@ body {
 .header2 {
     position: relative;
     color: #1B1B1B;
-    font-size: 25px;
+    font-size: 22px;
     font-weight: bold;
 }
 
@@ -749,14 +749,25 @@ body {
     padding: 7px 25px;
 }
 
+.new_producs .products .product_info .product_details .add_cart .global_button img,
+.index_all_cat .product_info .product_details .add_cart .global_button img {
+    width: 19px;
+}
+
 .new_producs .products .product_info .product_details .add_cart .heart,
 .index_all_cat .product_info .product_details .add_cart .heart {
     border: 2px solid var(--second-color);
     border-radius: 50%;
     width: 35px;
     height: 35px;
-    line-height: 35px;
+    line-height: 30px;
     text-align: center;
+    cursor: pointer;
+}
+
+.new_producs .products .product_info .product_details .add_cart .heart img,
+.index_all_cat .product_info .product_details .add_cart .heart img {
+    width: 19px;
 }
 
 .products .slick-prev {
@@ -2403,3 +2414,170 @@ body {
 }
 
 /*************************** END PAYMENT POLICY *******************/
+
+/************************** START SELECT PLAN ********************/
+.select_plan_head {
+    background: #CDE3D3;
+
+}
+
+.select_plan_head .data {}
+
+.select_plan_head .data .head {
+    padding: 30px;
+    text-align: center;
+}
+
+.select_plan_head .data .head h2 {
+    display: inline-block;
+    font-size: 23px;
+    font-weight: bold;
+    padding-top: 15px;
+}
+
+.select_plan_head .data .head img {
+    display: inline-block;
+}
+
+.select_plan_head .data .head p {
+    color: var(--main-color);
+    font-size: 14px;
+    line-height: 1.9;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.select_plants .data_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.select_plants .data_header_name p {
+    color: #797979;
+    font-size: 13px;
+}
+
+.select_plants .data_header_name p span {
+    font-weight: bold;
+}
+
+.select_plants .data {
+    box-shadow: none;
+}
+
+.select_plants .all_cat {}
+
+.select_plants .all_cat .search_one {}
+
+.select_plants .all_cat .search_one h4 {
+    color: var(--main-color);
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #dbdbdb;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.select_plants .all_cat .search_one h4 i {
+    color: #A0B2B1;
+    font-size: 12px;
+}
+
+.select_plants .all_cat .search_one .options {
+    margin-top: 15px;
+    display: none;
+}
+
+.select_plants .all_cat .search_one .options .form-check {
+    margin-top: 10px;
+}
+
+.select_plants .all_cat .search_one .options .form-check input {
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.select_plants .all_cat .search_one .options .form-check input:checked {
+    background-color: #8F918F;
+    border-color: #8F918F;
+}
+
+.select_plants .all_cat .search_one .options .form-check label {
+    color: #8F918F;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.pagination_section {
+    display: block;
+    margin-top: 20px;
+}
+
+.pagination_section .pagination {
+    justify-content: center;
+}
+
+.pagination_section .pagination .page-item {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.pagination_section .pagination .page-item .page-link {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    color: #A0B2B1;
+}
+
+.pagination_section .pagination .page-item .page-link.active {
+    background-color: var(--second-color);
+    color: #fff;
+}
+
+.pagination_section .pagination .page-item .page-link:hover {
+    background-color: var(--second-color);
+    color: #fff;
+}
+
+.select_plants .search {}
+
+.select_plants .search .global_button {
+    min-width: 250px;
+    background: transparent;
+    color: var(--second-color);
+    border-color: var(--second-color);
+    box-shadow: none;
+}
+
+.select_plants .search .options {
+    background-color: #fff;
+    border: 2px solid #D6E0DF;
+    border-radius: 15px 15px 20px 20px;
+    display: none;
+    position: absolute;
+    width: 250px;
+    
+}
+.select_plants .search .options .form-check{
+    transition: all 0.3s ease-in-out;
+}
+.select_plants .search .options .form-check:hover{
+    background-color:#E5F1E5;
+}
+.select_plants .search .options input {
+    display: none;
+}
+
+.select_plants .search .options label {
+    color: #1b1b1b;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    cursor: pointer;
+} 
+/************************** END SELECT PLAN ********************/
