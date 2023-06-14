@@ -67,7 +67,7 @@ include 'init.php';
                 </div>
             </div>
             <div class="map">
-                <img src="<?php echo $uploads ?>header1.png" alt="">
+                <img src="<?php echo $uploads ?>map.png" alt="">
             </div>
         </div>
         <div class="purches_header">

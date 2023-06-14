@@ -816,11 +816,23 @@ body {
 }
 
 .planets_require_index .data {
-    background-image: url(../../uploads/plants_req.svg);
+    background-image: url(../../uploads/background.svg);
     background-size: cover;
     background-position: center;
     padding: 50px;
     height: 200px;
+    padding-right: 200px;
+}
+.planets_require_index .data h2{
+     color: var(--main-color);
+     font-weight: bold;
+     font-size: 25px;
+     margin-bottom: 20px;
+}
+.planets_require_index .data a{
+    background-color: transparent;
+    color: var(--second-color);
+    border-color: var(--second-color);
 }
 
 /* END PLANTES REQUIREMENT INDEX*/
@@ -1373,7 +1385,7 @@ body {
 
 .profile_page .data .info img {
     margin-left: 14px;
-    width: 75px;
+    width: 55px;
     margin-right: 10px;
 }
 

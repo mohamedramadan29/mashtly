@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="85" height="85" viewBox="0 0 85 85">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.298" y1="0.411" x2="0.936" y2="0.721" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#acc288" stop-opacity="0"/>
+      <stop offset="1" stop-color="#b0c18e" stop-opacity="0.412"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_24759" data-name="Group 24759" transform="translate(-1476 -371)">
+    <circle id="Ellipse_676" data-name="Ellipse 676" cx="42.5" cy="42.5" r="42.5" transform="translate(1561 371) rotate(90)" fill="url(#linear-gradient)"/>
+    <path id="boxes" d="M17.937,17.358h4.629v2.314H17.937ZM27.773,16.2V27.773H0V16.2a3.476,3.476,0,0,1,3.472-3.472H5.786V3.472A3.476,3.476,0,0,1,9.258,0h9.258a3.476,3.476,0,0,1,3.472,3.472v9.258H24.3A3.476,3.476,0,0,1,27.773,16.2ZM8.1,12.729H19.673V3.472a1.158,1.158,0,0,0-1.157-1.157H9.258A1.158,1.158,0,0,0,8.1,3.472ZM2.314,25.459H12.729V15.044H3.472A1.158,1.158,0,0,0,2.314,16.2ZM25.459,16.2A1.158,1.158,0,0,0,24.3,15.044H15.044V25.459H25.459ZM5.208,17.358v2.314H9.836V17.358ZM11.572,6.943H16.2V4.629H11.572Z" transform="translate(1505.113 400.113)" fill="#8ebf2d"/>
+  </g>
+</svg>

@@ -211,10 +211,9 @@ include 'init.php';
 <div class='planets_require_index'>
     <div class="container">
         <div class="data">
-            <!--
+            
             <h2> مستلزمات العناية بنباتاتك  </h2>
-            <a href="" class="btn"> تصفح جميع المستلزمات  </a>
--->
+            <a href="" class="btn global_button">  تصفح جميع المستلزمات <img src="<?php echo $uploads ?>left.svg" alt=""> </a>
         </div>
     </div>
 </div>
@@ -851,7 +850,7 @@ include 'init.php';
                 </div>
                 <div class='col-lg-3'>
                     <div class="info">
-                        <img src="uploads/to_home.svg" alt="">
+                        <img src="uploads/to_home2.svg" alt="">
                         <h4> التوصيل الى المنزل </h4>
                         <p> حاليا داخل الرياض فقط </p>
                     </div>

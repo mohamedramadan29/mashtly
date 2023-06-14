@@ -20,7 +20,7 @@ include 'init.php';
                     <a href="purchase">
                         <div class="info">
                             <div>
-                                <img src="<?php echo $uploads ?>/profile_payment.svg" alt="">
+                                <img src="<?php echo $uploads ?>/purches.svg" alt="">
                             </div>
                             <div>
                                 <h3> مشترياتي </h3>
@@ -33,7 +33,7 @@ include 'init.php';
                     <a href="address">
                         <div class="info">
                             <div>
-                                <img src="<?php echo $uploads ?>/profile_payment.svg" alt="">
+                                <img src="<?php echo $uploads ?>/address.svg" alt="">
                             </div>
                             <div>
                                 <h3> عناويني </h3>
@@ -46,7 +46,7 @@ include 'init.php';
                     <a href="return_orders">
                         <div class="info">
                             <div>
-                                <img src="<?php echo $uploads ?>/profile_payment.svg" alt="">
+                                <img src="<?php echo $uploads ?>/return.svg" alt="">
                             </div>
                             <div>
                                 <h3> الإرجاع </h3>
@@ -72,7 +72,7 @@ include 'init.php';
                     <a href="../cart">
                         <div class="info">
                             <div>
-                                <img src="<?php echo $uploads ?>/profile_payment.svg" alt="">
+                                <img src="<?php echo $uploads ?>/cart.svg" alt="">
                             </div>
                             <div>
                                 <h3> سلة الشراء </h3>
@@ -85,7 +85,7 @@ include 'init.php';
                     <a href="favorite">
                         <div class="info">
                             <div>
-                                <img src="<?php echo $uploads ?>/profile_payment.svg" alt="">
+                                <img src="<?php echo $uploads ?>/heart_profile.svg" alt="">
                             </div>
                             <div>
                                 <h3> المفضلة </h3>
@@ -98,7 +98,7 @@ include 'init.php';
                     <a href="change_password">
                         <div class="info">
                             <div>
-                                <img src="<?php echo $uploads ?>/profile_payment.svg" alt="">
+                                <img src="<?php echo $uploads ?>/change.svg" alt="">
                             </div>
                             <div>
                                 <h3> تغيير كلمة المرور </h3>
@@ -111,7 +111,7 @@ include 'init.php';
                     <a href="edit_data">
                         <div class="info">
                             <div>
-                                <img src="<?php echo $uploads ?>/profile_payment.svg" alt="">
+                                <img src="<?php echo $uploads ?>/edit_data.svg" alt="">
                             </div>
                             <div>
                                 <h3> تعديل بياناتي </h3>
