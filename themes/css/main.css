@@ -1741,23 +1741,30 @@ body {
 }
 
 .add_new_address form .input_box input,
-.add_new_address form .input_box select {
+.add_new_address form .input_box select,
+.add_new_address form .input_box textarea {
     border: 2px solid #D1D3D4;
     border-radius: 35px;
     padding: 10px;
     padding-right: 20px;
     box-shadow: none;
 }
-.add_new_address form .input_box input[type='email']{
+.add_new_address form .input_box textarea {
+    height: 180px;
+    border-radius: 10px;
+}
+.add_new_address form .input_box input[type='email'] {
     direction: rtl;
 }
+
 .add_new_address form .input_box input:focus,
 .add_new_address form .input_box select:focus {
     border: 2px solid #5C8E00;
 }
 
 .add_new_address form .input_box input::placeholder,
-.add_new_address form .input_box select::placeholder {
+.add_new_address form .input_box select::placeholder,
+.add_new_address form .input_box textarea::placeholder {
     color: #A0B2B1;
 }
 
@@ -2834,16 +2841,258 @@ body {
     .order_tracking .order_steps .step h3 {
         font-size: 14px;
     }
-    .order_tracking .order_buttons .cancel_button{
+
+    .order_tracking .order_buttons .cancel_button {
         font-size: 13px;
     }
 }
 
-.data_header_name p{
+.data_header_name p {
     color: #8F918F;
 }
-.forget_button{
+
+.forget_button {
     margin: auto;
     display: block;
     width: 100%;
 }
+
+/****************************** START FAQ PAGE ***********************/
+.faqs {
+    margin-top: 10px;
+}
+
+.faqs .faq {
+    background: #fff;
+    box-shadow: 0px 0px 28px #0000001A;
+    border-radius: 10px;
+    position: relative;
+    text-align: center;
+    padding: 20px;
+}
+
+.faqs .faq a {
+    text-decoration: none;
+}
+
+.faqs .faq.active {
+    background: var(--second-color);
+}
+
+.faqs .faq.active::after {
+    content: '';
+    position: absolute;
+    bottom: -40px;
+    left: 46%;
+    border: 20px solid;
+    border-color: var(--second-color) transparent transparent transparent;
+}
+
+.faqs .faq img {
+    width: 45px;
+    margin-top: 20px;
+}
+
+.faqs .faq h2 {
+    color: var(--second-color);
+    font-size: 24px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.faqs .faq.active h2 {
+    color: #fff;
+}
+
+.question {
+    margin-top: 60px;
+}
+
+.question .ques_contact {}
+
+.question .ques_contact h2 {
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.question .ques_contact p {
+    color: #8F918F;
+    font-size: 14px;
+}
+
+.question .ques_contact a {
+    background-color: transparent;
+    color: var(--second-color);
+    border-color: var(--second-color);
+}
+
+.question .ques_contact .resposne {}
+
+.resposne .last_update {
+    display: block;
+    margin-bottom: 10px;
+    color: #707070;
+    font-size: 13px;
+}
+
+.question .accordion-item {
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+}
+
+.question .accordion-item:first-of-type .accordion-button {
+    border-radius: 10px;
+}
+
+.question .accordion-button {
+    border-radius: 10px;
+    outline: none;
+    box-shadow: none;
+}
+
+.accordion-button:not(.collapsed) {
+    color: #fff;
+    background-color: var(--second-color);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .125);
+}
+
+.accordion-button::after {
+    background-image: url("../../uploads/accord_button.svg");
+    background-size: 15px;
+}
+
+.accordion-button:not(.collapsed)::after {
+    background-image: url('../../uploads/accord_top.svg');
+    background-size: 15px;
+    transform: rotate(0deg);
+}
+
+@media (max-width:991px) {
+    .question .row {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .faqs .faq {
+        padding: 5px;
+    }
+
+    .faqs .faq img {
+        width: 28px;
+    }
+
+    .faqs .faq h2 {
+        font-size: 13px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .faqs .faq.active::after {
+        bottom: -30px;
+        left: 33%;
+        border: 15px solid;
+        border-color: var(--second-color) transparent transparent transparent;
+    }
+
+    .question .accordion-button {
+        font-size: 15px;
+    }
+
+    .question p {
+        font-size: 15px;
+        line-height: 1.9;
+    }
+
+    .question .ques_contact h2 {
+        margin-top: 30px;
+    }
+}
+
+/****************************** END FAQ PAGE ***********************/
+
+/**************************** START JOIN US PAGE ****************/
+.join_us {
+    margin-top: 60px;
+}
+
+.join_us p {
+    font-size: 14px;
+    color: var(--main-color);
+    line-height: 1.9;
+}
+
+.join_form {
+    background-color: #fff;
+    max-width: 50%;
+    margin: auto;
+    border-radius: 20px;
+    padding: 30px;
+    margin-top: 60px;
+}
+
+.join_form h2 {
+    font-size: 25px;
+    font-weight: bold;
+    color: #1b1b1b;
+    padding-top: 20px;
+}
+
+.join_form p {
+    color: #6D6E70;
+    font-size: 14px;
+}
+
+.join_form form .box {
+    display: block;
+}
+
+.join_form form .input_box {
+    width: 100%;
+}
+
+.join_form form .box button {}
+
+@media (max-width:991px) {
+    .join_form {
+        max-width: 100%;
+    }
+
+    .join_form form .box button {
+        display: block;
+        width: 100%;
+    }
+}
+
+/**************************** END JOIN US PAGE ****************/
+/************************** START CONTACT  PAGE ***************/
+.address {
+    margin-top: 50px;
+}
+
+.address .data {
+    border-top: 2px solid var(--second-color);
+    padding: 10px;
+}
+
+.address .data span {
+    color: #A0B2B1;
+    margin-top: 15px;
+    display: block;
+}
+
+.address .data h3 {
+    color: var(--second-color);
+    font-size: 20px;
+    margin-top: 15px;
+}
+.address .map{
+    margin-bottom: 60px;
+    margin-top: 20px;
+}
+.address .map img {
+    max-width: 100%;
+}
+
+/************************** END CONTACT PAGE ****************/
