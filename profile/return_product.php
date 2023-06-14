@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-$page_title = ' الأرجاع ';
+$page_title = ' إرجاع المنتجات ';
 include 'init.php';
 ?>
 <div class="profile_page retrun_orders">
@@ -10,96 +10,48 @@ include 'init.php';
         <div class="data">
             <div class="breadcrump">
                 <p> <a href="../index"> الرئيسية </a> \ <a href="index"> حسابي </a> \
-                    <span> الأرجاع </span>
+                    <span> إرجاع المنتجات </span>
                 </p>
             </div>
             <div class="purches_header">
                 <div class="data_header_name">
-                    <h2 class='header2'> الأرجاع </h2>
+                    <h2 class='header2'> إرجاع المنتجات </h2>
                 </div>
             </div>
-            <div class="orders">
-                <div class="row">
+            <div class="return_product">
+                <div class="product">
+                    <div class="image">
+                        <img src="<?php echo $uploads ?>product.png" alt="">
+                    </div>
                     <div>
-                        <div class="orders_head">
-                            <p> المنتج </p>
-                            <p> تاريخ الشراء </p>
-                            <p> تاريخ طلب الإرجاع </p>
-                            <p> الحالة </p>
-                        </div>
-                        <div class="order_data">
-                            <div class="product_data">
-                                <div>
-                                    <img src="<?php echo $uploads ?>product.png" alt="">
-                                </div>
-                                <div>
-                                    <h3>شجيرة التيكوما</h3>
-                                    <span>87.00 ر.س</span>
-                                </div>
-                            </div>
-                            <div class="buy_date">
-                                <img src="<?php echo $uploads ?>calendar.svg" alt="">
-                                <span> 19 أبريل 2023</span>
-                            </div>
-                            <div class="buy_date">
-                                <img src="<?php echo $uploads ?>calendar.svg" alt="">
-                                <span> 19 أبريل 2023</span>
-                            </div>
-                            <div>
-                                <p class="status">تم تنفيذ الطلب</p>
-                            </div>
-                        </div>
-                        <div class="order_data">
-                            <div class="product_data">
-                                <div>
-                                    <img src="<?php echo $uploads ?>product.png" alt="">
-                                </div>
-                                <div>
-                                    <h3>شجيرة التيكوما</h3>
-                                    <span>87.00 ر.س</span>
-                                </div>
-                            </div>
-                            <div class="buy_date">
-                                <img src="<?php echo $uploads ?>calendar.svg" alt="">
-                                <span> 19 أبريل 2023</span>
-                            </div>
-                            <div class="buy_date">
-                                <img src="<?php echo $uploads ?>calendar.svg" alt="">
-                                <span> 19 أبريل 2023</span>
-                            </div>
-                            <div>
-                                <p class="status"> جاري تنفيذ الطلب ... </p>
-                            </div>
-                        </div>
-                        <div class="order_data">
-                            <div class="product_data">
-                                <div>
-                                    <img src="<?php echo $uploads ?>product.png" alt="">
-                                </div>
-                                <div>
-                                    <h3>شجيرة التيكوما</h3>
-                                    <span>87.00 ر.س</span>
-                                </div>
-                            </div>
-                            <div class="buy_date">
-                                <img src="<?php echo $uploads ?>calendar.svg" alt="">
-                                <span> 19 أبريل 2023</span>
-                            </div>
-                            <div class="buy_date">
-                                <img src="<?php echo $uploads ?>calendar.svg" alt="">
-                                <span> 19 أبريل 2023</span>
-                            </div>
-                            <div>
-                                <p class="status">تم تنفيذ الطلب</p>
-                            </div>
-                        </div>
+                        <h2> شجيرة التيكوما </h2>
+                        <span> 87.00 ر.س </span>
                     </div>
                 </div>
-            </div>
-            <div class="not_found_orders">
-                <div class="info">
-                    <img src="<?php echo $uploads ?>plant.png" alt="">
-                    <h3>لا يوجد طلبات إرجاع</h3>
+                <div class="add_new_address">
+                    <form action="#" method="post">
+                        <div class='row'>
+                            <div class="box">
+                                <div class="input_box" style="width: 100%;">
+                                    <label for="country"> لماذا تريد إرجاع هذا المنتج؟ </label>
+                                    <select name="country" id="" class='form-control'>
+                                        <option value=""> اختر من القائمة </option>
+                                        <option value=""> مصر </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="box textarea">
+                                <div class="input_box" style="width: 100%;">
+                                    <label for="email"> أكتب سبب الإرجاع </label>
+                                    <textarea name="reason_contact" id="reason_contact" class="form-control" placeholder=" اكتب السبب… "></textarea>
+                                </div>
+                            </div>
+                            <div class="submit_buttons">
+                                <p> قم بإرجاع السلع قبل 19 مايو, 2023 </p>
+                                <button class="btn global_button"> قم بالإرجاع </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
