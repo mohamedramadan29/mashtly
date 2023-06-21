@@ -86,7 +86,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="#"> <img src="<?php echo $uploads ?>/home.svg" alt="">
+                      <a class="nav-link active" aria-current="page" href="index"> <img src="<?php echo $uploads ?>/home.svg" alt="">
                         الرئيسية </a>
                     </li>
                     <li class="nav-item dropdown">

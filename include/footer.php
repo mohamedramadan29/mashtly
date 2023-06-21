@@ -343,3 +343,20 @@
         });
     });
 </script>
+
+<script>
+    $(document).ready(function() {
+        $('.slider1').slick({
+            arrows: false,
+            asNavFor: '.slider2'
+        });
+
+        $('.slider2').slick({
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            asNavFor: '.slider1',
+            centerMode: true,
+            focusOnSelect: true
+        });
+    });
+</script>
