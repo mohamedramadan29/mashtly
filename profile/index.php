@@ -3,6 +3,8 @@ ob_start();
 session_start();
 $page_title = ' حسابي  ';
 include 'init.php';
+// get user data 
+
 ?>
 <div class="profile_page">
 

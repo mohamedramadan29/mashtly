@@ -13,3 +13,4 @@ $js = "themes/js/";
 $uploads = "uploads/";
 include $tem . "header.php";
 include $tem . "navbar.php";
+include 'global_functions.php';

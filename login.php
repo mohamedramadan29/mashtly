@@ -12,6 +12,32 @@ include 'init.php';
                 <p> <a href="../index"> الرئيسية </a> \ <span> تسجيل الدخول </span>
                 </p>
             </div>
+            <!-- Show Error Succes messages  -->
+            <?php
+            if (isset($_SESSION['success'])) {
+            ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?php echo $_SESSION['success'] ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <?php
+            } elseif (isset($_SESSION['error'])) {
+                foreach ($_SESSION['error'] as $error) {
+                ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <?php echo $error; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+            <?php
+                }
+            }
+            if (isset($_SESSION['error'])) {
+                unset($_SESSION['error']);
+            }
+            if (isset($_SESSION['success'])) {
+                unset($_SESSION['success']);
+            }
+            ?>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="add_new_address login_register">
@@ -21,18 +47,20 @@ include 'init.php';
                                 <p> سجل دخولك واحصل على أفضل النباتات المنزلية والحدائق الجميلة </p>
                             </div>
                         </div>
-                        <form action="#" method="post">
+                        <form action="login_controller" method="post">
                             <div class='row'>
                                 <div class='box'>
                                     <div class="input_box">
                                         <label for="name"> البريد الألكتروني او اسم المستخدم </label>
-                                        <input id="name" type="text" name="name" class='form-control' placeholder="اكتب…">
+                                        <input id="name" type="text" name="user_name" class='form-control' placeholder="اكتب…">
                                     </div>
                                 </div>
                                 <div class='box'>
                                     <div class="input_box">
                                         <label for="password"> كلمة المرور </label>
-                                        <input id="password" type="password" name="logi_password" class='form-control' placeholder="اكتب…">
+                                        <input id="password2" type="password" name="password" class='password form-control' placeholder="اكتب…">
+                                        <span onclick="togglePasswordVisibility('password2', '.password_show_icon')" class="fa fa-eye show_eye password_show_icon"></span>
+
                                     </div>
                                 </div>
                                 <div class="box">
@@ -54,7 +82,7 @@ include 'init.php';
                                 </div>
 
                                 <div class="submit_buttons">
-                                    <button class="btn global_button"> تسجيل الدخول </button>
+                                    <button class="btn global_button" type="submit" name="login"> تسجيل الدخول </button>
                                 </div>
                             </div>
                         </form>
@@ -73,33 +101,33 @@ include 'init.php';
                                 <p> إنشئ حسابك مجانا واحصل علي أفصل النباتات </p>
                             </div>
                         </div>
-                        <form action="#" method="post">
+                        <form action="login_controller" method="post">
                             <div class='row'>
                                 <div class='box'>
                                     <div class="input_box">
-                                        <label for="name"> اسم المستخدم </label>
-                                        <input id="name" type="text" name="name" class='form-control' placeholder="اكتب…">
+                                        <label for="user_name"> اسم المستخدم </label>
+                                        <input id="user_name" type="text" name="user_name" class='form-control' placeholder="اكتب…">
                                     </div>
                                 </div>
                                 <div class='box'>
                                     <div class="input_box">
                                         <label for="email"> البريد الألكتروني </label>
-                                        <input id="email" type="text" name="text" class='form-control' placeholder="اكتب…">
+                                        <input id="email" type="email" name="email" class='form-control' placeholder="اكتب…">
                                     </div>
                                 </div>
                                 <div class='box'>
                                     <div class="input_box">
                                         <label for="password"> كلمة المرور </label>
-                                        <input id="password" type="password" name="logi_password" class='form-control' placeholder="اكتب…">
-                                        <span class="fa fa-eye show_eye"></span>
+                                        <input id="password" type="password" name="password" class='password form-control' placeholder="اكتب…">
+                                        <span onclick="togglePasswordVisibility('password', '.password_show_icon')" class="fa fa-eye show_eye password_show_icon"></span>
                                     </div>
                                 </div>
                                 <div class="box">
                                     <div class="input_box">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                            <label class="form-check-label" for="flexCheckChecked">
-                                                أوفق علي <a href="#" target="_blank" style="color: var(--second-color);"> الشروط والأحكام </a>
+                                            <input class="form-check-input" type="checkbox" value="" id="agree_terms" checked>
+                                            <label class="form-check-label" for="agree_terms">
+                                                أوفق علي <a href="terms" target="_blank" style="color: var(--second-color);"> الشروط والأحكام </a>
                                             </label>
                                         </div>
                                     </div>
@@ -107,16 +135,15 @@ include 'init.php';
                                 <div class="box">
                                     <div class="input_box">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                            <label class="form-check-label" for="flexCheckChecked">
+                                            <input class="form-check-input" type="checkbox" value="" id="subscribe_mail" checked>
+                                            <label class="form-check-label" for="subscribe_mail">
                                                 اشترك في القائمة البريدية لتصلك آخر العروض والخصومات
                                             </label>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="submit_buttons">
-                                    <button class="btn global_button"> إنشاء حساب </button>
+                                    <button class="btn global_button" type="submit" name="new_account"> إنشاء حساب </button>
                                 </div>
                             </div>
                         </form>
@@ -131,3 +158,16 @@ include 'init.php';
 include $tem . 'footer.php';
 ob_end_flush();
 ?>
+<script>
+    function togglePasswordVisibility(inputId, iconClass) {
+        var passwordInput = document.getElementById(inputId);
+        var passwordIcon = document.querySelector(iconClass);
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            passwordIcon.classList.add("password_show_icon_active");
+        } else {
+            passwordInput.type = "password";
+            passwordIcon.classList.remove("password_show_icon_active");
+        }
+    }
+</script>

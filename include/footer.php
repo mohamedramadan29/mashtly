@@ -218,7 +218,7 @@
 <script src="https://kit.fontawesome.com/588e070751.js" crossorigin="anonymous"></script>
 <script src='<?php echo $js; ?>/slick.min.js'></script>
 <!-- nice vide -->
-<script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+<script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>  
 <script src='<?php echo $js; ?>/select2.min.js'></script>
 <script src='<?php echo $js; ?>/main.js'></script>
 </body>
