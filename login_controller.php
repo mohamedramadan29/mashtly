@@ -27,7 +27,7 @@ if (isset($_POST['new_account'])) {
         $stmt =  insertData($connect, $table, $data);
         if ($stmt) {
             $_SESSION['success'] = ' تم تسجيل حسابك بنجاح من فضلك سجل دخولك الأن ';
-            $_SESSION['user_name'] = $username;
+           
             header('location:login');
         }
     } else {

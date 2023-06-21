@@ -12,31 +12,9 @@ include 'init.php';
                 <p> <a href="../index"> الرئيسية </a> \ <span> تسجيل الدخول </span>
                 </p>
             </div>
-            <!-- Show Error Succes messages  -->
             <?php
-            if (isset($_SESSION['success'])) {
-            ?>
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <?php echo $_SESSION['success'] ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <?php
-            } elseif (isset($_SESSION['error'])) {
-                foreach ($_SESSION['error'] as $error) {
-                ?>
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <?php echo $error; ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-            <?php
-                }
-            }
-            if (isset($_SESSION['error'])) {
-                unset($_SESSION['error']);
-            }
-            if (isset($_SESSION['success'])) {
-                unset($_SESSION['success']);
-            }
+            include "success_error_msg.php";
+            
             ?>
             <div class="row">
                 <div class="col-lg-6">
