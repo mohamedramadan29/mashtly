@@ -4,7 +4,7 @@ session_start();
 $page_title = ' حسابي  ';
 include 'init.php';
 // get user data 
-
+if(isset($_SESSION['user_id'])){
 ?>
 <div class="profile_page">
 
@@ -130,4 +130,7 @@ include 'init.php';
 <?php
 include $tem . 'footer.php';
 ob_end_flush();
+}else{
+    header("location:../index");
+}
 ?>
