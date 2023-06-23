@@ -58,6 +58,12 @@ body {
     font-size: 13px;
 }
 
+/* select 2 design  */
+.select2-container--default .select2-selection--single {
+    height: 45px;
+    border: 2px solid #D1D3D4;
+}
+
 /* end global temp  */
 .navbar-collapse {
     flex-grow: 0 !important;

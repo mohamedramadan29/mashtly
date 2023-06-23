@@ -6,7 +6,6 @@ include 'init.php';
 if (isset($_SESSION['user_id'])) {
 ?>
     <div class="profile_page adress_page">
-
         <div class='container'>
             <div class="data">
                 <div class="breadcrump">
@@ -21,10 +20,7 @@ if (isset($_SESSION['user_id'])) {
                 <div class="addresses">
                     <?php
                     include "../success_error_msg.php";
-
-
                     unset($_SESSION['success']);
-
                     ?>
                     <div class="row">
                         <div class="col-lg-4">
@@ -56,7 +52,6 @@ if (isset($_SESSION['user_id'])) {
                                 </form>
                             </div>
                         </div>
-
                         <div class="col-lg-4">
                             <div class="address">
                                 <form action="#" method="post">
@@ -98,7 +93,6 @@ if (isset($_SESSION['user_id'])) {
                 </div>
             </div>
         </div>
-
     </div>
 <?php
     include $tem . 'footer.php';

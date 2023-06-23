@@ -74,7 +74,7 @@ if (isset($_SESSION['user_id'])) {
                             <div class="box">
                                 <div class="input_box">
                                     <label for="country"> البلد / الدولة </label>
-                                    <select required name="country" id="" class='form-control'>
+                                    <select required name="country" id="" class='form-control select2'>
                                         <option value="SAR"> المملكة العربية السعودية </option>
                                         <option value="EG"> مصر </option>
                                     </select>
