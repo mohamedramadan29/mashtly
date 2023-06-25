@@ -15,10 +15,12 @@ if (isset($_SESSION['user_id'])) {
         $build_number = sanitizeInput($_POST['build_number']);
         if (isset($_POST['default_address'])) {
             $default_address = 1;
+            // update to make all all default address = 0 to make this address is main address
+            $stmt = $connect->prepare("UPDATE user_address SET default_address = 0");
+            $stmt->execute();
         } else {
             $default_address = 0;
         }
-
         if (empty($name) || empty($phone) || empty($country) || empty($city) || empty($street_name) || empty($build_number)) {
             $formerror[] = 'من فضلك ادخل المعلومات كاملة';
         }
@@ -74,16 +76,15 @@ if (isset($_SESSION['user_id'])) {
                             <div class="box">
                                 <div class="input_box">
                                     <label for="country"> البلد / الدولة </label>
-                                    <select required name="country" id="" class='form-control select2'>
+                                    <select required id="country" name="country" class='form-control select2'>
+                                        <option value=""> -- اختر الدولة -- </option>
                                         <option value="SAR"> المملكة العربية السعودية </option>
                                         <option value="EG"> مصر </option>
                                     </select>
                                 </div>
                                 <div class="input_box">
                                     <label for="country"> المدينة </label>
-                                    <select required name="city" id="" class='form-control'>
-                                        <option value="cairo"> القاهرة </option>
-                                        <option value="riyad"> الرياض </option>
+                                    <select required name="city" id="city" class='select2 form-control'>
                                     </select>
                                 </div>
                             </div>
@@ -133,3 +134,36 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 ?>
+<script>
+    $(document).ready(function() {
+        // مكان المغادرة 
+        $('#country').change(function() {
+            var country_id = $(this).val();
+            if (country_id != '' && country_id == 'SAR') {
+                $.ajax({
+                    url: "load_city/load_saudi_cities.php",
+                    method: "POST",
+                    data: {
+                        country_id: country_id
+                    },
+                    success: function(data) {
+                        $('#city').html(data);
+                    }
+                });
+            } else if (country_id != '' && country_id == 'EG') {
+                $.ajax({
+                    url: "load_city/load_egypt_cities.php",
+                    method: "POST",
+                    data: {
+                        country_id: country_id
+                    },
+                    success: function(data) {
+                        $('#city').html(data);
+                    }
+                });
+            } else {
+                $('#city').html('<option value="">-- اختر المدينة --</option>');
+            }
+        });
+    });
+</script>
