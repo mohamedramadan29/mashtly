@@ -1,9 +1,4 @@
-<?php
-ob_start();
-session_start();
-$page_title = ' حسابي  ';
-include 'init.php';
-// get user data 
+<?php 
 if(isset($_SESSION['user_id'])){
 ?>
 <div class="profile_page">
@@ -126,10 +121,8 @@ if(isset($_SESSION['user_id'])){
         </div>
     </div>
 
-</div>
-<?php
-include $tem . 'footer.php';
-ob_end_flush();
+</div> 
+<?php 
 }else{
     header("location:../index");
 }
