@@ -43,70 +43,41 @@ if (isset($_SESSION['user_id'])) {
                             }
                         ?>
                             <div class="col-lg-4">
-                                <div class="address active">
-                                    <form action="#" method="post">
-                                        <div class='add_head'>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-                                                <label class="form-check-label" for="flexRadioDefault1" class='active'>
-                                                    تعيين كعنوان رئيسي
-                                                </label>
-                                            </div>
-                                            <div class='remove_add'>
-                                                <button> <i class='fa fa-close'></i> حذف العنوان </button>
-                                            </div>
-                                        </div>
-                                        <div class='add_content'>
-                                            <h2> <?php echo $city; ?> </h2>
-                                            <p class="add_title">
-                                                <?php echo $build_number . '-' . $street_name . '-' . $area . '-' . $city . '-' . $country ?>
-                                            </p>
-                                            <p class='add_phone'>
-                                                <span> رقم الهاتف </span> <?php echo $phone; ?>
-                                            </p>
-                                        </div>
-                                        <div class='edit'>
-                                            <a href="#"> تعديل <img src="<?php echo $uploads ?>edit_button.svg" alt=""> </a>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        <?php
-                        }
-                        ?>
-
-                        <div class="col-lg-4">
-                            <div class="address">
-                                <form action="#" method="post">
+                                <div class="address <?php if ($default_address == 1) echo "active"; ?> ">
                                     <div class='add_head'>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                                            <label class="form-check-label" for="flexRadioDefault2">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault<?php echo $address['id'] ?>" <?php if ($default_address == 1) echo "checked"; ?>>
+                                            <label class="form-check-label" for="flexRadioDefault<?php echo $address['id'] ?>" class=' <?php if ($default_address == 1) echo "active"; ?> '>
                                                 تعيين كعنوان رئيسي
                                             </label>
                                         </div>
-                                        <div class='remove_add'>
-                                            <button> <i class='fa fa-close'></i> حذف العنوان </button>
-                                        </div>
+                                        <form action="address/delete" method="post">
+                                            <input type="hidden" name="address_id" value="<?php echo $address['id']; ?>">
+                                            <div class='remove_add'>
+                                                <button id="confirm_delete" name="delete_address" type="submit" onclick="return confirm('هل أنت متأكد من رغبتك في حذف العنوان؟')"> <i class='fa fa-close'></i> حذف العنوان </button>
+                                            </div>
+                                        </form>
                                     </div>
                                     <div class='add_content'>
-                                        <h2> منزل أحمد سمير عبد السلام </h2>
+                                        <h2> <?php echo $city; ?> </h2>
                                         <p class="add_title">
-                                            223 طريق الإمام سعود - حي المصيف - الرياض- المملكة العربية السعودية
+                                            <?php echo $build_number . '-' . $street_name . '-' . $area . '-' . $city . '-' . $country ?>
                                         </p>
                                         <p class='add_phone'>
-                                            <span> رقم الهاتف </span> +201092508803
+                                            <span> رقم الهاتف </span> <?php echo $phone; ?>
                                         </p>
                                     </div>
                                     <div class='edit'>
                                         <a href="#"> تعديل <img src="<?php echo $uploads ?>edit_button.svg" alt=""> </a>
                                     </div>
-                                </form>
+                                </div>
                             </div>
-                        </div>
+                        <?php
+                        }
+                        ?>
                         <div class="col-lg-4">
                             <div class="add_new_address">
-                                <a href="add_address">
+                                <a href="address/add">
                                     <i class="fa fa-plus"></i>
                                     <h3> أضف عنوان جديد </h3>
                                 </a>

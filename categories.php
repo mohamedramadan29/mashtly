@@ -1,9 +1,3 @@
-<?php
-ob_start();
-session_start();
-$page_title = 'التصنيفات';
-include 'init.php';
-?>
 <div class="profile_page new_address_page">
 
     <div class='container'>
@@ -183,7 +177,3 @@ include 'init.php';
     </div>
 
 </div>
-<?php
-include $tem . 'footer.php';
-ob_end_flush();
-?>

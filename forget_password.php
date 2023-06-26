@@ -1,9 +1,3 @@
-<?php
-ob_start();
-session_start();
-$page_title = ' هل نسيت كلمة المرور ';
-include 'init.php';
-?>
 <div class="profile_page adress_page">
 
     <div class='container'>
@@ -39,9 +33,4 @@ include 'init.php';
             </form>
         </div>
     </div>
-
 </div>
-<?php
-include $tem . 'footer.php';
-ob_end_flush();
-?>

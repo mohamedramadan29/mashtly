@@ -1,9 +1,4 @@
-<?php
-ob_start();
-session_start();
-$page_title = ' اتصل بنا  ';
-include 'init.php';
-?>
+
 <div class="profile_page adress_page">
 
     <div class='container'>
@@ -117,8 +112,4 @@ include 'init.php';
         </div>
     </div>
 
-</div>
-<?php
-include $tem . 'footer.php';
-ob_end_flush();
-?>
+</div> 

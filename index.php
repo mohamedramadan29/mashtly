@@ -1,19 +1,10 @@
-<?php
-ob_start();
-session_start();
-$page_title = 'مشتلي - الرئيسية';
-include 'init.php';
-?>
 <div class="hero">
 
     <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-                aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
 
@@ -60,8 +51,7 @@ include 'init.php';
                         <p> إن تحديد المواصفات المرغوبة بشكل مسبق في النباتات التي تبحث عنها سيسهل عليك الوصول إليها
                             ويساعدك في اختيار الأنسب، سواء كنت تبحث عن نبات يمتاز بشكل جمالي معين أو بسهولة العناية أو
                             لاستخدامه في مكان محدد أو يتحمل ضروف بيئية معينة …. أو غير ذالك. </p>
-                        <a href="#" class="global_button"> جرب الباحث الآلي الآن <img src="uploads/search_arrow.png"
-                                alt=""></a>
+                        <a href="#" class="global_button"> جرب الباحث الآلي الآن <img src="uploads/search_arrow.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -211,9 +201,9 @@ include 'init.php';
 <div class='planets_require_index'>
     <div class="container">
         <div class="data">
-            
-            <h2> مستلزمات العناية بنباتاتك  </h2>
-            <a href="" class="btn global_button">  تصفح جميع المستلزمات <img src="<?php echo $uploads ?>left.svg" alt=""> </a>
+
+            <h2> مستلزمات العناية بنباتاتك </h2>
+            <a href="" class="btn global_button"> تصفح جميع المستلزمات <img src="<?php echo $uploads ?>left.svg" alt=""> </a>
         </div>
     </div>
 </div>
@@ -397,8 +387,7 @@ include 'init.php';
                                     <h4 class='price'> 87.00 ر.س </h4>
                                     <div class='add_cart'>
                                         <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png"
-                                                    alt=""> أضف
+                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
                                                 الي السلة </a>
                                         </div>
                                         <div class="heart">
@@ -416,8 +405,7 @@ include 'init.php';
                                     <h4 class='price'> 87.00 ر.س </h4>
                                     <div class='add_cart'>
                                         <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png"
-                                                    alt=""> أضف
+                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
                                                 الي السلة </a>
                                         </div>
                                         <div class="heart">
@@ -435,8 +423,7 @@ include 'init.php';
                                     <h4 class='price'> 87.00 ر.س </h4>
                                     <div class='add_cart'>
                                         <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png"
-                                                    alt=""> أضف
+                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
                                                 الي السلة </a>
                                         </div>
                                         <div class="heart">
@@ -454,8 +441,7 @@ include 'init.php';
                                     <h4 class='price'> 87.00 ر.س </h4>
                                     <div class='add_cart'>
                                         <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png"
-                                                    alt=""> أضف
+                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
                                                 الي السلة </a>
                                         </div>
                                         <div class="heart">
@@ -473,8 +459,7 @@ include 'init.php';
                                     <h4 class='price'> 87.00 ر.س </h4>
                                     <div class='add_cart'>
                                         <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png"
-                                                    alt=""> أضف
+                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
                                                 الي السلة </a>
                                         </div>
                                         <div class="heart">
@@ -492,8 +477,7 @@ include 'init.php';
                                     <h4 class='price'> 87.00 ر.س </h4>
                                     <div class='add_cart'>
                                         <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png"
-                                                    alt=""> أضف
+                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
                                                 الي السلة </a>
                                         </div>
                                         <div class="heart">
@@ -975,9 +959,7 @@ include 'init.php';
                 <div class="col-lg-8">
                     <div class="info">
                         <div class="plyr__video-embed" id="player">
-                            <iframe width="400px" height="400px" data-poster="uploads/poster.png"
-                                src="https://www.youtube.com/watch?v=Y4z2mZPKhm4" allowfullscreen allowtransparency
-                                allow="autoplay"></iframe>
+                            <iframe width="400px" height="400px" data-poster="uploads/poster.png" src="https://www.youtube.com/watch?v=Y4z2mZPKhm4" allowfullscreen allowtransparency allow="autoplay"></iframe>
                         </div>
                     </div>
                 </div>
@@ -1078,8 +1060,3 @@ include 'init.php';
         </div>
     </div>
 </div>
-<!-- END  CUSTOMER TESTMON -->
-<?php
-include $tem . 'footer.php';
-ob_end_flush();
-?>
