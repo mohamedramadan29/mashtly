@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-$page_title = 'مشتلي - الرئيسية';
+$page_title = 'تفاصيل المنتج ';
 include 'init.php';
 ?>
 <!-- START SELECT DATA HEADER -->
@@ -27,68 +27,41 @@ include 'init.php';
         </div>
     </div>
 </div>
-<!-- end breadcrump  -->
-<style>
-    .slider1,
-    .slider2 {
-        width: 300px;
-        margin: 0 auto;
-    }
-
-    .slider2 {
-        margin-top: 20px;
-    }
-</style>
-<!-- START PRODUCT  -->
 <div class="product_details">
     <div class="container">
         <div class="data">
             <div class="row">
-                <div class="col-lg-8">
-                    <div class="product_info_details">
+                <div class="col-lg-10">
+                    <div class="product">
                         <div class="product_images">
-
+                            <img src="<?php echo $uploads ?>/product.png" alt="">
                         </div>
                         <div class="product_info">
-                            product_info
+                            <h2> <img src="<?php echo $uploads ?>/left_arrow.png" alt=""> شجرة الدفلة </h2>
+                            <p> يبدأ من: <span> 87.00 ر.س </span> </p>
+                            <div class="support">
+                                <div>
+                                    <img src="<?php echo $uploads ?>/support.svg" alt="">
+                                </div>
+                                <div>
+                                    <h4> دعم الخبراء </h4>
+                                    <p> مجانا قبل وبعد الشراء </p>
+                                </div>
+                            </div>
+                            <div class="attention">
+                                <h3> تنويه </h3>
+                                <p> الصور المعروضة للنبتة هنا توضح مميزاتها وشكلها بعد زراعتها ورعايتها وتقديم كامل احتياجاتها كما هو موضح في وصف النبتة، وبإمكانكم الحصول على تفاصيل أكثر من خلال دعم خبرائنا المجاني . </p>
+                            </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-lg-2">
+                    test2
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="slider1">
-    <div><img src="uploads/product.png" alt="Image 1"></div>
-    <div><img src="uploads/product.png" alt="Image 2"></div>
-    <div><img src="uploads/product.png" alt="Image 3"></div>
-</div>
-<div class="slider2">
-    <div><img src="uploads/product.png" alt="Image 1"></div>
-    <div><img src="uploads/product.png" alt="Image 2"></div>
-    <div><img src="uploads/product.png" alt="Image 3"></div>
-</div>
-<!-- END  PRODUCT  -->
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="themes/js/slick.min.js"></script>
-
-<script>
-    $(document).ready(function() {
-        $('.slider1').slick({
-            arrows: false,
-            asNavFor: '.slider2'
-        });
-
-        $('.slider2').slick({
-            slidesToShow: 3,
-            slidesToScroll: 1,
-            asNavFor: '.slider1',
-            centerMode: true,
-            focusOnSelect: true
-        });
-    });
-</script>
 <?php
 include $tem . 'footer.php';
 ob_end_flush();

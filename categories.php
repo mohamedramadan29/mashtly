@@ -2,7 +2,7 @@
 ob_start();
 session_start();
 $page_title = 'الرئيسية';
-    include "init.php";
+include "init.php";
 ?>
 <div class="profile_page new_address_page">
 
@@ -29,8 +29,10 @@ $page_title = 'الرئيسية';
                                 <p> عدد العناصر: 23 </p>
                             </div>
                             <div class="overlay">
-                                <img src="<?php echo $uploads ?>cat_arrow.png" alt="">
-                                <h4> تصفح التصنيف </h4>
+                                <a href="shop">
+                                    <img src="<?php echo $uploads ?>cat_arrow.png" alt="">
+                                    <h4> تصفح التصنيف </h4>
+                                </a>
                             </div>
                         </div>
                     </div>
