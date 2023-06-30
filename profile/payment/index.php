@@ -17,72 +17,59 @@ $user_id = $_SESSION['user_id'];
                     <h2 class='header2'> طرق الدفع </h2>
                     <p> نستخدم أحدث طرق التشفير لحفط بياناتك </p>
                 </div>
-
             </div>
+
             <div class="addresses">
                 <div class="row">
-                    <div class="col-lg-4">
-                        <div class="address active payment_method">
-                            <form action="#" method="post">
+                    <?php
+                    $encryptionKey = "!#@_MOHAMED_!#@_MASHTLY";
+                    $stmt = $connect->prepare("SELECT * FROM user_payments WHERE user_id = ?");
+                    $stmt->execute(array($user_id));
+                    $allpayments = $stmt->fetchAll();
+                    foreach ($allpayments as $payment) {
+                        $id = $payment['id'];
+                        $card_name = $payment['card_name'];
+                        $card_number = $payment['card_number'];
+                        $card_number = openssl_decrypt($card_number, "AES-128-ECB", $encryptionKey);
+                        $lastFourDigits = substr($card_number, -4);
+                        $end_date = $payment['end_date'];
+                        $cvc = $payment['cvc'];
+                        $default = $payment['default_payment'];
+                    ?>
+                        <div class="col-lg-4">
+                            <div class="address payment_method <?php if ($default == 1) echo "active" ?>">
                                 <div class='add_head'>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                            id="flexRadioDefault1" checked>
-                                        <label class="form-check-label" for="flexRadioDefault1" class='active'>
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault<?php echo $id; ?>" <?php if ($default == 1) echo "checked"; ?>>
+                                        <label class="form-check-label" for="flexRadioDefault<?php echo $id; ?>" class='<?php if ($default == 1) echo "active" ?>'>
                                             تعيين كطريقة دفع افتراضية
                                         </label>
                                     </div>
-                                    <div class='remove_add'>
-                                        <button> <i class='fa fa-close'></i> حذف البطاقة </button>
-                                    </div>
+                                    <form action="delete" method="post">
+                                        <input type="hidden" name="card_id" value="<?php echo $id; ?>">
+                                        <div class='remove_add'>
+                                            <button id="confirm_delete" name="delete_card" type="submit" onclick="return confirm('هل أنت متأكد من رغبتك في حذف البطاقة ؟ ')">  <i class='fa fa-close'></i>  حذف البطاقة</button>
+                                        </div>
+                                    </form>
                                 </div>
                                 <div class='add_content'>
                                     <div class="card_image">
                                         <img src="<?php echo $uploads ?>master.png" alt="">
                                     </div>
                                     <div class="card_data">
-                                        <p class="number"> 7343 **** **** **** </p>
-                                        <p class="end_date"> تاريخ الانتهاء <span> 06/24 </span> </p>
-                                        <p class="name"> AHMED SAMIR </p>
+                                        <p class="number"><?php echo $lastFourDigits; ?> **** **** **** </p>
+                                        <p class="end_date"> تاريخ الانتهاء <span> <?php echo $end_date; ?></span> </p>
+                                        <p class="name"> <?php echo $card_name; ?> </p>
                                     </div>
                                 </div>
                                 <div class='edit'>
-                                    <a href="#"> تعديل <img src="<?php echo $uploads ?>edit_button.svg" alt=""> </a>
+                                    <a href="edit?card=<?php echo $id; ?>"> تعديل <img src="<?php echo $uploads ?>edit_button.svg" alt=""> </a>
                                 </div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="address payment_method">
-                            <form action="#" method="post">
-                                <div class='add_head'>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                            id="flexRadioDefault1">
-                                        <label class="form-check-label" for="flexRadioDefault1" class='active'>
-                                            تعيين كطريقة دفع افتراضية
-                                        </label>
-                                    </div>
-                                    <div class='remove_add'>
-                                        <button> <i class='fa fa-close'></i> حذف البطاقة </button>
-                                    </div>
-                                </div>
-                                <div class='add_content'>
-                                    <div class="card_image">
-                                        <img src="<?php echo $uploads ?>master.png" alt="">
-                                    </div>
-                                    <div class="card_data">
-                                        <p class="number"> 7343 **** **** **** </p>
-                                        <p class="end_date"> تاريخ الانتهاء <span> 06/24 </span> </p>
-                                        <p class="name"> AHMED SAMIR </p>
-                                    </div>
-                                </div>
-                                <div class='edit'>
-                                    <a href="#"> تعديل <img src="<?php echo $uploads ?>edit_button.svg" alt=""> </a>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                    <?php
+                    }
+                    ?>
                     <div class="col-lg-4">
                         <div class="add_new_address">
                             <a href="add">
