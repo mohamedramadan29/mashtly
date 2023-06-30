@@ -1,3 +1,9 @@
+<?php
+ob_start();
+session_start();
+$page_title = 'الرئيسية';
+    include "init.php";
+?>
 <div class="profile_page adress_page">
 
     <div class='container'>
@@ -34,3 +40,8 @@
         </div>
     </div>
 </div>
+
+<?php
+include $tem . 'footer.php';
+ob_end_flush();
+?>

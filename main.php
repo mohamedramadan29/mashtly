@@ -3,16 +3,15 @@ ob_start();
 session_start();
 $currentURL = $_SERVER['REQUEST_URI'];
 $page_title = '';
-if (strpos($currentURL, "mashtly/profile") !== false){
+if (strpos($currentURL, "mashtly/profile") !== false) {
     include "init2.php";
-}else{
+} else {
     include 'init.php';
 }
-
-
-
 if (strpos($currentURL, "mashtly/index") !== false) {
     $page_title = 'الرئيسية';
+    include 'index.php';
+} elseif (strpos($currentURL, "mashtly/") !== false) {
     include 'index.php';
 } elseif (strpos($currentURL, "mashtly/cart") !== false) {
     include 'cart.php';

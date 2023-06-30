@@ -1827,6 +1827,7 @@ body {
 .add_new_address form .input_box input[type='checkbox']~label {
     margin-bottom: 0;
     margin-right: 10px;
+    cursor: pointer;
 }
 
 .add_new_address .submit_buttons {

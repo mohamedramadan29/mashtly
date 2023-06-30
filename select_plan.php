@@ -1,4 +1,9 @@
-
+<?php
+ob_start();
+session_start();
+$page_title = 'الرئيسية';
+    include "init.php";
+?>
 <!-- START SELECT DATA HEADER -->
 <div class="select_plan_head">
     <div class="container">
@@ -917,3 +922,8 @@
     </div>
 </div>
 <!-- END INDEX ALL CATEGORY  -->
+
+<?php
+include $tem . 'footer.php';
+ob_end_flush();
+?>

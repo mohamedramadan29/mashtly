@@ -1,5 +1,11 @@
-<div class="hero">
+<?php
+ob_start();
+session_start();
+$page_title = 'الرئيسية';
+    include "init.php";
+?>
 
+<div class="hero">
     <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -1060,3 +1066,9 @@
         </div>
     </div>
 </div>
+
+
+<?php
+include $tem . 'footer.php';
+ob_end_flush();
+?>

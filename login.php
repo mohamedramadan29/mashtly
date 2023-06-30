@@ -1,4 +1,10 @@
- <div class="profile_page new_address_page">
+<?php
+ob_start();
+session_start();
+$page_title = 'الرئيسية';
+    include "init.php";
+?>
+<div class="profile_page new_address_page">
 
      <div class='container'>
          <div class="data">
@@ -126,6 +132,11 @@
      </div>
 
  </div>
+ 
+<?php
+include $tem . 'footer.php';
+ob_end_flush();
+?>
  <script>
      function togglePasswordVisibility(inputId, iconClass) {
          var passwordInput = document.getElementById(inputId);
@@ -139,3 +150,4 @@
          }
      }
  </script>
+ 
