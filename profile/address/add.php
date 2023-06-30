@@ -1,4 +1,8 @@
 <?php 
+ob_start();
+session_start();
+$page_title = 'اضافة عنوان جديد ';
+include 'init.php';
 $user_id = $_SESSION['user_id'];
 if (isset($_SESSION['user_id'])) {
     if (isset($_POST['add_address'])) {
@@ -35,7 +39,7 @@ if (isset($_SESSION['user_id'])) {
             $stmt = insertData($connect, $table, $data);
             if ($stmt) {
                 $_SESSION['success'] = 'تم تسجيل عنوان جديد بنجاح ';
-                header('Location:address');
+                header('Location:index');
             }
         } else {
             $_SESSION['error'] = $formerror;
@@ -59,7 +63,7 @@ if (isset($_SESSION['user_id'])) {
                 </div>
                 <div class="add_new_address">
                     <?php
-                    include "../success_error_msg.php";
+                    include "../../success_error_msg.php";
                     if (isset($_SESSION['error'])) {
                         unset($_SESSION['error']);
                     }
@@ -124,7 +128,42 @@ if (isset($_SESSION['user_id'])) {
     </div>
 <?php 
 } else {
-    header("Location:../index");
+    header("Location:../../index");
     exit();
 }
 ?>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // مكان المغادرة 
+        $('#country').change(function() {
+            var country_id = $(this).val();
+            if (country_id != '' && country_id == 'SAR') {
+                $.ajax({
+                    url: "../load_city/load_saudi_cities.php",
+                    method: "POST",
+                    data: {
+                        country_id: country_id
+                    },
+                    success: function(data) {
+                        $('#city').html(data);
+                    }
+                });
+            } else if (country_id != '' && country_id == 'EG') {
+                $.ajax({
+                    url: "../load_city/load_egypt_cities.php",
+                    method: "POST",
+                    data: {
+                        country_id: country_id
+                    },
+                    success: function(data) {
+                        $('#city').html(data);
+                    }
+                });
+            } else {
+                $('#city').html('<option value="">-- اختر المدينة --</option>');
+            }
+        });
+    });
+</script>

@@ -10,10 +10,10 @@ if(isset($_POST['delete_address'])){
     $stmt->execute([$address_id]);
     if ($stmt) {
         $_SESSION['success'] = " تم حذف العنوان بنجاح  ";
-        header('Location: ../user_address');
+        header('Location:index');
         exit(); // Terminate the script after redirecting
     }
     }else{
-        header("Location:../user_address");
+        header("Location:index");
     }
 }

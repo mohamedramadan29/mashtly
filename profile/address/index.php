@@ -1,4 +1,8 @@
-<?php 
+<?php
+ob_start();
+session_start();
+$page_title = 'عنواني ';
+include 'init.php';
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 ?>
@@ -6,7 +10,7 @@ if (isset($_SESSION['user_id'])) {
         <div class='container'>
             <div class="data">
                 <div class="breadcrump">
-                    <p> <a href="../index"> الرئيسية </a> \ <a href="index"> حسابي </a> \ <span> عناويني </span> </p>
+                    <p> <a href="../index"> الرئيسية </a> \ <a href="../index"> حسابي </a> \ <span> عناويني </span> </p>
                 </div>
                 <div class="purches_header">
                     <div class="data_header_name">
@@ -16,7 +20,7 @@ if (isset($_SESSION['user_id'])) {
                 </div>
                 <div class="addresses">
                     <?php
-                    include "success_error_msg.php";
+                    include "../../success_error_msg.php";
                     unset($_SESSION['success']);
                     ?>
                     <div class="row">
@@ -25,6 +29,7 @@ if (isset($_SESSION['user_id'])) {
                         $stmt->execute(array($user_id));
                         $alladdress = $stmt->fetchAll();
                         foreach ($alladdress as $address) {
+                            $id = $address['id'];
                             $city = $address['city'];
                             $build_number = $address['build_number'];
                             $street_name = $address['street_name'];
@@ -47,7 +52,7 @@ if (isset($_SESSION['user_id'])) {
                                                 تعيين كعنوان رئيسي
                                             </label>
                                         </div>
-                                        <form action="address/delete" method="post">
+                                        <form action="delete" method="post">
                                             <input type="hidden" name="address_id" value="<?php echo $address['id']; ?>">
                                             <div class='remove_add'>
                                                 <button id="confirm_delete" name="delete_address" type="submit" onclick="return confirm('هل أنت متأكد من رغبتك في حذف العنوان؟')"> <i class='fa fa-close'></i> حذف العنوان </button>
@@ -64,7 +69,7 @@ if (isset($_SESSION['user_id'])) {
                                         </p>
                                     </div>
                                     <div class='edit'>
-                                        <a href="#"> تعديل <img src="<?php echo $uploads ?>edit_button.svg" alt=""> </a>
+                                        <a href="edit?address=<?php echo $id; ?>"> تعديل <img src="<?php echo $uploads ?>edit_button.svg" alt=""> </a>
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +78,7 @@ if (isset($_SESSION['user_id'])) {
                         ?>
                         <div class="col-lg-4">
                             <div class="add_new_address">
-                                <a href="address/add">
+                                <a href="add">
                                     <i class="fa fa-plus"></i>
                                     <h3> أضف عنوان جديد </h3>
                                 </a>
@@ -84,8 +89,10 @@ if (isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
-<?php 
+<?php
 } else {
     header("location:../index");
 }
+include $tem . 'footer.php';
+ob_end_flush();
 ?>
