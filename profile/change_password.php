@@ -3,6 +3,12 @@ ob_start();
 session_start();
 $page_title = ' تغيير كلمة المرور  ';
 include 'init.php';
+if(isset($_SESSION['user_id'])){
+    $user_id = $_SESSION['user_id'];
+    $stmt = $connect->prepare("SELECT * FROM users WHERE id=?");
+    $stmt->execute(array($user_id));
+    $user_data = $stmt->fetch();
+    $old_password = $user_data['password'];
 ?>
 <div class="profile_page adress_page">
 
@@ -19,9 +25,8 @@ include 'init.php';
             </div>
         </div>
         <div class="add_new_address add_new_payment">
-            <form action="#" method="post">
+            <form action="" method="post">
                 <div class='row'>
-
                     <div class='box'>
                         <div class="input_box">
                             <label for="old_password"> كلمة المرور القديمة </label>
@@ -52,7 +57,7 @@ include 'init.php';
                     </div>
                     <div class="submit_buttons">
                         <button class="btn global_button" type="reset"> إعادة تعيين </button>
-                        <button class="btn global_button"> حفظ </button>
+                        <button type="submit" name="change_password" class="btn global_button"> حفظ </button>
                     </div>
                 </div>
             </form>
@@ -61,6 +66,10 @@ include 'init.php';
 
 </div>
 <?php
+
+}else{
+    header("Location:../index");
+}
 include $tem . 'footer.php';
 ob_end_flush();
 ?>
