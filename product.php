@@ -246,6 +246,377 @@ include 'init.php';
         </div>
     </div>
 </div>
+<!-- START NEWWER PRODUCTS -->
+<div class="new_producs related_product">
+    <div class="container">
+        <div class="data">
+            <div class="data_header">
+                <div class="data_header_name">
+                    <br>
+                    <br>
+                    <h2 class='header2' style="margin-bottom: 25px;">كثيرًا ما يتم شراؤها معًا </h2>
+                </div>
+            </div>
+            <div class="linked_products">
+                <div class="link_pro">
+                    <input type="checkbox" name="related_select" checked>
+                    <img class="main_image" src="uploads/product.png" alt="">
+                    <div class="product_details">
+                        <h2>نبات ملكة النهار</h2>
+                        <h4 class='price'> 87.00 ر.س </h4>
+                    </div>
+                </div>
+                +
+                <div class="link_pro">
+                    <input type="checkbox" name="related_select" checked>
+                    <img class="main_image" src="uploads/product.png" alt="">
+                    <div class="product_details">
+                        <h2>نبات ملكة النهار</h2>
+                        <h4 class='price'> 87.00 ر.س </h4>
+                    </div>
+                </div>
+                +
+                <div class="link_pro">
+                    <input type="checkbox" name="related_select" checked>
+                    <img class="main_image" src="uploads/product.png" alt="">
+                    <div class="product_details">
+                        <h2>نبات ملكة النهار</h2>
+                        <h4 class='price'> 87.00 ر.س </h4>
+                    </div>
+                </div>
+                <div class="link_pro total_links">
+                    <div class="total">
+                        <p> إجمالي السعر: <span> 261.00 ر.س </span> </p>
+                    </div>
+                    <div>
+                        <button class="btn global_button" name="add_to_cart"> <img src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> أضف الي السلة </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END NEWWER PRODUCTS  -->
+<!-- START NEWWER PRODUCTS -->
+<div class="new_producs index_all_cat">
+    <div class="container">
+        <div class="data" style="box-shadow: none;">
+            <div class="data_header">
+                <div class="data_header_name">
+                    <h2 class='header2' style="margin-right:0"> مراكن يمكنك اضافتها </h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="product_info">
+                        <img class="main_image" src="uploads/product.png" alt="">
+                        <div class="product_details">
+                            <h2>نبات ملكة النهار</h2>
+                            <h4 class='price'> 87.00 ر.س </h4>
+                            <div class='add_cart'>
+                                <div>
+                                    <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                        الي السلة </a>
+                                </div>
+                                <div class="heart">
+                                    <img src="uploads/heart.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="product_info">
+                        <img class="main_image" src="uploads/product.png" alt="">
+                        <div class="product_details">
+                            <h2>نبات ملكة النهار</h2>
+                            <h4 class='price'> 87.00 ر.س </h4>
+                            <div class='add_cart'>
+                                <div>
+                                    <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                        الي السلة </a>
+                                </div>
+                                <div class="heart">
+                                    <img src="uploads/heart.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="product_info">
+                        <img class="main_image" src="uploads/product.png" alt="">
+                        <div class="product_details">
+                            <h2>نبات ملكة النهار</h2>
+                            <h4 class='price'> 87.00 ر.س </h4>
+                            <div class='add_cart'>
+                                <div>
+                                    <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                        الي السلة </a>
+                                </div>
+                                <div class="heart">
+                                    <img src="uploads/heart.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="product_info">
+                        <img class="main_image" src="uploads/product.png" alt="">
+                        <div class="product_details">
+                            <h2>نبات ملكة النهار</h2>
+                            <h4 class='price'> 87.00 ر.س </h4>
+                            <div class='add_cart'>
+                                <div>
+                                    <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                        الي السلة </a>
+                                </div>
+                                <div class="heart">
+                                    <img src="uploads/heart.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END NEWWER PRODUCTS  -->
+
+<!-- START NEWWER PRODUCTS -->
+<div class="new_producs index_all_cat" style="padding-top: 0;">
+    <div class="container">
+        <div class="data" style="box-shadow: none;">
+            <div class="data_header">
+                <div class="data_header_name">
+                    <h2 class='header2' style="margin-right:0"> تربات زراعية </h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="product_info">
+                        <img class="main_image" src="uploads/product.png" alt="">
+                        <div class="product_details">
+                            <h2>نبات ملكة النهار</h2>
+                            <h4 class='price'> 87.00 ر.س </h4>
+                            <div class='add_cart'>
+                                <div>
+                                    <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                        الي السلة </a>
+                                </div>
+                                <div class="heart">
+                                    <img src="uploads/heart.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="product_info">
+                        <img class="main_image" src="uploads/product.png" alt="">
+                        <div class="product_details">
+                            <h2>نبات ملكة النهار</h2>
+                            <h4 class='price'> 87.00 ر.س </h4>
+                            <div class='add_cart'>
+                                <div>
+                                    <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                        الي السلة </a>
+                                </div>
+                                <div class="heart">
+                                    <img src="uploads/heart.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="product_info">
+                        <img class="main_image" src="uploads/product.png" alt="">
+                        <div class="product_details">
+                            <h2>نبات ملكة النهار</h2>
+                            <h4 class='price'> 87.00 ر.س </h4>
+                            <div class='add_cart'>
+                                <div>
+                                    <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                        الي السلة </a>
+                                </div>
+                                <div class="heart">
+                                    <img src="uploads/heart.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="product_info">
+                        <img class="main_image" src="uploads/product.png" alt="">
+                        <div class="product_details">
+                            <h2>نبات ملكة النهار</h2>
+                            <h4 class='price'> 87.00 ر.س </h4>
+                            <div class='add_cart'>
+                                <div>
+                                    <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                        الي السلة </a>
+                                </div>
+                                <div class="heart">
+                                    <img src="uploads/heart.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END NEWWER PRODUCTS  -->
+
+
+<!-- START NEWWER PRODUCTS -->
+<div class="new_producs index_all_cat" style="padding-top: 0;">
+    <div class="container">
+        <div class="data" style="box-shadow: none;">
+            <div class="data_header">
+                <div class="data_header_name">
+                    <h2 class='header2' style="margin-right:0"> ربما يعجبك أيضا </h2>
+                    <p> لأنك تصفحت شجرة الدفلة </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="product_info">
+                        <img class="main_image" src="uploads/product.png" alt="">
+                        <div class="product_details">
+                            <h2>نبات ملكة النهار</h2>
+                            <h4 class='price'> 87.00 ر.س </h4>
+                            <div class='add_cart'>
+                                <div>
+                                    <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                        الي السلة </a>
+                                </div>
+                                <div class="heart">
+                                    <img src="uploads/heart.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="product_info">
+                        <img class="main_image" src="uploads/product.png" alt="">
+                        <div class="product_details">
+                            <h2>نبات ملكة النهار</h2>
+                            <h4 class='price'> 87.00 ر.س </h4>
+                            <div class='add_cart'>
+                                <div>
+                                    <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                        الي السلة </a>
+                                </div>
+                                <div class="heart">
+                                    <img src="uploads/heart.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="product_info">
+                        <img class="main_image" src="uploads/product.png" alt="">
+                        <div class="product_details">
+                            <h2>نبات ملكة النهار</h2>
+                            <h4 class='price'> 87.00 ر.س </h4>
+                            <div class='add_cart'>
+                                <div>
+                                    <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                        الي السلة </a>
+                                </div>
+                                <div class="heart">
+                                    <img src="uploads/heart.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="product_info">
+                        <img class="main_image" src="uploads/product.png" alt="">
+                        <div class="product_details">
+                            <h2>نبات ملكة النهار</h2>
+                            <h4 class='price'> 87.00 ر.س </h4>
+                            <div class='add_cart'>
+                                <div>
+                                    <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                        الي السلة </a>
+                                </div>
+                                <div class="heart">
+                                    <img src="uploads/heart.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END NEWWER PRODUCTS  -->
+
+
+<!-- START NEWWER PRODUCTS -->
+<div class="index_all_cat product_testmonails" style="padding-top: 0;">
+    <div class="container">
+        <div class="data" style="box-shadow: none;">
+            <div class="data_header">
+                <div class="data_header_name">
+                    <h2 class='header2' style="margin-right:0"> التقييمات </h2>
+                    <p> ماذا قال العملاء عن النبتة والمتجر </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="testmonails">
+                        <p> لقد كانت النباتات التي استلمتها بحالة جيدة وصحية،
+                            وقد تم تغليفها بشكل جيد
+                            وبعناية لضمان وصولها بشكل آمن وسليم. كما أن النباتات تتمتع بأوراق خضراء جميلة وصحية،
+                            وقد كانت مطابقة للصور المعروضة على الموقع.
+                        </p>
+                        <h4> مازن محمد </h4>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="testmonails">
+                        <p> لقد كانت النباتات التي استلمتها بحالة جيدة وصحية،
+                            وقد تم تغليفها بشكل جيد
+                            وبعناية لضمان وصولها بشكل آمن وسليم. كما أن النباتات تتمتع بأوراق خضراء جميلة وصحية،
+                            وقد كانت مطابقة للصور المعروضة على الموقع.
+                        </p>
+                        <h4> مازن محمد </h4>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="testmonails">
+                        <p> لقد كانت النباتات التي استلمتها بحالة جيدة وصحية،
+                            وقد تم تغليفها بشكل جيد
+                            وبعناية لضمان وصولها بشكل آمن وسليم. كما أن النباتات تتمتع بأوراق خضراء جميلة وصحية،
+                            وقد كانت مطابقة للصور المعروضة على الموقع.
+                        </p>
+                        <h4> مازن محمد </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END NEWWER PRODUCTS  -->
+
 <?php
 include $tem . 'footer.php';
 ob_end_flush();
