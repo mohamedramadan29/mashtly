@@ -31,7 +31,7 @@ include 'init.php';
     <div class="container">
         <div class="data">
             <div class="row">
-                <div class="col-lg-10">
+                <div class="col-lg-8">
                     <div class="product">
                         <div class="product_images">
                             <img src="<?php echo $uploads ?>/product.png" alt="">
@@ -54,11 +54,85 @@ include 'init.php';
                             </div>
                         </div>
                     </div>
+                    <div class="product_description">
+                        <h3> وصف النبات </h3>
+                        <p> شجرة الدفلة أو الدفلة الحمراء (باللاتينية: Pterocarpus santalinus) هي شجرة من عائلة البقوليات توجد بشكل رئيسي في جنوب الهند وسريلانكا وإندونيسيا. تشتهر الشجرة بلون خشبها الأحمر الغني والذي يستخدم على نطاق واسع في صناعة الأثاث والأدوات الموسيقية والمنحوتات والأدوات الزخرفية الأخرى. كما أنه يستخدم في صناعة الدهانات والأصباغ بسبب لونه الأحمر الجذاب. وتحتوي شجرة الدفلة على مركبات طبية تستخدم في الطب التقليدي لعلاج العديد من الأمراض بما في ذلك الأمراض الجلدية والتهابات المفاصل والأمراض الصدرية والحمى. وللحفاظ على هذه الشجرة وحمايتها من الانقراض، تم وضعها تحت حماية القانون في الهند وسريلانكا. </p>
+                        <button class="btn"> رقم النبات:#12354 </button>
+                    </div>
+                    <div class="social_share">
+                        <div>
+                            <p> شارك عبر </p>
+                        </div>
+                        <div>
+                            <ul class="list-unstyled">
+                                <li> <a href="#"> <i class="fa fa-facebook"></i> </a> </li>
+                                <li> <a href="#"> <i class="fa fa-twitter"></i> </a> </li>
+                                <li> <a href="#"> <i class="fa fa-whatsapp"></i> </a> </li>
+                                <li> <a href="#"> <i class="fa fa-instagram"></i> </a> </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="faq">
+                        <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        كيفية العناية بالنبات؟
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <p> نعم، يوفر مشتلي مجموعة واسعة من النباتات الطبية، ومن بينها النعناع والزعتر والألوفيرا والشمام والكركم والزنجبيل والكمون والكركديه وغيرها الكثير. </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingtwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        الشحن والاسترجاع
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingtwo" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <p> نعم، يوفر مشتلي مجموعة واسعة من النباتات الطبية، ومن بينها النعناع والزعتر والألوفيرا والشمام والكركم والزنجبيل والكمون والكركديه وغيرها الكثير. </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-2">
-                    test2
+                <div class="col-lg-4">
+                    <div class="request">
+                        <h3> اطلبه الآن </h3>
+                        <div class="options">
+                            <h6> لون الزهرة </h6>
+                            <div class="colors">
+                                <div class="color">
+                                    <p> <span class="" style=" background-color: red;"> </span> احمر <i class="fa fa-check"></i> </p>
+                                </div>
+                                <div class="color">
+                                    <p> <span class="" style=" background-color: #fff;"> </span> ابيض <i class="fa fa-check"></i> </p>
+                                </div>
+                            </div>
+                            <h6> طول النبتة </h6>
+                            <div class="input_box">
+                                <select name="" id="" class="form-control select2">
+                                    <option value="100"> 100 سم </option>
+                                    <option value="200"> 200 سم </option>
+                                    <option value="300"> 300 سم </option>
+                                </select>
+                            </div>
+                            <h6> الكمية </h6>
+                            <div class="quantity">
+                                <button class="increase-btn"> + </button>
+                                <input type="number" class="quantity-input" value="1" min="1">
+                                <button class="decrease-btn">-</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -66,3 +140,49 @@ include 'init.php';
 include $tem . 'footer.php';
 ob_end_flush();
 ?>
+
+<script>
+    // استهلال العناصر من الواجهة
+    const decreaseButtons = document.querySelectorAll('.decrease-btn');
+    const increaseButtons = document.querySelectorAll('.increase-btn');
+    const quantityInputs = document.querySelectorAll('.quantity-input');
+
+    // إضافة مستمعي الأحداث
+    decreaseButtons.forEach((button) => {
+        button.addEventListener('click', decreaseQuantity);
+    });
+
+    increaseButtons.forEach((button) => {
+        button.addEventListener('click', increaseQuantity);
+    });
+
+    quantityInputs.forEach((input) => {
+        input.addEventListener('change', updateQuantity);
+    });
+
+    // وظيفة زيادة الكمية
+    function increaseQuantity(event) {
+        const quantityInput = event.target.parentNode.querySelector('.quantity-input');
+        let quantity = parseInt(quantityInput.value);
+        quantity = isNaN(quantity) ? 1 : quantity;
+        quantityInput.value = quantity + 1;
+    }
+
+    // وظيفة نقص الكمية
+    function decreaseQuantity(event) {
+        const quantityInput = event.target.parentNode.querySelector('.quantity-input');
+        let quantity = parseInt(quantityInput.value);
+        quantity = isNaN(quantity) ? 1 : quantity;
+        quantity = quantity > 1 ? quantity - 1 : 1;
+        quantityInput.value = quantity;
+    }
+
+    // وظيفة تحديث الكمية عندما يتم إدخال قيمة يدويًا
+    function updateQuantity(event) {
+        const quantityInput = event.target;
+        let quantity = parseInt(quantityInput.value);
+        quantity = isNaN(quantity) ? 1 : quantity;
+        quantity = quantity < 1 ? 1 : quantity;
+        quantityInput.value = quantity;
+    }
+</script>

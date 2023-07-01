@@ -3400,4 +3400,174 @@ body {
     line-height: 1.8;
 }
 
+.product_details .data .product_description {
+    margin-top: 20px;
+}
+
+.product_details .data .product_description h3 {
+    color: var(--main-color);
+    font-weight: bold;
+    font-size: 17px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    position: relative;
+    margin-right: 50px;
+}
+
+.product_details .data .product_description h3::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    right: -46px;
+    width: 35px;
+    height: 3px;
+    background-color: #A0B2B1;
+}
+
+.product_details .data .product_description p {
+    color: var(--main-color);
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.product_details .data .product_description .btn {
+    background-color: #A0B2B1;
+    color: #fff;
+}
+
+.product_details .data .social_share {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.product_details .data .social_share p {
+    color: var(--second-color);
+    margin-left: 30px;
+}
+
+.product_details .data .social_share ul {
+    margin-left: 10px;
+}
+
+.product_details .data .social_share ul li {
+    display: inline-block;
+    background-color: #fff;
+    border-radius: 5px;
+    width: 35px;
+    height: 35px;
+    margin-right: 5px;
+    margin-left: 5px;
+    text-align: center;
+    line-height: 35px;
+    cursor: pointer;
+}
+
+.product_details .data .social_share ul li a {
+    text-decoration: none;
+    color: var(--second-color);
+}
+
+.product_details .data .social_share ul li a i {
+    font-size: 21px;
+}
+
+.product_details .data .request {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.product_details .data .request h3 {
+    font-weight: bold;
+    font-size: 22px;
+    color: var(--main-color);
+    margin-right: 30px;
+    position: relative;
+    margin-bottom: 35px;
+}
+
+.product_details .data .request h3::after {
+    content: "";
+    position: absolute;
+    top: 11px;
+    right: -38px;
+    height: 4px;
+    width: 34px;
+    background-color: #A0B2B1;
+}
+
+.product_details .data .request .options {}
+
+.product_details .data .request .options h6 {
+    margin-bottom: 15px;
+    color: var(--main-color);
+    margin-top: 15px;
+}
+
+.product_details .data .request .options .colors {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.product_details .data .request .options .colors .color {
+    background-color: #E5F1E5;
+    border-radius: 5px;
+    margin-left: 15px;
+    border: 1.5px solid #A0B2B1;
+}
+
+.product_details .data .request .options .colors .color span {
+    width: 20px;
+    display: block;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.product_details .data .request .options .colors .color p {
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    width: 90px;
+    align-items: center;
+    margin-top: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
+    min-width: 120px;
+}
+
+.product_details .data .request .options .colors .color p i {
+    color: var(--main-color);
+    font-size: 22px;
+}
+
+.product_details .data .request .select2-container--default .select2-selection--single {
+    border-color: var(--second-color);
+}
+
+.product_details .data .request .options .quantity {
+    border: 2px solid var(--second-color);
+    border-radius: 30px;
+    padding: 8px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.product_details .data .request .options .quantity button {
+    background: transparent;
+    border: none;
+    font-weight: bold;
+    color: var(--second-color);
+
+}
+
+.product_details .data .request .options .quantity input {
+    border: none;
+    text-align: center;
+    color: var(--second-color);
+    outline: none;
+}
+
 /*********************** END PRODUCT DETAILS PAGE **********/
