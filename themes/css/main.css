@@ -781,7 +781,7 @@ body {
 
 .new_producs .products .product_info .product_details .add_cart .heart,
 .index_all_cat .product_info .product_details .add_cart .heart {
-    border: 2px solid var(--second-color);
+    border: 1px solid var(--second-color);
     border-radius: 50%;
     width: 35px;
     height: 35px;
