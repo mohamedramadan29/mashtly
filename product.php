@@ -128,6 +128,82 @@ include 'init.php';
                                 <input type="number" class="quantity-input" value="1" min="1">
                                 <button class="decrease-btn">-</button>
                             </div>
+                            <div class="present">
+                                <div class="image">
+                                    <div class="pre_image">
+                                        <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
+                                    </div>
+                                    <div>
+                                        <h4> التغليف كهدية </h4>
+                                        <p> لا اريد التغليف كهدية </p>
+                                    </div>
+                                </div>
+                                <div style="cursor: pointer;">
+                                    <img src="<?php echo $uploads ?>/small_left_model.png" alt="">
+                                </div>
+                            </div>
+                            <div class="farm">
+                                <div class="check">
+                                    <input style="border-color: red;" type="checkbox" name="farm_planet">
+                                </div>
+                                <div>
+                                    <h4> يرجى زراعة النبتة بعد التوصيل </h4>
+                                    <p> هذة الخدمة داخل مدينة الرياض فقط
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            إعرف التكلفة
+                                        </button>
+                                    </p>
+                                </div>
+                                <div class="farm_price">
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="modal_price">
+                                                        <div class="header">
+                                                            <h3> زراعة النباتات </h3>
+                                                            <p> تكلفة زراعة النباتات المختلفة </p>
+                                                        </div>
+                                                        <p class="public"> تختلف تكلفة زراعة النباتات طبقا لعامل طول ونوع النباتات من حيث كونها زهور موسمية أو أشجار مستديمة الخضرة طبقا للجدول التالي </p>
+                                                        <div class="farm_services">
+                                                            <p> خدمة الزرعة تشمل: </p>
+                                                            <h4> الحفر - التسميد - الزراعة - نظافة الموقع. </h4>
+                                                        </div>
+                                                        <div class="diffrent_price">
+                                                            <div>
+                                                                <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
+                                                            </div>
+                                                            <div>
+                                                                <p> أشجار التي طولها من 3 م وأعلى تبدأ من <span> 30 ريال </span> </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="diffrent_price">
+                                                            <div>
+                                                                <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
+                                                            </div>
+                                                            <div>
+                                                                <p> البناتات التي اقل من 3 م تبدأ من <span> 20 ريال </span> </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="diffrent_price">
+                                                            <div>
+                                                                <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
+                                                            </div>
+                                                            <div>
+                                                                <p> الزهور الموسمية<span> 2 ريال </span> </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
