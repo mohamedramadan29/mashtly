@@ -204,6 +204,40 @@ include 'init.php';
                                     </div>
                                 </div>
                             </div>
+                            <div class="total_price">
+                                <div class="total">
+                                    <div>
+                                        <h5> المجموع الفرعي: </h5>
+                                        <p> إجمالي سعر النباتات </p>
+                                    </div>
+                                    <div>
+                                        <p class="price_num"> 87.00 ر.س </p>
+                                    </div>
+                                </div>
+                                <div class="total">
+                                    <div>
+                                        <h5> تكلفة الإضافات: </h5>
+                                        <p> تكلفة الزراعة + تكلفة التغليف كهدية </p>
+                                    </div>
+                                    <div>
+                                        <p class="price_num"> 87.00 ر.س </p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="total">
+                                    <div>
+                                        <h5> إجمالي التكلفة </h5>
+                                        <p> المبلغ المطلوب دفعه </p>
+                                    </div>
+                                    <div>
+                                        <p class="price_num"> 87.00 ر.س </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="add_cart">
+                                <button class="btn global_button cart" name="add_to_cart"> <img src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> أضف الي السلة </button>
+                                <button class="btn wishlist" name="add_to_wishlist"> <img src="<?php echo $uploads ?>/heart.png" alt=""> أضف الي السلة </button>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -3715,4 +3715,43 @@ body {
 .product_details .data .request .modal_price .diffrent_price p span{
     color: var(--second-color);
 }
+.product_details .data .request .total_price{
+    background-color: #E5F1E5;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding-top: 15px;
+}
+.product_details .data .request .total_price .total{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+}
+.product_details .data .request .total_price h5{ 
+    font-size: 17px;
+    font-weight: bold;
+    color: var(--second-color);
+}
+.product_details .data .request .total_price p{
+    font-size: 12px;
+    color: #A0B2B1;
+}
+.product_details .data .request .total_price .price_num{
+    font-weight: bold;
+    color: var(--main-color);
+    font-size: 16px;
+}
+.product_details .data .request .add_cart{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+.product_details .data .request .add_cart button{
+    margin-bottom: 20px;
+}
+.product_details .data .request .add_cart button img{
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 24px;
+}
 /*********************** END PRODUCT DETAILS PAGE **********/
