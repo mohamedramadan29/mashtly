@@ -73,6 +73,51 @@
         optionsVisiblebrach = false;
       }
     });
-
   });
+  // to increase decrease proucts
+ 
+    // استهلال العناصر من الواجهة
+    const decreaseButtons = document.querySelectorAll('.decrease-btn');
+    const increaseButtons = document.querySelectorAll('.increase-btn');
+    const quantityInputs = document.querySelectorAll('.quantity-input');
+
+    // إضافة مستمعي الأحداث
+    decreaseButtons.forEach((button) => {
+        button.addEventListener('click', decreaseQuantity);
+    });
+
+    increaseButtons.forEach((button) => {
+        button.addEventListener('click', increaseQuantity);
+    });
+
+    quantityInputs.forEach((input) => {
+        input.addEventListener('change', updateQuantity);
+    });
+
+    // وظيفة زيادة الكمية
+    function increaseQuantity(event) {
+        const quantityInput = event.target.parentNode.querySelector('.quantity-input');
+        let quantity = parseInt(quantityInput.value);
+        quantity = isNaN(quantity) ? 1 : quantity;
+        quantityInput.value = quantity + 1;
+    }
+
+    // وظيفة نقص الكمية
+    function decreaseQuantity(event) {
+        const quantityInput = event.target.parentNode.querySelector('.quantity-input');
+        let quantity = parseInt(quantityInput.value);
+        quantity = isNaN(quantity) ? 1 : quantity;
+        quantity = quantity > 1 ? quantity - 1 : 1;
+        quantityInput.value = quantity;
+    }
+
+    // وظيفة تحديث الكمية عندما يتم إدخال قيمة يدويًا
+    function updateQuantity(event) {
+        const quantityInput = event.target;
+        let quantity = parseInt(quantityInput.value);
+        quantity = isNaN(quantity) ? 1 : quantity;
+        quantity = quantity < 1 ? 1 : quantity;
+        quantityInput.value = quantity;
+    }
+// end decrease and increase 
 })(jQuery);

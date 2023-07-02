@@ -740,7 +740,7 @@ body {
 .new_producs .products .product_info .product_details h2,
 .index_all_cat .product_info .product_details h2 {
     color: #1B1B1B;
-    font-size: 18px; 
+    font-size: 18px;
     margin-bottom: 12px;
     max-width: 220px;
     line-height: 1.5;
@@ -2058,10 +2058,12 @@ body {
 
 .cart .card_items .product_data .product_info h3 {
     color: #1B1B1B;
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 17px;
+    font-weight: 600;
     margin-top: 10px;
     margin-bottom: 10px;
+    max-width: 130px;
+    line-height: 1.6;
 }
 
 @media (max-width:991px) {
@@ -2110,10 +2112,35 @@ body {
     text-align: center;
     border: 2px solid var(--second-color);
     border-radius: 35px;
-    padding: 12px;
+    padding: 7px;
     display: flex;
     justify-content: space-around;
-    width: 146px;
+    width: 120px;
+}
+
+.cart .card_items .product_num .counter button {
+    background-color: transparent;
+    border: none;
+    color: var(--second-color);
+    font-weight: bold;
+}
+
+.cart .card_items .product_num .quantity {
+    border: 2px solid var(--second-color);
+    border-radius: 30px;
+    padding: 8px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.cart .card_items .product_num .quantity input {
+    border: none;
+    color: var(--second-color) !important;
+    outline: none;
+    width: 60px;
+    background-color: transparent;
+    text-align: center;
 }
 
 @media (max-width:991px) {
@@ -2348,23 +2375,27 @@ body {
         margin-left: 10px;
     }
 }
-.favorite .fav_data .remove form{
-display: flex;
-align-items: center;
-justify-content: center;
+
+.favorite .fav_data .remove form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
 .favorite .fav_data .remove p {
     margin-top: 20px;
     margin-right: 30px;
     color: #A0B2B1;
     font-size: 13px;
 }
-.favorite .fav_data .remove p button{
+
+.favorite .fav_data .remove p button {
     background-color: transparent;
     border: none;
     color: #A0B2B1;
     font-size: 13px;
 }
+
 .favorite .fav_data .remove p span {
     width: 18px;
     height: 18px;
@@ -3662,40 +3693,53 @@ justify-content: center;
     margin-right: 10px;
 }
 
-.product_details .data .request .modal-content {
+.farm_price .modal-content {
     border-radius: 25px;
 }
 
-.product_details .data .request .modal-header {
+.farm_price .modal-header {
     border: none;
     margin-top: 10px;
 }
 
-.product_details .data .request .modal-header button {}
+.farm_price .modal-header button {}
 
-.product_details .data .request .modal_price {}
+.farm_price .modal_price {}
 
-.product_details .data .request .modal_price p.public {
+.farm_price .modal_price p.public {
 
-    font-size: 15px;
+    font-size: 15px !important;
     line-height: 2;
 }
 
-.product_details .data .request .modal_price .header {
+.farm_price .modal_price .header {
     margin-right: 35px;
 }
 
-.product_details .data .request .modal_price .header h3 {
+.farm_price .modal_price .header h3 {
     color: #1b1b1b;
     margin-right: 0;
     margin-bottom: 10px;
+    font-size: 22px;
+    font-weight: bold;
+    position: relative;
 }
 
-.product_details .data .request .modal_price .header p {
-    font-size: 15px;
+.farm_price .modal_price .header h3::after {
+    content: "";
+    position: absolute;
+    top: 11px;
+    right: -38px;
+    height: 4px;
+    width: 34px;
+    background-color: #A0B2B1;
 }
 
-.product_details .data .request .modal_price .farm_services {
+.farm_price .modal_price .header p {
+    font-size: 15px !important;
+}
+
+.farm_price .modal_price .farm_services {
     background-color: #E5F1E5;
     border-right: 5px solid #ACC288;
     border-left: 5px solid #ACC288;
@@ -3706,16 +3750,17 @@ justify-content: center;
     margin-bottom: 25px;
 }
 
-.product_details .data .request .modal_price .farm_services p {
+.farm_price .modal_price .farm_services p {
     font-size: 15px;
 }
 
-.product_details .data .request .modal_price .farm_services h4 {
-    font-weight: bold;
+.farm_price .modal_price .farm_services h4 {
+    font-weight: bold !important;
     color: var(--second-color);
+    font-size: 16px !important;
 }
 
-.product_details .data .request .modal_price .diffrent_price {
+.farm_price .modal_price .diffrent_price {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -3725,18 +3770,18 @@ justify-content: center;
     border-radius: 10px;
 }
 
-.product_details .data .request .modal_price .diffrent_price img {
+.farm_price .modal_price .diffrent_price img {
     margin-left: 15px;
 }
 
-.product_details .data .request .modal_price .diffrent_price p {
-    color: #1B1B1B;
-    font-weight: bold;
-    font-size: 16px;
+.farm_price .modal_price .diffrent_price p {
+    color: #1B1B1B !important;
+    font-weight: bold !important;
+    font-size: 16px !important;
     margin-top: 10px;
 }
 
-.product_details .data .request .modal_price .diffrent_price p span {
+.farm_price .modal_price .diffrent_price p span {
     color: var(--second-color);
 }
 
@@ -3828,43 +3873,51 @@ justify-content: center;
     color: var(--second-color);
     font-size: 14px;
 }
-.related_product .linked_products .total_links{
+
+.related_product .linked_products .total_links {
     border: none;
     width: 22%;
     text-align: center;
     background: transparent;
 }
-.related_product .linked_products .total_links .total{
+
+.related_product .linked_products .total_links .total {
     background-color: #E5F1E5;
     margin-bottom: 10px;
     padding: 11px;
     border-radius: 10px;
     color: var(--second-color);
 }
-.related_product .linked_products .total_links .total span{
+
+.related_product .linked_products .total_links .total span {
     font-weight: bold;
     color: var(--main-color);
     font-size: 17px;
 }
-.related_product .linked_products .total_links .total .global_button{
+
+.related_product .linked_products .total_links .total .global_button {
     display: block;
     width: 100%;
 }
-.product_testmonails .testmonails{
+
+.product_testmonails .testmonails {
     border: 1px solid #A0B2B1;
     text-align: center;
     padding: 15px;
     background: #fff;
     border-radius: 10px;
 }
-.product_testmonails .testmonails p{
+
+.product_testmonails .testmonails p {
     font-size: 15px;
     line-height: 1.8;
 }
-.product_testmonails .testmonails h4{
+
+.product_testmonails .testmonails h4 {
     color: var(--second-color);
     font-weight: bold;
     font-size: 16px;
 }
+
 /*************** END RELATED PRODUCT *********/
 /*********************** END PRODUCT DETAILS PAGE **********/

@@ -37,3 +37,5 @@ function insertData($connect, $table, $data)
     $stmt->execute($data);
     return $stmt;
 }
+/** to increase decrease count product */
+ 

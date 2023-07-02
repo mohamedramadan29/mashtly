@@ -91,6 +91,27 @@ if (isset($_POST['add_to_fav'])) {
         header("Location:login");
     }
 }
+if (isset($_POST['add_to_cart'])) {
+    $product_id = $_POST['product_id'];
+    $price = $_POST['price'];
+    if (isset($_SESSION['user_id'])) {
+        $user_id = $_SESSION['user_id'];
+    }
+    $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,quantity,price,total_price)
+    VALUES(:zuser_id, :zcookie_id , :zproduct_id,:zquantity ,:zprice , :ztotal_price)
+    ");
+    $stmt->execute(array(
+        "zuser_id" => $user_id,
+        "zcookie_id" => $cookie_id,
+        "zproduct_id" => $product_id,
+        "zquantity" => 1,
+        "zprice" => $price,
+        "ztotal_price" => $price,
+    ));
+    if ($stmt) {
+        echo "product addedd to cart";
+    }
+}
 ?>
 <div class="new_producs">
     <div class="container">
@@ -106,7 +127,7 @@ if (isset($_POST['add_to_fav'])) {
             </div>
             <div class="products" id='products'>
                 <?php
-                $stmt = $connect->prepare("SELECT * FROM products LIMIT 5");
+                $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC LIMIT 5");
                 $stmt->execute();
                 $allproduct = $stmt->fetchAll();
                 foreach ($allproduct as $product) {
@@ -115,21 +136,22 @@ if (isset($_POST['add_to_fav'])) {
                         <img class="main_image" src="uploads/product.png" alt="">
                         <div class="product_details">
                             <h2> <?php echo $product['name']; ?> </h2>
-                            <h4 class='price'> <?php echo  number_format($product['price'], 2) ?> ر.س </h4>
-                            <div class='add_cart'>
-                                <div>
-                                    <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                        الي السلة </a>
-                                </div>
-                                <div class="heart">
-                                    <form action="" method="post">
+                            <h4 class='price'> <?php echo  $product['price'] ?> ر.س </h4>
+                            <form action="" method="post">
+                                <input type="hidden" name="price" value="<?php echo $product['price']; ?>">
+                                <div class='add_cart'>
+                                    <div>
+                                        <button name="add_to_cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                            الي السلة </button>
+                                    </div>
+                                    <div class="heart">
                                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
                                         <button name="add_to_fav" type="submit" style="border: none; background-color:transparent">
                                             <img src="uploads/heart.png" alt="">
                                         </button>
-                                    </form>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 <?php

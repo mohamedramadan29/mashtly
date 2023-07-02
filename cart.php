@@ -1,8 +1,33 @@
 <?php
 ob_start();
 session_start();
-$page_title = 'الرئيسية';
-    include "init.php";
+$page_title = 'سلة الشراء ';
+include "init.php";
+// add to favorite
+if (isset($_POST['add_to_fav'])) {
+    if (isset($_SESSION['user_id'])) {
+        $product_id = $_POST['product_id'];
+        $user_id = $_SESSION['user_id'];
+        $stmt = $connect->prepare("INSERT INTO user_favourite (user_id, product_id)
+        VALUES(:zuser_id, :zproduct_id)
+        ");
+        $stmt->execute(array(
+            "zuser_id" => $user_id,
+            "zproduct_id" => $product_id
+        ));
+        if ($stmt) {
+            echo "Product addedd to fav";
+        }
+    } else {
+        header("Location:login");
+    }
+}
+// get all product from user cart
+$stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
+$stmt->execute(array($cookie_id));
+$count = $stmt->rowCount();
+$allitems = $stmt->fetchAll();
+
 ?>
 <div class="profile_page adress_page">
 
@@ -14,141 +39,118 @@ $page_title = 'الرئيسية';
             <div class="purches_header">
                 <div class="data_header_name">
                     <h2 class='header2'> سلة الشراء </h2>
-                    <p> عدد عناصر السلة: <span> 3 </span></p>
+                    <p> عدد عناصر السلة: <span> <?php echo $count ?> </span></p>
                 </div>
             </div>
             <div class="cart">
                 <div class="row">
                     <div class="col-lg-8">
-                        <div class="card_items">
-                            <span class="fa fa-close remove_item"> </span>
-                            <div class="product_data">
-                                <div class="product_image">
-                                    <img src="<?php echo $uploads ?>product.png" alt="">
-                                </div>
-                                <div class="product_info">
-                                    <h3> نبات ملكة النهار </h3>
-                                    <p class="item_price"> سعر الوحدة :<span> 87.00 ر.س </span> </p>
-                                    <p class="add_fav"> <img src="<?php echo $uploads ?>heart.png" alt=""> أضف الي المفضلة </p>
-                                </div>
-                            </div>
-                            <div class="product_num">
-                                <form action="#" method="post">
-                                    <div class="counter">
-                                        <span class="plus" id="fa-plus"> <img src="<?php echo $uploads ?>plus.svg" alt=""> </span>
-                                        <span class="count_number" id="count_number"> 1 </span>
-                                        <span class="minus" id="fa-minus"> <img src="<?php echo $uploads ?>minus.svg" alt=""> </span>
-                                    </div>
-                                </form>
-                                <p> إجمالي السعر: <span> 87.00 ر.س </span> </p>
-                            </div>
-                            <div class="services">
-                                <form action="#" method="post">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            أضف خدمة الزراعة
-                                        </label>
-                                    </div>
-                                    <p> <span> 15 ر.س </span> <a href="#"> إعرف أكثر عن التكلفة </a> </p>
-                                </form>
-                                <div class="gift">
-                                    <div class="image">
+                        <?php
+                        foreach ($allitems as $item) {
+                            $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
+                            $stmt->execute(array($item['product_id']));
+                            $product_data = $stmt->fetch();
+                            $pro_name = $product_data['name'];
+                        ?>
+                            <div class="card_items">
+                                <span class="fa fa-close remove_item"> </span>
+                                <div class="product_data">
+                                    <div class="product_image">
                                         <img src="<?php echo $uploads ?>product.png" alt="">
                                     </div>
-                                    <div class="gift_info">
-                                        <h3> التغليف كهدية </h3>
-                                        <p> يتم إضافة 20 ر.س </p>
+                                    <div class="product_info">
+                                        <h3> <?php echo $pro_name; ?> </h3>
+                                        <p class="item_price"> سعر الوحدة :<span> <?php echo $item['price']; ?> ر.س </span> </p>
+                                        <form action="" method="post">
+                                            <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
+                                            <p class="add_fav"> <button style="background-color: transparent; border: none; color: var(--second-color);" type="submit" name="add_to_fav"> <img src="<?php echo $uploads ?>heart.png" alt=""> أضف الي المفضلة </button>
+                                            </p>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="product_num">
+                                    <div class="quantity counter">
+                                        <button class="increase-btn"> + </button>
+                                        <input id="count_number" type="number" class="quantity-input count_number" value="1" min="1" onchange="updateTotalPrice()">
+                                        <button class="decrease-btn">-</button>
+                                    </div>
+                                    <!-- <p> إجمالي السعر: <span id="price_span"> 120 </span> </p> -->
+                                </div>
+                                <div class="services">
+                                    <form action="#" method="post">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                                أضف خدمة الزراعة
+                                            </label>
+                                        </div>
+                                        <p> <span> 15 ر.س </span> <button style="outline: none; box-shadow: none; font-size:13px; background-color: transparent; border:none; color:var(--second-color);text-decoration: underline;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                إعرف أكثر عن التكلفة
+                                            </button></p>
+                                    </form>
+                                    <div class="farm_price">
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="modal_price">
+                                                            <div class="header">
+                                                                <h3> زراعة النباتات </h3>
+                                                                <p> تكلفة زراعة النباتات المختلفة </p>
+                                                            </div>
+                                                            <p class="public"> تختلف تكلفة زراعة النباتات طبقا لعامل طول ونوع النباتات من حيث كونها زهور موسمية أو أشجار مستديمة الخضرة طبقا للجدول التالي </p>
+                                                            <div class="farm_services">
+                                                                <p> خدمة الزرعة تشمل: </p>
+                                                                <h4> الحفر - التسميد - الزراعة - نظافة الموقع. </h4>
+                                                            </div>
+                                                            <div class="diffrent_price">
+                                                                <div>
+                                                                    <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
+                                                                </div>
+                                                                <div>
+                                                                    <p> أشجار التي طولها من 3 م وأعلى تبدأ من <span> 30 ريال </span> </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="diffrent_price">
+                                                                <div>
+                                                                    <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
+                                                                </div>
+                                                                <div>
+                                                                    <p> البناتات التي اقل من 3 م تبدأ من <span> 20 ريال </span> </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="diffrent_price">
+                                                                <div>
+                                                                    <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
+                                                                </div>
+                                                                <div>
+                                                                    <p> الزهور الموسمية<span> 2 ريال </span> </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="gift">
+                                        <div class="image">
+                                            <img src="<?php echo $uploads ?>product.png" alt="">
+                                        </div>
+                                        <div class="gift_info">
+                                            <h3> التغليف كهدية </h3>
+                                            <p> يتم إضافة 20 ر.س </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card_items">
-                            <span class="fa fa-close remove_item"> </span>
-                            <div class="product_data">
-                                <div class="product_image">
-                                    <img src="<?php echo $uploads ?>product.png" alt="">
-                                </div>
-                                <div class="product_info">
-                                    <h3> نبات ملكة النهار </h3>
-                                    <p class="item_price"> سعر الوحدة :<span> 87.00 ر.س </span> </p>
-                                    <p class="add_fav"> <img src="<?php echo $uploads ?>heart.png" alt=""> أضف الي المفضلة </p>
-                                </div>
-                            </div>
-                            <div class="product_num">
-                                <form action="#" method="post">
-                                    <div class="counter">
-                                        <span class="plus" id="fa-plus"> <img src="<?php echo $uploads ?>plus.svg" alt=""> </span>
-                                        <span class="count_number" id="count_number"> 1 </span>
-                                        <span class="minus" id="fa-minus"> <img src="<?php echo $uploads ?>minus.svg" alt=""> </span>
-                                    </div>
-                                </form>
-                                <p> إجمالي السعر: <span> 87.00 ر.س </span> </p>
-                            </div>
-                            <div class="services">
-                                <form action="#" method="post">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            أضف خدمة الزراعة
-                                        </label>
-                                    </div>
-                                    <p> <span> 15 ر.س </span> <a href="#"> إعرف أكثر عن التكلفة </a> </p>
-                                </form>
-                                <div class="gift">
-                                    <div class="image">
-                                        <img src="<?php echo $uploads ?>product.png" alt="">
-                                    </div>
-                                    <div class="gift_info">
-                                        <h3> التغليف كهدية </h3>
-                                        <p> يتم إضافة 20 ر.س </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card_items">
-                            <span class="fa fa-close remove_item"> </span>
-                            <div class="product_data">
-                                <div class="product_image">
-                                    <img src="<?php echo $uploads ?>product.png" alt="">
-                                </div>
-                                <div class="product_info">
-                                    <h3> نبات ملكة النهار </h3>
-                                    <p class="item_price"> سعر الوحدة :<span> 87.00 ر.س </span> </p>
-                                    <p class="add_fav"> <img src="<?php echo $uploads ?>heart.png" alt=""> أضف الي المفضلة </p>
-                                </div>
-                            </div>
-                            <div class="product_num">
-                                <form action="#" method="post">
-                                    <div class="counter">
-                                        <span class="plus" id="fa-plus"> <img src="<?php echo $uploads ?>plus.svg" alt=""> </span>
-                                        <span class="count_number" id="count_number"> 1 </span>
-                                        <span class="minus" id="fa-minus"> <img src="<?php echo $uploads ?>minus.svg" alt=""> </span>
-                                    </div>
-                                </form>
-                                <p> إجمالي السعر: <span> 87.00 ر.س </span> </p>
-                            </div>
-                            <div class="services">
-                                <form action="#" method="post">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            أضف خدمة الزراعة
-                                        </label>
-                                    </div>
-                                    <p> <span> 15 ر.س </span> <a href="#"> إعرف أكثر عن التكلفة </a> </p>
-                                </form>
-                                <div class="gift">
-                                    <div class="image">
-                                        <img src="<?php echo $uploads ?>product.png" alt="">
-                                    </div>
-                                    <div class="gift_info">
-                                        <h3> التغليف كهدية </h3>
-                                        <p> يتم إضافة 20 ر.س </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <?php
+                        }
+                        ?>
                     </div>
                     <div class="col-lg-4">
                         <div class="cart_price_info">
