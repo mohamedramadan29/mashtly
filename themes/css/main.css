@@ -740,9 +740,10 @@ body {
 .new_producs .products .product_info .product_details h2,
 .index_all_cat .product_info .product_details h2 {
     color: #1B1B1B;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 18px; 
     margin-bottom: 12px;
+    max-width: 220px;
+    line-height: 1.5;
 }
 
 .new_producs .products .product_info .product_details .price,
@@ -2347,14 +2348,23 @@ body {
         margin-left: 10px;
     }
 }
-
+.favorite .fav_data .remove form{
+display: flex;
+align-items: center;
+justify-content: center;
+}
 .favorite .fav_data .remove p {
     margin-top: 20px;
     margin-right: 30px;
     color: #A0B2B1;
     font-size: 13px;
 }
-
+.favorite .fav_data .remove p button{
+    background-color: transparent;
+    border: none;
+    color: #A0B2B1;
+    font-size: 13px;
+}
 .favorite .fav_data .remove p span {
     width: 18px;
     height: 18px;

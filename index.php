@@ -2,7 +2,7 @@
 ob_start();
 session_start();
 $page_title = 'الرئيسية';
-    include "init.php";
+include "init.php";
 ?>
 
 <div class="hero">
@@ -71,6 +71,27 @@ $page_title = 'الرئيسية';
 </div>
 <!-- END AUTOMATIC SEARCH INDEX -->
 <!-- START NEWWER PRODUCTS -->
+<?php
+// add to favorite
+if (isset($_POST['add_to_fav'])) {
+    if (isset($_SESSION['user_id'])) {
+        $product_id = $_POST['product_id'];
+        $user_id = $_SESSION['user_id'];
+        $stmt = $connect->prepare("INSERT INTO user_favourite (user_id, product_id)
+        VALUES(:zuser_id, :zproduct_id)
+        ");
+        $stmt->execute(array(
+            "zuser_id" => $user_id,
+            "zproduct_id" => $product_id
+        ));
+        if ($stmt) {
+            echo "Product addedd to fav";
+        }
+    } else {
+        header("Location:login");
+    }
+}
+?>
 <div class="new_producs">
     <div class="container">
         <div class="data">
@@ -84,120 +105,36 @@ $page_title = 'الرئيسية';
                 </div>
             </div>
             <div class="products" id='products'>
-
-                <div class="product_info">
-                    <img class="main_image" src="uploads/product.png" alt="">
-                    <div class="product_details">
-                        <h2>نبات ملكة النهار</h2>
-                        <h4 class='price'> 87.00 ر.س </h4>
-                        <div class='add_cart'>
-                            <div>
-                                <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                    الي السلة </a>
-                            </div>
-                            <div class="heart">
-                                <img src="uploads/heart.png" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product_info">
-                    <img class="main_image" src="uploads/product.png" alt="">
-                    <div class="product_details">
-                        <h2>نبات ملكة النهار</h2>
-                        <h4 class='price'> 87.00 ر.س </h4>
-                        <div class='add_cart'>
-                            <div>
-                                <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                    الي السلة </a>
-                            </div>
-                            <div class="heart">
-                                <img src="uploads/heart.png" alt="">
+                <?php
+                $stmt = $connect->prepare("SELECT * FROM products LIMIT 5");
+                $stmt->execute();
+                $allproduct = $stmt->fetchAll();
+                foreach ($allproduct as $product) {
+                ?>
+                    <div class="product_info">
+                        <img class="main_image" src="uploads/product.png" alt="">
+                        <div class="product_details">
+                            <h2> <?php echo $product['name']; ?> </h2>
+                            <h4 class='price'> <?php echo  number_format($product['price'], 2) ?> ر.س </h4>
+                            <div class='add_cart'>
+                                <div>
+                                    <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                        الي السلة </a>
+                                </div>
+                                <div class="heart">
+                                    <form action="" method="post">
+                                        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                                        <button name="add_to_fav" type="submit" style="border: none; background-color:transparent">
+                                            <img src="uploads/heart.png" alt="">
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="product_info">
-                    <img class="main_image" src="uploads/product.png" alt="">
-                    <div class="product_details">
-                        <h2>نبات ملكة النهار</h2>
-                        <h4 class='price'> 87.00 ر.س </h4>
-                        <div class='add_cart'>
-                            <div>
-                                <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                    الي السلة </a>
-                            </div>
-                            <div class="heart">
-                                <img src="uploads/heart.png" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="product_info">
-                    <img class="main_image" src="uploads/product.png" alt="">
-                    <div class="product_details">
-                        <h2>نبات ملكة النهار</h2>
-                        <h4 class='price'> 87.00 ر.س </h4>
-                        <div class='add_cart'>
-                            <div>
-                                <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                    الي السلة </a>
-                            </div>
-                            <div class="heart">
-                                <img src="uploads/heart.png" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="product_info">
-                    <img class="main_image" src="uploads/product.png" alt="">
-                    <div class="product_details">
-                        <h2>نبات ملكة النهار</h2>
-                        <h4 class='price'> 87.00 ر.س </h4>
-                        <div class='add_cart'>
-                            <div>
-                                <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                    الي السلة </a>
-                            </div>
-                            <div class="heart">
-                                <img src="uploads/heart.png" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="product_info">
-                    <img class="main_image" src="uploads/product.png" alt="">
-                    <div class="product_details">
-                        <h2>نبات ملكة النهار</h2>
-                        <h4 class='price'> 87.00 ر.س </h4>
-                        <div class='add_cart'>
-                            <div>
-                                <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                    الي السلة </a>
-                            </div>
-                            <div class="heart">
-                                <img src="uploads/heart.png" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="product_info">
-                    <img class="main_image" src="uploads/product.png" alt="">
-                    <div class="product_details">
-                        <h2>نبات ملكة النهار</h2>
-                        <h4 class='price'> 87.00 ر.س </h4>
-                        <div class='add_cart'>
-                            <div>
-                                <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                    الي السلة </a>
-                            </div>
-                            <div class="heart">
-                                <img src="uploads/heart.png" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                }
+                ?>
             </div>
         </div>
     </div>
@@ -207,7 +144,6 @@ $page_title = 'الرئيسية';
 <div class='planets_require_index'>
     <div class="container">
         <div class="data">
-
             <h2> مستلزمات العناية بنباتاتك </h2>
             <a href="" class="btn global_button"> تصفح جميع المستلزمات <img src="<?php echo $uploads ?>left.svg" alt=""> </a>
         </div>
