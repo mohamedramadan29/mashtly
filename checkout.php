@@ -1,27 +1,8 @@
 <?php
 ob_start();
 session_start();
-$page_title = 'سلة الشراء ';
+$page_title = ' اتمام عملية الشراء  ';
 include "init.php";
-// add to favorite
-if (isset($_POST['add_to_fav'])) {
-    if (isset($_SESSION['user_id'])) {
-        $product_id = $_POST['product_id'];
-        $user_id = $_SESSION['user_id'];
-        $stmt = $connect->prepare("INSERT INTO user_favourite (user_id, product_id)
-        VALUES(:zuser_id, :zproduct_id)
-        ");
-        $stmt->execute(array(
-            "zuser_id" => $user_id,
-            "zproduct_id" => $product_id
-        ));
-        if ($stmt) {
-            echo "Product addedd to fav";
-        }
-    } else {
-        header("Location:login");
-    }
-}
 // get all product from user cart
 $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
 $stmt->execute(array($cookie_id));
@@ -34,12 +15,12 @@ $allitems = $stmt->fetchAll();
     <div class='container'>
         <div class="data">
             <div class="breadcrump">
-                <p> <a href="index"> الرئيسية </a> \ <span> سلة الشراء </span> </p>
+                <p> <a href="index"> الرئيسية </a> \ <span> اتمام عملية الشراء </span> </p>
             </div>
             <div class="purches_header">
                 <div class="data_header_name">
-                    <h2 class='header2'> سلة الشراء </h2>
-                    <p> عدد عناصر السلة: <span> <?php echo $count ?> </span></p>
+                    <h2 class='header2'> اتمام عملية الشراء </h2>
+                    <p> عدد العناصر : <span> <?php echo $count ?> </span></p>
                 </div>
             </div>
             <div class="cart">
@@ -53,10 +34,10 @@ $allitems = $stmt->fetchAll();
                             $stmt->execute(array($item['product_id']));
                             $product_data = $stmt->fetch();
                             $pro_name = $product_data['name'];
-                            if($item['farm_service'] == 1){
+                            if ($item['farm_service'] == 1) {
                                 $farm_services = 30;
                             }
-                            
+
                             $total_price = $total_price + ($item['price'] * $item['quantity']) + $farm_services;
                         ?>
                             <div class="card_items">
@@ -86,7 +67,7 @@ $allitems = $stmt->fetchAll();
                                 <div class="services">
                                     <form action="#" method="post">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked<?php echo $item['id']; ?>" <?php if($item['farm_service'] == 1) echo "checked"; ?>>
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked<?php echo $item['id']; ?>" <?php if ($item['farm_service'] == 1) echo "checked"; ?>>
                                             <label class="form-check-label" for="flexCheckChecked<?php echo $item['id']; ?>">
                                                 أضف خدمة الزراعة
                                             </label>
@@ -159,7 +140,7 @@ $allitems = $stmt->fetchAll();
                         }
                         ?>
                         <form action="#" method="post">
-                        <button class="btn global_button" type="submit" name="update_cart">تحديث السلة   <i class="fa fa-pen"></i>   </button>
+                            <button class="btn global_button" type="submit" name="update_cart">تحديث السلة <i class="fa fa-pen"></i> </button>
                         </form>
                     </div>
 
@@ -177,7 +158,7 @@ $allitems = $stmt->fetchAll();
                                         <p> إجمالي سعر المنتجات في السلة </p>
                                     </div>
                                     <div>
-                                        <h2 class="total"> <?php echo number_format($total_price,2); ?> ر.س </h2>
+                                        <h2 class="total"> <?php echo number_format($total_price, 2); ?> ر.س </h2>
                                     </div>
 
                                 </div>
