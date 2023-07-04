@@ -158,7 +158,7 @@ $allitems = $stmt->fetchAll();
                                         <p> إجمالي سعر المنتجات في السلة </p>
                                     </div>
                                     <div>
-                                        <h2 class="total"> <?php echo number_format($total_price, 2); ?> ر.س </h2>
+                                        <h2 class="total"> <?php echo number_format($_SESSION['total'],2); ?> ر.س </h2>
                                     </div>
 
                                 </div>
@@ -168,7 +168,7 @@ $allitems = $stmt->fetchAll();
                                         <p> تكلفة الزراعة + تكلفة التغليف كهدية </p>
                                     </div>
                                     <div>
-                                        <h2 class="total"> 87.00 ر.س </h2>
+                                        <h2 class="total"> <?php echo number_format($_SESSION['farm_services'],2); ?> ر.س </h2>
                                     </div>
 
                                 </div>
@@ -178,7 +178,7 @@ $allitems = $stmt->fetchAll();
                                         <p> يحدد سعر الشحن حسب الموقع </p>
                                     </div>
                                     <div>
-                                        <h2 class="total"> 87.00 ر.س </h2>
+                                        <h2 class="total"> <?php echo number_format($_SESSION['shipping_value'],2); ?>  ر.س </h2>
                                     </div>
 
                                 </div>
@@ -188,7 +188,7 @@ $allitems = $stmt->fetchAll();
                                         <p> القيمة المضافة تساوي 15% من اجمالي الطلب </p>
                                     </div>
                                     <div>
-                                        <h2 class="total"> 87.00 ر.س </h2>
+                                        <h2 class="total"> <?php echo number_format($_SESSION['vat_value'],2); ?> ر.س </h2>
                                     </div>
 
                                 </div>
@@ -199,7 +199,7 @@ $allitems = $stmt->fetchAll();
                                         <p> المبلغ المطلوب دفعه </p>
                                     </div>
                                     <div>
-                                        <h2 class="total"> 87.00 ر.س </h2>
+                                        <h2 class="total"> <?php echo number_format($_SESSION['last_total'],2); ?>ر.س </h2>
                                     </div>
 
                                 </div>
