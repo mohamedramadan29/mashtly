@@ -9,7 +9,7 @@ include 'init.php';
     <div class='container'>
         <div class="data">
             <div class="breadcrump">
-                <p> <a href="../index"> الرئيسية </a> \ <a href="index"> حسابي </a> \ <a href="purchase"> مشترياتي </a> \
+                <p> <a href="../../index"> الرئيسية </a> \ <a href="../index"> حسابي </a> \ <a href="../purchase"> مشترياتي </a> \
                     <span> تتبع طلبك </span>
                 </p>
             </div>
