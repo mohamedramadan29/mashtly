@@ -31,6 +31,7 @@ $user_id = $_SESSION['user_id'];
                         $card_name = $payment['card_name'];
                         $card_number = $payment['card_number'];
                         $card_number = openssl_decrypt($card_number, "AES-128-ECB", $encryptionKey);
+                        $first_number = substr($card_number, 0, 1);
                         $lastFourDigits = substr($card_number, -4);
                         $end_date = $payment['end_date'];
                         $cvc = $payment['cvc'];
@@ -48,13 +49,31 @@ $user_id = $_SESSION['user_id'];
                                     <form action="delete" method="post">
                                         <input type="hidden" name="card_id" value="<?php echo $id; ?>">
                                         <div class='remove_add'>
-                                            <button id="confirm_delete" name="delete_card" type="submit" onclick="return confirm('هل أنت متأكد من رغبتك في حذف البطاقة ؟ ')">  <i class='fa fa-close'></i>  حذف البطاقة</button>
+                                            <button id="confirm_delete" name="delete_card" type="submit" onclick="return confirm('هل أنت متأكد من رغبتك في حذف البطاقة ؟ ')"> <i class='fa fa-close'></i> حذف البطاقة</button>
                                         </div>
                                     </form>
                                 </div>
                                 <div class='add_content'>
                                     <div class="card_image">
-                                        <img src="<?php echo $uploads ?>master.png" alt="">
+                                        <?php
+                                        $visa_public_name = 'فيزا';
+                                        if ($first_number == 5 || $first_number == 2) {
+                                            $visa_public_name = 'ماستر كارد ';
+                                        ?>
+                                            <img src="<?php echo $uploads ?>master.png" alt="">
+                                        <?php
+                                        } elseif ($first_number == 4) {
+                                            $visa_public_name = 'فيزا';
+                                        ?>
+                                            <img src="<?php echo $uploads ?>visa.svg" alt="">
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <img src="<?php echo $uploads ?>visa.svg" alt="">
+
+                                        <?php
+                                        }
+                                        ?>
                                     </div>
                                     <div class="card_data">
                                         <p class="number"><?php echo $lastFourDigits; ?> **** **** **** </p>

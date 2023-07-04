@@ -70,7 +70,7 @@ if (isset($_POST['add_new_payment'])) {
     <div class='container'>
         <div class="data">
             <div class="breadcrump">
-                <p> <a href="../index"> الرئيسية </a> \ <a href="../index"> حسابي </a> \ <a href="payments"> طرق الدفع </a>
+                <p> <a href="../index"> الرئيسية </a> \ <a href="../index"> حسابي </a> \ <a href="index"> طرق الدفع </a>
                     \
                     <span> أضف بطاقة دفع جديدة</span>
                 </p>

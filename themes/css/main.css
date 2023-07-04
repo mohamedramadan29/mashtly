@@ -1736,10 +1736,87 @@ body {
 }
 
 /***************************   END ADREESS PAGE   ******************************/
+/****************************** START CHECKOUT PAGE ***************************/
+.adress_page .addresses .checkout_address .address {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: auto;
+    margin-top: 15px;
+}
+.adress_page .addresses .checkout_address .address .security_number input{
+    border-radius: 20px;
+    border: 1px solid #D1D3D4;
+    outline: none;
+    padding: 7px;
+    width: 110px;
+    text-align: center;
+}
+.adress_page .addresses .checkout_address .address .security_number label{
+    color: #000000;
+    font-size: 15px;
+    margin-left: 5px;
+}
+.adress_page .addresses .checkout_address .address .global_button {
+    background-color: transparent;
+    border-color: var(--second-color);
+    color: var(--second-color);
+}
+.adress_page .addresses .checkout_address .payment_method .add_content{
+    margin-top: 0;
+}
+.cart .user_address {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
+.cart .user_address h5 {
+    color: var(--main-color);
+    font-weight: bold;
+    font-size: 20px;
+    margin-right: 80px;
+    position: relative;
+}
+
+.cart .user_address h5::after {
+    content: '';
+    position: absolute;
+    right: -59px;
+    top: 13px;
+    width: 50px;
+    height: 3px;
+    background-color: #A0B2B1;
+}
+
+.cart .user_address a {
+    color: var(--second-color);
+}
+.cart .coupon_form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+.cart .coupon_form input{
+    border-radius: 39px;
+    border: 1px solid #D1D3D4;
+    outline: none;
+    padding: 12px;
+    box-shadow: none;
+    min-width: 300px;
+}
+.cart .coupon_form button{
+    background-color: transparent;
+    color: var(--second-color);
+    border-color: var(--second-color);
+    margin-right: 15px; 
+    padding: 11px 35px;
+    font-size: 16px;
+}
+/******************************* END CHECKOUT PAGE **********************/
 /******************************* Start New Address Page ***************************/
-.new_address_page {}
-
 .new_address_page .add_new_address {
     margin-top: 20px;
 }
@@ -1871,6 +1948,7 @@ body {
 
 .adress_page .addresses .payment_method .add_content .card_image img {
     width: 70px;
+    margin-left: 10px;
 }
 
 .adress_page .addresses .payment_method .add_content .card_data .number {
