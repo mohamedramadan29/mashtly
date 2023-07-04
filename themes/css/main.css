@@ -211,10 +211,93 @@ body {
     background: var(--second-color);
     padding: 12px;
     border-radius: 25px;
+    font-size: 15px;
 }
 
 .middel_header .data .info .sign_in img {
     margin-left: 5px;
+    width: 16px;
+}
+
+.middel_header .data .info .sign_in .user_account {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: all 1s ease-in-out;
+}
+
+.middel_header .data .info .sign_in .user_account .image {
+    background-color: #F2F8F2;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.middel_header .data .info .sign_in .user_account img {
+    width: 13px;
+    text-align: center;
+    margin-left: 0px;
+}
+
+.middel_header .data .info .sign_in .user_account span {
+    color: #A0B2B1;
+    font-size: 12px;
+}
+
+.middel_header .data .info .sign_in .user_account h4 {
+    color: var(--main-color);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.middel_header .data .info .sign_in .user_account h4 i {
+    color: var(--second-color);
+    font-size: 13px;
+}
+
+.middel_header .data .info .sign_in .user_account .links {
+    position: absolute;
+    top: 100%;
+    z-index: 999999;
+    background: #fff;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    width: 185px;
+    padding-top: 10px;
+    display: none;
+    transition: all 1s ease-in-out;
+    opacity: 0;
+}
+
+.middel_header .data .info .sign_in .user_account:hover .links {
+    display: block;
+    opacity: 1;
+    transition: all 1s ease-in-out;
+}
+
+.middel_header .data .info .sign_in .user_account .links li {
+    padding: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.middel_header .data .info .sign_in .user_account .links li:hover {
+    background-color: #F2F8F2;
+}
+
+.middel_header .data .info .sign_in .user_account .links li img {
+    display: inline-block;
+    width: 25px;
+}
+
+.middel_header .data .info .sign_in .user_account .links li a {
+    text-decoration: none;
+    background-color: transparent;
+    padding: 0;
+    color: #000;
 }
 
 /* END MIDDEL HEADER */
@@ -1744,7 +1827,8 @@ body {
     min-height: auto;
     margin-top: 15px;
 }
-.adress_page .addresses .checkout_address .address .security_number input{
+
+.adress_page .addresses .checkout_address .address .security_number input {
     border-radius: 20px;
     border: 1px solid #D1D3D4;
     outline: none;
@@ -1752,19 +1836,23 @@ body {
     width: 110px;
     text-align: center;
 }
-.adress_page .addresses .checkout_address .address .security_number label{
+
+.adress_page .addresses .checkout_address .address .security_number label {
     color: #000000;
     font-size: 15px;
     margin-left: 5px;
 }
+
 .adress_page .addresses .checkout_address .address .global_button {
     background-color: transparent;
     border-color: var(--second-color);
     color: var(--second-color);
 }
-.adress_page .addresses .checkout_address .payment_method .add_content{
+
+.adress_page .addresses .checkout_address .payment_method .add_content {
     margin-top: 0;
 }
+
 .cart .user_address {
     display: flex;
     justify-content: space-between;
@@ -1792,14 +1880,16 @@ body {
 .cart .user_address a {
     color: var(--second-color);
 }
-.cart .coupon_form{
+
+.cart .coupon_form {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 30px;
     margin-top: 30px;
 }
-.cart .coupon_form input{
+
+.cart .coupon_form input {
     border-radius: 39px;
     border: 1px solid #D1D3D4;
     outline: none;
@@ -1807,14 +1897,16 @@ body {
     box-shadow: none;
     min-width: 300px;
 }
-.cart .coupon_form button{
+
+.cart .coupon_form button {
     background-color: transparent;
     color: var(--second-color);
     border-color: var(--second-color);
-    margin-right: 15px; 
+    margin-right: 15px;
     padding: 11px 35px;
     font-size: 16px;
 }
+
 /******************************* END CHECKOUT PAGE **********************/
 /******************************* Start New Address Page ***************************/
 .new_address_page .add_new_address {

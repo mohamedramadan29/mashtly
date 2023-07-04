@@ -49,7 +49,44 @@
                 </a>
               </div>
               <div class="sign_in">
-                <a href="login"> <img src="<?php echo $uploads ?>/sign-in.png" alt=""> تسجيل الدخول </a>
+                <?php
+                if (isset($_SESSION['user_id'])) {
+                  $stmt = $connect->prepare("SELECT * FROM users WHERE id = ?");
+                  $stmt->execute(array($_SESSION['user_id']));
+                  $user_data = $stmt->fetch();
+                  $user_name = $user_data['user_name'];
+                ?>
+                  <div class="user_account">
+                    <div class="image">
+                      <img src="<?php echo $uploads ?>/user.svg" alt="">
+                    </div>
+                    <div>
+                      <span> مرحبا بك </span>
+                      <h4> <?php echo $user_name; ?> <i class="fa fa-chevron-down"> </i></h4>
+                    </div>
+                    <div class="links">
+                      <ul class="list-unstyled">
+                        <li> <img src="<?php echo $uploads ?>/purches.svg" alt=""> <a href="profile/purchase">مشترياتي</a> </li>
+                        <li> <img src="<?php echo $uploads ?>/address.svg" alt=""> <a href="profile/address">عناويني</a> </li>
+                        <li> <img src="<?php echo $uploads ?>/return.svg" alt=""> <a href="profile/purchase">الإرجاع</a> </li>
+                        <li> <img src="<?php echo $uploads ?>/profile_payment.svg" alt=""> <a href="profile/payment">طرق الدفع </a> </li>
+                        <li> <img src="<?php echo $uploads ?>/cart.svg" alt=""> <a href="cart">سلة الشراء </a> </li>
+                        <li> <img src="<?php echo $uploads ?>/heart_profile.svg" alt=""> <a href="profile/favorite"> المفضلة </a> </li>
+                        <li> <img src="<?php echo $uploads ?>/change.svg" alt=""> <a href="profile/change_password"> تغيير كلمة المرور </a> </li>
+                        <li> <img src="<?php echo $uploads ?>/edit_data.svg" alt=""> <a href="profile/edit_data"> تعديل بياناتي </a> </li>
+                        <li> <i class="fa fa-log"></i>   <a style="color: red; padding-right:15px" href="logout"> تسجيل خروج  </a> </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                <?php
+                } else {
+                ?>
+                  <a href="login"> <img src="<?php echo $uploads ?>/sign-in.png" alt=""> تسجيل الدخول </a>
+                <?php
+                }
+                ?>
+
               </div>
             </div>
 
