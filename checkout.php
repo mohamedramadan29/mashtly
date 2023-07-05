@@ -10,6 +10,11 @@ if (isset($_SESSION['user_id'])) {
     $stmt->execute(array($cookie_id));
     $count = $stmt->rowCount();
     $allitems = $stmt->fetchAll();
+    if($count > 0){
+
+    }else{
+        header("Location:cart");
+    }
 ?>
     <div class="profile_page adress_page">
         <div class='container'>

@@ -10,7 +10,7 @@ if (isset($_SESSION['user_id'])) {
         <div class='container'>
             <div class="data">
                 <div class="breadcrump">
-                    <p> <a href="#"> الرئيسية </a> / <span> حسابي </span> </p>
+                    <p> <a href="../index"> الرئيسية </a> / <span> حسابي </span> </p>
                 </div>
                 <div class="data_header_name">
                     <h2 class='header2'> حسابي </h2>
