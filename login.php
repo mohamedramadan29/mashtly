@@ -3,12 +3,11 @@ ob_start();
 session_start();
 $page_title = 'الرئيسية';
 include "init.php";
-if(isset($_SESSION['user_id'])){
+if (isset($_SESSION['user_id'])) {
     header("location:profile");
 }
 ?>
 <div class="profile_page new_address_page">
-
     <div class='container'>
         <div class="data">
             <div class="breadcrump">
@@ -17,7 +16,6 @@ if(isset($_SESSION['user_id'])){
             </div>
             <?php
             include "success_error_msg.php";
-
             ?>
             <div class="row">
                 <div class="col-lg-6">

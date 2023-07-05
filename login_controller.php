@@ -27,7 +27,7 @@ if (isset($_POST['new_account'])) {
         $stmt =  insertData($connect, $table, $data);
         if ($stmt) {
             $_SESSION['success'] = ' تم تسجيل حسابك بنجاح من فضلك سجل دخولك الأن ';
-           
+
             header('location:login');
         }
     } else {
@@ -37,7 +37,7 @@ if (isset($_POST['new_account'])) {
 }
 /////////////////////////////////////////// login to account /////////////////////////////////
 if (isset($_POST['login'])) {
-    $formerror[] = '';
+    $formerror = [];
     $username = sanitizeInput($_POST['user_name']);
     $password = sha1($_POST['password']);
     $stmt = $connect->prepare("SELECT * FROM users WHERE (user_name=? OR email = ?) AND password=?");
