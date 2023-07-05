@@ -8,6 +8,8 @@ $uploads = "uploads/";
 include $tem . "header.php";
 include $tem . "navbar.php";
 include 'global_functions.php';
+
+date_default_timezone_set('Asia/Riyadh'); 
 // user Cookies
 
 
