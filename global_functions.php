@@ -37,5 +37,29 @@ function insertData($connect, $table, $data)
     $stmt->execute($data);
     return $stmt;
 }
-/** to increase decrease count product */
- 
+
+// get all product from fav
+if (isset($_SESSION['user_id'])) {
+    function checkIfProductIsFavourite($connect, $user_id, $product_id)
+    {
+        $stmt = $connect->prepare("SELECT * FROM user_favourite WHERE user_id=? AND product_id=?");
+        $stmt->execute(array($user_id, $product_id));
+        $count = $stmt->rowCount();
+        if ($count > 0) {
+            return true;
+        }
+        return false;
+    }
+}
+
+// get all product from cart 
+function checkIfProductInCart($connect, $cookie_id, $product_id)
+{
+    $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id=? AND product_id=?");
+    $stmt->execute(array($cookie_id, $product_id));
+    $count = $stmt->rowCount();
+    if ($count > 0) {
+        return true;
+    }
+    return false;
+}

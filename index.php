@@ -4,7 +4,6 @@ session_start();
 $page_title = 'الرئيسية';
 include "init.php";
 ?>
-
 <div class="hero">
     <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-indicators">
@@ -72,6 +71,8 @@ include "init.php";
 <!-- END AUTOMATIC SEARCH INDEX -->
 <!-- START NEWWER PRODUCTS -->
 <?php
+
+
 // add to favorite
 if (isset($_POST['add_to_fav'])) {
     if (isset($_SESSION['user_id'])) {
@@ -135,20 +136,42 @@ if (isset($_POST['add_to_cart'])) {
                     <div class="product_info">
                         <img class="main_image" src="uploads/product.png" alt="">
                         <div class="product_details">
-                            <h2> <?php echo $product['name']; ?> </h2>
+                            <h2> <a href="product?slug=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
                             <h4 class='price'> <?php echo  $product['price'] ?> ر.س </h4>
                             <form action="" method="post">
                                 <input type="hidden" name="price" value="<?php echo $product['price']; ?>">
                                 <div class='add_cart'>
                                     <div>
-                                        <button name="add_to_cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                            الي السلة </button>
+                                        <?php
+                                        if (checkIfProductInCart($connect, $cookie_id, $product['id'])) {
+                                        ?>
+                                            <a href="cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
+                                                مشاهدة السلة
+                                            </a>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <button name="add_to_cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                                الي السلة
+                                            </button>
+                                        <?php
+                                        }
+                                        ?>
                                     </div>
                                     <div class="heart">
                                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                                        <button name="add_to_fav" type="submit" style="border: none; background-color:transparent">
-                                            <img src="uploads/heart.png" alt="">
-                                        </button>
+                                        <?php
+                                        if (checkIfProductIsFavourite($connect, $_SESSION['user_id'], $product['id'])) {
+                                        ?>
+                                            <img src="uploads/heart2.svg" alt="">
+                                        <?php
+                                        } else { ?>
+                                            <button name="add_to_fav" type="submit" style="border: none; background-color:transparent">
+                                                <img src="uploads/heart.png" alt="">
+                                            </button>
+                                        <?php
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                             </form>
