@@ -2,10 +2,9 @@
 ob_start();
 session_start();
 $page_title = 'الرئيسية';
-    include "init.php";
+include "init.php";
 ?>
 <div class="profile_page adress_page">
-
     <div class='container'>
         <div class="data">
             <div class="breadcrump">
@@ -24,23 +23,21 @@ $page_title = 'الرئيسية';
                     <div class='box'>
                         <div class="input_box">
                             <label for="email"> البريد الإلكتروني </label>
-                            <input id="email" type="email" name="email" class='form-control' placeholder=" Example@gmail.com ">
+                            <input id="email" type="email" name="email" class='form-control' placeholder=" Example@gmail.com">
                         </div>
                     </div>
                     <div class="box">
                         <div class="input_box">
-                        <div class="submit_buttons" style="width: 100%;">
-                        <button class="btn global_button forget_button" style="display: block;"> أرسل رابط التأكيد </button>
-                    </div>
+                            <div class="submit_buttons" style="width: 100%;">
+                                <button class="btn global_button forget_button" style="display: block;"> أرسل رابط التأكيد </button>
+                            </div>
                         </div>
                     </div>
-                    
                 </div>
             </form>
         </div>
     </div>
 </div>
-
 <?php
 include $tem . 'footer.php';
 ob_end_flush();

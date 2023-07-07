@@ -161,10 +161,13 @@ if (isset($_POST['add_to_cart'])) {
                                     <div class="heart">
                                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
                                         <?php
-                                        if (checkIfProductIsFavourite($connect, $_SESSION['user_id'], $product['id'])) {
+                                        if (isset($_SESSION['user_id'])) {
+
+                                            if (checkIfProductIsFavourite($connect, $_SESSION['user_id'], $product['id'])) {
                                         ?>
-                                            <img src="uploads/heart2.svg" alt="">
-                                        <?php
+                                                <img src="uploads/heart2.svg" alt="">
+                                            <?php
+                                            }
                                         } else { ?>
                                             <button name="add_to_fav" type="submit" style="border: none; background-color:transparent">
                                                 <img src="uploads/heart.png" alt="">

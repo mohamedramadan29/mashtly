@@ -39,7 +39,7 @@ function insertData($connect, $table, $data)
 }
 
 // get all product from fav
-if (isset($_SESSION['user_id'])) {
+ 
     function checkIfProductIsFavourite($connect, $user_id, $product_id)
     {
         $stmt = $connect->prepare("SELECT * FROM user_favourite WHERE user_id=? AND product_id=?");
@@ -50,7 +50,7 @@ if (isset($_SESSION['user_id'])) {
         }
         return false;
     }
-}
+ 
 
 // get all product from cart 
 function checkIfProductInCart($connect, $cookie_id, $product_id)

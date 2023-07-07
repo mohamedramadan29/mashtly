@@ -74,7 +74,7 @@
                         <li> <img src="<?php echo $uploads ?>/heart_profile.svg" alt=""> <a href="profile/favorite"> المفضلة </a> </li>
                         <li> <img src="<?php echo $uploads ?>/change.svg" alt=""> <a href="profile/change_password"> تغيير كلمة المرور </a> </li>
                         <li> <img src="<?php echo $uploads ?>/edit_data.svg" alt=""> <a href="profile/edit_data"> تعديل بياناتي </a> </li>
-                        <li> <i class="fa fa-log"></i>   <a style="color: red; padding-right:15px" href="logout"> تسجيل خروج  </a> </li>
+                        <li> <i class="fa fa-log"></i> <a style="color: red; padding-right:15px" href="http://localhost/mashtly/logout"> تسجيل خروج </a> </li>
                       </ul>
                     </div>
                   </div>

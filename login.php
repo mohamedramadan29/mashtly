@@ -39,7 +39,6 @@ if (isset($_SESSION['user_id'])) {
                                         <label for="password"> كلمة المرور </label>
                                         <input id="password2" type="password" name="password" class='password form-control' placeholder="اكتب…">
                                         <span onclick="togglePasswordVisibility('password2', '.password_show_icon')" class="fa fa-eye show_eye password_show_icon"></span>
-
                                     </div>
                                 </div>
                                 <div class="box">
@@ -54,7 +53,7 @@ if (isset($_SESSION['user_id'])) {
                                     <div class="input_box">
                                         <div class="form-check">
                                             <label class="form-check-label" for="flexCheckChecked">
-                                                <a href="#" class="forget_password"> هل نسيت كلمة المرور؟ </a>
+                                                <a href="forget-password" class="forget_password"> هل نسيت كلمة المرور؟ </a>
                                             </label>
                                         </div>
                                     </div>
