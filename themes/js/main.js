@@ -74,6 +74,7 @@
       }
     });
   });
+  
   // to increase decrease proucts
  
     // استهلال العناصر من الواجهة

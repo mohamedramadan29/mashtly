@@ -82,7 +82,7 @@
                 <?php
                 } else {
                 ?>
-                  <a href="login"> <img src="<?php echo $uploads ?>/sign-in.png" alt=""> تسجيل الدخول </a>
+                  <a href="http://localhost/mashtly/login"> <img src="<?php echo $uploads ?>/sign-in.png" alt=""> تسجيل الدخول </a>
                 <?php
                 }
                 ?>

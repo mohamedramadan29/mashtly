@@ -63,21 +63,21 @@ if (isset($_SESSION['user_id'])) {
                             <div class="input_box">
                                 <label for="password1"> كلمة المرور القديمة </label>
                                 <input id="password1" type="password" name="old_password" class='password form-control' placeholder=" اكتب ... ">
-                                <span onclick="togglePasswordVisibility('password1', '.password_show_icon')" class="fa fa-eye show_eye password_show_icon"></span>
+                                <span onclick="togglePasswordVisibility('password1', this)" class="fa fa-eye-slash show_eye password_show_icon"></span>
                             </div>
                         </div>
                         <div class='box'>
                             <div class="input_box">
                                 <label for="password2"> كلمة مرور جديدة </label>
                                 <input id="password2" type="password" name="new_password" class='password form-control' placeholder=" اكتب ... ">
-                                <span onclick="togglePasswordVisibility('password2', '.password_show_icon')" class="fa fa-eye show_eye password_show_icon"></span>
+                                <span onclick="togglePasswordVisibility('password2', this)" class="fa fa-eye-slash show_eye password_show_icon"></span>
                             </div>
                         </div>
                         <div class='box'>
                             <div class="input_box">
                                 <label for="password3"> تأكيد كلمة المرور الجديدة </label>
                                 <input id="password3" type="password" name="confirm_password" class='password form-control' placeholder=" اكتب ... ">
-                                <span onclick="togglePasswordVisibility('password3', '.password_show_icon')" class="fa fa-eye show_eye password_show_icon"></span>
+                                <span onclick="togglePasswordVisibility('password3', this )" class="fa fa-eye-slash show_eye password_show_icon"></span>
                             </div>
                         </div>
                         <div class="box">
@@ -106,17 +106,18 @@ include $tem . 'footer.php';
 ob_end_flush();
 ?>
 
-
 <script>
-    function togglePasswordVisibility(inputId, iconClass) {
+    function togglePasswordVisibility(inputId, iconElement) {
         var passwordInput = document.getElementById(inputId);
-        var passwordIcon = document.querySelector(iconClass);
+        var icon = iconElement.classList;
         if (passwordInput.type === "password") {
             passwordInput.type = "text";
-            passwordIcon.classList.add("password_show_icon_active");
+            icon.remove("fa-eye-slash");
+            icon.add("fa-eye");
         } else {
             passwordInput.type = "password";
-            passwordIcon.classList.remove("password_show_icon_active");
+            icon.remove("fa-eye");
+            icon.add("fa-eye-slash");
         }
     }
 </script>

@@ -34,12 +34,10 @@ if (isset($_SESSION['user_id'])) {
                                         <input id="name" type="text" name="user_name" class='form-control' placeholder="اكتب…">
                                     </div>
                                 </div>
-                                <div class='box'>
-                                    <div class="input_box">
-                                        <label for="password"> كلمة المرور </label>
-                                        <input id="password2" type="password" name="password" class='password form-control' placeholder="اكتب…">
-                                        <span onclick="togglePasswordVisibility('password2', '.password_show_icon')" class="fa fa-eye show_eye password_show_icon"></span>
-                                    </div>
+                                <div class="input_box">
+                                    <label for="password">كلمة المرور</label>
+                                    <input id="password2" type="password" name="password" class="password form-control" placeholder="اكتب...">
+                                    <span onclick="togglePasswordVisibility('password2', this)" class="fa fa-eye-slash show_eye password_show_icon"></span>
                                 </div>
                                 <div class="box">
                                     <div class="input_box">
@@ -83,20 +81,21 @@ if (isset($_SESSION['user_id'])) {
                                 <div class='box'>
                                     <div class="input_box">
                                         <label for="user_name"> اسم المستخدم </label>
-                                        <input value="<?php if(isset($_SESSION['new_user_name'])) echo $_SESSION['new_user_name']; ?>" required id="user_name" type="text" name="user_name" class='form-control' placeholder="اكتب…" value="<?php if(isset($_REQUEST['user_name'])) echo $_REQUEST['user_name']; ?>">
+                                        <input value="<?php if (isset($_SESSION['new_user_name'])) echo $_SESSION['new_user_name']; ?>" required id="user_name" type="text" name="user_name" class='form-control' placeholder="اكتب…" value="<?php if (isset($_REQUEST['user_name'])) echo $_REQUEST['user_name']; ?>">
                                     </div>
                                 </div>
                                 <div class='box'>
                                     <div class="input_box">
                                         <label for="email"> البريد الألكتروني </label>
-                                        <input value="<?php if(isset($_SESSION['new_email'])) echo $_SESSION['new_email']; ?>" required id="email" type="email" name="email" class='form-control' placeholder="اكتب…">
+                                        <input value="<?php if (isset($_SESSION['new_email'])) echo $_SESSION['new_email']; ?>" required id="email" type="email" name="email" class='form-control' placeholder="اكتب…">
                                     </div>
                                 </div>
                                 <div class='box'>
                                     <div class="input_box">
                                         <label for="password"> كلمة المرور </label>
                                         <input required id="password" type="password" name="password" class='password form-control' placeholder="اكتب…">
-                                        <span onclick="togglePasswordVisibility('password', '.password_show_icon')" class="fa fa-eye show_eye password_show_icon"></span>
+                                        <span onclick="togglePasswordVisibility('password', this)" class="fa fa-eye-slash show_eye password_show_icon"></span>
+
                                     </div>
                                 </div>
                                 <div class="box">
@@ -136,16 +135,20 @@ if (isset($_SESSION['user_id'])) {
 include $tem . 'footer.php';
 ob_end_flush();
 ?>
+
+
 <script>
-    function togglePasswordVisibility(inputId, iconClass) {
+    function togglePasswordVisibility(inputId, iconElement) {
         var passwordInput = document.getElementById(inputId);
-        var passwordIcon = document.querySelector(iconClass);
+        var icon = iconElement.classList;
         if (passwordInput.type === "password") {
             passwordInput.type = "text";
-            passwordIcon.classList.add("password_show_icon_active");
+            icon.remove("fa-eye-slash");
+            icon.add("fa-eye");
         } else {
             passwordInput.type = "password";
-            passwordIcon.classList.remove("password_show_icon_active");
+            icon.remove("fa-eye");
+            icon.add("fa-eye-slash");
         }
     }
 </script>
