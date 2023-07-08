@@ -83,26 +83,26 @@ if (isset($_SESSION['user_id'])) {
                                 <div class='box'>
                                     <div class="input_box">
                                         <label for="user_name"> اسم المستخدم </label>
-                                        <input id="user_name" type="text" name="user_name" class='form-control' placeholder="اكتب…">
+                                        <input value="<?php if(isset($_SESSION['new_user_name'])) echo $_SESSION['new_user_name']; ?>" required id="user_name" type="text" name="user_name" class='form-control' placeholder="اكتب…" value="<?php if(isset($_REQUEST['user_name'])) echo $_REQUEST['user_name']; ?>">
                                     </div>
                                 </div>
                                 <div class='box'>
                                     <div class="input_box">
                                         <label for="email"> البريد الألكتروني </label>
-                                        <input id="email" type="email" name="email" class='form-control' placeholder="اكتب…">
+                                        <input value="<?php if(isset($_SESSION['new_email'])) echo $_SESSION['new_email']; ?>" required id="email" type="email" name="email" class='form-control' placeholder="اكتب…">
                                     </div>
                                 </div>
                                 <div class='box'>
                                     <div class="input_box">
                                         <label for="password"> كلمة المرور </label>
-                                        <input id="password" type="password" name="password" class='password form-control' placeholder="اكتب…">
+                                        <input required id="password" type="password" name="password" class='password form-control' placeholder="اكتب…">
                                         <span onclick="togglePasswordVisibility('password', '.password_show_icon')" class="fa fa-eye show_eye password_show_icon"></span>
                                     </div>
                                 </div>
                                 <div class="box">
                                     <div class="input_box">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="agree_terms" checked>
+                                            <input required class="form-check-input" type="checkbox" value="" name="agree_policy" id="agree_terms" checked>
                                             <label class="form-check-label" for="agree_terms">
                                                 أوفق علي <a href="terms" target="_blank" style="color: var(--second-color);"> الشروط والأحكام </a>
                                             </label>
@@ -112,7 +112,7 @@ if (isset($_SESSION['user_id'])) {
                                 <div class="box">
                                     <div class="input_box">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="subscribe_mail" checked>
+                                            <input class="form-check-input" name="emails_subscribe" type="checkbox" value="" id="subscribe_mail" checked>
                                             <label class="form-check-label" for="subscribe_mail">
                                                 اشترك في القائمة البريدية لتصلك آخر العروض والخصومات
                                             </label>
