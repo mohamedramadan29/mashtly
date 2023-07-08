@@ -226,25 +226,25 @@
     });
   });
 </script>
-
 <script>
   jQuery(function($) {
-    // اختيار المتغيرات 
-    $('#pro_attribute').change(function() {
+    $('.pro-attribute').change(function() {
       var pro_attribute = $(this).val();
+      var uniqueId = $(this).data('uniqueId'); // استخدام الـ data-uniqueId للوصول إلى القيمة الفريدة
+      console.log(uniqueId);
       if (pro_attribute != '') {
         $.ajax({
-          url: "get_variation.php",
+          url: "products/get_variation.php",
           method: "POST",
           data: {
             pro_attribute: pro_attribute
           },
           success: function(data) {
-            $('#pro_variation').html(data);
+            $('.pro-variation[data-uniqueId="' + uniqueId + '"]').html(data); // استخدام الـ uniqueId لتحديد العنصر المستهدف بشكل فريد
           }
         });
       } else {
-        $('#pro_variation').html('<option value="">-- اختر --</option>');
+        $('.pro-variation[data-uniqueId="' + uniqueId + '"]').html('<option value="">-- اختر --</option>'); // استخدام الـ uniqueId لتحديد العنصر المستهدف بشكل فريد
       }
     });
   });

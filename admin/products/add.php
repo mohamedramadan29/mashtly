@@ -242,31 +242,35 @@ if (isset($_POST['add_pro'])) {
                   ?>
                 </select>
               </div>
+              <?php
+              $uniqueId = uniqid();
+              echo $uniqueId;
+              ?>
               <div id="attributes-container">
                 <div class="attribute-group">
                   <div class="form-group">
                     <br>
-                    <label for="inputStatus"> اختر السمه </label>
-                    <select id="pro_attribute" class="form-control custom-select select2" name="pro_attribute[]">
-                      <option selected disabled> -- اختر -- </option>
+                    <label for="inputStatus">اختر السمة</label>
+                    <select class="form-control custom-select select2 pro-attribute" name="pro_attribute[]" data-uniqueId="<?php echo $uniqueId; ?>">
+                      <option selected disabled>-- اختر --</option>
                       <?php
                       $stmt = $connect->prepare("SELECT * FROM product_attribute");
                       $stmt->execute();
                       $allatt = $stmt->fetchAll();
-                      foreach ($allatt as $att) {
-                      ?>
-                        <option <?php if (isset($_REQUEST['pro_attribute']) && $_REQUEST['pro_attribute'] == $att['id']) echo "selected"; ?> value="<?php echo $att['id']; ?>"> <?php echo $att['name'] ?> </option>
-                      <?php
+                      foreach ($allatt as $index => $att) {
+                        $selected = (isset($_REQUEST['pro_attribute']) && in_array($att['id'], $_REQUEST['pro_attribute'])) ? 'selected' : '';
+                        echo '<option value="' . $att['id'] . '" ' . $selected . '>' . $att['name'] . '</option>';
                       }
                       ?>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="inputStatus"> المتغيرات </label>
-                    <select id="pro_variation" class="form-control custom-select select2" name="pro_variation[]" multiple>
-                      <option disabled> -- اختر -- </option>
+                    <label for="inputStatus">المتغيرات</label>
+                    <select class="form-control custom-select select2 pro-variation" name="pro_variations[]" multiple data-uniqueId="<?php echo $uniqueId; ?>">
+                      <option disabled>-- اختر --</option>
                     </select>
                   </div>
+
                   <div class="form-group">
                     <label for="inputName">سعر جديد </label>
                     <input type="number" id="pro_price" name="pro_price[]" class="form-control" value="<?php if (isset($_REQUEST['pro_price'])) echo $_REQUEST['pro_price'] ?>">
