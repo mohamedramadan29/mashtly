@@ -63,3 +63,22 @@ function checkIfProductInCart($connect, $cookie_id, $product_id)
     }
     return false;
 }
+
+// generate token to use in rember me
+function generateRememberToken() {
+    return uniqid();
+}
+
+
+// update token into db 
+
+function saveRememberTokenToDatabase($connect,$user_id , $token){
+    $stmt = $connect->prepare("UPDATE users SET remeber_token = ? WHERE id=?");
+    $stmt->execute(array($token, $user_id));
+}
+// delete remeber token from db
+
+function deleteRememberTokenFromDatabase($connect,$user_id){
+$stmt = $connect->prepare("UPDATE users SET remeber_token='' WHERE id = ?");
+$stmt->execute(array($user_id));
+}

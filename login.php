@@ -44,7 +44,7 @@ if (isset($_SESSION['user_id'])) {
                                 <div class="box">
                                     <div class="input_box">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                                            <input name="remember_me" class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
                                             <label class="form-check-label" for="flexCheckChecked">
                                                 تذكر كلمة المرور؟
                                             </label>
@@ -53,12 +53,11 @@ if (isset($_SESSION['user_id'])) {
                                     <div class="input_box">
                                         <div class="form-check">
                                             <label class="form-check-label" for="flexCheckChecked">
-                                                <a href="forget-password" class="forget_password"> هل نسيت كلمة المرور؟ </a>
+                                                <a href="password/forget" class="forget_password"> هل نسيت كلمة المرور؟ </a>
                                             </label>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="submit_buttons">
                                     <button class="btn global_button" type="submit" name="login"> تسجيل الدخول </button>
                                 </div>
