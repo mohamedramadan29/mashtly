@@ -17,6 +17,9 @@ if (isset($_POST['add_pro'])) {
   $pro_variations = $_POST['pro_variations'];
   $pro_prices = $_POST['pro_price'];
   $tags = $_POST['tags'];
+  $publish = $_POST['publish'];
+  $related_product = $_POST['related_product'];
+  $related_product_string = implode(',',(array) $related_product);
   $main_checked = $_POST['main_checked'];
   $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ?");
   $stmt->execute(array($slug));
@@ -83,8 +86,8 @@ if (isset($_POST['add_pro'])) {
 
   if (empty($formerror)) {
     $stmt = $connect->prepare("INSERT INTO products (cat_id,more_cat,name, slug , description,short_desc,product_adv,main_image,video,main_checked,more_images,purchase_price,
-    price, sale_price , av_num,tags)
-    VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zshort_desc,:zproduct_adv,:zmain_images,:zvideo,:zmain_checked,:zmore_images,:zpurchase_price,:zprice,:zsale_price,:zav_num,:ztags)");
+    price, sale_price , av_num,tags,related_product,publish)
+    VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zshort_desc,:zproduct_adv,:zmain_images,:zvideo,:zmain_checked,:zmore_images,:zpurchase_price,:zprice,:zsale_price,:zav_num,:ztags,:zrelated_product,:zpublish)");
     $stmt->execute(array(
       "zcat" => $cat_id,
       "zmore_cat" => $more_cat_string,
@@ -102,6 +105,8 @@ if (isset($_POST['add_pro'])) {
       "zsale_price" => $sale_price,
       "zav_num" => $av_num,
       "ztags" => $tags,
+      "zrelated_product"=>$related_product_string,
+      "zpublish" => $publish
     ));
     $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC LIMIT 1");
     $stmt->execute();
@@ -156,7 +161,7 @@ if (isset($_POST['add_pro'])) {
         </script>
       <?php
       }
-      header('Location:main?dir=products&page=report');
+     // header('Location:main?dir=products&page=report');
     }
   } else {
     $_SESSION['error_messages'] = $formerror;
@@ -225,11 +230,9 @@ if (isset($_POST['add_pro'])) {
                   ?>
                 </select>
               </div>
-
               <div class="form-group">
                 <label for="inputStatus"> اضافة اقسام اخري </label>
-                <select required id="" class="form-control custom-select select2" name="more_cat" multiple>
-
+                <select required id="" class="form-control custom-select select2" name="more_cat[]" multiple>
                   <?php
                   $stmt = $connect->prepare("SELECT * FROM categories");
                   $stmt->execute();
@@ -251,7 +254,7 @@ if (isset($_POST['add_pro'])) {
                   <div class="form-group">
                     <br>
                     <label for="inputStatus">اختر السمة</label>
-                    <select class="form-control custom-select select2 pro-attribute" name="pro_attribute[]" data-uniqueId="<?php echo $uniqueId; ?>">
+                    <select class="form-control custom-select select2 pro-attribute" name="pro_attribute[]" data-new = <?php echo $uniqueId; ?> data-uniqueId="<?php echo $uniqueId; ?>">
                       <option selected disabled>-- اختر --</option>
                       <?php
                       $stmt = $connect->prepare("SELECT * FROM product_attribute");
@@ -328,6 +331,22 @@ if (isset($_POST['add_pro'])) {
                 });
                 */
               </script>
+              <br>
+              <div class="form-group">
+                <label for="inputStatus"> المنتجات المرتبطة  </label>
+                <select required id="" class="form-control custom-select select2" name="related_product[]" multiple>
+                  <?php
+                  $stmt = $connect->prepare("SELECT * FROM products");
+                  $stmt->execute();
+                  $allpro = $stmt->fetchAll();
+                  foreach ($allpro as $pro) {
+                  ?>
+                    <option <?php if (isset($_REQUEST['related_product']) && $_REQUEST['related_product'] == $pro['id']) echo "selected"; ?> value="<?php echo $pro['id']; ?>"> <?php echo $pro['name'] ?> </option>
+                  <?php
+                  }
+                  ?>
+                </select>
+              </div>
             </div>
             <!-- /.card-body -->
           </div>
@@ -399,6 +418,14 @@ if (isset($_POST['add_pro'])) {
               <div class="form-group">
                 <label for="Company-2" class="block"> اضافة التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
                 <input required id="Company-2" name="tags" type="text" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="Company-2" class="block">  نشر المنتج </label>
+                <select name="publish" id="" class="form-control select2">
+                  <option value="" disabled> اختر الحالة </option>
+                  <option value="1"> نشر المنتج  </option>
+                  <option value="0"> ارشيف </option>
+                </select>
               </div>
             </div>
             <!-- /.card-body -->

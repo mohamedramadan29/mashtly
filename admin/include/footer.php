@@ -230,7 +230,7 @@
   jQuery(function($) {
     $('.pro-attribute').change(function() {
       var pro_attribute = $(this).val();
-      var uniqueId = $(this).data('uniqueId'); // استخدام الـ data-uniqueId للوصول إلى القيمة الفريدة
+      var uniqueId = $(this).data('new'); // استخدام الـ data-uniqueId للوصول إلى القيمة الفريدة
       console.log(uniqueId);
       if (pro_attribute != '') {
         $.ajax({
