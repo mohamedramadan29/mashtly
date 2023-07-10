@@ -40,6 +40,17 @@ if (isset($_SESSION['username'])) {
         include "categories/report.php";
     }
 
+     // START Coupons
+     if ($dir == 'coupons' && $page == 'add') {
+        include "coupons/add.php";
+    } elseif ($dir == 'coupons' && $page == 'edit') {
+        include "coupons/edit.php";
+    } elseif ($dir == 'coupons' && $page == 'delete') {
+        include 'coupons/delete.php';
+    } elseif ($dir == 'coupons' && $page == 'report') {
+        include "coupons/report.php";
+    }
+
     // START products
     if ($dir == 'products' && $page == 'add') {
         include "products/add.php";

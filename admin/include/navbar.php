@@ -103,6 +103,21 @@
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <p>
+                  كوبونات الخصم 
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="main.php?dir=coupons&page=report" class="nav-link">
+                    <p> جميع الكوبونات </p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <p>
                   الطلبات
                   <i class="fas fa-angle-left right"></i>
                 </p>
