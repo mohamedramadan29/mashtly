@@ -74,6 +74,7 @@
 <!-- Ekko Lightbox -->
 <script src="plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 <!-- AdminLTE App -->
+<script src="dist/js/dropify.min.js"></script>
 <script src="dist/js/adminlte.min.js"></script>
 <script src="dist/js/main.js"></script>
 <!-- Page specific script -->
@@ -259,6 +260,17 @@
     });
 
   })
+</script>
+<!-- Use Dropify  -->
+<script>
+  $('.dropify').dropify({
+    messages: {
+      'default': 'قم بسحب وإفلات الصورة هنا أو انقر للتصفح',
+      'replace': 'قم بسحب وإفلات الصورة هنا أو انقر للتصفح لتعويض الصورة',
+      'remove': 'إزالة',
+      'error': 'عذرًا ، حدث خطأ أثناء تحميل الملف'
+    }
+  });
 </script>
 </body>
 

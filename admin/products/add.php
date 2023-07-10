@@ -19,7 +19,7 @@ if (isset($_POST['add_pro'])) {
   $tags = $_POST['tags'];
   $publish = $_POST['publish'];
   $related_product = $_POST['related_product'];
-  $related_product_string = implode(',',(array) $related_product);
+  $related_product_string = implode(',', (array) $related_product);
   $main_checked = $_POST['main_checked'];
   $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ?");
   $stmt->execute(array($slug));
@@ -105,7 +105,7 @@ if (isset($_POST['add_pro'])) {
       "zsale_price" => $sale_price,
       "zav_num" => $av_num,
       "ztags" => $tags,
-      "zrelated_product"=>$related_product_string,
+      "zrelated_product" => $related_product_string,
       "zpublish" => $publish
     ));
     $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC LIMIT 1");
@@ -161,7 +161,7 @@ if (isset($_POST['add_pro'])) {
         </script>
       <?php
       }
-     // header('Location:main?dir=products&page=report');
+      // header('Location:main?dir=products&page=report');
     }
   } else {
     $_SESSION['error_messages'] = $formerror;
@@ -254,7 +254,7 @@ if (isset($_POST['add_pro'])) {
                   <div class="form-group">
                     <br>
                     <label for="inputStatus">اختر السمة</label>
-                    <select class="form-control custom-select select2 pro-attribute" name="pro_attribute[]" data-new = <?php echo $uniqueId; ?> data-uniqueId="<?php echo $uniqueId; ?>">
+                    <select class="form-control custom-select select2 pro-attribute" name="pro_attribute[]" data-new=<?php echo $uniqueId; ?> data-uniqueId="<?php echo $uniqueId; ?>">
                       <option selected disabled>-- اختر --</option>
                       <?php
                       $stmt = $connect->prepare("SELECT * FROM product_attribute");
@@ -333,7 +333,7 @@ if (isset($_POST['add_pro'])) {
               </script>
               <br>
               <div class="form-group">
-                <label for="inputStatus"> المنتجات المرتبطة  </label>
+                <label for="inputStatus"> المنتجات المرتبطة </label>
                 <select required id="" class="form-control custom-select select2" name="related_product[]" multiple>
                   <?php
                   $stmt = $connect->prepare("SELECT * FROM products");
@@ -381,7 +381,9 @@ if (isset($_POST['add_pro'])) {
               </div>
               <div class="form-group">
                 <label for="customFile"> صورة المنتج </label>
+                <input type="file" class="dropify" multiple data-height="200" data-allowed-file-extensions="jpg jpeg png svg" data-max-file-size="4M" name="image" data-show-loader="true" />
                 <div class="custom-file">
+
                   <input type="file" class="custom-file-input" id="customFile" accept='image/*' name="main_image" value="<?php if (isset($_REQUEST['main_image'])) echo $_REQUEST['main_image'] ?>">
                   <label class="custom-file-label" for="customFile">اختر الصورة</label>
                 </div>
@@ -396,6 +398,7 @@ if (isset($_POST['add_pro'])) {
               <div class="form-group">
                 <label for=""> الرئيسي </label>
                 <div class="form-check">
+
                   <input class="form-check-input" value="image" type="radio" name="main_checked" id="flexRadioDefault1" checked>
                   <label class="form-check-label" for="flexRadioDefault1">
                     صورة المنتج
@@ -420,10 +423,10 @@ if (isset($_POST['add_pro'])) {
                 <input required id="Company-2" name="tags" type="text" class="form-control">
               </div>
               <div class="form-group">
-                <label for="Company-2" class="block">  نشر المنتج </label>
+                <label for="Company-2" class="block"> نشر المنتج </label>
                 <select name="publish" id="" class="form-control select2">
                   <option value="" disabled> اختر الحالة </option>
-                  <option value="1"> نشر المنتج  </option>
+                  <option value="1"> نشر المنتج </option>
                   <option value="0"> ارشيف </option>
                 </select>
               </div>
