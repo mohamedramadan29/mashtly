@@ -45,7 +45,7 @@ if (isset($_POST['add_pro'])) {
       $image_extension = pathinfo($main_image_name, PATHINFO_EXTENSION);
       if (!empty($image_name)) {
         $image_name = str_replace(' ', '-', $image_name);
-        $main_image_uploaded = $image_name . '.' . $image_extension;;
+        $main_image_uploaded = $image_name . '.' . $image_extension;
         move_uploaded_file(
           $main_image_temp,
           'product_images/' . $main_image_uploaded
@@ -61,6 +61,16 @@ if (isset($_POST['add_pro'])) {
       $formerror[] = ' من فضلك ادخل صورة  المنتج   ';
     }
   }
+  // Insert Product Gallary
+
+  if (!empty($_FILES['more_images']['name'])) {
+    $image_names = $_POST['image_name_gallary'];
+    $image_alts = $_POST['image_alt_gallary'];
+    $image_descs = $_POST['image_desc_gallary'];
+
+    $total_images = count($_FILES['more_images']['name']);
+  }
+
   // main video
   if (empty($formerror)) {
     if (!empty($_FILES['video']['name'])) {
@@ -77,7 +87,8 @@ if (isset($_POST['add_pro'])) {
       $video_uploaded = '';
     }
   }
-  // product gallary 
+  // product gallary
+  /* 
   $file = '';
   $file_tmp = '';
   $location = "";
@@ -91,6 +102,7 @@ if (isset($_POST['add_pro'])) {
       $location .= $file . ",";
     }
   }
+  */
   if (empty($name)) {
     $formerror[] = ' من فضلك ادخل اسم المنتج   ';
   }
@@ -102,9 +114,9 @@ if (isset($_POST['add_pro'])) {
   }
 
   if (empty($formerror)) {
-    $stmt = $connect->prepare("INSERT INTO products (cat_id,more_cat,name, slug , description,short_desc,product_adv,video,main_checked,more_images,purchase_price,
+    $stmt = $connect->prepare("INSERT INTO products (cat_id,more_cat,name, slug , description,short_desc,product_adv,video,main_checked,purchase_price,
     price, sale_price , av_num,tags,related_product,publish)
-    VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zshort_desc,:zproduct_adv,:zvideo,:zmain_checked,:zmore_images,:zpurchase_price,:zprice,:zsale_price,:zav_num,:ztags,:zrelated_product,:zpublish)");
+    VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zshort_desc,:zproduct_adv,:zvideo,:zmain_checked,:zpurchase_price,:zprice,:zsale_price,:zav_num,:ztags,:zrelated_product,:zpublish)");
     $stmt->execute(array(
       "zcat" => $cat_id,
       "zmore_cat" => $more_cat_string,
@@ -114,7 +126,6 @@ if (isset($_POST['add_pro'])) {
       "zshort_desc" => $short_desc,
       "zvideo" => $video_uploaded,
       "zmain_checked" => $main_checked,
-      "zmore_images" => $location,
       "zproduct_adv" => $product_adv,
       "zprice" => $price,
       "zpurchase_price" => $purchase_price,
@@ -129,6 +140,7 @@ if (isset($_POST['add_pro'])) {
     $stmt->execute();
     $last_product = $stmt->fetch();
     $last_pro_id = $last_product['id'];
+    // Insert Main Images To db 
     $stmt = $connect->prepare("INSERT INTO products_image (product_id, main_image,image_name, image_alt , image_desc)
     VALUES(:zproduct_id,:zmain_image,:zimage_name,:zimage_alt, :zimage_desc)");
     $stmt->execute(array(
@@ -138,6 +150,41 @@ if (isset($_POST['add_pro'])) {
       "zimage_alt" => $image_alt,
       "zimage_desc" => $image_desc,
     ));
+    // Insert Product Gallery To db 
+    for ($i = 0; $i < $total_images; $i++) {
+      $new_image_name = $image_names[$i];
+      $image_alt = $image_alts[$i];
+      $image_desc = $image_descs[$i];
+      $image_name = $_FILES['more_images']['name'][$i];
+      $image_name = str_replace(' ', '-', $image_name);
+      $image_temp = $_FILES['more_images']['tmp_name'][$i];
+      $image_type = $_FILES['more_images']['type'][$i];
+      $image_size = $_FILES['more_images']['size'][$i];
+      $image_extension = pathinfo($image_name, PATHINFO_EXTENSION);
+      if (!empty($new_image_name)) {
+        $new_image_name = str_replace(' ', '-', $new_image_name);
+        $main_image_uploaded = $new_image_name . '.' . $image_extension;
+        move_uploaded_file(
+          $image_temp,
+          'product_images/' . $main_image_uploaded
+        );
+      } else {
+        $main_image_uploaded = $image_name;
+        move_uploaded_file(
+          $image_temp,
+          'product_images/' . $main_image_uploaded
+        );
+      }
+      $stmt = $connect->prepare("INSERT INTO products_gallary (product_id,image,image_name, image_alt , image_desc)
+    VALUES(:zproduct_id,:zimage,:zimage_name,:zimage_alt, :zimage_desc)");
+      $stmt->execute(array(
+        "zproduct_id" => $last_pro_id,
+        "zimage" => $main_image_uploaded,
+        "zimage_name" => $new_image_name,
+        "zimage_alt" => $image_alt,
+        "zimage_desc" => $image_desc,
+      ));
+    }
     ////////////////////////////////
     if (!empty($pro_attributes) && !empty($pro_variations)) {
       for ($j = 0; $j < count($pro_attributes); $j++) {
@@ -309,54 +356,7 @@ if (isset($_POST['add_pro'])) {
               <div id="new-inputs"></div>
               <button class="btn btn-warning btn-sm" id="add-inputs-btn"> اضافة سمه جديد <i class="fa fa-plus"></i> </button>
               <!-- JavaScript code to add new inputs -->
-              <script>
-                /*
-                var addInputsBtn = document.getElementById('add-inputs-btn');
-                var newInputsContainer = document.getElementById('new-inputs');
 
-                addInputsBtn.addEventListener('click', function() {
-                  // Create new inputs and append to container
-                  var newInputs = document.createElement('div');
-                  newInputs.innerHTML = `
-      <div id="attributes-container">
-        <div class="attribute-group">
-          <div class="form-group">
-            <br>
-            <label for="inputStatus"> اختر السمه </label>
-            <select id="pro_attribute" class="form-control custom-select select2" name="pro_attribute[]">
-              <option selected disabled> -- اختر -- </option>
-              <?php
-              $stmt = $connect->prepare("SELECT * FROM product_attribute");
-              $stmt->execute();
-              $allatt = $stmt->fetchAll();
-              foreach ($allatt as $att) {
-              ?>
-                <option <?php if (isset($_REQUEST['pro_attribute']) && $_REQUEST['pro_attribute'] == $att['id']) echo "selected"; ?> value="<?php echo $att['id']; ?>"> <?php echo $att['name'] ?> </option>
-              <?php
-              }
-              ?>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="inputStatus"> المتغيرات </label>
-            <select id="pro_variation" class="form-control custom-select select2" name="pro_variation[]" multiple>
-              <option disabled> -- اختر -- </option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="inputName">سعر جديد </label>
-            <input type="number" id="pro_price" name="pro_price[]" class="form-control" value="<?php if (isset($_REQUEST['pro_price'])) echo $_REQUEST['pro_price'] ?>">
-          </div>
-        </div>
-      </div>
-    `;
-                  newInputsContainer.appendChild(newInputs);
-
-                  // Initialize Select2 on the new select element
-                  $(newInputsContainer).find('.select2').select2();
-                });
-                */
-              </script>
               <br>
               <div class="form-group">
                 <label for="inputStatus"> المنتجات المرتبطة </label>
@@ -440,7 +440,6 @@ if (isset($_POST['add_pro'])) {
               <div class="form-group">
                 <label for=""> الرئيسي </label>
                 <div class="form-check">
-
                   <input class="form-check-input" value="image" type="radio" name="main_checked" id="flexRadioDefault1" checked>
                   <label class="form-check-label" for="flexRadioDefault1">
                     صورة المنتج
@@ -454,10 +453,34 @@ if (isset($_POST['add_pro'])) {
                 </div>
               </div>
               <div class="form-group">
-                <label for="customFile"> معرض الصور </label>
+                <p class="btn btn-primary btn-sm"> اضافة الي المعرض <i class="fa fa-plus"></i> </p>
+              </div>
+              <div class="form-group">
+                <label for="customFile"> اضافة صورة </label>
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="customFile" multiple accept='image/*' name="more_images[]">
-                  <label class="custom-file-label" for="customFile"> حدد المعرض </label>
+                  <input type="file" class="dropify" multiple data-height="150" data-allowed-file-extensions="jpg jpeg png svg" data-max-file-size="4M" name="more_images[]" data-show-loader="true" />
+                </div>
+                <div class="image_gallary_details">
+                  <br>
+                  <input type="text" class="form-control" name="image_name_gallary[]" placeholder="اسم الصورة">
+                  <br>
+                  <input type="text" class="form-control" name="image_alt_gallary[]" placeholder="الاسم البديل">
+                  <br>
+                  <input type="text" class="form-control" name="image_desc_gallary[]" placeholder="وصف مختصر ">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="customFile"> اضافة صورة </label>
+                <div class="custom-file">
+                  <input type="file" class="dropify" multiple data-height="150" data-allowed-file-extensions="jpg jpeg png svg" data-max-file-size="4M" name="more_images[]" data-show-loader="true" />
+                </div>
+                <div class="image_gallary_details">
+                  <br>
+                  <input type="text" class="form-control" name="image_name_gallary[]" placeholder="اسم الصورة">
+                  <br>
+                  <input type="text" class="form-control" name="image_alt_gallary[]" placeholder="الاسم البديل">
+                  <br>
+                  <input type="text" class="form-control" name="image_desc_gallary[]" placeholder="وصف مختصر ">
                 </div>
               </div>
               <div class="form-group">
