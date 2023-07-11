@@ -129,7 +129,7 @@
     <div class="form-group">
       <label for="customFile"> اضافة صورة </label>
       <div class="custom-file">
-        <input type="file" class="dropify" multiple data-height="150" data-allowed-file-extensions="jpg jpeg png svg" data-max-file-size="4M" name="more_images[]" data-show-loader="true" />
+        <input type="file" class="dropify form-control" multiple data-height="150" data-allowed-file-extensions="jpg jpeg png svg" data-max-file-size="4M" name="more_images[]" data-show-loader="true" />
       </div>
       <div class="image_gallary_details">
         <br>
