@@ -87,22 +87,6 @@ if (isset($_POST['add_pro'])) {
       $video_uploaded = '';
     }
   }
-  // product gallary
-  /* 
-  $file = '';
-  $file_tmp = '';
-  $location = "";
-  $uploadplace = "product_images/";
-  if (isset($_FILES['more_images']['name'])) {
-    foreach ($_FILES['more_images']['name'] as $key => $val) {
-      $file = $_FILES['more_images']['name'][$key];
-      $file = str_replace(' ', '', $file);
-      $file_tmp = $_FILES['more_images']['tmp_name'][$key];
-      move_uploaded_file($file_tmp, $uploadplace . $file);
-      $location .= $file . ",";
-    }
-  }
-  */
   if (empty($name)) {
     $formerror[] = ' من فضلك ادخل اسم المنتج   ';
   }
@@ -305,7 +289,7 @@ if (isset($_POST['add_pro'])) {
               </div>
               <div class="form-group">
                 <label for="inputStatus"> اضافة اقسام اخري </label>
-                <select required id="" class="form-control custom-select select2" name="more_cat[]" multiple>
+                <select id="" class="form-control custom-select select2" name="more_cat[]" multiple>
                   <?php
                   $stmt = $connect->prepare("SELECT * FROM categories");
                   $stmt->execute();
@@ -360,7 +344,7 @@ if (isset($_POST['add_pro'])) {
               <br>
               <div class="form-group">
                 <label for="inputStatus"> المنتجات المرتبطة </label>
-                <select required id="" class="form-control custom-select select2" name="related_product[]" multiple>
+                <select id="" class="form-control custom-select select2" name="related_product[]" multiple>
                   <?php
                   $stmt = $connect->prepare("SELECT * FROM products");
                   $stmt->execute();
@@ -453,36 +437,12 @@ if (isset($_POST['add_pro'])) {
                 </div>
               </div>
               <div class="form-group">
-                <p class="btn btn-primary btn-sm"> اضافة الي المعرض <i class="fa fa-plus"></i> </p>
+                <p class="btn btn-primary btn-sm" id="add_to_gallary"> اضافة الي المعرض <i class="fa fa-plus"></i> </p>
               </div>
-              <div class="form-group">
-                <label for="customFile"> اضافة صورة </label>
-                <div class="custom-file">
-                  <input type="file" class="dropify" multiple data-height="150" data-allowed-file-extensions="jpg jpeg png svg" data-max-file-size="4M" name="more_images[]" data-show-loader="true" />
-                </div>
-                <div class="image_gallary_details">
-                  <br>
-                  <input type="text" class="form-control" name="image_name_gallary[]" placeholder="اسم الصورة">
-                  <br>
-                  <input type="text" class="form-control" name="image_alt_gallary[]" placeholder="الاسم البديل">
-                  <br>
-                  <input type="text" class="form-control" name="image_desc_gallary[]" placeholder="وصف مختصر ">
-                </div>
+              <div class="image_gallary">
+
               </div>
-              <div class="form-group">
-                <label for="customFile"> اضافة صورة </label>
-                <div class="custom-file">
-                  <input type="file" class="dropify" multiple data-height="150" data-allowed-file-extensions="jpg jpeg png svg" data-max-file-size="4M" name="more_images[]" data-show-loader="true" />
-                </div>
-                <div class="image_gallary_details">
-                  <br>
-                  <input type="text" class="form-control" name="image_name_gallary[]" placeholder="اسم الصورة">
-                  <br>
-                  <input type="text" class="form-control" name="image_alt_gallary[]" placeholder="الاسم البديل">
-                  <br>
-                  <input type="text" class="form-control" name="image_desc_gallary[]" placeholder="وصف مختصر ">
-                </div>
-              </div>
+              <div></div>
               <div class="form-group">
                 <label for="Company-2" class="block"> اضافة التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
                 <input required id="Company-2" name="tags" type="text" class="form-control">

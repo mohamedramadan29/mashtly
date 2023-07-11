@@ -114,6 +114,49 @@
     });
   });
 </script>
+
+<script>
+  // استهداف زر "اضافة الى المعرض"
+  let addToGalleryBtn = document.getElementById('add_to_gallary');
+
+  addToGalleryBtn.addEventListener('click', function() {
+    // إنشاء العنصر الجديد
+    let newGalleryItem = document.createElement('div');
+    newGalleryItem.classList.add('form-group');
+
+    // إضافة الأكواد التي تحتوي على إضافة الصورة وتفاصيلها داخل العنصر الجديد
+    newGalleryItem.innerHTML = `
+    <div class="form-group">
+      <label for="customFile"> اضافة صورة </label>
+      <div class="custom-file">
+        <input type="file" class="dropify" multiple data-height="150" data-allowed-file-extensions="jpg jpeg png svg" data-max-file-size="4M" name="more_images[]" data-show-loader="true" />
+      </div>
+      <div class="image_gallary_details">
+        <br>
+        <input type="text" class="form-control" name="image_name_gallary[]" placeholder="اسم الصورة">
+        <br>
+        <input type="text" class="form-control" name="image_alt_gallary[]" placeholder="الاسم البديل">
+        <br>
+        <input type="text" class="form-control" name="image_desc_gallary[]" placeholder="وصف مختصر ">
+      </div>
+      <br>
+      <button class="btn btn-sm btn-danger delete_gallery_item"> حذف الصورة <i class='fa fa-trash'></i>  </button>
+    </div>
+  `;
+
+    // إضافة العنصر الجديد إلى الصفحة
+    let imageGallery = document.querySelector('.image_gallary');
+    imageGallery.appendChild(newGalleryItem);
+
+    // استهداف زر "حذف" داخل العنصر الجديد
+    let deleteBtn = newGalleryItem.querySelector('.delete_gallery_item');
+
+    // إضافة حدث النقر على زر "حذف" لحذف العنصر الجديد
+    deleteBtn.addEventListener('click', function() {
+      newGalleryItem.remove();
+    });
+  });
+</script>
 </body>
 
 </html>
