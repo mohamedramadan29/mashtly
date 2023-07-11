@@ -109,6 +109,18 @@
                                             <td> <?php echo  $pro['sale_price']; ?> </td>
                                             <td> <?php echo  $pro['av_num']; ?> </td>
                                             <td>
+                                                <?php
+                                                $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ? LIMIT 1");
+                                                $stmt->execute(array($pro['id']));
+                                                $count = $stmt->rowCount();
+                                                if ($count > 0) {
+                                                    $product_img_data = $stmt->fetch();
+                                                ?>
+                                                    <img style="width: 80px; height:80px;" src="product_images/<?php echo $product_img_data['main_image']; ?>" alt="">
+                                                <?php
+                                                }
+
+                                                ?>
                                                 <?php if (!empty($pro['main_image']) && strpos($pro['main_image'], "https://www.mshtly.com") !== false) { ?>
                                                     <img style="width: 80px; height:80px;" src="<?php echo $pro['main_image']; ?>" alt="">
                                                 <?php } elseif (!empty($pro['main_image'])) { ?>

@@ -21,6 +21,12 @@ if (isset($_POST['add_pro'])) {
   $related_product = $_POST['related_product'];
   $related_product_string = implode(',', (array) $related_product);
   $main_checked = $_POST['main_checked'];
+  /**
+   * More Attribute For Main Image
+   */
+  $image_name = $_POST['image_name'];
+  $image_alt = $_POST['image_alt'];
+  $image_desc = $_POST['image_desc'];
   $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ?");
   $stmt->execute(array($slug));
   $count = $stmt->rowCount();
@@ -30,16 +36,27 @@ if (isset($_POST['add_pro'])) {
   // main image
   if (empty($formerror)) {
     if (!empty($_FILES['main_image']['name'])) {
-
       $main_image_name = $_FILES['main_image']['name'];
+      $main_image_name = str_replace(' ', '-', $main_image_name);
       $main_image_temp = $_FILES['main_image']['tmp_name'];
       $main_image_type = $_FILES['main_image']['type'];
       $main_image_size = $_FILES['main_image']['size'];
-      $main_image_uploaded = time() . '_' . $main_image_name;
-      move_uploaded_file(
-        $main_image_temp,
-        'product_images/' . $main_image_uploaded
-      );
+      // حصل على امتداد الصورة من اسم الملف المرفوع
+      $image_extension = pathinfo($main_image_name, PATHINFO_EXTENSION);
+      if (!empty($image_name)) {
+        $image_name = str_replace(' ', '-', $image_name);
+        $main_image_uploaded = $image_name . '.' . $image_extension;;
+        move_uploaded_file(
+          $main_image_temp,
+          'product_images/' . $main_image_uploaded
+        );
+      } else {
+        $main_image_uploaded = $main_image_name;
+        move_uploaded_file(
+          $main_image_temp,
+          'product_images/' . $main_image_uploaded
+        );
+      }
     } else {
       $formerror[] = ' من فضلك ادخل صورة  المنتج   ';
     }
@@ -85,9 +102,9 @@ if (isset($_POST['add_pro'])) {
   }
 
   if (empty($formerror)) {
-    $stmt = $connect->prepare("INSERT INTO products (cat_id,more_cat,name, slug , description,short_desc,product_adv,main_image,video,main_checked,more_images,purchase_price,
+    $stmt = $connect->prepare("INSERT INTO products (cat_id,more_cat,name, slug , description,short_desc,product_adv,video,main_checked,more_images,purchase_price,
     price, sale_price , av_num,tags,related_product,publish)
-    VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zshort_desc,:zproduct_adv,:zmain_images,:zvideo,:zmain_checked,:zmore_images,:zpurchase_price,:zprice,:zsale_price,:zav_num,:ztags,:zrelated_product,:zpublish)");
+    VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zshort_desc,:zproduct_adv,:zvideo,:zmain_checked,:zmore_images,:zpurchase_price,:zprice,:zsale_price,:zav_num,:ztags,:zrelated_product,:zpublish)");
     $stmt->execute(array(
       "zcat" => $cat_id,
       "zmore_cat" => $more_cat_string,
@@ -95,7 +112,6 @@ if (isset($_POST['add_pro'])) {
       "zslug" => $slug,
       "zdesc" => $description,
       "zshort_desc" => $short_desc,
-      "zmain_images" => $main_image_uploaded,
       "zvideo" => $video_uploaded,
       "zmain_checked" => $main_checked,
       "zmore_images" => $location,
@@ -108,10 +124,20 @@ if (isset($_POST['add_pro'])) {
       "zrelated_product" => $related_product_string,
       "zpublish" => $publish
     ));
+    // get the last product
     $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC LIMIT 1");
     $stmt->execute();
     $last_product = $stmt->fetch();
     $last_pro_id = $last_product['id'];
+    $stmt = $connect->prepare("INSERT INTO products_image (product_id, main_image,image_name, image_alt , image_desc)
+    VALUES(:zproduct_id,:zmain_image,:zimage_name,:zimage_alt, :zimage_desc)");
+    $stmt->execute(array(
+      "zproduct_id" => $last_pro_id,
+      "zmain_image" => $main_image_uploaded,
+      "zimage_name" => $image_name,
+      "zimage_alt" => $image_alt,
+      "zimage_desc" => $image_desc,
+    ));
     ////////////////////////////////
     if (!empty($pro_attributes) && !empty($pro_variations)) {
       for ($j = 0; $j < count($pro_attributes); $j++) {
@@ -381,12 +407,28 @@ if (isset($_POST['add_pro'])) {
               </div>
               <div class="form-group">
                 <label for="customFile"> صورة المنتج </label>
-                <input type="file" class="dropify" multiple data-height="200" data-allowed-file-extensions="jpg jpeg png svg" data-max-file-size="4M" name="image" data-show-loader="true" />
+                <input type="file" class="dropify" multiple data-height="150" data-allowed-file-extensions="jpg jpeg png svg" data-max-file-size="4M" name="main_image" data-show-loader="true" />
+                <br>
+                <p class="btn btn-warning btn-sm" id="show_details_image"> تفاصيل اضافية <i class="fa fa-plus"></i> </p>
+                <style>
+                  .image_details {
+                    display: none;
+                  }
+                </style>
+                <div class="image_details">
+                  <br>
+                  <input type="text" class="form-control" name="image_name" placeholder="اسم الصورة">
+                  <br>
+                  <input type="text" class="form-control" name="image_alt" placeholder="الاسم البديل">
+                  <br>
+                  <input type="text" class="form-control" name="image_desc" placeholder="وصف مختصر ">
+                </div>
+                <!--
                 <div class="custom-file">
-
-                  <input type="file" class="custom-file-input" id="customFile" accept='image/*' name="main_image" value="<?php if (isset($_REQUEST['main_image'])) echo $_REQUEST['main_image'] ?>">
+                  <input type="file" class="custom-file-input" id="customFile" accept='image/*' name="" value="<?php if (isset($_REQUEST['main_image'])) echo $_REQUEST['main_image'] ?>">
                   <label class="custom-file-label" for="customFile">اختر الصورة</label>
                 </div>
+                -->
               </div>
               <div class="form-group">
                 <label for="customFile"> فيديو المنتج </label>

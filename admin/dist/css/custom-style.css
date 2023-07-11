@@ -267,3 +267,6 @@ ul {
     text-align: center;
     display: block;
 }
+.dropify-wrapper .dropify-message p{
+    font-size: 22px;
+}
