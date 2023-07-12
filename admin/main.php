@@ -50,6 +50,17 @@ if (isset($_SESSION['username'])) {
     } elseif ($dir == 'coupons' && $page == 'report') {
         include "coupons/report.php";
     }
+    
+     // START Gifts 
+     if ($dir == 'gifts' && $page == 'add') {
+        include "gifts/add.php";
+    } elseif ($dir == 'gifts' && $page == 'edit') {
+        include "gifts/edit.php";
+    } elseif ($dir == 'gifts' && $page == 'delete') {
+        include 'gifts/delete.php';
+    } elseif ($dir == 'gifts' && $page == 'report') {
+        include "gifts/report.php";
+    }
 
     // START products
     if ($dir == 'products' && $page == 'add') {

@@ -115,6 +115,21 @@
                 </li>
               </ul>
             </li>
+             <li class="nav-item">
+              <a href="#" class="nav-link">
+                <p>
+                  الهدايا
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="main.php?dir=gifts&page=report" class="nav-link">
+                    <p> جميع الهدايا </p>
+                  </a>
+                </li>
+              </ul>
+            </li>
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <p>
