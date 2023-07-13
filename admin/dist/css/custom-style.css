@@ -270,3 +270,11 @@ ul {
 .dropify-wrapper .dropify-message p{
     font-size: 22px;
 }
+
+.form-group {
+    margin-bottom: 5px;
+}
+label:not(.form-check-label):not(.custom-file-label) {
+    font-weight: 600;
+    font-size: 14px;
+}

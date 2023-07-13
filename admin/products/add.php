@@ -1,5 +1,10 @@
 <?php
+
 if (isset($_POST['add_pro'])) {
+  $pro_attributes = $_POST['pro_attribute'];
+  $pro_prices = $_POST['pro_price'];
+  $pro_variations = $_POST['pro_variations'];
+
   $formerror = [];
   $cat_id = $_POST['cat_id'];
   $more_cat = $_POST['more_cat'];
@@ -24,6 +29,7 @@ if (isset($_POST['add_pro'])) {
   /**
    * More Attribute For Main Image
    */
+
   $image_name = $_POST['image_name'];
   $image_alt = $_POST['image_alt'];
   $image_desc = $_POST['image_desc'];
@@ -170,30 +176,21 @@ if (isset($_POST['add_pro'])) {
       ));
     }
     ////////////////////////////////
-    if (!empty($pro_attributes) && !empty($pro_variations)) {
-      for ($j = 0; $j < count($pro_attributes); $j++) {
-        $pro_attribute = $pro_attributes[$j];
-        $pro_price = $pro_prices[$j];
-        for ($i = 0; $i < count($pro_variations); $i++) {
-          $var_id = $pro_variations[$i];
-          // get the product price 
-          /*
-          $stmt = $connect->prepare("SELECT * FROM product_variations WHERE id = ? LIMIT 1");
-          $stmt->execute(array($var_id));
-          $var_details = $stmt->fetch();
-          $var_parent = $var_details['attribute_id'];
-          */
-          $stmt = $connect->prepare("INSERT INTO product_details (pro_id,pro_attribute,pro_variation,pro_price) VALUES 
+    for ($i = 0; $i < count($pro_attributes); $i++) {
+      $pro_attribute =   $pro_attributes[$i];
+      $pro_price =  $pro_prices[$i];
+      $var_id = $pro_variations[$i];
+
+      $stmt = $connect->prepare("INSERT INTO product_details (pro_id,pro_attribute,pro_variation,pro_price) VALUES 
     (:zpro_id,:zpro_att,:zpro_var,:zpro_price)");
-          $stmt->execute(array(
-            "zpro_id" => $last_pro_id,
-            "zpro_att" => $pro_attribute,
-            "zpro_var" => $var_id,
-            "zpro_price" => $pro_price,
-          ));
-        }
-      }
+      $stmt->execute(array(
+        "zpro_id" => $last_pro_id,
+        "zpro_att" => $pro_attribute,
+        "zpro_var" => $var_id,
+        "zpro_price" => $pro_price,
+      ));
     }
+
     if ($stmt) {
       $_SESSION['success_message'] = " تمت الأضافة بنجاح  ";
 
@@ -218,7 +215,7 @@ if (isset($_POST['add_pro'])) {
         </script>
       <?php
       }
-      // header('Location:main?dir=products&page=report');
+      header('Location:main?dir=products&page=report');
     }
   } else {
     $_SESSION['error_messages'] = $formerror;
@@ -302,11 +299,11 @@ if (isset($_POST['add_pro'])) {
                   ?>
                 </select>
               </div>
-              <?php
-              $uniqueId = uniqid();
-              echo $uniqueId;
-              ?>
-              <div id="attributes-container">
+
+              <div id="attributes-containerxx">
+                <?php
+                $uniqueId = uniqid();
+                ?>
                 <div class="attribute-group">
                   <div class="form-group">
                     <br>
@@ -326,20 +323,66 @@ if (isset($_POST['add_pro'])) {
                   </div>
                   <div class="form-group">
                     <label for="inputStatus">المتغيرات</label>
-                    <select class="form-control custom-select select2 pro-variation" name="pro_variations[]" multiple data-uniqueId="<?php echo $uniqueId; ?>">
+                    <select class="form-control custom-select select2 pro-variation" name="pro_variations[]" data-uniqueId="<?php echo $uniqueId; ?>">
                       <option disabled>-- اختر --</option>
                     </select>
                   </div>
-
                   <div class="form-group">
                     <label for="inputName">سعر جديد </label>
                     <input type="number" id="pro_price" name="pro_price[]" class="form-control" value="<?php if (isset($_REQUEST['pro_price'])) echo $_REQUEST['pro_price'] ?>">
                   </div>
                 </div>
               </div>
-              <div id="new-inputs"></div>
-              <button class="btn btn-warning btn-sm" id="add-inputs-btn"> اضافة سمه جديد <i class="fa fa-plus"></i> </button>
-              <!-- JavaScript code to add new inputs -->
+              <p class="btn btn-warning btn-sm" id="add_attribute_btn"> اضافة سمه جديد <i class="fa fa-plus"></i> </p>
+              <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+              <script>
+                jQuery(function($) {
+                  // استهداف زر "اضافة سمة جديدة"
+                  $(document).on('click', '#add_attribute_btn', function() {
+                    var uniqueId = Date.now(); // إنشاء معرف فريد جديد
+                    var newAttributeItem = `
+        <div class="attribute-group">
+          <div class="form-group">
+            <br>
+            <label for="inputStatus">اختر السمة</label>
+            <select class="form-control custom-select select2 pro-attribute" name="pro_attribute[]" data-new="${uniqueId}" data-uniqueId="${uniqueId}">
+              <option selected disabled>-- اختر --</option>
+              <?php
+              $stmt = $connect->prepare("SELECT * FROM product_attribute");
+              $stmt->execute();
+              $allatt = $stmt->fetchAll();
+              foreach ($allatt as $index => $att) {
+                $selected = (isset($_REQUEST['pro_attribute']) && in_array($att['id'], $_REQUEST['pro_attribute'])) ? 'selected' : '';
+                echo '<option value="' . $att['id'] . '" ' . $selected . '>' . $att['name'] . '</option>';
+              }
+              ?>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="inputStatus">المتغيرات</label>
+            <select class="form-control custom-select select2 pro-variation" name="pro_variations[]" data-uniqueId="${uniqueId}">
+              <option disabled>-- اختر --</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="inputName">سعر جديد </label>
+            <input type="number" id="pro_price" name="pro_price[]" class="form-control" value="<?php if (isset($_REQUEST['pro_price'])) echo $_REQUEST['pro_price'] ?>">
+          </div>
+          <button class="btn btn-sm btn-danger delete_attribute_btn"> حذف العنصر <i class='fa fa-trash'></i> </button>
+        </div>
+      `;
+
+                    $('#attributes-container').append(newAttributeItem); // إضافة العنصر الجديد إلى الصفحة
+                  });
+
+                  // استهداف زر "حذف العنصر"
+                  $(document).on('click', '.delete_attribute_btn', function() {
+                    $(this).closest('.attribute-group').remove(); // حذف العنصر
+                  });
+                });
+              </script>
+              <div class="new_attributes" id="attributes-container"></div>
 
               <br>
               <div class="form-group">
@@ -440,7 +483,6 @@ if (isset($_POST['add_pro'])) {
                 <p class="btn btn-primary btn-sm" id="add_to_gallary"> اضافة الي المعرض <i class="fa fa-plus"></i> </p>
               </div>
               <div class="image_gallary">
-
               </div>
               <div></div>
               <div class="form-group">

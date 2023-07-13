@@ -91,12 +91,15 @@
     });
   });
 </script>
+<!-- To Add More Attribute To Product -->
+
 <script>
+  var uniqueId;
   jQuery(function($) {
-    $('.pro-attribute').change(function() {
+    $(document).on('change', '.pro-attribute', function() {
       var pro_attribute = $(this).val();
+      console.log(pro_attribute);
       var uniqueId = $(this).data('new'); // استخدام الـ data-uniqueId للوصول إلى القيمة الفريدة
-      console.log(uniqueId);
       if (pro_attribute != '') {
         $.ajax({
           url: "products/get_variation.php",
@@ -114,7 +117,7 @@
     });
   });
 </script>
-
+<!-- To Add Images To Gallary -->
 <script>
   // استهداف زر "اضافة الى المعرض"
   let addToGalleryBtn = document.getElementById('add_to_gallary');
@@ -157,6 +160,9 @@
     });
   });
 </script>
+
+
+
 </body>
 
 </html>
