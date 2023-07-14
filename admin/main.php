@@ -74,6 +74,17 @@ if (isset($_SESSION['username'])) {
         include "shipping/report.php";
     }
 
+    // START Shipping Methods Weight
+    if ($dir == 'shipping_weight' && $page == 'add') {
+        include "shipping_weight/add.php";
+    } elseif ($dir == 'shipping_weight' && $page == 'edit') {
+        include "shipping_weight/edit.php";
+    } elseif ($dir == 'shipping_weight' && $page == 'delete') {
+        include 'shipping_weight/delete.php';
+    } elseif ($dir == 'shipping_weight' && $page == 'report') {
+        include "shipping_weight/report.php";
+    }
+
     // START products
     if ($dir == 'products' && $page == 'add') {
         include "products/add.php";

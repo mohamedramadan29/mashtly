@@ -140,7 +140,12 @@
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a href="main.php?dir=shipping&page=report" class="nav-link">
-                    <p> حاسبة الشحن </p>
+                    <p> المناطق </p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="main.php?dir=shipping_weight&page=report" class="nav-link">
+                    <p> الاحجام </p>
                   </a>
                 </li>
               </ul>

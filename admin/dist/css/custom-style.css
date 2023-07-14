@@ -277,3 +277,6 @@ label:not(.form-check-label):not(.custom-file-label) {
     font-weight: 600;
     font-size: 14px;
 }
+.nav-sidebar .nav-link p {
+    font-size: 14px;
+}

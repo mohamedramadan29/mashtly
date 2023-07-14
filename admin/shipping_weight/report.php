@@ -3,13 +3,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark"> مناطق الشحن </h1>
+                <h1 class="m-0 text-dark"> احجام الشحن </h1>
             </div>
             <!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-left">
                     <li class="breadcrumb-item"><a href="main.php?dir=dashboard&page=dashboard">الرئيسية</a></li>
-                    <li class="breadcrumb-item active"> الشحن </li>
+                    <li class="breadcrumb-item active"> احجام الشحن </li>
                 </ol>
             </div>
             <!-- /.col -->
@@ -29,7 +29,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <button type="button" class="btn btn-primary waves-effect btn-sm" data-toggle="modal" data-target="#add-Modal"> أضافة منطقة شحن <i class="fa fa-plus"></i> </button>
+                        <button type="button" class="btn btn-primary waves-effect btn-sm" data-toggle="modal" data-target="#add-Modal"> أضافة حجم جديد <i class="fa fa-plus"></i> </button>
                     </div>
                     <?php
                     if (isset($_SESSION['success_message'])) {
@@ -71,14 +71,14 @@
                                 <thead>
                                     <tr>
                                         <th> # </th>
-                                        <th> المنطقة </th>
+                                        <th> الحجم </th>
                                         <th> السعر</th>
                                         <th> </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $stmt = $connect->prepare("SELECT * FROM shipping_area ORDER BY id DESC");
+                                    $stmt = $connect->prepare("SELECT * FROM shipping_size ORDER BY id DESC");
                                     $stmt->execute();
                                     $allshpping_area = $stmt->fetchAll();
                                     $i = 0;
@@ -91,7 +91,8 @@
                                             if ($area['id'] == 1) {
                                             ?>
                                                 <td>
-                                                    <span class="badge badge-info"> كل المناطق </span>
+                                                    <?php
+                                                    echo $area['new_size']; ?> <span class="badge badge-info"> كجم </span>
                                                     <span class="badge badge-danger"> الافتراضي </span>
                                                 </td>
                                                 <td>
@@ -103,19 +104,14 @@
                                             ?>
                                                 <td>
                                                     <?php
-                                                    $stmt = $connect->prepare("SELECT * FROM suadia_city WHERE regionCode = ? LIMIT 1");
-                                                    $stmt->execute(array($area['new_area']));
-                                                    $city_data = $stmt->fetchAll();
-                                                    foreach ($city_data as $data) {
-                                                        echo $data['region'];
-                                                    } ?>
+                                                    echo $area['new_size']; ?>  <span class="badge badge-info"> كجم </span>
                                                 </td>
                                                 <td>
                                                     <?php
                                                     echo $area['new_price']; ?>
                                                 </td>
                                                 <td> <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $area['id']; ?>"> تعديل <i class='fa fa-pen'></i> </button>
-                                                    <a href="main.php?dir=shipping&page=delete&area_id=<?php echo $area['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
+                                                    <a href="main.php?dir=shipping_weight&page=delete&area_id=<?php echo $area['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
 
                                                 </td>
                                             <?php
@@ -127,31 +123,14 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title"> تعديل منطقة الشحن </h4>
+                                                        <h4 class="modal-title"> تعديل حجم الشحن </h4>
                                                     </div>
-                                                    <form action="main.php?dir=shipping&page=edit" method="post" enctype="multipart/form-data">
+                                                    <form action="main.php?dir=shipping_weight&page=edit" method="post" enctype="multipart/form-data">
                                                         <div class="modal-body">
-                                                            <input type='hidden' name="area_id" value="<?php echo $area['id']; ?>">
+                                                            <input type='hidden' name="weight_id" value="<?php echo $area['id']; ?>">
                                                             <div class="form-group">
-                                                                <?php if ($area['id'] != 1) {
-                                                                ?>
-                                                                    <label for="Company-2" class="block"> المنطقة </label>
-                                                                    <select required name="new_area" class="select2 form-control" id="">
-                                                                        <option value=""> -- حدد المنطقة -- </option>
-                                                                        <?php
-                                                                        $stmt = $connect->prepare("SELECT region,regionCode FROM suadia_city GROUP BY region,regionCode");
-                                                                        $stmt->execute();
-                                                                        $allarea = $stmt->fetchAll();
-                                                                        foreach ($allarea as $area_data) {
-                                                                        ?>
-                                                                            <option <?php if ($area_data['regionCode'] == $area['new_area']) echo 'selected'; ?> value="<?php echo $area_data['regionCode']; ?>"> <?php echo $area_data['region'] ?> </option>
-                                                                        <?php
-                                                                        }
-                                                                        ?>
-                                                                    </select>
-                                                                <?php
-                                                                } ?>
-
+                                                                <label for="Company-2" class="block"> السعر </label>
+                                                                <input required id="Company-2" name="new_size" type="text" class="form-control required" value="<?php echo $area['new_size']; ?>">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="Company-2" class="block"> السعر </label>
@@ -179,25 +158,14 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">أضافة منطقة </h4>
+                                <h4 class="modal-title">أضافة حجم </h4>
                             </div>
-                            <form action="main.php?dir=shipping&page=add" method="post" enctype="multipart/form-data">
+                            <form action="main.php?dir=shipping_weight&page=add" method="post" enctype="multipart/form-data">
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label for="Company-2" class="block"> المنطقة </label>
-                                        <select required name="new_area" class="select2 form-control" id="">
-                                            <option value=""> -- حدد المنطقة -- </option>
-                                            <?php
-                                            $stmt = $connect->prepare("SELECT region,regionCode FROM suadia_city GROUP BY region,regionCode");
-                                            $stmt->execute();
-                                            $allarea = $stmt->fetchAll();
-                                            foreach ($allarea as $area) {
-                                            ?>
-                                                <option value="<?php echo $area['regionCode']; ?>"> <?php echo $area['region'] ?> </option>
-                                            <?php
-                                            }
-                                            ?>
-                                        </select>
+                                        <label for="Company-2" class="block"> الحجم <span class="badge badge-info"> كجم </span> </label>
+                                        <input required id="Company-2" name="new_size" type="text" class="form-control required">
+
                                     </div>
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> السعر </label>
