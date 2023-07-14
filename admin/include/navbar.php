@@ -103,7 +103,7 @@
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <p>
-                  كوبونات الخصم 
+                  كوبونات الخصم
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
@@ -115,7 +115,7 @@
                 </li>
               </ul>
             </li>
-             <li class="nav-item">
+            <li class="nav-item">
               <a href="#" class="nav-link">
                 <p>
                   الهدايا
@@ -126,6 +126,21 @@
                 <li class="nav-item">
                   <a href="main.php?dir=gifts&page=report" class="nav-link">
                     <p> جميع الهدايا </p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <p>
+                  الشحن
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="main.php?dir=shipping&page=report" class="nav-link">
+                    <p> حاسبة الشحن </p>
                   </a>
                 </li>
               </ul>
@@ -147,10 +162,10 @@
                   <a href="main.php?dir=orders&page=add" class="nav-link">
                     <p> اضافة طلب </p>
                   </a>
-                </li> 
+                </li>
                 <li class="nav-item">
                   <a href="main.php?dir=orders&page=archieve" class="nav-link">
-                    <p> ارشيف الطلبات   </p>
+                    <p> ارشيف الطلبات </p>
                   </a>
                 </li>
               </ul>

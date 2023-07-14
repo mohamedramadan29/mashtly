@@ -40,8 +40,8 @@ if (isset($_SESSION['username'])) {
         include "categories/report.php";
     }
 
-     // START Coupons
-     if ($dir == 'coupons' && $page == 'add') {
+    // START Coupons
+    if ($dir == 'coupons' && $page == 'add') {
         include "coupons/add.php";
     } elseif ($dir == 'coupons' && $page == 'edit') {
         include "coupons/edit.php";
@@ -50,9 +50,9 @@ if (isset($_SESSION['username'])) {
     } elseif ($dir == 'coupons' && $page == 'report') {
         include "coupons/report.php";
     }
-    
-     // START Gifts 
-     if ($dir == 'gifts' && $page == 'add') {
+
+    // START Gifts 
+    if ($dir == 'gifts' && $page == 'add') {
         include "gifts/add.php";
     } elseif ($dir == 'gifts' && $page == 'edit') {
         include "gifts/edit.php";
@@ -60,6 +60,18 @@ if (isset($_SESSION['username'])) {
         include 'gifts/delete.php';
     } elseif ($dir == 'gifts' && $page == 'report') {
         include "gifts/report.php";
+    }
+
+
+    // START Shipping Methods 
+    if ($dir == 'shipping' && $page == 'add') {
+        include "shipping/add.php";
+    } elseif ($dir == 'shipping' && $page == 'edit') {
+        include "shipping/edit.php";
+    } elseif ($dir == 'shipping' && $page == 'delete') {
+        include 'shipping/delete.php';
+    } elseif ($dir == 'shipping' && $page == 'report') {
+        include "shipping/report.php";
     }
 
     // START products
@@ -154,4 +166,3 @@ if (isset($_SESSION['username'])) {
 <?php
 include $tem . "footer.php";
 ?>
-
