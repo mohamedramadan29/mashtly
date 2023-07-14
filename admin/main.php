@@ -95,6 +95,11 @@ if (isset($_SESSION['username'])) {
     } elseif ($dir == 'baskets_uncomplete' && $page == 'report') {
         include "baskets_uncomplete/report.php";
     }
+
+    // START USers 
+    if ($dir == 'users' && $page == 'report') {
+        include "users/report.php";
+    }
     // START products
     if ($dir == 'products' && $page == 'add') {
         include "products/add.php";
