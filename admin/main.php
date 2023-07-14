@@ -85,6 +85,16 @@ if (isset($_SESSION['username'])) {
         include "shipping_weight/report.php";
     }
 
+    // START Uncompeleted Baskets
+    if ($dir == 'baskets_uncomplete' && $page == 'add') {
+        include "baskets_uncomplete/add.php";
+    } elseif ($dir == 'baskets_uncomplete' && $page == 'edit') {
+        include "baskets_uncomplete/edit.php";
+    } elseif ($dir == 'baskets_uncomplete' && $page == 'delete') {
+        include 'baskets_uncomplete/delete.php';
+    } elseif ($dir == 'baskets_uncomplete' && $page == 'report') {
+        include "baskets_uncomplete/report.php";
+    }
     // START products
     if ($dir == 'products' && $page == 'add') {
         include "products/add.php";

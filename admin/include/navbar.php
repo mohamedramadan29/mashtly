@@ -159,18 +159,33 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="main.php?dir=orders&page=report" class="nav-link">
-                    <p> جميع الطلبات </p>
-                  </a>
-                </li>
-                <li class="nav-item">
                   <a href="main.php?dir=orders&page=add" class="nav-link">
                     <p> اضافة طلب </p>
                   </a>
                 </li>
                 <li class="nav-item">
+                  <a href="main.php?dir=orders&page=report" class="nav-link">
+                    <p> جميع الطلبات </p>
+                  </a>
+                </li>
+                <li class="nav-item">
                   <a href="main.php?dir=orders&page=archieve" class="nav-link">
                     <p> ارشيف الطلبات </p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <p>
+                  السلات
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="main.php?dir=baskets_uncomplete&page=report" class="nav-link">
+                    <p> السلات المتروكة </p>
                   </a>
                 </li>
               </ul>
