@@ -39,18 +39,18 @@ function insertData($connect, $table, $data)
 }
 
 // get all product from fav
- 
-    function checkIfProductIsFavourite($connect, $user_id, $product_id)
-    {
-        $stmt = $connect->prepare("SELECT * FROM user_favourite WHERE user_id=? AND product_id=?");
-        $stmt->execute(array($user_id, $product_id));
-        $count = $stmt->rowCount();
-        if ($count > 0) {
-            return true;
-        }
-        return false;
+
+function checkIfProductIsFavourite($connect, $user_id, $product_id)
+{
+    $stmt = $connect->prepare("SELECT * FROM user_favourite WHERE user_id=? AND product_id=?");
+    $stmt->execute(array($user_id, $product_id));
+    $count = $stmt->rowCount();
+    if ($count > 0) {
+        return true;
     }
- 
+    return false;
+}
+
 
 // get all product from cart 
 function checkIfProductInCart($connect, $cookie_id, $product_id)
@@ -65,20 +65,106 @@ function checkIfProductInCart($connect, $cookie_id, $product_id)
 }
 
 // generate token to use in rember me
-function generateRememberToken() {
+function generateRememberToken()
+{
     return uniqid();
 }
 
 
 // update token into db 
 
-function saveRememberTokenToDatabase($connect,$user_id , $token){
+function saveRememberTokenToDatabase($connect, $user_id, $token)
+{
     $stmt = $connect->prepare("UPDATE users SET remeber_token = ? WHERE id=?");
     $stmt->execute(array($token, $user_id));
 }
 // delete remeber token from db
 
-function deleteRememberTokenFromDatabase($connect,$user_id){
-$stmt = $connect->prepare("UPDATE users SET remeber_token='' WHERE id = ?");
-$stmt->execute(array($user_id));
+function deleteRememberTokenFromDatabase($connect, $user_id)
+{
+    $stmt = $connect->prepare("UPDATE users SET remeber_token='' WHERE id = ?");
+    $stmt->execute(array($user_id));
+}
+
+////////////////////////// Default Message ////////////////////
+
+function alertdefaultedit()
+{
+?>
+    <script src='themes/js/jquery.min.js'></script>
+    <script>
+        $(document).ready(function() {
+            swal({
+                position: 'center',
+                icon: 'success',
+                title: 'تمت التحديث بنجاح',
+                buttons: false,
+                timer: 2000000000000000000000000, 
+            });
+        });
+    </script>
+
+<?php
+
+}
+
+
+//////////////////////////////// Function Add To Cart Message ////////////////////////////  
+function alertcart()
+{
+?>
+    <script src='themes/js/jquery.min.js'></script>
+    <script>
+        $(document).ready(function() {
+            swal({
+                title: "تمت الاضافة بنجاح",
+                icon: "success",
+                buttons: {
+                    cancel: "الاستمرار ! ",
+                    catch: {
+                        text: " مشاهدة السلة  ",
+                        value: "catch",
+                    },
+                    defeat: false,
+                },
+            }).then((value) => {
+                switch (value) {
+                    case "catch":
+                        window.location.href = "cart";
+                        break;
+                }
+            });
+        });
+    </script>
+<?php
+}
+
+//////////////////////////////// Function Add To Fav Message ////////////////////////////  
+function alertfavorite()
+{
+?>
+    <script src='themes/js/jquery.min.js'></script>
+    <script>
+        $(document).ready(function() {
+            swal({
+                title: "تمت الاضافة بنجاح",
+                icon: "success",
+                buttons: {
+                    cancel: "الاستمرار ! ",
+                    catch: {
+                        text: " مشاهدة المفضلة   ",
+                        value: "catch",
+                    },
+                    defeat: false,
+                },
+            }).then((value) => {
+                switch (value) {
+                    case "catch":
+                        window.location.href = "profile/favorite/";
+                        break;
+                }
+            });
+        });
+    </script>
+<?php
 }

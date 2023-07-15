@@ -830,10 +830,11 @@ body {
 }
 
 .new_producs .products .product_info .product_details h2 a,
-.index_all_cat .product_info .product_details h2 a{
-text-decoration: none;
-color: #1B1B1B;
+.index_all_cat .product_info .product_details h2 a {
+    text-decoration: none;
+    color: #1B1B1B;
 }
+
 .new_producs .products .product_info .product_details .price,
 .index_all_cat .product_info .product_details .price {
     color: var(--second-color);
@@ -4096,3 +4097,27 @@ color: #1B1B1B;
 
 /*************** END RELATED PRODUCT *********/
 /*********************** END PRODUCT DETAILS PAGE **********/
+
+/****  START SWAL ALERT  ***************/
+.swal-footer {
+    text-align: center;
+}
+
+.swal-button {
+    background-color: var(--second-color);
+    border-color: var(--second-color);
+}
+
+.swal-button:not([disabled]):hover {
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+}
+
+.swal-button--cancel {
+    color: #fff;
+}
+
+.swal-title {
+    font-size: 20px;
+    margin-bottom: 30px;
+}

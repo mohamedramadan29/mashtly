@@ -16,7 +16,7 @@ if (isset($_POST['add_to_fav'])) {
             "zproduct_id" => $product_id
         ));
         if ($stmt) {
-            echo "Product addedd to fav";
+            alertfavorite();
         }
     } else {
         header("Location:login");
@@ -36,8 +36,8 @@ if (isset($_POST['update_cart'])) {
         $stmt = $connect->prepare("UPDATE cart SET quantity = ?,farm_service=? WHERE id = ?");
         $stmt->execute(array($quantity, $isChecked, $product_id));
         if ($stmt) {
-            echo "cart updated";
-            header("Location:cart");
+            alertdefaultedit();
+            header('refresh:1.5;url=cart');
         }
     }
 }
@@ -283,7 +283,7 @@ if (isset($_POST['remove_item'])) {
                     <div class="info" style="flex-direction: column;">
                         <img src="<?php echo $uploads ?>plant.png" alt="">
                         <br>
-                        <h3> لا  يوجد منتجات في السلة في الوقت الحالي   </h3>
+                        <h3> لا يوجد منتجات في السلة في الوقت الحالي </h3>
                         <br>
                         <a href="shop" class="btn global_button"> تسوق الان </a>
                     </div>
