@@ -114,11 +114,7 @@
                                                             <div class="form-group">
                                                                 <label for="Company-2" class="block"> السعر </label>
                                                                 <input required id="Company-2" name="price" type="text" class="form-control required" value="<?php echo $gift['price']; ?>">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="Company-2" class="block"> وصف الهدية </label>
-                                                                <textarea name="description" id="" class="form-control"><?php echo $gift['description']; ?></textarea>
-                                                            </div>
+                                                            </div> 
                                                             <div class="form-group">
                                                                 <label for="customFile"> صورة الهدية </label>
                                                                 <input name="main_image" type="file" class="form-control" data-height="150" data-allowed-file-extensions="jpg jpeg png svg" data-max-file-size="4M" data-show-loader="true" />
@@ -156,10 +152,6 @@
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> السعر </label>
                                         <input required id="Company-2" name="price" type="text" class="form-control required">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="Company-2" class="block"> وصف الهدية </label>
-                                        <textarea name="description" id="" class="form-control"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="customFile"> صورة الهدية </label>

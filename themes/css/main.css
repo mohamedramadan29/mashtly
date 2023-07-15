@@ -3797,6 +3797,7 @@ body {
     border-radius: 5px;
     padding-right: 10px;
     padding-left: 10px;
+    cursor: pointer;
 }
 
 .product_details .data .request .options .present .image {

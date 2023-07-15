@@ -4,7 +4,6 @@ if (isset($_POST['edit_cat'])) {
     $gift_id = $_POST['gift_id'];
     $name = $_POST['name'];
     $price = $_POST['price'];
-    $description = $_POST['description'];
     if (!empty($_FILES['main_image']['name'])) {
         $main_image_name = $_FILES['main_image']['name'];
         $main_image_name = str_replace(' ', '-', $main_image_name);
@@ -22,8 +21,8 @@ if (isset($_POST['edit_cat'])) {
         $formerror[] = 'من فضلك ادخل سعر الهدية';
     }
     if (empty($formerror)) {
-        $stmt = $connect->prepare("UPDATE gifts SET name=?,description=?,price=? WHERE id = ? ");
-        $stmt->execute(array($name, $description, $price, $gift_id));
+        $stmt = $connect->prepare("UPDATE gifts SET name=? ,price=? WHERE id = ? ");
+        $stmt->execute(array($name, $price, $gift_id));
 
         if (!empty($_FILES['main_image']['name'])) {
             $stmt = $connect->prepare("UPDATE gifts SET image=? WHERE id=?");

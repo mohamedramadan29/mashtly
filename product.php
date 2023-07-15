@@ -54,7 +54,7 @@ if (isset($_GET['slug'])) {
                             </div>
                             <div class="product_info">
                                 <h2> <img src="<?php echo $uploads ?>/left_arrow.png" alt=""> <?php echo $product_name; ?> </h2>
-                                <p> يبدأ من: <span> <?php echo number_format($product_price,2); ?> ر.س </span> </p>
+                                <p> يبدأ من: <span> <?php echo number_format($product_price, 2); ?> ر.س </span> </p>
                                 <div class="support">
                                     <div>
                                         <img src="<?php echo $uploads ?>/support.svg" alt="">
@@ -72,7 +72,7 @@ if (isset($_GET['slug'])) {
                         </div>
                         <div class="product_description">
                             <h3> وصف النبات </h3>
-                            <p>  <?php echo $product_desc ?>  </p>
+                            <p> <?php echo $product_desc ?> </p>
                             <button class="btn"> رقم النبات:#<?php echo $product_id; ?> </button>
                         </div>
                         <div class="social_share">
@@ -144,7 +144,7 @@ if (isset($_GET['slug'])) {
                                     <input type="number" class="quantity-input" value="1" min="1">
                                     <button class="decrease-btn">-</button>
                                 </div>
-                                <div class="present">
+                                <div class="present" data-bs-toggle="modal" data-bs-target="#exampleModalgift">
                                     <div class="image">
                                         <div class="pre_image">
                                             <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
@@ -158,6 +158,57 @@ if (isset($_GET['slug'])) {
                                         <img src="<?php echo $uploads ?>/small_left_model.png" alt="">
                                     </div>
                                 </div>
+                                <div class="farm_price preset_price">
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModalgift" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="modal_price">
+                                                        <div class="header">
+                                                            <h3> اختر تغليف الهدية المناسبة لك </h3>
+                                                            <p> تكلفة تغليف الهدية تحسب علي كل نبته </p>
+                                                        </div>
+                                                        <p class="public"> يختلف كل تغليف من حيث التكلفة النهائية </p>
+                                                        <?php
+                                                        // Get Gifts 
+                                                        
+                                                        
+                                                        ?>
+                                                        <div class="diffrent_price">
+                                                            <div>
+                                                                <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
+                                                            </div>
+                                                            <div>
+                                                                <p> أشجار التي طولها من 3 م وأعلى تبدأ من <span> 30 ريال </span> </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="diffrent_price">
+                                                            <div>
+                                                                <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
+                                                            </div>
+                                                            <div>
+                                                                <p> البناتات التي اقل من 3 م تبدأ من <span> 20 ريال </span> </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="diffrent_price">
+                                                            <div>
+                                                                <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
+                                                            </div>
+                                                            <div>
+                                                                <p> الزهور الموسمية<span> 2 ريال </span> </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-------------- End Gifts ---------------->
                                 <div class="farm">
                                     <div class="check">
                                         <input style="border-color: red;" type="checkbox" name="farm_planet">
@@ -191,7 +242,7 @@ if (isset($_GET['slug'])) {
                                                             </div>
                                                             <div class="diffrent_price">
                                                                 <div>
-                                                                    <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
+                                                                    <img src="<?php echo $uploads ?>/tree.svg" alt="">
                                                                 </div>
                                                                 <div>
                                                                     <p> أشجار التي طولها من 3 م وأعلى تبدأ من <span> 30 ريال </span> </p>
@@ -199,7 +250,7 @@ if (isset($_GET['slug'])) {
                                                             </div>
                                                             <div class="diffrent_price">
                                                                 <div>
-                                                                    <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
+                                                                    <img src="<?php echo $uploads ?>/flower-pot.svg" alt="">
                                                                 </div>
                                                                 <div>
                                                                     <p> البناتات التي اقل من 3 م تبدأ من <span> 20 ريال </span> </p>
@@ -207,7 +258,7 @@ if (isset($_GET['slug'])) {
                                                             </div>
                                                             <div class="diffrent_price">
                                                                 <div>
-                                                                    <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
+                                                                    <img src="<?php echo $uploads ?>/sakura.svg" alt="">
                                                                 </div>
                                                                 <div>
                                                                     <p> الزهور الموسمية<span> 2 ريال </span> </p>

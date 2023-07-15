@@ -3,7 +3,6 @@ if (isset($_POST['add_cat'])) {
     $formerror = [];
     $name = $_POST['name'];
     $price = $_POST['price'];
-    $description = $_POST['description'];
     if (!empty($_FILES['main_image']['name'])) {
         $main_image_name = $_FILES['main_image']['name'];
         $main_image_name = str_replace(' ', '-', $main_image_name);
@@ -23,11 +22,10 @@ if (isset($_POST['add_cat'])) {
         $formerror[] = 'من فضلك ادخل سعر الهدية';
     }
     if (empty($formerror)) {
-        $stmt = $connect->prepare("INSERT INTO gifts (name,description,price,image)
-        VALUES (:zname,:zdescription,:zprice,:zimage)");
+        $stmt = $connect->prepare("INSERT INTO gifts (name,price,image)
+        VALUES (:zname,:zprice,:zimage)");
         $stmt->execute(array(
             "zname" => $name,
-            "zdescription" => $description,
             "zprice" => $price,
             "zimage" => $main_image_uploaded,
         ));
