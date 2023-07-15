@@ -130,6 +130,21 @@ if (isset($_GET['slug'])) {
                                         <p> <span class="" style=" background-color: #fff;"> </span> ابيض <i class="fa fa-check"></i> </p>
                                     </div>
                                 </div>
+                                <?php
+                                $stmt = $connect->prepare("SELECT pro_attribute,pro_variation,pro_price FROM product_details WHERE pro_id = ?");
+                                $stmt->execute(array($product_id));
+                                $allattributes = $stmt->fetchAll();
+                                foreach ($allattributes as $attribute) {
+                                    $stmt = $connect->prepare("SELECT * FROM product_attribute WHERE id = ?");
+                                    $stmt->execute(array($attribute['pro_attribute']));
+                                    $allattibutes_data = $stmt->fetchAll();
+                                    foreach ($allattibutes_data as $att_data) {
+                                        echo $att_data['name'];
+                                        echo $attribute['pro_variation'];
+                                        echo "</br>";
+                                    }
+                                }
+                                ?>
                                 <h6> طول النبتة </h6>
                                 <div class="input_box">
                                     <select name="" id="" class="form-control select2">
@@ -268,7 +283,7 @@ if (isset($_GET['slug'])) {
                                             <p> إجمالي سعر النباتات </p>
                                         </div>
                                         <div>
-                                            <p class="price_num"> 87.00 ر.س </p>
+                                            <p class="price_num"> <?php echo number_format($product_price, 2); ?> ر.س </p>
                                         </div>
                                     </div>
                                     <div class="total">
