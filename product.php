@@ -175,33 +175,23 @@ if (isset($_GET['slug'])) {
                                                         <p class="public"> يختلف كل تغليف من حيث التكلفة النهائية </p>
                                                         <?php
                                                         // Get Gifts 
-                                                        
-                                                        
+                                                        $stmt = $connect->prepare("SELECT * FROM gifts");
+                                                        $stmt->execute();
+                                                        $allgifts  = $stmt->fetchAll();
+                                                        foreach ($allgifts as $gift) {
                                                         ?>
-                                                        <div class="diffrent_price">
-                                                            <div>
-                                                                <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
-                                                            </div>
-                                                            <div>
-                                                                <p> أشجار التي طولها من 3 م وأعلى تبدأ من <span> 30 ريال </span> </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="diffrent_price">
-                                                            <div>
-                                                                <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
-                                                            </div>
-                                                            <div>
-                                                                <p> البناتات التي اقل من 3 م تبدأ من <span> 20 ريال </span> </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="diffrent_price">
-                                                            <div>
-                                                                <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
-                                                            </div>
-                                                            <div>
-                                                                <p> الزهور الموسمية<span> 2 ريال </span> </p>
-                                                            </div>
-                                                        </div>
+                                                            <input style="display: none;" class="select_gift" value="<?php echo $gift['price'] ?>" type="radio" name="gift_name" id="<?php echo $gift['id']; ?>">
+                                                            <label class="diffrent_price gifts" for="<?php echo $gift['id']; ?>">
+                                                                <div>
+                                                                    <img src="admin/gifts/images/<?php echo $gift['image']; ?>" alt="">
+                                                                </div>
+                                                                <div>
+                                                                    <p> يكتب هنا اسم ووصف التغليف <br><span> <?php echo $gift['price'] ?> ريال </span> </p>
+                                                                </div>
+                                                            </label>
+                                                        <?php
+                                                        }
+                                                        ?>
                                                     </div>
                                                 </div>
                                             </div>

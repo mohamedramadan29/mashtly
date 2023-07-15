@@ -3947,8 +3947,17 @@ body {
     border-radius: 10px;
 }
 
+.farm_price .modal_price .gifts {
+    padding: 5px;
+}
+
 .farm_price .modal_price .diffrent_price img {
     margin-left: 15px;
+}
+
+.farm_price .modal_price .gifts img {
+    width: 65px;
+    border-radius: 8px;
 }
 
 .farm_price .modal_price .diffrent_price p {
@@ -3960,6 +3969,14 @@ body {
 
 .farm_price .modal_price .diffrent_price p span {
     color: var(--second-color);
+}
+.preset_price .modal_price label{
+    cursor: pointer;
+}
+.preset_price .modal_price input[type='radio']:checked+label{
+    border-color: var(--second-color);
+    border-width: 2px;
+    
 }
 
 .product_details .data .request .total_price {

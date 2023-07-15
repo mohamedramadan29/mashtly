@@ -199,8 +199,9 @@ if (isset($_POST['remove_item'])) {
                                                 </div>
                                                 <div class="gift_info">
                                                     <h3> التغليف كهدية </h3>
-                                                    <p> يتم إضافة 20 ر.س </p>
+                                                    <p> لا اريد التغليف كهدية</p>
                                                 </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
