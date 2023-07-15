@@ -104,8 +104,23 @@ if (isset($_POST['remove_item'])) {
                                                 <p class="item_price"> سعر الوحدة :<span> <?php echo $item['price']; ?> ر.س </span> </p>
                                                 <!--  <form action="" method="post"> -->
                                                 <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
-                                                <p class="add_fav"> <button style="background-color: transparent; border: none; color: var(--second-color);" type="submit" name="add_to_fav"> <img src="<?php echo $uploads ?>heart.png" alt=""> أضف الي المفضلة </button>
-                                                </p>
+                                                <?php
+                                                if (isset($_SESSION['user_id']) && checkIfProductIsFavourite($connect, $_SESSION['user_id'], $item['product_id'])) {
+                                                ?>
+                                                    <p class="add_fav">
+                                                        <a href="profile/favorite/" style="background-color: transparent; border: none; color: var(--second-color);">
+                                                            <img src="<?php echo $uploads ?>heart.png" alt=""> مشاهدة المفضلة </a>
+                                                    </p>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <p class="add_fav">
+                                                        <button style="background-color: transparent; border: none; color: var(--second-color);" type="submit" name="add_to_fav">
+                                                            <img src="<?php echo $uploads ?>heart.png" alt=""> أضف الي المفضلة </button>
+                                                    </p>
+                                                <?php
+                                                }
+                                                ?>
                                                 <!--  </form> -->
                                             </div>
                                         </div>
