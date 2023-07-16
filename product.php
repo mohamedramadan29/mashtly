@@ -21,7 +21,7 @@ if (isset($_GET['slug'])) {
     ///////////////////// Add To Cart   /////////////////////
     if (isset($_POST['add_to_cart'])) {
         $product_id = $_POST['product_id'];
-        if (isset($_POST['attribute_price']) && $_POST['attribute_price'] !='') {
+        if (isset($_POST['attribute_price']) && $_POST['attribute_price'] != '') {
             $price = $_POST['attribute_price'];
         } else {
             $price = $product_price;
@@ -274,7 +274,18 @@ if (isset($_GET['slug'])) {
                                     ?>
 
                                     <h6> الكمية </h6>
+                                    <!-- 
+                                    <div class="product_num">
+                                        <div class="quantity counter">
+                                            <button class="increase-btn"> + </button>
+                                            <input id="count_number" type="text" name="" class="quantity-input count_number" value="1" min="1">
+                                            <button class="decrease-btn">-</button>
+                                        </div>
+                                       
+                                    </div>
+                                -->
                                     <div class="quantity">
+
                                         <button class="increase-btn"> + </button>
                                         <input name="quantity" type="number" class="quantity-input" value="1" min="1">
                                         <button class="decrease-btn">-</button>
@@ -820,3 +831,22 @@ if (isset($_GET['slug'])) {
 include $tem . 'footer.php';
 ob_end_flush();
 ?>
+
+<script>
+    const decreaseButtons = document.querySelectorAll('.decrease-btn');
+    const increaseButtons = document.querySelectorAll('.increase-btn');
+
+    decreaseButtons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default behavior
+            // Add your custom code here for decreasing quantity
+        });
+    });
+
+    increaseButtons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default behavior
+            // Add your custom code here for increasing quantity
+        });
+    });
+</script>
