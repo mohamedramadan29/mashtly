@@ -1695,7 +1695,9 @@ body {
 .purches_orders .card .card-body .body_data .order_status .return_product {
     background-color: transparent;
     color: var(--second-color);
-    border-color: var(--second-color)
+    border-color: var(--second-color);
+    padding: 7px 24px;
+    margin-top: 5px;
 }
 
 /* END PURCHED ORDERS */
