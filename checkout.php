@@ -10,9 +10,8 @@ if (isset($_SESSION['user_id'])) {
     $stmt->execute(array($cookie_id));
     $count = $stmt->rowCount();
     $allitems = $stmt->fetchAll();
-    if($count > 0){
-
-    }else{
+    if ($count > 0) {
+    } else {
         header("Location:cart");
     }
 ?>
@@ -102,7 +101,7 @@ if (isset($_SESSION['user_id'])) {
                                         <a href="profile/payment/add"> <i class="fa fa-plus"></i> اضف بطاقة جديدة </a>
                                     </div>
                                 </div>
-
+                                <!-- get payments   -->
                                 <div class="addresses">
                                     <div class="row">
                                         <?php
@@ -121,8 +120,9 @@ if (isset($_SESSION['user_id'])) {
                                             $cvc = $payment['cvc'];
                                             $default = $payment['default_payment'];
                                         ?>
-                                            <div class="checkout_address">
-                                                <div class="address payment_method <?php if ($default == 1) echo "active" ?>">
+                                            <input style="display: none;" id="visa_payment" type="radio" name="checkout_payment" value="الدفع الالكتروني">
+                                            <label for="visa_payment" class="checkout_address">
+                                                <div class="address payment_method">
                                                     <div class='add_content'>
                                                         <div class="card_image">
                                                             <?php
@@ -157,13 +157,13 @@ if (isset($_SESSION['user_id'])) {
                                                         <input maxlength="3" type="text" name="security_number" placeholder="123">
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </label>
 
                                         <?php
                                         }
                                         ?>
-
-                                        <div class="checkout_address">
+                                        <input style="display: none;" id="when_drive" type="radio" name="checkout_payment" value="الدفع عن الاستلام">
+                                        <label for="when_drive" class="checkout_address">
                                             <div class="address payment_method">
                                                 <div class='add_content'>
                                                     <div class="card_image">
@@ -175,7 +175,7 @@ if (isset($_SESSION['user_id'])) {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -268,8 +268,9 @@ if (isset($_SESSION['user_id'])) {
                 $status = 0;
                 $status_value = 'لم يبدا';
                 $total_price = $_SESSION['last_total'];
-                $payment_method = 'الدفع عن الاستلام';
+
                 if (isset($_POST['order_compelete'])) {
+                    $payment_method = $_POST['checkout_payment'];
                     // inset order into orders 
                     $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
                     area, city, address, ship_price, order_date, status, status_value,total_price,
@@ -295,7 +296,7 @@ if (isset($_SESSION['user_id'])) {
                         $quantity  = $item['quantity'];
                         $price  = $item['price'];
                         $farm_service  = $item['farm_service'];
-                        $as_present  = $item['as_present'];
+                        $as_present  = $item['gift_id'];
                         $option1  = $item['option1'];
                         $option2 = $item['option2'];
                         $option3 = $item['option3'];
