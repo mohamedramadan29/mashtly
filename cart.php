@@ -89,6 +89,7 @@ if (isset($_POST['remove_item'])) {
                                 $stmt->execute(array($item['product_id']));
                                 $product_data = $stmt->fetch();
                                 $pro_name = $product_data['name'];
+                                $pro_slug = $product_data['slug'];
                                 $farm_services = 0;
                                 if ($item['farm_service'] == 1) {
                                     $farm_services = 30;
@@ -103,15 +104,33 @@ if (isset($_POST['remove_item'])) {
                                         <button onclick="return confirm('هل أنت متأكد من رغبتك في حذف المنتج ؟ ');" name="remove_item" class="remove_item" style="border: none;">
                                             <span class="fa fa-close"> </span>
                                         </button>
-
                                         <div class="product_data">
                                             <div class="product_image">
-                                                <img src="<?php echo $uploads ?>product.png" alt="">
+                                                <a href="product?slug=<?php echo $pro_slug ?>">
+                                                    <img src="<?php echo $uploads ?>product.png" alt="">
+                                                </a>
                                             </div>
                                             <div class="product_info">
-                                                <h3> <?php echo $pro_name; ?> </h3>
+                                                <h3> <a href="product?slug=<?php echo $pro_slug ?>"> <?php echo $pro_name; ?> </a> </h3>
                                                 <p class="item_price"> سعر الوحدة :<span> <?php echo $item['price']; ?> ر.س </span> </p>
+                                                <?php
+                                                if ($item['option1'] != null && $item['option1'] != '') {
+                                                    $stmt = $connect->prepare("SELECT attribute.name AS attribute_name, variation.name AS variation_name
+                                                        FROM product_details 
+                                                        INNER JOIN product_attribute AS attribute ON product_details.pro_attribute = attribute.id
+                                                        INNER JOIN product_variations AS variation ON product_details.pro_variation = variation.id
+                                                        WHERE product_details.id = ?");
+                                                    $stmt->execute(array($item['option1']));
+                                                    $option_data = $stmt->fetch();
+                                                ?>
+                                                    <span style="color: #ACC288;font-size: 13px;margin-bottom: 9px;"> <?php echo $option_data['attribute_name']; ?> : </span>
+                                                    <span style="color: var(--second-color);"> <?php echo $option_data['variation_name']; ?> </span>
+                                                    <br>
+                                                <?php
+                                                }
+                                                ?>
                                                 <!--  <form action="" method="post"> -->
+
                                                 <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
                                                 <?php
                                                 if (isset($_SESSION['user_id']) && checkIfProductIsFavourite($connect, $_SESSION['user_id'], $item['product_id'])) {
@@ -268,15 +287,46 @@ if (isset($_POST['remove_item'])) {
 
                                     </div>
                                     <div class="first">
-                                        <?php
-                                        $shipping_value = 10;
-                                        ?>
+
                                         <div>
                                             <h3> الشحن والتسليم: </h3>
                                             <p> يحدد سعر الشحن حسب الموقع </p>
                                         </div>
                                         <div>
-                                            <h2 class="total"><?php echo number_format($shipping_value, 2); ?> ر.س </h2>
+                                            <?php
+                                            if (isset($_SESSION['user_id'])) {
+                                                $user_id = $_SESSION['user_id'];
+                                                $shipping_value = 10;
+                                                // get user address
+                                                $stmt = $connect->prepare("SELECT * FROM user_address WHERE user_id = ? AND default_address = 1");
+                                                $stmt->execute(array($user_id));
+                                                $address_data = $stmt->fetch();
+                                                $user_area = $address_data['area'];
+                                                $area_code = $address_data['area_code'];
+                                                // get if this area in shipping area or not 
+                                                $stmt = $connect->prepare("SELECT * FROM shipping_area WHERE new_area = ?");
+                                                $stmt->execute(array($area_code));
+                                                $count = $stmt->rowCount();
+                                                if ($count > 0) {
+                                                    $shipping_data = $stmt->fetch();
+                                                    $shipping_value = $shipping_data['new_price'];
+                                                } else {
+                                                    $stmt = $connect->prepare("SELECT * FROM shipping_area WHERE id = 1");
+                                                    $stmt->execute();
+                                                    $shipping_data = $stmt->fetch();
+                                                    $shipping_value = $shipping_data['new_price'];
+                                                }
+
+                                            ?>
+                                                <h2 class="total"><?php echo number_format($shipping_value, 2); ?> ر.س </h2>
+                                            <?php
+                                            } else {
+                                                $shipping_value = null;
+                                            ?>
+                                                <h2 class="total"> لم يحدد بعد </h2>
+                                            <?php
+                                            }
+                                            ?>
                                         </div>
 
                                     </div>

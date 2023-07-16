@@ -2241,7 +2241,10 @@ body {
     max-width: 130px;
     line-height: 1.6;
 }
-
+.cart .card_items .product_data .product_info h3 a{
+    text-decoration: none;
+    color: #1B1B1B;
+}
 @media (max-width:991px) {
     .cart .card_items .product_data .product_info h3 {
         font-size: 16px;
@@ -2360,7 +2363,13 @@ body {
         padding-right: 0;
     }
 }
-
+.cart .card_items .services .form-check label{
+    cursor: pointer;
+}
+.cart .card_items .services .form-check input[type='checkbox']{
+    width: 20px;
+    height: 20px;
+}
 .cart .card_items .services form {}
 
 .cart .card_items .services form .form-check {}

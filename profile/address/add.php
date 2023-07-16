@@ -1,4 +1,4 @@
-<?php 
+<?php
 ob_start();
 session_start();
 $page_title = 'اضافة عنوان جديد ';
@@ -24,12 +24,28 @@ if (isset($_SESSION['user_id'])) {
         if (empty($name) || empty($phone) || empty($country) || empty($city) || empty($street_name) || empty($build_number)) {
             $formerror[] = 'من فضلك ادخل المعلومات كاملة';
         }
+        // get the city area
+        if ($country == 'EG') {
+            $stmt = $connect->prepare("SELECT * FROM eg_city WHERE name=?");
+            $stmt->execute(array($city));
+            $city_data = $stmt->fetch();
+            $area = $city_data['region'];
+            $area_code = $city_data['regionCode'];
+        } elseif ($country == 'SAR') {
+            $stmt = $connect->prepare("SELECT * FROM suadia_city WHERE name=?");
+            $stmt->execute(array($city));
+            $city_data = $stmt->fetch();
+            $area = $city_data['region'];
+            $area_code = $city_data['regionCode'];
+        }
         if (empty($formerror)) {
             $table = "user_address";
             $data = array(
                 "user_id" => $user_id,
                 "country" => $country,
                 "city" => $city,
+                "area" => $area,
+                "area_code" => $area_code,
                 "street_name" => $street_name,
                 "build_number" => $build_number,
                 "name" => $name,
@@ -126,7 +142,7 @@ if (isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
-<?php 
+<?php
 } else {
     header("Location:../../index");
     exit();
