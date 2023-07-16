@@ -3780,6 +3780,13 @@ body {
 
 }
 
+.product_details .data .request .options .input_box select {
+    border: 2px solid var(--second-color);
+    border-radius: 30px;
+    padding: 8px;
+    box-shadow: none;
+}
+
 .product_details .data .request .options .quantity input {
     border: none;
     text-align: center;
@@ -3970,13 +3977,15 @@ body {
 .farm_price .modal_price .diffrent_price p span {
     color: var(--second-color);
 }
-.preset_price .modal_price label{
+
+.preset_price .modal_price label {
     cursor: pointer;
 }
-.preset_price .modal_price input[type='radio']:checked+label{
+
+.preset_price .modal_price input[type='radio']:checked+label {
     border-color: var(--second-color);
     border-width: 2px;
-    
+
 }
 
 .product_details .data .request .total_price {
@@ -4138,4 +4147,8 @@ body {
 .swal-title {
     font-size: 20px;
     margin-bottom: 30px;
+}
+
+.select2-results__option .price {
+    color: red !important;
 }

@@ -51,6 +51,16 @@ function checkIfProductIsFavourite($connect, $user_id, $product_id)
     return false;
 }
 
+// get Product Attribute
+
+function productattributefunc($connect, $table, $product_id)
+{
+    $stmt = $connect->prepare("SELECT * FROM $table WHERE id=?");
+    $stmt->execute(array($product_id));
+
+
+}
+
 
 // get all product from cart 
 function checkIfProductInCart($connect, $cookie_id, $product_id)
@@ -99,7 +109,7 @@ function alertdefaultedit()
                 icon: 'success',
                 title: 'تمت التحديث بنجاح',
                 buttons: false,
-                timer: 2000000000000000000000000, 
+                timer: 2000000000000000000000000,
             });
         });
     </script>

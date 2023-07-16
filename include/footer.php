@@ -362,3 +362,17 @@
         });
     });
 </script>
+
+<script>
+    /*
+    var selectElement = document.getElementById("attribute-select");
+    var priceElement = document.getElementById("attribute-price");
+
+    selectElement.addEventListener("change", function() {
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
+        var selectedPrice = selectedOption.dataset.price;
+
+        priceElement.value = selectedPrice;
+    });
+    */
+</script>
