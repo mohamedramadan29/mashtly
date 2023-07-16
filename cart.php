@@ -74,7 +74,16 @@ if (isset($_POST['remove_item'])) {
                             <?php
                             $total_price = 0;
                             $farm_services_total = 0;
+                            $gift_price = 0;
                             foreach ($allitems as $item) {
+                                // check if item have gift or not
+                                if ($item['gift_id'] != null && $item['gift_id'] != 0) {
+                                    $gift_id = $item['gift_id'];
+                                    $stmt = $connect->prepare("SELECT * FROM gifts WHERE id = ?");
+                                    $stmt->execute(array($gift_id));
+                                    $gift_data = $stmt->fetch();
+                                    $gift_price =  $gift_data['price'];
+                                }
                                 $item_id = $item['id'];
                                 $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
                                 $stmt->execute(array($item['product_id']));
@@ -83,7 +92,7 @@ if (isset($_POST['remove_item'])) {
                                 $farm_services = 0;
                                 if ($item['farm_service'] == 1) {
                                     $farm_services = 30;
-                                    $farm_services_total += $farm_services;
+                                    $farm_services_total += $farm_services + $gift_price;
                                 }
                                 $total_price = $total_price + ($item['price'] * $item['quantity']);
                                 $farm_services = $farm_services;
@@ -194,14 +203,34 @@ if (isset($_POST['remove_item'])) {
                                                 </div>
                                             </div>
                                             <div class="gift">
-                                                <div class="image">
-                                                    <img src="<?php echo $uploads ?>product.png" alt="">
-                                                </div>
-                                                <div class="gift_info">
-                                                    <h3> التغليف كهدية </h3>
-                                                    <p> لا اريد التغليف كهدية</p>
-                                                </div>
-                                                
+                                                <?php
+                                                if ($item['gift_id'] != null && $item['gift_id'] != 0) {
+                                                    $gift_id = $item['gift_id'];
+                                                    $stmt = $connect->prepare("SELECT * FROM gifts WHERE id = ?");
+                                                    $stmt->execute(array($gift_id));
+                                                    $gift_data = $stmt->fetch();
+                                                ?>
+                                                    <div class="image">
+                                                        <img src="admin/gifts/images/<?php echo $gift_data['image']; ?>" alt="">
+                                                    </div>
+                                                    <div class="gift_info">
+                                                        <h3> التغليف كهدية </h3>
+                                                        <p style="color: #ACC288;font-size: 13px; margin-bottom: 9px;"> السعر :
+                                                            <span style="font-weight: bold; color:var(--main-color);"> <?php echo $gift_data['price']; ?> ر.س </span>
+                                                        </p>
+                                                    </div>
+                                                <?php
+                                                } else { ?>
+                                                    <div class="image">
+                                                        <img src="<?php echo $uploads ?>product.png" alt="">
+                                                    </div>
+                                                    <div class="gift_info">
+                                                        <h3> التغليف كهدية </h3>
+                                                        <p> لا اريد التغليف كهدية</p>
+                                                    </div>
+                                                <?php
+                                                }
+                                                ?>
                                             </div>
                                         </div>
                                     </div>
