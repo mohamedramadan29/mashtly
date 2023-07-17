@@ -101,8 +101,8 @@ if (isset($_SESSION['user_id'])) {
                                     $stmt = $connect->prepare("SELECT * FROM  return_products ORDER BY id DESC LIMIT 1");
                                     $stmt->execute();
                                     $return_order = $stmt->fetch();
-                                    $return_number = $return_order['id']; 
-                                    header('Location:request?num='.$return_number);
+                                    $return_number = $return_order['id'];
+                                    header('Location:request?num=' . $return_number);
                                 }
                             }
                             ?>
@@ -118,7 +118,7 @@ if (isset($_SESSION['user_id'])) {
     ?>
 <?php
 } else {
-    header("Location:../../index");
+    header("location:../../login");
 }
 include $tem . 'footer.php';
 ob_end_flush();

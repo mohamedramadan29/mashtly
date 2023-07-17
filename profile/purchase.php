@@ -152,8 +152,6 @@ if (isset($_SESSION['user_id'])) {
                                 <?php
                                 }
                                 ?>
-
-
                             </div>
                         </div>
                     </div>
@@ -162,7 +160,6 @@ if (isset($_SESSION['user_id'])) {
                 ?>
             </div>
         </div>
-
     </div>
 <?php
     include $tem . 'footer.php';

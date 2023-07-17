@@ -157,7 +157,7 @@ if (isset($_SESSION['user_id'])) {
         header('Location:index');
     }
 } else {
-    header("Location:../../index");
+    header("location:../../login");
     exit();
 }
 ?>

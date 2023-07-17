@@ -5,8 +5,6 @@ $page_title = ' اضافة طريقة دفع ';
 include 'init.php';
 $user_id = $_SESSION['user_id'];
 if (isset($_POST['add_new_payment'])) {
-
-
     $formerror = [];
     $card_name = sanitizeInput($_POST['card_name']);
     $card_number = sanitizeInput($_POST['card_number']);

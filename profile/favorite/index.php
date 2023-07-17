@@ -81,7 +81,7 @@ if (isset($_SESSION['user_id'])) {
     </div>
 <?php
 } else {
-    header("Location:../../index");
+    header("location:../../login");
 }
 ?>
 <?php

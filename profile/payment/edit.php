@@ -156,7 +156,7 @@ if (isset($_SESSION['user_id'])) {
         header("location:../index");
     }
 } else {
-    header("location:../../index");
+    header("location:../../login");
 }
 include $tem . 'footer.php';
 ob_end_flush();
