@@ -1914,9 +1914,11 @@ body {
     padding: 11px 35px;
     font-size: 16px;
 }
-.adress_page .addresses .checkout_address{
+
+.adress_page .addresses .checkout_address {
     cursor: pointer;
 }
+
 .adress_page .addresses input[type='radio']:checked+.checkout_address .payment_method {
     box-shadow: 0px 0px 14px #A1D0418D;
     border: 2px solid #8EBF2D;
@@ -4176,4 +4178,152 @@ body {
 
 .select2-results__option .price {
     color: red !important;
+}
+
+/* START PRINT ORDER  */
+.print_order {
+    background-color: #fff;
+    padding: 50px;
+    border-radius: 30px;
+    max-width: 75%;
+    margin: auto;
+    margin-top: 40px;
+}
+
+.print_order .print_head {}
+
+.print_order .print_head .logo {
+    text-align: center;
+    padding: 20px;
+}
+
+.print_order .print_head .person_data {}
+
+.print_order .print_head .person_data h2 {
+    color: #1B1B1B;
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.print_order .print_head .person_data p {
+    color: #585858;
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+.print_order .print_head ul {
+    margin-top: 50px;
+    border-bottom: 1px solid #cbcaca;
+    padding-bottom: 40px;
+}
+
+.print_order .print_head ul li {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 10px !important;
+    margin-bottom: 15px !important;
+    color: #1B1B1B;
+}
+
+.print_order .print_head ul li span {
+    color: #585858;
+    margin-left: 25px !important;
+}
+
+.print_order .order_details {
+    padding-top: 20px;
+}
+
+.print_order .order_details h4 {
+    color: #1B1B1B;
+    font-size: 20px;
+}
+
+.print_order .order_details .order {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    align-items: center;
+    border-bottom: 1px dashed #ccc;
+}
+
+.print_order .order_details .order h6 {
+    color: #585858;
+    font-size: 17px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.print_order .order_details .order .product_data {
+    display: flex;
+    align-items: center;
+
+}
+
+.print_order .order_details .order .image img {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-left: 20px;
+}
+
+.print_order .order_details .order .product_data h4 {
+    color: #1B1B1B;
+    font-size: 18px;
+}
+
+.print_order .order_details .order .product_data p {
+    color: var(--second-color);
+    font-size: 15px;
+}
+
+.print_order .price_sections {
+    background-color: #E5F1E5;
+    padding: 5px;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+
+.print_order .price_sections .first {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.print_order .price_sections .first h3 {
+    color: var(--second-color);
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.print_order .price_sections .first p {
+    color: #A0B2B1;
+    font-size: 12px;
+}
+
+.print_order .price_sections .first h2 {
+    color: var(--main-color);
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.print_order .order_totals .thanks {
+    margin-top: 25px;
+    color: #1b1b1b;
+}
+
+.print_order .order_totals .thanks a {
+    text-decoration: none;
+    color: var(--second-color);
+}
+
+.print_order #print_Button {
+    text-align: center;
+    margin: auto;
+    display: block;
+
 }

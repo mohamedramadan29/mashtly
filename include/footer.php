@@ -220,7 +220,7 @@
 <!-- nice vide -->
 <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 <!-- Sweet Alert  -->
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
 <script src='<?php echo $js; ?>/select2.min.js'></script>
 <script src='<?php echo $js; ?>/main.js'></script>
 </body>
@@ -362,17 +362,4 @@
         });
     });
 </script>
-
-<script>
-    /*
-    var selectElement = document.getElementById("attribute-select");
-    var priceElement = document.getElementById("attribute-price");
-
-    selectElement.addEventListener("change", function() {
-        var selectedOption = selectElement.options[selectElement.selectedIndex];
-        var selectedPrice = selectedOption.dataset.price;
-
-        priceElement.value = selectedPrice;
-    });
-    */
-</script>
+  
