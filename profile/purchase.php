@@ -18,9 +18,9 @@ if (isset($_SESSION['user_id'])) {
                         <p> يمكنك تتبع جميع مشترياتك </p>
                     </div>
                     <div class='search'>
-                        <form action="#" method="post">
+                        <form action="" method="post">
                             <div class="input_box">
-                                <input type="text" placeholder="البحث برقم الطلب…" class='form-control'>
+                                <input required value="<?php if (isset($_REQUEST['order_number'])) echo $_REQUEST['order_number'] ?>" name="order_number" type="text" placeholder="البحث برقم الطلب…" class='form-control'>
                             </div>
                             <div class="input_box">
                                 <button class="btn global_button" name="search_order" type='submit'> <img src="<?php echo $uploads; ?>order_search.svg" alt=""> بحث </button>
@@ -32,6 +32,20 @@ if (isset($_SESSION['user_id'])) {
                 $stmt = $connect->prepare("SELECT * FROM orders WHERE user_id = ? ORDER BY id DESC");
                 $stmt->execute(array($user_id));
                 $orders = $stmt->fetchAll();
+                // Make Search Form
+                if (isset($_POST['search_order'])) {
+                    $order_number = $_POST['order_number'];
+                    $stmt = $connect->prepare("SELECT * FROM orders WHERE order_number=? AND user_id = ?");
+                    $stmt->execute(array($order_number, $user_id));
+                    $count = $stmt->rowCount();
+                    if ($count > 0) {
+                        $orders = $stmt->fetchAll();
+                    } else {
+                ?>
+                        <div class="alert alert-danger"> لا يوجد طلب بهذا الرقم </div>
+                    <?php
+                    }
+                }
                 foreach ($orders as $order) {
                     /* Formate Date  */
                     $dateString = $order['order_date'];
@@ -55,7 +69,8 @@ if (isset($_SESSION['user_id'])) {
                     foreach ($arabicMonths as $englishMonth => $arabicMonth) {
                         $newDate = str_replace($englishMonth, $arabicMonth, $newDate);
                     }
-                ?>
+                    ?>
+
                     <div class='purches_orders'>
                         <div class="card">
                             <div class='card-header'>
@@ -79,7 +94,7 @@ if (isset($_SESSION['user_id'])) {
                                         <p> <?php echo number_format($order['total_price'], 2); ?> ر. س </p>
                                     </div>
                                     <div class="total_invoice">
-                                        <a href="#" class="btn global_button"> طباعة الفاتورة <img src="<?php echo $uploads ?>print.svg" alt=""> </a>
+                                        <a href="print_order?order_number=<?php echo $order['order_number']; ?>" class="btn global_button"> طباعة الفاتورة <img src="<?php echo $uploads ?>print.svg" alt=""> </a>
                                     </div>
                                 </div>
                             </div>
