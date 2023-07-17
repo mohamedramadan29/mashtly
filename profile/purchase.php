@@ -109,14 +109,41 @@ if (isset($_SESSION['user_id'])) {
                                             <?php
                                             if ($order['status_value'] == 'تم التوصيل') {
                                             ?>
-                                                <p> تم التوصيل في: <span>5 أبريل 2023</span> </p>
-                                                <a href="return_product" class='btn global_button return_product'>
-                                                    إرجاع المنتج </a>
+
+                                                <?php
+                                                // check if product Already in return orders or Not 
+                                                $stmt = $connect->prepare("SELECT * FROM return_products WHERE order_number = ? AND product_id = ?");
+                                                $stmt->execute(array($order['order_number'], $detail['product_id']));
+                                                $count_return = $stmt->rowCount();
+                                                if ($count_return > 0) {
+                                                    $return_data = $stmt->fetch();
+                                                    if ($return_data['status'] == 0) {
+                                                ?>
+                                                        <a style="color: var(--second-color);">
+                                                            جاري تنفيذ طلب الأرجاع .... </a>
+                                                    <?php
+                                                    } elseif ($return_data['status'] == 1) {
+                                                    ?>
+                                                        <a style="color: var(--second-color);">
+                                                            تم استرجاع المنتج </a>
+                                                    <?php
+                                                    }
+                                                    ?>
+
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <p> تم التوصيل في: <span>5 أبريل 2023</span> </p>
+                                                    <a href="return/return_product?order=<?php echo $order['order_number']; ?>&product=<?php echo $product_data['id']; ?>" class='btn global_button return_product'>
+                                                        إرجاع المنتج </a>
+                                                <?php
+                                                }
+                                                ?>
+
                                             <?php
                                             } else {
                                             ?>
                                                 <a href="orders/tracking?order_number=<?php echo $order['order_number']; ?>" class='btn global_button'> تتبع الطرد </a>
-
                                             <?php
                                             }
                                             ?>
