@@ -842,6 +842,7 @@ body {
     color: var(--second-color);
     font-size: 16px;
     margin-bottom: 12px;
+    margin-top: 12px;
 }
 
 .new_producs .products .product_info .product_details .add_cart,
@@ -2823,11 +2824,18 @@ body {
 
 .pagination_section .pagination {
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .pagination_section .pagination .page-item {
     margin-right: 5px;
     margin-left: 5px;
+}
+
+.pagination_section .pagination .page-item.active a {
+    background-color: var(--second-color);
+    color: #fff;
+    border-color: #ccc;
 }
 
 .pagination_section .pagination .page-item .page-link {

@@ -4,10 +4,19 @@ session_start();
 $page_title = 'الرئيسية';
 include "init.php";
 // start get all products
-$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 order by id desc ");
+$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1");
 $stmt->execute();
-$count = $stmt->rowCount();
+$num_products = $stmt->rowCount();
+$currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
+$pageSize = 20;
+$offset = ($currentpage - 1) * $pageSize;
+$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
 $allproducts = $stmt->fetchAll();
+$totalProducts = count($allproducts);
+$totalPages = ceil($num_products / $pageSize);
+
 ?>
 <!-- START SELECT DATA HEADER -->
 <div class="select_plan_head">
@@ -32,7 +41,7 @@ $allproducts = $stmt->fetchAll();
             <div class="data_header">
                 <div class="data_header_name">
                     <h2 class='header2'> النباتات </h2>
-                    <p> اجمالي نتائج البحث:<span> <?php echo $count; ?> </span> </p>
+                    <p> اجمالي النتائج :<span> <?php echo $num_products; ?> </span> </p>
                 </div>
                 <div class="search_types">
                     <div class="brach_cat">
@@ -707,27 +716,35 @@ $allproducts = $stmt->fetchAll();
                         }
                         ?>
                     </div>
+
                     <div class="pagination_section">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
+                                    <a class="page-link" href="" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
-                                <li class="page-item"><a class="page-link active" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#">5</a></li>
+
+                                <?php
+                                for ($i = 1; $i <= $totalPages; $i++) {
+                                    echo '<li class="page-item';
+                                    if ($i == $currentpage) {
+                                        echo ' active';
+                                    }
+                                    echo '"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
+                                }
+                                ?>
+
                                 <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
+                                    <a class="page-link" href="" aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
                                 </li>
                             </ul>
                         </nav>
                     </div>
+
                 </div>
             </div>
         </div>
