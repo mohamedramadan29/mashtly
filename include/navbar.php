@@ -78,7 +78,6 @@
                       </ul>
                     </div>
                   </div>
-
                 <?php
                 } else {
                 ?>
@@ -86,10 +85,8 @@
                 <?php
                 }
                 ?>
-
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -148,7 +145,7 @@
                     </li>
                     <li class="nav-item nav_badge">
                       <span class="badge badge-danger"> جديد </span>
-                      <a class="nav-link" href="#"> تصفح حسب احتياجاتك </a>
+                      <a class="nav-link" href="http://localhost/mashtly/shop"> تصفح حسب احتياجاتك </a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="#"> الطلبات الكبيرة </a>
@@ -214,7 +211,7 @@
           </li>
           <li class="nav-item nav_badge">
             <span class="badge badge-danger"> جديد </span>
-            <a class="nav-link" href="#"> تصفح حسب احتياجاتك </a>
+            <a class="nav-link" href="http://localhost/mashtly/shop"> تصفح حسب احتياجاتك </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#"> الطلبات الكبيرة </a>

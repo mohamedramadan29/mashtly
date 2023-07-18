@@ -2830,6 +2830,7 @@ body {
 .pagination_section .pagination .page-item {
     margin-right: 5px;
     margin-left: 5px;
+    margin-top: 15px;
 }
 
 .pagination_section .pagination .page-item.active a {
