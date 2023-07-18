@@ -807,6 +807,8 @@ body {
     border-radius: 3px 3px 0px 0px;
     margin-right: 10px;
     margin-left: 10px;
+    position: relative;
+    min-height: 440px;
 }
 
 .new_producs .products .product_info .main_image,
@@ -847,6 +849,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: absolute;
+    bottom: 15px;
 }
 
 .new_producs .slick-slide img,
@@ -878,6 +882,7 @@ body {
     line-height: 30px;
     text-align: center;
     cursor: pointer;
+    margin-right: 20px;
 }
 
 .new_producs .products .product_info .product_details .add_cart .heart img,
@@ -2899,6 +2904,7 @@ body {
     display: none;
     position: absolute;
     min-width: 250px;
+    z-index: 9999999;
 
 }
 

@@ -96,6 +96,17 @@ if (isset($_SESSION['username'])) {
         include "baskets_uncomplete/report.php";
     }
 
+
+    // START Return Orders 
+    if ($dir == 'returns_order' && $page == 'add') {
+        include "returns_order/add.php";
+    } elseif ($dir == 'returns_order' && $page == 'edit') {
+        include "returns_order/edit.php";
+    } elseif ($dir == 'returns_order' && $page == 'delete') {
+        include 'returns_order/delete.php';
+    } elseif ($dir == 'returns_order' && $page == 'report') {
+        include "returns_order/report.php";
+    }
     // START USers 
     if ($dir == 'users' && $page == 'report') {
         include "users/report.php";

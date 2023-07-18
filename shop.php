@@ -2,7 +2,12 @@
 ob_start();
 session_start();
 $page_title = 'الرئيسية';
-    include "init.php";
+include "init.php";
+// start get all products
+$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 order by id desc ");
+$stmt->execute();
+$count = $stmt->rowCount();
+$allproducts = $stmt->fetchAll();
 ?>
 <!-- START SELECT DATA HEADER -->
 <div class="select_plan_head">
@@ -27,7 +32,7 @@ $page_title = 'الرئيسية';
             <div class="data_header">
                 <div class="data_header_name">
                     <h2 class='header2'> النباتات </h2>
-                    <p> اجمالي نتائج البحث:<span> 1110 </span> </p>
+                    <p> اجمالي نتائج البحث:<span> <?php echo $count; ?> </span> </p>
                 </div>
                 <div class="search_types">
                     <div class="brach_cat">
@@ -36,7 +41,7 @@ $page_title = 'الرئيسية';
                     <div class="search">
                         <button class="global_button btn" id="search_orders"> رتب حسب: <span class="selected_search"> ----- </span> </button>
                         <div class="options">
-                            <form action="">
+                            <form action="" method="post">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheck1">
                                     <label class="form-check-label" for="flexCheck1">
@@ -65,7 +70,6 @@ $page_title = 'الرئيسية';
                             </form>
                         </div>
                     </div>
-
                 </div>
             </div>
             <div class="row">
@@ -677,223 +681,31 @@ $page_title = 'الرئيسية';
                 </div>
                 <div class="col-lg-10">
                     <div class="row">
-                        <div class="col-lg-3 col-6">
-                            <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2>نبات ملكة النهار</h2>
-                                    <h4 class='price'> 87.00 ر.س </h4>
-                                    <div class='add_cart'>
-                                        <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة </a>
-                                        </div>
-                                        <div class="heart">
-                                            <img src="uploads/heart.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-6">
-                            <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2>نبات ملكة النهار</h2>
-                                    <h4 class='price'> 87.00 ر.س </h4>
-                                    <div class='add_cart'>
-                                        <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة </a>
-                                        </div>
-                                        <div class="heart">
-                                            <img src="uploads/heart.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-6">
-                            <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2>نبات ملكة النهار</h2>
-                                    <h4 class='price'> 87.00 ر.س </h4>
-                                    <div class='add_cart'>
-                                        <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة </a>
-                                        </div>
-                                        <div class="heart">
-                                            <img src="uploads/heart.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-6">
-                            <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2>نبات ملكة النهار</h2>
-                                    <h4 class='price'> 87.00 ر.س </h4>
-                                    <div class='add_cart'>
-                                        <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة </a>
-                                        </div>
-                                        <div class="heart">
-                                            <img src="uploads/heart.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-6">
-                            <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2>نبات ملكة النهار</h2>
-                                    <h4 class='price'> 87.00 ر.س </h4>
-                                    <div class='add_cart'>
-                                        <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة </a>
-                                        </div>
-                                        <div class="heart">
-                                            <img src="uploads/heart.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-6">
-                            <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2>نبات ملكة النهار</h2>
-                                    <h4 class='price'> 87.00 ر.س </h4>
-                                    <div class='add_cart'>
-                                        <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة </a>
-                                        </div>
-                                        <div class="heart">
-                                            <img src="uploads/heart.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-6">
-                            <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2>نبات ملكة النهار</h2>
-                                    <h4 class='price'> 87.00 ر.س </h4>
-                                    <div class='add_cart'>
-                                        <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة </a>
-                                        </div>
-                                        <div class="heart">
-                                            <img src="uploads/heart.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-6">
-                            <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2>نبات ملكة النهار</h2>
-                                    <h4 class='price'> 87.00 ر.س </h4>
-                                    <div class='add_cart'>
-                                        <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة </a>
-                                        </div>
-                                        <div class="heart">
-                                            <img src="uploads/heart.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-6">
-                            <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2>نبات ملكة النهار</h2>
-                                    <h4 class='price'> 87.00 ر.س </h4>
-                                    <div class='add_cart'>
-                                        <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة </a>
-                                        </div>
-                                        <div class="heart">
-                                            <img src="uploads/heart.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-6">
-                            <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2>نبات ملكة النهار</h2>
-                                    <h4 class='price'> 87.00 ر.س </h4>
-                                    <div class='add_cart'>
-                                        <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة </a>
-                                        </div>
-                                        <div class="heart">
-                                            <img src="uploads/heart.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-6">
-                            <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2>نبات ملكة النهار</h2>
-                                    <h4 class='price'> 87.00 ر.س </h4>
-                                    <div class='add_cart'>
-                                        <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة </a>
-                                        </div>
-                                        <div class="heart">
-                                            <img src="uploads/heart.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-6">
-                            <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2>نبات ملكة النهار</h2>
-                                    <h4 class='price'> 87.00 ر.س </h4>
-                                    <div class='add_cart'>
-                                        <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة </a>
-                                        </div>
-                                        <div class="heart">
-                                            <img src="uploads/heart.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <?php
 
+                        foreach ($allproducts as $product) {
+                        ?>
+                            <div class="col-lg-3 col-6">
+                                <div class="product_info">
+                                    <img class="main_image" src="uploads/product.png" alt="">
+                                    <div class="product_details">
+                                        <h2> <a href="product?slug=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
+                                        <h4 class='price'> <?php echo $product['price']; ?> ر.س </h4>
+                                        <div class='add_cart'>
+                                            <div>
+                                                <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                                    الي السلة </a>
+                                            </div>
+                                            <div class="heart">
+                                                <img src="uploads/heart.png" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php
+                        }
+                        ?>
                     </div>
                     <div class="pagination_section">
                         <nav aria-label="Page navigation example">
