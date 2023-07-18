@@ -4212,10 +4212,14 @@ body {
     line-height: 1.8;
 }
 
-.print_order .print_head ul {
-    margin-top: 50px;
+.print_order .print_head .ul_div {
     border-bottom: 1px solid #cbcaca;
     padding-bottom: 40px;
+}
+
+.print_order .print_head ul {
+    margin-top: 50px;
+
 }
 
 .print_order .print_head ul li {
@@ -4273,6 +4277,7 @@ body {
 .print_order .order_details .order .product_data h4 {
     color: #1B1B1B;
     font-size: 18px;
+    max-width: 150px;
 }
 
 .print_order .order_details .order .product_data p {

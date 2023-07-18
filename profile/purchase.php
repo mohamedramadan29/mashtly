@@ -94,7 +94,7 @@ if (isset($_SESSION['user_id'])) {
                                         <p> <?php echo number_format($order['total_price'], 2); ?> ر. س </p>
                                     </div>
                                     <div class="total_invoice">
-                                        <a href="print_order?order_number=<?php echo $order['order_number']; ?>" class="btn global_button"> طباعة الفاتورة <img src="<?php echo $uploads ?>print.svg" alt=""> </a>
+                                        <a href="orders/print?order_number=<?php echo $order['order_number']; ?>" class="btn global_button"> طباعة الفاتورة <img src="<?php echo $uploads ?>print.svg" alt=""> </a>
                                     </div>
                                 </div>
                             </div>
