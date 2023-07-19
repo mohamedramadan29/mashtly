@@ -107,6 +107,16 @@ if (isset($_SESSION['username'])) {
     } elseif ($dir == 'returns_order' && $page == 'report') {
         include "returns_order/report.php";
     }
+    // START Product branches  
+    if ($dir == 'product_branches' && $page == 'add') {
+        include "product_branches/add.php";
+    } elseif ($dir == 'product_branches' && $page == 'edit') {
+        include "product_branches/edit.php";
+    } elseif ($dir == 'product_branches' && $page == 'delete') {
+        include 'product_branches/delete.php';
+    } elseif ($dir == 'product_branches' && $page == 'report') {
+        include "product_branches/report.php";
+    }
     // START USers 
     if ($dir == 'users' && $page == 'report') {
         include "users/report.php";

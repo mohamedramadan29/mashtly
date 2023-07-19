@@ -4,11 +4,11 @@ if (isset($_POST['add_pro'])) {
   $pro_attributes = $_POST['pro_attribute'];
   $pro_prices = $_POST['pro_price'];
   $pro_variations = $_POST['pro_variations'];
-
   $formerror = [];
   $cat_id = $_POST['cat_id'];
   $more_cat = $_POST['more_cat'];
   $more_cat_string = implode(',', (array) $more_cat);
+
   $name = $_POST['name'];
   $slug = createSlug($name);
   $description = $_POST['description'];
@@ -26,6 +26,8 @@ if (isset($_POST['add_pro'])) {
   $related_product = $_POST['related_product'];
   $related_product_string = implode(',', (array) $related_product);
   $main_checked = $_POST['main_checked'];
+  // plant options 
+  $plants_options = $_POST['plants_options'];
   /**
    * More Attribute For Main Image
    */
@@ -188,6 +190,18 @@ if (isset($_POST['add_pro'])) {
         "zpro_att" => $pro_attribute,
         "zpro_var" => $var_id,
         "zpro_price" => $pro_price,
+      ));
+    }
+
+    // insert product plant options 
+
+    foreach ($plants_options as $option) {
+      $stmt = $connect->prepare("INSERT INTO product_properties_plants (product_id,option_id)
+      VALUES(:zproduct_id,:zoption_id)
+      ");
+      $stmt->execute(array(
+        "zproduct_id" => $last_pro_id,
+        "zoption_id" => $option
       ));
     }
 
@@ -395,6 +409,21 @@ if (isset($_POST['add_pro'])) {
                   foreach ($allpro as $pro) {
                   ?>
                     <option <?php if (isset($_REQUEST['related_product']) && $_REQUEST['related_product'] == $pro['id']) echo "selected"; ?> value="<?php echo $pro['id']; ?>"> <?php echo $pro['name'] ?> </option>
+                  <?php
+                  }
+                  ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="inputStatus"> خصائص النبات </label>
+                <select id="" class="form-control custom-select select2" name="plants_options[]" multiple>
+                  <?php
+                  $stmt = $connect->prepare("SELECT * FROM plant_properity_options");
+                  $stmt->execute();
+                  $alloptions = $stmt->fetchAll();
+                  foreach ($alloptions as $option) {
+                  ?>
+                    <option <?php if (isset($_REQUEST['plants_options']) && $_REQUEST['plants_options'] == $option['id']) echo "selected"; ?> value="<?php echo $option['id']; ?>"> <?php echo $option['name'] ?> </option>
                   <?php
                   }
                   ?>

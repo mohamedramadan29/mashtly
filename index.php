@@ -140,7 +140,29 @@ if (isset($_POST['add_to_cart'])) {
                         <img class="main_image" src="uploads/product.png" alt="">
                         <div class="product_details">
                             <h2> <a href="product?slug=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
-                            <h4 class='price'> <?php echo $product['price'] ?> ر.س </h4>
+                            <?php
+                            $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
+                            $minimumPrice = INF; // قيمة أدنى سعر ممكنة
+                            // نشوف علي المنتج يحتوي علي متغيرات او لا 
+                            $stmt = $connect->prepare("SELECT * FROM product_details WHERE pro_id = ? AND pro_price != ''");
+                            $stmt->execute(array($product['id']));
+                            $count_pro_attr = $stmt->rowCount();
+                            if ($count_pro_attr > 0) {
+                                $allproduct_data = $stmt->fetchAll();
+                                foreach ($allproduct_data as $product_data) {
+                                    $pro_price =  $product_data['pro_price'];
+                                    $maximumPrice = max($maximumPrice, $pro_price);
+                                    $minimumPrice = min($minimumPrice, $pro_price);
+                                }
+                            ?>
+                                <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س </h4>
+                            <?php
+                            } else {
+                            ?>
+                                <h4 class='price'> <?php echo $product['price'] ?> ر.س </h4>
+                            <?php
+                            }
+                            ?>
                             <form action="" method="post">
                                 <input type="hidden" name="price" value="<?php echo $product['price']; ?>">
                                 <div class='add_cart'>
@@ -154,9 +176,21 @@ if (isset($_POST['add_to_cart'])) {
                                         <?php
                                         } else {
                                         ?>
-                                            <button name="add_to_cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة
-                                            </button>
+                                            <?php
+                                            if ($count_pro_attr > 0) {
+                                            ?>
+                                                <a href="product?slug=<?php echo $product['slug']; ?>" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
+                                                    مشاهدة الاختيارات
+                                                </a>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <button name="add_to_cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                                    الي السلة
+                                                </button>
+                                            <?php
+                                            }
+                                            ?>
                                         <?php
                                         }
                                         ?>
@@ -164,7 +198,6 @@ if (isset($_POST['add_to_cart'])) {
                                     <div class="heart">
                                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
                                         <?php
-
                                         if (isset($_SESSION['user_id']) && checkIfProductIsFavourite($connect, $_SESSION['user_id'], $product['id'])) {
                                         ?>
                                             <img src="<?php echo $uploads; ?>/heart2.svg" alt="">

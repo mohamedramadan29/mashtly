@@ -35,7 +35,6 @@
   // select main dropdown options
   $(document).ready(function () {
     var optionsVisible = false;
-
     $('#search_orders').click(function (event) {
       event.stopPropagation(); // Prevent the event from bubbling up to the document
       $(".search .options").toggle();
@@ -48,9 +47,9 @@
         optionsVisible = false;
       }
     });
-
   });
-  $('.options input[type="checkbox"]').change(function () {
+
+  $('.search  .options input[type="checkbox"]').change(function () {
     var selectedOption = $(this).siblings('label').text().trim();
     var icon = '<i class="fa fa-check"></i>'; // Replace with the desired icon class
     $('.selected_search').html(selectedOption + ' ' + icon);

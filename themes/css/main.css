@@ -841,7 +841,7 @@ body {
 .index_all_cat .product_info .product_details .price {
     color: var(--second-color);
     font-size: 16px;
-    margin-bottom: 12px;
+    margin-bottom: 50px;
     margin-top: 12px;
 }
 
@@ -2771,6 +2771,15 @@ body {
 }
 
 .select_plants .all_cat {}
+
+.select_plants .all_cat .search_options {
+    display: block;
+    width: 100%;
+    margin: auto;
+    border: none;
+    margin-top: 15px;
+}
+
 
 .select_plants .all_cat .search_one {}
 

@@ -18,12 +18,11 @@
               <a href="index">
                 <img src="<?php echo $uploads ?>/logo.png" alt="">
               </a>
-
             </div>
           </div>
           <div class="col-lg-7">
             <div class="search">
-              <form action="#" method="get" class='form-group'>
+              <form action="search" method="get" class='form-group'>
                 <div class="box">
                   <div class="box2">
                     <input type="text" name='search' placeholder="اكتب كلمة البحث…" class="form-control">

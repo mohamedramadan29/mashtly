@@ -3,6 +3,50 @@ ob_start();
 session_start();
 $page_title = 'الرئيسية';
 include "init.php";
+
+
+// add to favorite
+if (isset($_POST['add_to_fav'])) {
+    if (isset($_SESSION['user_id'])) {
+        $product_id = $_POST['product_id'];
+        $user_id = $_SESSION['user_id'];
+        $stmt = $connect->prepare("INSERT INTO user_favourite (user_id, product_id)
+        VALUES(:zuser_id, :zproduct_id)
+        ");
+        $stmt->execute(array(
+            "zuser_id" => $user_id,
+            "zproduct_id" => $product_id
+        ));
+        if ($stmt) {
+            alertfavorite();
+        }
+    } else {
+        header("Location:login");
+    }
+}
+if (isset($_POST['add_to_cart'])) {
+    $product_id = $_POST['product_id'];
+    $price = $_POST['price'];
+    if (isset($_SESSION['user_id'])) {
+        $user_id = $_SESSION['user_id'];
+    } else {
+        $user_id = null;
+    }
+    $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,quantity,price,total_price)
+    VALUES(:zuser_id, :zcookie_id , :zproduct_id,:zquantity ,:zprice , :ztotal_price)
+    ");
+    $stmt->execute(array(
+        "zuser_id" => $user_id,
+        "zcookie_id" => $cookie_id,
+        "zproduct_id" => $product_id,
+        "zquantity" => 1,
+        "zprice" => $price,
+        "ztotal_price" => $price,
+    ));
+    if ($stmt) {
+        alertcart();
+    }
+}
 // start get all products
 $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1");
 $stmt->execute();
@@ -10,13 +54,30 @@ $num_products = $stmt->rowCount();
 $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
 $pageSize = 20;
 $offset = ($currentpage - 1) * $pageSize;
-$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+
+if (isset($_POST['height_price'])) {
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY price DESC LIMIT $pageSize OFFSET :offset");
+} elseif (isset($_POST['low_price'])) {
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY price ASC LIMIT $pageSize OFFSET :offset");
+} elseif (isset($_POST['newest'])) {
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+} elseif (isset($_POST['oldest'])) {
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id ASC LIMIT $pageSize OFFSET :offset");
+} elseif (isset($_POST['search_options'])) {
+    $selectedOptions = $_POST['options'];
+    if (!empty($selectedOptions)) {
+        $placeholders = implode(',', array_fill(0, count($selectedOptions), '?'));
+        $query = "SELECT * FROM products WHERE publish = 1 AND id IN (SELECT product_id FROM product_properties_plants WHERE option_id IN ($placeholders)) ORDER BY id DESC LIMIT $pageSize OFFSET :offset";
+        $stmt = $connect->prepare($query);
+    }
+} else {
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+}
 $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $allproducts = $stmt->fetchAll();
 $totalProducts = count($allproducts);
 $totalPages = ceil($num_products / $pageSize);
-
 ?>
 <!-- START SELECT DATA HEADER -->
 <div class="select_plan_head">
@@ -33,7 +94,6 @@ $totalPages = ceil($num_products / $pageSize);
     </div>
 </div>
 <!-- END SELECT DATA HEADER -->
-
 <!-- START INDEX ALL CATEGORY  -->
 <div class="index_all_cat select_plants">
     <div class="container-fluid">
@@ -48,31 +108,43 @@ $totalPages = ceil($num_products / $pageSize);
                         <button class="global_button btn" id="brach_orders"> <img src="<?php echo $uploads ?>filter.png" alt=""> تصنيف حسب </button>
                     </div>
                     <div class="search">
-                        <button class="global_button btn" id="search_orders"> رتب حسب: <span class="selected_search"> ----- </span> </button>
+                        <button class="global_button btn" id="search_orders"> رتب حسب: <span class="selected_search">
+                                <?php
+                                if (isset($_REQUEST['height_price'])) {
+                                    echo "السعر من الاعلي الي الاقل <i class='fa fa-check'></i>";
+                                } elseif (isset($_REQUEST['low_price'])) {
+                                    echo "السعر من الاقل الي الاعلي <i class='fa fa-check'></i>";
+                                } elseif (isset($_REQUEST['newest'])) {
+                                    echo "الأحدث <i class='fa fa-check'></i>";
+                                } elseif (isset($_REQUEST['oldest'])) {
+                                    echo "الأقدم <i class='fa fa-check'></i>";
+                                } else {
+                                    echo "----";
+                                } ?> </span> </button>
                         <div class="options">
                             <form action="" method="post">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheck1">
+                                    <input name="newest" class="form-check-input" type="checkbox" value="" id="flexCheck3" onclick="submit();">
+                                    <label class="form-check-label" for="flexCheck3">
+                                        الأحدث
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input name="oldest" class="form-check-input" type="checkbox" value="" id="flexCheck4" onclick="submit();">
+                                    <label class="form-check-label" for="flexCheck4">
+                                        الأقدم
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input name="height_price" class="form-check-input" type="checkbox" value="" id="flexCheck1" onclick="submit();">
                                     <label class="form-check-label" for="flexCheck1">
                                         السعر من الاعلي الي الاقل
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheck2">
+                                    <input name="low_price" class="form-check-input" type="checkbox" value="" id="flexCheck2" onclick="submit();">
                                     <label class="form-check-label" for="flexCheck2">
                                         السعر من الاقل الي الاعلي
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheck3">
-                                    <label class="form-check-label" for="flexCheck3">
-                                        الأكثر شعبية
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheck4">
-                                    <label class="form-check-label" for="flexCheck4">
-                                        الأعلي تقييما
                                     </label>
                                 </div>
                                 <!-- Add more options here -->
@@ -84,614 +156,43 @@ $totalPages = ceil($num_products / $pageSize);
             <div class="row">
                 <div class="col-lg-2">
                     <div class="all_cat">
-                        <div class="search_one">
-                            <h4 class="select_search"> تحمل الحرارة <i class="fa fa-chevron-down"></i> </h4>
-                            <div class="options">
-                                <form action="#" method="post">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            تحمل الحرارة
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للبرودة)0-20
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة المعتدلة)10–35
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة العالية) 30-45
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            يتحمل الصقيع والحرارة العالية
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            غير منطبق
-                                        </label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="search_one">
-                            <h4 class="select_search"> موسم الزراعة <i class="fa fa-chevron-down"></i> </h4>
-                            <div class="options">
-                                <form action="#" method="post">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            تحمل الحرارة
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للبرودة)0-20
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة المعتدلة)10–35
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة العالية) 30-45
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            يتحمل الصقيع والحرارة العالية
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            غير منطبق
-                                        </label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="search_one">
-                            <h4 class="select_search"> تحمل الملوحة <i class="fa fa-chevron-down"></i> </h4>
-                            <div class="options">
-                                <form action="#" method="post">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            تحمل الحرارة
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للبرودة)0-20
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة المعتدلة)10–35
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة العالية) 30-45
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            يتحمل الصقيع والحرارة العالية
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            غير منطبق
-                                        </label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="search_one">
-                            <h4 class="select_search"> سهولة العناية <i class="fa fa-chevron-down"></i> </h4>
-                            <div class="options">
-                                <form action="#" method="post">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            تحمل الحرارة
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للبرودة)0-20
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة المعتدلة)10–35
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة العالية) 30-45
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            يتحمل الصقيع والحرارة العالية
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            غير منطبق
-                                        </label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="search_one">
-                            <h4 class="select_search"> الحاجة إلى الإضاءة داخلي <i class="fa fa-chevron-down"></i> </h4>
-                            <div class="options">
-                                <form action="#" method="post">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            تحمل الحرارة
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للبرودة)0-20
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة المعتدلة)10–35
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة العالية) 30-45
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            يتحمل الصقيع والحرارة العالية
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            غير منطبق
-                                        </label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="search_one">
-                            <h4 class="select_search"> الحاجة إلى ضوء الشمس خارجي <i class="fa fa-chevron-down"></i> </h4>
-                            <div class="options">
-                                <form action="#" method="post">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            تحمل الحرارة
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للبرودة)0-20
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة المعتدلة)10–35
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة العالية) 30-45
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            يتحمل الصقيع والحرارة العالية
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            غير منطبق
-                                        </label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="search_one">
-                            <h4 class="select_search"> الموقع المناسب / خارجي <i class="fa fa-chevron-down"></i> </h4>
-                            <div class="options">
-                                <form action="#" method="post">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            تحمل الحرارة
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للبرودة)0-20
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة المعتدلة)10–35
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة العالية) 30-45
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            يتحمل الصقيع والحرارة العالية
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            غير منطبق
-                                        </label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="search_one">
-                            <h4 class="select_search"> الموقع المناسب / داخلي <i class="fa fa-chevron-down"></i> </h4>
-                            <div class="options">
-                                <form action="#" method="post">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            تحمل الحرارة
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للبرودة)0-20
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة المعتدلة)10–35
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة العالية) 30-45
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            يتحمل الصقيع والحرارة العالية
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            غير منطبق
-                                        </label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="search_one">
-                            <h4 class="select_search"> الصلاحية للأكل** <i class="fa fa-chevron-down"></i> </h4>
-                            <div class="options">
-                                <form action="#" method="post">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            تحمل الحرارة
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للبرودة)0-20
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة المعتدلة)10–35
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة العالية) 30-45
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            يتحمل الصقيع والحرارة العالية
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            غير منطبق
-                                        </label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="search_one">
-                            <h4 class="select_search"> استهلاك المياه <i class="fa fa-chevron-down"></i> </h4>
-                            <div class="options">
-                                <form action="#" method="post">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            تحمل الحرارة
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للبرودة)0-20
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة المعتدلة)10–35
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة العالية) 30-45
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            يتحمل الصقيع والحرارة العالية
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            غير منطبق
-                                        </label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="search_one">
-                            <h4 class="select_search"> دور الحياة <i class="fa fa-chevron-down"></i> </h4>
-                            <div class="options">
-                                <form action="#" method="post">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            تحمل الحرارة
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للبرودة)0-20
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة المعتدلة)10–35
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة العالية) 30-45
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            يتحمل الصقيع والحرارة العالية
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            غير منطبق
-                                        </label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="search_one">
-                            <h4 class="select_search"> الاحتياج للرطوبة <i class="fa fa-chevron-down"></i> </h4>
-                            <div class="options">
-                                <form action="#" method="post">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            تحمل الحرارة
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للبرودة)0-20
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة المعتدلة)10–35
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة العالية) 30-45
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            يتحمل الصقيع والحرارة العالية
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            غير منطبق
-                                        </label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="search_one">
-                            <h4 class="select_search"> تحمل التيارات الهوائية <i class="fa fa-chevron-down"></i> </h4>
-                            <div class="options">
-                                <form action="#" method="post">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            تحمل الحرارة
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للبرودة)0-20
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة المعتدلة)10–35
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة العالية) 30-45
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            يتحمل الصقيع والحرارة العالية
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            غير منطبق
-                                        </label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="search_one">
-                            <h4 class="select_search"> سرعة النمو <i class="fa fa-chevron-down"></i> </h4>
-                            <div class="options">
-                                <form action="#" method="post">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            تحمل الحرارة
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للبرودة)0-20
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة المعتدلة)10–35
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            (محب للحرارة العالية) 30-45
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            يتحمل الصقيع والحرارة العالية
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
-                                            غير منطبق
-                                        </label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                        <form action="" method="post">
+                            <?php
+                            $stmt = $connect->prepare("SELECT * FROM plant_properties");
+                            $stmt->execute();
+                            $allplant_props = $stmt->fetchAll();
+                            foreach ($allplant_props as $plant_props) {
+                            ?>
+                                <div class="search_one">
+                                    <h4 class="select_search"> <?php echo $plant_props['properity_name']; ?> <i class="fa fa-chevron-down"></i> </h4>
+                                    <div class="options">
+                                        <?php
+                                        $stmt = $connect->prepare("SELECT * FROM plant_properity_options WHERE properity_id=?");
+                                        $stmt->execute(array($plant_props['id']));
+                                        $alloptions = $stmt->fetchAll();
+                                        foreach ($alloptions as $option) {
+                                        ?>
+                                            <div class="form-check">
+                                                <input name="options[]" class="form-check-input" type="checkbox" value="<?php echo $option['id'] ?>" id="option<?php echo $option['id'] ?>">
+                                                <label class="form-check-label" for="option<?php echo $option['id'] ?>">
+                                                    <?php echo $option['name'] ?>
+                                                </label>
+                                            </div>
+                                        <?php
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                            <?php
+                            }
+                            ?>
+                            <button type="submit" name="search_options" class="global_button search_options"> بحث <i class="fa fa-search"></i> </button>
+                        </form>
                     </div>
                 </div>
                 <div class="col-lg-10">
                     <div class="row">
                         <?php
-
                         foreach ($allproducts as $product) {
                         ?>
                             <div class="col-lg-3 col-6">
@@ -699,16 +200,79 @@ $totalPages = ceil($num_products / $pageSize);
                                     <img class="main_image" src="uploads/product.png" alt="">
                                     <div class="product_details">
                                         <h2> <a href="product?slug=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
-                                        <h4 class='price'> <?php echo $product['price']; ?> ر.س </h4>
-                                        <div class='add_cart'>
-                                            <div>
-                                                <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                    الي السلة </a>
+                                        <?php
+                                        $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
+                                        $minimumPrice = INF; // قيمة أدنى سعر ممكنة
+                                        // نشوف علي المنتج يحتوي علي متغيرات او لا 
+                                        $stmt = $connect->prepare("SELECT * FROM product_details WHERE pro_id = ? AND pro_price != ''");
+                                        $stmt->execute(array($product['id']));
+                                        $count_pro_attr = $stmt->rowCount();
+                                        if ($count_pro_attr > 0) {
+                                            $allproduct_data = $stmt->fetchAll();
+                                            foreach ($allproduct_data as $product_data) {
+                                                $pro_price =  $product_data['pro_price'];
+                                                $maximumPrice = max($maximumPrice, $pro_price);
+                                                $minimumPrice = min($minimumPrice, $pro_price);
+                                            }
+                                        ?>
+                                            <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س </h4>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <h4 class='price'> <?php echo $product['price'] ?> ر.س </h4>
+                                        <?php
+                                        }
+                                        ?>
+                                        <form action="" method="post">
+                                            <input type="hidden" name="price" value="<?php echo $product['price']; ?>">
+                                            <div class='add_cart'>
+                                                <div>
+                                                    <?php
+                                                    if (checkIfProductInCart($connect, $cookie_id, $product['id'])) {
+                                                    ?>
+                                                        <a href="cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
+                                                            مشاهدة السلة
+                                                        </a>
+                                                    <?php
+                                                    } else {
+                                                    ?>
+                                                        <?php
+                                                        if ($count_pro_attr > 0) {
+                                                        ?>
+                                                            <a href="product?slug=<?php echo $product['slug']; ?>" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
+                                                                مشاهدة الاختيارات
+                                                            </a>
+                                                        <?php
+                                                        } else {
+                                                        ?>
+                                                            <button name="add_to_cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                                                الي السلة
+                                                            </button>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </div>
+                                                <div class="heart">
+                                                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                                                    <?php
+                                                    if (isset($_SESSION['user_id']) && checkIfProductIsFavourite($connect, $_SESSION['user_id'], $product['id'])) {
+                                                    ?>
+                                                        <img src="<?php echo $uploads; ?>/heart2.svg" alt="">
+                                                    <?php
+                                                    } else {
+                                                    ?>
+                                                        <button name="add_to_fav" type="submit" style="border: none; background-color:transparent">
+                                                            <img src="<?php echo $uploads ?>/heart.png" alt="">
+                                                        </button>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </div>
                                             </div>
-                                            <div class="heart">
-                                                <img src="uploads/heart.png" alt="">
-                                            </div>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -716,7 +280,6 @@ $totalPages = ceil($num_products / $pageSize);
                         }
                         ?>
                     </div>
-
                     <div class="pagination_section">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
@@ -725,7 +288,6 @@ $totalPages = ceil($num_products / $pageSize);
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
-
                                 <?php
                                 for ($i = 1; $i <= $totalPages; $i++) {
                                     echo '<li class="page-item';
@@ -735,7 +297,6 @@ $totalPages = ceil($num_products / $pageSize);
                                     echo '"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
                                 }
                                 ?>
-
                                 <li class="page-item">
                                     <a class="page-link" href="" aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
@@ -744,14 +305,12 @@ $totalPages = ceil($num_products / $pageSize);
                             </ul>
                         </nav>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- END INDEX ALL CATEGORY  -->
-
 <?php
 include $tem . 'footer.php';
 ob_end_flush();
