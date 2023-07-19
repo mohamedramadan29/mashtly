@@ -25,7 +25,7 @@
               <form action="search" method="get" class='form-group'>
                 <div class="box">
                   <div class="box2">
-                    <input type="text" name='search' placeholder="اكتب كلمة البحث…" class="form-control">
+                    <input type="text" name='search' value="<?php if (isset($_REQUEST['search'])) echo $_REQUEST['search']; ?>" placeholder="اكتب كلمة البحث…" class="form-control">
                     <img src="<?php echo $uploads ?>/search.png" alt="">
                   </div>
                   <div class='box3'>

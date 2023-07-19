@@ -46,21 +46,23 @@ if (isset($_POST['add_to_cart'])) {
     }
 }
 // start header search
+
 if (isset($_GET['search']) && $_GET['search'] != '') {
     $search = $_GET['search'];
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name  LIKE $search");
-}else{
-// start get all products
-$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name LIKE '%$search%'");
+} else {
+    // start get all products
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1");
 }
-
 $stmt->execute();
 $num_products = $stmt->rowCount();
 $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
 $pageSize = 20;
 $offset = ($currentpage - 1) * $pageSize;
-
-if (isset($_POST['height_price'])) {
+if (isset($_GET['search']) && $_GET['search'] != '') {
+    $search = $_GET['search'];
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name LIKE '%$search%'  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+} elseif (isset($_POST['height_price'])) {
     $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY price DESC LIMIT $pageSize OFFSET :offset");
 } elseif (isset($_POST['low_price'])) {
     $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY price ASC LIMIT $pageSize OFFSET :offset");
@@ -77,6 +79,20 @@ if (isset($_POST['height_price'])) {
     $options_data = $stmt->fetchAll();
     foreach ($options_data as $option_data) {
         echo $option_data['product_id'];
+    }
+} elseif (isset($_POST['search_options'])) {
+    $selectedOptions = $_POST['options'];
+    if (!empty($selectedOptions)) {
+        // Get product IDs from options table
+        $placeholders = implode(',', array_fill(0, count($selectedOptions), '?'));
+        $stmt = $connect->prepare("SELECT DISTINCT product_id FROM product_properties_plants WHERE option_id IN ($placeholders)");
+        $stmt->execute($selectedOptions);
+        $productIDs = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        // Get all products with matching IDs
+        if (!empty($productIDs)) {
+            $productIDsStr = implode(',', $productIDs);
+            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+        }
     }
 } else {
     $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
@@ -111,6 +127,7 @@ $totalPages = ceil($num_products / $pageSize);
                     <h2 class='header2'> النباتات </h2>
                     <p> اجمالي النتائج :<span> <?php echo $num_products; ?> </span> </p>
                 </div>
+                <!--
                 <div class="search_types">
                     <div class="brach_cat">
                         <button class="global_button btn" id="brach_orders"> <img src="<?php echo $uploads ?>filter.png" alt=""> تصنيف حسب </button>
@@ -155,13 +172,15 @@ $totalPages = ceil($num_products / $pageSize);
                                         السعر من الاقل الي الاعلي
                                     </label>
                                 </div>
-                                <!-- Add more options here -->
+                                <!-- Add more options here  
                             </form>
                         </div>
                     </div>
                 </div>
+                            -->
             </div>
             <div class="row">
+                <!--
                 <div class="col-lg-2">
                     <div class="all_cat">
                         <form action="" method="post">
@@ -198,14 +217,15 @@ $totalPages = ceil($num_products / $pageSize);
                         </form>
                     </div>
                 </div>
-                <div class="col-lg-10">
+                        -->
+                <div class="col-lg-12">
                     <div class="row">
                         <?php
                         foreach ($allproducts as $product) {
                         ?>
                             <div class="col-lg-3 col-6">
                                 <div class="product_info">
-                                    <img class="main_image" src="uploads/product.png" alt="">
+                                    <img style="width: 100%;" class="main_image" src="uploads/product.png" alt="">
                                     <div class="product_details">
                                         <h2> <a href="product?slug=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
                                         <?php
@@ -302,7 +322,7 @@ $totalPages = ceil($num_products / $pageSize);
                                     if ($i == $currentpage) {
                                         echo ' active';
                                     }
-                                    echo '"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
+                                    echo '"><a class="page-link" href="?search=' . $search . '&page=' . $i . '">' . $i . '</a></li>';
                                 }
                                 ?>
                                 <li class="page-item">

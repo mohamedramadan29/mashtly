@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-$page_title = 'الرئيسية';
+$page_title = ' المتجر ';
 include "init.php";
 
 
@@ -66,9 +66,16 @@ if (isset($_POST['height_price'])) {
 } elseif (isset($_POST['search_options'])) {
     $selectedOptions = $_POST['options'];
     if (!empty($selectedOptions)) {
+        // Get product IDs from options table
         $placeholders = implode(',', array_fill(0, count($selectedOptions), '?'));
-        $query = "SELECT * FROM products WHERE publish = 1 AND id IN (SELECT product_id FROM product_properties_plants WHERE option_id IN ($placeholders)) ORDER BY id DESC LIMIT $pageSize OFFSET :offset";
-        $stmt = $connect->prepare($query);
+        $stmt = $connect->prepare("SELECT DISTINCT product_id FROM product_properties_plants WHERE option_id IN ($placeholders)");
+        $stmt->execute($selectedOptions);
+        $productIDs = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        // Get all products with matching IDs
+        if (!empty($productIDs)) {
+            $productIDsStr = implode(',', $productIDs);
+            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+        }
     }
 } else {
     $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
@@ -77,6 +84,7 @@ $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $allproducts = $stmt->fetchAll();
 $totalProducts = count($allproducts);
+/////////////////////////////////
 $totalPages = ceil($num_products / $pageSize);
 ?>
 <!-- START SELECT DATA HEADER -->
