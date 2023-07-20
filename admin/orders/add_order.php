@@ -166,7 +166,6 @@ if (isset($_POST['add_order'])) {
             "zstep_name"=>'التواصل',
             "zdescription"=>' التواصل مع العميل لبدء الطلب  ',
             "zstep_status"=>'لم يبدا'
-
         ));
         if ($stmt) {
             $_SESSION['success_message'] = " تمت الأضافة بنجاح  ";

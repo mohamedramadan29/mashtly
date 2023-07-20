@@ -120,7 +120,7 @@ if (isset($_SESSION['user_id'])) {
                                             $cvc = $payment['cvc'];
                                             $default = $payment['default_payment'];
                                         ?>
-                                            <input style="display: none;" id="visa_payment" type="radio" name="checkout_payment" value="الدفع الالكتروني">
+                                            <input  required style="display: none;" id="visa_payment" type="radio" name="checkout_payment" value="الدفع الالكتروني">
                                             <label for="visa_payment" class="checkout_address">
                                                 <div class="address payment_method">
                                                     <div class='add_content'>
@@ -162,7 +162,7 @@ if (isset($_SESSION['user_id'])) {
                                         <?php
                                         }
                                         ?>
-                                        <input style="display: none;" id="when_drive" type="radio" name="checkout_payment" value="الدفع عن الاستلام">
+                                        <input required style="display: none;" id="when_drive" type="radio" name="checkout_payment" value="الدفع عن الاستلام">
                                         <label for="when_drive" class="checkout_address">
                                             <div class="address payment_method">
                                                 <div class='add_content'>
@@ -270,6 +270,7 @@ if (isset($_SESSION['user_id'])) {
                 $total_price = $_SESSION['last_total'];
 
                 if (isset($_POST['order_compelete'])) {
+                    
                     $payment_method = $_POST['checkout_payment'];
                     // inset order into orders 
                     $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
@@ -321,6 +322,26 @@ if (isset($_SESSION['user_id'])) {
                             "zoption2" => $option2,
                             "zoption3" => $option3,
                             "zoption4" => $option4,
+                        ));
+                        // insert order steps 
+                        // get the  date
+                        date_default_timezone_set('Asia/Riyadh'); // تحديد المنطقة الزمنية
+                        $date = date('d/m/Y h:i a'); // تنسيق التاريخ والوقت
+                        // Add Order Steps 
+                        $stmt = $connect->prepare("SELECT * FROM employes WHERE role_name='التواصل'");
+                        $stmt->execute();
+                        $emp_data = $stmt->fetch();
+                        $stmt = $connect->prepare("INSERT INTO order_steps (order_id,order_number,username,date,step_name,description,step_status)
+                            VALUES(:zorder_id,:zorder_number,:zusername,:zdate,:zstep_name,:zdescription,:zstep_status)
+                            ");
+                        $stmt->execute(array(
+                            "zorder_id" => $order_id,
+                            "zorder_number" => $order_number,
+                            "zusername" => $emp_data['id'],
+                            "zdate" => $date,
+                            "zstep_name" => 'التواصل',
+                            "zdescription" => ' التواصل مع العميل لبدء الطلب  ',
+                            "zstep_status" => 'لم يبدا'
                         ));
                     }
                     if ($stmt) {
