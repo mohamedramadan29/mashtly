@@ -1,5 +1,6 @@
 <?php
 ob_start();
+ 
 $dsn = 'mysql:host=localhost;dbname=mashtly';
 $username = 'root';
 $password = '';
@@ -12,4 +13,3 @@ try {
     echo 'failed to connect' . $e->getMessage();
 }
 ob_end_flush();
-?>
