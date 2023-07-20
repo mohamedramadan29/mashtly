@@ -395,6 +395,7 @@ if (isset($_POST['add_to_cart'])) {
                 <div class="col-lg-9">
                     <div class="row">
                         <?php
+                        /*
                         if (isset($_GET['slug'])) {
                             $cat_slug = $_GET['slug'];
                             $stmt = $connect->prepare("SELECT * FROM categories WHERE slug = ?");
@@ -403,6 +404,9 @@ if (isset($_POST['add_to_cart'])) {
                             $cat_id = $cat_data['id'];
                             $stmt = $connect->prepare("SELECT * FROM products WHERE cat_id = ? LIMIT 9");
                             $stmt->execute(array($cat_id));
+                            $allproducts  = $stmt->fetchAll();*/
+                            $stmt = $connect->prepare("SELECT * FROM products order by id LIMIT 9");
+                            $stmt->execute();
                             $allproducts  = $stmt->fetchAll();
                             foreach ($allproducts as $pro) {
                         ?>
@@ -426,9 +430,10 @@ if (isset($_POST['add_to_cart'])) {
                                 </div>
                         <?php
                             }
+                            /*
                         } else {
                             echo "No";
-                        }
+                        }*/
                         ?>
                     </div>
                     <a href="shop" class='global_button btn more_button'> تصفح المزيد </a>

@@ -8,6 +8,7 @@ if (isset($_POST['login_new'])) {
     $password = $_POST['password'];
     if ($user_name  == $main_user_name && $password == $main_password) {
         $_SESSION['main_user_login'] = $main_user_name;
+        header("Location:index");
     } else {
         header("Location:new_login");
     }

@@ -1,6 +1,5 @@
 <?php
 if (isset($_SESSION['main_user_login'])) {
-
     //include 'location_currancy.php';
     include 'admin/connect.php';
     $tem = "include/";
