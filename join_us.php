@@ -58,19 +58,19 @@ include "init.php";
                 <div class='box'>
                     <div class="input_box">
                         <label for="name"> الاسم بالكامل </label>
-                        <input id="name" type="text" name="name" class='form-control' placeholder="اكتب…">
+                        <input value="<?php if (isset($_REQUEST['name'])) echo $_REQUEST['name'] ?>" id="name" type="text" name="name" class='form-control' placeholder="اكتب…">
                     </div>
                 </div>
                 <div class="box">
                     <div class="input_box">
                         <label for="phone"> رقم الجوال </label>
-                        <input id="phone" type="text" name="phone" class='form-control' placeholder="اكتب…">
+                        <input value="<?php if (isset($_REQUEST['phone'])) echo $_REQUEST['phone'] ?>" id="phone" type="text" name="phone" class='form-control' placeholder="اكتب…">
                     </div>
                 </div>
                 <div class='box'>
                     <div class="input_box">
                         <label for="email"> البريد الألكتروني </label>
-                        <input id="email" type="email" name="email" class='form-control' placeholder="اكتب…">
+                        <input value="<?php if (isset($_REQUEST['email'])) echo $_REQUEST['email'] ?>" id="email" type="email" name="email" class='form-control' placeholder="اكتب…">
                     </div>
                 </div>
                 <div class='box'>
