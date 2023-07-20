@@ -14,10 +14,11 @@ if (isset($_GET['slug'])) {
         $product_name = $product_data['name'];
         $product_desc = $product_data['description'];
         $product_price = $product_data['price'];
+        $product_category = $product_data['cat_id'];
+        $related_products = $product_data['related_product'];
     } else {
         header("Location:404");
     }
-
     ///////////////////// Add To Cart   /////////////////////
     if (isset($_POST['add_to_cart'])) {
         $product_id = $_POST['product_id'];
@@ -26,7 +27,11 @@ if (isset($_GET['slug'])) {
         } else {
             $price = $product_price;
         }
-        $quantity = $_POST['quantity'];
+        if (isset($_POST['quantity'])) {
+            $quantity = $_POST['quantity'];
+        } else {
+            $quantity = 1;
+        }
         if (isset($_POST['gift_id'])) {
             $gift_id = $_POST['gift_id'];
         } else {
@@ -91,7 +96,6 @@ if (isset($_GET['slug'])) {
         }
     }
 ?>
-
     <!-- START SELECT DATA HEADER -->
     <div class="select_plan_head">
         <div class="container">
@@ -142,7 +146,6 @@ if (isset($_GET['slug'])) {
                                     }
                                 ?>
                                     <p> يبدأ من: <span> <?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س </span> </p>
-
                                 <?php
                                 } else {
                                 ?>
@@ -453,55 +456,85 @@ if (isset($_GET['slug'])) {
         </div>
     </div>
     <!-- START NEWWER PRODUCTS -->
-    <div class="new_producs related_product">
-        <div class="container">
-            <div class="data">
-                <div class="data_header">
-                    <div class="data_header_name">
-                        <br>
-                        <br>
-                        <h2 class='header2' style="margin-bottom: 25px;">كثيرًا ما يتم شراؤها معًا </h2>
-                    </div>
-                </div>
-                <div class="linked_products">
-                    <div class="link_pro">
-                        <input type="checkbox" name="related_select" checked>
-                        <img class="main_image" src="uploads/product.png" alt="">
-                        <div class="product_details">
-                            <h2>نبات ملكة النهار</h2>
-                            <h4 class='price'> 87.00 ر.س </h4>
+    <?php
+    if ($related_products != null) { ?>
+        <div class="new_producs related_product">
+            <div class="container">
+                <div class="data">
+                    <div class="data_header">
+                        <div class="data_header_name">
+                            <br>
+                            <br>
+                            <h2 class='header2' style="margin-bottom: 25px;">كثيرًا ما يتم شراؤها معًا </h2>
                         </div>
                     </div>
-                    +
-                    <div class="link_pro">
-                        <input type="checkbox" name="related_select" checked>
-                        <img class="main_image" src="uploads/product.png" alt="">
-                        <div class="product_details">
-                            <h2>نبات ملكة النهار</h2>
-                            <h4 class='price'> 87.00 ر.س </h4>
-                        </div>
-                    </div>
-                    +
-                    <div class="link_pro">
-                        <input type="checkbox" name="related_select" checked>
-                        <img class="main_image" src="uploads/product.png" alt="">
-                        <div class="product_details">
-                            <h2>نبات ملكة النهار</h2>
-                            <h4 class='price'> 87.00 ر.س </h4>
-                        </div>
-                    </div>
-                    <div class="link_pro total_links">
-                        <div class="total">
-                            <p> إجمالي السعر: <span> 261.00 ر.س </span> </p>
-                        </div>
-                        <div>
-                            <button class="btn global_button" name="add_to_cart"> <img src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> أضف الي السلة </button>
+                    <div class="linked_products">
+                        <?php
+                        $related_products = explode(',', $related_products);
+                        $related_total_price = 0;
+                        foreach ($related_products as $relate_pro) {
+                            $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
+                            $stmt->execute(array($relate_pro));
+                            $product_data_related = $stmt->fetch();
+                        ?>
+                            <div class="link_pro">
+                                <!-- <input type="checkbox" name="related_select" checked> -->
+                                <img class="main_image" src="uploads/product.png" alt="">
+                                <div class="product_details">
+                                    <h2> <a href="product?slug=<?php echo $product_data_related['slug']; ?>"> <?php echo $product_data_related['name']; ?> </a> </h2>
+                                    <h4 class='price'> <?php echo number_format($product_data_related['price'], 2); ?> ر.س </h4>
+                                </div>
+                            </div>
+                            +
+                        <?php
+                            $related_total_price = $related_total_price + $product_data_related['price'];
+                        }
+                        ?>
+                        <div class="link_pro total_links">
+                            <div class="total">
+                                <p> إجمالي السعر: <span> <?php echo $related_total_price; ?> ر.س </span> </p>
+                            </div>
+                            <div>
+                                <form action="" method="post">
+                                    <button class="btn global_button" name="add_to_cart_related"> <img src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> أضف الي السلة </button>
+                                </form>
+                                <?php
+                                if (isset($_POST['add_to_cart_related'])) {
+                                    foreach ($related_products as $related_pro) {
+                                        $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
+                                        $stmt->execute(array($related_pro));
+                                        $product_data_related = $stmt->fetch();
+                                        $price =  $product_data_related['price'];
+                                        $product_id = $product_data_related['id'];
+                                        if (isset($_SESSION['user_id'])) {
+                                            $user_id = $_SESSION['user_id'];
+                                        } else {
+                                            $user_id = null;
+                                        }
+                                        $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,quantity,price,total_price)
+                                    VALUES(:zuser_id, :zcookie_id , :zproduct_id,:zquantity ,:zprice , :ztotal_price)
+                                    ");
+                                        $stmt->execute(array(
+                                            "zuser_id" => $user_id,
+                                            "zcookie_id" => $cookie_id,
+                                            "zproduct_id" => $product_id,
+                                            "zquantity" => 1,
+                                            "zprice" => $price,
+                                            "ztotal_price" => $price,
+                                        ));
+                                        if ($stmt) {
+                                            alertcart();
+                                        }
+                                    }
+                                }
+                                ?>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    <?php  } ?>
     <!-- END NEWWER PRODUCTS  -->
     <!-- START NEWWER PRODUCTS -->
     <div class="new_producs index_all_cat">
@@ -695,80 +728,97 @@ if (isset($_GET['slug'])) {
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-3">
-                        <div class="product_info">
-                            <img class="main_image" src="uploads/product.png" alt="">
-                            <div class="product_details">
-                                <h2>نبات ملكة النهار</h2>
-                                <h4 class='price'> 87.00 ر.س </h4>
-                                <div class='add_cart'>
-                                    <div>
-                                        <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                            الي السلة </a>
-                                    </div>
-                                    <div class="heart">
-                                        <img src="uploads/heart.png" alt="">
-                                    </div>
+                    <?php
+                    // get product from the same category 
+                    $stmt = $connect->prepare("SELECT * FROM products WHERE cat_id = ? AND id !=? ORDER BY id DESC LIMIT 4");
+                    $stmt->execute(array($product_category, $product_id));
+                    $allproduct = $stmt->fetchAll();
+                    foreach ($allproduct as $product) {
+                    ?>
+                        <div class="col-lg-3">
+                            <div class="product_info">
+                                <img class="main_image" src="uploads/product.png" alt="">
+                                <div class="product_details">
+                                    <h2> <a href="product?slug=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
+                                    <?php
+                                    $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
+                                    $minimumPrice = INF; // قيمة أدنى سعر ممكنة
+                                    // نشوف علي المنتج يحتوي علي متغيرات او لا 
+                                    $stmt = $connect->prepare("SELECT * FROM product_details WHERE pro_id = ? AND pro_price != '' AND pro_price != null AND pro_price != 0 ");
+                                    $stmt->execute(array($product['id']));
+                                    $count_pro_attr = $stmt->rowCount();
+                                    if ($count_pro_attr > 0) {
+                                        $allproduct_data = $stmt->fetchAll();
+                                        foreach ($allproduct_data as $product_data) {
+                                            $pro_price =  $product_data['pro_price'];
+                                            $maximumPrice = max($maximumPrice, $pro_price);
+                                            $minimumPrice = min($minimumPrice, $pro_price);
+                                        }
+                                    ?>
+                                        <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س </h4>
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <h4 class='price'> <?php echo $product['price'] ?> ر.س </h4>
+                                    <?php
+                                    }
+                                    ?>
+                                    <form action="" method="post">
+                                        <input type="hidden" name="price" value="<?php echo $product['price']; ?>">
+                                        <div class='add_cart'>
+                                            <div>
+                                                <?php
+                                                if (checkIfProductInCart($connect, $cookie_id, $product['id'])) {
+                                                ?>
+                                                    <a href="cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
+                                                        مشاهدة السلة
+                                                    </a>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <?php
+                                                    if ($count_pro_attr > 0) {
+                                                    ?>
+                                                        <a href="product?slug=<?php echo $product['slug']; ?>" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
+                                                            مشاهدة الاختيارات
+                                                        </a>
+                                                    <?php
+                                                    } else {
+                                                    ?>
+                                                        <button name="add_to_cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                                            الي السلة
+                                                        </button>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                <?php
+                                                }
+                                                ?>
+                                            </div>
+                                            <div class="heart">
+                                                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                                                <?php
+                                                if (isset($_SESSION['user_id']) && checkIfProductIsFavourite($connect, $_SESSION['user_id'], $product['id'])) {
+                                                ?>
+                                                    <img src="<?php echo $uploads; ?>/heart2.svg" alt="">
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <button name="add_to_fav" type="submit" style="border: none; background-color:transparent">
+                                                        <img src="<?php echo $uploads ?>/heart.png" alt="">
+                                                    </button>
+                                                <?php
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="product_info">
-                            <img class="main_image" src="uploads/product.png" alt="">
-                            <div class="product_details">
-                                <h2>نبات ملكة النهار</h2>
-                                <h4 class='price'> 87.00 ر.س </h4>
-                                <div class='add_cart'>
-                                    <div>
-                                        <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                            الي السلة </a>
-                                    </div>
-                                    <div class="heart">
-                                        <img src="uploads/heart.png" alt="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="product_info">
-                            <img class="main_image" src="uploads/product.png" alt="">
-                            <div class="product_details">
-                                <h2>نبات ملكة النهار</h2>
-                                <h4 class='price'> 87.00 ر.س </h4>
-                                <div class='add_cart'>
-                                    <div>
-                                        <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                            الي السلة </a>
-                                    </div>
-                                    <div class="heart">
-                                        <img src="uploads/heart.png" alt="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="product_info">
-                            <img class="main_image" src="uploads/product.png" alt="">
-                            <div class="product_details">
-                                <h2>نبات ملكة النهار</h2>
-                                <h4 class='price'> 87.00 ر.س </h4>
-                                <div class='add_cart'>
-                                    <div>
-                                        <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                            الي السلة </a>
-                                    </div>
-                                    <div class="heart">
-                                        <img src="uploads/heart.png" alt="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
+                    <?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>

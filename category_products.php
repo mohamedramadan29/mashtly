@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-$page_title = ' المتجر ';
+$page_title = ' مشتلي  | التصنيفات  ';
 include "init.php";
 
 
@@ -54,46 +54,57 @@ if (isset($_GET['cat'])) {
     $stmt = $connect->prepare("SELECT * FROM categories WHERE slug = ?");
     $stmt->execute(array($cat_slug));
     $cat_data = $stmt->fetch();
-    $cat_id = $cat_data['id'];
-}
-$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1");
-$stmt->execute();
-$num_products = $stmt->rowCount();
-$currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
-$pageSize = 20;
-$offset = ($currentpage - 1) * $pageSize;
-
-if (isset($_POST['height_price'])) {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY price DESC LIMIT $pageSize OFFSET :offset");
-} elseif (isset($_POST['low_price'])) {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY price ASC LIMIT $pageSize OFFSET :offset");
-} elseif (isset($_POST['newest'])) {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
-} elseif (isset($_POST['oldest'])) {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id ASC LIMIT $pageSize OFFSET :offset");
-} elseif (isset($_POST['search_options'])) {
-    $selectedOptions = $_POST['options'];
-    if (!empty($selectedOptions)) {
-        // Get product IDs from options table
-        $placeholders = implode(',', array_fill(0, count($selectedOptions), '?'));
-        $stmt = $connect->prepare("SELECT DISTINCT product_id FROM product_properties_plants WHERE option_id IN ($placeholders)");
-        $stmt->execute($selectedOptions);
-        $productIDs = $stmt->fetchAll(PDO::FETCH_COLUMN);
-        // Get all products with matching IDs
-        if (!empty($productIDs)) {
-            $productIDsStr = implode(',', $productIDs);
-            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+    $check_cat = $stmt->rowCount();
+    if ($check_cat > 0) {
+        $cat_id = $cat_data['id'];
+        $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND cat_id = ?");
+        $stmt->execute(array($cat_id));
+        $num_products = $stmt->rowCount();
+        $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
+        $pageSize = 20;
+        $offset = ($currentpage - 1) * $pageSize;
+        if (isset($_POST['height_price'])) {
+            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND cat_id = $cat_id ORDER BY price DESC LIMIT $pageSize OFFSET :offset");
+        } elseif (isset($_POST['low_price'])) {
+            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND cat_id = $cat_id ORDER BY price ASC LIMIT $pageSize OFFSET :offset");
+        } elseif (isset($_POST['newest'])) {
+            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND cat_id = $cat_id ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+        } elseif (isset($_POST['oldest'])) {
+            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND cat_id = $cat_id ORDER BY id ASC LIMIT $pageSize OFFSET :offset");
+        } elseif (isset($_POST['search_options']) && $_POST['search_options'] != '') {
+            $selectedOptions = $_POST['options'];
+            if (!empty($selectedOptions)) {
+                // Get product IDs from options table
+                $placeholders = implode(',', array_fill(0, count($selectedOptions), '?'));
+                $stmt = $connect->prepare("SELECT DISTINCT product_id FROM product_properties_plants WHERE option_id IN ($placeholders)");
+                $stmt->execute($selectedOptions);
+                $productIDs = $stmt->fetchAll(PDO::FETCH_COLUMN);
+                // Get all products with matching IDs
+                if (!empty($productIDs)) {
+                    $productIDsStr = implode(',', $productIDs);
+                    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND cat_id = $cat_id AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+                }
+            }
+        } else {
+            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND cat_id = $cat_id ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
         }
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        $allproducts = $stmt->fetchAll();
+        $totalProducts = count($allproducts);
+        if ($totalProducts < 0) {
+            echo "not Found";
+        }
+        /////////////////////////////////
+        $totalPages = ceil($num_products / $pageSize);
+    } else {
+        header("location:index");
     }
 } else {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+    header("location:index");
 }
-$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-$stmt->execute();
-$allproducts = $stmt->fetchAll();
-$totalProducts = count($allproducts);
-/////////////////////////////////
-$totalPages = ceil($num_products / $pageSize);
+
+
 ?>
 <!-- START SELECT DATA HEADER -->
 <div class="select_plan_head">
@@ -310,7 +321,7 @@ $totalPages = ceil($num_products / $pageSize);
                                     if ($i == $currentpage) {
                                         echo ' active';
                                     }
-                                    echo '"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
+                                    echo '"><a class="page-link" href="?cat=' . $cat_slug . '&page=' . $i . '">' . $i . '</a></li>';
                                 }
                                 ?>
                                 <li class="page-item">

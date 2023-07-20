@@ -12,7 +12,6 @@ include "init.php";
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
-
             <div class="carousel-item carousel-item1 active">
                 <div class="overlay"></div>
                 <div class="carousel-caption">
@@ -126,7 +125,7 @@ if (isset($_POST['add_to_cart'])) {
                     <p>نبايات جديدة وصلتنا هذا الأسبوع</p>
                 </div>
                 <div>
-                    <a href="#" class='global_button btn'> تصفح المزيد </a>
+                    <a href="shop" class='global_button btn'> تصفح المزيد </a>
                 </div>
             </div>
             <div class="products" id='products'>
@@ -244,7 +243,7 @@ if (isset($_POST['add_to_cart'])) {
                     <p> خصومات هائلة بمناسبة يوم التأسيس ويوم الحب </p>
                 </div>
                 <div>
-                    <a href="#" class='global_button btn'> تصفح المزيد </a>
+                    <a href="shop" class='global_button btn'> تصفح المزيد </a>
                 </div>
             </div>
             <div class="products" id='products'>
@@ -513,7 +512,7 @@ if (isset($_POST['add_to_cart'])) {
                             </div>
                         </div>
                     </div>
-                    <a href="#" class='global_button btn more_button'> تصفح المزيد </a>
+                    <a href="shop" class='global_button btn more_button'> تصفح المزيد </a>
                 </div>
             </div>
         </div>
@@ -539,7 +538,7 @@ if (isset($_POST['add_to_cart'])) {
                     <p> خصومات هائلة بمناسبة يوم التأسيس ويوم الحب </p>
                 </div>
                 <div>
-                    <a href="#" class='global_button btn'> تصفح المزيد </a>
+                    <a href="shop" class='global_button btn'> تصفح المزيد </a>
                 </div>
             </div>
             <div class="products" id='products'>
@@ -719,7 +718,7 @@ if (isset($_POST['add_to_cart'])) {
                     <p> النباتات المنزلية الداخلية تفعل الكثير أما الخارجية فتصنع السحر </p>
                 </div>
                 <div>
-                    <a href="#" class='global_button btn'> تصفح المزيد </a>
+                    <a href="shop" class='global_button btn'> تصفح المزيد </a>
                 </div>
             </div>
             <div class="products" id='products'>
