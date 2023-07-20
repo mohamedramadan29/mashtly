@@ -369,7 +369,7 @@ if (isset($_POST['add_to_cart'])) {
 </div>
 <!-- END BEST  PRODUCTS  -->
 <!-- START INDEX ALL CATEGORY  -->
-<div class="index_all_cat">
+<div class="index_all_cat" id="categories">
     <div class="container">
         <div class="data">
             <div class="data_header_name">
@@ -379,138 +379,57 @@ if (isset($_POST['add_to_cart'])) {
                 <div class="col-lg-3">
                     <div class="all_cat">
                         <ul class="list-unstyled">
-                            <li> <a href="#" class='active'> النباتات النادرة </a> </li>
-                            <li> <a href="#"> شبكات الرى </a> </li>
-                            <li> <a href="#"> الأحواض والمراكن </a> </li>
-                            <li> <a href="#"> الأشجار المثمرة</a> </li>
-                            <li> <a href="#"> تربة زراعية</a> </li>
-                            <li> <a href="#"> النباتات النادرة </a> </li>
-                            <li> <a href="#"> نباتات خارجية </a> </li>
-                            <li> <a href="#"> تربة زراعية</a> </li>
-                            <li> <a href="#"> النباتات النادرة </a> </li>
-                            <li> <a href="#"> الأشجار المثمرة</a> </li>
-                            <li> <a href="#"> نباتات خارجية </a> </li>
-                            <li> <a href="#"> النباتات النادرة </a> </li>
-                            <li> <a href="#"> النباتات النادرة </a> </li>
-                            <li> <a href="#"> نباتات خارجية</a> </li>
-                            <li> <a href="#"> تربة زراعية</a> </li>
-                            <li> <a href="#"> النباتات النادرة </a> </li>
-                            <li> <a href="#"> نباتات خارجية</a> </li>
-                            <li> <a href="#"> الأشجار المثمرة </a> </li>
-                            <li> <a href="#"> النباتات النادرة </a> </li>
+                            <?php
+                            $stmt = $connect->prepare("SELECT * FROM categories");
+                            $stmt->execute();
+                            $allcats = $stmt->fetchAll();
+                            foreach ($allcats as $cat) {
+                            ?>
+                                <li> <a data-section="categories" href="index?slug=<?php echo $cat['slug']; ?>"> <?php echo $cat['name']; ?> </a> </li>
+                            <?php
+                            }
+                            ?>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-9">
                     <div class="row">
-                        <div class="col-lg-4">
-                            <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2>نبات ملكة النهار</h2>
-                                    <h4 class='price'> 87.00 ر.س </h4>
-                                    <div class='add_cart'>
-                                        <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة </a>
-                                        </div>
-                                        <div class="heart">
-                                            <img src="uploads/heart.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2>نبات ملكة النهار</h2>
-                                    <h4 class='price'> 87.00 ر.س </h4>
-                                    <div class='add_cart'>
-                                        <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة </a>
-                                        </div>
-                                        <div class="heart">
-                                            <img src="uploads/heart.png" alt="">
+                        <?php
+                        if (isset($_GET['slug'])) {
+                            $cat_slug = $_GET['slug'];
+                            $stmt = $connect->prepare("SELECT * FROM categories WHERE slug = ?");
+                            $stmt->execute(array($cat_slug));
+                            $cat_data = $stmt->fetch();
+                            $cat_id = $cat_data['id'];
+                            $stmt = $connect->prepare("SELECT * FROM products WHERE cat_id = ? LIMIT 9");
+                            $stmt->execute(array($cat_id));
+                            $allproducts  = $stmt->fetchAll();
+                            foreach ($allproducts as $pro) {
+                        ?>
+                                <div class="col-lg-4">
+                                    <div class="product_info">
+                                        <img class="main_image" src="uploads/product.png" alt="">
+                                        <div class="product_details">
+                                            <h2> <?php echo $pro['name']; ?> </h2>
+                                            <h4 class='price'> 87.00 ر.س </h4>
+                                            <div class='add_cart'>
+                                                <div>
+                                                    <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                                        الي السلة </a>
+                                                </div>
+                                                <div class="heart">
+                                                    <img src="uploads/heart.png" alt="">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2>نبات ملكة النهار</h2>
-                                    <h4 class='price'> 87.00 ر.س </h4>
-                                    <div class='add_cart'>
-                                        <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة </a>
-                                        </div>
-                                        <div class="heart">
-                                            <img src="uploads/heart.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2>نبات ملكة النهار</h2>
-                                    <h4 class='price'> 87.00 ر.س </h4>
-                                    <div class='add_cart'>
-                                        <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة </a>
-                                        </div>
-                                        <div class="heart">
-                                            <img src="uploads/heart.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2>نبات ملكة النهار</h2>
-                                    <h4 class='price'> 87.00 ر.س </h4>
-                                    <div class='add_cart'>
-                                        <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة </a>
-                                        </div>
-                                        <div class="heart">
-                                            <img src="uploads/heart.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2>نبات ملكة النهار</h2>
-                                    <h4 class='price'> 87.00 ر.س </h4>
-                                    <div class='add_cart'>
-                                        <div>
-                                            <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                الي السلة </a>
-                                        </div>
-                                        <div class="heart">
-                                            <img src="uploads/heart.png" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <?php
+                            }
+                        } else {
+                            echo "No";
+                        }
+                        ?>
                     </div>
                     <a href="shop" class='global_button btn more_button'> تصفح المزيد </a>
                 </div>

@@ -220,7 +220,7 @@
 <!-- nice vide -->
 <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 <!-- Sweet Alert  -->
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src='<?php echo $js; ?>/select2.min.js'></script>
 <script src='<?php echo $js; ?>/main.js'></script>
 </body>
@@ -362,4 +362,24 @@
         });
     });
 </script>
-  
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const link = document.querySelector('a[data-section]');
+        if (link) {
+            link.addEventListener('click', scrollToSection);
+        }
+    });
+
+    function scrollToSection(event) {
+        event.preventDefault();
+        const slug = this.getAttribute('data-section');
+        const element = document.getElementById(slug);
+        if (element) {
+            element.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    }
+</script>
