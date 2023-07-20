@@ -115,14 +115,8 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                           <input required type="text" id="phone" name="phone" class="form-control" value="<?php echo $order_data['phone']; ?>">
                         </div>
                         <div class="form-group">
-                          <label for="inputName"> المنطقة </label>
-                          <?php
-                          $stmt = $connect->prepare("SELECT * FROM area WHERE id=?");
-                          $stmt->execute(array($order_data['area']));
-                          $area = $stmt->fetch();
-
-                          ?>
-                          <input required type="text" id="area" name="area" class="form-control" value="<?php echo $area['name']; ?>">
+                          <label for="inputName"> المنطقة </label> 
+                          <input required type="text" id="area" name="area" class="form-control" value="<?php echo $order_data['area']; ?>">
                         </div>
                         <!--
                         <div class="form-group">
@@ -159,13 +153,13 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                             <input required type="text" id="ship_area" name="ship_area" class="form-control" value="<?php echo $ship_area_data['name']; ?>">
                           </div>
                         <?php
-                        }else{
-                          ?>
+                        } else {
+                        ?>
                           <div class="form-group">
                             <label for="inputName"> المنطقة </label>
                             <input required type="text" id="ship_area" name="ship_area" class="form-control" value="">
                           </div>
-                          <?php 
+                        <?php
                         }
 
                         ?>
