@@ -57,8 +57,6 @@ function productattributefunc($connect, $table, $product_id)
 {
     $stmt = $connect->prepare("SELECT * FROM $table WHERE id=?");
     $stmt->execute(array($product_id));
-
-
 }
 
 
@@ -96,7 +94,7 @@ function deleteRememberTokenFromDatabase($connect, $user_id)
     $stmt->execute(array($user_id));
 }
 
-////////////////////////// Default Message ////////////////////
+////////////////////////// Default Edit Message ////////////////////
 
 function alertdefaultedit()
 {
@@ -108,6 +106,29 @@ function alertdefaultedit()
                 position: 'center',
                 icon: 'success',
                 title: 'تمت التحديث بنجاح',
+                buttons: false,
+                timer: 2000000000000000000000000,
+            });
+        });
+    </script>
+
+<?php
+
+}
+
+
+////////////////////////// Default send Message ////////////////////
+
+function alertsendmessage()
+{
+?>
+    <script src='themes/js/jquery.min.js'></script>
+    <script>
+        $(document).ready(function() {
+            swal({
+                position: 'center',
+                icon: 'success',
+                title: 'تمت ارسال رسالتك  بنجاح',
                 buttons: false,
                 timer: 2000000000000000000000000,
             });

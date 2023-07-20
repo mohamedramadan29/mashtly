@@ -2,7 +2,7 @@
 ob_start();
 session_start();
 $page_title = 'الرئيسية';
-    include "init.php";
+include "init.php";
 ?>
 <div class="profile_page adress_page">
 
@@ -82,42 +82,78 @@ $page_title = 'الرئيسية';
                     <div class="box">
                         <div class="input_box">
                             <label for="country"> سبب الاتصال </label>
-                            <select name="country" id="" class='form-control'>
+                            <select required name="reason" id="" class='form-control select2'>
                                 <option value=""> اختر من القائمة </option>
-                                <option value=""> مصر </option>
+                                <option value="1"> السبب الاول 1 </option>
+                                <option value="2"> السبب الثاني 2 </option>
+                                <option value="3"> السبب الثالث 3 </option>
+                                <option value="4"> السبب الرابع 4 </option>
                             </select>
                         </div>
                         <div class="input_box">
                             <label for="name"> الاسم </label>
-                            <input id="name" type="text" name="name" class='form-control' placeholder="اكتب…">
+                            <input value="<?php if (isset($_REQUEST['name'])) echo $_REQUEST['name'] ?>" required id="name" type="text" name="name" class='form-control' placeholder="اكتب…">
                         </div>
                     </div>
                     <div class='box'>
-
                         <div class="input_box">
                             <label for="phone"> رقم الجوال </label>
-                            <input id="phone" type="text" name="phone" class='form-control' placeholder="اكتب…">
+                            <input value="<?php if (isset($_REQUEST['phone'])) echo $_REQUEST['phone'] ?>" required id="phone" type="text" name="phone" class='form-control' placeholder="اكتب…">
                         </div>
                         <div class="input_box">
                             <label for="email"> البريد الألكتروني </label>
-                            <input id="email" type="email" name="email" class='form-control' placeholder="اكتب…">
+                            <input value="<?php if (isset($_REQUEST['email'])) echo $_REQUEST['email'] ?>" required id="email" type="email" name="email" class='form-control' placeholder="اكتب…">
                         </div>
                     </div>
                     <div class="box textarea">
                         <div class="input_box" style="width: 100%;">
                             <label for="email"> الرسالة </label>
-                            <textarea name="reason_contact" id="reason_contact" class="form-control" placeholder="ادخل النص…"></textarea>
+                            <textarea value="" required name="message" id="reason_contact" class="form-control" placeholder="ادخل النص…"><?php if (isset($_REQUEST['message'])) echo $_REQUEST['message'] ?></textarea>
                         </div>
                     </div>
                     <div class="submit_buttons">
-                        <button class="btn global_button"> ارسال </button>
+                        <button class="btn global_button" name="send_message"> ارسال </button>
                     </div>
                 </div>
             </form>
+            <?php
+            if (isset($_POST['send_message'])) {
+                $reason = sanitizeInput($_POST['reason']);
+                $name = sanitizeInput($_POST['name']);
+                $phone = sanitizeInput($_POST['phone']);
+                $email = sanitizeInput($_POST['email']);
+                $message = sanitizeInput($_POST['message']);
+                $formerror = [];
+                if (empty($name) || empty($reason) || empty($phone) || empty($email) || empty($message)) {
+                    $formerror[] = 'من فضلك ادخل المعلومات كاملة ';
+                }
+                if (empty($formerror)) {
+                    $stmt = $connect->prepare("INSERT INTO contact_us (reason,name,phone,email,message)
+                    VALUES(:zreason,:zname,:zphone,:zemail,:zmessage)
+                    ");
+                    $stmt->execute(array(
+                        "zreason" => $reason,
+                        "zname" => $name,
+                        "zphone" => $phone,
+                        "zemail" => $email,
+                        "zmessage" => $message,
+                    ));
+                    if ($stmt) {
+                        alertsendmessage();
+                        header('refresh:1.5;url=contact');
+                    }
+                } else {
+            ?>
+                    <div class="alert alert-danger"> من فضلك ادخل معلوماتك بشكل كامل </div>
+            <?php
+                }
+            }
+
+            ?>
         </div>
     </div>
 
-</div> 
+</div>
 
 <?php
 include $tem . 'footer.php';

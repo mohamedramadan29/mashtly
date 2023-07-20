@@ -124,7 +124,6 @@ if (isset($_SESSION['user_id'])) {
                                             <?php
                                             if ($order['status_value'] == 'تم التوصيل') {
                                             ?>
-
                                                 <?php
                                                 // check if product Already in return orders or Not 
                                                 $stmt = $connect->prepare("SELECT * FROM return_products WHERE order_number = ? AND product_id = ?");
@@ -156,6 +155,10 @@ if (isset($_SESSION['user_id'])) {
                                                 ?>
 
                                             <?php
+                                            } elseif ($order['status_value'] == 'ملغي') {
+                                                ?>
+                                                <p> طلب ملغي  </p>
+                                                <?php 
                                             } else {
                                             ?>
                                                 <a href="orders/tracking?order_number=<?php echo $order['order_number']; ?>" class='btn global_button'> تتبع الطرد </a>
