@@ -2,7 +2,7 @@
 ob_start();
 session_start();
 $page_title = 'الرئيسية';
-    include "init.php";
+include "init.php";
 ?>
 <div class="profile_page adress_page">
 
@@ -80,9 +80,59 @@ $page_title = 'الرئيسية';
                     </div>
                 </div>
                 <div class="box">
-                    <button class="btn global_button"> ارسال </button>
+                    <button class="btn global_button" name="join_us"> ارسال </button>
                 </div>
             </form>
+            <?php
+            if (isset($_POST['join_us'])) {
+                $name = sanitizeInput($_POST['name']);
+                $phone = sanitizeInput($_POST['phone']);
+                $email = sanitizeInput($_POST['email']);
+                // File
+                if (!empty($_FILES['file']['name'])) {
+                    $file_name = $_FILES['file']['name'];
+                    $file_temp = $_FILES['file']['tmp_name'];
+                    $file_type = $_FILES['file']['type'];
+                    $file_size = $_FILES['file']['size'];
+                    $file_uploaded = time() . '_' . $file_name;
+                    move_uploaded_file(
+                        $file_temp,
+                        'users_attachments/join_files/' . $file_uploaded
+                    );
+                } else {
+                    $formerror[] = 'من فضلك ادخل الملف الخاص بك';
+                }
+                $formerror = [];
+                if (empty($name) || empty($phone) || empty($email)) {
+                    $formerror[] = 'من فضلك ادخل المعلومات كاملة ';
+                }
+                if (empty($formerror)) {
+                    $stmt = $connect->prepare("INSERT INTO join_us (name,phone,email,file)
+                    VALUES(:zname,:zphone,:zemail,:zfile)
+                    ");
+                    $stmt->execute(array(
+                        "zname" => $name,
+                        "zphone" => $phone,
+                        "zemail" => $email,
+                        "zfile" => $file_uploaded,
+                    ));
+                    if ($stmt) {
+                        alertsendmessage();
+                        header('refresh:1.5;url=join_us');
+                    }
+                } else {
+                    foreach ($formerror as $error) {
+            ?>
+                        <div class="alert alert-danger"> <?php echo $error; ?> </div>
+                    <?php
+                    }
+                    ?>
+
+            <?php
+                }
+            }
+
+            ?>
         </div>
     </div>
 
