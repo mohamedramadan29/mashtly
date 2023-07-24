@@ -224,6 +224,26 @@
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <p>
+                  المدونة 
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="main.php?dir=post_categories&page=report" class="nav-link">
+                    <p> الأقسام  </p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="main.php?dir=posts&page=report" class="nav-link">
+                    <p> التدوينات </p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <p>
                   الموظفين
                   <i class="fas fa-angle-left right"></i>
                 </p>

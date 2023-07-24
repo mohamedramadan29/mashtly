@@ -35,6 +35,7 @@ if (isset($_POST['add_pro'])) {
   $image_name = $_POST['image_name'];
   $image_alt = $_POST['image_alt'];
   $image_desc = $_POST['image_desc'];
+  $image_keys = $_POST['image_keys'];
   $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ?");
   $stmt->execute(array($slug));
   $count = $stmt->rowCount();
@@ -75,6 +76,7 @@ if (isset($_POST['add_pro'])) {
     $image_names = $_POST['image_name_gallary'];
     $image_alts = $_POST['image_alt_gallary'];
     $image_descs = $_POST['image_desc_gallary'];
+    $image_keyss = $_POST['image_keys_gallary'];
 
     $total_images = count($_FILES['more_images']['name']);
   }
@@ -133,20 +135,22 @@ if (isset($_POST['add_pro'])) {
     $last_product = $stmt->fetch();
     $last_pro_id = $last_product['id'];
     // Insert Main Images To db 
-    $stmt = $connect->prepare("INSERT INTO products_image (product_id, main_image,image_name, image_alt , image_desc)
-    VALUES(:zproduct_id,:zmain_image,:zimage_name,:zimage_alt, :zimage_desc)");
+    $stmt = $connect->prepare("INSERT INTO products_image (product_id, main_image,image_name, image_alt , image_desc,image_keys)
+    VALUES(:zproduct_id,:zmain_image,:zimage_name,:zimage_alt, :zimage_desc,:zimage_keys)");
     $stmt->execute(array(
       "zproduct_id" => $last_pro_id,
       "zmain_image" => $main_image_uploaded,
       "zimage_name" => $image_name,
       "zimage_alt" => $image_alt,
       "zimage_desc" => $image_desc,
+      "zimage_keys" => $image_keys,
     ));
     // Insert Product Gallery To db 
     for ($i = 0; $i < $total_images; $i++) {
       $new_image_name = $image_names[$i];
       $image_alt = $image_alts[$i];
       $image_desc = $image_descs[$i];
+      $image_keys_gal = $image_keyss[$i];
       $image_name = $_FILES['more_images']['name'][$i];
       $image_name = str_replace(' ', '-', $image_name);
       $image_temp = $_FILES['more_images']['tmp_name'][$i];
@@ -167,14 +171,15 @@ if (isset($_POST['add_pro'])) {
           'product_images/' . $main_image_uploaded
         );
       }
-      $stmt = $connect->prepare("INSERT INTO products_gallary (product_id,image,image_name, image_alt , image_desc)
-    VALUES(:zproduct_id,:zimage,:zimage_name,:zimage_alt, :zimage_desc)");
+      $stmt = $connect->prepare("INSERT INTO products_gallary (product_id,image,image_name, image_alt , image_desc,image_keys)
+    VALUES(:zproduct_id,:zimage,:zimage_name,:zimage_alt, :zimage_desc,:zimage_keys_gal)");
       $stmt->execute(array(
         "zproduct_id" => $last_pro_id,
         "zimage" => $main_image_uploaded,
         "zimage_name" => $new_image_name,
         "zimage_alt" => $image_alt,
         "zimage_desc" => $image_desc,
+        "zimage_keys_gal" => $image_keys_gal,
       ));
     }
     ////////////////////////////////
@@ -478,6 +483,8 @@ if (isset($_POST['add_pro'])) {
                   <input type="text" class="form-control" name="image_alt" placeholder="الاسم البديل">
                   <br>
                   <input type="text" class="form-control" name="image_desc" placeholder="وصف مختصر ">
+                  <br>
+                  <input type="text" class="form-control" name="image_keys" placeholder=" كلمات مفتاحية للصورة  ">
                 </div>
                 <!--
                 <div class="custom-file">

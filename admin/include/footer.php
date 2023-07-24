@@ -129,6 +129,8 @@
         <input type="text" class="form-control" name="image_alt_gallary[]" placeholder="الاسم البديل">
         <br>
         <input type="text" class="form-control" name="image_desc_gallary[]" placeholder="وصف مختصر ">
+        <br>
+        <input type="text" class="form-control" name="image_keys_gallary[]" placeholder=" كلمات مفتاحية للصورة  ">
       </div>
       <br>
       <button class="btn btn-sm btn-danger delete_gallery_item"> حذف الصورة <i class='fa fa-trash'></i>  </button>

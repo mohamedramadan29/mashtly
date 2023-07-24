@@ -126,6 +126,8 @@ if (isset($_SESSION['username'])) {
         include "products/add.php";
     } elseif ($dir == 'products' && $page == 'edit') {
         include "products/edit.php";
+    } elseif ($dir == 'products' && $page == 'fast_edit') {
+        include "products/fast_edit.php";
     } elseif ($dir == 'products' && $page == 'delete') {
         include 'products/delete.php';
     } elseif ($dir == 'products' && $page == 'report') {
@@ -195,6 +197,26 @@ if (isset($_SESSION['username'])) {
         include "profile/report.php";
     } elseif ($dir == 'profile' && $page == 'edit') {
         include "profile/edit.php";
+    }
+    // START Category Posts 
+    if ($dir == 'post_categories' && $page == 'add') {
+        include "post_categories/add.php";
+    } elseif ($dir == 'post_categories' && $page == 'edit') {
+        include "post_categories/edit.php";
+    } elseif ($dir == 'post_categories' && $page == 'delete') {
+        include 'post_categories/delete.php';
+    } elseif ($dir == 'post_categories' && $page == 'report') {
+        include "post_categories/report.php";
+    }
+    // START  Posts 
+    if ($dir == 'posts' && $page == 'add') {
+        include "posts/add.php";
+    } elseif ($dir == 'posts' && $page == 'edit') {
+        include "posts/edit.php";
+    } elseif ($dir == 'posts' && $page == 'delete') {
+        include 'posts/delete.php';
+    } elseif ($dir == 'posts' && $page == 'report') {
+        include "posts/report.php";
     }
     ?>
 

@@ -141,5 +141,11 @@ $(document).ready(function () {
         height: 200,
         lang: 'ar-EG'
     });
+     // Summernote
+     $('.summernote').summernote({
+        tabsize: 2,
+        height: 200,
+        lang: 'ar-EG'
+    });
 });
 
