@@ -126,7 +126,21 @@ if (isset($_GET['slug'])) {
                     <div class="col-lg-8">
                         <div class="product">
                             <div class="product_images">
-                                <img src="<?php echo $uploads ?>/product.png" alt="">
+                                <?php
+                                $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
+                                $stmt->execute(array($product_id));
+                                $count_image = $stmt->rowCount();
+                                if ($count_image > 0) {
+                                    $product_data_image = $stmt->fetch();
+                                ?>
+                                    <img class="main_image" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt']; ?>">
+                                <?php
+                                } else {
+                                ?>
+                                    <img class="main_image" src="uploads/product.png" alt="">
+                                <?php
+                                }
+                                ?>
                             </div>
                             <div class="product_info">
                                 <h2> <img src="<?php echo $uploads ?>/left_arrow.png" alt=""> <?php echo $product_name; ?> </h2>
@@ -168,7 +182,7 @@ if (isset($_GET['slug'])) {
                             </div>
                         </div>
                         <div class="product_description">
-                            <h3> وصف النبات </h3>
+                            <h3> وصف المنتج </h3>
                             <p> <?php echo $product_desc ?> </p>
                             <button class="btn"> رقم النبات:#<?php echo $product_id; ?> </button>
                         </div>

@@ -107,7 +107,22 @@ if (isset($_POST['remove_item'])) {
                                         <div class="product_data">
                                             <div class="product_image">
                                                 <a href="product?slug=<?php echo $pro_slug ?>">
-                                                    <img src="<?php echo $uploads ?>product.png" alt="">
+                                                    <?php
+                                                    $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
+                                                    $stmt->execute(array($item['product_id']));
+                                                    $count_image = $stmt->rowCount();
+                                                    if ($count_image > 0) {
+                                                        $product_data_image = $stmt->fetch();
+                                                    ?>
+                                                        <img class="main_image" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt']; ?>">
+                                                    <?php
+                                                    } else {
+                                                    ?>
+                                                        <img class="main_image" src="uploads/product.png" alt="">
+                                                    <?php
+                                                    }
+                                                    ?>
+
                                                 </a>
                                             </div>
                                             <div class="product_info">
