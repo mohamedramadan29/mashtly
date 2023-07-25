@@ -39,6 +39,15 @@
             <div class="info">
               <div class="cart">
                 <a href="cart">
+                  <?php
+                  // get all product from user cart
+                  $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
+                  /*
+                  $stmt->execute(array($cookie_id));
+                  $count_carts = $stmt->rowCount();
+                  $allitems = $stmt->fetchAll();
+                  */
+                  ?> 
                   <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
                 </a>
               </div>

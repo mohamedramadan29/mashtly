@@ -2244,11 +2244,11 @@ body {
 .cart .card_items .product_data .product_image {}
 
 .cart .card_items .product_data .product_image img {
-    width: 85px;
+    width: 90px;
     border: 2px solid #D6E0DF;
     border-radius: 10px;
     margin-left: 15px;
-    height: 85px;
+    height: 90px;
 }
 
 .cart .card_items .product_data .product_info {}
@@ -3577,7 +3577,6 @@ body {
 
 .product_details .data .product .product_images {
     border-radius: 5px;
-    background-color: #fff;
     padding: 7px;
     margin-left: 15px;
 }
@@ -3585,6 +3584,27 @@ body {
 .product_details .data .product .product_images img {
     width: 340px;
     max-height: 380px;
+}
+
+.product_details .data .product .product_images .main-slider {
+    padding: 5px;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.product_details .data .product .product_images .thumbnail-slider {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+}
+
+.product_details .data .product .product_images .thumbnail-slider img {
+    width: 85px;
+    height: 85px;
+    border-radius: 8px;
+    padding: 2px;
+    background: #fff;
+    cursor: pointer;
 }
 
 .product_details .data .product .product_info {

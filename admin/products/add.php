@@ -1,14 +1,14 @@
 <?php
 
 if (isset($_POST['add_pro'])) {
-  $pro_attributes = $_POST['pro_attribute'];
-  $pro_prices = $_POST['pro_price'];
-  $pro_variations = $_POST['pro_variations'];
   $formerror = [];
   $cat_id = $_POST['cat_id'];
-  $more_cat = $_POST['more_cat'];
-  $more_cat_string = implode(',', (array) $more_cat);
-
+  if (isset($_POST['more_cat'])) {
+    $more_cat = $_POST['more_cat'];
+    $more_cat_string = implode(',', (array) $more_cat);
+  } else {
+    $more_cat_string = null;
+  }
   $name = $_POST['name'];
   $slug = createSlug($name);
   $description = $_POST['description'];
@@ -18,7 +18,12 @@ if (isset($_POST['add_pro'])) {
   $purchase_price = $_POST['purchase_price'];
   $sale_price = $_POST['sale_price'];
   $av_num = $_POST['av_num'];
-  $pro_attributes = $_POST['pro_attribute'];
+  if (isset($_POST['pro_attribute'])) {
+    $pro_attributes = $_POST['pro_attribute'];
+  } else {
+    $pro_attributes = 0;
+  }
+
   $pro_variations = $_POST['pro_variations'];
   $pro_prices = $_POST['pro_price'];
   $tags = $_POST['tags'];
@@ -77,8 +82,9 @@ if (isset($_POST['add_pro'])) {
     $image_alts = $_POST['image_alt_gallary'];
     $image_descs = $_POST['image_desc_gallary'];
     $image_keyss = $_POST['image_keys_gallary'];
-
     $total_images = count($_FILES['more_images']['name']);
+  } else {
+    $total_images = 0;
   }
 
   // main video
@@ -121,8 +127,9 @@ if (isset($_POST['add_pro'])) {
       "zvideo" => $video_uploaded,
       "zmain_checked" => $main_checked,
       "zproduct_adv" => $product_adv,
-      "zprice" => $price,
       "zpurchase_price" => $purchase_price,
+      "zprice" => $price,
+
       "zsale_price" => $sale_price,
       "zav_num" => $av_num,
       "ztags" => $tags,
@@ -146,56 +153,61 @@ if (isset($_POST['add_pro'])) {
       "zimage_keys" => $image_keys,
     ));
     // Insert Product Gallery To db 
-    for ($i = 0; $i < $total_images; $i++) {
-      $new_image_name = $image_names[$i];
-      $image_alt = $image_alts[$i];
-      $image_desc = $image_descs[$i];
-      $image_keys_gal = $image_keyss[$i];
-      $image_name = $_FILES['more_images']['name'][$i];
-      $image_name = str_replace(' ', '-', $image_name);
-      $image_temp = $_FILES['more_images']['tmp_name'][$i];
-      $image_type = $_FILES['more_images']['type'][$i];
-      $image_size = $_FILES['more_images']['size'][$i];
-      $image_extension = pathinfo($image_name, PATHINFO_EXTENSION);
-      if (!empty($new_image_name)) {
-        $new_image_name = str_replace(' ', '-', $new_image_name);
-        $main_image_uploaded = $new_image_name . '.' . $image_extension;
-        move_uploaded_file(
-          $image_temp,
-          'product_images/' . $main_image_uploaded
-        );
-      } else {
-        $main_image_uploaded = $image_name;
-        move_uploaded_file(
-          $image_temp,
-          'product_images/' . $main_image_uploaded
-        );
+    if ($total_images > 0) {
+
+      for ($i = 0; $i < $total_images; $i++) {
+        $new_image_name = $image_names[$i];
+        $image_alt = $image_alts[$i];
+        $image_desc = $image_descs[$i];
+        $image_keys_gal = $image_keyss[$i];
+        $image_name = $_FILES['more_images']['name'][$i];
+        $image_name = str_replace(' ', '-', $image_name);
+        $image_temp = $_FILES['more_images']['tmp_name'][$i];
+        $image_type = $_FILES['more_images']['type'][$i];
+        $image_size = $_FILES['more_images']['size'][$i];
+        $image_extension = pathinfo($image_name, PATHINFO_EXTENSION);
+        if (!empty($new_image_name)) {
+          $new_image_name = str_replace(' ', '-', $new_image_name);
+          $main_image_uploaded = $new_image_name . '.' . $image_extension;
+          move_uploaded_file(
+            $image_temp,
+            'product_images/' . $main_image_uploaded
+          );
+        } else {
+          $main_image_uploaded = $image_name;
+          move_uploaded_file(
+            $image_temp,
+            'product_images/' . $main_image_uploaded
+          );
+        }
+        $stmt = $connect->prepare("INSERT INTO products_gallary (product_id,image,image_name, image_alt , image_desc,image_keys)
+      VALUES(:zproduct_id,:zimage,:zimage_name,:zimage_alt, :zimage_desc,:zimage_keys_gal)");
+        $stmt->execute(array(
+          "zproduct_id" => $last_pro_id,
+          "zimage" => $main_image_uploaded,
+          "zimage_name" => $new_image_name,
+          "zimage_alt" => $image_alt,
+          "zimage_desc" => $image_desc,
+          "zimage_keys_gal" => $image_keys_gal,
+        ));
       }
-      $stmt = $connect->prepare("INSERT INTO products_gallary (product_id,image,image_name, image_alt , image_desc,image_keys)
-    VALUES(:zproduct_id,:zimage,:zimage_name,:zimage_alt, :zimage_desc,:zimage_keys_gal)");
-      $stmt->execute(array(
-        "zproduct_id" => $last_pro_id,
-        "zimage" => $main_image_uploaded,
-        "zimage_name" => $new_image_name,
-        "zimage_alt" => $image_alt,
-        "zimage_desc" => $image_desc,
-        "zimage_keys_gal" => $image_keys_gal,
-      ));
     }
     ////////////////////////////////
-    for ($i = 0; $i < count($pro_attributes); $i++) {
-      $pro_attribute =   $pro_attributes[$i];
-      $pro_price =  $pro_prices[$i];
-      $var_id = $pro_variations[$i];
+    if ($pro_attributes > 0) {
+      for ($i = 0; $i < count($pro_attributes); $i++) {
+        $pro_attribute =   $pro_attributes[$i];
+        $pro_price =  $pro_prices[$i];
+        $var_id = $pro_variations[$i];
 
-      $stmt = $connect->prepare("INSERT INTO product_details (pro_id,pro_attribute,pro_variation,pro_price) VALUES 
-    (:zpro_id,:zpro_att,:zpro_var,:zpro_price)");
-      $stmt->execute(array(
-        "zpro_id" => $last_pro_id,
-        "zpro_att" => $pro_attribute,
-        "zpro_var" => $var_id,
-        "zpro_price" => $pro_price,
-      ));
+        $stmt = $connect->prepare("INSERT INTO product_details (pro_id,pro_attribute,pro_variation,pro_price) VALUES 
+      (:zpro_id,:zpro_att,:zpro_var,:zpro_price)");
+        $stmt->execute(array(
+          "zpro_id" => $last_pro_id,
+          "zpro_att" => $pro_attribute,
+          "zpro_var" => $var_id,
+          "zpro_price" => $pro_price,
+        ));
+      }
     }
 
     // insert product plant options 
@@ -353,7 +365,7 @@ if (isset($_POST['add_pro'])) {
                 </div>
               </div>
               <p class="btn btn-warning btn-sm" id="add_attribute_btn"> اضافة سمه جديد <i class="fa fa-plus"></i> </p>
-              <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+              <script src="plugins/jquery/jquery.js"></script>
 
               <script>
                 jQuery(function($) {
@@ -468,7 +480,7 @@ if (isset($_POST['add_pro'])) {
               </div>
               <div class="form-group">
                 <label for="customFile"> صورة المنتج </label>
-                <input type="file" class="dropify" multiple data-height="150" data-allowed-file-extensions="jpg jpeg png svg" data-max-file-size="4M" name="main_image" data-show-loader="true" />
+                <input type="file" class="dropify" multiple data-height="150" data-allowed-file-extensions="jpg jpeg png svg webp" data-max-file-size="4M" name="main_image" data-show-loader="true" />
                 <br>
                 <p class="btn btn-warning btn-sm" id="show_details_image"> تفاصيل اضافية <i class="fa fa-plus"></i> </p>
                 <style>

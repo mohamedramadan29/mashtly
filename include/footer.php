@@ -346,17 +346,25 @@
     });
 </script>
 
+<!-- Product Details  -->
+
 <script>
     $(document).ready(function() {
-        $('.slider1').slick({
-            arrows: false,
-            asNavFor: '.slider2'
+        // تهيئة الصور الرئيسية
+        $('.slider-for').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: true, // تعيين القيمة إلى true لعرض الأسهم
+            fade: true,
+            asNavFor: '.slider-nav'
         });
 
-        $('.slider2').slick({
+        // تهيئة الصور المصغرة
+        $('.slider-nav').slick({
             slidesToShow: 3,
             slidesToScroll: 1,
-            asNavFor: '.slider1',
+            asNavFor: '.slider-for',
+            dots: true,
             centerMode: true,
             focusOnSelect: true
         });
@@ -382,4 +390,31 @@
             });
         }
     }
+</script>
+
+<!-- slider in product images -->
+
+<!-- JavaScript -->
+<script>
+    // تحديد العناصر
+    const mainSlider = document.querySelector('.main-slider');
+    const thumbnailSlider = document.querySelector('.thumbnail-slider');
+    const mainSlides = mainSlider.querySelectorAll('div');
+    const thumbnailSlides = thumbnailSlider.querySelectorAll('div');
+
+    // تنفيذ الشريط الرئيسي
+    mainSlides.forEach((slide) => {
+        slide.style.display = 'none';
+    });
+    let mainIndex = 0;
+    mainSlides[mainIndex].style.display = 'block';
+
+    // تنفيذ الشريط المصغر
+    thumbnailSlides.forEach((slide, index) => {
+        slide.addEventListener('click', () => {
+            mainSlides[mainIndex].style.display = 'none';
+            mainIndex = index;
+            mainSlides[mainIndex].style.display = 'block';
+        });
+    });
 </script>

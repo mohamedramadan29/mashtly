@@ -134,6 +134,8 @@ if (isset($_SESSION['username'])) {
         include "products/report.php";
     } elseif ($dir == 'products' && $page == 'get_variation') {
         include "products/get_variation.php";
+    } elseif ($dir == 'products' && $page == 'delete_image') {
+        include "products/delete_image.php";
     }
     // START orders
     if ($dir == 'orders' && $page == 'add') {

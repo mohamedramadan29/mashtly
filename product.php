@@ -126,6 +126,8 @@ if (isset($_GET['slug'])) {
                     <div class="col-lg-8">
                         <div class="product">
                             <div class="product_images">
+                                <!-- HTML -->
+
                                 <?php
                                 $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
                                 $stmt->execute(array($product_id));
@@ -133,7 +135,44 @@ if (isset($_GET['slug'])) {
                                 if ($count_image > 0) {
                                     $product_data_image = $stmt->fetch();
                                 ?>
-                                    <img class="main_image" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt']; ?>">
+                                    <div class="main-slider">
+                                        <div><img src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="Image 1"></div>
+                                        <?php
+                                        // check if this product have images in gallary
+                                        $stmt = $connect->prepare("SELECT * FROM products_gallary WHERE product_id = ?");
+                                        $stmt->execute(array($product_id));
+                                        $allgallary = $stmt->fetchAll();
+                                        $count_g = count($allgallary);
+                                        if ($count_g > 0) {
+                                            foreach ($allgallary as $gallary) {
+                                        ?>
+                                                <div><img src="admin/product_images/<?php echo $gallary['image']; ?>" alt="Image 2"></div>
+                                            <?php
+                                            }
+                                            ?>
+
+                                        <?php
+                                        }
+                                        ?>
+
+                                        <!-- يمكنك إضافة المزيد من الصور هنا -->
+                                    </div>
+                                    <div class="thumbnail-slider">
+                                        <div><img src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="Thumbnail 1"></div>
+                                        <?php
+                                        if ($count_g > 0) {
+                                            foreach ($allgallary as $gallary) {
+                                        ?>
+                                                <div><img src="admin/product_images/<?php echo $gallary['image']; ?>" alt="Image 2"></div>
+                                            <?php
+                                            }
+                                            ?>
+
+                                        <?php
+                                        }
+                                        ?>
+                                        <!-- يمكنك إضافة المزيد من الصور المصغرة هنا -->
+                                    </div>
                                 <?php
                                 } else {
                                 ?>
@@ -141,6 +180,7 @@ if (isset($_GET['slug'])) {
                                 <?php
                                 }
                                 ?>
+
                             </div>
                             <div class="product_info">
                                 <h2> <img src="<?php echo $uploads ?>/left_arrow.png" alt=""> <?php echo $product_name; ?> </h2>
