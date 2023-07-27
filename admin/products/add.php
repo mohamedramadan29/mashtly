@@ -23,7 +23,6 @@ if (isset($_POST['add_pro'])) {
   } else {
     $pro_attributes = 0;
   }
-
   $pro_variations = $_POST['pro_variations'];
   $pro_prices = $_POST['pro_price'];
   $tags = $_POST['tags'];
@@ -36,7 +35,6 @@ if (isset($_POST['add_pro'])) {
   /**
    * More Attribute For Main Image
    */
-
   $image_name = $_POST['image_name'];
   $image_alt = $_POST['image_alt'];
   $image_desc = $_POST['image_desc'];
@@ -76,7 +74,6 @@ if (isset($_POST['add_pro'])) {
     }
   }
   // Insert Product Gallary
-
   if (!empty($_FILES['more_images']['name'])) {
     $image_names = $_POST['image_name_gallary'];
     $image_alts = $_POST['image_alt_gallary'];
@@ -198,14 +195,26 @@ if (isset($_POST['add_pro'])) {
         $pro_attribute =   $pro_attributes[$i];
         $pro_price =  $pro_prices[$i];
         $var_id = $pro_variations[$i];
-
-        $stmt = $connect->prepare("INSERT INTO product_details (pro_id,pro_attribute,pro_variation,pro_price) VALUES 
-      (:zpro_id,:zpro_att,:zpro_var,:zpro_price)");
+        //////////// attribute images //////////////
+        $image_att_name = $_FILES['attribute_image']['name'][$i];
+        $image_att_name = str_replace(' ', '-', $image_att_name);
+        $image_att_temp = $_FILES['attribute_image']['tmp_name'][$i];
+        $image_att_type = $_FILES['attribute_image']['type'][$i];
+        $image_att_size = $_FILES['attribute_image']['size'][$i];
+        $image_extension = pathinfo($image_att_name, PATHINFO_EXTENSION);
+        $main_image_uploaded = $image_name;
+        move_uploaded_file(
+          $image_temp,
+          'product_images/' . $main_image_uploaded
+        );
+        $stmt = $connect->prepare("INSERT INTO product_details (pro_id,pro_attribute,pro_variation,pro_price,pro_image) VALUES 
+      (:zpro_id,:zpro_att,:zpro_var,:zpro_price,:zpro_image)");
         $stmt->execute(array(
           "zpro_id" => $last_pro_id,
           "zpro_att" => $pro_attribute,
           "zpro_var" => $var_id,
           "zpro_price" => $pro_price,
+          "zpro_image" => $main_image_uploaded,
         ));
       }
     }
@@ -362,6 +371,10 @@ if (isset($_POST['add_pro'])) {
                     <label for="inputName">سعر جديد </label>
                     <input type="number" id="pro_price" name="pro_price[]" class="form-control" value="<?php if (isset($_REQUEST['pro_price'])) echo $_REQUEST['pro_price'] ?>">
                   </div>
+                  <div class="form-group">
+                    <label for=""> صورة للمنتج </label>
+                    <input type="file" class="dropify" multiple data-height="100" data-allowed-file-extensions="jpg jpeg png svg webp" data-max-file-size="4M" name="attribute_image[]" data-show-loader="true" />
+                  </div>
                 </div>
               </div>
               <p class="btn btn-warning btn-sm" id="add_attribute_btn"> اضافة سمه جديد <i class="fa fa-plus"></i> </p>
@@ -400,6 +413,10 @@ if (isset($_POST['add_pro'])) {
             <label for="inputName">سعر جديد </label>
             <input type="number" id="pro_price" name="pro_price[]" class="form-control" value="<?php if (isset($_REQUEST['pro_price'])) echo $_REQUEST['pro_price'] ?>">
           </div>
+          <div class="form-group">
+                    <label for=""> صورة للمنتج </label>
+                    <input type="file" class="dropify form-control" multiple data-height="100" data-allowed-file-extensions="jpg jpeg png svg webp" data-max-file-size="4M" name="attribute_image[]" data-show-loader="true" />
+                  </div>
           <button class="btn btn-sm btn-danger delete_attribute_btn"> حذف العنصر <i class='fa fa-trash'></i> </button>
         </div>
       `;
