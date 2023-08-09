@@ -17,6 +17,10 @@
     <!-- START NICE VIDEO  -->
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <!-- END NICE VIDEO  -->
+    <!-- start large image -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/default-skin/default-skin.min.css">
+    <!-- end large image -->
     <link rel="stylesheet" href="<?php echo $css; ?>select2.min.css">
     <link rel="stylesheet" href="<?php echo $css ?>main.css">
     <title>

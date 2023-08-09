@@ -127,7 +127,6 @@ if (isset($_GET['slug'])) {
                         <div class="product">
                             <div class="product_images">
                                 <!-- HTML -->
-
                                 <?php
                                 $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
                                 $stmt->execute(array($product_id));
@@ -150,11 +149,9 @@ if (isset($_GET['slug'])) {
                                             <?php
                                             }
                                             ?>
-
                                         <?php
                                         }
                                         ?>
-
                                         <!-- يمكنك إضافة المزيد من الصور هنا -->
                                     </div>
                                     <div class="thumbnail-slider">
@@ -167,7 +164,6 @@ if (isset($_GET['slug'])) {
                                             <?php
                                             }
                                             ?>
-
                                         <?php
                                         }
                                         ?>
@@ -180,7 +176,6 @@ if (isset($_GET['slug'])) {
                                 <?php
                                 }
                                 ?>
-
                             </div>
                             <div class="product_info">
                                 <h2> <img src="<?php echo $uploads ?>/left_arrow.png" alt=""> <?php echo $product_name; ?> </h2>
@@ -224,7 +219,7 @@ if (isset($_GET['slug'])) {
                         <div class="product_description">
                             <h3> وصف المنتج </h3>
                             <p> <?php echo $product_desc ?> </p>
-                            <button class="btn"> رقم النبات:#<?php echo $product_id; ?> </button>
+                            <button class="btn"> رقم المنتج:#<?php echo $product_id; ?> </button>
                         </div>
                         <div class="social_share">
                             <div>
@@ -498,7 +493,7 @@ if (isset($_GET['slug'])) {
                                                     -->
                                     <div class="add_cart">
                                         <button class="btn global_button cart" name="add_to_cart"> <img src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> أضف الي السلة </button>
-                                        <button class="btn wishlist" name="add_to_wishlist"> <img src="<?php echo $uploads ?>/heart.png" alt=""> أضف الي السلة </button>
+                                        <button class="btn wishlist" name="add_to_wishlist"> <img src="<?php echo $uploads ?>/heart.png" alt=""> أضف الي المفضلة </button>
                                     </div>
                                 </div>
                             </form>

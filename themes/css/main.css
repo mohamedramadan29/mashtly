@@ -3,7 +3,6 @@
     src: url('../fonts/SuisseIntl-Regular.ttf') format('truetype');
 }
 
-
 body {
     font-family: 'SuisseIntl', sans-serif;
     background: #F0F5F0;
@@ -92,7 +91,6 @@ body {
 /* START TOP HEADER */
 .top_header {
     background-color: var(--main-color);
-
 }
 
 .top_header .data {
@@ -418,6 +416,50 @@ body {
     .mobile_middel_header .navbar {
         display: block;
     }
+}
+
+.main_navbar .nav-item .links {
+    position: absolute;
+    top: 80%;
+    z-index: 999999;
+    background: #fff;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    width: 80%;
+    padding-top: 10px;
+    display: none;
+    transition: all 1s ease-in-out;
+}
+
+.main_navbar .category_links:hover .links {
+    display: block;
+}
+
+.main_navbar .category_links .links:hover {
+    display: block;
+}
+
+.main_navbar .category_links i {
+    font-size: 12px;
+    width: 14px;
+    position: relative;
+    top: -1px;
+}
+
+.main_navbar .nav-item .links li {
+    padding: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.main_navbar .nav-item .links li:hover {
+    background-color: #F2F8F2;
+}
+
+.main_navbar .nav-item .links li a {
+    text-decoration: none;
+    background-color: transparent;
+    padding: 0;
+    color: #000;
 }
 
 /* END NAVBAR */
@@ -3489,6 +3531,7 @@ body {
     max-width: 100%;
     margin-bottom: 15px;
     border-radius: 5px;
+    min-height: 180px;
 }
 
 .main_categories .cat .main h3 {
@@ -4384,5 +4427,4 @@ body {
     text-align: center;
     margin: auto;
     display: block;
-
 }

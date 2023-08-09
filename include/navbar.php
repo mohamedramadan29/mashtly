@@ -47,7 +47,7 @@
                   $count_carts = $stmt->rowCount();
                   $allitems = $stmt->fetchAll();
                   */
-                  ?> 
+                  ?>
                   <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
                 </a>
               </div>
@@ -183,7 +183,6 @@
     <div class="container">
       <div class="data">
         <div class="row d-flex align-items-center">
-
           <div class="col-12">
             <div class="search">
               <form action="#" method="get" class='form-group'>
@@ -214,8 +213,27 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="http://localhost/mashtly"> <img src="<?php echo $uploads ?>/home.svg" alt=""> الرئيسية </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="http://localhost/mashtly/categories"> التصنيفات </a>
+          <li class="nav-item category_links">
+            <a class="nav-link" aria-current="page" href=""> <i class="fa fa-chevron-down"></i> التصنيفات </a>
+            <div class="links">
+              <ul class="list-unstyled">
+                <div class="row">
+                  <?php
+                  $stmt = $connect->prepare("SELECT * FROM categories");
+                  $stmt->execute();
+                  $allcategories = $stmt->fetchAll();
+                  foreach ($allcategories as $category) {
+                  ?>
+                    <div class="col-3">
+                      <li> <a href="category_products?cat=<?php echo $category['slug']; ?>"> <?php echo $category['name'] ?> </a> </li>
+                    </div>
+                  <?php
+                  }
+                  ?>
+
+                </div>
+              </ul>
+            </div>
           </li>
           <li class="nav-item nav_badge">
             <span class="badge badge-danger"> جديد </span>

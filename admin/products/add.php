@@ -255,7 +255,7 @@ if (isset($_POST['add_pro'])) {
         </script>
       <?php
       }
-      header('Location:main?dir=products&page=report');
+      header('Location:main?dir=products&page=add');
     }
   } else {
     $_SESSION['error_messages'] = $formerror;

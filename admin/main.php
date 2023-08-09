@@ -10,6 +10,9 @@ if (isset($_SESSION['admin_username'])) {
 if (isset($_SESSION['username'])) {
     include 'include/emp_navbar.php';
 }
+if (!isset($_SESSION['admin_username']) || !isset($_SESSION['admin_username'])) {
+    header("Location:index");
+}
 ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">

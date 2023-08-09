@@ -264,7 +264,7 @@ ul {
 .btn-group-sm>.btn,
 .btn-sm {
     margin-bottom: 5px;
-    text-align: center; 
+    display: table;
 }
 .dropify-wrapper .dropify-message p{
     font-size: 22px;

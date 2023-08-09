@@ -32,27 +32,36 @@ $cat_count = count($allcat);
                         $stmt->execute(array($cat_id));
                         $allpro = $stmt->fetchAll();
                         $count_pro = count($allpro);
+                        if ($count_pro > 0) {
                     ?>
-                        <div class="col-6 col-lg-2">
-                            <a href="category_products?cat=<?php echo $cat['slug']; ?>">
-                                <div class="cat">
-                                    <div class="main">
-                                        <img src="<?php echo $uploads ?>cat.png" alt="">
-                                        <h3> <?php echo $cat['name']; ?> </h3>
-                                        <p> عدد العناصر: <?php echo $count_pro; ?> </p>
+                            <div class="col-6 col-lg-2">
+                                <a href="category_products?cat=<?php echo $cat['slug']; ?>">
+                                    <div class="cat">
+                                        <div class="main">
+                                            <?php
+                                            if ($cat['image'] != '') {
+                                            ?>
+                                                <img src="admin/category_images/<?php echo $cat['image']; ?>" alt="">
+                                            <?php
+                                            } else { ?>
+                                                <img src="<?php echo $uploads ?>cat.png" alt="">
+                                            <?php
+                                            }
+                                            ?>
+                                            <h3> <?php echo $cat['name']; ?> </h3>
+                                            <p> عدد العناصر: <?php echo $count_pro; ?> </p>
+                                        </div>
+                                        <div class="overlay">
+                                            <a href="category_products?cat=<?php echo $cat['slug']; ?>">
+                                                <img src="<?php echo $uploads ?>cat_arrow.png" alt="">
+                                                <h4> تصفح التصنيف </h4>
+                                            </a>
+                                        </div>
                                     </div>
-
-                                    <div class="overlay">
-
-                                        <a href="category_products?cat=<?php echo $cat['slug']; ?>">
-                                            <img src="<?php echo $uploads ?>cat_arrow.png" alt="">
-                                            <h4> تصفح التصنيف </h4>
-                                        </a>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
+                                </a>
+                            </div>
                     <?php
+                        }
                     }
 
                     ?>

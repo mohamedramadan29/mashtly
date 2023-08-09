@@ -85,7 +85,7 @@
                                             <th> القسم </th>
                                             <th> السعر </th>
                                             <th> سعر التخفيض </th>
-                                            <th> الكمية </th>
+                                            <th> حالة المخزون </th>
                                             <th> صورة المنتج </th>
                                             <th> </th>
                                         </tr>
@@ -124,7 +124,19 @@
                                                 </td>
                                                 <td> <?php echo  $pro['price']; ?> </td>
                                                 <td> <?php echo  $pro['sale_price']; ?> </td>
-                                                <td> <?php echo  $pro['av_num']; ?> </td>
+                                                <td> <?php
+                                                        if ($pro['product_status_store'] == 1) {
+                                                        ?>
+                                                        <span class="badge badge-success"> متوفر </span>
+                                                    <?php
+                                                        } elseif ($pro['product_status_store'] == 0) {
+                                                    ?>
+                                                        <span class="badge badge-danger"> غير متوفر </span>
+                                                    <?php
+                                                        }
+                                                    ?>
+                                                </td>
+
                                                 <td>
                                                     <?php
                                                     $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ? LIMIT 1");
@@ -139,55 +151,86 @@
                                                     ?>
                                                 </td>
                                                 <td>
-                                                    <a href="main.php?dir=products&page=edit&pro_id=<?php echo $pro['id']; ?>" class="btn btn-success btn-sm"> مشاهدة التفاصيل <i class='fa fa-pen'></i></a>
-                                                    <button type="button" class="btn btn-info btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $pro['id']; ?>"> تحرير سريع <i class='fa fa-pen'></i> </button>
-                                                    <a href="main.php?dir=products&page=delete&pro_id=<?php echo $pro['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
+                                                    <a href="main.php?dir=products&page=edit&pro_id=<?php echo $pro['id']; ?>" class="btn btn-success btn-sm"> <i class='fa fa-pen'></i></a>
+                                                    <button type="button" class="btn btn-info btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $pro['id']; ?>"> <i class='fa fa-fast-forward'></i> </button>
+                                                    <a href="main.php?dir=products&page=delete&pro_id=<?php echo $pro['id']; ?>" class="confirm btn btn-danger btn-sm"> <i class='fa fa-trash'></i> </a>
                                                 </td>
                                             </tr>
-                                            <!-- EDIT NEW CATEGORY MODAL   -->
-                                            <div class="modal fade" id="edit-Modal_<?php echo $pro['id']; ?>" tabindex="-1" role="dialog">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title"> تحرير سريع للمنتج </h4>
-                                                        </div>
-                                                        <form method="post" action="main.php?dir=products&page=fast_edit" enctype="multipart/form-data">
-                                                            <div class="modal-body">
-                                                                <div class="form-group">
-                                                                    <input type='hidden' name="pro_id" value="<?php echo $pro['id']; ?>">
-                                                                    <label for="Company-2" class="block">الأسم </label>
-                                                                    <input id="Company-2" required name="name" type="text" class="form-control required" value="<?php echo  $pro['name'] ?>">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="Company-2" class="block"> السعر الأفتراضي </label>
-                                                                    <input id="Company-2" required name="price" type="text" class="form-control required" value="<?php echo $pro['price'] ?>">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="Company-2" class="block"> سعر التخفيض </label>
-                                                                    <input id="Company-2" required name="sale_price" type="text" class="form-control required" value="<?php echo $pro['sale_price'] ?>">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="Company-2" class="block"> حالة المخزون </label>
-                                                                    <select name="product_status_store" id="" class="form-control select2">
-                                                                        <option value=""> حدد حالة المخزون </option>
-                                                                        <option <?php if ($pro['product_status_store'] == 1) echo "selected"; ?> value="1"> متوفر </option>
-                                                                        <option <?php if ($pro['product_status_store'] == 0) echo "selected"; ?> value="0"> غير متوفر </option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="submit" name="edit_cat" class="btn btn-primary waves-effect waves-light "> تعديل </button>
-                                                                <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">رجوع</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
+                            </form>
+                            <!-- EDIT NEW CATEGORY MODAL   -->
+                            <div class="modal fade" id="edit-Modal_<?php echo $pro['id']; ?>" tabindex="-1" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title"> تحرير سريع للمنتج </h4>
+                                        </div>
+                                        <form method="POST" action="main.php?dir=products&page=fast_edit" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <input type='hidden' name="pro_id" value="<?php echo $pro['id']; ?>">
+                                                    <label for="Company-2" class="block">الأسم </label>
+                                                    <input id="Company-2" required name="name" type="text" class="form-control required" value="<?php echo  $pro['name'] ?>">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputStatus"> القسم الرئيسي </label>
+                                                    <select required id="" class="form-control custom-select select2" name="cat_id">
+                                                        <option selected disabled> -- اختر -- </option>
+                                                        <?php
+                                                        $stmt = $connect->prepare("SELECT * FROM categories");
+                                                        $stmt->execute();
+                                                        $allcat = $stmt->fetchAll();
+                                                        foreach ($allcat as $cat) {
+                                                        ?>
+                                                            <option <?php if (isset($_REQUEST['cat_id']) && $_REQUEST['cat_id'] == $cat['id']) {
+                                                                        echo "selected";
+                                                                    } elseif ($cat['id'] == $pro['cat_id']) {
+                                                                        echo 'selected';
+                                                                    }  ?> value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="Company-2" class="block"> السعر الأفتراضي </label>
+                                                    <input id="Company-2" name="price" type="number" class="form-control required" value="<?php echo $pro['price'] ?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="Company-2" class="block"> سعر التخفيض </label>
+                                                    <input id="Company-2" name="sale_price" type="number" class="form-control required" value="<?php echo $pro['sale_price'] ?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="Company-2" class="block"> حالة المخزون </label>
+                                                    <select name="product_status_store" id="" class="form-control select2">
+                                                        <option value=""> حدد حالة المخزون </option>
+                                                        <option <?php if ($pro['product_status_store'] == 1) echo "selected"; ?> value="1"> متوفر </option>
+                                                        <option <?php if ($pro['product_status_store'] == 0) echo "selected"; ?> value="0"> غير متوفر </option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="Company-2" class="block"> نشر المنتج </label>
+                                                    <select name="publish" id="" class="form-control select2">
+                                                        <option value="" disabled> اختر الحالة </option>
+                                                        <option <?php if ($pro['publish'] == 1) echo 'selected'; ?> value="1"> نشر المنتج </option>
+                                                        <option <?php if ($pro['publish'] == 0) echo 'selected'; ?> value="0"> ارشيف </option>
+                                                    </select>
                                                 </div>
                                             </div>
-                                        <?php
+                                            <div class="modal-footer">
+                                                <button type="submit" name="edit_cat" class="btn btn-primary waves-effect waves-light "> تعديل </button>
+                                                <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">رجوع</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php
                                         }
-                                        ?>
-                                </table>
-                            </form>
+                        ?>
+                        </table>
+
                         </div>
                     </div>
                 </div>
