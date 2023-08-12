@@ -87,10 +87,9 @@
                                             <th> سعر التخفيض </th>
                                             <th> حالة المخزون </th>
                                             <th> صورة المنتج </th>
-                                            <th> </th>
+                                            <th> العمليات </th>
                                         </tr>
                                     </thead>
-
                                     <tbody>
                                         <?php
                                         $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC");
@@ -136,7 +135,6 @@
                                                         }
                                                     ?>
                                                 </td>
-
                                                 <td>
                                                     <?php
                                                     $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ? LIMIT 1");
@@ -151,9 +149,17 @@
                                                     ?>
                                                 </td>
                                                 <td>
-                                                    <a href="main.php?dir=products&page=edit&pro_id=<?php echo $pro['id']; ?>" class="btn btn-success btn-sm"> <i class='fa fa-pen'></i></a>
-                                                    <button type="button" class="btn btn-info btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $pro['id']; ?>"> <i class='fa fa-fast-forward'></i> </button>
-                                                    <a href="main.php?dir=products&page=delete&pro_id=<?php echo $pro['id']; ?>" class="confirm btn btn-danger btn-sm"> <i class='fa fa-trash'></i> </a>
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            العمليات
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                            <a class="dropdown-item" href="main.php?dir=products&page=edit&pro_id=<?php echo $pro['id']; ?>"> تحرير </a>
+                                                            <a href="" class="dropdown-item" data-toggle="modal" data-target="#edit-Modal_<?php echo $pro['id']; ?>"> تحرير سريع </a>
+                                                            <a class="dropdown-item" href="#"> اسئلة المنتج </a>
+                                                            <a class="dropdown-item confirm" href="main.php?dir=products&page=delete&pro_id=<?php echo $pro['id']; ?>"> حذف المنتج </a>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                             </form>
