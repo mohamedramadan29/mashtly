@@ -216,7 +216,7 @@
 <script src='<?php echo $js; ?>/jquery.min.js'></script>
 <script src='<?php echo $js; ?>/bootstrap.min.js'></script>
 <script src="https://kit.fontawesome.com/588e070751.js" crossorigin="anonymous"></script>
-<script src='<?php echo $js; ?>/slick.min.js'></script>
+<!--<script src='<?php echo $js; ?>/slick.min.js'></script> -->
 <!-- start large image -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
@@ -226,6 +226,9 @@
 <!-- Sweet Alert  -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src='<?php echo $js; ?>/select2.min.js'></script>
+<script src='<?php echo $js; ?>/jquery.magnific-popup.min.js'></script>
+<script src='<?php echo $js; ?>/slick.js'></script>
+<script src='<?php echo $js; ?>/slick-custom.js'></script>
 <script src='<?php echo $js; ?>/main.js'></script>
 </body>
 
@@ -419,6 +422,19 @@
             mainSlides[mainIndex].style.display = 'none';
             mainIndex = index;
             mainSlides[mainIndex].style.display = 'block';
+        });
+    });
+</script>
+
+<script>
+    $('.gallery-lb').each(function() { // the containers for all your galleries
+        $(this).magnificPopup({
+            delegate: 'a', // the selector for gallery item
+            type: 'image',
+            gallery: {
+                enabled: true
+            },
+            mainClass: 'mfp-fade'
         });
     });
 </script>

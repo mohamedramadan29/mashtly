@@ -921,6 +921,7 @@ if (isset($_GET['slug'])) {
         </div>
     </div>
     <!-- END NEWWER PRODUCTS  -->
+ 
 
 <?php
 

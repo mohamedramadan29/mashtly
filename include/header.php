@@ -21,6 +21,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/default-skin/default-skin.min.css">
     <!-- end large image -->
+    <link rel="stylesheet" href="<?php echo $css; ?>magnific-popup.css">
+    <!--
+    <link rel="stylesheet" href="<?php echo $css; ?>util.css">
+    <link rel="stylesheet" href="<?php echo $css; ?>main_popup.css">
+-->
     <link rel="stylesheet" href="<?php echo $css; ?>select2.min.css">
     <link rel="stylesheet" href="<?php echo $css ?>main.css">
     <title>
