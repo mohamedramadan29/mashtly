@@ -14,8 +14,8 @@
                               <input required id="Company-2" name="faq_head" type="text" class="form-control required">
                           </div>
                           <div class="form-group">
-                              <label for="Company-2" class="block"> الوصف </label>
-                              <textarea id="Company-2" name="faq_descriptiion" class="form-control"></textarea>
+                              <label for="Company-2" class="block "> الوصف </label>
+                              <textarea id="Company-2" name="faq_descriptiion" class="summernote form-control"></textarea>
                           </div>
                       </div>
                   </div>
@@ -50,7 +50,7 @@
             ));
             if ($stmt) {
                 $_SESSION['success_message'] = " تمت الأضافة بنجاح  ";
-                header('Location:main?dir=products/faqs&page=report&pro_id='.$product_id);
+                header('Location:main?dir=products/faqs&page=report&pro_id=' . $product_id);
             }
         } else {
             $_SESSION['error_messages'] = $formerror;

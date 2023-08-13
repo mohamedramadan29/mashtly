@@ -235,31 +235,32 @@ if (isset($_GET['slug'])) {
                             </div>
                         </div>
                         <div class="faq">
+                            <?php
+                            // get product faqs 
+                            $stmt = $connect->prepare("SELECT * FROM product_faqs WHERE product_id = ?");
+                            $stmt->execute(array($product_id));
+                            $allfaqs = $stmt->fetchAll();
+
+                            ?>
                             <div class="accordion" id="accordionExample">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingOne">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            كيفية العناية بالنبات؟
-                                        </button>
-                                    </h2>
-                                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-                                            <p> نعم، يوفر مشتلي مجموعة واسعة من النباتات الطبية، ومن بينها النعناع والزعتر والألوفيرا والشمام والكركم والزنجبيل والكمون والكركديه وغيرها الكثير. </p>
+                                <?php
+                                foreach ($allfaqs as $faq) {
+                                ?>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                <?php echo $faq['faq_head'] ?>
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <p> <?php echo $faq['faq_descriptiion'] ?>  </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingtwo">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                            الشحن والاسترجاع
-                                        </button>
-                                    </h2>
-                                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingtwo" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-                                            <p> نعم، يوفر مشتلي مجموعة واسعة من النباتات الطبية، ومن بينها النعناع والزعتر والألوفيرا والشمام والكركم والزنجبيل والكمون والكركديه وغيرها الكثير. </p>
-                                        </div>
-                                    </div>
-                                </div>
+                                <?php
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -773,7 +774,7 @@ if (isset($_GET['slug'])) {
                 <div class="data_header">
                     <div class="data_header_name">
                         <h2 class='header2' style="margin-right:0"> ربما يعجبك أيضا </h2>
-                        <p> لأنك تصفحت شجرة الدفلة </p>
+                        <p> لأنك تصفحت   <?php echo $product_name; ?> </p>
                     </div>
                 </div>
                 <div class="row">
@@ -921,7 +922,7 @@ if (isset($_GET['slug'])) {
         </div>
     </div>
     <!-- END NEWWER PRODUCTS  -->
- 
+
 
 <?php
 

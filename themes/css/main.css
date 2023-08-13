@@ -3739,6 +3739,20 @@ body {
     margin-top: 20px;
 }
 
+.product_details .data .product_description p,
+.product_details .data .product_description span,
+.product_details .data .product_description a,
+.product_details .data .product_description h1,
+.product_details .data .product_description h2,
+.product_details .data .product_description h2,
+.product_details .data .product_description h3,
+.product_details .data .product_description h4,
+.product_details .data .product_description h5,
+.product_details .data .product_description h6
+ {
+    font-family: 'SuisseIntl' !important;
+}
+
 .product_details .data .product_description h3 {
     color: var(--main-color);
     font-weight: bold;
@@ -4427,4 +4441,4 @@ body {
     text-align: center;
     margin: auto;
     display: block;
-} 
+}

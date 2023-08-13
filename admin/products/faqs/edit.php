@@ -15,7 +15,7 @@
                       </div>
                       <div class="form-group">
                           <label for="Company-2" class="block"> الوصف </label>
-                          <textarea id="Company-2" name="faq_descriptiion" class="form-control"><?php echo $faq['faq_descriptiion'] ?></textarea>
+                          <textarea id="Company-2" name="faq_descriptiion" class="summernote form-control"><?php echo $faq['faq_descriptiion'] ?></textarea>
                       </div>
                   </div>
                   <div class="modal-footer">
