@@ -1,9 +1,8 @@
 <?php
 if (isset($_POST['edit_cat'])) {
     $pro_id = $_POST['pro_id'];
-
     $name = $_POST['name'];
-    $slug = createSlug($name);
+    $slug = createSlug($_POST['slug']);
     $price = $_POST['price'];
     $sale_price = $_POST['sale_price'];
     $cat_id = $_POST['cat_id'];
@@ -17,7 +16,13 @@ if (isset($_POST['edit_cat'])) {
     $stmt->execute(array($name, $pro_id));
     $count = $stmt->rowCount();
     if ($count > 0) {
-        $formerror[] = ' اسم القسم موجود من قبل من فضلك ادخل اسم اخر  ';
+        $formerror[] = ' اسم المنتج  موجود من قبل من فضلك ادخل اسم اخر  ';
+    }
+    $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ? AND id != ? ");
+    $stmt->execute(array($slug, $pro_id));
+    $count = $stmt->rowCount();
+    if ($count > 0) {
+        $formerror[] = ' هذا الرابط موجود بالفعل من فضلك ادخل رابط اخر  ';
     }
     if (empty($formerror)) {
         $stmt = $connect->prepare("UPDATE products SET cat_id=?,name=?,slug=?,price=?,sale_price=?,publish=?,product_status_store=? WHERE id = ? ");

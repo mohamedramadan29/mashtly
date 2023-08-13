@@ -155,7 +155,7 @@
                                                         </button>
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                             <a class="dropdown-item" href="main.php?dir=products&page=edit&pro_id=<?php echo $pro['id']; ?>"> تحرير </a>
-                                                            <a href="" class="dropdown-item" data-toggle="modal" data-target="#edit-Modal_<?php echo $pro['id']; ?>"> تحرير سريع </a>
+                                                            <a href="" class="dropdown-item" data-toggle="modal" data-target="#edit-Modal_<?php echo $pro['id']; ?>"> تحرير سريع </a> 
                                                             <a href="main.php?dir=products/faqs&page=report&pro_id=<?php echo $pro['id']; ?>" class="dropdown-item">اسئلة المنتج </a>
                                                             <a class="dropdown-item confirm" href="main.php?dir=products&page=delete&pro_id=<?php echo $pro['id']; ?>"> حذف المنتج </a>
                                                         </div>
@@ -172,6 +172,10 @@
                                         </div>
                                         <form method="POST" action="main.php?dir=products&page=fast_edit" enctype="multipart/form-data">
                                             <div class="modal-body">
+                                            <div class="form-group"> 
+                                                    <label for="Company-2" class="block"> رابط المنتج  </label>
+                                                   <span class="badge badge-info">  / Website Name </span> <input id="Company-2" required name="slug" type="text" class="form-control required" value="<?php echo  $pro['slug'] ?>">
+                                                </div>
                                                 <div class="form-group">
                                                     <input type='hidden' name="pro_id" value="<?php echo $pro['id']; ?>">
                                                     <label for="Company-2" class="block">الأسم </label>
@@ -229,7 +233,7 @@
                                         </form>
                                     </div>
                                 </div>
-                            </div>
+                            </div> 
                         <?php
                                         }
                         ?>
