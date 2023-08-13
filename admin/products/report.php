@@ -156,7 +156,7 @@
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                             <a class="dropdown-item" href="main.php?dir=products&page=edit&pro_id=<?php echo $pro['id']; ?>"> تحرير </a>
                                                             <a href="" class="dropdown-item" data-toggle="modal" data-target="#edit-Modal_<?php echo $pro['id']; ?>"> تحرير سريع </a>
-                                                            <a class="dropdown-item" href="#"> اسئلة المنتج </a>
+                                                            <a href="main.php?dir=products/faqs&page=report&pro_id=<?php echo $pro['id']; ?>" class="dropdown-item">اسئلة المنتج </a>
                                                             <a class="dropdown-item confirm" href="main.php?dir=products&page=delete&pro_id=<?php echo $pro['id']; ?>"> حذف المنتج </a>
                                                         </div>
                                                     </div>
@@ -177,7 +177,6 @@
                                                     <label for="Company-2" class="block">الأسم </label>
                                                     <input id="Company-2" required name="name" type="text" class="form-control required" value="<?php echo  $pro['name'] ?>">
                                                 </div>
-
                                                 <div class="form-group">
                                                     <label for="inputStatus"> القسم الرئيسي </label>
                                                     <select required id="" class="form-control custom-select select2" name="cat_id">
@@ -198,7 +197,6 @@
                                                         ?>
                                                     </select>
                                                 </div>
-
                                                 <div class="form-group">
                                                     <label for="Company-2" class="block"> السعر الأفتراضي </label>
                                                     <input id="Company-2" name="price" type="number" class="form-control required" value="<?php echo $pro['price'] ?>">
@@ -236,9 +234,9 @@
                                         }
                         ?>
                         </table>
-
                         </div>
                     </div>
+
                 </div>
 
             </div>
