@@ -4475,3 +4475,15 @@ body {
 .mfp-counter {
     direction: ltr !important;
 }
+
+.accordion-item .accordion-body p,
+.accordion-item .accordion-body a,
+.accordion-item .accordion-body span,
+.accordion-item .accordion-body h1,
+.accordion-item .accordion-body h2,
+.accordion-item .accordion-body h3,
+.accordion-item .accordion-body h4,
+.accordion-item .accordion-body h5,
+.accordion-item .accordion-body h6 {
+    font-family: 'SuisseIntl' !important;
+}
