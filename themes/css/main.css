@@ -4172,8 +4172,9 @@ body {
 
 .related_product .linked_products {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .related_product .linked_products .link_pro {
@@ -4181,6 +4182,7 @@ body {
     border-radius: 5px;
     background-color: #FFFFFF9A;
     position: relative;
+    margin: 15px;
 }
 
 .related_product .linked_products .link_pro input[type='checkbox'] {
@@ -4217,7 +4219,7 @@ body {
 
 .related_product .linked_products .total_links {
     border: none;
-    width: 22%;
+    
     text-align: center;
     background: transparent;
 }
@@ -4441,4 +4443,7 @@ body {
     text-align: center;
     margin: auto;
     display: block;
+}
+.plus_related:last-of-type{
+    display: none;
 }

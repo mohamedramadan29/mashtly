@@ -266,17 +266,29 @@ ul {
     margin-bottom: 5px;
     display: table;
 }
-.dropify-wrapper .dropify-message p{
+
+.dropify-wrapper .dropify-message p {
     font-size: 22px;
 }
 
 .form-group {
     margin-bottom: 5px;
 }
+
 label:not(.form-check-label):not(.custom-file-label) {
     font-weight: 600;
     font-size: 14px;
 }
+
 .nav-sidebar .nav-link p {
     font-size: 14px;
+}
+
+.note-editor.note-airframe.fullscreen,
+.note-editor.note-frame.fullscreen {
+    left: 1% !important;
+    position: fixed;
+    top: 0;
+    width: 80% !important;
+    z-index: 1050;
 }

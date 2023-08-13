@@ -535,7 +535,7 @@ if (isset($_GET['slug'])) {
                                     <h4 class='price'> <?php echo number_format($product_data_related['price'], 2); ?> ر.س </h4>
                                 </div>
                             </div>
-                            +
+                            <span class="plus_related"> + </span>
                         <?php
                             $related_total_price = $related_total_price + $product_data_related['price'];
                         }
