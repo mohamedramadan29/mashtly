@@ -3618,6 +3618,12 @@ body {
     padding: 15px;
 }
 
+@media (max-width:991px) {
+    .product_details .data .product {
+        flex-direction: column;
+    }
+}
+
 .product_details .data .product .product_images {
     border-radius: 5px;
     padding: 7px;
@@ -3626,7 +3632,18 @@ body {
 
 .product_details .data .product .product_images img {
     width: 340px;
-    max-height: 380px;
+    height: 340px;
+}
+
+@media (max-width:991px) {
+    .product_details .data .product .product_images img {
+        width: 290px;
+        height: 290px;
+    }
+
+    .product_details .data .product .product_images {
+        margin-left: 0;
+    }
 }
 
 .product_details .data .product .product_images .main-slider {
@@ -3648,6 +3665,13 @@ body {
     padding: 2px;
     background: #fff;
     cursor: pointer;
+}
+
+@media (max-width:991px) {
+    .product_details .data .product .product_images .thumbnail-slider img {
+        width: 75px;
+        height: 75px;
+    }
 }
 
 .product_details .data .product .product_info {
@@ -3748,8 +3772,7 @@ body {
 .product_details .data .product_description h3,
 .product_details .data .product_description h4,
 .product_details .data .product_description h5,
-.product_details .data .product_description h6
- {
+.product_details .data .product_description h6 {
     font-family: 'SuisseIntl' !important;
 }
 
@@ -4219,7 +4242,7 @@ body {
 
 .related_product .linked_products .total_links {
     border: none;
-    
+
     text-align: center;
     background: transparent;
 }
@@ -4444,6 +4467,11 @@ body {
     margin: auto;
     display: block;
 }
-.plus_related:last-of-type{
+
+.plus_related:last-of-type {
     display: none;
+}
+
+.mfp-counter {
+    direction: ltr !important;
 }

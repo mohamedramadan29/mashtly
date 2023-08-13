@@ -16,6 +16,11 @@ if (isset($_GET['slug'])) {
         $product_price = $product_data['price'];
         $product_category = $product_data['cat_id'];
         $related_products = $product_data['related_product'];
+        // get product category 
+        $stmt = $connect->prepare("SELECT * FROM categories WHERE id = ?");
+        $stmt->execute(array($product_category));
+        $category_data = $stmt->fetch();
+        $cat_name = $category_data['name'];
     } else {
         header("Location:404");
     }
@@ -101,7 +106,7 @@ if (isset($_GET['slug'])) {
         <div class="container">
             <div class="data">
                 <div class="head">
-                    <img src="<?php echo $uploads ?>plant.svg" alt="">
+                    <img loading="lazy" src="<?php echo $uploads ?>plant.svg" alt="">
                     <h2> خصم ١٥٪ بمناسبة بداية فصل الربيع </h2>
                     <p>
                         استخدم هذا الكود عند اتمام عملية الشراء#SP15%
@@ -115,7 +120,7 @@ if (isset($_GET['slug'])) {
     <div class="container">
         <div class="data">
             <div class="breadcrump">
-                <p> <a href="index"> الرئيسية </a> \ <span> نباتات خارجية </span> \ <span> نباتات خارجية </span> شجرة الدفلة </p>
+                <p> <a href="index"> الرئيسية </a> \ <span> <a href="shop"> المتجر </a> </span> \ <span>  <?php echo  $cat_name ?>  </span> \ <?php echo $product_name ?> </p>
             </div>
         </div>
     </div>
@@ -134,8 +139,12 @@ if (isset($_GET['slug'])) {
                                 if ($count_image > 0) {
                                     $product_data_image = $stmt->fetch();
                                 ?>
-                                    <div class="main-slider">
-                                        <div><img src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="Image 1"></div>
+                                    <div class="main-slider  gallery-lb">
+                                        <div>
+                                            <a href="admin/product_images/<?php echo $product_data_image['main_image']; ?>">
+                                                <img loading="lazy" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="Image 1">
+                                            </a>
+                                        </div>
                                         <?php
                                         // check if this product have images in gallary
                                         $stmt = $connect->prepare("SELECT * FROM products_gallary WHERE product_id = ?");
@@ -145,7 +154,11 @@ if (isset($_GET['slug'])) {
                                         if ($count_g > 0) {
                                             foreach ($allgallary as $gallary) {
                                         ?>
-                                                <div><img src="admin/product_images/<?php echo $gallary['image']; ?>" alt="Image 2"></div>
+                                                <div>
+                                                    <a href="admin/product_images/<?php echo $gallary['image']; ?>">
+                                                        <img loading="lazy" src="admin/product_images/<?php echo $gallary['image']; ?>" alt="Image 2">
+                                                    </a>
+                                                </div>
                                             <?php
                                             }
                                             ?>
@@ -155,12 +168,16 @@ if (isset($_GET['slug'])) {
                                         <!-- يمكنك إضافة المزيد من الصور هنا -->
                                     </div>
                                     <div class="thumbnail-slider">
-                                        <div><img src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="Thumbnail 1"></div>
+                                        <div>
+                                            <img loading="lazy" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="Thumbnail 1">
+                                        </div>
                                         <?php
                                         if ($count_g > 0) {
                                             foreach ($allgallary as $gallary) {
                                         ?>
-                                                <div><img src="admin/product_images/<?php echo $gallary['image']; ?>" alt="Image 2"></div>
+                                                <div>
+                                                    <img loading="lazy" src="admin/product_images/<?php echo $gallary['image']; ?>" alt="Image 2">
+                                                </div>
                                             <?php
                                             }
                                             ?>
@@ -172,13 +189,13 @@ if (isset($_GET['slug'])) {
                                 <?php
                                 } else {
                                 ?>
-                                    <img class="main_image" src="uploads/product.png" alt="">
+                                    <img loading="lazy" class="main_image" src="uploads/product.png" alt="">
                                 <?php
                                 }
                                 ?>
                             </div>
                             <div class="product_info">
-                                <h2> <img src="<?php echo $uploads ?>/left_arrow.png" alt=""> <?php echo $product_name; ?> </h2>
+                                <h2> <img loading="lazy" src="<?php echo $uploads ?>/left_arrow.png" alt=""> <?php echo $product_name; ?> </h2>
                                 <!-- check if products have more price in attribute or not -->
                                 <?php
                                 $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
@@ -203,7 +220,7 @@ if (isset($_GET['slug'])) {
                                 } ?>
                                 <div class="support">
                                     <div>
-                                        <img src="<?php echo $uploads ?>/support.svg" alt="">
+                                        <img loading="lazy" src="<?php echo $uploads ?>/support.svg" alt="">
                                     </div>
                                     <div>
                                         <h4> دعم الخبراء </h4>
@@ -254,7 +271,7 @@ if (isset($_GET['slug'])) {
                                         </h2>
                                         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                <p> <?php echo $faq['faq_descriptiion'] ?>  </p>
+                                                <p> <?php echo $faq['faq_descriptiion'] ?> </p>
                                             </div>
                                         </div>
                                     </div>
@@ -346,7 +363,7 @@ if (isset($_GET['slug'])) {
                                     <div class="present" data-bs-toggle="modal" data-bs-target="#exampleModalgift">
                                         <div class="image">
                                             <div class="pre_image">
-                                                <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
+                                                <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart.png" alt="">
                                             </div>
                                             <div>
                                                 <h4> التغليف كهدية </h4>
@@ -354,7 +371,7 @@ if (isset($_GET['slug'])) {
                                             </div>
                                         </div>
                                         <div style="cursor: pointer;">
-                                            <img src="<?php echo $uploads ?>/small_left_model.png" alt="">
+                                            <img loading="lazy" src="<?php echo $uploads ?>/small_left_model.png" alt="">
                                         </div>
                                     </div>
                                     <div class="farm_price preset_price">
@@ -382,7 +399,7 @@ if (isset($_GET['slug'])) {
                                                                 <input style="display: none;" class="select_gift" value="<?php echo $gift['id'] ?>" type="radio" name="gift_id" id="<?php echo $gift['id']; ?>">
                                                                 <label class="diffrent_price gifts" for="<?php echo $gift['id']; ?>">
                                                                     <div>
-                                                                        <img src="admin/gifts/images/<?php echo $gift['image']; ?>" alt="">
+                                                                        <img loading="lazy" src="admin/gifts/images/<?php echo $gift['image']; ?>" alt="">
                                                                     </div>
                                                                     <div>
                                                                         <p> يكتب هنا اسم ووصف التغليف <br><span> <?php echo $gift['price'] ?> ريال </span> </p>
@@ -431,7 +448,7 @@ if (isset($_GET['slug'])) {
                                                                 </div>
                                                                 <div class="diffrent_price">
                                                                     <div>
-                                                                        <img src="<?php echo $uploads ?>/tree.svg" alt="">
+                                                                        <img loading="lazy" src="<?php echo $uploads ?>/tree.svg" alt="">
                                                                     </div>
                                                                     <div>
                                                                         <p> أشجار التي طولها من 3 م وأعلى تبدأ من <span> 30 ريال </span> </p>
@@ -439,7 +456,7 @@ if (isset($_GET['slug'])) {
                                                                 </div>
                                                                 <div class="diffrent_price">
                                                                     <div>
-                                                                        <img src="<?php echo $uploads ?>/flower-pot.svg" alt="">
+                                                                        <img loading="lazy" src="<?php echo $uploads ?>/flower-pot.svg" alt="">
                                                                     </div>
                                                                     <div>
                                                                         <p> البناتات التي اقل من 3 م تبدأ من <span> 20 ريال </span> </p>
@@ -447,7 +464,7 @@ if (isset($_GET['slug'])) {
                                                                 </div>
                                                                 <div class="diffrent_price">
                                                                     <div>
-                                                                        <img src="<?php echo $uploads ?>/sakura.svg" alt="">
+                                                                        <img loading="lazy" src="<?php echo $uploads ?>/sakura.svg" alt="">
                                                                     </div>
                                                                     <div>
                                                                         <p> الزهور الموسمية<span> 2 ريال </span> </p>
@@ -493,8 +510,8 @@ if (isset($_GET['slug'])) {
                                 </div>
                                                     -->
                                     <div class="add_cart">
-                                        <button class="btn global_button cart" name="add_to_cart"> <img src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> أضف الي السلة </button>
-                                        <button class="btn wishlist" name="add_to_wishlist"> <img src="<?php echo $uploads ?>/heart.png" alt=""> أضف الي المفضلة </button>
+                                        <button class="btn global_button cart" name="add_to_cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> أضف الي السلة </button>
+                                        <button class="btn wishlist" name="add_to_wishlist"> <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt=""> أضف الي المفضلة </button>
                                     </div>
                                 </div>
                             </form>
@@ -529,7 +546,7 @@ if (isset($_GET['slug'])) {
                         ?>
                             <div class="link_pro">
                                 <!-- <input type="checkbox" name="related_select" checked> -->
-                                <img class="main_image" src="uploads/product.png" alt="">
+                                <img loading="lazy" class="main_image" src="uploads/product.png" alt="">
                                 <div class="product_details">
                                     <h2> <a href="product?slug=<?php echo $product_data_related['slug']; ?>"> <?php echo $product_data_related['name']; ?> </a> </h2>
                                     <h4 class='price'> <?php echo number_format($product_data_related['price'], 2); ?> ر.س </h4>
@@ -546,7 +563,7 @@ if (isset($_GET['slug'])) {
                             </div>
                             <div>
                                 <form action="" method="post">
-                                    <button class="btn global_button" name="add_to_cart_related"> <img src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> أضف الي السلة </button>
+                                    <button class="btn global_button" name="add_to_cart_related"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> أضف الي السلة </button>
                                 </form>
                                 <?php
                                 if (isset($_POST['add_to_cart_related'])) {
@@ -598,17 +615,17 @@ if (isset($_GET['slug'])) {
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="product_info">
-                            <img class="main_image" src="uploads/product.png" alt="">
+                            <img loading="lazy" class="main_image" src="uploads/product.png" alt="">
                             <div class="product_details">
                                 <h2>نبات ملكة النهار</h2>
                                 <h4 class='price'> 87.00 ر.س </h4>
                                 <div class='add_cart'>
                                     <div>
-                                        <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                        <a href="#" class='btn global_button'> <img loading="lazy" src="uploads/shopping-cart.png" alt=""> أضف
                                             الي السلة </a>
                                     </div>
                                     <div class="heart">
-                                        <img src="uploads/heart.png" alt="">
+                                        <img loading="lazy" src="uploads/heart.png" alt="">
                                     </div>
                                 </div>
                             </div>
@@ -774,7 +791,7 @@ if (isset($_GET['slug'])) {
                 <div class="data_header">
                     <div class="data_header_name">
                         <h2 class='header2' style="margin-right:0"> ربما يعجبك أيضا </h2>
-                        <p> لأنك تصفحت   <?php echo $product_name; ?> </p>
+                        <p> لأنك تصفحت <?php echo $product_name; ?> </p>
                     </div>
                 </div>
                 <div class="row">
@@ -787,7 +804,7 @@ if (isset($_GET['slug'])) {
                     ?>
                         <div class="col-lg-3">
                             <div class="product_info">
-                                <img class="main_image" src="uploads/product.png" alt="">
+                                <img loading="lazy" class="main_image" src="uploads/product.png" alt="">
                                 <div class="product_details">
                                     <h2> <a href="product?slug=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
                                     <?php
@@ -820,7 +837,7 @@ if (isset($_GET['slug'])) {
                                                 <?php
                                                 if (checkIfProductInCart($connect, $cookie_id, $product['id'])) {
                                                 ?>
-                                                    <a href="cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
+                                                    <a href="cart" class='btn global_button'> <img loading="lazy" src="uploads/shopping-cart.png" alt="">
                                                         مشاهدة السلة
                                                     </a>
                                                 <?php
@@ -829,13 +846,13 @@ if (isset($_GET['slug'])) {
                                                     <?php
                                                     if ($count_pro_attr > 0) {
                                                     ?>
-                                                        <a href="product?slug=<?php echo $product['slug']; ?>" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
+                                                        <a href="product?slug=<?php echo $product['slug']; ?>" class='btn global_button'> <img loading="lazy" src="uploads/shopping-cart.png" alt="">
                                                             مشاهدة الاختيارات
                                                         </a>
                                                     <?php
                                                     } else {
                                                     ?>
-                                                        <button name="add_to_cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                                        <button name="add_to_cart" class='btn global_button'> <img loading="lazy" src="uploads/shopping-cart.png" alt=""> أضف
                                                             الي السلة
                                                         </button>
                                                     <?php
@@ -850,12 +867,12 @@ if (isset($_GET['slug'])) {
                                                 <?php
                                                 if (isset($_SESSION['user_id']) && checkIfProductIsFavourite($connect, $_SESSION['user_id'], $product['id'])) {
                                                 ?>
-                                                    <img src="<?php echo $uploads; ?>/heart2.svg" alt="">
+                                                    <img loading="lazy" src="<?php echo $uploads; ?>/heart2.svg" alt="">
                                                 <?php
                                                 } else {
                                                 ?>
                                                     <button name="add_to_fav" type="submit" style="border: none; background-color:transparent">
-                                                        <img src="<?php echo $uploads ?>/heart.png" alt="">
+                                                        <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt="">
                                                     </button>
                                                 <?php
                                                 }

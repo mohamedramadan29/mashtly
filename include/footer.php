@@ -434,7 +434,8 @@
             gallery: {
                 enabled: true
             },
-            mainClass: 'mfp-fade'
+            mainClass: 'mfp-fade',
+            
         });
     });
 </script>
