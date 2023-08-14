@@ -3,6 +3,9 @@ $(document).ready(function () {
     $("#show_details_image").click(function () {
         $(".image_details").toggle();
     });
+    $("#var_product").click(function () {
+        $("#attributes-containerxx").toggle();
+    });
 
     $('.select2').select2();
 
