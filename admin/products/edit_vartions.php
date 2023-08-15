@@ -85,9 +85,9 @@ if (isset($_POST['add_pro'])) {
         <div class="card card-primary">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                <p class="btn btn-primary btn-sm" id="var_product"> منتج متغير </p>
+                    <p class="btn btn-primary btn-sm" id="var_product"> منتج متغير </p>
                 </div>
-                
+
                 <div id="attributes-containerxx">
                     <?php
                     $uniqueId = uniqid();
@@ -117,7 +117,7 @@ if (isset($_POST['add_pro'])) {
                         </div>
                     </div>
                     <p class="btn btn-warning btn-sm" id="add_attribute_btn"> اضافة سمه جديد <i class="fa fa-plus"></i> </p>
-                    
+
                 </div>
                 <script src="plugins/jquery/jquery.js"></script>
                 <script>
@@ -167,30 +167,30 @@ if (isset($_POST['add_pro'])) {
                         $(document).on('click', '#verify_variations', function() {
                             var selectedGroups = $('.pro-attribute');
                             var productVariantsHTML = ''; // يحتوي على المتغيرات المنتج في شكل HTML
-
                             // قم بتخزين القيم المختارة من كل مجموعة في مصفوفة
                             var selectedValuesPerGroup = [];
-                            selectedGroups.each(function() {
-                                var groupId = $(this).data('uniqueid');
-                                var selectedVariations = $('.pro-variation[data-uniqueid="' + groupId + '"]').val();
-                                selectedValuesPerGroup.push(selectedVariations);
-                            });
-                            // استخدم مفهوم الطرقة البيانية لإنشاء المتغيرات المنتج بشكل ديناميكي
-                            var productVariants = cartesianProduct(selectedValuesPerGroup);
-                            // تكرار النتائج وإنشاء العناصر HTML بناءً على المتغيرات
-                            for (var i = 0; i < productVariants.length; i++) {
-                                var variantText = '';
-                                for (var j = 0; j < selectedGroups.length; j++) {
-                                    var attributeName = selectedGroups.eq(j).find('option:selected').text();
-                                    var attributeValue = productVariants[i][j];
-                                    var attributeText = $('.pro-variation[data-uniqueid="' + j + '"] option[value="' + attributeValue + '"]').text();
-                                    variantText += attributeName + ': ' + attributeText + ' (' + attributeValue + ')' + ' - ';
-                                }
-                                // إضافة النص HTML إلى المتغير productVariantsHTML
-                                var variationInputsHTML = `
+                            if (selectedGroups.length > 0) {
+                                selectedGroups.each(function() {
+                                    var groupId = $(this).data('uniqueid');
+                                    var selectedVariations = $('.pro-variation[data-uniqueid="' + groupId + '"]').val();
+                                    selectedValuesPerGroup.push(selectedVariations);
+                                });
+                                // استخدم مفهوم الطرقة البيانية لإنشاء المتغيرات المنتج بشكل ديناميكي
+                                var productVariants = cartesianProduct(selectedValuesPerGroup);
+                                // تكرار النتائج وإنشاء العناصر HTML بناءً على المتغيرات
+                                for (var i = 0; i < productVariants.length; i++) {
+                                    var variantText = '';
+                                    for (var j = 0; j < selectedGroups.length; j++) {
+                                        var attributeName = selectedGroups.eq(j).find('option:selected').text();
+                                        var attributeValue = productVariants[i][j];
+                                        var attributeText = $('.pro-variation[data-uniqueid="' + j + '"] option[value="' + attributeValue + '"]').text();
+                                        variantText += attributeName + ': ' + attributeText + ' (' + attributeValue + ')' + ' - ';
+                                    }
+                                    // إضافة النص HTML إلى المتغير productVariantsHTML
+                                    var variationInputsHTML = `
                                     <div class="vartions_inputs">
                                         <div class="d-flex justify-content-between">
-                                        <div class="form-group d-flex align-items-center">
+                                            <div class="form-group d-flex align-items-center">
                                             <div>
                                             <img src="" width="30px" height="30px" alt="">
                                             </div>
@@ -199,7 +199,7 @@ if (isset($_POST['add_pro'])) {
                                             <input type='file' class='form-control' name='vartions_image[]'>
                                             </div>
                                             
-                                            </div>  
+                                            </div> 
                                             <div class="form-group">
                                             <label> الأسم  </label>
                                                 <input name='vartions_name[]' readonly class="form-control" type="text" value="${variantText.slice(0, -3)}">
@@ -211,12 +211,15 @@ if (isset($_POST['add_pro'])) {
                                         </div>
                                     </div>
                                 `;
-                                // إضافة النص HTML إلى المتغير productVariantsHTML
-                                productVariantsHTML += variationInputsHTML;
-                            }
+                                    // إضافة النص HTML إلى المتغير productVariantsHTML
+                                    productVariantsHTML += variationInputsHTML;
+                                }
 
-                            // عرض المتغيرات المنتج في العنصر المحدد
-                            $('#product-variants').html(productVariantsHTML);
+                                // عرض المتغيرات المنتج في العنصر المحدد
+                                $('#product-variants').html(productVariantsHTML);
+                            } else {
+                                alert("من فضلك اختر المتغيرات ");
+                            }
                         });
 
                         // دالة لحساب الطرقة البيانية
@@ -235,7 +238,43 @@ if (isset($_POST['add_pro'])) {
                         }
                     });
                 </script>
-                <div id="product-variants"></div>
+                <div id="product-variants">
+                    <?php
+                    $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ?");
+                    $stmt->execute(array($pro_id));
+                    $proudct_attributes = $stmt->fetchAll();
+                    ?>
+                    <div class="vartions_inputs">
+                        <?php
+                        foreach ($proudct_attributes as $pro_attribut) {
+                        ?>
+                            <div class="d-flex justify-content-between">
+                                <div class="form-group d-flex align-items-center">
+                                    <div>
+                                        <input type="hidden" name="vartions_id[]" value="<?php echo $pro_attribut['id']; ?>">
+                                        <img src="product_images/<?php echo $pro_attribut['image']; ?>" width="60px" height="60px" alt="">
+                                    </div>
+                                    <div>
+                                        <label style='display:block'> صورة المنتج </label>
+                                        <input value="<?php echo $pro_attribut['image'];  ?>" type='file' class='form-control' name='vartions_image[]'>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label> الأسم </label>
+                                    <input name='vartions_name[]' readonly class="form-control" type="text" value="<?php echo $pro_attribut['vartions_name'] ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label> سعر المنتج </label>
+                                    <input placeholder="السعر" class="form-control" type="text" name='vartions_price[]' value="<?php echo $pro_attribut['price'] ?>">
+                                </div>
+                            </div>
+                        <?php
+                        }
+                        ?>
+
+                    </div>
+                </div>
             </div>
             <!-- /.card-body -->
         </div>
