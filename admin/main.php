@@ -137,9 +137,11 @@ if (!isset($_SESSION['admin_username']) || !isset($_SESSION['admin_username'])) 
         include "products/report.php";
     } elseif ($dir == 'products' && $page == 'get_variation') {
         include "products/get_variation.php";
-    } elseif ($dir == 'products' && $page == 'add_vartions') {
+    }
+    /* 
+    elseif ($dir == 'products' && $page == 'add_vartions') {
         include "products/add_vartions.php";
-    } elseif ($dir == 'products' && $page == 'delete_image') {
+    }*/ elseif ($dir == 'products' && $page == 'delete_image') {
         include "products/delete_image.php";
 
         // product faqs 

@@ -9,8 +9,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
         $name = $_POST['name'];
         $slug = createSlug($name);
         $description = $_POST['description'];
-        $short_desc = $_POST['short_desc'];
-        $product_adv = $_POST['product_adv'];
+        //$product_adv = $_POST['product_adv'];
         $price = $_POST['price'];
         $purchase_price = $_POST['purchase_price'];
         $sale_price = $_POST['sale_price'];
@@ -103,11 +102,11 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
             $formerror[] = ' من فضلك ادخل قسم المنتج   ';
         }
         if (empty($formerror)) {
-            $stmt = $connect->prepare("UPDATE products SET cat_id=?,more_cat=?,name=?, slug=? , description=?,short_desc=?,product_adv=?,main_checked=?,purchase_price=?,
+            $stmt = $connect->prepare("UPDATE products SET cat_id=?,more_cat=?,name=?, slug=? , description=?,main_checked=?,purchase_price=?,
         price=?,sale_price=?,av_num=?,tags=?,related_product=?,publish=? WHERE id = ? ");
             $stmt->execute(array(
-                $cat_id, $more_cat_string,  $name, $slug, $description, $short_desc,
-                $product_adv,  $main_checked, $purchase_price, $price,
+                $cat_id, $more_cat_string,  $name, $slug, $description,
+                $main_checked, $purchase_price, $price,
                 $sale_price,  $av_num,  $tags, $related_product_string, $publish, $pro_id
             ));
             // UPDATE Main Images To db 
@@ -235,7 +234,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                     </script>
                 <?php
                 }
-                header('Location:main?dir=products&page=edit&pro_id='.$pro_id);
+                header('Location:main?dir=products&page=edit&pro_id=' . $pro_id);
             }
         } else {
             $_SESSION['error_messages'] = $formerror;
@@ -295,12 +294,12 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                                                                                                     } ?>">
                                 </div>
                                 <div class="form-group">
-                                    <label for="description"> وصف مختصر </label>
-                                    <textarea id="short_desc" name="short_desc" class="form-control" rows="2"><?php if (isset($_REQUEST['short_desc'])) {
-                                                                                                                    echo $_REQUEST['short_desc'];
+                                    <label for="description"> الوصف </label>
+                                    <textarea id="summernote" name="description" class="form-control" rows="4"><?php if (isset($_REQUEST['description'])) {
+                                                                                                                    echo $_REQUEST['description'];
                                                                                                                 } else {
-                                                                                                                    echo $pro_data['short_desc'];
-                                                                                                                } ?></textarea>
+                                                                                                                    echo $pro_data['description'];
+                                                                                                                }  ?></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputStatus"> القسم الرئيسي </label>
@@ -561,6 +560,10 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                         ?>
                                     </select>
                                 </div>
+                                <div>
+                                    <label for="Company-2" class="block"> التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
+                                    <input required id="Company-2" name="tags" type="text" class="form-control" value="<?php echo $pro_data['tags']; ?>">
+                                </div>
                                 <!-- /.card-body -->
                             </div>
                         </div>
@@ -600,14 +603,8 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                                                                                                     echo $pro_data['av_num'];
                                                                                                                 } ?>">
                                 </div>
-                                <div class="form-group">
-                                    <label for="description"> الوصف </label>
-                                    <textarea id="summernote" name="description" class="form-control" rows="4"><?php if (isset($_REQUEST['description'])) {
-                                                                                                                    echo $_REQUEST['description'];
-                                                                                                                } else {
-                                                                                                                    echo $pro_data['description'];
-                                                                                                                }  ?></textarea>
-                                </div>
+
+                                <!--
                                 <div class="form-group">
                                     <label for="product_adv"> مميزات المنتج <span style="color: #c0392b; font-size: 14px;"> [ افصل بين كل ميزة والاخري ب (,) ] </span> </label>
                                     <textarea id="product_adv" name="product_adv" class="form-control" rows="4"><?php if (isset($_REQUEST['product_adv'])) {
@@ -616,6 +613,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                                                                                                     echo $pro_data['product_adv'];
                                                                                                                 }  ?></textarea>
                                 </div>
+                                -->
                                 <div class="form-group">
                                     <label for="customFile">تعديل صورة المنتج </label>
                                     <div class="custom-file">
@@ -699,10 +697,6 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                 $count_gallary = count($progallary);
                                 ?>
                                 <div class="image_gallary">
-                                </div>
-                                <div class="form-group">
-                                    <label for="Company-2" class="block"> التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
-                                    <input required id="Company-2" name="tags" type="text" class="form-control" value="<?php echo $pro_data['tags']; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="Company-2" class="block"> نشر المنتج </label>

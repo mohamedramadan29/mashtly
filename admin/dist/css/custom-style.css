@@ -292,3 +292,15 @@ label:not(.form-check-label):not(.custom-file-label) {
     width: 80% !important;
     z-index: 1050;
 }
+.attribute-group{
+
+}
+.attribute-group .form-group{
+   
+}
+.attribute-group .delete_attribute_btn{
+
+}
+.attribute-group .custom-select[multiple]{
+    height: 100px !important;
+}

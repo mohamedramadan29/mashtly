@@ -12,12 +12,12 @@ if (isset($_POST['add_pro'])) {
   $name = $_POST['name'];
   $slug = createSlug($name);
   $description = $_POST['description'];
-  $short_desc = $_POST['short_desc'];
-  $product_adv = $_POST['product_adv'];
+  // $product_adv = $_POST['product_adv'];
   $price = $_POST['price'];
   $purchase_price = $_POST['purchase_price'];
   $sale_price = $_POST['sale_price'];
   $av_num = $_POST['av_num'];
+  /*
   if (isset($_POST['pro_attribute'])) {
     $pro_attributes = $_POST['pro_attribute'];
   } else {
@@ -25,6 +25,7 @@ if (isset($_POST['add_pro'])) {
   }
   $pro_variations = $_POST['pro_variations'];
   $pro_prices = $_POST['pro_price'];
+  */
   $tags = $_POST['tags'];
   $publish = $_POST['publish'];
   $related_product = $_POST['related_product'];
@@ -111,19 +112,19 @@ if (isset($_POST['add_pro'])) {
   }
 
   if (empty($formerror)) {
-    $stmt = $connect->prepare("INSERT INTO products (cat_id,more_cat,name, slug , description,short_desc,product_adv,video,main_checked,purchase_price,
+    $stmt = $connect->prepare("INSERT INTO products (cat_id,more_cat,name, slug , description,video,main_checked,purchase_price,
     price, sale_price , av_num,tags,related_product,publish)
-    VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zshort_desc,:zproduct_adv,:zvideo,:zmain_checked,:zpurchase_price,:zprice,:zsale_price,:zav_num,:ztags,:zrelated_product,:zpublish)");
+    VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zvideo,:zmain_checked,:zpurchase_price,:zprice,:zsale_price,:zav_num,:ztags,:zrelated_product,:zpublish)");
     $stmt->execute(array(
       "zcat" => $cat_id,
       "zmore_cat" => $more_cat_string,
       "zname" => $name,
       "zslug" => $slug,
       "zdesc" => $description,
-      "zshort_desc" => $short_desc,
       "zvideo" => $video_uploaded,
       "zmain_checked" => $main_checked,
-      "zproduct_adv" => $product_adv,
+      //
+      //"zproduct_adv" => $product_adv,
       "zpurchase_price" => $purchase_price,
       "zprice" => $price,
 
@@ -190,6 +191,36 @@ if (isset($_POST['add_pro'])) {
       }
     }
     ////////////////////////////////
+    $vartions_name = $_POST['vartions_name'];
+
+    $vartions_price = $_POST['vartions_price'];
+    if ($vartions_name > 0) {
+      for ($i = 0; $i < count($vartions_name); $i++) {
+        $vartion_name =   $vartions_name[$i];
+        $vartion_price =  $vartions_price[$i];
+        //////////// attribute images //////////////
+        $image_att_name = $_FILES['vartions_image']['name'][$i];
+        $image_att_name = str_replace(' ', '-', $image_att_name);
+        $image_att_temp = $_FILES['vartions_image']['tmp_name'][$i];
+        $image_att_type = $_FILES['vartions_image']['type'][$i];
+        $image_att_size = $_FILES['vartions_image']['size'][$i];
+        $image_extension = pathinfo($image_att_name, PATHINFO_EXTENSION);
+        $main_image_uploaded = $image_att_name;
+        move_uploaded_file(
+          $image_att_temp,
+          'product_images/' . $main_image_uploaded
+        );
+        $stmt = $connect->prepare("INSERT INTO product_details2 (product_id,vartions_name,price,image) VALUES 
+          (:zpro_id,:zvartion_name,:zprice,:zimage)");
+        $stmt->execute(array(
+          "zpro_id" => $last_pro_id,
+          "zvartion_name" => $vartion_name,
+          "zprice" => $vartion_price,
+          "zimage" => $main_image_uploaded,
+        ));
+      }
+    }
+    /*
     if ($pro_attributes > 0) {
       for ($i = 0; $i < count($pro_attributes); $i++) {
         $pro_attribute =   $pro_attributes[$i];
@@ -217,7 +248,7 @@ if (isset($_POST['add_pro'])) {
           "zpro_image" => $main_image_uploaded,
         ));
       }
-    }
+    }*/
 
     // insert product plant options 
 
@@ -304,9 +335,9 @@ if (isset($_POST['add_pro'])) {
                 <label for="inputName"> الأسم </label>
                 <input required type="text" id="name" name="name" class="form-control" value="<?php if (isset($_REQUEST['name'])) echo $_REQUEST['name'] ?>">
               </div>
-              <div class="form-group">
-                <label for="description"> وصف مختصر </label>
-                <textarea id="short_desc" name="short_desc" class="form-control" rows="2"><?php if (isset($_REQUEST['short_desc'])) echo $_REQUEST['short_desc'] ?></textarea>
+              <div class='form-group'>
+                <label> الوصف </label>
+                <textarea name="description" class="form-control" id="summernote" rows="4" style="min-height: 200px;"> <?php if (isset($_REQUEST['description'])) echo $_REQUEST['description'] ?> </textarea>
               </div>
               <div class="form-group">
                 <label for="inputStatus"> القسم الرئيسي </label>
@@ -339,7 +370,7 @@ if (isset($_POST['add_pro'])) {
                   ?>
                 </select>
               </div>
-
+              <!--
               <div id="attributes-containerxx">
                 <?php
                 $uniqueId = uniqid();
@@ -431,7 +462,7 @@ if (isset($_POST['add_pro'])) {
                 });
               </script>
               <div class="new_attributes" id="attributes-container"></div>
-
+              -->
               <br>
               <div class="form-group">
                 <label for="inputStatus"> المنتجات المرتبطة </label>
@@ -463,6 +494,10 @@ if (isset($_POST['add_pro'])) {
                   ?>
                 </select>
               </div>
+              <div class="form-group">
+                <label for="Company-2" class="block"> اضافة التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
+                <input required id="Company-2" name="tags" type="text" class="form-control">
+              </div>
             </div>
             <!-- /.card-body -->
           </div>
@@ -487,14 +522,13 @@ if (isset($_POST['add_pro'])) {
                 <label for="inputEstimatedBudget"> العدد المتاح </label>
                 <input type="number" id="av_num" name="av_num" class="form-control" value="<?php if (isset($_REQUEST['av_num'])) echo $_REQUEST['av_num'] ?>">
               </div>
-              <div class='form-group'>
-                <label> الوصف </label>
-                <textarea name="description" class="form-control" id="summernote" rows="4" style="min-height: 200px;"> <?php if (isset($_REQUEST['description'])) echo $_REQUEST['description'] ?> </textarea>
-              </div>
+
+              <!--
               <div class="form-group">
                 <label for="description"> مميزات المنتج <span style="color: #c0392b; font-size: 14px;"> [ افصل بين كل ميزة والاخري ب (,) ] </span> </label>
                 <textarea id="product_adv" name="product_adv" class="form-control" rows="4"><?php if (isset($_REQUEST['product_adv'])) echo $_REQUEST['product_adv'] ?></textarea>
               </div>
+                -->
               <div class="form-group">
                 <label for="customFile"> صورة المنتج </label>
                 <input type="file" class="dropify" multiple data-height="150" data-allowed-file-extensions="jpg jpeg png svg webp" data-max-file-size="4M" name="main_image" data-show-loader="true" />
@@ -550,10 +584,7 @@ if (isset($_POST['add_pro'])) {
               <div class="image_gallary">
               </div>
               <div></div>
-              <div class="form-group">
-                <label for="Company-2" class="block"> اضافة التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
-                <input required id="Company-2" name="tags" type="text" class="form-control">
-              </div>
+
               <div class="form-group">
                 <label for="Company-2" class="block"> نشر المنتج </label>
                 <select name="publish" id="" class="form-control select2">
@@ -568,6 +599,11 @@ if (isset($_POST['add_pro'])) {
           <!-- /.card -->
         </div>
       </div>
+      <!-- Add Vartion Products -->
+      <?php
+      include "add_vartions.php";
+      ?>
+
       <div class="row" style="display: flex;justify-content: space-between;">
         <button type="submit" class="btn btn-primary" name="add_pro"> <i class="fa fa-save"></i> حفظ </button>
         <a href="main.php?dir=products&page=report" class="btn btn-secondary">رجوع <i class="fa fa-backward"></i> </a>
