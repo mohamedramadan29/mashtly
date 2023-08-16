@@ -316,15 +316,23 @@ if (isset($_GET['slug'])) {
                             <form action="" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="product_id" value="<?php echo $product_id ?>" id="">
                                 <h3> اطلبه الآن </h3>
-                                <div class="options">
+                                <?php
 
-                                    <h6> حدد احد الاختيارات </h6>
+                                $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ?");
+                                $stmt->execute(array($product_id));
+                                $allpro_attibutes = $stmt->fetchAll();
+                                $allpro_attibutes_count = count($allpro_attibutes); ?>
+                                <div class="options">
+                                    <?php 
+                                     if ($allpro_attibutes_count > 0){
+                                        ?>
+<h6> حدد احد الاختيارات </h6>
+                                        <?php 
+                                     }
+                                    ?>
+                                    
                                     <div class="colors">
                                         <?php
-                                        $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ?");
-                                        $stmt->execute(array($product_id));
-                                        $allpro_attibutes = $stmt->fetchAll();
-                                        $allpro_attibutes_count = count($allpro_attibutes);
                                         if ($allpro_attibutes_count > 0) {
                                             foreach ($allpro_attibutes as $allpro_att) {
                                         ?>
@@ -343,7 +351,9 @@ if (isset($_GET['slug'])) {
                                         }
                                         ?>
                                     </div>
+                                    <!--
                                     <?php
+                                    /*
                                     $stmt = $connect->prepare("SELECT pro_attribute FROM product_details WHERE pro_id = ? GROUP BY pro_attribute");
                                     $stmt->execute(array($product_id));
                                     $allproductattribute = $stmt->fetchAll();
@@ -386,7 +396,9 @@ if (isset($_GET['slug'])) {
                                         </div>
                                     <?php
                                     }
+                                    */
                                     ?>
+                                    -->
                                     <h6> الكمية </h6>
                                     <div class="quantity">
 
