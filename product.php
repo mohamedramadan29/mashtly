@@ -120,7 +120,7 @@ if (isset($_GET['slug'])) {
     <div class="container">
         <div class="data">
             <div class="breadcrump">
-                <p> <a href="index"> الرئيسية </a> \ <span> <a href="shop"> المتجر </a> </span> \ <span>  <?php echo  $cat_name ?>  </span> \ <?php echo $product_name ?> </p>
+                <p> <a href="index"> الرئيسية </a> \ <span> <a href="shop"> المتجر </a> </span> \ <span> <?php echo  $cat_name ?> </span> \ <?php echo $product_name ?> </p>
             </div>
         </div>
     </div>
@@ -139,7 +139,7 @@ if (isset($_GET['slug'])) {
                                 if ($count_image > 0) {
                                     $product_data_image = $stmt->fetch();
                                 ?>
-                                    <div class="main-slider  gallery-lb">
+                                    <div class="main-slider gallery-lb">
                                         <div>
                                             <a href="admin/product_images/<?php echo $product_data_image['main_image']; ?>">
                                                 <img loading="lazy" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="Image 1">
@@ -165,6 +165,26 @@ if (isset($_GET['slug'])) {
                                         <?php
                                         }
                                         ?>
+                                        <?php
+                                        // check if this product have images in Attributes 
+                                        $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ?");
+                                        $stmt->execute(array($product_id));
+                                        $allattimages = $stmt->fetchAll();
+                                        $count_att_g = count($allattimages);
+                                        if ($count_att_g > 0) {
+                                            foreach ($allattimages as $att_image) {
+                                        ?>
+                                                <div>
+                                                    <a href="admin/product_images/<?php echo $att_image['image']; ?>">
+                                                        <img loading="lazy" src="admin/product_images/<?php echo $att_image['image']; ?>" alt="Image 2">
+                                                    </a>
+                                                </div>
+                                            <?php
+                                            }
+                                            ?>
+                                        <?php
+                                        }
+                                        ?>
                                         <!-- يمكنك إضافة المزيد من الصور هنا -->
                                     </div>
                                     <div class="thumbnail-slider">
@@ -177,6 +197,17 @@ if (isset($_GET['slug'])) {
                                         ?>
                                                 <div>
                                                     <img loading="lazy" src="admin/product_images/<?php echo $gallary['image']; ?>" alt="Image 2">
+                                                </div>
+                                            <?php
+                                            }
+                                            ?>
+                                            <?php
+                                        }
+                                        if ($count_att_g > 0) {
+                                            foreach ($allattimages as $att_image) {
+                                            ?>
+                                                <div>
+                                                    <img loading="lazy" src="admin/product_images/<?php echo $att_image['image']; ?>" alt="Image 2">
                                                 </div>
                                             <?php
                                             }
@@ -200,13 +231,13 @@ if (isset($_GET['slug'])) {
                                 <?php
                                 $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
                                 $minimumPrice = INF; // قيمة أدنى سعر ممكنة
-                                $stmt = $connect->prepare("SELECT * FROM product_details WHERE pro_id = ? AND pro_price !='' AND pro_price !=0");
+                                $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ? AND price !='' AND price !=0");
                                 $stmt->execute(array($product_id));
                                 $att_count = $stmt->rowCount();
                                 if ($att_count > 0) {
                                     $allproduct_data = $stmt->fetchAll();
                                     foreach ($allproduct_data as $product_data) {
-                                        $pro_price =  $product_data['pro_price'];
+                                        $pro_price =  $product_data['price'];
                                         $maximumPrice = max($maximumPrice, $pro_price);
                                         $minimumPrice = min($minimumPrice, $pro_price);
                                     }
@@ -257,7 +288,6 @@ if (isset($_GET['slug'])) {
                             $stmt = $connect->prepare("SELECT * FROM product_faqs WHERE product_id = ?");
                             $stmt->execute(array($product_id));
                             $allfaqs = $stmt->fetchAll();
-
                             ?>
                             <div class="accordion" id="accordionExample">
                                 <?php
@@ -287,17 +317,32 @@ if (isset($_GET['slug'])) {
                                 <input type="hidden" name="product_id" value="<?php echo $product_id ?>" id="">
                                 <h3> اطلبه الآن </h3>
                                 <div class="options">
-                                    <!-- 
-                                <h6> لون الزهرة </h6>
-                                <div class="colors">
-                                    <div class="color">
-                                        <p> <span class="" style=" background-color: red;"> </span> احمر <i class="fa fa-check"></i> </p>
+
+                                    <h6> حدد احد الاختيارات </h6>
+                                    <div class="colors">
+                                        <?php
+                                        $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ?");
+                                        $stmt->execute(array($product_id));
+                                        $allpro_attibutes = $stmt->fetchAll();
+                                        $allpro_attibutes_count = count($allpro_attibutes);
+                                        if ($allpro_attibutes_count > 0) {
+                                            foreach ($allpro_attibutes as $allpro_att) {
+                                        ?>
+                                                <input data-image="<?php echo $allpro_att['image']; ?>" data-price=<?php echo $allpro_att['price']; ?> id="<?php echo $allpro_att['id']; ?>" type="radio" name="vartion_select" value="<?php echo $allpro_att['id']; ?>">
+                                                <label for=<?php echo $allpro_att['id']; ?> class="color">
+                                                    <p> <?php echo $allpro_att['vartions_name']; ?> </p>
+                                                </label>
+                                            <?php
+                                            }
+                                            ?>
+                                            <div>
+                                                <h6> السعر </h6>
+                                                <span class="text-bold" id="selected_price"> 0.00 ر.س </span>
+                                            </div>
+                                        <?php
+                                        }
+                                        ?>
                                     </div>
-                                    <div class="color">
-                                        <p> <span class="" style=" background-color: #fff;"> </span> ابيض <i class="fa fa-check"></i> </p>
-                                    </div>
-                                </div>
--->
                                     <?php
                                     $stmt = $connect->prepare("SELECT pro_attribute FROM product_details WHERE pro_id = ? GROUP BY pro_attribute");
                                     $stmt->execute(array($product_id));
@@ -342,18 +387,7 @@ if (isset($_GET['slug'])) {
                                     <?php
                                     }
                                     ?>
-
                                     <h6> الكمية </h6>
-                                    <!-- 
-                                    <div class="product_num">
-                                        <div class="quantity counter">
-                                            <button class="increase-btn"> + </button>
-                                            <input id="count_number" type="text" name="" class="quantity-input count_number" value="1" min="1">
-                                            <button class="decrease-btn">-</button>
-                                        </div>
-                                       
-                                    </div>
-                                -->
                                     <div class="quantity">
 
                                         <button class="increase-btn"> + </button>
