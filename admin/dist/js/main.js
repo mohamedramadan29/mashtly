@@ -6,7 +6,10 @@ $(document).ready(function () {
     $("#var_product").click(function () {
         $("#attributes-containerxx").toggle();
     });
-
+    $(".verify_variations2").click(function () {
+        $("#product-variants").hide();
+        $("#save_vartion").css("display", "block");
+    });
     $('.select2').select2();
 
     // Datatable 
@@ -144,8 +147,8 @@ $(document).ready(function () {
         height: 200,
         lang: 'ar-EG'
     });
-     // Summernote
-     $('.summernote').summernote({
+    // Summernote
+    $('.summernote').summernote({
         tabsize: 2,
         height: 200,
         lang: 'ar-EG'

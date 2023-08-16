@@ -180,62 +180,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
             }
             ////////////////////////////////
             // delete all old attribute and make insert agian
-            /*
-            $stmt = $connect->prepare("DELETE FROM product_details2 WHERE product_id = ?");
-            $stmt->execute(array($pro_id));
-            $vartions_name = $_POST['vartions_name'];
-            $vartions_price = $_POST['vartions_price'];
-            */
-            ////////////////////////////////
-            $vartions_name = $_POST['vartions_name'];
-            $vartions_id = $_POST['vartions_id'];
 
-            $vartions_price = $_POST['vartions_price'];
-            if ($vartions_name > 0) {
-                for ($i = 0; $i < count($vartions_name); $i++) {
-                    $vartion_id = $vartions_id[$i];
-                    $vartion_name =   $vartions_name[$i];
-                    $vartion_price =  $vartions_price[$i];
-                    //////////// attribute images //////////////
-                    $image_att_name = $_FILES['vartions_image']['name'][$i];
-                    $image_att_name = str_replace(' ', '-', $image_att_name);
-                    $image_att_temp = $_FILES['vartions_image']['tmp_name'][$i];
-                    $image_att_type = $_FILES['vartions_image']['type'][$i];
-                    $image_att_size = $_FILES['vartions_image']['size'][$i];
-                    $image_extension = pathinfo($image_att_name, PATHINFO_EXTENSION);
-                    $main_image_uploaded = $image_att_name;
-                    move_uploaded_file(
-                        $image_att_temp,
-                        'product_images/' . $main_image_uploaded
-                    );
-                    if (isset($vartion_id)) {
-                        echo "goood";
-                        echo $vartion_id;
-                        $stmt = $connect->prepare("UPDATE product_details2 SET vartions_name=?,price=?,image=? WHERE id = ?");
-                        $stmt->execute(array(
-                            $vartion_name, $vartion_price, $main_image_uploaded, $vartion_id
-                        ));
-                        if ($image_att_name != '') {
-                            $stmt = $connect->prepare("UPDATE product_details2 SET image=? WHERE id = ?");
-                            $stmt->execute(array(
-                                $main_image_uploaded, $vartion_id
-                            ));
-                        }
-                    } else {
-                        $stmt = $connect->prepare("DELETE FROM product_details2 WHERE product_id = ?");
-                        $stmt->execute(array($pro_id));
-                        echo "Noooot";
-                        $stmt = $connect->prepare("INSERT INTO product_details2 (product_id,vartions_name,price,image) VALUES 
-                        (:zpro_id,:zvartion_name,:zprice,:zimage)");
-                        $stmt->execute(array(
-                            "zpro_id" => $pro_id,
-                            "zvartion_name" => $vartion_name,
-                            "zprice" => $vartion_price,
-                            "zimage" => $main_image_uploaded,
-                        ));
-                    }
-                }
-            }
             // insert product plant options 
             // delete all old product_properties_plants and make insert agian
             $stmt = $connect->prepare("DELETE FROM product_properties_plants WHERE product_id = ?");
@@ -701,7 +646,6 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                         <?php
                                         }
                                         ?>
-
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -752,18 +696,18 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                     </div>
                     <!-- /.card -->
                 </div>
-                <?php
-                include "edit_vartions.php";
-                ?>
-                <div class="row">
-                    <div class="col-6">
-                        <button type="submit" class="btn btn-primary" name="edit_pro"> <i class="fa fa-save"></i> حفظ التعديلات </button>
-                    </div>
-                    <div class="col-6">
-                        <a href="main.php?dir=products&page=report" class="btn btn-secondary">رجوع <i class="fa fa-backward"></i> </a>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary" name="edit_pro"> حفظ التعديلات <i class="fa fa-save"></i> </button>
+                            <!--  <a href="main.php?dir=products&page=report" class="btn btn-secondary">رجوع <i class="fa fa-backward"></i> </a> -->
+                        </div>
                     </div>
                 </div>
             </form>
+            <?php
+            include "edit_vartions.php";
+            ?>
             <br>
             <div class="card">
                 <div class="card-header bg-primary">
