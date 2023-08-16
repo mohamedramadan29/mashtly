@@ -218,7 +218,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                     </script>
                 <?php
                 }
-                // header('Location:main?dir=products&page=edit&pro_id=' . $pro_id);
+                 header('Location:main?dir=products&page=edit&pro_id=' . $pro_id);
             }
         } else {
             $_SESSION['error_messages'] = $formerror;

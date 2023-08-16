@@ -165,11 +165,12 @@
                     $stmt->execute(array($pro_id));
                     $proudct_attributes = $stmt->fetchAll();
                     ?>
-                    <form action="" method="post" enctype="multipart/form-data">
-                        <div class="vartions_inputs">
-                            <?php
-                            foreach ($proudct_attributes as $pro_attribut) {
-                            ?>
+
+                    <div class="vartions_inputs">
+                        <?php
+                        foreach ($proudct_attributes as $pro_attribut) {
+                        ?>
+                            <form action="" method="post" enctype="multipart/form-data">
                                 <div class="d-flex justify-content-between">
                                     <div class="form-group d-flex align-items-center">
                                         <div>
@@ -194,12 +195,13 @@
                                         <button name="delete_vartion" type="submit" class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i> </button>
                                     </div>
                                 </div>
-                                <hr>
-                            <?php
-                            }
-                            ?>
-                        </div>
-                    </form>
+                            </form>
+                            <hr>
+                        <?php
+                        }
+                        ?>
+                    </div>
+
                 </div>
             </div>
             <!-- /.card-body -->
@@ -244,6 +246,10 @@ if (isset($_POST['save_vartion'])) {
                 "zprice" => $vartion_price,
                 "zimage" => $main_image_uploaded,
             ));
+
+        }
+        if($stmt){
+            header('Location:main?dir=products&page=edit&pro_id=' . $pro_id);
         }
     }
 }
@@ -252,6 +258,9 @@ if (isset($_POST['delete_vartion'])) {
     $vartion_id = $_POST['vartion_id'];
     $stmt = $connect->prepare("DELETE FROM product_details2 WHERE id = ?");
     $stmt->execute(array($vartion_id));
+    if($stmt){
+        header('Location:main?dir=products&page=edit&pro_id=' . $pro_id);
+    }
 }
 
 if (isset($_POST['edit_vartion'])) {
@@ -285,6 +294,9 @@ if (isset($_POST['edit_vartion'])) {
     if (!empty($_FILES['vartion_image']['name'])) {
         $stmt = $connect->prepare("UPDATE product_details2 SET  image= ? WHERE id = ? ");
         $stmt->execute(array($vartion_image_uploaded, $vartion_id));
+    }
+    if($stmt){
+        header('Location:main?dir=products&page=edit&pro_id=' . $pro_id);
     }
 }
 ?>
