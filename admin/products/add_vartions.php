@@ -1,93 +1,11 @@
-<?php
-
-if (isset($_POST['add_pro'])) {
-
-    $formerror = [];
-    $vartions_name = $_POST['vartions_name'];
-
-    $vartions_price = $_POST['vartions_price'];
-
-    if (empty($formerror)) {
-        // get the last product
-        $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC LIMIT 1");
-        $stmt->execute();
-        $last_product = $stmt->fetch();
-        $last_pro_id = $last_product['id'];
-
-        ////////////////////////////////
-        if ($vartions_name > 0) {
-            for ($i = 0; $i < count($vartions_name); $i++) {
-                $vartion_name =   $vartions_name[$i];
-                $vartion_price =  $vartions_price[$i];
-                //////////// attribute images //////////////
-                $image_att_name = $_FILES['vartions_image']['name'][$i];
-                $image_att_name = str_replace(' ', '-', $image_att_name);
-                $image_att_temp = $_FILES['vartions_image']['tmp_name'][$i];
-                $image_att_type = $_FILES['vartions_image']['type'][$i];
-                $image_att_size = $_FILES['vartions_image']['size'][$i];
-                $image_extension = pathinfo($image_att_name, PATHINFO_EXTENSION);
-                $main_image_uploaded = $image_att_name;
-                move_uploaded_file(
-                    $image_att_temp,
-                    'product_images/' . $main_image_uploaded
-                );
-                $stmt = $connect->prepare("INSERT INTO product_details2 (product_id,vartions_name,price,image) VALUES 
-                (:zpro_id,:zvartion_name,:zprice,:zimage)");
-                $stmt->execute(array(
-                    "zpro_id" => $last_pro_id,
-                    "zvartion_name" => $vartion_name,
-                    "zprice" => $vartion_price,
-                    "zimage" => $main_image_uploaded,
-                ));
-            }
-        }
-        if ($stmt) {
-            $_SESSION['success_message'] = " تمت الأضافة بنجاح  ";
-            if (isset($_SESSION['success_message'])) {
-                $message = $_SESSION['success_message'];
-                unset($_SESSION['success_message']);
-?>
-                <?php
-                ?>
-                <script src="plugins/jquery/jquery.min.js"></script>
-                <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
-                <script>
-                    $(function() {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: '<?php echo $message; ?>',
-                            showConfirmButton: false,
-                            timer: 2000
-                        })
-                    })
-                </script>
-            <?php
-            }
-            //header('Location:main?dir=products&page=add');
-        }
-    } else {
-        $_SESSION['error_messages'] = $formerror;
-        foreach ($formerror as $error) {
-            ?>
-            <div class="alert alert-danger alert-dismissible" style="max-width: 800px; margin:20px">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <?php echo $error; ?>
-            </div>
-<?php
-        }
-        unset($_SESSION['error_messages']);
-    }
-}
-?>
 <div class="row">
     <div class="col-md-12">
         <div class="card card-primary">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                <p class="btn btn-primary btn-sm" id="var_product"> منتج متغير </p>
+                    <p class="btn btn-primary btn-sm" id="var_product"> منتج متغير </p>
                 </div>
-                
+
                 <div id="attributes-containerxx">
                     <?php
                     $uniqueId = uniqid();
@@ -117,7 +35,7 @@ if (isset($_POST['add_pro'])) {
                         </div>
                     </div>
                     <p class="btn btn-warning btn-sm" id="add_attribute_btn"> اضافة سمه جديد <i class="fa fa-plus"></i> </p>
-                    
+
                 </div>
                 <script src="plugins/jquery/jquery.js"></script>
                 <script>
