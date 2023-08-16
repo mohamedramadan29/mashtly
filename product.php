@@ -187,7 +187,7 @@ if (isset($_GET['slug'])) {
                                         ?>
                                         <!-- يمكنك إضافة المزيد من الصور هنا -->
                                     </div>
-                                    <div class="thumbnail-slider">
+                                    <div class="thumbnail-slider products_thumnails" id="products_thumnails">
                                         <div>
                                             <img loading="lazy" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="Thumbnail 1">
                                         </div>

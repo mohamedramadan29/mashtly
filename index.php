@@ -405,32 +405,32 @@ if (isset($_POST['add_to_cart'])) {
                             $stmt = $connect->prepare("SELECT * FROM products WHERE cat_id = ? LIMIT 9");
                             $stmt->execute(array($cat_id));
                             $allproducts  = $stmt->fetchAll();*/
-                            $stmt = $connect->prepare("SELECT * FROM products order by id LIMIT 9");
-                            $stmt->execute();
-                            $allproducts  = $stmt->fetchAll();
-                            foreach ($allproducts as $pro) {
+                        $stmt = $connect->prepare("SELECT * FROM products order by id LIMIT 9");
+                        $stmt->execute();
+                        $allproducts  = $stmt->fetchAll();
+                        foreach ($allproducts as $pro) {
                         ?>
-                                <div class="col-lg-4">
-                                    <div class="product_info">
-                                        <img class="main_image" src="uploads/product.png" alt="">
-                                        <div class="product_details">
-                                            <h2> <?php echo $pro['name']; ?> </h2>
-                                            <h4 class='price'> 87.00 ر.س </h4>
-                                            <div class='add_cart'>
-                                                <div>
-                                                    <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                        الي السلة </a>
-                                                </div>
-                                                <div class="heart">
-                                                    <img src="uploads/heart.png" alt="">
-                                                </div>
+                            <div class="col-lg-4">
+                                <div class="product_info">
+                                    <img class="main_image" src="uploads/product.png" alt="">
+                                    <div class="product_details">
+                                        <h2> <?php echo $pro['name']; ?> </h2>
+                                        <h4 class='price'> 87.00 ر.س </h4>
+                                        <div class='add_cart'>
+                                            <div>
+                                                <a href="#" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                                    الي السلة </a>
+                                            </div>
+                                            <div class="heart">
+                                                <img src="uploads/heart.png" alt="">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                         <?php
-                            }
-                            /*
+                        }
+                        /*
                         } else {
                             echo "No";
                         }*/

@@ -227,6 +227,7 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src='<?php echo $js; ?>/select2.min.js'></script>
 <script src='<?php echo $js; ?>/jquery.magnific-popup.min.js'></script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script src='<?php echo $js; ?>/slick.js'></script>
 <script src='<?php echo $js; ?>/slick-custom.js'></script>
 <script src='<?php echo $js; ?>/main.js'></script>
@@ -293,6 +294,43 @@
                     settings: {
                         slidesToShow: 4,
                         slidesToScroll: 3,
+
+                    }
+                },
+                {
+                    breakpoint: 900,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2,
+                    }
+                }
+                // You can unslick at a given breakpoint now by adding:
+                // settings: "unslick"
+                // instead of a settings object
+            ]
+
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.products_thumnails').slick({
+            rtl: true,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 2000,
+            infinite: true,
+            prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-chevron-right"></i></button>',
+            nextArrow: '<button type="button" class="slick-next"><i class="fa fa-chevron-left"></i></button>',
+            centerMode: false,
+            variableWidth: false,
+            responsive: [{
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
 
                     }
                 },
@@ -404,20 +442,17 @@
 <!-- JavaScript -->
 <script>
     $(document).ready(function() {
-
         // تحديد العناصر
         const mainSlider = document.querySelector('.main-slider');
         const thumbnailSlider = document.querySelector('.thumbnail-slider');
         const mainSlides = mainSlider.querySelectorAll('div');
-        const thumbnailSlides = thumbnailSlider.querySelectorAll('div');
-
+        const thumbnailSlides = thumbnailSlider.querySelectorAll('.slick-slide');
         // تنفيذ الشريط الرئيسي
         mainSlides.forEach((slide) => {
             slide.style.display = 'none';
         });
         let mainIndex = 0;
         mainSlides[mainIndex].style.display = 'block';
-
         // تنفيذ الشريط المصغر
         thumbnailSlides.forEach((slide, index) => {
             // قم بقراءة الخصائص data-image وتعيينها كخلفية للشريحة الرئيسية
@@ -426,7 +461,7 @@
             $('input[type="radio"][name="vartion_select"]').on('change', function() {
                 var selectedImage = $('input[type="radio"][name="vartion_select"]:checked').data('image');
                 if (selectedImage !== undefined) {
-                  mainSlides[index].style.backgroundImage = 'url(admin/product_images/' + selectedImage + ')'; // إضافة مسار الصورة هنا
+                    mainSlides[index].style.backgroundImage = 'url(admin/product_images/' + selectedImage + ')'; // إضافة مسار الصورة هنا
                     var main_image = 'admin/product_images/' + selectedImage;
                     const MainimageSlide = mainSlides[index].querySelector('img');
                     MainimageSlide.src = main_image;
@@ -447,11 +482,7 @@
     $(document).ready(function() {
         $('input[type="radio"][name="vartion_select"]').on('input', function() {
             var selectedPrice = $('input[type="radio"][name="vartion_select"]:checked').data('price');
-            var selectedImage = $('input[type="radio"][name="vartion_select"]:checked').data('image');
             if (selectedPrice !== undefined) {
-                $('#selected_price').text(selectedPrice + ' ر.س');
-            }
-            if (selectedImage !== undefined) {
                 $('#selected_price').text(selectedPrice + ' ر.س');
             }
         });

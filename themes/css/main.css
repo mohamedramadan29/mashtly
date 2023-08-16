@@ -939,7 +939,10 @@ body {
 }
 
 .products .slick-prev,
-.products .slick-next {
+.products_thumnails .slick-prev,
+.products_thumnails .slick-next,
+.products .slick-next
+ {
     position: absolute;
 
     background: #fff;
@@ -952,7 +955,9 @@ body {
     height: 30px;
     font-size: 13px;
 }
-
+.products_thumnails .slick-prev{
+    right: -35px;
+}
 .products .slick-next {
     left: -4%;
     top: 41%;
@@ -3656,6 +3661,10 @@ body {
     display: flex;
     justify-content: space-around;
     margin-top: 15px;
+    flex-wrap: wrap;
+    max-width: 335px;
+    margin-right: 20px;
+    margin-left: 5px;
 }
 
 .product_details .data .product .product_images .thumbnail-slider img {

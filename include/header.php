@@ -8,7 +8,7 @@
     <link rel="shortcut icon" type="image" href="<?php echo $uploads ?>/logo.png">
     <link rel="stylesheet" href="<?php echo $css; ?>bootstrap.rtl.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="<?php echo $css; ?>slick.css">
     <link rel="stylesheet" href="<?php echo $css; ?>slick-theme.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
