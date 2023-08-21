@@ -237,6 +237,16 @@ if (!isset($_SESSION['admin_username']) || !isset($_SESSION['admin_username'])) 
     } elseif ($dir == 'posts' && $page == 'report') {
         include "posts/report.php";
     }
+    // START  BANNERS
+    if ($dir == 'banners' && $page == 'add') {
+        include "banners/add.php";
+    } elseif ($dir == 'banners' && $page == 'edit') {
+        include "banners/edit.php";
+    } elseif ($dir == 'banners' && $page == 'delete') {
+        include 'banners/delete.php';
+    } elseif ($dir == 'banners' && $page == 'report') {
+        include "banners/report.php";
+    }
     ?>
 
 </div>

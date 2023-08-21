@@ -12,34 +12,37 @@ include "init.php";
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
+            <?php
+            $stmt = $connect->prepare("SELECT * FROM banners ORDER BY id asc LIMIT 1");
+            $stmt->execute();
+            $banner1_data = $stmt->fetch();
+            $banner1_data_id = $banner1_data['id'];
+            $stmt = $connect->prepare("SELECT * FROM banners WHERE id !=? ");
+            $stmt->execute(array($banner1_data_id));
+            $allbanners = $stmt->fetchAll();
+            ?>
             <div class="carousel-item carousel-item1 active">
                 <div class="overlay"></div>
                 <div class="carousel-caption">
-                    <h5>العناية بالنباتات المنزلية 1 </h5>
-                    <p> يرغب في تمتعك بنباتات صحية ونامية، وأن تتوفق لأفضل المنتجات المناسبة لك ,لذلك وفرنا خبراء
-                        متخصصين بالهندسة الزراعية لتقديم الدعم والتوجيه، ولنساعدك في اختيار النباتات </p>
-                    <a href="#" class="btn"> تواصل مع الخبير </a>
+                    <h5> <?php echo $banner1_data['head_name'] ?> </h5>
+                    <p> <?php echo $banner1_data['description'] ?> </p>
+                    <a target="_blank" href="https://t.me/mshtly" class="btn"> تواصل مع الخبير </a>
                 </div>
             </div>
-            <div class="carousel-item carousel-item1">
-                <div class="overlay"></div>
-                <div class="carousel-caption">
-                    <h5> العناية بالنباتات المنزلية 2 </h5>
-                    <p>يرغب في تمتعك بنباتات صحية ونامية، وأن تتوفق لأفضل المنتجات المناسبة لك ,لذلك وفرنا خبراء متخصصين
-                        بالهندسة الزراعية لتقديم الدعم والتوجيه، ولنساعدك في اختيار
-                    </p>
-                    <a href="#" class="btn"> تواصل مع الخبير </a>
+            <?php
+            foreach ($allbanners as $banner){
+                ?>
+                <div class="carousel-item carousel-item1">
+                    <div class="overlay"></div>
+                    <div class="carousel-caption">
+                        <h5> <?php echo $banner['head_name']; ?> </h5>
+                        <p>   <?php echo $banner['description']; ?>   </p>
+                        <a target="_blank" href="https://t.me/mshtly" class="btn"> تواصل مع الخبير </a>
+                    </div>
                 </div>
-            </div>
-            <div class="carousel-item carousel-item1">
-                <div class="overlay"></div>
-                <div class="carousel-caption">
-                    <h5> العناية بالنباتات المنزلية 3</h5>
-                    <p> يرغب في تمتعك بنباتات صحية ونامية، وأن تتوفق لأفضل المنتجات المناسبة لك ,لذلك وفرنا خبراء
-                        متخصصين بالهندسة الزراعية لتقديم الدعم والتوجيه، ولنساعدك في اختيار النباتات </p>
-                    <a href="#" class="btn global_buttom"> تواصل مع الخبير </a>
-                </div>
-            </div>
+                    <?php
+            }
+            ?>
         </div>
     </div>
 </div>
@@ -70,8 +73,6 @@ include "init.php";
 <!-- END AUTOMATIC SEARCH INDEX -->
 <!-- START NEWWER PRODUCTS -->
 <?php
-
-
 // add to favorite
 if (isset($_POST['add_to_fav'])) {
     if (isset($_SESSION['user_id'])) {
@@ -116,7 +117,6 @@ if (isset($_POST['add_to_cart'])) {
 }
 ?>
 <div class="new_producs">
-
     <div class="container">
         <div class="data">
             <div class="data_header">
@@ -130,26 +130,43 @@ if (isset($_POST['add_to_cart'])) {
             </div>
             <div class="products" id='products'>
                 <?php
-                $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC LIMIT 5");
+                $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC LIMIT 10");
                 $stmt->execute();
                 $allproduct = $stmt->fetchAll();
                 foreach ($allproduct as $product) {
                 ?>
                     <div class="product_info">
-                        <img class="main_image" src="uploads/product.png" alt="">
+                        <!-- get the product image -->
+                        <?php
+                        $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
+                        $stmt->execute(array($product['id']));
+                      //  getproductimage($connect,$product['id']);
+                        $count_image = $stmt->rowCount();
+                        $product_data_image = $stmt->fetch();
+                        if($count_image > 0){
+                            ?>
+                            <img class="main_image" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt']; ?>">
+                                <?php
+                        }else{
+                            ?>
+                            <img class="main_image" src="uploads/product.png" alt="">
+                                <?php
+                        }
+                        ?>
+
                         <div class="product_details">
                             <h2> <a href="product?slug=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
                             <?php
                             $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
                             $minimumPrice = INF; // قيمة أدنى سعر ممكنة
-                            // نشوف علي المنتج يحتوي علي متغيرات او لا 
-                            $stmt = $connect->prepare("SELECT * FROM product_details WHERE pro_id = ? AND pro_price != ''");
+                            // نشوف علي المنتج يحتوي علي متغيرات او لا
+                            $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ? AND price != ''");
                             $stmt->execute(array($product['id']));
                             $count_pro_attr = $stmt->rowCount();
                             if ($count_pro_attr > 0) {
                                 $allproduct_data = $stmt->fetchAll();
                                 foreach ($allproduct_data as $product_data) {
-                                    $pro_price =  $product_data['pro_price'];
+                                    $pro_price =  $product_data['price'];
                                     $maximumPrice = max($maximumPrice, $pro_price);
                                     $minimumPrice = min($minimumPrice, $pro_price);
                                 }
@@ -158,12 +175,18 @@ if (isset($_POST['add_to_cart'])) {
                             <?php
                             } else {
                             ?>
-                                <h4 class='price'> <?php echo $product['price'] ?> ر.س </h4>
+                                <h4 class='price'> <?php
+                                    if($product['sale_price'] !='' && $product['sale_price'] !=0){
+                                        echo $product['sale_price'];
+                                    }else{
+                                        echo $product['price'];
+                                    }
+                                     ?> ر.س </h4>
                             <?php
                             }
                             ?>
                             <form action="" method="post">
-                                <input type="hidden" name="price" value="<?php echo $product['price']; ?>">
+                                <input type="hidden" name="price" value="<?php if($product['sale_price'] !='' && $product['sale_price'] !=0){ echo $product['sale_price'];}else{echo $product['price'];} ?>">
                                 <div class='add_cart'>
                                     <div>
                                         <?php
@@ -619,7 +642,7 @@ if (isset($_POST['add_to_cart'])) {
                         <h2>تواصل مع الخبير <br> للعناية بنباتاتك المنزلية</h2>
                         <p> يرغب في تمتعك بنباتات صحية ونامية، وأن تتوفق لأفضل المنتجات المناسبة لك ,لذلك وفرنا خبراء
                             متخصصين بالهندسة الزراعية لتقديم الدعم والتوجيه، ولنساعدك في اختيار النباتات </p>
-                        <a href="#" class="btn global_button">تواصل مع الخبير</a>
+                        <a target="_blank" href="https://t.me/mshtly" class="btn global_button">تواصل مع الخبير</a>
                     </div>
                 </div>
                 <div class='col-lg-7'>

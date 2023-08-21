@@ -86,6 +86,7 @@
                                             <th> السعر </th>
                                             <th> سعر التخفيض </th>
                                             <th> حالة المخزون </th>
+                                            <th> مميز  </th>
                                             <th> صورة المنتج </th>
                                             <th> العمليات </th>
                                         </tr>
@@ -135,6 +136,15 @@
                                                         }
                                                     ?>
                                                 </td>
+                                                <td> <?php
+                                                    if ($pro['feature_product'] == 1) {
+                                                        ?>
+                                                        <span> <i  class="fa fa-star"></i> </span>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </td>
+
                                                 <td>
                                                     <?php
                                                     $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ? LIMIT 1");
@@ -223,6 +233,14 @@
                                                         <option value="" disabled> اختر الحالة </option>
                                                         <option <?php if ($pro['publish'] == 1) echo 'selected'; ?> value="1"> نشر المنتج </option>
                                                         <option <?php if ($pro['publish'] == 0) echo 'selected'; ?> value="0"> ارشيف </option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="Company-2" class="block"> منتج مميز </label>
+                                                    <select name="feature_product" id="" class="form-control select2">
+                                                        <option value="" disabled> اختر الحالة </option>
+                                                        <option <?php if ($pro['feature_product'] == 0) echo 'selected'; ?> value="0"> عادي </option>
+                                                        <option <?php if ($pro['feature_product'] == 1) echo 'selected'; ?> value="1"> نعم </option>
                                                     </select>
                                                 </div>
                                             </div>

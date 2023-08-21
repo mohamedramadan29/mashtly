@@ -199,3 +199,10 @@ function alertfavorite()
     </script>
 <?php
 }
+
+/* get the product image */
+function getproductimage($connect, $product_id)
+{
+    $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
+    $stmt->execute(array($product_id));
+}
