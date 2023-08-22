@@ -1145,9 +1145,7 @@ body {
 /*  END GARDEN SERVICES */
 /* START PRODUCTS DISCOUNT */
 .product_discounts .products .product_info .product_details .price_diffrent {
-    background-image: url(../../uploads/section_background.svg);
-    background-size: cover;
-    background-position: center;
+
 }
 
 .product_discounts .products .product_info .product_details .price_diffrent h4 {
