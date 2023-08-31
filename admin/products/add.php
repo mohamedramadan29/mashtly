@@ -343,7 +343,22 @@ if (isset($_POST['add_pro'])) {
               </div>
               <div class='form-group'>
                 <label> الوصف المختصر </label>
-                <textarea name="short_desc" class="form-control" rows="2" style="min-height: 120px;"><?php if (isset($_REQUEST['short_desc']))echo $_REQUEST['short_desc']?></textarea>
+                <textarea maxlength="160" name="short_desc" id="short_desc" class="form-control" rows="2" style="min-height: 120px;"><?php if (isset($_REQUEST['short_desc'])) echo $_REQUEST['short_desc'] ?></textarea>
+                <div class="badge badge-pill" id="charCount"> عدد الأحرف المتبقي: 160 </div>
+                <script>
+                  document.addEventListener("DOMContentLoaded", function() {
+                    var textarea = document.getElementById("short_desc");
+                    var charCountElement = document.getElementById("charCount");
+                    var maxLength = 160;
+
+                    textarea.addEventListener("input", function() {
+                      var currentLength = textarea.value.length;
+                      var remainingChars = maxLength - currentLength;
+
+                      charCountElement.textContent = "عدد الأحرف المتبقي: " + remainingChars;
+                    });
+                  });
+                </script>
               </div>
               <div class="form-group">
                 <label for="inputStatus"> القسم الرئيسي </label>

@@ -9,6 +9,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
         $name = $_POST['name'];
         $slug = createSlug($name);
         $description = $_POST['description'];
+        $short_desc = $_POST['short_desc'];
         //$product_adv = $_POST['product_adv'];
         $price = $_POST['price'];
         $purchase_price = $_POST['purchase_price'];
@@ -103,10 +104,10 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
             $formerror[] = ' من فضلك ادخل قسم المنتج   ';
         }
         if (empty($formerror)) {
-            $stmt = $connect->prepare("UPDATE products SET cat_id=?,more_cat=?,name=?, slug=? , description=?,main_checked=?,purchase_price=?,
+            $stmt = $connect->prepare("UPDATE products SET cat_id=?,more_cat=?,name=?, slug=? , description=?,short_desc=?,main_checked=?,purchase_price=?,
         price=?,sale_price=?,av_num=?,tags=?,related_product=?,publish=? WHERE id = ? ");
             $stmt->execute(array(
-                $cat_id, $more_cat_string,  $name, $slug, $description,
+                $cat_id, $more_cat_string,  $name, $slug, $description, $short_desc,
                 $main_checked, $purchase_price, $price,
                 $sale_price,  $av_num,  $tags, $related_product_string, $publish, $pro_id
             ));
@@ -218,7 +219,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                     </script>
                 <?php
                 }
-                 header('Location:main?dir=products&page=edit&pro_id=' . $pro_id);
+                header('Location:main?dir=products&page=edit&pro_id=' . $pro_id);
             }
         } else {
             $_SESSION['error_messages'] = $formerror;
@@ -284,6 +285,27 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                                                                                                 } else {
                                                                                                                     echo $pro_data['description'];
                                                                                                                 }  ?></textarea>
+                                </div>
+                                <div class='form-group'>
+                                    <label> الوصف المختصر </label>
+                                    <textarea maxlength="160" name="short_desc" id="short_desc" class="form-control" rows="2" style="min-height: 120px;"><?php if (isset($_REQUEST['short_desc'])) {
+                                                                                                                                                                echo $_REQUEST['short_desc'];
+                                                                                                                                                            } else {
+                                                                                                                                                                echo $pro_data['short_desc'];
+                                                                                                                                                            }  ?></textarea>
+                                    <div class="badge badge-pill" id="charCount"> عدد الأحرف المتبقي: </div>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var textarea = document.getElementById("short_desc");
+                                            var charCountElement = document.getElementById("charCount");
+                                            var maxLength = 160;
+                                            textarea.addEventListener("input", function() {
+                                                var currentLength = textarea.value.length;
+                                                var remainingChars = maxLength - currentLength;
+                                                charCountElement.textContent = "عدد الأحرف المتبقي: " + remainingChars;
+                                            });
+                                        });
+                                    </script>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputStatus"> القسم الرئيسي </label>
