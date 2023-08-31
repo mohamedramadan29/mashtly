@@ -12,6 +12,7 @@ if (isset($_POST['add_pro'])) {
   $name = $_POST['name'];
   $slug = createSlug($name);
   $description = $_POST['description'];
+  $short_desc = $_POST['short_desc'];
   // $product_adv = $_POST['product_adv'];
   $price = $_POST['price'];
   $purchase_price = $_POST['purchase_price'];
@@ -112,15 +113,16 @@ if (isset($_POST['add_pro'])) {
   }
 
   if (empty($formerror)) {
-    $stmt = $connect->prepare("INSERT INTO products (cat_id,more_cat,name, slug , description,video,main_checked,purchase_price,
+    $stmt = $connect->prepare("INSERT INTO products (cat_id,more_cat,name, slug , description,short_desc,video,main_checked,purchase_price,
     price, sale_price , av_num,tags,related_product,publish)
-    VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zvideo,:zmain_checked,:zpurchase_price,:zprice,:zsale_price,:zav_num,:ztags,:zrelated_product,:zpublish)");
+    VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zshort_desc,:zvideo,:zmain_checked,:zpurchase_price,:zprice,:zsale_price,:zav_num,:ztags,:zrelated_product,:zpublish)");
     $stmt->execute(array(
       "zcat" => $cat_id,
       "zmore_cat" => $more_cat_string,
       "zname" => $name,
       "zslug" => $slug,
       "zdesc" => $description,
+      "zshort_desc" => $short_desc,
       "zvideo" => $video_uploaded,
       "zmain_checked" => $main_checked,
       //
@@ -338,6 +340,10 @@ if (isset($_POST['add_pro'])) {
               <div class='form-group'>
                 <label> الوصف </label>
                 <textarea name="description" class="form-control" id="summernote" rows="4" style="min-height: 200px;"> <?php if (isset($_REQUEST['description'])) echo $_REQUEST['description'] ?> </textarea>
+              </div>
+              <div class='form-group'>
+                <label> الوصف المختصر </label>
+                <textarea name="short_desc" class="form-control" rows="2" style="min-height: 120px;"><?php if (isset($_REQUEST['short_desc']))echo $_REQUEST['short_desc']?></textarea>
               </div>
               <div class="form-group">
                 <label for="inputStatus"> القسم الرئيسي </label>
