@@ -224,7 +224,21 @@ if (isset($_GET['cat'])) {
                         ?>
                             <div class="col-lg-3 col-6">
                                 <div class="product_info">
-                                    <img class="main_image" src="uploads/product.png" alt="">
+                                    <?php
+                                    $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
+                                    $stmt->execute(array($product['id']));
+                                    $count_image = $stmt->rowCount();
+                                    if ($count_image > 0) {
+                                        $product_data_image = $stmt->fetch();
+                                    ?>
+                                        <img class="main_image" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt']; ?>">
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <img class="main_image" src="uploads/product.png" alt="">
+                                    <?php
+                                    }
+                                    ?>
                                     <div class="product_details">
                                         <h2> <a href="product?slug=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
                                         <?php
