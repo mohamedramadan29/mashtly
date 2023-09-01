@@ -1,13 +1,16 @@
+
 <?php
 if (isset($_SESSION['main_user_login'])) {
     //include 'location_currancy.php';
-    include 'admin/connect.php';
+
     $tem = "include/";
     $css = "themes/css/";
     $js = "themes/js/";
     $uploads = "uploads/";
     include $tem . "header.php";
+    include 'admin/connect.php';
     include $tem . "navbar.php";
+
     include 'global_functions.php';
 
     date_default_timezone_set('Asia/Riyadh');

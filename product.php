@@ -2,6 +2,7 @@
 ob_start();
 session_start();
 $page_title = 'تفاصيل المنتج ';
+
 include 'init.php';
 if (isset($_GET['slug'])) {
     $slug = $_GET['slug'];
@@ -9,7 +10,12 @@ if (isset($_GET['slug'])) {
     $stmt->execute(array($slug));
     $product_data = $stmt->fetch();
     $count  = $stmt->rowCount();
+    /* get the product meta */
+    $meta_keywords = "mohamed";
+    $meta_short_description = $product_data['short_desc'];
+    /************ */
     if ($count > 0) {
+
         $product_id = $product_data['id'];
         $product_name = $product_data['name'];
         $product_desc = $product_data['description'];
@@ -323,14 +329,14 @@ if (isset($_GET['slug'])) {
                                 $allpro_attibutes = $stmt->fetchAll();
                                 $allpro_attibutes_count = count($allpro_attibutes); ?>
                                 <div class="options">
-                                    <?php 
-                                     if ($allpro_attibutes_count > 0){
-                                        ?>
-<h6> حدد احد الاختيارات </h6>
-                                        <?php 
-                                     }
+                                    <?php
+                                    if ($allpro_attibutes_count > 0) {
                                     ?>
-                                    
+                                        <h6> حدد احد الاختيارات </h6>
+                                    <?php
+                                    }
+                                    ?>
+
                                     <div class="colors">
                                         <?php
                                         if ($allpro_attibutes_count > 0) {
