@@ -71,7 +71,8 @@
                                         <th> البريد الألكتروني </th>
                                         <th> رقم الهاتف </th>
                                         <th> عدد الطلبات </th>
-                                        <th> </th>
+                                        <th> حالة المستخدم </th>
+                                        <th> العمليات </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -95,9 +96,49 @@
                                                     ?>
                                                 <span class="badge badge-warning"> <?php echo $count; ?> </span>
                                             </td>
+                                            <td> <?php if ($user['status'] == 1) {
+                                                    ?>
+                                                    <span class="badge badge-info"> مفعل </span>
+                                                <?php
+                                                    } else {
+                                                ?>
+                                                    <span class="badge badge-danger"> غير مفعل </span>
+                                                <?php
+                                                    } ?>
+                                            </td>
                                             <td>
+                                                <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $user['id']; ?>"> تعديل الحالة <i class='fa fa-pen'></i> </button>
                                             </td>
                                         </tr>
+                                        <!-- EDIT NEW CATEGORY MODAL   -->
+                                        <div class="modal fade" id="edit-Modal_<?php echo $user['id']; ?>" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title"> تعديل حالة المستخدم </h4>
+                                                    </div>
+                                                    <form method="post" action="main.php?dir=users&page=edit" enctype="multipart/form-data">
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <input type='hidden' name="user_id" value="<?php echo $user['id']; ?>">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="Company-2" class="block"> حالة المستخدم </label>
+                                                                <select required class='form-control select2' name='status'>
+                                                                    <option> -- اختر -- </option>
+                                                                    <option value="1"> مفعل </option>
+                                                                    <option value="0"> غير مفعل </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" name="edit_cat" class="btn btn-primary waves-effect waves-light "> تعديل </button>
+                                                            <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">رجوع</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     <?php
                                     }
                                     ?>

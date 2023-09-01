@@ -123,6 +123,8 @@ if (!isset($_SESSION['admin_username']) || !isset($_SESSION['admin_username'])) 
     // START USers 
     if ($dir == 'users' && $page == 'report') {
         include "users/report.php";
+    }elseif($dir == 'users' && $page == 'edit'){
+        include "users/edit.php";
     }
     // START products
     if ($dir == 'products' && $page == 'add') {
