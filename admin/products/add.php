@@ -18,15 +18,7 @@ if (isset($_POST['add_pro'])) {
   $purchase_price = $_POST['purchase_price'];
   $sale_price = $_POST['sale_price'];
   $av_num = $_POST['av_num'];
-  /*
-  if (isset($_POST['pro_attribute'])) {
-    $pro_attributes = $_POST['pro_attribute'];
-  } else {
-    $pro_attributes = 0;
-  }
-  $pro_variations = $_POST['pro_variations'];
-  $pro_prices = $_POST['pro_price'];
-  */
+
   $tags = $_POST['tags'];
   $publish = $_POST['publish'];
   $related_product = $_POST['related_product'];
@@ -194,12 +186,19 @@ if (isset($_POST['add_pro'])) {
     }
     ////////////////////////////////
     $vartions_name = $_POST['vartions_name'];
-
     $vartions_price = $_POST['vartions_price'];
+    $var_image_names = $_POST['var_image_name'];
+    $var_image_alts = $_POST['var_image_alt'];
+    $var_image_descs = $_POST['var_image_desc'];
+    $var_image_keyss = $_POST['var_image_keys'];
     if ($vartions_name > 0) {
       for ($i = 0; $i < count($vartions_name); $i++) {
         $vartion_name =   $vartions_name[$i];
         $vartion_price =  $vartions_price[$i];
+        $var_image_name = $var_image_names[$i];
+        $var_image_alt = $var_image_alts[$i];
+        $var_image_desc = $var_image_descs[$i];
+        $var_image_keys = $var_image_keyss[$i];
         //////////// attribute images //////////////
         $image_att_name = $_FILES['vartions_image']['name'][$i];
         $image_att_name = str_replace(' ', '-', $image_att_name);
@@ -212,13 +211,17 @@ if (isset($_POST['add_pro'])) {
           $image_att_temp,
           'product_images/' . $main_image_uploaded
         );
-        $stmt = $connect->prepare("INSERT INTO product_details2 (product_id,vartions_name,price,image) VALUES 
-          (:zpro_id,:zvartion_name,:zprice,:zimage)");
+        $stmt = $connect->prepare("INSERT INTO product_details2 (product_id,vartions_name,price,image,image_name,image_alt,image_desc,image_keys) VALUES 
+          (:zpro_id,:zvartion_name,:zprice,:zimage,:zimage_name,:zimage_alt,:zimage_desc,:zimage_keys)");
         $stmt->execute(array(
           "zpro_id" => $last_pro_id,
           "zvartion_name" => $vartion_name,
           "zprice" => $vartion_price,
           "zimage" => $main_image_uploaded,
+          "zimage_name" => $var_image_name,
+          "zimage_alt" => $var_image_alt,
+          "zimage_desc" => $var_image_desc,
+          "zimage_keys" => $var_image_keys,
         ));
       }
     }

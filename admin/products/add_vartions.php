@@ -115,6 +115,10 @@
                                             <div>
                                             <label style='display:block'> صورة المنتج  </label>
                                             <input type='file' class='form-control' name='vartions_image[]'>
+                                            <input placeholder="اسم الصورة" name='var_image_name[]'  class="form-control" type="text">
+                                            <input placeholder="الاسم البديل" name='var_image_alt[]'  class="form-control" type="text">
+                                            <input placeholder="وصف مختصر" name='var_image_desc[]'  class="form-control" type="text">
+                                            <input placeholder="كلمات مفتاحية للصورة" name='var_image_keys[]'  class="form-control" type="text">
                                             </div>
                                             
                                             </div>  

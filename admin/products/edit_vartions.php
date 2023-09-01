@@ -116,6 +116,10 @@
                                             <div>
                                             <label style='display:block'> صورة المنتج  </label>
                                             <input type='file' class='form-control' name='vartions_image[]'>
+                                            <input placeholder="اسم الصورة" name='var_image_name[]'  class="form-control" type="text">
+                                            <input placeholder="الاسم البديل" name='var_image_alt[]'  class="form-control" type="text">
+                                            <input placeholder="وصف مختصر" name='var_image_desc[]'  class="form-control" type="text">
+                                            <input placeholder="كلمات مفتاحية للصورة" name='var_image_keys[]'  class="form-control" type="text">
                                             </div>
                                             
                                             </div> 
@@ -180,6 +184,10 @@
                                         <div>
                                             <label style='display:block'> صورة المنتج </label>
                                             <input value="<?php echo $pro_attribut['image'];  ?>" type='file' class='form-control' name='vartion_image'>
+                                            <input placeholder="اسم الصورة" name='var_image_name' class="form-control" type="text" value="<?php echo $pro_attribut['image_name'] ?>">
+                                            <input placeholder="الاسم البديل" name='var_image_alt' class="form-control" type="text" value="<?php echo $pro_attribut['image_alt'] ?>">
+                                            <input placeholder="وصف مختصر" name='var_image_desc' class="form-control" type="text" value="<?php echo $pro_attribut['image_desc'] ?>">
+                                            <input placeholder="كلمات مفتاحية للصورة" name='var_image_keys' class="form-control" type="text" value="<?php echo $pro_attribut['image_keys'] ?>">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -221,11 +229,19 @@ if (isset($_POST['save_vartion'])) {
     $stmt->execute(array($pro_id));
     $vartions_name = $_POST['vartions_name'];
     $vartions_price = $_POST['vartions_price'];
+    $var_image_names = $_POST['var_image_name'];
+    $var_image_alts = $_POST['var_image_alt'];
+    $var_image_descs = $_POST['var_image_desc'];
+    $var_image_keyss = $_POST['var_image_keys'];
     ////////////////////////////////
     if ($vartions_name > 0) {
         for ($i = 0; $i < count($vartions_name); $i++) {
             $vartion_name =   $vartions_name[$i];
             $vartion_price =  $vartions_price[$i];
+            $var_image_name = $var_image_names[$i];
+            $var_image_alt = $var_image_alts[$i];
+            $var_image_desc = $var_image_descs[$i];
+            $var_image_keys = $var_image_keyss[$i];
             //////////// attribute images //////////////
             $image_att_name = $_FILES['vartions_image']['name'][$i];
             $image_att_name = str_replace(' ', '-', $image_att_name);
@@ -238,17 +254,20 @@ if (isset($_POST['save_vartion'])) {
                 $image_att_temp,
                 'product_images/' . $main_image_uploaded
             );
-            $stmt = $connect->prepare("INSERT INTO product_details2 (product_id,vartions_name,price,image) VALUES 
-            (:zpro_id,:zvartion_name,:zprice,:zimage)");
+            $stmt = $connect->prepare("INSERT INTO product_details2 (product_id,vartions_name,price,image,image_name,image_alt,image_desc,image_keys) VALUES 
+            (:zpro_id,:zvartion_name,:zprice,:zimage,:zimage_name,:zimage_alt,:zimage_desc,:zimage_keys)");
             $stmt->execute(array(
                 "zpro_id" => $pro_id,
                 "zvartion_name" => $vartion_name,
                 "zprice" => $vartion_price,
                 "zimage" => $main_image_uploaded,
+                "zimage_name" => $var_image_name,
+                "zimage_alt" => $var_image_alt,
+                "zimage_desc" => $var_image_desc,
+                "zimage_keys" => $var_image_keys,
             ));
-
         }
-        if($stmt){
+        if ($stmt) {
             header('Location:main?dir=products&page=edit&pro_id=' . $pro_id);
         }
     }
@@ -258,7 +277,7 @@ if (isset($_POST['delete_vartion'])) {
     $vartion_id = $_POST['vartion_id'];
     $stmt = $connect->prepare("DELETE FROM product_details2 WHERE id = ?");
     $stmt->execute(array($vartion_id));
-    if($stmt){
+    if ($stmt) {
         header('Location:main?dir=products&page=edit&pro_id=' . $pro_id);
     }
 }
@@ -266,6 +285,11 @@ if (isset($_POST['delete_vartion'])) {
 if (isset($_POST['edit_vartion'])) {
     $vartion_id = $_POST['vartion_id'];
     $vartions_price = $_POST['vartions_price'];
+    $var_image_name = $_POST['var_image_name'];
+    $var_image_alt = $_POST['var_image_alt'];
+    $var_image_desc = $_POST['var_image_desc'];
+    $var_image_keys = $_POST['var_image_keys'];
+
     if (!empty($_FILES['vartion_image']['name'])) {
         $vartion_image_name = $_FILES['vartion_image']['name'];
         $vartion_image_name = str_replace(' ', '-', $vartion_image_name);
@@ -289,13 +313,13 @@ if (isset($_POST['edit_vartion'])) {
             );
         }
     }
-    $stmt = $connect->prepare("UPDATE product_details2 SET price= ? WHERE id = ? ");
-    $stmt->execute(array($vartions_price, $vartion_id));
+    $stmt = $connect->prepare("UPDATE product_details2 SET price= ?,image_name=?,image_alt=?,image_desc=?,image_keys=? WHERE id = ? ");
+    $stmt->execute(array($vartions_price, $var_image_name, $var_image_alt, $var_image_desc, $var_image_keys, $vartion_id));
     if (!empty($_FILES['vartion_image']['name'])) {
         $stmt = $connect->prepare("UPDATE product_details2 SET  image= ? WHERE id = ? ");
         $stmt->execute(array($vartion_image_uploaded, $vartion_id));
     }
-    if($stmt){
+    if ($stmt) {
         header('Location:main?dir=products&page=edit&pro_id=' . $pro_id);
     }
 }
