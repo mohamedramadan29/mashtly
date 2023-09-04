@@ -4609,3 +4609,13 @@ body {
 /* END BLOG DETAILS */
 
 /** END BLOG */
+/* ****** START IMPORT REQUEST ****** */
+
+.import_request .select2-container--default .select2-selection--multiple {
+    border-radius: 35px;
+    border: 2px solid #D1D3D4;
+    padding-right: 10px;
+    padding-top: 5px;
+}
+
+/********** END IMPORT REQUEST   **************/

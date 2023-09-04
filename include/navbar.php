@@ -162,7 +162,7 @@
                       <a class="nav-link" href="#"> تنسيق الحدائق </a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#"> خدمات الاستيراد </a>
+                      <a class="nav-link" href="import_service"> خدمات الاستيراد </a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="#"> الهدايا </a>
@@ -246,7 +246,7 @@
             <a class="nav-link" href="#"> تنسيق الحدائق </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"> خدمات الاستيراد </a>
+            <a class="nav-link" href="import_service"> خدمات الاستيراد </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#"> الهدايا </a>

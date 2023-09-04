@@ -123,7 +123,7 @@ if (!isset($_SESSION['admin_username']) || !isset($_SESSION['admin_username'])) 
     // START USers 
     if ($dir == 'users' && $page == 'report') {
         include "users/report.php";
-    }elseif($dir == 'users' && $page == 'edit'){
+    } elseif ($dir == 'users' && $page == 'edit') {
         include "users/edit.php";
     }
     // START products
@@ -248,6 +248,14 @@ if (!isset($_SESSION['admin_username']) || !isset($_SESSION['admin_username'])) 
         include 'banners/delete.php';
     } elseif ($dir == 'banners' && $page == 'report') {
         include "banners/report.php";
+    }
+    // START  Import Services
+    if ($dir == 'import_services' && $page == 'report') {
+        include "import_services/report.php";
+    } elseif ($dir == 'import_services' && $page == 'edit') {
+        include "import_services/edit.php";
+    } elseif ($dir == 'import_services' && $page == 'delete') {
+        include 'import_services/delete.php';
     }
     ?>
 

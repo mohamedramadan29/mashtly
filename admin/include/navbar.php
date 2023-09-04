@@ -209,6 +209,21 @@
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <p>
+                  طلبات الاستيراد
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="main.php?dir=import_services&page=report" class="nav-link">
+                    <p> جميع الطلبات </p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <p>
                   السلات
                   <i class="fas fa-angle-left right"></i>
                 </p>
@@ -224,14 +239,14 @@
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <p>
-                  المدونة 
+                  المدونة
                   <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a href="main.php?dir=post_categories&page=report" class="nav-link">
-                    <p> الأقسام  </p>
+                    <p> الأقسام </p>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -256,21 +271,21 @@
                 </li>
               </ul>
             </li>
-              <li class="nav-item">
-                  <a href="#" class="nav-link">
-                      <p>
-                          البانر
-                          <i class="right fas fa-angle-left"></i>
-                      </p>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <p>
+                  البانر
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="main.php?dir=banners&page=report" class="nav-link">
+                    <p> مشاهدة البانر </p>
                   </a>
-                  <ul class="nav nav-treeview">
-                      <li class="nav-item">
-                          <a href="main.php?dir=banners&page=report" class="nav-link">
-                              <p> مشاهدة البانر </p>
-                          </a>
-                      </li>
-                  </ul>
-              </li>
+                </li>
+              </ul>
+            </li>
             <li class="nav-item">
               <a href="main.php?dir=users&page=report" class="nav-link">
                 <p>
