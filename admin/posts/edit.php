@@ -6,6 +6,7 @@ if (isset($_POST['edit_cat'])) {
     $short_desc = $_POST['short_desc'];
     $description = $_POST['description'];
     $publish = $_POST['publish'];
+    $tags = $_POST['tags'];
     // get the  date
     date_default_timezone_set('Asia/Riyadh');
     $date = date('d/m/Y h:i a');
@@ -35,8 +36,8 @@ if (isset($_POST['edit_cat'])) {
         $formerror[] = ' اسم المقال موجود من قبل من فضلك ادخل اسم اخر  ';
     }
     if (empty($formerror)) {
-        $stmt = $connect->prepare("UPDATE posts SET cat_id=?,name=?,short_desc=?,description=?,date=?,publish=? WHERE id = ? ");
-        $stmt->execute(array($cat_id, $name, $short_desc, $description, $date, $publish, $post_id));
+        $stmt = $connect->prepare("UPDATE posts SET cat_id=?,name=?,short_desc=?,description=?,tags=?,date=?,publish=? WHERE id = ? ");
+        $stmt->execute(array($cat_id, $name, $short_desc, $description, $tags, $date, $publish, $post_id));
         if (!empty($_FILES['main_image']['name'])) {
             $stmt = $connect->prepare("UPDATE posts SET main_image=? WHERE id = ? ");
             $stmt->execute(array($main_image_uploaded, $post_id));

@@ -67,7 +67,7 @@
                     <div class="col-lg-3">
                         <div class="info">
                             <ul class="list-unstyled">
-                                <li> <a href="#"> المدونة </a> </li>
+                                <li> <a href="blog"> المدونة </a> </li>
                                 <li> <a href="#"> قصتنا </a> </li>
                                 <li> <a href="#"> الاستفسارات والشكاوي </a> </li>
                             </ul>
@@ -140,7 +140,7 @@
                     <div class="col-6">
                         <div class="info">
                             <ul class="list-unstyled">
-                                <li> <a href="#"> المدونة </a> </li>
+                                <li> <a href="blog"> المدونة </a> </li>
                                 <li> <a href="#"> قصتنا </a> </li>
                                 <li> <a href="#"> الاستفسارات والشكاوي </a> </li>
                             </ul>

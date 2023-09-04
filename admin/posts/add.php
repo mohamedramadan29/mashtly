@@ -6,6 +6,7 @@ if (isset($_POST['add_cat'])) {
     $short_desc = $_POST['short_desc'];
     $description = $_POST['description'];
     $publish = $_POST['publish'];
+    $tags = $_POST['tags'];
     // get the  date
     date_default_timezone_set('Asia/Riyadh');
     $date = date('d/m/Y h:i a');
@@ -35,8 +36,8 @@ if (isset($_POST['add_cat'])) {
         $formerror[] = ' اسم المقال موجود من قبل من فضلك ادخل اسم اخر  ';
     }
     if (empty($formerror)) {
-        $stmt = $connect->prepare("INSERT INTO posts (cat_id,name,slug,main_image,short_desc,description,date,publish)
-        VALUES (:zcat_id,:zname,:zslug,:zimage,:zshort_desc,:zdesc,:zdate,:zpublish)");
+        $stmt = $connect->prepare("INSERT INTO posts (cat_id,name,slug,main_image,short_desc,description,tags,date,publish)
+        VALUES (:zcat_id,:zname,:zslug,:zimage,:zshort_desc,:zdesc,:ztags,:zdate,:zpublish)");
         $stmt->execute(array(
             "zcat_id" => $cat_id,
             "zname" => $name,
@@ -44,6 +45,7 @@ if (isset($_POST['add_cat'])) {
             "zimage" => $main_image_uploaded,
             "zshort_desc" => $short_desc,
             "zdesc" => $description,
+            "ztags" => $tags,
             "zdate" => $date,
             "zpublish" => $publish,
         ));

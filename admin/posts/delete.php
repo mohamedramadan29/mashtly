@@ -5,7 +5,7 @@ if (isset($_GET['post_id']) && is_numeric($_GET['post_id'])) {
     $stmt->execute([$post_id]);
     $cat_data = $stmt->fetch();
     $cat_image = $cat_data['main_image'];
-    if (file_exists($cat_image)) {
+    if (!empty($cat_image)) {
         $cat_image = "posts/images/" . $cat_image;
         unlink($cat_image);
     }

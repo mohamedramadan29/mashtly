@@ -941,8 +941,7 @@ body {
 .products .slick-prev,
 .products_thumnails .slick-prev,
 .products_thumnails .slick-next,
-.products .slick-next
- {
+.products .slick-next {
     position: absolute;
 
     background: #fff;
@@ -955,19 +954,23 @@ body {
     height: 30px;
     font-size: 13px;
 }
-.products_thumnails .slick-prev{
+
+.products_thumnails .slick-prev {
     right: -35px;
 }
-.products_thumnails .slick-prev .fa-chevron-right{
+
+.products_thumnails .slick-prev .fa-chevron-right {
     position: absolute;
     top: 8px;
-    right: 10px; 
+    right: 10px;
 }
-.products_thumnails .slick-next .fa-chevron-left{
+
+.products_thumnails .slick-next .fa-chevron-left {
     position: absolute;
     top: 8px;
     left: 10px;
 }
+
 .products .slick-next {
     left: -4%;
     top: 41%;
@@ -1144,9 +1147,7 @@ body {
 
 /*  END GARDEN SERVICES */
 /* START PRODUCTS DISCOUNT */
-.product_discounts .products .product_info .product_details .price_diffrent {
-
-}
+.product_discounts .products .product_info .product_details .price_diffrent {}
 
 .product_discounts .products .product_info .product_details .price_diffrent h4 {
     display: inline-block;
@@ -1316,7 +1317,8 @@ body {
 }
 
 .index_posts .from_blog .post_info img {
-    max-width: 100%;
+    width: 250px;
+    height: 235px;
 }
 
 .index_posts .from_blog .post_info h4 {
@@ -3674,8 +3676,9 @@ body {
     margin-right: 20px;
     margin-left: 5px;
 }
-@media(max-width:991px){
-    .product_details .data .product .product_images .thumbnail-slider{
+
+@media(max-width:991px) {
+    .product_details .data .product .product_images .thumbnail-slider {
         max-width: 275px;
     }
 }
@@ -3906,13 +3909,15 @@ body {
     flex-wrap: wrap;
 }
 
-.product_details .data .request .options .colors input[type=radio]:checked + label {
+.product_details .data .request .options .colors input[type=radio]:checked+label {
     border: 1.5px solid #5c8e007d;
     background-color: #5c8e007d;
 }
-.product_details .data .request .options .colors input[type=radio]{
+
+.product_details .data .request .options .colors input[type=radio] {
     display: none;
 }
+
 .product_details .data .request .options .colors .color {
     background-color: #E5F1E5;
     border-radius: 5px;
@@ -4529,3 +4534,78 @@ body {
 .accordion-item .accordion-body h6 {
     font-family: 'SuisseIntl' !important;
 }
+
+/* START BLOG */
+/* START BLOG DETAILS  */
+.post_details {
+    padding: 20px 50px 20px 50px;
+}
+
+.post_details h5 {
+    color: #8F918F;
+    font-size: 16px;
+}
+
+.post_details h5 .calendar_name {
+    width: 22px;
+    margin: 0;
+}
+
+.post_details h2 {
+    width: 50%;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    line-height: 1.8;
+}
+
+.post_details img {
+    margin-bottom: 30px;
+    max-width: 100%;
+}
+
+.post_details p {
+    line-height: 1.8;
+    color: #1B1B1B;
+}
+
+.blogs .data {
+    border: none;
+}
+
+.blogs .data .main_blog {
+    background: #E5F1E5;
+    border-radius: 5px;
+}
+
+.blogs .data .main_blog p {
+    background: #E5F1E5 !important;
+}
+
+.blogs .data .main_blog h3 {
+    padding: 10px;
+}
+
+.blogs .data .post_info {
+    background-color: #fff;
+    border: 1px solid #D6E0DF;
+    border-radius: 5px;
+}
+
+.blogs .from_blog .post_info img {
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+}
+
+.blogs .from_blog .post_info h4 {
+    padding: 10px;
+}
+
+.blogs .from_blog .post_info p {
+    padding: 0 10px 10px 0;
+}
+
+/* END BLOG DETAILS */
+
+/** END BLOG */

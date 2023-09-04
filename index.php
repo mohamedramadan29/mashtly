@@ -843,60 +843,59 @@ if (isset($_POST['add_to_cart'])) {
 <div class='index_posts'>
     <div class="container">
         <div class="data">
+            <?php
+            $stmt = $connect->prepare("SELECT * FROM posts WHERE publish = 1 ORDER BY id DESC LIMIT 1");
+            $stmt->execute();
+            $last_post = $stmt->fetch();
+            $post_id = $last_post['id'];
+            $post_head = $last_post['name'];
+            $post_desc = $last_post['description'];
+            $post_desc = explode(' ', $post_desc);
+            // استخدم array_slice للحصول على أول 10 كلمات
+            $post_desc_last = implode(' ', array_slice($post_desc, 0, 80));
+            $post_short_desc = $last_post['short_desc'];
+            $post_date = $last_post['date'];
+            $post_slug = $last_post['slug'];
+            $post_image = $last_post['main_image'];
+            ?>
             <div class='row'>
                 <div class="col-lg-6">
                     <div class="info">
-                        <img src="uploads/main_post.png" alt="">
+                        <img src="admin/posts/images/<?php echo $post_image; ?>" alt="">
                     </div>
                 </div>
+
                 <div class="col-lg-6">
                     <div class="info">
                         <span> من المدونة </span>
-                        <h3> كيف تغرس الأشجار الجديدة؟ </h3>
-                        <p> هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على
-                            الشكل الخارجي للنص أو شكل توضع الفقرات في الصفحة التي يقرأها. ولذلك يتم استخدام طريقة لوريم
-                            إيبسوم لأنها تعطي توزيعاَ طبيعياَ -إلى حد ما- للأحرف عوضاً عن استخدام “هنا يوجد محتوى نصي،
-                            هنا يوجد محتوى نصي” فتجعلها تبدو (أي الأحرف) وكأنها نص مقروء. العديد من برامح النشر المكتبي
-                            وبرامح تحرير صفحات الويب تستخدم لوريم إيبسوم بشكل إفتراضي كنموذج عن النص، وإذا قمت بإدخال
-                            في أي محرك بحث ستظهر العديد من المواقع الحديثة العهد في نتائج البحث. </p>
-                        <a href='#' class='btn global_button'> اقرأ المزيد </a>
+                        <h3> <?php echo $post_head; ?> </h3>
+                        <p> <?php echo $post_desc_last . '...' ?> </p>
+                        <a href='blog_details?slug=<?php echo $post_slug; ?>' class='btn global_button'> اقرأ المزيد </a>
                     </div>
                 </div>
             </div>
             <div class='from_blog'>
                 <div class='row'>
-                    <div class="col-lg-3">
-                        <div class="post_info">
-                            <img src="uploads/post1.png" alt="">
-                            <h4> زراعة النباتات الطبية والعطرية </h4>
-                            <p>هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي ا لى
-                            </p>
+                    <?php
+                    $stmt = $connect->prepare("SELECT * FROM posts WHERE publish = 1 AND id !=?");
+                    $stmt->execute(array($post_id));
+                    $allposts = $stmt->fetchAll();
+                    foreach ($allposts as $post) {
+                        $post_desc = explode(' ', $post['description']);
+                        $post_desc = implode(' ', array_slice($post_desc, 0, 20));
+                    ?>
+                        <div class="col-lg-3">
+                            <a href="blog_details?slug=<?php echo $post['slug']; ?>" style="text-decoration: none;"> 
+                            <div class="post_info">
+                                <img src="admin/posts/images/<?php echo $post['main_image'] ?>" alt="">
+                                <h4> <?php echo $post['name']; ?> </h4>
+                                <p>  <?php echo $post_desc . "...";?> </p>
+                            </div>
+                            </a>
                         </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="post_info">
-                            <img src="uploads/post2.png" alt="">
-                            <h4> زراعة النباتات الطبية والعطرية </h4>
-                            <p>هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي ا لى
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="post_info">
-                            <img src="uploads/post1.png" alt="">
-                            <h4> زراعة النباتات الطبية والعطرية </h4>
-                            <p>هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي ا لى
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="post_info">
-                            <img src="uploads/post1.png" alt="">
-                            <h4> زراعة النباتات الطبية والعطرية </h4>
-                            <p>هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي ا لى
-                            </p>
-                        </div>
-                    </div>
+                    <?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>

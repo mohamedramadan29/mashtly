@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="33.044" height="33.044" viewBox="0 0 33.044 33.044">
+  <g id="calendar" transform="translate(0 0)">
+    <path id="Path_42555" data-name="Path 42555" d="M26.16,2.754H24.783V1.377a1.377,1.377,0,1,0-2.754,0V2.754H11.015V1.377a1.377,1.377,0,1,0-2.754,0V2.754H6.884A6.893,6.893,0,0,0,0,9.638V26.16a6.893,6.893,0,0,0,6.884,6.884H26.16a6.893,6.893,0,0,0,6.884-6.884V9.638A6.893,6.893,0,0,0,26.16,2.754ZM2.754,9.638A4.131,4.131,0,0,1,6.884,5.507H26.16a4.131,4.131,0,0,1,4.131,4.131v1.377H2.754ZM26.16,30.291H6.884A4.131,4.131,0,0,1,2.754,26.16V13.769H30.291V26.16A4.131,4.131,0,0,1,26.16,30.291Z" transform="translate(0 0)" fill="#8f918f"/>
+    <circle id="Ellipse_701" data-name="Ellipse 701" cx="1.596" cy="1.596" r="1.596" transform="translate(14.927 19.191)" fill="#8f918f"/>
+    <circle id="Ellipse_702" data-name="Ellipse 702" cx="1.596" cy="1.596" r="1.596" transform="translate(7.819 19.191)" fill="#8f918f"/>
+    <circle id="Ellipse_703" data-name="Ellipse 703" cx="1.596" cy="1.596" r="1.596" transform="translate(22.034 19.191)" fill="#8f918f"/>
+  </g>
+</svg>

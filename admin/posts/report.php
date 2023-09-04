@@ -157,6 +157,18 @@
                                                                         الصورة</label>
                                                                 </div>
                                                             </div>
+                                                            <div class="form-group">
+                                                                <label for="Company-2" class="block"> اضافة التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
+                                                                <input required id="Company-2" name="tags" type="text" class="form-control" value="<?php echo $post['tags']; ?>">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="Company-2" class="block"> نشر المقال </label>
+                                                                <select name="publish" id="" class="form-control select2">
+                                                                    <option value=""> اختر الحالة </option>
+                                                                    <option <?php if ($post['publish'] == 1) echo 'selected'; ?> value="1"> نشر المقال </option>
+                                                                    <option <?php if ($post['publish'] == 0) echo 'selected'; ?> value="0"> ارشيف </option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="submit" name="edit_cat" class="btn btn-primary waves-effect waves-light "> تعديل
@@ -217,6 +229,10 @@
                                         <div class="custom-file">
                                             <input required type="file" class="dropify" id="customFile" accept='image/*' name="main_image">
                                         </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Company-2" class="block"> اضافة التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
+                                        <input required id="Company-2" name="tags" type="text" class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> نشر المقال </label>
