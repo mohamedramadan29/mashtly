@@ -156,7 +156,7 @@
                       <a class="nav-link" href="http://localhost/mashtly/shop"> تصفح حسب احتياجاتك </a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#"> الطلبات الكبيرة </a>
+                      <a class="nav-link" href="big_orders"> الطلبات الكبيرة </a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="#"> تنسيق الحدائق </a>
@@ -240,7 +240,7 @@
             <a class="nav-link" href="http://localhost/mashtly/shop"> تصفح حسب احتياجاتك </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"> الطلبات الكبيرة </a>
+            <a class="nav-link" href="big_orders"> الطلبات الكبيرة </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#"> تنسيق الحدائق </a>

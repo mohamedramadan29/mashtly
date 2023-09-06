@@ -257,6 +257,16 @@ if (!isset($_SESSION['admin_username']) || !isset($_SESSION['admin_username'])) 
     } elseif ($dir == 'import_services' && $page == 'delete') {
         include 'import_services/delete.php';
     }
+    // START  Big Orders 
+    if ($dir == 'big_orders' && $page == 'add') {
+        include "big_orders/add.php";
+    } elseif ($dir == 'big_orders' && $page == 'edit') {
+        include "big_orders/edit.php";
+    } elseif ($dir == 'big_orders' && $page == 'delete') {
+        include 'big_orders/delete.php';
+    } elseif ($dir == 'big_orders' && $page == 'report') {
+        include "big_orders/report.php";
+    }
     ?>
 
 </div>
