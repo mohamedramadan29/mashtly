@@ -267,6 +267,16 @@ if (!isset($_SESSION['admin_username']) || !isset($_SESSION['admin_username'])) 
     } elseif ($dir == 'big_orders' && $page == 'report') {
         include "big_orders/report.php";
     }
+    // START Landscap 
+    if ($dir == 'landscap' && $page == 'add') {
+        include "landscap/add.php";
+    } elseif ($dir == 'landscap' && $page == 'edit') {
+        include "landscap/edit.php";
+    } elseif ($dir == 'landscap' && $page == 'delete') {
+        include 'landscap/delete.php';
+    } elseif ($dir == 'landscap' && $page == 'report') {
+        include "landscap/report.php";
+    }
     ?>
 
 </div>
