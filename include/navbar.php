@@ -165,11 +165,13 @@
                       <a class="nav-link" href="import_service"> خدمات الاستيراد </a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#"> الهدايا </a>
+                      <a class="nav-link" href="gifts"> الهدايا </a>
                     </li>
+                    <!--
                     <li class="nav-item">
                       <a class="nav-link" href="#"> زراعة الاسطح </a>
                     </li>
+              -->
                   </ul>
                 </div>
               </div>
@@ -249,11 +251,13 @@
             <a class="nav-link" href="import_service"> خدمات الاستيراد </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"> الهدايا </a>
+            <a class="nav-link" href="gifts"> الهدايا </a>
           </li>
+          <!-- 
           <li class="nav-item">
             <a class="nav-link" href="#"> زراعة الاسطح </a>
           </li>
+                -->
         </ul>
       </div>
     </div>

@@ -287,6 +287,16 @@ if (!isset($_SESSION['admin_username']) || !isset($_SESSION['admin_username'])) 
     } elseif ($dir == 'landscap_orders' && $page == 'report') {
         include "landscap_orders/report.php";
     }
+    // START Gift Products 
+    if ($dir == 'gift_products' && $page == 'add') {
+        include "gift_products/add.php";
+    } elseif ($dir == 'gift_products' && $page == 'edit') {
+        include "gift_products/edit.php";
+    } elseif ($dir == 'gift_products' && $page == 'delete') {
+        include 'gift_products/delete.php';
+    } elseif ($dir == 'gift_products' && $page == 'report') {
+        include "gift_products/report.php";
+    }
     ?>
 
 </div>

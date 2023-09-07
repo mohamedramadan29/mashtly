@@ -100,7 +100,26 @@
                 </li>
               </ul>
             </li>
-
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <p>
+                  منتجات الهدايا
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="main.php?dir=gift_products&page=report" class="nav-link">
+                    <p> جميع المنتجات </p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="main.php?dir=gift_products&page=add" class="nav-link">
+                    <p> اضافة هدية </p>
+                  </a>
+                </li>
+              </ul>
+            </li>
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <p>
