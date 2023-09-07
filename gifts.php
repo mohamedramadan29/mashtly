@@ -3,19 +3,18 @@ ob_start();
 session_start();
 $page_title = ' الهدايا ';
 include "init.php";
-
-
 // add to favorite
 if (isset($_POST['add_to_fav'])) {
     if (isset($_SESSION['user_id'])) {
         $product_id = $_POST['product_id'];
         $user_id = $_SESSION['user_id'];
-        $stmt = $connect->prepare("INSERT INTO user_favourite (user_id, product_id)
-        VALUES(:zuser_id, :zproduct_id)
+        $stmt = $connect->prepare("INSERT INTO user_favourite (user_id, product_id,gift_product)
+        VALUES(:zuser_id, :zproduct_id,:zgift_product)
         ");
         $stmt->execute(array(
             "zuser_id" => $user_id,
-            "zproduct_id" => $product_id
+            "zproduct_id" => $product_id,
+            "zgift_product" => 1,
         ));
         if ($stmt) {
             alertfavorite();
@@ -32,8 +31,8 @@ if (isset($_POST['add_to_cart'])) {
     } else {
         $user_id = null;
     }
-    $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,quantity,price,total_price)
-    VALUES(:zuser_id, :zcookie_id , :zproduct_id,:zquantity ,:zprice , :ztotal_price)
+    $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,quantity,price,total_price,gift_product)
+    VALUES(:zuser_id, :zcookie_id , :zproduct_id,:zquantity ,:zprice , :ztotal_price,:zgift_product)
     ");
     $stmt->execute(array(
         "zuser_id" => $user_id,
@@ -42,6 +41,7 @@ if (isset($_POST['add_to_cart'])) {
         "zquantity" => 1,
         "zprice" => $price,
         "ztotal_price" => $price,
+        "zgift_product" => 1,
     ));
     if ($stmt) {
         alertcart();
@@ -56,7 +56,7 @@ if (isset($_GET['cat'])) {
     $cat_data = $stmt->fetch();
     $cat_id = $cat_data['id'];
 }
-$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1");
+$stmt = $connect->prepare("SELECT * FROM products_gift WHERE publish = 1");
 $stmt->execute();
 $num_products = $stmt->rowCount();
 $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -64,13 +64,13 @@ $pageSize = 20;
 $offset = ($currentpage - 1) * $pageSize;
 
 if (isset($_POST['height_price'])) {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY price DESC LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products_gift WHERE publish = 1  ORDER BY price DESC LIMIT $pageSize OFFSET :offset");
 } elseif (isset($_POST['low_price'])) {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY price ASC LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products_gift WHERE publish = 1  ORDER BY price ASC LIMIT $pageSize OFFSET :offset");
 } elseif (isset($_POST['newest'])) {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products_gift WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
 } elseif (isset($_POST['oldest'])) {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id ASC LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products_gift WHERE publish = 1  ORDER BY id ASC LIMIT $pageSize OFFSET :offset");
 } elseif (isset($_POST['search_options'])) {
     $selectedOptions = $_POST['options'];
     if (!empty($selectedOptions)) {
@@ -82,11 +82,11 @@ if (isset($_POST['height_price'])) {
         // Get all products with matching IDs
         if (!empty($productIDs)) {
             $productIDsStr = implode(',', $productIDs);
-            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+            $stmt = $connect->prepare("SELECT * FROM products_gift WHERE publish = 1 AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
         }
     }
 } else {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products_gift WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
 }
 $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
@@ -215,13 +215,13 @@ $totalPages = ceil($num_products / $pageSize);
                             <div class="col-lg-3 col-6">
                                 <div class="product_info">
                                     <?php
-                                    $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
+                                    $stmt = $connect->prepare("SELECT * FROM products_image_gifts WHERE product_id = ?");
                                     $stmt->execute(array($product['id']));
                                     $count_image = $stmt->rowCount();
                                     if ($count_image > 0) {
                                         $product_data_image = $stmt->fetch();
                                     ?>
-                                        <img class="main_image" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt']; ?>">
+                                        <img class="main_image" src="admin/gift_products/images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt']; ?>">
                                     <?php
                                     } else {
                                     ?>
@@ -230,7 +230,7 @@ $totalPages = ceil($num_products / $pageSize);
                                     }
                                     ?>
                                     <div class="product_details">
-                                        <h2> <a href="product?slug=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
+                                        <h2> <a href="gift_product?slug=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
                                         <?php
                                         $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
                                         $minimumPrice = INF; // قيمة أدنى سعر ممكنة
