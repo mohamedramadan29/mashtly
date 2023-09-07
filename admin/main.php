@@ -296,6 +296,11 @@ if (!isset($_SESSION['admin_username']) || !isset($_SESSION['admin_username'])) 
         include 'gift_products/delete.php';
     } elseif ($dir == 'gift_products' && $page == 'report') {
         include "gift_products/report.php";
+    } elseif ($dir == 'gift_products' && $page == 'fast_edit') {
+        include "gift_products/fast_edit.php";
+    }
+    elseif ($dir == 'gift_products' && $page == 'delete_image') {
+        include "gift_products/delete_image.php";
     }
     ?>
 

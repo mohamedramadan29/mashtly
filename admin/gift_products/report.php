@@ -31,7 +31,7 @@
                         if (isset($_POST['delete_selected'])) {
                             if (isset($_POST["products_id"]) && !empty($_POST["products_id"])) {
                                 $selectedProducts = implode(",", $_POST["products_id"]);
-                                $stmt = $connect->prepare("DELETE FROM products WHERE id IN ($selectedProducts)");
+                                $stmt = $connect->prepare("DELETE FROM products_gift WHERE id IN ($selectedProducts)");
                                 $stmt->execute();
                                 if ($stmt) {
                                     $_SESSION['success_message'] = " تم حذف المنتجات بنجاح ";
@@ -82,7 +82,7 @@
                                             <th></th>
                                             <th> # </th>
                                             <th>الأسم </th>
-                                            <th> القسم </th>
+
                                             <th> السعر </th>
                                             <th> سعر التخفيض </th>
                                             <th> حالة المخزون </th>
@@ -105,23 +105,7 @@
                                                     <input value="<?php echo $pro["id"]; ?>" style="cursor: pointer; box-shadow: none; width: 20px; height: 20px;" type="checkbox" name="products_id[]" class="form-control">
                                                 </td>
                                                 <td> <?php echo $i; ?> </td>
-                                                <td> <?php echo  $pro['name']; ?> </td>
-                                                <td> <?php
-                                                        if ($pro['cat_id'] != null) { ?>
-                                                        <?php
-                                                            $stmt = $connect->prepare("SELECT * FROM categories WHERE id = ? LIMIT 1");
-                                                            $stmt->execute(array($pro['cat_id']));
-                                                            $sub_data = $stmt->fetch();
-                                                        ?>
-                                                        <span class="badge badge-info"> <?php echo $sub_data['name']; ?> </span>
-                                                        <?php
-                                                        ?>
-                                                    <?php
-                                                        } else { ?>
-                                                        <span class="badge badge-danger"> لا يوجد </span>
-                                                    <?php
-                                                        }  ?>
-                                                </td>
+                                                <td> <?php echo  $pro['name']; ?> </td> 
                                                 <td> <?php echo  $pro['price']; ?> </td>
                                                 <td> <?php echo  $pro['sale_price']; ?> </td>
                                                 <td> <?php
@@ -147,13 +131,13 @@
 
                                                 <td>
                                                     <?php
-                                                    $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ? LIMIT 1");
+                                                    $stmt = $connect->prepare("SELECT * FROM products_image_gifts WHERE product_id = ? LIMIT 1");
                                                     $stmt->execute(array($pro['id']));
                                                     $image_count = $stmt->rowCount();
                                                     if ($image_count > 0) {
                                                         $product_img_data = $stmt->fetch();
                                                     ?>
-                                                        <img style="width: 80px; height:80px;" src="product_images/<?php echo $product_img_data['main_image']; ?>" alt="">
+                                                        <img style="width: 80px; height:80px;" src="gift_products/images/<?php echo $product_img_data['main_image']; ?>" alt="">
                                                     <?php
                                                     }
                                                     ?>
@@ -164,10 +148,9 @@
                                                             العمليات
                                                         </button>
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                            <a class="dropdown-item" href="main.php?dir=products&page=edit&pro_id=<?php echo $pro['id']; ?>"> تحرير </a>
+                                                            <a class="dropdown-item" href="main.php?dir=gift_products&page=edit&pro_id=<?php echo $pro['id']; ?>"> تحرير </a>
                                                             <a href="" class="dropdown-item" data-toggle="modal" data-target="#edit-Modal_<?php echo $pro['id']; ?>"> تحرير سريع </a>
-                                                            <a href="main.php?dir=products/faqs&page=report&pro_id=<?php echo $pro['id']; ?>" class="dropdown-item">اسئلة المنتج </a>
-                                                            <a class="dropdown-item confirm" href="main.php?dir=products&page=delete&pro_id=<?php echo $pro['id']; ?>"> حذف المنتج </a>
+                                                            <a class="dropdown-item confirm" href="main.php?dir=gift_products&page=delete&pro_id=<?php echo $pro['id']; ?>"> حذف المنتج </a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -180,36 +163,16 @@
                                         <div class="modal-header">
                                             <h4 class="modal-title"> تحرير سريع للمنتج </h4>
                                         </div>
-                                        <form method="POST" action="main.php?dir=products&page=fast_edit" enctype="multipart/form-data">
+                                        <form method="POST" action="main.php?dir=gift_products&page=fast_edit" enctype="multipart/form-data">
                                             <div class="modal-body">
                                                 <div class="form-group">
-                                                    <label for="Company-2" class="block"> رابط المنتج </label>
+                                                    <label for="Company-2" class="block"> رابط منتج الهدية  </label>
                                                     <span class="badge badge-info"> / Website Name </span> <input id="Company-2" required name="slug" type="text" class="form-control required" value="<?php echo  $pro['slug'] ?>">
                                                 </div>
                                                 <div class="form-group">
                                                     <input type='hidden' name="pro_id" value="<?php echo $pro['id']; ?>">
                                                     <label for="Company-2" class="block">الأسم </label>
                                                     <input id="Company-2" required name="name" type="text" class="form-control required" value="<?php echo  $pro['name'] ?>">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="inputStatus"> القسم الرئيسي </label>
-                                                    <select required id="" class="form-control custom-select select2" name="cat_id">
-                                                        <option selected disabled> -- اختر -- </option>
-                                                        <?php
-                                                        $stmt = $connect->prepare("SELECT * FROM categories");
-                                                        $stmt->execute();
-                                                        $allcat = $stmt->fetchAll();
-                                                        foreach ($allcat as $cat) {
-                                                        ?>
-                                                            <option <?php if (isset($_REQUEST['cat_id']) && $_REQUEST['cat_id'] == $cat['id']) {
-                                                                        echo "selected";
-                                                                    } elseif ($cat['id'] == $pro['cat_id']) {
-                                                                        echo 'selected';
-                                                                    }  ?> value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
-                                                        <?php
-                                                        }
-                                                        ?>
-                                                    </select>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="Company-2" class="block"> السعر الأفتراضي </label>

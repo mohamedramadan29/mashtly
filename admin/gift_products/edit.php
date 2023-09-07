@@ -3,43 +3,22 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
     $pro_id = $_GET['pro_id'];
     if (isset($_POST['edit_pro'])) {
         $formerror = [];
-        $cat_id = $_POST['cat_id'];
-        $more_cat = $_POST['more_cat'];
-        $more_cat_string = implode(',', (array) $more_cat);
         $name = $_POST['name'];
         $slug = createSlug($name);
         $description = $_POST['description'];
         $short_desc = $_POST['short_desc'];
-        //$product_adv = $_POST['product_adv'];
         $price = $_POST['price'];
         $purchase_price = $_POST['purchase_price'];
         $sale_price = $_POST['sale_price'];
         $av_num = $_POST['av_num'];
-        /*  $pro_attributes = $_POST['pro_attribute'];
-        $pro_variations = $_POST['pro_variations'];
-        $pro_prices = $_POST['pro_price'];
-        */
         $tags = $_POST['tags'];
         $publish = $_POST['publish'];
-        $related_product = $_POST['related_product'];
-        $related_product_string = implode(',', (array) $related_product);
-        if (isset($_POST['main_checked'])) {
-            $main_checked = $_POST['main_checked'];
-        } else {
-            $main_checked = 'image';
-        }
 
-
-        // plant options 
-        $plants_options = $_POST['plants_options'];
-        /**
-         * More Attribute For Main Image
-         */
         $image_name = $_POST['image_name'];
         $image_alt = $_POST['image_alt'];
         $image_desc = $_POST['image_desc'];
         $image_keys = $_POST['image_keys'];
-        $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ? AND id !=?");
+        $stmt = $connect->prepare("SELECT * FROM products_gift WHERE slug = ? AND id !=?");
         $stmt->execute(array($slug, $pro_id));
         $count = $stmt->rowCount();
         if ($count > 0) {
@@ -59,13 +38,13 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                 $main_image_uploaded = $image_name . '.' . $image_extension;
                 move_uploaded_file(
                     $main_image_temp,
-                    'product_images/' . $main_image_uploaded
+                    'gift_products/images/' . $main_image_uploaded
                 );
             } else {
                 $main_image_uploaded = $main_image_name;
                 move_uploaded_file(
                     $main_image_temp,
-                    'product_images/' . $main_image_uploaded
+                    'gift_products/images/' . $main_image_uploaded
                 );
             }
         }
@@ -81,6 +60,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
             $total_images = 0;
         }
         // main video
+        /*
         if (empty($formerror)) {
             if (!empty($_FILES['video']['name'])) {
                 $video_name = $_FILES['video']['name'];
@@ -95,38 +75,34 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
             } else {
                 $video_uploaded = '';
             }
-        }
+        }*/
         if (empty($name)) {
-            $formerror[] = ' من فضلك ادخل اسم المنتج   ';
-        }
-
-        if (empty($cat_id)) {
-            $formerror[] = ' من فضلك ادخل قسم المنتج   ';
+            $formerror[] = ' من فضلك ادخل اسم الهدية    ';
         }
         if (empty($formerror)) {
-            $stmt = $connect->prepare("UPDATE products SET cat_id=?,more_cat=?,name=?, slug=? , description=?,short_desc=?,main_checked=?,purchase_price=?,
-        price=?,sale_price=?,av_num=?,tags=?,related_product=?,publish=? WHERE id = ? ");
+            $stmt = $connect->prepare("UPDATE products_gift SET name=?, slug=? , description=?,short_desc=?,purchase_price=?,
+        price=?,sale_price=?,av_num=?,tags=?,publish=? WHERE id = ? ");
             $stmt->execute(array(
-                $cat_id, $more_cat_string,  $name, $slug, $description, $short_desc,
-                $main_checked, $purchase_price, $price,
-                $sale_price,  $av_num,  $tags, $related_product_string, $publish, $pro_id
+                $name, $slug, $description, $short_desc,
+                 $purchase_price, $price,
+                $sale_price,  $av_num,  $tags, $publish, $pro_id
             ));
             // UPDATE Main Images To db 
-            $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
+            $stmt = $connect->prepare("SELECT * FROM products_image_gifts WHERE product_id = ?");
             $stmt->execute(array($pro_id));
             $count_pro = $stmt->rowCount();
             if ($count_pro > 0) {
-                $stmt = $connect->prepare("UPDATE products_image SET image_name=?, image_alt=? , image_desc=?,image_keys=? WHERE product_id = ? ");
+                $stmt = $connect->prepare("UPDATE products_image_gifts SET image_name=?, image_alt=? , image_desc=?,image_keys=? WHERE product_id = ? ");
                 $stmt->execute(array($image_name, $image_alt, $image_desc, $image_keys, $pro_id));
                 if (!empty($_FILES['main_image']['name'])) {
-                    $stmt = $connect->prepare("UPDATE products_image SET main_image=? WHERE product_id = ? ");
+                    $stmt = $connect->prepare("UPDATE products_image_gifts SET main_image=? WHERE product_id = ? ");
                     $stmt->execute(array(
                         $main_image_uploaded, $pro_id
                     ));
                 }
             } else {
                 // Insert Main Images To db 
-                $stmt = $connect->prepare("INSERT INTO products_image (product_id, main_image,image_name, image_alt , image_desc,image_keys)
+                $stmt = $connect->prepare("INSERT INTO products_image_gifts (product_id, main_image,image_name, image_alt , image_desc,image_keys)
     VALUES(:zproduct_id,:zmain_image,:zimage_name,:zimage_alt, :zimage_desc,:zimage_keys)");
                 $stmt->execute(array(
                     "zproduct_id" => $pro_id,
@@ -158,16 +134,16 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                         $main_image_uploaded = $new_image_name . '.' . $image_extension;
                         move_uploaded_file(
                             $image_temp,
-                            'product_images/' . $main_image_uploaded
+                            'gift_products/images/' . $main_image_uploaded
                         );
                     } else {
                         $main_image_uploaded = $image_name;
                         move_uploaded_file(
                             $image_temp,
-                            'product_images/' . $main_image_uploaded
+                            'gift_products/images/' . $main_image_uploaded
                         );
                     }
-                    $stmt = $connect->prepare("INSERT INTO products_gallary (product_id,image,image_name, image_alt , image_desc,image_keys)
+                    $stmt = $connect->prepare("INSERT INTO products_gallary_gifts (product_id,image,image_name, image_alt , image_desc,image_keys)
         VALUES(:zproduct_id,:zimage,:zimage_name,:zimage_alt, :zimage_desc,:zimage_keys_gal)");
                     $stmt->execute(array(
                         "zproduct_id" => $pro_id,
@@ -184,6 +160,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
 
             // insert product plant options 
             // delete all old product_properties_plants and make insert agian
+            /*
             $stmt = $connect->prepare("DELETE FROM product_properties_plants WHERE product_id = ?");
             $stmt->execute(array($pro_id));
             foreach ($plants_options as $option) {
@@ -195,6 +172,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                     "zoption_id" => $option
                 ));
             }
+            */
             if ($stmt) {
                 $_SESSION['success_message'] = " تمت التعديل  بنجاح  ";
 
@@ -219,7 +197,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                     </script>
                 <?php
                 }
-                header('Location:main?dir=products&page=edit&pro_id=' . $pro_id);
+                header('Location:main?dir=gift_products&page=edit&pro_id=' . $pro_id);
             }
         } else {
             $_SESSION['error_messages'] = $formerror;
@@ -259,7 +237,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
     <!-- DOM/Jquery table start -->
     <?php
     $pro_id = $_GET['pro_id'];
-    $stmt = $connect->prepare("SELECT * FROM products WHERE id=?");
+    $stmt = $connect->prepare("SELECT * FROM products_gift WHERE id=?");
     $stmt->execute(array($pro_id));
     $pro_data = $stmt->fetch();
     ?>
@@ -307,237 +285,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                         });
                                     </script>
                                 </div>
-                                <div class="form-group">
-                                    <label for="inputStatus"> القسم الرئيسي </label>
-                                    <select required id="" class="form-control custom-select select2" name="cat_id">
-                                        <option selected disabled> -- اختر -- </option>
-                                        <?php
-                                        $stmt = $connect->prepare("SELECT * FROM categories");
-                                        $stmt->execute();
-                                        $allcat = $stmt->fetchAll();
-                                        foreach ($allcat as $cat) {
-                                        ?>
-                                            <option <?php if (isset($_REQUEST['cat_id']) && $_REQUEST['cat_id'] == $cat['id']) {
-                                                        echo "selected";
-                                                    } elseif ($cat['id'] == $pro_data['cat_id']) {
-                                                        echo 'selected';
-                                                    }  ?> value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
-                                        <?php
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
 
-                                <div class="form-group">
-                                    <label for="inputStatus"> اضافة اقسام اخري </label>
-                                    <?php
-                                    if (!empty($pro_data['more_cat'])) {
-
-                                        $pro_more_cat = $pro_data['more_cat'];
-                                        $pro_more_cat = explode(',', $pro_more_cat);
-                                    ?>
-                                        <select id="" class="form-control custom-select select2" name="more_cat[]" multiple>
-                                            <?php
-                                            $stmt = $connect->prepare("SELECT * FROM categories");
-                                            $stmt->execute();
-                                            $allcat = $stmt->fetchAll();
-                                            foreach ($allcat as $cat) {
-                                            ?>
-                                                <option <?php if (in_array($cat['id'], $pro_more_cat)) echo 'selected'; ?> value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
-                                            <?php
-                                            }
-                                            ?>
-                                        </select>
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <select id="" class="form-control custom-select select2" name="more_cat[]" multiple>
-                                            <?php
-                                            $stmt = $connect->prepare("SELECT * FROM categories");
-                                            $stmt->execute();
-                                            $allcat = $stmt->fetchAll();
-                                            foreach ($allcat as $cat) {
-                                            ?>
-                                                <option <?php if (isset($_REQUEST['more_cat']) && $_REQUEST['more_cat'] == $cat['id']) echo "selected"; ?> value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
-                                            <?php
-                                            }
-                                            ?>
-                                        </select>
-                                    <?php
-                                    }
-                                    ?>
-                                </div>
-                                <!--
-                                <div id="attributes-containerxx">
-                                    <?php
-                                    $uniqueId = uniqid();
-                                    ?>
-                                    <div class="attribute-group">
-
-                                        <?php
-                                        $stmt = $connect->prepare("SELECT * FROM product_details WHERE pro_id = ?");
-                                        $stmt->execute(array($pro_id));
-                                        $allattributs = $stmt->fetchAll();
-                                        $count_attribute = count($allattributs);
-                                        if ($count_attribute > 0) {
-                                            foreach ($allattributs as $pro_attribute_detail) { ?>
-                                                <div class="form-group">
-                                                    <label for="inputStatus">اختر السمة</label>
-                                                    <select class="form-control custom-select select2 pro-attribute" name="pro_attribute[]" data-new=<?php echo $uniqueId; ?> data-uniqueId="<?php echo $uniqueId; ?>">
-                                                        <option selected disabled>-- اختر --</option>
-                                                        <?php
-                                                        $stmt = $connect->prepare("SELECT * FROM product_attribute");
-                                                        $stmt->execute();
-                                                        $allatt = $stmt->fetchAll();
-                                                        foreach ($allatt as $index => $att) {
-                                                            $selected = (isset($_REQUEST['pro_attribute']) && in_array($att['id'], $_REQUEST['pro_attribute'])) ? 'selected' : '';
-                                                        ?>
-                                                            <option <?php if ($pro_attribute_detail['pro_attribute'] == $att['id']) echo "selected"; ?> value="<?php echo $att['id']; ?> <?php echo $selected ?>"> <?php echo $att['name'] ?> </option>
-                                                        <?php
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="inputStatus">المتغيرات</label>
-                                                    <select class="form-control custom-select select2 pro-variation" name="pro_variations[]" data-uniqueId="<?php echo $uniqueId; ?>">
-                                                        <option disabled>-- اختر --</option>
-                                                        <option value="<?php echo $pro_attribute_detail['pro_variation']; ?>">
-                                                            <?php
-                                                            $stmt = $connect->prepare("SELECT * FROM product_variations WHERE id = ?");
-                                                            $stmt->execute(array($pro_attribute_detail['pro_variation']));
-                                                            $pro_vartion_details = $stmt->fetch();
-                                                            echo $pro_vartion_details['name']; ?></option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="inputName">سعر جديد </label>
-                                                    <input type="number" id="pro_price" name="pro_price[]" class="form-control" value="<?php echo $pro_attribute_detail['pro_price'] ?>">
-                                                </div>
-                                            <?php
-                                            }
-                                        } else {
-                                            ?>
-                                            <div class="form-group">
-                                                <label for="inputStatus">اختر السمة</label>
-                                                <select class="form-control custom-select select2 pro-attribute" name="pro_attribute[]" data-new=<?php echo $uniqueId; ?> data-uniqueId="<?php echo $uniqueId; ?>">
-                                                    <option selected disabled>-- اختر --</option>
-                                                    <?php
-                                                    $stmt = $connect->prepare("SELECT * FROM product_attribute");
-                                                    $stmt->execute();
-                                                    $allatt = $stmt->fetchAll();
-                                                    foreach ($allatt as $index => $att) {
-                                                        $selected = (isset($_REQUEST['pro_attribute']) && in_array($att['id'], $_REQUEST['pro_attribute'])) ? 'selected' : '';
-                                                        echo '<option value="' . $att['id'] . '" ' . $selected . '>' . $att['name'] . '</option>';
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="inputStatus">المتغيرات</label>
-                                                <select class="form-control custom-select select2 pro-variation" name="pro_variations[]" data-uniqueId="<?php echo $uniqueId; ?>">
-                                                    <option disabled>-- اختر --</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="inputName">سعر جديد </label>
-                                                <input type="number" id="pro_price" name="pro_price[]" class="form-control" value="<?php if (isset($_REQUEST['pro_price'])) echo $_REQUEST['pro_price'] ?>">
-                                            </div>
-                                        <?php
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
-                                <p class="btn btn-warning btn-sm" id="add_attribute_btn"> اضافة سمه جديد <i class="fa fa-plus"></i> </p>
-                                <div class="new_attributes" id="attributes-container"></div>
-                                <script src="plugins/jquery/jquery.js"></script>
-                                <script>
-                                    jQuery(function($) {
-                                        // استهداف زر "اضافة سمة جديدة"
-                                        $(document).on('click', '#add_attribute_btn', function() {
-                                            var uniqueId = Date.now(); // إنشاء معرف فريد جديد
-                                            var newAttributeItem = `
-                                        <div class="attribute-group">
-                                        <div class="form-group">
-                                            <br>
-                                            <label for="inputStatus">اختر السمة</label>
-                                            <select class="form-control custom-select select2 pro-attribute" name="pro_attribute[]" data-new="${uniqueId}" data-uniqueId="${uniqueId}">
-                                            <option selected disabled>-- اختر --</option>
-                                            <?php
-                                            $stmt = $connect->prepare("SELECT * FROM product_attribute");
-                                            $stmt->execute();
-                                            $allatt = $stmt->fetchAll();
-                                            foreach ($allatt as $index => $att) {
-                                                $selected = (isset($_REQUEST['pro_attribute']) && in_array($att['id'], $_REQUEST['pro_attribute'])) ? 'selected' : '';
-                                                echo '<option value="' . $att['id'] . '" ' . $selected . '>' . $att['name'] . '</option>';
-                                            }
-                                            ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputStatus">المتغيرات</label>
-                                            <select class="form-control custom-select select2 pro-variation" name="pro_variations[]" data-uniqueId="${uniqueId}">
-                                            <option disabled>-- اختر --</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputName">سعر جديد </label>
-                                            <input type="number" id="pro_price" name="pro_price[]" class="form-control" value="<?php if (isset($_REQUEST['pro_price'])) echo $_REQUEST['pro_price'] ?>">
-                                        </div>
-                                        <button class="btn btn-sm btn-danger delete_attribute_btn"> حذف العنصر <i class='fa fa-trash'></i> </button>
-                                        </div>
-                                    `;
-                                            $('#attributes-container').append(newAttributeItem); // إضافة العنصر الجديد إلى الصفحة
-                                        });
-                                        // استهداف زر "حذف العنصر"
-                                        $(document).on('click', '.delete_attribute_btn', function() {
-                                            $(this).closest('.attribute-group').remove(); // حذف العنصر
-                                        });
-                                    });
-                                </script>
-                                <br>
-                                -->
-                                <?php
-                                if (!empty($pro_data['related_product'])) {
-                                    $related_product = $pro_data['related_product'];
-                                    $related_product = explode(',', $related_product);
-                                ?>
-                                    <div class="form-group">
-                                        <label for="inputStatus"> المنتجات المرتبطة </label>
-                                        <select id="" class="form-control custom-select select2" name="related_product[]" multiple>
-                                            <?php
-                                            $stmt = $connect->prepare("SELECT * FROM products");
-                                            $stmt->execute();
-                                            $allpro = $stmt->fetchAll();
-                                            foreach ($allpro as $pro) {
-                                            ?>
-                                                <option <?php if (in_array($pro['id'], $related_product)) echo "selected"; ?> value="<?php echo $pro['id']; ?>"> <?php echo $pro['name'] ?> </option>
-                                            <?php
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                <?php
-                                } else {
-                                ?>
-                                    <div class="form-group">
-                                        <label for="inputStatus"> المنتجات المرتبطة </label>
-                                        <select id="" class="form-control custom-select select2" name="related_product[]" multiple>
-                                            <?php
-                                            $stmt = $connect->prepare("SELECT * FROM products");
-                                            $stmt->execute();
-                                            $allpro = $stmt->fetchAll();
-                                            foreach ($allpro as $pro) {
-                                            ?>
-                                                <option <?php if (isset($_REQUEST['related_product']) && $_REQUEST['related_product'] == $pro['id']) echo "selected"; ?> value="<?php echo $pro['id']; ?>"> <?php echo $pro['name'] ?> </option>
-                                            <?php
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                <?php
-                                }
-                                ?>
                                 <div class="form-group">
                                     <label for="inputStatus"> خصائص المنتج </label>
                                     <select id="" class="form-control custom-select select2" name="plants_options[]" multiple>
@@ -610,23 +358,13 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                                                                                                     echo $pro_data['av_num'];
                                                                                                                 } ?>">
                                 </div>
-
-                                <!--
-                                <div class="form-group">
-                                    <label for="product_adv"> مميزات المنتج <span style="color: #c0392b; font-size: 14px;"> [ افصل بين كل ميزة والاخري ب (,) ] </span> </label>
-                                    <textarea id="product_adv" name="product_adv" class="form-control" rows="4"><?php if (isset($_REQUEST['product_adv'])) {
-                                                                                                                    echo $_REQUEST['product_adv'];
-                                                                                                                } else {
-                                                                                                                    echo $pro_data['product_adv'];
-                                                                                                                }  ?></textarea>
-                                </div>
-                                -->
+ 
                                 <div class="form-group">
                                     <label for="customFile">تعديل صورة المنتج </label>
                                     <div class="custom-file">
                                         <!-- Get Product Image -->
                                         <?php
-                                        $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
+                                        $stmt = $connect->prepare("SELECT * FROM products_image_gifts WHERE product_id = ?");
                                         $stmt->execute(array($pro_id));
                                         $product_image_data = $stmt->fetch();
                                         $count_image_data = $stmt->rowCount();
@@ -671,33 +409,11 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="customFile"> تعديل فيديو المنتج </label>
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="customFile" accept='video/*' name="video">
-                                        <label class="custom-file-label" for="customFile"> حمل الفيديو </label>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for=""> الرئيسي </label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" value="image" type="radio" name="main_checked" id="flexRadioDefault1" <?php if ($pro_data['main_checked'] == 'image') echo "checked"; ?>>
-                                        <label class="form-check-label" for="flexRadioDefault1">
-                                            صورة المنتج
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" value="video" type="radio" name="main_checked" id="flexRadioDefault2" <?php if ($pro_data['main_checked'] == 'video') echo "checked"; ?>>
-                                        <label class="form-check-label" for="flexRadioDefault2">
-                                            الفيديو
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <p class="btn btn-primary btn-sm" id="add_to_gallary"> اضافة صورة جديدة للمعرض <i class="fa fa-plus"></i> </p>
                                 </div>
                                 <?php
                                 // product product gallary
-                                $stmt = $connect->prepare("SELECT * FROM products_gallary WHERE product_id=?");
+                                $stmt = $connect->prepare("SELECT * FROM products_gallary_gifts WHERE product_id=?");
                                 $stmt->execute(array($pro_id));
                                 $progallary = $stmt->fetchAll();
                                 $count_gallary = count($progallary);
@@ -728,7 +444,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                 </div>
             </form>
             <?php
-            include "edit_vartions.php";
+            //include "edit_vartions.php";
             ?>
             <br>
             <div class="card">
@@ -740,8 +456,8 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                         <div class="col-4">
                             <div class="info">
                                 <h6> الرئيسية </h6>
-                                <a target='_blank' href="product_images/<?php echo $product_image_data['main_image']; ?>" data-toggle="lightbox" data-title="sample 2 - black">
-                                    <img style="max-width: 100%;" src="product_images/<?php echo $product_image_data['main_image'];  ?>" class="img-fluid mb-2" alt="الرئيسية" />
+                                <a target='_blank' href="gift_products/images/<?php echo $product_image_data['main_image']; ?>" data-toggle="lightbox" data-title="sample 2 - black">
+                                    <img style="max-width: 100%;" src="gift_products/images/<?php echo $product_image_data['main_image'];  ?>" class="img-fluid mb-2" alt="الرئيسية" />
                                 </a>
                             </div>
                         </div>
@@ -754,11 +470,11 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                     ?>
                                         <div class="col-3">
                                             <div class="">
-                                                <a target='_blank' href="product_images/<?= $gallary['image'] ?>" data-toggle="lightbox" data-title="sample 2 - black">
-                                                    <img style="max-width: 100%;" src="product_images/<?= $gallary['image'] ?>" class="img-fluid mb-2" alt="المعرض" />
+                                                <a target='_blank' href="gift_products/images/<?= $gallary['image'] ?>" data-toggle="lightbox" data-title="sample 2 - black">
+                                                    <img style="max-width: 100%;" src="gift_products/images/<?= $gallary['image'] ?>" class="img-fluid mb-2" alt="المعرض" />
                                                 </a>
                                                 <form action="" method="post">
-                                                    <a href="main.php?dir=products&page=delete_image&image_gallary=<?php echo $gallary['id']; ?>&pro_id=<?php echo $pro_id; ?>" style="text-align: center;margin: auto;display: block;width: 40px;height: 40px;border-radius: 50%;" class="btn btn-danger" type="submit"> <i class="fa fa-trash"></i> </a>
+                                                    <a href="main.php?dir=gift_products&page=delete_image&image_gallary=<?php echo $gallary['id']; ?>&pro_id=<?php echo $pro_id; ?>" style="text-align: center;margin: auto;display: block;width: 40px;height: 40px;border-radius: 50%;" class="btn btn-danger" type="submit"> <i class="fa fa-trash"></i> </a>
                                                 </form>
                                             </div>
                                         </div>
@@ -781,6 +497,6 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
     </section>
 <?php
 } else {
-    header('Location:main.php?dir=products&page=report');
+    header('Location:main.php?dir=gift_products&page=report');
     exit();
 }
