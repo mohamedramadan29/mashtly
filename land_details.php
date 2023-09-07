@@ -90,7 +90,7 @@ $land_id = $design_data['id'];
             $main_image_uploaded = time() . '_' . $main_image_name;
             move_uploaded_file(
                 $main_image_temp,
-                'admin/big_orders/attachments/' . $main_image_uploaded
+                'admin/landscap_orders/attachments/' . $main_image_uploaded
             );
         } else {
             $formerror[] = 'من فضلك ادخل صورة الحديقة او المساحة ';

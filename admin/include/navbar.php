@@ -249,6 +249,11 @@
                     <p> كل التنسيقات </p>
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a href="main.php?dir=landscap_orders&page=report" class="nav-link">
+                    <p> طلبات التنسيق </p>
+                  </a>
+                </li>
               </ul>
             </li>
             <li class="nav-item">
