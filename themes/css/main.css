@@ -4619,3 +4619,60 @@ body {
 }
 
 /********** END IMPORT REQUEST   **************/
+
+/*****************  START LANDSCAP  *******************/
+.landscap {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.landscap .info {
+    background: #FFFFFF9A 0% 0% no-repeat padding-box;
+    border: 2px solid #D6E0DF;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.landscap .info .heading {
+    padding: 20px;
+}
+
+.landscap .info img {
+    width: 100%;
+    height: 260px;
+}
+
+.landscap .info h3 {
+    color: #1B1B1B;
+    font-weight: 500;
+    font-size: 19px;
+    margin-bottom: 20px;
+}
+
+.landscap .info .global_button {
+    background-color: transparent;
+    border: 1px solid var(--second-color);
+    color: var(--second-color);
+    padding: 10px 45px;
+}
+
+/*****************  END LANDSCAP  *******************/
+/***************** START LANDSCAP DETAILS **********/
+.landscap_details {
+    padding-right: 65px;
+}
+
+.landscap_details h6 {
+    color: #1B1B1B;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.landscap_details img {
+    max-width: 50%;
+    max-height: 400px;
+}
+
+/***************** END LANDSCAP DETAILS **********/
