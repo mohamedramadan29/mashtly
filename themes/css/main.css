@@ -1515,6 +1515,7 @@ body {
     margin-right: 10px;
     margin-left: 10px;
     border-radius: 5px;
+    min-height: 210px;
 }
 
 .testmonails .data .person_info .head {
@@ -1549,6 +1550,8 @@ body {
 .testmonails .data .person_info .foo img {
     width: 60px;
     margin-left: 15px;
+    height: 60px;
+    border-radius: 50%; 
 }
 
 .testmonails .right_arrow {

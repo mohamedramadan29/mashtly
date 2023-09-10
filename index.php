@@ -1044,69 +1044,47 @@ if (isset($_POST['add_to_cart'])) {
                 <p> ماذا يقول عملائنا عن منتجات مشتلي </p>
             </div>
             <div class="testmon" id='testmon'>
-                <div class="person_info">
-                    <div class='head'>
-                        <div>
-                            <h3> رائع وأحلي من الوصف </h3>
+                <?php
+                $stmt = $connect->prepare("SELECT * FROM testmonails");
+                $stmt->execute();
+                $alltest = $stmt->fetchAll();
+                foreach ($alltest as $test) {
+                ?>
+                    <div class="person_info">
+                        <div class='head'>
+                            <div>
+                                <h3> <?php echo $test['head']; ?> </h3>
+                            </div>
+                            <div>
+                                <img src="uploads/quote.svg" alt="">
+                            </div>
                         </div>
-                        <div>
-                            <img src="uploads/quote.svg" alt="">
-                        </div>
-                    </div>
-                    <p>
-                        لقد كنت سعيدًا جدًا بخدمة العملاء الرائعة والنباتات الجميلة التي تلقيتها من هذا المتجر. كانت
-                        تجربة تسوق رائعة بالنسبة لي، وأنا أوصي بشدة هذا المتجر لجميع محبي النباتات
-                    </p>
-                    <div class='foo'>
-                        <div> <img src="uploads/person.png" alt=""> </div>
-                        <div>
-                            <h5> لجين محمد </h5>
-                            <span> ربة منزل </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="person_info">
-                    <div class='head'>
-                        <div>
-                            <h3> رائع وأحلي من الوصف </h3>
-                        </div>
-                        <div>
-                            <img src="uploads/quote.svg" alt="">
-                        </div>
-                    </div>
-                    <p>
-                        لقد كنت سعيدًا جدًا بخدمة العملاء الرائعة والنباتات الجميلة التي تلقيتها من هذا المتجر. كانت
-                        تجربة تسوق رائعة بالنسبة لي، وأنا أوصي بشدة هذا المتجر لجميع محبي النباتات
-                    </p>
-                    <div class='foo'>
-                        <div> <img src="uploads/person.png" alt=""> </div>
-                        <div>
-                            <h5> لجين محمد </h5>
-                            <span> ربة منزل </span>
+                        <p>
+                            <?php echo $test['description']; ?>
+                        </p>
+                        <div class='foo'>
+                            <div>
+                                <?php
+                                if ($test['image'] != '') {
+                                ?>
+                                    <img src="admin/testmonails/images/<?php echo $test['image']; ?>" alt="">
+                                <?php
+                                } else {
+                                ?>
+                                    <img src="uploads/person.png" alt="">
+                                <?php
+                                }
+                                ?>
+                            </div>
+                            <div>
+                                <h5> <?php echo $test['name']; ?> </h5>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="person_info">
-                    <div class='head'>
-                        <div>
-                            <h3> رائع وأحلي من الوصف </h3>
-                        </div>
-                        <div>
-                            <img src="uploads/quote.svg" alt="">
-                        </div>
-                    </div>
-                    <p>
-                        لقد كنت سعيدًا جدًا بخدمة العملاء الرائعة والنباتات الجميلة التي تلقيتها من هذا المتجر. كانت
-                        تجربة تسوق رائعة بالنسبة لي، وأنا أوصي بشدة هذا المتجر لجميع محبي النباتات
-                    </p>
-                    <div class='foo'>
-                        <div> <img src="uploads/person.png" alt=""> </div>
-                        <div>
-                            <h5> لجين محمد </h5>
-                            <span> ربة منزل </span>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                }
+                ?>
+
             </div>
         </div>
     </div>
