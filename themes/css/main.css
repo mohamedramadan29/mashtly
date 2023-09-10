@@ -839,6 +839,7 @@ body {
     background-color: transparent;
     font-size: 13px;
     padding: 7px 25px;
+    min-width: 130px;
 }
 
 .new_producs .products {}
@@ -857,6 +858,7 @@ body {
 .index_all_cat .product_info .main_image {
     width: 250px;
     border-radius: 3px 3px 0px 0px;
+    height: 250px;
 }
 
 .new_producs .products .product_info .product_details,
@@ -1005,6 +1007,14 @@ body {
     padding-right: 200px;
 }
 
+@media(max-width:991px) {
+    .planets_require_index .data {
+        text-align: center;
+        height: auto;
+        padding-right: 0;
+    }
+}
+
 .planets_require_index .data h2 {
     color: var(--main-color);
     font-weight: bold;
@@ -1070,8 +1080,14 @@ body {
 .index_all_cat {
     padding-top: 40px;
     padding-bottom: 40px;
-
 }
+
+@media(max-width:991px) {
+    .index_categories {
+        display: none !important;
+    }
+}
+
 
 .index_all_cat .data {
     background: transparent linear-gradient(180deg, #F0F5F0 0%, #F0F5F0 100%) 0% 0% no-repeat padding-box;
@@ -1139,11 +1155,55 @@ body {
 /*  START GARDEN SERVICES */
 .garden_services {
     margin-bottom: 40px;
+    margin-top: 30px;
 }
 
-.garden_services img {
-    max-width: 100%;
+.garden_services .data {}
+
+.garden_services .data .info {
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 20px;
 }
+.garden_services .data .info h3{
+    font-size: 25px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+.garden_services .data .info1 h3{
+    color: #fff;
+}
+.garden_services .data .info2 h3{
+    color: #13527a;
+}
+.garden_services .data .info1 .global_button{
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #f3f1f1;
+}
+.garden_services .data .info2 .global_button{
+    background-color: transparent;
+    color: var(--second-color);
+    border: 1px solid var(--second-color);
+}
+.garden_services .data .info .global_button img{
+    width: 16px;
+}
+.garden_services .data .info2 h3{}
+.garden_services .data .info .global_button{}
+
+.garden_services .data .info1 {
+    background-image: url(../../uploads/garden_serv2.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.garden_services .data .info2 {
+    background-image: url(../../uploads/garden_serv1.svg);
+    background-position: center;
+    background-size: cover;
+}
+
 
 /*  END GARDEN SERVICES */
 /* START PRODUCTS DISCOUNT */

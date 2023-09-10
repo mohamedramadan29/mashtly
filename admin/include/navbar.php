@@ -328,11 +328,16 @@
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <p>
-                  البانر
+                  الصفحةالرئيسية
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
               <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="main.php?dir=about_home_page&page=report" class="nav-link">
+                    <p> قسم من نحن </p>
+                  </a>
+                </li>
                 <li class="nav-item">
                   <a href="main.php?dir=banners&page=report" class="nav-link">
                     <p> مشاهدة البانر </p>

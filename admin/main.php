@@ -249,6 +249,16 @@ if (!isset($_SESSION['admin_username']) || !isset($_SESSION['admin_username'])) 
     } elseif ($dir == 'banners' && $page == 'report') {
         include "banners/report.php";
     }
+    // START Section About Home Page
+    if ($dir == 'about_home_page' && $page == 'add') {
+        include "about_home_page/add.php";
+    } elseif ($dir == 'about_home_page' && $page == 'edit') {
+        include "about_home_page/edit.php";
+    } elseif ($dir == 'about_home_page' && $page == 'delete') {
+        include 'about_home_page/delete.php';
+    } elseif ($dir == 'about_home_page' && $page == 'report') {
+        include "about_home_page/report.php";
+    }
     // START  Import Services
     if ($dir == 'import_services' && $page == 'report') {
         include "import_services/report.php";
@@ -298,8 +308,7 @@ if (!isset($_SESSION['admin_username']) || !isset($_SESSION['admin_username'])) 
         include "gift_products/report.php";
     } elseif ($dir == 'gift_products' && $page == 'fast_edit') {
         include "gift_products/fast_edit.php";
-    }
-    elseif ($dir == 'gift_products' && $page == 'delete_image') {
+    } elseif ($dir == 'gift_products' && $page == 'delete_image') {
         include "gift_products/delete_image.php";
     }
     ?>
