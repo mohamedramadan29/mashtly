@@ -1024,7 +1024,7 @@ if (isset($_POST['add_to_cart'])) {
                             </span>
                             <img class="arrow" src="uploads/arrow.png" alt="">
                             <h2>كيف تغرس </br> الأشجار و النباتات الجديدة </h2>
-                            <a class='btn global_button'> جميع الفيديوهات <img src="uploads/arrow.png" alt=""> </a>
+                            <a href="https://www.youtube.com/channel/UCa-0QzwA1e3hGp-nrQn0qNg" class='btn global_button'> جميع الفيديوهات <img src="uploads/arrow.png" alt=""> </a>
                         </div>
 
                     </div>

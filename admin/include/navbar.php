@@ -334,13 +334,18 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
+                  <a href="main.php?dir=banners&page=report" class="nav-link">
+                    <p> مشاهدة البانر </p>
+                  </a>
+                </li>
+                <li class="nav-item">
                   <a href="main.php?dir=about_home_page&page=report" class="nav-link">
                     <p> قسم من نحن </p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="main.php?dir=banners&page=report" class="nav-link">
-                    <p> مشاهدة البانر </p>
+                  <a href="main.php?dir=testmonails&page=report" class="nav-link">
+                    <p> اراء العملاء </p>
                   </a>
                 </li>
               </ul>
@@ -352,6 +357,7 @@
                 </p>
               </a>
             </li>
+            <!--
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <p>
@@ -367,6 +373,7 @@
                 </li>
               </ul>
             </li>
+  -->
             <li class="nav-item">
               <a href="logout" class="nav-link" style="color: #e74c3c;">
                 <p>

@@ -259,6 +259,16 @@ if (!isset($_SESSION['admin_username']) || !isset($_SESSION['admin_username'])) 
     } elseif ($dir == 'about_home_page' && $page == 'report') {
         include "about_home_page/report.php";
     }
+    // START Testmonails
+    if ($dir == 'testmonails' && $page == 'add') {
+        include "testmonails/add.php";
+    } elseif ($dir == 'testmonails' && $page == 'edit') {
+        include "testmonails/edit.php";
+    } elseif ($dir == 'testmonails' && $page == 'delete') {
+        include 'testmonails/delete.php';
+    } elseif ($dir == 'testmonails' && $page == 'report') {
+        include "testmonails/report.php";
+    }
     // START  Import Services
     if ($dir == 'import_services' && $page == 'report') {
         include "import_services/report.php";
