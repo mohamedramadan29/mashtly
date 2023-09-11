@@ -280,7 +280,7 @@ if (isset($_GET['cat'])) {
                                                         <?php
                                                         if ($count_pro_attr > 0) {
                                                         ?>
-                                                            <a href="product?slug=<?php echo $product['slug']; ?>" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
+                                                            <a style="font-size: 11px;" href="product?slug=<?php echo $product['slug']; ?>" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
                                                                 مشاهدة الاختيارات
                                                             </a>
                                                         <?php
