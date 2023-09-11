@@ -484,6 +484,7 @@
             var selectedPrice = $('input[type="radio"][name="vartion_select"]:checked').data('price');
             if (selectedPrice !== undefined) {
                 $('#selected_price').text(selectedPrice + ' ر.س');
+                $("#price_value").val(selectedPrice);
             }
         });
     });

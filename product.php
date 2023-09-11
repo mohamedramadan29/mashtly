@@ -10,16 +10,13 @@ if (isset($_GET['slug'])) {
     $stmt->execute(array($slug));
     $product_data = $stmt->fetch();
     $count  = $stmt->rowCount();
-    /* get the product meta */
-    $meta_keywords = "mohamed";
-    $meta_short_description = $product_data['short_desc'];
     /************ */
     if ($count > 0) {
-
         $product_id = $product_data['id'];
         $product_name = $product_data['name'];
         $product_desc = $product_data['description'];
         $product_price = $product_data['price'];
+        $product_sale_price = $product_data['sale_price'];
         $product_category = $product_data['cat_id'];
         $related_products = $product_data['related_product'];
         // get product category 
@@ -33,10 +30,15 @@ if (isset($_GET['slug'])) {
     ///////////////////// Add To Cart   /////////////////////
     if (isset($_POST['add_to_cart'])) {
         $product_id = $_POST['product_id'];
-        if (isset($_POST['attribute_price']) && $_POST['attribute_price'] != '') {
-            $price = $_POST['attribute_price'];
+        if (isset($_POST['vartion_select']) && $_POST['vartion_select'] != '') {
+            $price = $_POST['select_price'];
+            $vartion_name = $_POST['vartion_select'];
         } else {
-            $price = $product_price;
+            if ($product_sale_price != '') {
+                $price = $product_sale_price;
+            } else {
+                $price = $product_price;
+            }
         }
         if (isset($_POST['quantity'])) {
             $quantity = $_POST['quantity'];
@@ -53,40 +55,16 @@ if (isset($_GET['slug'])) {
         } else {
             $farm_planet = null;
         }
-        /// Product Options 
-        if (isset($_POST['attribute_data'])) {
-            $options = $_POST['attribute_data'];
-        }
-        if (isset($options[0])) {
-            $option0 = $options[0];
-        } else {
-            $option0 = null;
-        }
-        if (isset($options[1])) {
-            $option1 = $options[1];
-        } else {
-            $option1 = null;
-        }
-        if (isset($options[2])) {
-            $option2 = $options[2];
-        } else {
-            $option2 = null;
-        }
-        if (isset($options[3])) {
-            $option3 = $options[3];
-        } else {
-            $option3 = null;
-        }
+
         if (isset($_SESSION['user_id'])) {
             $user_id = $_SESSION['user_id'];
         } else {
             $user_id = null;
         }
         $total_price = null;
-        $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,quantity,price,farm_service,
-            gift_id,option1,option2,option3,option4,total_price)
-    VALUES(:zuser_id, :zcookie_id , :zproduct_id,:zquantity,:zprice,:zfarm_service,
-    :zgift_id,:zoption1,:zoption2,:zoption3,:zoption4,:ztotal_price)
+        $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,quantity,price,vartion_name,farm_service,
+            gift_id,total_price)
+    VALUES(:zuser_id, :zcookie_id,:zproduct_id,:zquantity,:zprice,:zvartion_name,:zfarm_service,:zgift_id,:ztotal_price)
     ");
         $stmt->execute(array(
             "zuser_id" => $user_id,
@@ -94,12 +72,9 @@ if (isset($_GET['slug'])) {
             "zproduct_id" => $product_id,
             "zquantity" => $quantity,
             "zprice" => $price,
+            "zvartion_name" => $vartion_name,
             "zfarm_service" => $farm_planet,
             "zgift_id" => $gift_id,
-            "zoption1" => $option0,
-            "zoption2" => $option1,
-            "zoption3" => $option2,
-            "zoption4" => $option3,
             "ztotal_price" => $total_price,
         ));
         if ($stmt) {
@@ -252,7 +227,20 @@ if (isset($_GET['slug'])) {
                                 <?php
                                 } else {
                                 ?>
-                                    <p> السعر : <span> <?php echo number_format($product_price, 2); ?> ر.س </span> </p>
+                                    <?php
+                                    if (empty($product_sale_price)) {
+                                    ?>
+                                        <p> السعر : <span> <?php echo number_format($product_price, 2); ?> ر.س </span> </p>
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <div style="display: flex;">
+                                            <p> السعر : <span style="text-decoration: line-through; margin-left: 15px;"> <?php echo number_format($product_price, 2); ?> ر.س </span> </p>
+                                            <p style="font-weight: bold;"> <span> <?php echo number_format($product_sale_price, 2); ?> ر.س </span> </p>
+                                        </div>
+                                    <?php
+                                    }
+                                    ?>
                                 <?php
                                 } ?>
                                 <div class="support">
@@ -323,7 +311,6 @@ if (isset($_GET['slug'])) {
                                 <input type="hidden" name="product_id" value="<?php echo $product_id ?>" id="">
                                 <h3> اطلبه الآن </h3>
                                 <?php
-
                                 $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ?");
                                 $stmt->execute(array($product_id));
                                 $allpro_attibutes = $stmt->fetchAll();
@@ -336,13 +323,12 @@ if (isset($_GET['slug'])) {
                                     <?php
                                     }
                                     ?>
-
                                     <div class="colors">
                                         <?php
                                         if ($allpro_attibutes_count > 0) {
                                             foreach ($allpro_attibutes as $allpro_att) {
                                         ?>
-                                                <input data-image="<?php echo $allpro_att['image']; ?>" data-price=<?php echo $allpro_att['price']; ?> id="<?php echo $allpro_att['id']; ?>" type="radio" name="vartion_select" value="<?php echo $allpro_att['id']; ?>">
+                                                <input required data-image="<?php echo $allpro_att['image']; ?>" data-price=<?php echo $allpro_att['price']; ?> id="<?php echo $allpro_att['id']; ?>" type="radio" name="vartion_select" value="<?php echo $allpro_att['id']; ?>">
                                                 <label for=<?php echo $allpro_att['id']; ?> class="color">
                                                     <p> <?php echo $allpro_att['vartions_name']; ?> </p>
                                                 </label>
@@ -352,59 +338,12 @@ if (isset($_GET['slug'])) {
                                             <div>
                                                 <h6> السعر </h6>
                                                 <span class="text-bold" id="selected_price"> 0.00 ر.س </span>
+                                                <input id="price_value" type="hidden" name="select_price" value="<?php echo $allpro_att['price']; ?>">
                                             </div>
                                         <?php
                                         }
                                         ?>
                                     </div>
-                                    <!--
-                                    <?php
-                                    /*
-                                    $stmt = $connect->prepare("SELECT pro_attribute FROM product_details WHERE pro_id = ? GROUP BY pro_attribute");
-                                    $stmt->execute(array($product_id));
-                                    $allproductattribute = $stmt->fetchAll();
-                                    foreach ($allproductattribute as $index => $pro_attribute) {
-                                        // get attribute name 
-                                        $stmt = $connect->prepare("SELECT * FROM product_attribute WHERE id = ?");
-                                        $stmt->execute(array($pro_attribute['pro_attribute']));
-                                        $attribute_data = $stmt->fetch();
-                                    ?>
-                                        <h6> <?php echo $attribute_data['name']; ?></h6>
-                                        <div class="input_box">
-                                            <select name="attribute_data[]" id="attribute-select-<?php echo $index; ?>" class="form-control">
-                                                <option> -- اختر <?php echo $attribute_data['name']; ?> -- </option>
-                                                <?php
-                                                echo "</br>";
-                                                $stmt = $connect->prepare("SELECT * FROM product_details WHERE pro_id = ? AND pro_attribute = ?");
-                                                $stmt->execute(array($product_id, $pro_attribute['pro_attribute']));
-                                                $allproductvartions = $stmt->fetchAll();
-                                                foreach ($allproductvartions as $pro_vartion) {
-                                                    // get Vartions name 
-                                                    $stmt = $connect->prepare("SELECT * FROM product_variations WHERE id = ?");
-                                                    $stmt->execute(array($pro_vartion['pro_variation']));
-                                                    $vartion_data = $stmt->fetch();
-                                                ?>
-                                                    <option data-price="<?php echo $pro_vartion['pro_price'] ?>" value="<?php echo $pro_vartion['id']; ?>"> <span><?php echo $vartion_data['name']; ?></span> <?php if (!empty($pro_vartion['pro_price'])) { ?> (<strong> السعر </strong> <span class="price"><?php echo $pro_vartion['pro_price']; ?> ر.س </span> )<?php } ?> </option>
-                                                <?php
-                                                }
-                                                ?>
-                                            </select>
-                                            <input type="hidden" name="attribute_price" id="attribute-price-<?php echo $index; ?>" value="0">
-                                            <script>
-                                                var selectElement<?php echo $index; ?> = document.getElementById("attribute-select-<?php echo $index; ?>");
-                                                var priceElement<?php echo $index; ?> = document.getElementById("attribute-price-<?php echo $index; ?>");
-                                                selectElement<?php echo $index; ?>.addEventListener("change", function() {
-                                                    var selectedOption = selectElement<?php echo $index; ?>.options[selectElement<?php echo $index; ?>.selectedIndex];
-                                                    var selectedPrice = selectedOption.dataset.price;
-                                                    priceElement<?php echo $index; ?>.value = selectedPrice;
-                                                });
-                                            </script>
-                                        </div>
-                                    <?php
-                                    }
-                                    */
-                                    ?>
-                                    -->
                                     <h6> الكمية </h6>
                                     <div class="quantity">
 
@@ -529,40 +468,22 @@ if (isset($_GET['slug'])) {
                                             </div>
                                         </div>
                                     </div>
-                                    <!--
-                                <div class="total_price">
-                                    <div class="total">
-                                        <div>
-                                            <h5> المجموع الفرعي: </h5>
-                                            <p> إجمالي سعر النباتات </p>
-                                        </div>
-                                        <div>
-                                            <p class="price_num"> <?php echo number_format($product_price, 2); ?> ر.س </p>
-                                        </div>
-                                    </div>
-                                    <div class="total">
-                                        <div>
-                                            <h5> تكلفة الإضافات: </h5>
-                                            <p> تكلفة الزراعة + تكلفة التغليف كهدية </p>
-                                        </div>
-                                        <div>
-                                            <p class="price_num"> 87.00 ر.س </p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="total">
-                                        <div>
-                                            <h5> إجمالي التكلفة </h5>
-                                            <p> المبلغ المطلوب دفعه </p>
-                                        </div>
-                                        <div>
-                                            <p class="price_num"> 87.00 ر.س </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                                    -->
+
                                     <div class="add_cart">
-                                        <button class="btn global_button cart" name="add_to_cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> أضف الي السلة </button>
+                                        <?php
+                                        $stmt = $connect->prepare("SELECT * FROM cart WHERE product_id = ?");
+                                        $stmt->execute(array($product_id));
+                                        $count_pro = $stmt->rowCount();
+                                        if ($count_pro > 0) {
+                                        ?>
+                                            <a class="btn global_button cart" href="cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> مشاهدة السلة </a>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <button class="btn global_button cart" name="add_to_cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> أضف الي السلة </button>
+                                        <?php
+                                        }
+                                        ?>
                                         <button class="btn wishlist" name="add_to_wishlist"> <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt=""> أضف الي المفضلة </button>
                                     </div>
                                 </div>
