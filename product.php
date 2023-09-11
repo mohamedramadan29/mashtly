@@ -346,7 +346,6 @@ if (isset($_GET['slug'])) {
                                     </div>
                                     <h6> الكمية </h6>
                                     <div class="quantity">
-
                                         <button class="increase-btn"> + </button>
                                         <input name="quantity" type="number" class="quantity-input" value="1" min="1">
                                         <button class="decrease-btn">-</button>
@@ -468,7 +467,6 @@ if (isset($_GET['slug'])) {
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="add_cart">
                                         <?php
                                         $stmt = $connect->prepare("SELECT * FROM cart WHERE product_id = ?");
@@ -497,6 +495,7 @@ if (isset($_GET['slug'])) {
     </div>
     <!-- START NEWWER PRODUCTS -->
     <?php
+
     if ($related_products != null) { ?>
         <div class="new_producs related_product">
             <div class="container">
@@ -513,21 +512,59 @@ if (isset($_GET['slug'])) {
                         $related_products = explode(',', $related_products);
                         $related_total_price = 0;
                         foreach ($related_products as $relate_pro) {
-                            $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
+                            $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ?");
                             $stmt->execute(array($relate_pro));
-                            $product_data_related = $stmt->fetch();
+                            $product_related = $stmt->fetch();
+                            $product_related_count = $stmt->rowCount();
+                            if ($product_related_count > 0) {
+                            } else {
+                                $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
+                                $stmt->execute(array($relate_pro));
+                                $product_data_related = $stmt->fetch();
                         ?>
-                            <div class="link_pro">
-                                <!-- <input type="checkbox" name="related_select" checked> -->
-                                <img loading="lazy" class="main_image" src="uploads/product.png" alt="">
-                                <div class="product_details">
-                                    <h2> <a href="product?slug=<?php echo $product_data_related['slug']; ?>"> <?php echo $product_data_related['name']; ?> </a> </h2>
-                                    <h4 class='price'> <?php echo number_format($product_data_related['price'], 2); ?> ر.س </h4>
+                                <div class="link_pro">
+                                    <!-- <input type="checkbox" name="related_select" checked> -->
+                                    <!-- get the product image  -->
+                                    <?php
+                                    $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
+                                    $stmt->execute(array($product_data_related['id']));
+                                    $product_image_data = $stmt->fetch();
+                                    $product_image_data_count = $stmt->rowCount();
+                                    if ($product_image_data_count > 0) {
+                                        $product_image_related = $product_image_data['main_image'];
+                                    ?>
+                                        <img loading="lazy" class="main_image" src="admin/product_images/<?php echo $product_image_related; ?>" alt="">
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <img loading="lazy" class="main_image" src="uploads/product.png" alt="">
+                                    <?php
+                                    }
+                                    ?>
+                                    <div class="product_details">
+                                        <h2> <a href="product?slug=<?php echo $product_data_related['slug']; ?>"> <?php echo $product_data_related['name']; ?> </a> </h2>
+                                        <?php
+                                        if ($product_data_related['sale_price'] != '') {
+                                            $related_price = $product_data_related['sale_price'];
+                                        ?>
+                                            <h4 class='price' style="text-decoration: line-through;"> <?php echo number_format($product_data_related['price'], 2); ?> ر.س </h4>
+                                            <h4 class='price'> <?php echo number_format($product_data_related['sale_price'], 2); ?> ر.س </h4>
+                                        <?php
+                                        } else {
+                                            $related_price = $product_data_related['price'];
+                                        ?>
+                                            <h4 class='price'> <?php echo number_format($product_data_related['price'], 2); ?> ر.س </h4>
+                                        <?php
+                                        }
+                                        ?>
+                                    </div>
                                 </div>
-                            </div>
-                            <span class="plus_related"> + </span>
+                                <span class="plus_related"> + </span>
+                            <?php
+                                $related_total_price = $related_total_price + $related_price;
+                            }
+                            ?>
                         <?php
-                            $related_total_price = $related_total_price + $product_data_related['price'];
                         }
                         ?>
                         <div class="link_pro total_links">
@@ -541,29 +578,41 @@ if (isset($_GET['slug'])) {
                                 <?php
                                 if (isset($_POST['add_to_cart_related'])) {
                                     foreach ($related_products as $related_pro) {
-                                        $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
+                                        $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ?");
                                         $stmt->execute(array($related_pro));
-                                        $product_data_related = $stmt->fetch();
-                                        $price =  $product_data_related['price'];
-                                        $product_id = $product_data_related['id'];
-                                        if (isset($_SESSION['user_id'])) {
-                                            $user_id = $_SESSION['user_id'];
+                                        $product_related = $stmt->fetch();
+                                        $product_related_count = $stmt->rowCount();
+                                        if ($product_related_count > 0) {
                                         } else {
-                                            $user_id = null;
-                                        }
-                                        $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,quantity,price,total_price)
-                                    VALUES(:zuser_id, :zcookie_id , :zproduct_id,:zquantity ,:zprice , :ztotal_price)
-                                    ");
-                                        $stmt->execute(array(
-                                            "zuser_id" => $user_id,
-                                            "zcookie_id" => $cookie_id,
-                                            "zproduct_id" => $product_id,
-                                            "zquantity" => 1,
-                                            "zprice" => $price,
-                                            "ztotal_price" => $price,
-                                        ));
-                                        if ($stmt) {
-                                            alertcart();
+                                            $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
+                                            $stmt->execute(array($related_pro));
+                                            $product_data_related = $stmt->fetch();
+                                            if ($product_data_related['sale_price'] != '') {
+                                                $price =  $product_data_related['sale_price'];
+                                            } else {
+                                                $price =  $product_data_related['price'];
+                                            }
+
+                                            $product_id = $product_data_related['id'];
+                                            if (isset($_SESSION['user_id'])) {
+                                                $user_id = $_SESSION['user_id'];
+                                            } else {
+                                                $user_id = null;
+                                            }
+                                            $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,quantity,price,total_price)
+                                        VALUES(:zuser_id, :zcookie_id , :zproduct_id,:zquantity ,:zprice , :ztotal_price)
+                                        ");
+                                            $stmt->execute(array(
+                                                "zuser_id" => $user_id,
+                                                "zcookie_id" => $cookie_id,
+                                                "zproduct_id" => $product_id,
+                                                "zquantity" => 1,
+                                                "zprice" => $price,
+                                                "ztotal_price" => $price,
+                                            ));
+                                            if ($stmt) {
+                                                alertcart();
+                                            }
                                         }
                                     }
                                 }
