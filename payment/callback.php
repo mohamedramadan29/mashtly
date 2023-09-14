@@ -4,7 +4,7 @@
         ob_start();
         session_start();
         $pagetitle = '  حسابي  ';
-        include '../../connect.php';
+        //  include '../../connect.php';
         if (isset($_GET['tap_id'])) {
             $tap_id = $_GET['tap_id'];
             $curl = curl_init();
@@ -20,7 +20,7 @@
                     CURLOPT_CUSTOMREQUEST => "GET",
                     CURLOPT_POSTFIELDS => "{}",
                     CURLOPT_HTTPHEADER => array(
-                        "authorization: Bearer sk_live_bhFLinpP5X2jNCc7dZM0ytqY" // مفتاح الواجهة السري
+                        "authorization: Bearer sk_test_nbu7ilH8qGNyQIOEAFKm2X3c" // مفتاح الواجهة السري
                     ),
                 )
             );
@@ -32,21 +32,19 @@
             $responseTap = json_decode($response);
 
             if ($responseTap->status == 'CAPTURED') {
-                $ind_id = $_SESSION['ind_id'];
+                /*   $ind_id = $_SESSION['ind_id'];
                 $stmt = $connect->prepare("UPDATE ind_register SET ind_payment_charge = 'CAPTURED' WHERE ind_id=?");
-                $stmt->execute(array($ind_id));
-                ?>
+                $stmt->execute(array($ind_id));*/
+        ?>
                 <div class='alert alert-success'> تم الدفع والاشتراك بنجاح في منصة انتقاء </div>
-                <?php
-                header("refresh:2;URL=../profile");
+            <?php
+                //header("refresh:2;URL=../profile");
             } else {
-                ?>
+            ?>
                 <div class='alert alert-danger'> حدث خطا !! من فضلك اعد المحااولة مرة اخري </div>
-
-                <?php
-                header("refresh:2;URL=../profile");
+        <?php
+                // header("refresh:2;URL=../profile");
             }
-
         } ?>
     </div>
 </div>

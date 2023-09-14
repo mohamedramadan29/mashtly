@@ -51,10 +51,10 @@ if (isset($_SESSION['username'])) {
                 "id" => "src_all"
             ],
             "post" => [
-                "url" => "https://entiqa.online/ind/payment/payment"
+                "url" => "http://localhost/mashtly/payment/payment"
             ],
             "redirect" => [
-                "url" => "https://entiqa.online/ind/payment/callback"
+                "url" => "http://localhost/mashtly/payment/payment/callback"
             ],
             "metadata" => [
                 "udf1" => "Metadata 1"
