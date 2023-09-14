@@ -8,6 +8,7 @@ Phone:01011642731
 if (isset($_SESSION['main_user_login'])){
 
     include '../admin/connect.php';
+    $connect_db  = '../admin/connect.php';
     $tem = "../include/";
     $css = "../themes/css/";
     $js = "../themes/js/";
@@ -19,4 +20,3 @@ if (isset($_SESSION['main_user_login'])){
 }else{
     header("Location:../new_login");
 }
-?>

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <?php include 'include/get_product_meta.php'; ?>
+    <?php include $tem.'get_product_meta.php'; ?>
     <meta name="keywords" content="<?php if (isset($meta_keywords)) echo $meta_keywords ?>">
     <meta name="description" content="<?php if (isset($meta_short_description)) echo $meta_short_description ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

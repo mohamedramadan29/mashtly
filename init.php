@@ -1,8 +1,7 @@
-
 <?php
 if (isset($_SESSION['main_user_login'])) {
     //include 'location_currancy.php';
-
+    $connect_db = 'admin/connect.php';
     $tem = "include/";
     $css = "themes/css/";
     $js = "themes/js/";
@@ -10,14 +9,9 @@ if (isset($_SESSION['main_user_login'])) {
     include $tem . "header.php";
     include 'admin/connect.php';
     include $tem . "navbar.php";
-
     include 'global_functions.php';
-
     date_default_timezone_set('Asia/Riyadh');
     // user Cookies
-
-
-
     // تحديد تاريخ انتهاء الصلاحية (هنا: 30 يومًا)
     $expiry_date = time() + (86400 * 30);
 

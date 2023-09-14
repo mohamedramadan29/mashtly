@@ -22,6 +22,7 @@ if (isset($_SESSION['user_id'])) {
                     <?php
                     include "../../success_error_msg.php";
                     unset($_SESSION['success']);
+                    unset($_SESSION['error']);
                     ?>
                     <div class="row">
                         <?php

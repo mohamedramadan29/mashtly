@@ -1,5 +1,5 @@
 <?php
-include "admin/connect.php";
+include $connect_db;
 $current_url = $_SERVER['REQUEST_URI'];
 $keyword1 = "product";
 $keyword2 = "blod_details";

@@ -129,18 +129,14 @@ if (isset($_POST['remove_item'])) {
                                                 <h3> <a href="product?slug=<?php echo $pro_slug ?>"> <?php echo $pro_name; ?> </a> </h3>
                                                 <p class="item_price"> سعر الوحدة :<span> <?php echo $item['price']; ?> ر.س </span> </p>
                                                 <?php
-                                                if ($item['option1'] != null && $item['option1'] != '') {
-                                                    $stmt = $connect->prepare("SELECT attribute.name AS attribute_name, variation.name AS variation_name
-                                                        FROM product_details 
-                                                        INNER JOIN product_attribute AS attribute ON product_details.pro_attribute = attribute.id
-                                                        INNER JOIN product_variations AS variation ON product_details.pro_variation = variation.id
-                                                        WHERE product_details.id = ?");
-                                                    $stmt->execute(array($item['option1']));
-                                                    $option_data = $stmt->fetch();
+                                                if ($item['vartion_name'] != null && $item['vartion_name'] != '') {
+                                                    $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE id = ?");
+                                                    $stmt->execute(array($item['vartion_name']));
+                                                    $var_data = $stmt->fetch();
+                                                    $var_name = $var_data['vartions_name'];
                                                 ?>
-                                                    <span style="color: #ACC288;font-size: 13px;margin-bottom: 9px;"> <?php echo $option_data['attribute_name']; ?> : </span>
-                                                    <span style="color: var(--second-color);"> <?php echo $option_data['variation_name']; ?> </span>
-                                                    <br>
+                                                    <span style="color: var(--second-color); margin-bottom: 10px;"> <?php echo $var_name; ?> </span>
+                                                    <br> 
                                                 <?php
                                                 }
                                                 ?>
