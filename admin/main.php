@@ -321,6 +321,11 @@ if (!isset($_SESSION['admin_username']) || !isset($_SESSION['admin_username'])) 
     } elseif ($dir == 'gift_products' && $page == 'delete_image') {
         include "gift_products/delete_image.php";
     }
+    // BACKUP FILES
+    // START Gift Products 
+    if ($dir == 'backup' && $page == 'backup') {
+        include "backup/backup.php";
+    }
     ?>
 
 </div>

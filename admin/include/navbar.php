@@ -8,7 +8,6 @@
       </ul>
       <!-- Right navbar links -->
       <ul class="navbar-nav mr-auto">
-
         <!-- Notifications Dropdown Menu -->
         <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" href="#">
@@ -62,6 +61,13 @@
               <a href="main.php?dir=dashboard&page=dashboard" class="nav-link">
                 <p>
                   الرئيسية
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="main.php?dir=backup&page=backup" class="nav-link">
+                <p class="btn btn-primary">
+                  عمل نسخة احتياطية
                 </p>
               </a>
             </li>
