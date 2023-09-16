@@ -55,74 +55,27 @@ if (isset($_GET['order_id'])) {
                                 <img src="uploads/logo.png" alt="">
                             </div>
                             <div class="header_data">
-
-                                <div class="row" style="background-color: #f1f1f1; padding:10px; margin-top:10px; margin-bottom:10px">
-                                    <div class="col-lg-4">
-                                        <h3 style="font-size: 20px; color:#7a9d12;margin-top:15px;margin-bottom:20px"> شكرًا لك على طلبك </h3>
-                                        <p style="border-bottom: 1px solid #ccc;"> لقد تلقينا طلبك رقم :: <span class="text-bold"><?php echo $order_data['order_number']; ?></span> </p>
-                                        <p style="border-bottom: 1px solid #ccc;"> وذلك بتاريخ :: <span class="text-bold"><?php echo $order_data['order_date']; ?></span> </p>
-                                        <p> حالة الدفع :: <span class="text-bold"><?php echo $order_data['payment_method']; ?></span> </p>
-                                    </div>
-                                    <hr>
-                                    <div class="col-lg-4">
-                                        <h3 style="font-size: 20px; color:#7a9d12;margin-top:15px;margin-bottom:20px"> عنوان الفاتورة </h3>
-                                        <ul class="list-unstyled" style="line-height: 2;">
-                                            <li style="border-bottom: 1px solid #ccc;"> الاسم : <?php echo $order_data['name']; ?></li>
-                                            <li style="border-bottom: 1px solid #ccc;"> البريد الالكتروني : <?php echo $order_data['email']; ?></li>
-                                            <li style="border-bottom: 1px solid #ccc;"> رقم الهاتف : <?php echo $order_data['phone']; ?></li>
-                                            <li style="border-bottom: 1px solid #ccc;"> المنطقة : <?php
-                                                                                                    $stmt = $connect->prepare("SELECT * FROM area WHERE id = ?");
-                                                                                                    $stmt->execute(array($order_data['area']));
-                                                                                                    $area_data = $stmt->fetch();
-                                                                                                    echo $area_data['name']; ?></li>
-                                            <li> المدينة : <?php echo $order_data['city']; ?></li>
-                                            <li> العنوان : <?php echo $order_data['address']; ?></li>
+                                <div class="row" style=" padding:10px; margin-top:10px; margin-bottom:10px">
+                                    <h2> مرحبا <?php echo $order_data['name']; ?> </h2>
+                                    <p> شكرا لطلبك، من مشتلي تم تأكيد طلبك وسوف يصلك في الوقت المحدد لإلغاء الطلب أو تعديله يرجي زيارة الموقع قسم مشترياتي </p>
+                                    <p> يوجد أدناه فاتورة برقم الطلب وتفاصيله </p>
+                                    <div class="d-flex ul_div">
+                                        <ul class="list-unstyled">
+                                            <li> <span> رقم الطلب: </span> </li>
+                                            <li> <span> تاريخ الطلب: </span> </li>
+                                            <li> <span> الاسم: </span> </li>
+                                            <li> <span> البريد الألكتروني : </span> </li>
+                                            <li> <span> رقم الجوال: </span> </li>
                                         </ul>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <h3 style="font-size: 20px; color:#7a9d12;margin-top:15px;margin-bottom:20px"> عنوان الشحن </h3>
-                                        <ul class="list-unstyled" style="line-height: 2;">
-                                            <li style="border-bottom: 1px solid #ccc;"> الاسم : <?php
-                                                                                                if (!empty($order_data['ship_name'])) {
-                                                                                                    echo $order_data['ship_name'];
-                                                                                                } else {
-                                                                                                    echo $order_data['name'];
-                                                                                                }
-                                                                                                ?></li>
-                                            <li style="border-bottom: 1px solid #ccc;"> رقم الهاتف : <?php if (!empty($order_data['ship_phone'])) {
-                                                                                                            echo $order_data['ship_phone'];
-                                                                                                        } else {
-                                                                                                            echo $order_data['phone'];
-                                                                                                        } ?></li>
-                                            <li style="border-bottom: 1px solid #ccc;"> المنطقة : <?php
-                                                                                                    if (!empty($order_data['ship_area'])) {
-                                                                                                        $ship_area = $order_data['ship_area'];
-                                                                                                    } else {
-                                                                                                        $ship_area = $order_data['area'];
-                                                                                                    }
-                                                                                                    $stmt = $connect->prepare("SELECT * FROM area WHERE id =  ?");
-                                                                                                    $stmt->execute(array($ship_area));
-                                                                                                    $area_data = $stmt->fetch();
-                                                                                                    echo $area_data['name']; ?>
-                                            </li>
-                                            <li> المدينة : <?php
-                                                            if (!empty($order_data['ship_city'])) {
-                                                                echo $order_data['ship_city'];
-                                                            } else {
-                                                                echo $order_data['city'];
-                                                            }
-                                                            ?></li>
-                                            <li> العنوان : <?php
-                                                            if (!empty($order_data['ship_address'])) {
-                                                                echo $order_data['ship_address'];
-                                                            } else {
-                                                                echo $order_data['address'];
-                                                            }
-                                                            ?></li>
+                                        <ul class="list-unstyled">
+                                            <li> <?php echo $order_data['order_number']; ?> </li>
+                                            <li> <?php echo $order_data['order_date']; ?> </li>
+                                            <li> <?php echo $order_data['name']; ?> </li>
+                                            <li> <?php echo $order_data['email']; ?> </li>
+                                            <li> <?php echo $order_data['phone']; ?> </li>
                                         </ul>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="order_details">
                                 <h3 style="font-size: 20px; color:#7a9d12;margin-top:15px;"> تفاصيل الطلب </h3>

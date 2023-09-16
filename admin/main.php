@@ -322,10 +322,15 @@ if (!isset($_SESSION['admin_username']) || !isset($_SESSION['admin_username'])) 
         include "gift_products/delete_image.php";
     }
     // BACKUP FILES
-    // START Gift Products 
+    // START BAckup
     if ($dir == 'backup' && $page == 'backup') {
         include "backup/backup.php";
     }
+    // START SiteMap
+    if ($dir == 'sitemap' && $page == 'sitemap') {
+        include "sitemap/sitemap.php";
+    }
+
     ?>
 
 </div>

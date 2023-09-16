@@ -115,7 +115,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                           <input required type="text" id="phone" name="phone" class="form-control" value="<?php echo $order_data['phone']; ?>">
                         </div>
                         <div class="form-group">
-                          <label for="inputName"> المنطقة </label> 
+                          <label for="inputName"> المنطقة </label>
                           <input required type="text" id="area" name="area" class="form-control" value="<?php echo $order_data['area']; ?>">
                         </div>
                         <!--
@@ -195,19 +195,17 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                             $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
                             $stmt->execute(array($order_details['product_id']));
                             $product_data = $stmt->fetch();
+                            // get the product image 
+
+                            $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id=?");
+                            $stmt->execute(array($product_data['id']));
+                            $image_data = $stmt->fetch();
+                            $product_image = $image_data['main_image'];
                           ?>
                             <div class="row">
                               <div class="col-lg-2">
                                 <div class="form-group">
-                                  <?php if (strpos($order_details['product_image'], "https://www.mshtly.com") !== false) { ?>
-                                    <img style="width: 80px; height:80px;" src="<?php echo $order_details['product_image']; ?>" alt="">
-                                  <?php
-                                  } else {
-                                  ?>
-                                    <img style="width: 80px; height:80px;" src="product_images/<?php echo $order_details['product_image']; ?>" alt="">
-                                  <?php
-                                  } ?>
-
+                                  <img style="width: 80px; height:80px;" src="product_images/<?php echo $product_image; ?>" alt="">
                                 </div>
                               </div>
                               <div class="col-lg-10">
@@ -233,10 +231,36 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                               <div class="col-4">
                                 <div class="form-group">
                                   <label for="inputName"> المجموع الفرعي </label>
-                                  <input required type="text" id="sale_price" name="sale_price" class="form-control" value="<?php echo $order_details['total']; ?>">
+                                  <input required type="text" id="sale_price" name="sale_price" class="form-control" value="<?php echo $order_details['product_price'] * $order_details['qty']; ?>">
                                 </div>
                               </div>
-                              <span class="badge badge-danger"><?php echo $order_details['more_details']; ?></span>
+                              <?php
+                              // get more details data
+                              $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE id = ?");
+                              $stmt->execute(array($order_details['more_details']));
+                              $more_details_data = $stmt->fetch();
+                              $more_detail_name = $more_details_data['vartions_name']
+                              ?>
+                              <p class="badge badge-danger"><?php echo $more_detail_name; ?></p>
+                              <br>
+                              <p style="display: block; width: 100%;"> امكانية الزراعه ::
+                                <?php if ($order_details['farm_service'] == 0) {
+                                  echo "لا";
+                                } else {
+                                  echo "نعم ";
+                                } ?> </p>
+                              <?php
+                              if ($order_details['as_present'] != null) {
+                              ?>
+                                <p> الهدية : <?php
+                                              $stmt = $connect->prepare("SELECT * FROM gifts WHERE id = ?");
+                                              $stmt->execute(array($order_details['as_present']));
+                                              $gift_data = $stmt->fetch();
+                                              echo $gift_data['name']; ?></p>
+                              <?php
+                              }
+
+                              ?>
                             </div>
                             <hr>
                           <?php

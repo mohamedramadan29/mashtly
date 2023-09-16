@@ -71,6 +71,13 @@
                 </p>
               </a>
             </li>
+          <li class="nav-item">
+              <a href="main.php?dir=sitemap&page=sitemap" class="nav-link">
+                  <p class="btn btn-primary">
+                     توليد السيتماب للموقع
+                  </p>
+              </a>
+          </li>
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <p>
