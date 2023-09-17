@@ -2,11 +2,16 @@
 <html lang="ar" dir="rtl">
 
 <head>
-    <meta charset="UTF-8">
-    <?php include $tem.'get_product_meta.php'; ?>
-    <meta name="keywords" content="<?php if (isset($meta_keywords)) echo $meta_keywords ?>">
+    <?php include $tem . 'get_product_meta.php'; ?>
+    <title> <?php if (isset($meta_title)) {
+                echo $meta_title;
+            } else {
+                echo $page_title;
+            } ?> </title>
     <meta name="description" content="<?php if (isset($meta_short_description)) echo $meta_short_description ?>">
+    <meta name="keywords" content="<?php if (isset($meta_keywords)) echo $meta_keywords ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" type="image" href="<?php echo $uploads ?>/logo.png">
     <link rel="stylesheet" href="<?php echo $css; ?>bootstrap.rtl.min.css">
@@ -23,9 +28,7 @@
     <link rel="stylesheet" href="<?php echo $css; ?>magnific-popup.css">
     <link rel="stylesheet" href="<?php echo $css; ?>select2.min.css">
     <link rel="stylesheet" href="<?php echo $css ?>main.css">
-    <title>
-        <?php echo $page_title; ?>
-    </title>
+
 </head>
 
 <body>

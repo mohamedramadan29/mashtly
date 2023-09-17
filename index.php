@@ -1,9 +1,7 @@
 <?php
 ob_start();
 session_start();
-$meta_keywords = 'مشتلي';
-$meta_short_description = 'مشتلي';
-$page_title = 'الرئيسية';
+$page_title = 'مشتلي - الرئيسية';
 include "init.php";
 
 ?>

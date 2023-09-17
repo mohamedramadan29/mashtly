@@ -13,6 +13,7 @@ if (isset($_GET['slug']) && strpos($current_url, $keyword1) !== false) {
     /* get the product meta */
     $meta_keywords = $product_data['tags'];
     $meta_short_description = $product_data['short_desc'];
+    $meta_title = $product_data['name'];
 }
 if (isset($_GET['slug']) && strpos($current_url, $keyword2) !== false) {
     $slug = $_GET['slug'];
@@ -33,4 +34,5 @@ if (isset($_GET['slug']) && strpos($current_url, $keyword3) !== false) {
     /* get the product meta */
     $meta_keywords = $product_data['tags'];
     $meta_short_description = $product_data['description'];
+    $meta_title = $product_data['name'];
 }
