@@ -109,11 +109,20 @@ if (isset($_SESSION['user_id'])) {
                                     $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
                                     $stmt->execute(array($detail['product_id']));
                                     $product_data = $stmt->fetch();
+                                    $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
+                                    $stmt->execute(array($product_data['id']));
+                                    $product_data_image = $stmt->fetch();
+                                    $count_image = $stmt->rowCount();
+                                    if ($count_image > 0) {
+                                        $product_image = $product_data_image['main_image'];
+                                    }else{
+                                        $product_image = "insta3.png";
+                                    }
                                 ?>
                                     <div class="body_data">
                                         <div class='product_data'>
                                             <div>
-                                                <img src="<?php echo $uploads ?>product.png" alt="">
+                                                <img src="../admin/product_images/<?php echo $product_image; ?>" alt="">
                                             </div>
                                             <div>
                                                 <h2> <?php echo $product_data['name']; ?> </h2>
@@ -156,9 +165,9 @@ if (isset($_SESSION['user_id'])) {
 
                                             <?php
                                             } elseif ($order['status_value'] == 'ملغي') {
-                                                ?>
-                                                <p> طلب ملغي  </p>
-                                                <?php 
+                                            ?>
+                                                <p> طلب ملغي </p>
+                                            <?php
                                             } else {
                                             ?>
                                                 <a href="orders/tracking?order_number=<?php echo $order['order_number']; ?>" class='btn global_button'> تتبع الطرد </a>

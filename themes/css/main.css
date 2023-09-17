@@ -1165,32 +1165,40 @@ body {
     border-radius: 10px;
     margin-bottom: 20px;
 }
-.garden_services .data .info h3{
+
+.garden_services .data .info h3 {
     font-size: 25px;
     margin-bottom: 20px;
     font-weight: 600;
 }
-.garden_services .data .info1 h3{
+
+.garden_services .data .info1 h3 {
     color: #fff;
 }
-.garden_services .data .info2 h3{
+
+.garden_services .data .info2 h3 {
     color: #13527a;
 }
-.garden_services .data .info1 .global_button{
+
+.garden_services .data .info1 .global_button {
     background-color: transparent;
     color: #fff;
     border: 1px solid #f3f1f1;
 }
-.garden_services .data .info2 .global_button{
+
+.garden_services .data .info2 .global_button {
     background-color: transparent;
     color: var(--second-color);
     border: 1px solid var(--second-color);
 }
-.garden_services .data .info .global_button img{
+
+.garden_services .data .info .global_button img {
     width: 16px;
 }
-.garden_services .data .info2 h3{}
-.garden_services .data .info .global_button{}
+
+.garden_services .data .info2 h3 {}
+
+.garden_services .data .info .global_button {}
 
 .garden_services .data .info1 {
     background-image: url(../../uploads/garden_serv2.png);
@@ -1551,7 +1559,7 @@ body {
     width: 60px;
     margin-left: 15px;
     height: 60px;
-    border-radius: 50%; 
+    border-radius: 50%;
 }
 
 .testmonails .right_arrow {
@@ -1788,10 +1796,11 @@ body {
 }
 
 .purches_orders .card .card-body .body_data .product_data img {
-    width: 100px;
+    width: 80px;
     margin-left: 15px;
     border: 2px solid #D6E0DF;
     border-radius: 10px;
+    height: 80px;
 }
 
 .purches_orders .card .card-body .body_data .product_data h2 {

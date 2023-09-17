@@ -89,17 +89,28 @@ if (isset($_SESSION['user_id'])) {
                                 </div>
                             </div>
                             <?php
+                            $sub_total = 0;
                             foreach ($alldetails as $details) {
+                                $sub_total = $sub_total + ($details['qty'] * $details['total']);
                                 // get product data
                                 $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
                                 $stmt->execute(array($details['product_id']));
                                 $product_data = $stmt->fetch();
+                                $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
+                                $stmt->execute(array($product_data['id']));
+                                $product_data_image = $stmt->fetch();
+                                $count_image = $stmt->rowCount();
+                                if ($count_image > 0) {
+                                    $product_image = $product_data_image['main_image'];
+                                } else {
+                                    $product_image = "insta3.png";
+                                }
                             ?>
                                 <div class="order" style="display: flex;">
                                     <div>
                                         <div class="product_data">
                                             <div class="image">
-                                                <img src="<?php echo $uploads ?>/product.png" alt="">
+                                                <img src="../../admin/product_images/<?php echo $product_image; ?>" alt="">
                                             </div>
                                             <div>
                                                 <h4> <?php echo $product_data['name']; ?> </h4>
@@ -119,6 +130,7 @@ if (isset($_SESSION['user_id'])) {
                             <?php
                             }
 
+
                             ?>
                         </div>
                         <div class="order_totals">
@@ -129,16 +141,20 @@ if (isset($_SESSION['user_id'])) {
                                         <p> إجمالي سعر المنتجات في السلة </p>
                                     </div>
                                     <div>
-                                        <h2 class="total"> <?php echo number_format(50, 2); ?> ر.س </h2>
+                                        <h2 class="total"> <?php echo number_format($sub_total, 2); ?> ر.س </h2>
                                     </div>
                                 </div>
                                 <div class="first">
+                                    <?php
+                                    $vat = $total_price * (15 / 100);
+                                    $gift_farm_price = $total_price - ($sub_total + $ship_price + $vat);
+                                    ?>
                                     <div>
                                         <h3> تكلفة الإضافات: </h3>
                                         <p> تكلفة الزراعة + تكلفة التغليف كهدية </p>
                                     </div>
                                     <div>
-                                        <h2 class="total"> <?php echo number_format(40, 2); ?> ر.س </h2>
+                                        <h2 class="total"> <?php echo number_format($gift_farm_price, 2); ?> ر.س </h2>
                                     </div>
                                 </div>
                                 <div class="first">
@@ -157,7 +173,7 @@ if (isset($_SESSION['user_id'])) {
                                     </div>
                                     <div>
                                         <?php
-                                        $vat = $total_price * (15 / 100);
+
 
                                         ?>
                                         <h2 class="total"> <?php echo number_format($vat, 2); ?> ر.س </h2>
