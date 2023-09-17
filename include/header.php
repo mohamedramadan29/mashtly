@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
     <?php include $tem . 'get_product_meta.php'; ?>
     <title> <?php if (isset($meta_title)) {

@@ -159,7 +159,7 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="Company-2" class="block"> الوصف </label>
-                                                                <textarea id="Company-2" name="description" class="form-control"><?php echo  $cat['description'] ?></textarea>
+                                                                <textarea id=""  name="description" class="form-control "><?php echo  $cat['description'] ?></textarea>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="customFile"> تعديل صورة القسم </label>

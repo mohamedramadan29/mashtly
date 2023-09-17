@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-$page_title = ' المتجر ';
+$page_title = ' مشتلي - المتجر  ';
 include "init.php";
 
 
@@ -213,12 +213,14 @@ $totalPages = ceil($num_products / $pageSize);
                         ?>
                             <div class="col-lg-3 col-6">
                                 <div class="product_info">
+                                    <!-- get the product image -->
                                     <?php
                                     $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
                                     $stmt->execute(array($product['id']));
+                                    //  getproductimage($connect,$product['id']);
                                     $count_image = $stmt->rowCount();
+                                    $product_data_image = $stmt->fetch();
                                     if ($count_image > 0) {
-                                        $product_data_image = $stmt->fetch();
                                     ?>
                                         <img class="main_image" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt']; ?>">
                                     <?php
@@ -228,19 +230,20 @@ $totalPages = ceil($num_products / $pageSize);
                                     <?php
                                     }
                                     ?>
+
                                     <div class="product_details">
                                         <h2> <a href="product?slug=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
                                         <?php
                                         $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
                                         $minimumPrice = INF; // قيمة أدنى سعر ممكنة
-                                        // نشوف علي المنتج يحتوي علي متغيرات او لا 
-                                        $stmt = $connect->prepare("SELECT * FROM product_details WHERE pro_id = ? AND pro_price != ''");
+                                        // نشوف علي المنتج يحتوي علي متغيرات او لا
+                                        $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ? AND price != ''");
                                         $stmt->execute(array($product['id']));
                                         $count_pro_attr = $stmt->rowCount();
                                         if ($count_pro_attr > 0) {
                                             $allproduct_data = $stmt->fetchAll();
                                             foreach ($allproduct_data as $product_data) {
-                                                $pro_price =  $product_data['pro_price'];
+                                                $pro_price =  $product_data['price'];
                                                 $maximumPrice = max($maximumPrice, $pro_price);
                                                 $minimumPrice = min($minimumPrice, $pro_price);
                                             }
@@ -249,12 +252,22 @@ $totalPages = ceil($num_products / $pageSize);
                                         <?php
                                         } else {
                                         ?>
-                                            <h4 class='price'> <?php echo $product['price'] ?> ر.س </h4>
+                                            <h4 class='price'> <?php
+                                                                if ($product['sale_price'] != '' && $product['sale_price'] != 0) {
+                                                                    echo $product['sale_price'];
+                                                                } else {
+                                                                    echo $product['price'];
+                                                                }
+                                                                ?> ر.س </h4>
                                         <?php
                                         }
                                         ?>
                                         <form action="" method="post">
-                                            <input type="hidden" name="price" value="<?php echo $product['price']; ?>">
+                                            <input type="hidden" name="price" value="<?php if ($product['sale_price'] != '' && $product['sale_price'] != 0) {
+                                                                                            echo $product['sale_price'];
+                                                                                        } else {
+                                                                                            echo $product['price'];
+                                                                                        } ?>">
                                             <div class='add_cart'>
                                                 <div>
                                                     <?php
