@@ -32,15 +32,19 @@ $allitems = $stmt->fetchAll();
 if (isset($_POST['update_cart'])) {
     $quantities = $_POST['quantity'];
     foreach ($quantities as $product_id => $quantity) {
-        $isChecked = isset($_POST['farmserv'][$product_id]) ? 1 : 0;
-        $stmt = $connect->prepare("UPDATE cart SET quantity = ?,farm_service=? WHERE id = ?");
-        $stmt->execute(array($quantity, $isChecked, $product_id));
+        // Get the selected value from the dropdown
+        $selectedValue = isset($_POST['farmserv'][$product_id]) ? intval($_POST['farmserv'][$product_id]) : null;
+
+        $stmt = $connect->prepare("UPDATE cart SET quantity = ?, farm_service = ? WHERE id = ?");
+        $stmt->execute(array($quantity, $selectedValue, $product_id));
+
         if ($stmt) {
             alertdefaultedit();
-            header('refresh:1.5;url=cart');
+            header('refresh:1;url=cart');
         }
     }
 }
+
 // delete Items From the cart
 if (isset($_POST['remove_item'])) {
     $item_id = $_POST['item_id'];
@@ -90,9 +94,14 @@ if (isset($_POST['remove_item'])) {
                                 $product_data = $stmt->fetch();
                                 $pro_name = $product_data['name'];
                                 $pro_slug = $product_data['slug'];
+                                $pro_farm = $product_data['public_tail'];
                                 $farm_services = 0;
-                                if ($item['farm_service'] == 1) {
-                                    $farm_services = 30;
+                                if ($item['farm_service'] != null) {
+                                    $stmt = $connect->prepare("SELECT * FROM public_tails WHERE id = ?");
+                                    $stmt->execute(array($pro_farm));
+                                    $tail_data = $stmt->fetch();
+                                    $tail_price = $tail_data['price']; 
+                                    $farm_services = $tail_price;
                                     $farm_services_total += $farm_services + $gift_price;
                                 }
                                 $total_price = $total_price + ($item['price'] * $item['quantity']);
@@ -136,12 +145,11 @@ if (isset($_POST['remove_item'])) {
                                                     $var_name = $var_data['vartions_name'];
                                                 ?>
                                                     <span style="color: var(--second-color); margin-bottom: 10px;"> <?php echo $var_name; ?> </span>
-                                                    <br> 
+                                                    <br>
                                                 <?php
                                                 }
                                                 ?>
                                                 <!--  <form action="" method="post"> -->
-
                                                 <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
                                                 <?php
                                                 if (isset($_SESSION['user_id']) && checkIfProductIsFavourite($connect, $_SESSION['user_id'], $item['product_id'])) {
@@ -174,14 +182,31 @@ if (isset($_POST['remove_item'])) {
                                         <div class="services">
                                             <!--  <form action="#" method="post"> -->
                                             <div class="form-check">
-                                                <input class="form-check-input" name="farmserv[<?php echo $item['id']; ?>]" type="checkbox" value="" id="flexCheckChecked<?php echo $item['id']; ?>" <?php if ($item['farm_service'] == 1) echo "checked"; ?>>
+                                                <input class="form-check-input" name="farmserv[<?php echo $item['id']; ?>]" type="checkbox" value="<?php echo $pro_farm; ?>" id="flexCheckChecked<?php echo $item['id']; ?>" <?php if ($item['farm_service'] != null) echo "checked"; ?>>
                                                 <label class="form-check-label" for="flexCheckChecked<?php echo $item['id']; ?>">
                                                     أضف خدمة الزراعة
                                                 </label>
                                             </div>
-                                            <p> <span> 30 ر.س </span> <button style="outline: none; box-shadow: none; font-size:13px; background-color: transparent; border:none; color:var(--second-color);text-decoration: underline;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                    إعرف أكثر عن التكلفة
-                                                </button></p>
+                                            <?php
+                                            if ($item['farm_service'] != null) {
+                                                // get the farm services price
+                                                $stmt = $connect->prepare("SELECT * FROM public_tails WHERE id = ?");
+                                                $stmt->execute(array($item['farm_service']));
+                                                $farm_services_data = $stmt->fetch();
+                                                $farm_services_price = $farm_services_data['price'];
+                                            ?>
+                                                <p> <span> <?php echo $farm_services_price; ?> ر.س </span> <button style="outline: none; box-shadow: none; font-size:13px; background-color: transparent; border:none; color:var(--second-color);text-decoration: underline;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                        إعرف أكثر عن التكلفة
+                                                    </button></p>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <p> <span> </span> <button style="outline: none; box-shadow: none; font-size:13px; background-color: transparent; border:none; color:var(--second-color);text-decoration: underline;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                        إعرف أكثر عن التكلفة
+                                                    </button></p>
+                                            <?php
+                                            }
+                                            ?>
                                             <!--  </form> -->
                                             <div class="farm_price">
                                                 <!-- Modal -->
@@ -202,30 +227,23 @@ if (isset($_POST['remove_item'])) {
                                                                         <p> خدمة الزرعة تشمل: </p>
                                                                         <h4> الحفر - التسميد - الزراعة - نظافة الموقع. </h4>
                                                                     </div>
-                                                                    <div class="diffrent_price">
-                                                                        <div>
-                                                                            <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
+                                                                    <?php
+                                                                    // get the tails 
+                                                                    $stmt = $connect->prepare("SELECT * FROM public_tails");
+                                                                    $stmt->execute();
+                                                                    $available_tail = $stmt->fetchAll();
+                                                                    foreach ($available_tail as $tail) { ?>
+                                                                        <div class="diffrent_price">
+                                                                            <div>
+                                                                                <img loading="lazy" src="<?php echo $uploads ?>/tree.svg" alt="">
+                                                                            </div>
+                                                                            <div>
+                                                                                <p> <?php echo $tail['name']; ?> <span> <?php echo $tail['price']; ?> ريال </span> </p>
+                                                                            </div>
                                                                         </div>
-                                                                        <div>
-                                                                            <p> أشجار التي طولها من 3 م وأعلى تبدأ من <span> 30 ريال </span> </p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="diffrent_price">
-                                                                        <div>
-                                                                            <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
-                                                                        </div>
-                                                                        <div>
-                                                                            <p> البناتات التي اقل من 3 م تبدأ من <span> 20 ريال </span> </p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="diffrent_price">
-                                                                        <div>
-                                                                            <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
-                                                                        </div>
-                                                                        <div>
-                                                                            <p> الزهور الموسمية<span> 2 ريال </span> </p>
-                                                                        </div>
-                                                                    </div>
+                                                                    <?php
+                                                                    }
+                                                                    ?>
                                                                 </div>
                                                             </div>
                                                         </div>

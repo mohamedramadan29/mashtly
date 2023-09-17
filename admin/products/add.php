@@ -18,7 +18,7 @@ if (isset($_POST['add_pro'])) {
   $purchase_price = $_POST['purchase_price'];
   $sale_price = $_POST['sale_price'];
   $av_num = $_POST['av_num'];
-
+  $public_tail = $_POST['public_tail'];
   $tags = $_POST['tags'];
   $publish = $_POST['publish'];
   $related_product = $_POST['related_product'];
@@ -106,8 +106,8 @@ if (isset($_POST['add_pro'])) {
 
   if (empty($formerror)) {
     $stmt = $connect->prepare("INSERT INTO products (cat_id,more_cat,name, slug , description,short_desc,video,main_checked,purchase_price,
-    price, sale_price , av_num,tags,related_product,publish)
-    VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zshort_desc,:zvideo,:zmain_checked,:zpurchase_price,:zprice,:zsale_price,:zav_num,:ztags,:zrelated_product,:zpublish)");
+    price, sale_price , av_num,tags,related_product,publish,public_tail)
+    VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zshort_desc,:zvideo,:zmain_checked,:zpurchase_price,:zprice,:zsale_price,:zav_num,:ztags,:zrelated_product,:zpublish,:zpublic_tail)");
     $stmt->execute(array(
       "zcat" => $cat_id,
       "zmore_cat" => $more_cat_string,
@@ -126,7 +126,8 @@ if (isset($_POST['add_pro'])) {
       "zav_num" => $av_num,
       "ztags" => $tags,
       "zrelated_product" => $related_product_string,
-      "zpublish" => $publish
+      "zpublish" => $publish,
+      "public_tail"=>$public_tail
     ));
     // get the last product
     $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC LIMIT 1");
@@ -615,6 +616,22 @@ if (isset($_POST['add_pro'])) {
                   <option value="" disabled> اختر الحالة </option>
                   <option value="1"> نشر المنتج </option>
                   <option value="0"> ارشيف </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="Company-2" class="block"> الطول لتحديد سعر الزراعه </label>
+                <select name="public_tail" id="" class="form-control select2">
+                  <option value=""> اختر الطول </option>
+                  <?php
+                  $stmt = $connect->prepare("SELECT * FROM public_tails");
+                  $stmt->execute();
+                  $alltails = $stmt->fetchAll();
+                  foreach ($alltails as $tail) {
+                  ?>
+                    <option value="<?php echo $tail['id']; ?>"> <?php echo $tail['name']; ?> </option>
+                  <?php
+                  }
+                  ?>
                 </select>
               </div>
             </div>

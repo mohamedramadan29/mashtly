@@ -86,7 +86,7 @@
                                             <th> السعر </th>
                                             <th> سعر التخفيض </th>
                                             <th> حالة المخزون </th>
-                                            <th> مميز  </th>
+                                            <th> مميز </th>
                                             <th> صورة المنتج </th>
                                             <th> العمليات </th>
                                         </tr>
@@ -137,11 +137,11 @@
                                                     ?>
                                                 </td>
                                                 <td> <?php
-                                                    if ($pro['feature_product'] == 1) {
+                                                        if ($pro['feature_product'] == 1) {
                                                         ?>
-                                                        <span> <i  class="fa fa-star"></i> </span>
-                                                        <?php
-                                                    }
+                                                        <span> <i class="fa fa-star"></i> </span>
+                                                    <?php
+                                                        }
                                                     ?>
                                                 </td>
 
@@ -165,7 +165,7 @@
                                                         </button>
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                             <a class="dropdown-item" href="main.php?dir=products&page=edit&pro_id=<?php echo $pro['id']; ?>"> تحرير </a>
-                                                            <a href="" class="dropdown-item" data-toggle="modal" data-target="#edit-Modal_<?php echo $pro['id']; ?>"> تحرير سريع </a> 
+                                                            <a href="" class="dropdown-item" data-toggle="modal" data-target="#edit-Modal_<?php echo $pro['id']; ?>"> تحرير سريع </a>
                                                             <a href="main.php?dir=products/faqs&page=report&pro_id=<?php echo $pro['id']; ?>" class="dropdown-item">اسئلة المنتج </a>
                                                             <a class="dropdown-item confirm" href="main.php?dir=products&page=delete&pro_id=<?php echo $pro['id']; ?>"> حذف المنتج </a>
                                                         </div>
@@ -182,9 +182,9 @@
                                         </div>
                                         <form method="POST" action="main.php?dir=products&page=fast_edit" enctype="multipart/form-data">
                                             <div class="modal-body">
-                                            <div class="form-group"> 
-                                                    <label for="Company-2" class="block"> رابط المنتج  </label>
-                                                   <span class="badge badge-info">  / Website Name </span> <input id="Company-2" required name="slug" type="text" class="form-control required" value="<?php echo  $pro['slug'] ?>">
+                                                <div class="form-group">
+                                                    <label for="Company-2" class="block"> رابط المنتج </label>
+                                                    <span class="badge badge-info"> / Website Name </span> <input id="Company-2" required name="slug" type="text" class="form-control required" value="<?php echo  $pro['slug'] ?>">
                                                 </div>
                                                 <div class="form-group">
                                                     <input type='hidden' name="pro_id" value="<?php echo $pro['id']; ?>">
@@ -243,6 +243,22 @@
                                                         <option <?php if ($pro['feature_product'] == 1) echo 'selected'; ?> value="1"> نعم </option>
                                                     </select>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label for="Company-2" class="block"> الطول لتحديد سعر الزراعه </label>
+                                                    <select name="public_tail" id="" class="form-control select2">
+                                                        <option value=""> اختر الطول </option>
+                                                        <?php
+                                                        $stmt = $connect->prepare("SELECT * FROM public_tails");
+                                                        $stmt->execute();
+                                                        $alltails = $stmt->fetchAll();
+                                                        foreach ($alltails as $tail) {
+                                                        ?>
+                                                            <option <?php if ($pro['public_tail'] == $tail['id']) echo 'selected'; ?> value="<?php echo $tail['id']; ?>"> <?php echo $tail['name']; ?> </option>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="submit" name="edit_cat" class="btn btn-primary waves-effect waves-light "> تعديل </button>
@@ -251,7 +267,7 @@
                                         </form>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                         <?php
                                         }
                         ?>

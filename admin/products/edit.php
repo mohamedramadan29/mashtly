@@ -19,6 +19,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
         $pro_variations = $_POST['pro_variations'];
         $pro_prices = $_POST['pro_price'];
         */
+        $public_tail = $_POST['public_tail'];
         $tags = $_POST['tags'];
         $publish = $_POST['publish'];
         $related_product = $_POST['related_product'];
@@ -105,11 +106,11 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
         }
         if (empty($formerror)) {
             $stmt = $connect->prepare("UPDATE products SET cat_id=?,more_cat=?,name=?, slug=? , description=?,short_desc=?,main_checked=?,purchase_price=?,
-        price=?,sale_price=?,av_num=?,tags=?,related_product=?,publish=? WHERE id = ? ");
+        price=?,sale_price=?,av_num=?,tags=?,related_product=?,publish=?,public_tail=? WHERE id = ? ");
             $stmt->execute(array(
                 $cat_id, $more_cat_string,  $name, $slug, $description, $short_desc,
                 $main_checked, $purchase_price, $price,
-                $sale_price,  $av_num,  $tags, $related_product_string, $publish, $pro_id
+                $sale_price,  $av_num,  $tags, $related_product_string, $publish, $public_tail, $pro_id
             ));
             // UPDATE Main Images To db 
             $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
@@ -710,6 +711,22 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                         <option value="" disabled> اختر الحالة </option>
                                         <option <?php if ($pro_data['publish'] == 1) echo 'selected'; ?> value="1"> نشر المنتج </option>
                                         <option <?php if ($pro_data['publish'] == 0) echo 'selected'; ?> value="0"> ارشيف </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Company-2" class="block"> الطول لتحديد سعر الزراعه </label>
+                                    <select name="public_tail" id="" class="form-control select2">
+                                        <option value=""> اختر الطول </option>
+                                        <?php
+                                        $stmt = $connect->prepare("SELECT * FROM public_tails");
+                                        $stmt->execute();
+                                        $alltails = $stmt->fetchAll();
+                                        foreach ($alltails as $tail) {
+                                        ?>
+                                            <option <?php if ($pro_data['public_tail'] == $tail['id']) echo 'selected'; ?> value="<?php echo $tail['id']; ?>"> <?php echo $tail['name']; ?> </option>
+                                        <?php
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                             </div>

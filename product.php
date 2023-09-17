@@ -19,6 +19,7 @@ if (isset($_GET['slug'])) {
         $product_sale_price = $product_data['sale_price'];
         $product_category = $product_data['cat_id'];
         $related_products = $product_data['related_product'];
+        $public_tail = $product_data['public_tail'];
         // get product category 
         $stmt = $connect->prepare("SELECT * FROM categories WHERE id = ?");
         $stmt->execute(array($product_category));
@@ -51,7 +52,7 @@ if (isset($_GET['slug'])) {
             $gift_id = null;
         }
         if (isset($_POST['farm_planet'])) {
-            $farm_planet = 1;
+            $farm_planet = $public_tail;
         } else {
             $farm_planet = null;
         }
@@ -436,30 +437,23 @@ if (isset($_GET['slug'])) {
                                                                     <p> خدمة الزرعة تشمل: </p>
                                                                     <h4> الحفر - التسميد - الزراعة - نظافة الموقع. </h4>
                                                                 </div>
-                                                                <div class="diffrent_price">
-                                                                    <div>
-                                                                        <img loading="lazy" src="<?php echo $uploads ?>/tree.svg" alt="">
+                                                                <?php
+                                                                // get the tails 
+                                                                $stmt = $connect->prepare("SELECT * FROM public_tails");
+                                                                $stmt->execute();
+                                                                $available_tail = $stmt->fetchAll();
+                                                                foreach ($available_tail as $tail) { ?>
+                                                                    <div class="diffrent_price">
+                                                                        <div>
+                                                                            <img loading="lazy" src="<?php echo $uploads ?>/tree.svg" alt="">
+                                                                        </div>
+                                                                        <div>
+                                                                            <p> <?php echo $tail['name']; ?> <span> <?php echo $tail['price']; ?> ريال </span> </p>
+                                                                        </div>
                                                                     </div>
-                                                                    <div>
-                                                                        <p> أشجار التي طولها من 3 م وأعلى تبدأ من <span> 30 ريال </span> </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="diffrent_price">
-                                                                    <div>
-                                                                        <img loading="lazy" src="<?php echo $uploads ?>/flower-pot.svg" alt="">
-                                                                    </div>
-                                                                    <div>
-                                                                        <p> البناتات التي اقل من 3 م تبدأ من <span> 20 ريال </span> </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="diffrent_price">
-                                                                    <div>
-                                                                        <img loading="lazy" src="<?php echo $uploads ?>/sakura.svg" alt="">
-                                                                    </div>
-                                                                    <div>
-                                                                        <p> الزهور الموسمية<span> 2 ريال </span> </p>
-                                                                    </div>
-                                                                </div>
+                                                                <?php
+                                                                }
+                                                                ?>
                                                             </div>
                                                         </div>
                                                     </div>
