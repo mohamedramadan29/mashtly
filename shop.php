@@ -3,8 +3,6 @@ ob_start();
 session_start();
 $page_title = ' مشتلي - المتجر  ';
 include "init.php";
-
-
 // add to favorite
 if (isset($_POST['add_to_fav'])) {
     if (isset($_SESSION['user_id'])) {
