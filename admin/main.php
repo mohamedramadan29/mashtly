@@ -330,7 +330,16 @@ if (isset($_SESSION['username'])) {
     if ($dir == 'sitemap' && $page == 'sitemap') {
         include "sitemap/sitemap.php";
     }
-
+    // START Product Tail 
+    if ($dir == 'product_tail' && $page == 'add') {
+        include "product_tail/add.php";
+    } elseif ($dir == 'product_tail' && $page == 'edit') {
+        include "product_tail/edit.php";
+    } elseif ($dir == 'product_tail' && $page == 'delete') {
+        include 'product_tail/delete.php';
+    } elseif ($dir == 'product_tail' && $page == 'report') {
+        include "product_tail/report.php";
+    }
     ?>
 
 </div>

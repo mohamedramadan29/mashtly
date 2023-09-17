@@ -71,13 +71,13 @@
                 </p>
               </a>
             </li>
-          <li class="nav-item">
+            <li class="nav-item">
               <a href="main.php?dir=sitemap&page=sitemap" class="nav-link">
-                  <p class="btn btn-primary">
-                     توليد السيتماب للموقع
-                  </p>
+                <p class="btn btn-primary">
+                  توليد السيتماب للموقع
+                </p>
               </a>
-          </li>
+            </li>
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <p>
@@ -174,6 +174,21 @@
                 <li class="nav-item">
                   <a href="main.php?dir=gifts&page=report" class="nav-link">
                     <p> جميع الهدايا </p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <p>
+                  الاطوال لتحديد سعر الزراعه
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="main.php?dir=product_tail&page=report" class="nav-link">
+                    <p> جميع الاختيارات </p>
                   </a>
                 </li>
               </ul>
