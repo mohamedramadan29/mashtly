@@ -1,56 +1,170 @@
 <?php
-
 include "vendor/autoload.php";
-
-$yourSiteUrl = 'https://www.mshtly.com/';
+$yourSiteUrl = 'https://kuwaitcode.tech/new_mashtly/';
 
 // Setting the current working directory to be the output directory
 $outputDir = getcwd();
 
-$generator = new \Icamys\SitemapGenerator\SitemapGenerator($yourSiteUrl, $outputDir);
-
-// Create a compressed sitemap
-$generator->enableCompression();
-
-// Determine how many URLs should be put into one file;
-$generator->setMaxUrlsPerSitemap(50000);
-
 // Set the sitemap file name
-$generator->setSitemapFileName("sitemap.xml"); // انتبه إلى امتداد الملف المضغوط
-
-// Set the sitemap index file name
-$generator->setSitemapIndexFileName("sitemap-index.xml");
+$sitemapFileName = "../sitemap.xml";
 
 // Define an array of product slugs or IDs (assuming you have a list)
+
 // get all products 
 
 $stmt = $connect->prepare("SELECT * FROM products");
 $stmt->execute();
 $allproducts = $stmt->fetchAll();
 foreach ($allproducts as $product) {
-    $productUrl = 'https://www.mshtly.com/products/' . $product['slug'];
-    $generator->addURL($productUrl, new DateTime(), 'always', 0.5);
+    $productUrl = 'https://kuwaitcode.tech/new_mashtly/product?slug=' . $product['slug'];
+    $urls[] = [
+        'loc' => $productUrl,
+        'lastmod' => (new DateTime())->format('c'),
+        'changefreq' => 'always',
+        'priority' => 0.5,
+    ];
 }
+// get all product Category
+
+$stmt = $connect->prepare("SELECT * FROM categories");
+$stmt->execute();
+$allcategories = $stmt->fetchAll();
+foreach ($allcategories as $category) {
+    $categoryUrl = 'https://kuwaitcode.tech/new_mashtly/category_products?slug=' . $category['slug'];
+    $urls[] = [
+        'loc' => $categoryUrl,
+        'lastmod' => (new DateTime())->format('c'),
+        'changefreq' => 'always',
+        'priority' => 0.5,
+    ];
+}
+// get all Articles
+
+$stmt = $connect->prepare("SELECT * FROM posts");
+$stmt->execute();
+$allarticles = $stmt->fetchAll();
+foreach ($allarticles as $article) {
+    $articleUrl = 'https://kuwaitcode.tech/new_mashtly/blog_details?slug=' . $article['slug'];
+    $urls[] = [
+        'loc' => $articleUrl,
+        'lastmod' => (new DateTime())->format('c'),
+        'changefreq' => 'always',
+        'priority' => 0.5,
+    ];
+}
+
 // Add other pages to the sitemap
-$generator->addURL('https://www.mshtly.com/', new DateTime(), 'daily', 1.0);
-$generator->addURL('https://www.mshtly.com/contact', new DateTime(), 'daily', 0.8);
-$generator->addURL('https://www.mshtly.com/privacy-policy', new DateTime(), 'monthly', 0.7);
+$urls[] = [
+    'loc' => 'https://kuwaitcode.tech/new_mashtly',
+    'lastmod' => (new DateTime())->format('c'),
+    'changefreq' => 'daily',
+    'priority' => 0.8,
+];
+$urls[] = [
+    'loc' => 'https://kuwaitcode.tech/cart',
+    'lastmod' => (new DateTime())->format('c'),
+    'changefreq' => 'daily',
+    'priority' => 1.0,
+];
 
+$urls[] = [
+    'loc' => 'https://kuwaitcode.tech/checkout',
+    'lastmod' => (new DateTime())->format('c'),
+    'changefreq' => 'monthly',
+    'priority' => 0.7,
+];
+$urls[] = [
+    'loc' => 'https://kuwaitcode.tech/big_orders',
+    'lastmod' => (new DateTime())->format('c'),
+    'changefreq' => 'monthly',
+    'priority' => 0.7,
+];
+$urls[] = [
+    'loc' => 'https://kuwaitcode.tech/contact',
+    'lastmod' => (new DateTime())->format('c'),
+    'changefreq' => 'monthly',
+    'priority' => 0.7,
+];
+$urls[] = [
+    'loc' => 'https://kuwaitcode.tech/import_service',
+    'lastmod' => (new DateTime())->format('c'),
+    'changefreq' => 'monthly',
+    'priority' => 0.7,
+];
+$urls[] = [
+    'loc' => 'https://kuwaitcode.tech/join_us',
+    'lastmod' => (new DateTime())->format('c'),
+    'changefreq' => 'monthly',
+    'priority' => 0.7,
+];
+$urls[] = [
+    'loc' => 'https://kuwaitcode.tech/gifts',
+    'lastmod' => (new DateTime())->format('c'),
+    'changefreq' => 'monthly',
+    'priority' => 0.7,
+];
+$urls[] = [
+    'loc' => 'https://kuwaitcode.tech/faq',
+    'lastmod' => (new DateTime())->format('c'),
+    'changefreq' => 'monthly',
+    'priority' => 0.7,
+];
+$urls[] = [
+    'loc' => 'https://kuwaitcode.tech/delivery_policy',
+    'lastmod' => (new DateTime())->format('c'),
+    'changefreq' => 'monthly',
+    'priority' => 0.7,
+];
+$urls[] = [
+    'loc' => 'https://kuwaitcode.tech/blog',
+    'lastmod' => (new DateTime())->format('c'),
+    'changefreq' => 'monthly',
+    'priority' => 0.7,
+];
+$urls[] = [
+    'loc' => 'https://kuwaitcode.tech/landscap',
+    'lastmod' => (new DateTime())->format('c'),
+    'changefreq' => 'monthly',
+    'priority' => 0.7,
+];
+$urls[] = [
+    'loc' => 'https://kuwaitcode.tech/shop',
+    'lastmod' => (new DateTime())->format('c'),
+    'changefreq' => 'monthly',
+    'priority' => 0.7,
+];
+$urls[] = [
+    'loc' => 'https://kuwaitcode.tech/terms',
+    'lastmod' => (new DateTime())->format('c'),
+    'changefreq' => 'monthly',
+    'priority' => 0.7,
+];
 try {
-    // Flush all stored URLs from memory to the disk and close all necessary tags.
-    $generator->flush();
-
-    // Move flushed files to their final location. Compress if the option is enabled.
-    $generator->finalize();
+    $xml = new XMLWriter();
+    $xml->openUri($sitemapFileName);
+    $xml->setIndent(true);
+    $xml->startDocument('1.0', 'UTF-8');
+    $xml->startElement('urlset');
+    $xml->writeAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
+    foreach ($urls as $url) {
+        $xml->startElement('url');
+        $xml->writeElement('loc', $url['loc']);
+        $xml->writeElement('lastmod', $url['lastmod']);
+        $xml->writeElement('changefreq', $url['changefreq']);
+        $xml->writeElement('priority', $url['priority']);
+        $xml->endElement();
+    }
+    $xml->endElement();
+    $xml->endDocument();
+    $xml->flush();
 
     // Update robots.txt file in the output directory or create a new one
-    $generator->updateRobots();
+    // (You can add code for this if needed)
 
     // Submit your sitemap to search engines
-    $generator->submitSitemap();
+    // (You can add code for this if needed)
 
-    echo "تم إنشاء ملف sitemap بنجاح! يمكنك تنزيل الملف المضغوط من هذا الرابط: ";
-    echo '<a href="sitemap.xml.gz">تنزيل الملف المضغوط</a>';
+    echo "تم إنشاء وتحديث ملف sitemap بنجاح!";
 } catch (\Exception $e) {
-    echo "حدثت مشكلة أثناء إنشاء ملف sitemap: " . $e->getMessage();
+    echo "حدثت مشكلة أثناء إنشاء وتحديث ملف sitemap: " . $e->getMessage();
 }
