@@ -671,7 +671,7 @@ if (isset($_POST['add_pro'])) {
               </div>
               <div class="form-group">
                 <label for="Company-2" class="block"> الطول لتحديد سعر الزراعه </label>
-                <select required name="public_tail" id="" class="form-control select2">
+                <select name="public_tail" id="" class="form-control select2">
                   <option value=""> اختر الطول </option>
                   <?php
                   $stmt = $connect->prepare("SELECT * FROM public_tails");
