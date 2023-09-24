@@ -8,6 +8,7 @@ if (isset($_POST['edit_cat'])) {
     // main image
     if (!empty($_FILES['main_image']['name'])) {
         $main_image_name = $_FILES['main_image']['name'];
+        $main_image_name = str_replace(' ', '-', $main_image_name);
         $main_image_temp = $_FILES['main_image']['tmp_name'];
         $main_image_type = $_FILES['main_image']['type'];
         $main_image_size = $_FILES['main_image']['size'];

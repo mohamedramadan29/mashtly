@@ -112,14 +112,7 @@
                                             <td> <?php echo  $cat['slug']; ?> </td>
                                             <td> <?php echo  $cat['tags']; ?> </td>
                                             <td>
-                                                <?php if (strpos($cat['image'], "https://www.mshtly.com") !== false) { ?>
-                                                    <img style="width: 80px; height:80px;" src="<?php echo $cat['image']; ?>" alt="">
-                                                <?php
-                                                } else {
-                                                ?>
-                                                    <img style="width: 80px; height:80px;" src="category_images/<?php echo $cat['image']; ?>" alt="">
-                                                <?php
-                                                } ?>
+                                                <img style="width: 80px; height:80px;" src="category_images/<?php echo $cat['image']; ?>" alt="">
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $cat['id']; ?>"> تعديل <i class='fa fa-pen'></i> </button>
@@ -159,7 +152,7 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="Company-2" class="block"> الوصف </label>
-                                                                <textarea id=""  name="description" class="form-control "><?php echo  $cat['description'] ?></textarea>
+                                                                <textarea id="" name="description" class="form-control "><?php echo  $cat['description'] ?></textarea>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="customFile"> تعديل صورة القسم </label>

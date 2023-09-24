@@ -58,16 +58,42 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
             if (!empty($image_name)) {
                 $image_name = str_replace(' ', '-', $image_name);
                 $main_image_uploaded = $image_name . '.' . $image_extension;
-                move_uploaded_file(
-                    $main_image_temp,
-                    'product_images/' . $main_image_uploaded
-                );
+                $upload_path = 'product_images/' . $main_image_uploaded;
+                move_uploaded_file($main_image_temp, $upload_path);
+                // Check the image type and convert it to WebP if it's supported
+                if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
+                    $image = imagecreatefromjpeg($upload_path);
+                } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
+                    $image = imagecreatefrompng($upload_path);
+                }
+                if ($image !== false) {
+                    $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                    // Save the image as WebP
+                    imagewebp($image, $webp_path);
+                    // Clean up memory
+                    imagedestroy($image);
+                    // Update the uploaded image path to the WebP version
+                    $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                }
             } else {
                 $main_image_uploaded = $main_image_name;
-                move_uploaded_file(
-                    $main_image_temp,
-                    'product_images/' . $main_image_uploaded
-                );
+                $upload_path = 'product_images/' . $main_image_uploaded;
+                move_uploaded_file($main_image_temp, $upload_path);
+                // Check the image type and convert it to WebP if it's supported
+                if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
+                    $image = imagecreatefromjpeg($upload_path);
+                } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
+                    $image = imagecreatefrompng($upload_path);
+                }
+                if ($image !== false) {
+                    $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                    // Save the image as WebP
+                    imagewebp($image, $webp_path);
+                    // Clean up memory
+                    imagedestroy($image);
+                    // Update the uploaded image path to the WebP version
+                    $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                }
             }
         }
 
@@ -157,16 +183,42 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                     if (!empty($new_image_name)) {
                         $new_image_name = str_replace(' ', '-', $new_image_name);
                         $main_image_uploaded = $new_image_name . '.' . $image_extension;
-                        move_uploaded_file(
-                            $image_temp,
-                            'product_images/' . $main_image_uploaded
-                        );
+                        $upload_path = 'product_images/' . $main_image_uploaded;
+                        move_uploaded_file($image_temp, $upload_path);
+                        // Check the image type and convert it to WebP if it's supported
+                        if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
+                            $image = imagecreatefromjpeg($upload_path);
+                        } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
+                            $image = imagecreatefrompng($upload_path);
+                        }
+                        if ($image !== false) {
+                            $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                            // Save the image as WebP
+                            imagewebp($image, $webp_path);
+                            // Clean up memory
+                            imagedestroy($image);
+                            // Update the uploaded image path to the WebP version
+                            $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                        }
                     } else {
                         $main_image_uploaded = $image_name;
-                        move_uploaded_file(
-                            $image_temp,
-                            'product_images/' . $main_image_uploaded
-                        );
+                        $upload_path = 'product_images/' . $main_image_uploaded;
+                        move_uploaded_file($image_temp, $upload_path);
+                        // Check the image type and convert it to WebP if it's supported
+                        if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
+                            $image = imagecreatefromjpeg($upload_path);
+                        } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
+                            $image = imagecreatefrompng($upload_path);
+                        }
+                        if ($image !== false) {
+                            $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                            // Save the image as WebP
+                            imagewebp($image, $webp_path);
+                            // Clean up memory
+                            imagedestroy($image);
+                            // Update the uploaded image path to the WebP version
+                            $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                        }
                     }
                     $stmt = $connect->prepare("INSERT INTO products_gallary (product_id,image,image_name, image_alt , image_desc,image_keys)
         VALUES(:zproduct_id,:zimage,:zimage_name,:zimage_alt, :zimage_desc,:zimage_keys_gal)");
