@@ -9,7 +9,7 @@
                 echo $page_title;
             } ?> </title>
     <meta name="description" content="<?php if (isset($meta_short_description)) echo $meta_short_description ?>">
-    <meta name="robots" content="">
+    <meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
     <meta name="keywords" content="<?php if (isset($meta_keywords)) echo $meta_keywords ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="UTF-8">
