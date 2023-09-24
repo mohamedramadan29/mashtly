@@ -1201,7 +1201,7 @@ body {
 .garden_services .data .info .global_button {}
 
 .garden_services .data .info1 {
-    background-image: url(../../uploads/garden_serv2.png);
+    background-image: url(../../uploads/garden_serv2.webp);
     background-position: center;
     background-size: cover;
 }
@@ -1279,7 +1279,7 @@ body {
 }
 
 .expert_connect .data .image {
-    background-image: url(../../uploads/expert_contact.png);
+    background-image: url(../../uploads/expert_contact.webp);
     background-position: center;
     background-size: cover;
     height: 100%;

@@ -877,7 +877,7 @@ if (isset($_POST['add_to_cart'])) {
             <div class='row'>
                 <div class='col-lg-3 col-6'>
                     <div class="info">
-                        <img src="uploads/cash_on_delivery.png" alt="">
+                        <img src="uploads/cash_on_delivery.webp" alt="">
                         <h4> الدفع عند الاستلام </h4>
                         <p> حاليا داخل الرياض فقط </p>
                     </div>
@@ -1008,7 +1008,7 @@ if (isset($_POST['add_to_cart'])) {
                 <div class="col-lg-8">
                     <div class="info">
                         <div class="plyr__video-embed" id="player">
-                            <iframe width="400px" height="400px" data-poster="uploads/poster.png" src="https://www.youtube.com/watch?v=MALvzJsQ2ys" allowfullscreen allowtransparency allow="autoplay"></iframe>
+                            <iframe width="400px" height="400px" data-poster="uploads/poster.webp" src="https://www.youtube.com/watch?v=MALvzJsQ2ys" allowfullscreen allowtransparency allow="autoplay"></iframe>
                         </div>
                     </div>
                 </div>

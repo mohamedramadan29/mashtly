@@ -76,7 +76,7 @@
                         <div class="table-responsive">
                             <form action="" method="post">
                                 <button type="submit" name="delete_selected" class="btn btn-danger btn-sm"> حذف المنتجات المحددة <i class="fa fa-trash"></i> </button>
-                                <table id="my_table" class="table table-striped table-bordered">
+                                <table id="" class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
                                             <th></th>
@@ -93,9 +93,23 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC");
+                                        $stmt = $connect->prepare("SELECT * FROM products");
                                         $stmt->execute();
-                                        $allpro = $stmt->fetchAll();
+                                        $totalRecords = count($stmt->fetchAll());
+                                        // تحديد عدد السجلات في كل صفحة والصفحة الحالية
+                                        $recordsPerPage = 30;
+                                        $report_page = isset($_GET['report_page']) ? (int)$_GET['report_page'] : 1; // Cast to integer
+                                        $report_page = max(1, $report_page); // Ensure $page is at least 1
+                                        // حساب الإزاحة
+                                        $offset = ($report_page - 1) * $recordsPerPage;
+                                        // استعلام SQL لاسترداد البيانات للصفحة الحالية
+                                        $query = "SELECT * FROM products ORDER BY id DESC LIMIT :offset, :limit";
+                                        $statement = $connect->prepare($query);
+                                        $statement->bindParam(':offset', $offset, PDO::PARAM_INT);
+                                        $statement->bindParam(':limit', $recordsPerPage, PDO::PARAM_INT);
+                                        $statement->execute();
+
+                                        $allpro = $statement->fetchAll(PDO::FETCH_ASSOC);
                                         $i = 0;
                                         foreach ($allpro as $pro) {
                                             $i++;
@@ -272,6 +286,19 @@
                                         }
                         ?>
                         </table>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <?php
+                                $totalPages = ceil($totalRecords / $recordsPerPage);
+                                for ($i = 1; $i <= $totalPages; $i++) {
+                                ?>
+                                    <li class="page-item"><a class="page-link" href="main.php?dir=products&page=report&report_page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+                                <?php
+                                }
+                                ?>
+                            </ul>
+                        </nav>
+
                         </div>
                     </div>
 
