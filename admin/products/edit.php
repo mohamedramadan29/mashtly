@@ -59,39 +59,53 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                 $image_name = str_replace(' ', '-', $image_name);
                 $main_image_uploaded = $image_name . '.' . $image_extension;
                 $upload_path = 'product_images/' . $main_image_uploaded;
+                // حفظ ملف الصورة المرفوع
                 move_uploaded_file($main_image_temp, $upload_path);
-                // Check the image type and convert it to WebP if it's supported
+
+                // تحقق من نوع الصورة وتحويلها إلى WebP إذا كان ذلك ممكنًا
                 if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
                     $image = imagecreatefromjpeg($upload_path);
                 } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
                     $image = imagecreatefrompng($upload_path);
                 }
-                if ($image !== false) {
+
+                if (isset($image)) {
+                    // حدد مسار حفظ ملف الصورة بتنسيق WebP
                     $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
-                    // Save the image as WebP
+
+                    // قم بحفظ الصورة كملف WebP
                     imagewebp($image, $webp_path);
-                    // Clean up memory
+
+                    // حرر الذاكرة
                     imagedestroy($image);
-                    // Update the uploaded image path to the WebP version
+
+                    // قم بتحديث المسار الذي تم تحميل الصورة إليه ليكون بامتداد .webp
                     $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
                 }
             } else {
                 $main_image_uploaded = $main_image_name;
                 $upload_path = 'product_images/' . $main_image_uploaded;
+                // حفظ ملف الصورة المرفوع
                 move_uploaded_file($main_image_temp, $upload_path);
-                // Check the image type and convert it to WebP if it's supported
+
+                // تحقق من نوع الصورة وتحويلها إلى WebP إذا كان ذلك ممكنًا
                 if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
                     $image = imagecreatefromjpeg($upload_path);
                 } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
                     $image = imagecreatefrompng($upload_path);
                 }
-                if ($image !== false) {
+
+                if (isset($image)) {
+                    // حدد مسار حفظ ملف الصورة بتنسيق WebP
                     $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
-                    // Save the image as WebP
+
+                    // قم بحفظ الصورة كملف WebP
                     imagewebp($image, $webp_path);
-                    // Clean up memory
+
+                    // حرر الذاكرة
                     imagedestroy($image);
-                    // Update the uploaded image path to the WebP version
+
+                    // قم بتحديث المسار الذي تم تحميل الصورة إليه ليكون بامتداد .webp
                     $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
                 }
             }
@@ -185,38 +199,48 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                         $main_image_uploaded = $new_image_name . '.' . $image_extension;
                         $upload_path = 'product_images/' . $main_image_uploaded;
                         move_uploaded_file($image_temp, $upload_path);
-                        // Check the image type and convert it to WebP if it's supported
+                        // تحقق من نوع الصورة وتحويلها إلى WebP إذا كان ذلك ممكنًا
                         if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
                             $image = imagecreatefromjpeg($upload_path);
                         } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
                             $image = imagecreatefrompng($upload_path);
                         }
-                        if ($image !== false) {
+
+                        if (isset($image)) {
+                            // حدد مسار حفظ ملف الصورة بتنسيق WebP
                             $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
-                            // Save the image as WebP
+
+                            // قم بحفظ الصورة كملف WebP
                             imagewebp($image, $webp_path);
-                            // Clean up memory
+
+                            // حرر الذاكرة
                             imagedestroy($image);
-                            // Update the uploaded image path to the WebP version
+
+                            // قم بتحديث المسار الذي تم تحميل الصورة إليه ليكون بامتداد .webp
                             $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
                         }
                     } else {
                         $main_image_uploaded = $image_name;
                         $upload_path = 'product_images/' . $main_image_uploaded;
                         move_uploaded_file($image_temp, $upload_path);
-                        // Check the image type and convert it to WebP if it's supported
+                        // تحقق من نوع الصورة وتحويلها إلى WebP إذا كان ذلك ممكنًا
                         if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
                             $image = imagecreatefromjpeg($upload_path);
                         } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
                             $image = imagecreatefrompng($upload_path);
                         }
-                        if ($image !== false) {
+
+                        if (isset($image)) {
+                            // حدد مسار حفظ ملف الصورة بتنسيق WebP
                             $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
-                            // Save the image as WebP
+
+                            // قم بحفظ الصورة كملف WebP
                             imagewebp($image, $webp_path);
-                            // Clean up memory
+
+                            // حرر الذاكرة
                             imagedestroy($image);
-                            // Update the uploaded image path to the WebP version
+
+                            // قم بتحديث المسار الذي تم تحميل الصورة إليه ليكون بامتداد .webp
                             $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
                         }
                     }
