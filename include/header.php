@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <?php include $tem . 'get_product_meta.php'; ?>
     <title> <?php if (isset($meta_title)) {
@@ -8,6 +9,7 @@
                 echo $page_title;
             } ?> </title>
     <meta name="description" content="<?php if (isset($meta_short_description)) echo $meta_short_description ?>">
+    <meta name="robots" content="">
     <meta name="keywords" content="<?php if (isset($meta_keywords)) echo $meta_keywords ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="UTF-8">
