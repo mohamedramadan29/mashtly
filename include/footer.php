@@ -68,17 +68,18 @@
                         <div class="info">
                             <ul class="list-unstyled">
                                 <li> <a href="blog"> المدونة </a> </li>
-                                <li> <a href="#"> قصتنا </a> </li>
-                                <li> <a href="#"> الاستفسارات والشكاوي </a> </li>
+                                <li> <a href="faq"> الاسئلة الشائعه </a> </li>
+                                <li> <a href="contact"> تواصل معنا </a> </li>
+                                <li> <a href="join_us"> انضم الينا </a> </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="info">
                             <ul class="list-unstyled">
-                                <li> <a href="#"> سياسة الدفع </a> </li>
-                                <li> <a href="#"> التواصل والارجاع </a> </li>
-                                <li> <a href="#"> شروط الاستخدام </a> </li>
+                                <li> <a href="payment_policy"> سياسة الدفع </a> </li>
+                                <li> <a href="delivery_policy"> التوصيل والارجاع </a> </li>
+                                <li> <a href="terms"> شروط الاستخدام </a> </li>
                             </ul>
                         </div>
                     </div>
@@ -141,17 +142,18 @@
                         <div class="info">
                             <ul class="list-unstyled">
                                 <li> <a href="blog"> المدونة </a> </li>
-                                <li> <a href="#"> قصتنا </a> </li>
-                                <li> <a href="#"> الاستفسارات والشكاوي </a> </li>
+                                <li> <a href="faq"> الاسئلة الشائعه </a> </li>
+                                <li> <a href="contact"> تواصل معنا </a> </li>
+                                <li> <a href="join_us"> انضم الينا </a> </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="info">
                             <ul class="list-unstyled">
-                                <li> <a href="#"> سياسة الدفع </a> </li>
-                                <li> <a href="#"> التواصل والارجاع </a> </li>
-                                <li> <a href="#"> شروط الاستخدام </a> </li>
+                                <li> <a href="payment_policy"> سياسة الدفع </a> </li>
+                                <li> <a href="delivery_policy"> التوصيل والارجاع </a> </li>
+                                <li> <a href="terms"> شروط الاستخدام </a> </li>
                             </ul>
                         </div>
                     </div>
