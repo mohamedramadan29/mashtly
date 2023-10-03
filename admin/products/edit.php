@@ -836,6 +836,45 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                 <a target='_blank' href="product_images/<?php echo $product_image_data['main_image']; ?>" data-toggle="lightbox" data-title="sample 2 - black">
                                     <img style="max-width: 100%;" src="product_images/<?php echo $product_image_data['main_image'];  ?>" class="img-fluid mb-2" alt="الرئيسية" />
                                 </a>
+                                <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#edit-main-image"> <i class="fa fa-edit"> </i> </button>
+                                <div class="modal fade" id="edit-main-image" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title"> تحرير سريع </h4>
+                                            </div>
+                                            <form method="POST" action="" enctype="multipart/form-data">
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <input type='hidden' name="gallary_id" value="<?php echo $product_image_data['id']; ?>">
+                                                        <input type="hidden" name="main_image_name" value="<?php echo $product_image_data['main_image']; ?>">
+                                                        <label for="Company-2" class="block"> اسم الصورة </label>
+                                                        <input id="Company-2" name="image_name_gallary" type="text" class="form-control" value="<?php echo $product_image_data['image_name'] ?>">
+                                                    </div>
+                                                    <div class="form-group">
+
+                                                        <label for="Company-2" class="block"> الأسم البديل </label>
+                                                        <input id="Company-2" name="image_alt_gallary" type="text" class="form-control" value="<?php echo $product_image_data['image_alt'] ?>">
+                                                    </div>
+                                                    <div class="form-group">
+
+                                                        <label for="Company-2" class="block"> وصف مختصر </label>
+                                                        <input id="Company-2" name="image_desc_gallary" type="text" class="form-control" value="<?php echo $product_image_data['image_desc'] ?>">
+                                                    </div>
+                                                    <div class="form-group">
+
+                                                        <label for="Company-2" class="block"> كلمات مفتاحية </label>
+                                                        <input id="Company-2" name="image_keys_gallary" type="text" class="form-control" value="<?php echo $product_image_data['image_keys'] ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" name="edit_main_image" class="btn btn-primary waves-effect waves-light "> تعديل </button>
+                                                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">رجوع</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-8">
@@ -942,6 +981,40 @@ if (isset($_POST['edit_image_gallary'])) {
         $image_desc_gallary = $_POST['image_desc_gallary'];
         $image_keys_gallary = $_POST['image_keys_gallary'];
         $stmt = $connect->prepare("UPDATE products_gallary SET image=?,image_name = ?,image_alt=?,image_desc=?,image_keys=? WHERE id =?");
+        $stmt->execute(array($new_file_name, $image_name_gallary, $image_alt_gallary, $image_desc_gallary, $image_keys_gallary, $image_gal_id));
+        if ($stmt) {
+            header('Location:main?dir=products&page=edit&pro_id=' . $pro_id);
+        }
+    } else {
+    }
+}
+
+
+//////////////////////////////////////////////
+
+if (isset($_POST['edit_main_image'])) {
+    $image_gal_id = $_POST['gallary_id'];
+    $image_name_gallary = $_POST['image_name_gallary'];
+    $new_image_name =  str_replace(' ', '-', $image_name_gallary);
+    $old_image_name = $_POST['main_image_name'];
+    $path_info = pathinfo($old_image_name);
+    // احفظ الجزء النصي من اسم الملف (بدون الامتداد)
+    $file_name_without_extension = $path_info['filename'];
+    // احفظ الامتداد
+    $extension = $path_info['extension'];
+    // قم بتشكيل الاسم الجديد مع الجزء النصي الجديد والامتداد القديم
+    $new_file_name = $new_image_name . "." . $extension;
+
+
+    // قم بتحديث اسم الملف في النظام الملفاتي
+    $old_image_path = "product_images/" . $old_image_name;
+    $new_image_path = "product_images/" . $new_file_name;
+
+    if (rename($old_image_path, $new_image_path)) {
+        $image_alt_gallary = $_POST['image_alt_gallary'];
+        $image_desc_gallary = $_POST['image_desc_gallary'];
+        $image_keys_gallary = $_POST['image_keys_gallary'];
+        $stmt = $connect->prepare("UPDATE products_image SET main_image=?,image_name = ?,image_alt=?,image_desc=?,image_keys=? WHERE id =?");
         $stmt->execute(array($new_file_name, $image_name_gallary, $image_alt_gallary, $image_desc_gallary, $image_keys_gallary, $image_gal_id));
         if ($stmt) {
             header('Location:main?dir=products&page=edit&pro_id=' . $pro_id);
