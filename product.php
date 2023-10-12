@@ -136,12 +136,17 @@ if (isset($_GET['slug'])) {
                                         $count_g = count($allgallary);
                                         if ($count_g > 0) {
                                             foreach ($allgallary as $gallary) {
+                                                if ($gallary['image'] != null || $gallary['image'] != '') {
                                         ?>
-                                                <div>
-                                                    <a href="admin/product_images/<?php echo $gallary['image']; ?>">
-                                                        <img loading="lazy" src="admin/product_images/<?php echo $gallary['image']; ?>" alt="Image 2">
-                                                    </a>
-                                                </div>
+                                                    <div>
+                                                        <a href="admin/product_images/<?php echo $gallary['image']; ?>">
+                                                            <img loading="lazy" src="admin/product_images/<?php echo $gallary['image']; ?>" alt="Image 2">
+                                                        </a>
+                                                    </div>
+                                                <?php
+                                                }
+                                                ?>
+
                                             <?php
                                             }
                                             ?>
@@ -177,10 +182,15 @@ if (isset($_GET['slug'])) {
                                         <?php
                                         if ($count_g > 0) {
                                             foreach ($allgallary as $gallary) {
+                                                if ($gallary['image'] != null || $gallary['image'] != '') {
                                         ?>
-                                                <div>
-                                                    <img loading="lazy" src="admin/product_images/<?php echo $gallary['image']; ?>" alt="Image 2">
-                                                </div>
+                                                    <div>
+                                                        <img loading="lazy" src="admin/product_images/<?php echo $gallary['image']; ?>" alt="Image 2xcxcxc">
+                                                    </div>
+                                                <?php
+                                                }
+                                                ?>
+
                                             <?php
                                             }
                                             ?>
@@ -188,7 +198,7 @@ if (isset($_GET['slug'])) {
                                         }
                                         if ($count_att_g > 0) {
                                             foreach ($allattimages as $att_image) {
-                                                if ($att_image['image'] != '' && $att_image['image'] != null) {
+                                                if ($att_image['image'] != '' || $att_image['image'] != null) {
                                             ?>
                                                     <div>
                                                         <img loading="lazy" src="admin/product_images/<?php echo $att_image['image']; ?>" alt="Image 2">

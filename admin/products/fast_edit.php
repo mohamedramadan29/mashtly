@@ -10,6 +10,7 @@ if (isset($_POST['edit_cat'])) {
     $publish = $_POST['publish'];
     $feature_product = $_POST['feature_product'];
     $public_tail = $_POST['public_tail'];
+    $product_as_gift = $_POST['product_as_gift'];
     $formerror = [];
     if (empty($name)) {
         $formerror[] = ' من فضلك ادخل اسم المنتج  ';
@@ -27,8 +28,8 @@ if (isset($_POST['edit_cat'])) {
         $formerror[] = ' هذا الرابط موجود بالفعل من فضلك ادخل رابط اخر  ';
     }
     if (empty($formerror)) {
-        $stmt = $connect->prepare("UPDATE products SET cat_id=?,name=?,slug=?,price=?,sale_price=?,publish=?,product_status_store=?,feature_product=?,public_tail=? WHERE id = ? ");
-        $stmt->execute(array($cat_id, $name, $slug, $price, $sale_price, $publish, $product_status_store, $feature_product, $public_tail, $pro_id));
+        $stmt = $connect->prepare("UPDATE products SET cat_id=?,name=?,slug=?,price=?,sale_price=?,publish=?,product_status_store=?,feature_product=?,public_tail=?,product_as_gift=? WHERE id = ? ");
+        $stmt->execute(array($cat_id, $name, $slug, $price, $sale_price, $publish, $product_status_store, $feature_product, $public_tail, $product_as_gift, $pro_id));
         if ($stmt) {
             $_SESSION['success_message'] = "تم التعديل بنجاح ";
             header('Location:main?dir=products&page=report');

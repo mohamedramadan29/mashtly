@@ -85,9 +85,11 @@
                                             <th> القسم </th>
                                             <th> السعر </th>
                                             <th> سعر التخفيض </th>
-                                            <th> حالة المخزون </th>
+                                            <th> المخزون </th>
+                                            <th> نشر المنتج </th>
                                             <th> مميز </th>
-                                            <th> صورة المنتج </th>
+                                            <th> هدية </th>
+                                            <th> صورة </th>
                                             <th> العمليات </th>
                                         </tr>
                                     </thead>
@@ -150,10 +152,29 @@
                                                         }
                                                     ?>
                                                 </td>
+                                                <td>
+                                                    <?php if ($pro['publish'] == 1) {
+                                                    ?>
+                                                        <span class="badge badge-success"> منشور </span>
+                                                    <?php
+                                                    } else {
+                                                    ?>
+                                                        <span class="badge badge-danger"> ارشيف </span>
+                                                    <?php
+                                                    } ?>
+                                                </td>
                                                 <td> <?php
                                                         if ($pro['feature_product'] == 1) {
                                                         ?>
                                                         <span> <i class="fa fa-star"></i> </span>
+                                                    <?php
+                                                        }
+                                                    ?>
+                                                </td>
+                                                <td> <?php
+                                                        if ($pro['product_as_gift'] == 1) {
+                                                        ?>
+                                                        <span> <i style="color: green;" class="fa fa-gift"></i> </span>
                                                     <?php
                                                         }
                                                     ?>
@@ -271,6 +292,14 @@
                                                         <?php
                                                         }
                                                         ?>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="Company-2" class="block"> تعين المنتج كهدية </label>
+                                                    <select name="product_as_gift" id="" class="form-control select2">
+                                                        <option value="" disabled> اختر </option>
+                                                        <option <?php if ($pro['product_as_gift'] == 1) echo 'selected'; ?> value="1"> نعم </option>
+                                                        <option <?php if ($pro['product_as_gift'] == 0) echo 'selected'; ?> value="0"> لا </option>
                                                     </select>
                                                 </div>
                                             </div>
