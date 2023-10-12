@@ -188,10 +188,14 @@ if (isset($_GET['slug'])) {
                                         }
                                         if ($count_att_g > 0) {
                                             foreach ($allattimages as $att_image) {
+                                                if ($att_image['image'] != '' && $att_image['image'] != null) {
                                             ?>
-                                                <div>
-                                                    <img loading="lazy" src="admin/product_images/<?php echo $att_image['image']; ?>" alt="Image 2">
-                                                </div>
+                                                    <div>
+                                                        <img loading="lazy" src="admin/product_images/<?php echo $att_image['image']; ?>" alt="Image 2">
+                                                    </div>
+                                                <?php
+                                                }
+                                                ?>
                                             <?php
                                             }
                                             ?>
@@ -327,9 +331,11 @@ if (isset($_GET['slug'])) {
                                     ?>
                                     <div class="colors">
                                         <?php
+                                        /*
                                         if ($allpro_attibutes_count > 0) {
                                             foreach ($allpro_attibutes as $allpro_att) {
                                         ?>
+
                                                 <input required data-image="<?php echo $allpro_att['image']; ?>" data-price=<?php echo $allpro_att['price']; ?> id="<?php echo $allpro_att['id']; ?>" type="radio" name="vartion_select" value="<?php echo $allpro_att['id']; ?>">
                                                 <label for=<?php echo $allpro_att['id']; ?> class="color">
                                                     <p> <?php echo $allpro_att['vartions_name']; ?> </p>
@@ -343,8 +349,23 @@ if (isset($_GET['slug'])) {
                                                 <input id="price_value" type="hidden" name="select_price" value="<?php echo $allpro_att['price']; ?>">
                                             </div>
                                         <?php
+                                        }*/
+
+                                        if ($allpro_attibutes_count > 0) {
+                                            echo '<select class="form-control" name="vartion_select" required>';
+                                            echo '<option value=""> "حدد احد الخيارات" </option>';
+                                            foreach ($allpro_attibutes as $allpro_att) {
+                                                echo '<option value="' . $allpro_att['id'] . '" data-image="' . $allpro_att['image'] . '" data-price="' . $allpro_att['price'] . '" id="' . $allpro_att['id'] . '">' . $allpro_att['vartions_name'] . '</option>';
+                                            }
+                                            echo '</select>';
+                                            echo '<div>';
+                                            echo '<h6>السعر</h6>';
+                                            echo '<span class="text-bold" id="selected_price">0.00 ر.س</span>';
+                                            echo '<input id="price_value" type="hidden" name="select_price" value="' . $allpro_att['price'] . '">';
+                                            echo '</div>';
                                         }
                                         ?>
+
                                     </div>
                                     <h6> الكمية </h6>
                                     <div class="quantity">

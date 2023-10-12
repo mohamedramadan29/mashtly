@@ -60,7 +60,7 @@ if (isset($_SESSION['user_id'])) {
                 $stmt = $connect->prepare("UPDATE user_address SET country=? , city = ? ,area = ? ,street_name=?,
                 build_number=?,name=?, phone=?,default_address=? WHERE id = ?
                 ");
-                $stmt->execute(array($country, $city, $area, $street_name, $build_number, $name, $phone,$default_address, $address_id));
+                $stmt->execute(array($country, $city, $area, $street_name, $build_number, $name, $phone, $default_address, $address_id));
                 if ($stmt) {
                     $_SESSION['success'] = 'تم تعديل العنوان  بنجاح ';
                     header('Location:index');
@@ -74,7 +74,7 @@ if (isset($_SESSION['user_id'])) {
             <div class='container'>
                 <div class="data">
                     <div class="breadcrump">
-                        <p> <a href="../index"> الرئيسية </a> \ <a href="../index"> حسابي </a> \ <a href="address"> عناويني </a> \
+                        <p> <a href="../index"> الرئيسية </a> \ <a href="../index"> حسابي </a> \ <a href="index"> عناويني </a> \
                             <span> تعديل العنوان </span>
                         </p>
                     </div>

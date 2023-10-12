@@ -19,30 +19,60 @@ include "init.php";
         </div>
         <div class="add_new_address add_new_payment">
             <?php
+
+            $length = 8; // Set the length of the random string
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; // Set the characters to use
+            $randomString = '';
+
+            // Generate the random string
+            for ($i = 0; $i < $length; $i++) {
+                $randomString .= $characters[rand(0, strlen($characters) - 1)];
+            }
+            $randomString =  substr($randomString, 0, 8);
+
             if (isset($_POST['forget_button'])) {
                 $email = sanitizeInput($_POST['email']);
-                $stmt = $connect->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
-                $stmt->execute(array($email));
-                $count = $stmt->rowCount();
-                if ($count > 0) {
-                    $to = $email;
-                    $subject = 'تفعيل الحساب';
-                    $message = 'مرحبًا،\n\nشكرًا لتسجيلك في الموقع. يرجى النقر على الرابط التالي لتفعيل حسابك:\n\n http://localhost/mashtly/password/change?email=' . urlencode($email);
-                    $headers = 'From: your_email@example.com';
-                    // إرسال البريد الإلكتروني
-                    if (mail($to, $subject, $message, $headers)) {
+                $stmt = $connect->prepare("SELECT * FROM users WHERE email = ? OR user_name = ? LIMIT 1");
+                $stmt->execute(array($email, $email));
+                $formerror = [];
+                if (empty($email)) {
+                    $formerror[] = ' من فضلك ادخل اسم المستخدم او البريد الالكتروني  ';
+                }
+                if (empty($formerror)) {
+                    $stmt = $connect->prepare('SELECT * FROM users WHERE user_name=? OR email=?');
+                    $stmt->execute(array($email, $email));
+                    $data = $stmt->fetch();
+                    $count = $stmt->rowCount();
+                    if ($count > 0) {
+                        $stmt = $connect->prepare("UPDATE users SET password=?,pass_code=? WHERE user_name=?");
+                        $stmt->execute(array($randomString, $randomString, $data['user_name']));
+                        $to_email = $data['email'];
+                        $subject = "   طلب استعادة كلمة المرور من  مشتلي    ";
+                        $body =   " كلمة المورو الجديدة الخاصة بك هي   ";
+                        $body .= " =>  " . $randomString;
+                        $headers = "From: info@mshtly.com/";
+                        mail($to_email, $subject, $body, $headers);
+                        if ($stmt) {
             ?>
-                        <div class="alert alert-success">
-                            تم إرسال رابط التغير إلى عنوان البريد الإلكتروني الخاص بك. يرجى التحقق من بريدك الإلكتروني واتباع التعليمات .
-                        </div>
-                    <?php
+                            <li class="alert alert-success"> تم ارسال كلمة المرور الجديدة علي الايميل الخاص بك ( <?php echo $data['email']; ?> ) </li>
 
-                    } else {
-                        echo "حدث خطأ أثناء إرسال رسالة التفعيل. يرجى المحاولة مرة أخرى.";
+                        <?php
+                            header('refresh:4;url=../login');
+                        }
+                    } else { ?>
+                        <li class="alert alert-danger"> لا يوجد سجل بهذة البيانات </li>
+                    <?php
                     }
-                } else {
-                    ?>
-                    <div class="alert alert-danger"> البريد الإلكتروني غير صحيح </div>
+                } else { ?>
+                    <ul>
+                        <?php
+                        foreach ($formerror as $error) {
+                        ?>
+                            <li class="alert alert-danger"> <?php echo $error; ?> </li>
+                        <?php
+                        }
+                        ?>
+                    </ul>
             <?php
                 }
             }
@@ -51,14 +81,14 @@ include "init.php";
                 <div class='row'>
                     <div class='box'>
                         <div class="input_box">
-                            <label for="email"> البريد الإلكتروني </label>
-                            <input value="<?php if (isset($_REQUEST['email'])) echo $_REQUEST['email']; ?>" id="email" type="email" name="email" class='form-control' placeholder=" Example@gmail.com">
+                            <label for="email"> البريد الإلكتروني او اسم المستخدم </label>
+                            <input value="<?php if (isset($_REQUEST['email'])) echo $_REQUEST['email']; ?>" id="email" type="text" name="email" class='form-control' placeholder=" Example@gmail.com">
                         </div>
                     </div>
                     <div class="box">
                         <div class="input_box">
                             <div class="submit_buttons" style="width: 100%;">
-                                <button class="btn global_button forget_button" name="forget_button" type="submit" style="display: block;"> أرسل رابط التأكيد </button>
+                                <button class="btn global_button forget_button" name="forget_button" type="submit" style="display: block;"> ارسال </button>
                             </div>
                         </div>
                     </div>

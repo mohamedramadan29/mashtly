@@ -96,11 +96,11 @@ if (isset($_POST['remove_item'])) {
                                 $pro_slug = $product_data['slug'];
                                 $pro_farm = $product_data['public_tail'];
                                 $farm_services = 0;
-                                if ($item['farm_service'] != null) {
+                                if ($item['farm_service'] != null && $pro_farm != null) {
                                     $stmt = $connect->prepare("SELECT * FROM public_tails WHERE id = ?");
                                     $stmt->execute(array($pro_farm));
                                     $tail_data = $stmt->fetch();
-                                    $tail_price = $tail_data['price']; 
+                                    $tail_price = $tail_data['price'];
                                     $farm_services = $tail_price;
                                     $farm_services_total += $farm_services + $gift_price;
                                 }
@@ -181,32 +181,39 @@ if (isset($_POST['remove_item'])) {
                                         </div>
                                         <div class="services">
                                             <!--  <form action="#" method="post"> -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" name="farmserv[<?php echo $item['id']; ?>]" type="checkbox" value="<?php echo $pro_farm; ?>" id="flexCheckChecked<?php echo $item['id']; ?>" <?php if ($item['farm_service'] != null) echo "checked"; ?>>
-                                                <label class="form-check-label" for="flexCheckChecked<?php echo $item['id']; ?>">
-                                                    أضف خدمة الزراعة
-                                                </label>
-                                            </div>
                                             <?php
-                                            if ($item['farm_service'] != null) {
-                                                // get the farm services price
-                                                $stmt = $connect->prepare("SELECT * FROM public_tails WHERE id = ?");
-                                                $stmt->execute(array($item['farm_service']));
-                                                $farm_services_data = $stmt->fetch();
-                                                $farm_services_price = $farm_services_data['price'];
+                                            if ($pro_farm != null) {
                                             ?>
-                                                <p> <span> <?php echo $farm_services_price; ?> ر.س </span> <button style="outline: none; box-shadow: none; font-size:13px; background-color: transparent; border:none; color:var(--second-color);text-decoration: underline;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                        إعرف أكثر عن التكلفة
-                                                    </button></p>
-                                            <?php
-                                            } else {
-                                            ?>
-                                                <p> <span> </span> <button style="outline: none; box-shadow: none; font-size:13px; background-color: transparent; border:none; color:var(--second-color);text-decoration: underline;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                        إعرف أكثر عن التكلفة
-                                                    </button></p>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" name="farmserv[<?php echo $item['id']; ?>]" type="checkbox" value="<?php echo $pro_farm; ?>" id="flexCheckChecked<?php echo $item['id']; ?>" <?php if ($item['farm_service'] != null) echo "checked"; ?>>
+                                                    <label class="form-check-label" for="flexCheckChecked<?php echo $item['id']; ?>">
+                                                        أضف خدمة الزراعة
+                                                    </label>
+                                                </div>
+                                                <?php
+                                                if ($item['farm_service'] != null) {
+                                                    // get the farm services price
+                                                    $stmt = $connect->prepare("SELECT * FROM public_tails WHERE id = ?");
+                                                    $stmt->execute(array($item['farm_service']));
+                                                    $farm_services_data = $stmt->fetch();
+                                                    $farm_services_price = $farm_services_data['price'];
+                                                ?>
+                                                    <p> <span> <?php echo $farm_services_price; ?> ر.س </span> <button style="outline: none; box-shadow: none; font-size:13px; background-color: transparent; border:none; color:var(--second-color);text-decoration: underline;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                            إعرف أكثر عن التكلفة
+                                                        </button></p>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <p> <span> </span> <button style="outline: none; box-shadow: none; font-size:13px; background-color: transparent; border:none; color:var(--second-color);text-decoration: underline;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                            إعرف أكثر عن التكلفة
+                                                        </button></p>
+                                                <?php
+                                                }
+                                                ?>
                                             <?php
                                             }
                                             ?>
+
                                             <!--  </form> -->
                                             <div class="farm_price">
                                                 <!-- Modal -->

@@ -159,6 +159,8 @@ if (isset($_SESSION['user_id'])) {
                                                     <p> تم التوصيل في: <span>5 أبريل 2023</span> </p>
                                                     <a href="return/return_product?order=<?php echo $order['order_number']; ?>&product=<?php echo $product_data['id']; ?>" class='btn global_button return_product'>
                                                         إرجاع المنتج </a>
+                                                        <a href="product_reviews/add?order=<?php echo $order['order_number']; ?>&product=<?php echo $product_data['id']; ?>" class='btn global_button return_product'>
+                                                       اضافة تقيم </a>
                                                 <?php
                                                 }
                                                 ?>

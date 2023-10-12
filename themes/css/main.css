@@ -165,6 +165,10 @@ body {
     left: 2%;
 }
 
+.middel_header .data .search form .box .box3 {
+    position: relative;
+}
+
 .middel_header .data .search form .box .box3 button {
     background: no-repeat;
     border: none;
@@ -174,30 +178,36 @@ body {
     font-size: 15px;
 }
 
+.middel_header .data .search form .box .box3 img {
+    position: absolute;
+    top: 18%;
+    right: -29%;
+}
+
 .middel_header .data .info {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.middel_header .data .info .cart {
-    width: 45px;
-    text-align: center;
-    height: 45px;
-    background: #E5F1E5 0% 0% no-repeat padding-box;
-    line-height: 45px;
-    border-radius: 50%;
-}
-
-
+.middel_header .data .info .cart,
 .middel_header .data .info .heart {
-    width: 45px;
+    width: 50px;
     text-align: center;
-    height: 45px;
+    height: 50px;
     background: #E5F1E5 0% 0% no-repeat padding-box;
-    line-height: 45px;
+    line-height: 50px;
     border-radius: 50%;
+    position: relative;
 }
+
+.middel_header .data .info .cart .cart_count {
+    color: var(--second-color);
+    position: absolute;
+    top: -17px;
+    right: 18px;
+}
+
 
 .middel_header .data .info .sign_in {
     margin-right: 5px;
@@ -785,6 +795,7 @@ body {
     color: #21522B;
     font-size: 15px;
     line-height: 2;
+    text-align: justify;
 }
 
 @media (max-width:991px) {
@@ -3974,6 +3985,13 @@ body {
     margin-top: 15px;
 }
 
+.product_details .data .request .options select {
+    border: 2px solid var(--second-color);
+    border-radius: 30px;
+    padding: 8px;
+    box-shadow: none;
+}
+
 .product_details .data .request .options .colors {
     display: flex;
     align-items: center;
@@ -4743,7 +4761,7 @@ body {
 }
 
 .landscap_details img {
-    max-width: 50%;
+    max-width: 100%;
     max-height: 400px;
 }
 

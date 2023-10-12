@@ -13,14 +13,12 @@ if (isset($_SESSION['user_id'])) {
         $city = sanitizeInput($_POST['city']);
         $street_name = sanitizeInput($_POST['street_name']);
         $build_number = sanitizeInput($_POST['build_number']);
-        if (isset($_POST['default_address'])) {
-            $default_address = 1;
-            // update to make all all default address = 0 to make this address is main address
-            $stmt = $connect->prepare("UPDATE user_address SET default_address = 0");
-            $stmt->execute();
-        } else {
-            $default_address = 0;
-        }
+
+        $default_address = 1;
+        // update to make all all default address = 0 to make this address is main address
+        $stmt = $connect->prepare("UPDATE user_address SET default_address = 0");
+        $stmt->execute();
+
         if (empty($name) || empty($phone) || empty($country) || empty($city) || empty($street_name) || empty($build_number)) {
             $formerror[] = 'من فضلك ادخل المعلومات كاملة';
         }
@@ -67,7 +65,7 @@ if (isset($_SESSION['user_id'])) {
         <div class='container'>
             <div class="data">
                 <div class="breadcrump">
-                    <p> <a href="../index"> الرئيسية </a> \ <a href="index"> حسابي </a> \ <a href="address"> عناويني </a> \
+                    <p> <a href="../index"> الرئيسية </a> \ <a href="index"> حسابي </a> \ <a href="index"> عناويني </a> \
                         <span> أضف عنوان جديد </span>
                     </p>
                 </div>

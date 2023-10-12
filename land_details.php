@@ -39,7 +39,7 @@ $land_id = $design_data['id'];
         </div>
     </div>
 </div>
-<div class="join_form add_new_address import_request" style="max-width:73%; background-color: #FFFFFF9A; border: 2px solid #D6E0DF;" >
+<div class="join_form add_new_address import_request" style="background-color: #FFFFFF9A; border: 2px solid #D6E0DF;" >
     <form action="" method="post" enctype="multipart/form-data">
         <h2> اطلب الخدمة </h2>
         <p> برجاء ملئ الحقول التالية </p>
@@ -90,7 +90,7 @@ $land_id = $design_data['id'];
             $main_image_uploaded = time() . '_' . $main_image_name;
             move_uploaded_file(
                 $main_image_temp,
-                'admin/landscap_orders/attachments/' . $main_image_uploaded
+                'admin/landsscap_orders/attachments/' . $main_image_uploaded
             );
         } else {
             $formerror[] = 'من فضلك ادخل صورة الحديقة او المساحة ';

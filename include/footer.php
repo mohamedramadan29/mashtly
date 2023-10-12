@@ -1,53 +1,3 @@
-<div class="instagrame_footer">
-    <div class="container">
-        <div class="data">
-            <h2> شاركينا جمال بيتك - نباتات الحديقة </h2>
-            <p> أرسلي صور حديقة منزلك ونباتات حديقتك عبر انستجرام وسوف تظهر هنا </p>
-            <div class="insta_slider">
-                <div class="insta_info">
-                    <img src="<?php echo $uploads ?>/insta1.png" alt="">
-                    <div class="overlay">
-                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
-                    </div>
-                </div>
-                <div class="insta_info">
-                    <img src="<?php echo $uploads ?>/insta2.png" alt="">
-                    <div class="overlay">
-                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
-                    </div>
-                </div>
-                <div class="insta_info">
-                    <img src="<?php echo $uploads ?>/insta3.png" alt="">
-                    <div class="overlay">
-                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
-                    </div>
-                </div>
-                <div class="insta_info">
-                    <img src="<?php echo $uploads ?>/insta2.png" alt="">
-                    <div class="overlay">
-                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
-                    </div>
-                </div>
-                <div class="insta_info">
-                    <img src="<?php echo $uploads ?>/insta1.png" alt="">
-                    <div class="overlay">
-                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
-                    </div>
-                </div>
-                <div class="insta_info">
-                    <img src="<?php echo $uploads ?>/insta2.png" alt="">
-                    <div class="overlay">
-                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
 <div class='large_footer'>
     <div class="footer">
         <div class="container">
@@ -58,9 +8,9 @@
                             <img src="<?php echo $uploads ?>/footer_logo.png" alt="">
                             <p> تابعونا علي منصات التواصل الاجتماعي عبر </p>
                             <ul class="list-unstyled social_icon">
-                                <li> <a href="#"> <i class='fa fa-twitter'> </i> </a> </li>
-                                <li> <a href="#"> <i class='fa fa-instagram'> </i> </a> </li>
-                                <li> <a href="#"> <i class='fa fa-whatsapp'> </i> </a> </li>
+                                <li> <a href="https://twitter.com/mshtly"> <i class='fa fa-twitter'> </i> </a> </li>
+                                <li> <a href="https://www.instagram.com/mshtly1/"> <i class='fa fa-instagram'> </i> </a> </li>
+                                <li> <a href="https://www.youtube.com/channel/UC97csCKptQNPdwQX1AidVXg"> <i class='fa fa-youtube'> </i> </a> </li>
                             </ul>
                         </div>
                     </div>
@@ -443,6 +393,7 @@
 
 <!-- JavaScript -->
 <script>
+    /*
     $(document).ready(function() {
         // تحديد العناصر
         const mainSlider = document.querySelector('.main-slider');
@@ -476,11 +427,13 @@
             });
         });
     });
+    */
 </script>
 
 
 <!-- To Select Price When Change Product Vartions -->
 <script>
+    /*
     $(document).ready(function() {
         $('input[type="radio"][name="vartion_select"]').on('input', function() {
             var selectedPrice = $('input[type="radio"][name="vartion_select"]:checked').data('price');
@@ -489,8 +442,62 @@
                 $("#price_value").val(selectedPrice);
             }
         });
+    });*/
+</script>
+<script>
+    $(document).ready(function() {
+        // تحديد العناصر
+        const mainSlider = document.querySelector('.main-slider');
+        const thumbnailSlider = document.querySelector('.thumbnail-slider');
+        const mainSlides = mainSlider.querySelectorAll('div');
+        const thumbnailSelect = document.querySelector('select[name="vartion_select"]');
+
+        // تنفيذ الشريط الرئيسي
+        mainSlides.forEach((slide) => {
+            slide.style.display = 'none';
+        });
+        let mainIndex = 0;
+        mainSlides[mainIndex].style.display = 'block';
+
+        // تنفيذ الشريط المصغر
+        thumbnailSelect.addEventListener('change', function() {
+            let selectedIndex = thumbnailSelect.selectedIndex;
+            mainSlides[mainIndex].style.display = 'none';
+            mainIndex = selectedIndex;
+            mainSlides[mainIndex].style.display = 'block';
+
+            // تحديث الصورة الخلفية
+            const selectedImage = thumbnailSelect.options[selectedIndex].getAttribute('data-image');
+            if (selectedImage) {
+                mainSlides[mainIndex].style.backgroundImage = 'url(admin/product_images/' + selectedImage + ')';
+                const mainImageSlide = mainSlides[mainIndex].querySelector('img');
+                mainImageSlide.src = 'admin/product_images/' + selectedImage;
+            }
+        });
     });
 </script>
+
+<script>
+    $(document).ready(function() {
+        const vartionSelect = document.querySelector('select[name="vartion_select"]');
+        const selectedPriceElement = document.getElementById('selected_price');
+        const priceValueInput = document.getElementById('price_value');
+
+        vartionSelect.addEventListener('change', function() {
+            const selectedOption = vartionSelect.options[vartionSelect.selectedIndex];
+            const selectedPrice = selectedOption.getAttribute('data-price');
+
+            if (selectedPrice !== undefined) {
+                selectedPriceElement.textContent = selectedPrice + ' ر.س';
+                priceValueInput.value = selectedPrice;
+            } else {
+                selectedPriceElement.textContent = '0.00 ر.س';
+                priceValueInput.value = '0.00';
+            }
+        });
+    });
+</script>
+
 
 <!-- To Make Slider To Product Images  -->
 <script>

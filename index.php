@@ -1087,6 +1087,53 @@ if (isset($_POST['add_to_cart'])) {
         </div>
     </div>
 </div>
+<div class="instagrame_footer">
+    <div class="container">
+        <div class="data">
+            <h2> شاركينا جمال بيتك - نباتات الحديقة </h2>
+            <p> أرسلي صور حديقة منزلك ونباتات حديقتك عبر انستجرام وسوف تظهر هنا </p>
+            <div class="insta_slider">
+                <div class="insta_info">
+                    <img src="<?php echo $uploads ?>/insta1.png" alt="">
+                    <div class="overlay">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="<?php echo $uploads ?>/insta2.png" alt="">
+                    <div class="overlay">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="<?php echo $uploads ?>/insta3.png" alt="">
+                    <div class="overlay">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="<?php echo $uploads ?>/insta2.png" alt="">
+                    <div class="overlay">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="<?php echo $uploads ?>/insta1.png" alt="">
+                    <div class="overlay">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="<?php echo $uploads ?>/insta2.png" alt="">
+                    <div class="overlay">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <?php

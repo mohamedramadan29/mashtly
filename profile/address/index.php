@@ -47,12 +47,14 @@ if (isset($_SESSION['user_id'])) {
                             <div class="col-lg-4">
                                 <div class="address <?php if ($default_address == 1) echo "active"; ?> ">
                                     <div class='add_head'>
+
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault<?php echo $address['id'] ?>" <?php if ($default_address == 1) echo "checked"; ?>>
+                                            <a href=""><input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault<?php echo $address['id'] ?>" <?php if ($default_address == 1) echo "checked"; ?>></a>
                                             <label class="form-check-label" for="flexRadioDefault<?php echo $address['id'] ?>" class=' <?php if ($default_address == 1) echo "active"; ?> '>
-                                                تعيين كعنوان رئيسي
+                                                <a style="color: #bdc0c5;" href="edit?address=<?php echo $id; ?>"> تعيين كعنوان رئيسي </a>
                                             </label>
                                         </div>
+
                                         <form action="delete" method="post">
                                             <input type="hidden" name="address_id" value="<?php echo $address['id']; ?>">
                                             <div class='remove_add'>

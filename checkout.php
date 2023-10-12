@@ -67,40 +67,48 @@ if (isset($_SESSION['user_id'])) {
                                     $stmt = $connect->prepare("SELECT * FROM user_address WHERE user_id=? AND default_address = 1");
                                     $stmt->execute(array($user_id));
                                     $alladdress = $stmt->fetchAll();
-                                    foreach ($alladdress as $address) {
-                                        $id = $address['id'];
-                                        $city = $address['city'];
-                                        $build_number = $address['build_number'];
-                                        $street_name = $address['street_name'];
-                                        $area = $address['area'];
-                                        $country = $address['country'];
-                                        $phone = $address['phone'];
-                                        $name = $address['name'];
-                                        $default_address = $address['default_address'];
-                                        if ($country == 'EG') {
-                                            $country = 'مصر';
-                                        } elseif ($country == 'SAR') {
-                                            $country = 'المملكة العربية السعودية';
-                                        }
+                                    $count_address = count($alladdress);
+                                    if ($count_address > 0) {
+                                        foreach ($alladdress as $address) {
+                                            $id = $address['id'];
+                                            $city = $address['city'];
+                                            $build_number = $address['build_number'];
+                                            $street_name = $address['street_name'];
+                                            $area = $address['area'];
+                                            $country = $address['country'];
+                                            $phone = $address['phone'];
+                                            $name = $address['name'];
+                                            $default_address = $address['default_address'];
+                                            if ($country == 'EG') {
+                                                $country = 'مصر';
+                                            } elseif ($country == 'SAR') {
+                                                $country = 'المملكة العربية السعودية';
+                                            }
                                     ?>
-                                        <div class="checkout_address">
-                                            <div class="address <?php if ($default_address == 1) echo "active"; ?> ">
-                                                <div class='add_content'>
-                                                    <h2> <?php echo $city; ?> </h2>
-                                                    <p class="add_title">
-                                                        <?php echo $build_number . '-' . $street_name . '-' . $area . '-' . $city . '-' . $country ?>
-                                                    </p>
-                                                    <p class='add_phone'>
-                                                        <span> رقم الهاتف </span> <?php echo $phone; ?>
-                                                    </p>
-                                                </div>
-                                                <div>
-                                                    <a href="profile/address" class="btn global_button"> اختر عنوان اخر </a>
+                                            <div class="checkout_address">
+                                                <div class="address <?php if ($default_address == 1) echo "active"; ?> ">
+                                                    <div class='add_content'>
+                                                        <h2> <?php echo $city; ?> </h2>
+                                                        <p class="add_title">
+                                                            <?php echo $build_number . '-' . $street_name . '-' . $area . '-' . $city . '-' . $country ?>
+                                                        </p>
+                                                        <p class='add_phone'>
+                                                            <span> رقم الهاتف </span> <?php echo $phone; ?>
+                                                        </p>
+                                                    </div>
+                                                    <div>
+                                                        <a href="profile/address" class="btn global_button"> اختر عنوان اخر </a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        <?php
+                                        }
+                                    } else {
+                                        ?>
+                                        <div class="alert alert-info"> من فضلك ادخل عنوان الشحن الخاص بك </div>
                                     <?php
                                     }
+
                                     ?>
                                 </div>
                                 <!--
@@ -444,6 +452,56 @@ if (isset($_SESSION['user_id'])) {
     header("Location:login");
     exit();
 }
+?>
+<div class="instagrame_footer">
+    <div class="container">
+        <div class="data">
+            <h2> شاركينا جمال بيتك - نباتات الحديقة </h2>
+            <p> أرسلي صور حديقة منزلك ونباتات حديقتك عبر انستجرام وسوف تظهر هنا </p>
+            <div class="insta_slider">
+                <div class="insta_info">
+                    <img src="<?php echo $uploads ?>/insta1.png" alt="">
+                    <div class="overlay">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="<?php echo $uploads ?>/insta2.png" alt="">
+                    <div class="overlay">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="<?php echo $uploads ?>/insta3.png" alt="">
+                    <div class="overlay">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="<?php echo $uploads ?>/insta2.png" alt="">
+                    <div class="overlay">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="<?php echo $uploads ?>/insta1.png" alt="">
+                    <div class="overlay">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="<?php echo $uploads ?>/insta2.png" alt="">
+                    <div class="overlay">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<?php
 include $tem . 'footer.php';
 ob_end_flush();
 ?>
