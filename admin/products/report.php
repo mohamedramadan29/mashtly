@@ -1,3 +1,11 @@
+<?php
+if (isset($_GET['report_page'])) {
+    $report_page = $_GET['report_page'];
+} else {
+    $report_page = 1;
+}
+
+?>
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
@@ -218,10 +226,12 @@
                                         <form method="POST" action="main.php?dir=products&page=fast_edit" enctype="multipart/form-data">
                                             <div class="modal-body">
                                                 <div class="form-group">
+
                                                     <label for="Company-2" class="block"> رابط المنتج </label>
                                                     <span class="badge badge-info"> / Website Name </span> <input id="Company-2" required name="slug" type="text" class="form-control required" value="<?php echo  $pro['slug'] ?>">
                                                 </div>
                                                 <div class="form-group">
+                                                    <input type="hidden" name="report_page" value="<?php echo $report_page; ?>">
                                                     <input type='hidden' name="pro_id" value="<?php echo $pro['id']; ?>">
                                                     <label for="Company-2" class="block">الأسم </label>
                                                     <input id="Company-2" required name="name" type="text" class="form-control required" value="<?php echo  $pro['name'] ?>">

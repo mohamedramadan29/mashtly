@@ -1,5 +1,6 @@
 <?php
 if (isset($_POST['edit_cat'])) {
+    $report_page = $_POST['report_page'];
     $pro_id = $_POST['pro_id'];
     $name = $_POST['name'];
     $slug = createSlug($_POST['slug']);
@@ -32,12 +33,12 @@ if (isset($_POST['edit_cat'])) {
         $stmt->execute(array($cat_id, $name, $slug, $price, $sale_price, $publish, $product_status_store, $feature_product, $public_tail, $product_as_gift, $pro_id));
         if ($stmt) {
             $_SESSION['success_message'] = "تم التعديل بنجاح ";
-            header('Location:main?dir=products&page=report');
+            header('Location:main?dir=products&page=report&report_page=' . $report_page);
             exit();
         }
     } else {
         $_SESSION['error_messages'] = $formerror;
-        header('Location:main?dir=products&page=report');
+        header('Location:main?dir=products&page=report&report_page=' . $report_page);
         exit();
     }
 }
