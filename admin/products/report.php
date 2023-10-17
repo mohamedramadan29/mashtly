@@ -80,11 +80,11 @@ if (isset($_GET['report_page'])) {
                         }
                         ?>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body product_table">
                         <div class="table-responsive">
                             <form action="" method="post">
                                 <button type="submit" name="delete_selected" class="btn btn-danger btn-sm"> حذف المنتجات المحددة <i class="fa fa-trash"></i> </button>
-                                <table id="" class="table table-striped table-bordered">
+                                <table id="my_table" class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
                                             <th></th>
@@ -340,9 +340,12 @@ if (isset($_GET['report_page'])) {
 
                         </div>
                     </div>
-
                 </div>
-
+                <style>
+                    .dataTables_paginate {
+                        display: none;
+                    }
+                </style>
             </div>
             <!-- /.col -->
         </div>

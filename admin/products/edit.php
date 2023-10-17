@@ -46,7 +46,6 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
         if ($count > 0) {
             $formerror[] = ' اسم المنتج موجود من قبل من فضلك ادخل اسم اخر  ';
         }
-        // main image 
         if (!empty($_FILES['main_image']['name'])) {
             $main_image_name = $_FILES['main_image']['name'];
             $main_image_name = str_replace(' ', '-', $main_image_name);
@@ -66,18 +65,24 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                 if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
                     $image = imagecreatefromjpeg($upload_path);
                 } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
+                    // افتح الصورة PNG
                     $image = imagecreatefrompng($upload_path);
-                }
 
-                if (isset($image)) {
+                    // إنشاء نسخة Truecolor فارغة لتحويل الصورة إليها
+                    $truecolor_image = imagecreatetruecolor(imagesx($image), imagesy($image));
+
+                    // نسخ الصورة إلى النسخة Truecolor
+                    imagecopy($truecolor_image, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+
                     // حدد مسار حفظ ملف الصورة بتنسيق WebP
                     $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
 
                     // قم بحفظ الصورة كملف WebP
-                    imagewebp($image, $webp_path);
+                    imagewebp($truecolor_image, $webp_path);
 
                     // حرر الذاكرة
                     imagedestroy($image);
+                    imagedestroy($truecolor_image);
 
                     // قم بتحديث المسار الذي تم تحميل الصورة إليه ليكون بامتداد .webp
                     $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
@@ -92,24 +97,31 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                 if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
                     $image = imagecreatefromjpeg($upload_path);
                 } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
+                    // افتح الصورة PNG
                     $image = imagecreatefrompng($upload_path);
-                }
 
-                if (isset($image)) {
+                    // إنشاء نسخة Truecolor فارغة لتحويل الصورة إليها
+                    $truecolor_image = imagecreatetruecolor(imagesx($image), imagesy($image));
+
+                    // نسخ الصورة إلى النسخة Truecolor
+                    imagecopy($truecolor_image, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+
                     // حدد مسار حفظ ملف الصورة بتنسيق WebP
                     $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
 
                     // قم بحفظ الصورة كملف WebP
-                    imagewebp($image, $webp_path);
+                    imagewebp($truecolor_image, $webp_path);
 
                     // حرر الذاكرة
                     imagedestroy($image);
+                    imagedestroy($truecolor_image);
 
                     // قم بتحديث المسار الذي تم تحميل الصورة إليه ليكون بامتداد .webp
                     $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
                 }
             }
         }
+
 
         // Insert Product Gallary
         if (!empty($_FILES['more_images']['name'])) {
@@ -1004,12 +1016,9 @@ if (isset($_POST['edit_main_image'])) {
     $extension = $path_info['extension'];
     // قم بتشكيل الاسم الجديد مع الجزء النصي الجديد والامتداد القديم
     $new_file_name = $new_image_name . "." . $extension;
-
-
     // قم بتحديث اسم الملف في النظام الملفاتي
     $old_image_path = "product_images/" . $old_image_name;
     $new_image_path = "product_images/" . $new_file_name;
-
     if (rename($old_image_path, $new_image_path)) {
         $image_alt_gallary = $_POST['image_alt_gallary'];
         $image_desc_gallary = $_POST['image_desc_gallary'];
