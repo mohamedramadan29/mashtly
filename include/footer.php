@@ -451,7 +451,8 @@
         const thumbnailSlider = document.querySelector('.thumbnail-slider');
         const mainSlides = mainSlider.querySelectorAll('div');
         const thumbnailSelect = document.querySelector('select[name="vartion_select"]');
-
+        const thumbnailImages = document.querySelectorAll('.thumbnail-image');
+        const mainImage = mainSlider.querySelector('img');
         // تنفيذ الشريط الرئيسي
         mainSlides.forEach((slide) => {
             slide.style.display = 'none';
@@ -473,6 +474,19 @@
                 const mainImageSlide = mainSlides[mainIndex].querySelector('img');
                 mainImageSlide.src = 'admin/product_images/' + selectedImage;
             }
+        });
+        //////////////
+        thumbnailImages.forEach(thumbnailImage => {
+            thumbnailImage.addEventListener('click', function() {
+                // تحديث الصورة الرئيسية بناءً على الصورة المصغرة المنقر عليها
+                const selectedImage = thumbnailImage.getAttribute('data-image2');
+                console.log(selectedImage);
+                if (selectedImage) {
+                    mainSlides[mainIndex].style.backgroundImage = 'url(admin/product_images/' + selectedImage + ')';
+                    const mainImageSlide = mainSlides[mainIndex].querySelector('img');
+                    mainImageSlide.src = 'admin/product_images/' + selectedImage;
+                }
+            });
         });
     });
 </script>

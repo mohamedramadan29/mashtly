@@ -29,8 +29,8 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
         } else {
             $main_checked = 'image';
         }
-
-
+        $ship_weight = $_POST['ship_weight'];
+        $more_info = $_POST['more_info'];
         // plant options 
         $plants_options = $_POST['plants_options'];
         /**
@@ -158,11 +158,11 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
         }
         if (empty($formerror)) {
             $stmt = $connect->prepare("UPDATE products SET cat_id=?,more_cat=?,name=?, slug=? , description=?,short_desc=?,main_checked=?,purchase_price=?,
-        price=?,sale_price=?,av_num=?,tags=?,related_product=?,publish=?,public_tail=? WHERE id = ? ");
+        price=?,sale_price=?,av_num=?,tags=?,related_product=?,publish=?,public_tail=?,ship_weight=?,more_info=? WHERE id = ? ");
             $stmt->execute(array(
                 $cat_id, $more_cat_string,  $name, $slug, $description, $short_desc,
                 $main_checked, $purchase_price, $price,
-                $sale_price,  $av_num,  $tags, $related_product_string, $publish, $public_tail, $pro_id
+                $sale_price,  $av_num,  $tags, $related_product_string, $publish, $public_tail, $ship_weight, $more_info, $pro_id
             ));
             // UPDATE Main Images To db 
             $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
@@ -699,17 +699,6 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                                                                                                     echo $pro_data['av_num'];
                                                                                                                 } ?>">
                                 </div>
-
-                                <!--
-                                <div class="form-group">
-                                    <label for="product_adv"> مميزات المنتج <span style="color: #c0392b; font-size: 14px;"> [ افصل بين كل ميزة والاخري ب (,) ] </span> </label>
-                                    <textarea id="product_adv" name="product_adv" class="form-control" rows="4"><?php if (isset($_REQUEST['product_adv'])) {
-                                                                                                                    echo $_REQUEST['product_adv'];
-                                                                                                                } else {
-                                                                                                                    echo $pro_data['product_adv'];
-                                                                                                                }  ?></textarea>
-                                </div>
-                                -->
                                 <div class="form-group">
                                     <label for="customFile">تعديل صورة المنتج </label>
                                     <div class="custom-file">
@@ -816,6 +805,23 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                         }
                                         ?>
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ship_weight"> وزن المنتج للشحن </label>
+                                    <input type="text" id="ship_weight" name="ship_weight" class="form-control" value="<?php if (isset($_REQUEST['ship_weight'])) {
+                                                                                                                            echo $_REQUEST['ship_weight'];
+                                                                                                                        } else {
+                                                                                                                            echo $pro_data['ship_weight'];
+                                                                                                                        }  ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ship_weight"> معلومات اضافية </label>
+                                    <textarea name="more_info" class="form-control summernote" rows="2"><?php if (isset($_REQUEST['more_info'])) {
+                                                                                                            echo $_REQUEST['more_info'];
+                                                                                                        } else {
+                                                                                                            echo $pro_data['more_info'];
+                                                                                                        }  ?></textarea>
+
                                 </div>
                             </div>
                         </div>

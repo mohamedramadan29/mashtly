@@ -345,6 +345,9 @@ if (isset($_GET['report_page'])) {
                     .dataTables_paginate {
                         display: none;
                     }
+                    .dataTables_length{
+                        display: none;
+                    }
                 </style>
             </div>
             <!-- /.col -->

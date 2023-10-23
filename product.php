@@ -20,11 +20,13 @@ if (isset($_GET['slug'])) {
         $product_category = $product_data['cat_id'];
         $related_products = $product_data['related_product'];
         $public_tail = $product_data['public_tail'];
+        $more_info = $product_data['more_info'];
         // get product category 
         $stmt = $connect->prepare("SELECT * FROM categories WHERE id = ?");
         $stmt->execute(array($product_category));
         $category_data = $stmt->fetch();
         $cat_name = $category_data['name'];
+        $cat_slug = $category_data['slug'];
     } else {
         header("Location:404");
     }
@@ -103,7 +105,7 @@ if (isset($_GET['slug'])) {
     <div class="container">
         <div class="data">
             <div class="breadcrump">
-                <p> <a href="index"> الرئيسية </a> \ <span> <a href="shop"> المتجر </a> </span> \ <span> <?php echo  $cat_name ?> </span> \ <?php echo $product_name ?> </p>
+                <p> <a href="index"> الرئيسية </a> \ <span> <a href="shop"> المتجر </a> </span> \ <span> <a href="category_products?cat=<?php echo $cat_slug; ?>"> <?php echo  $cat_name ?> </a> </span> \ <?php echo $product_name ?> </p>
             </div>
         </div>
     </div>
@@ -128,6 +130,7 @@ if (isset($_GET['slug'])) {
                                                 <img loading="lazy" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="Image 1">
                                             </a>
                                         </div>
+
                                         <?php
                                         // check if this product have images in gallary
                                         $stmt = $connect->prepare("SELECT * FROM products_gallary WHERE product_id = ?");
@@ -177,7 +180,7 @@ if (isset($_GET['slug'])) {
                                     </div>
                                     <div class="thumbnail-slider products_thumnails" id="products_thumnails">
                                         <div>
-                                            <img loading="lazy" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="Thumbnail 1">
+                                            <img class="thumbnail-image" loading="lazy" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="Thumbnail 1" data-image2="<?php echo $product_data_image['main_image']; ?>">
                                         </div>
                                         <?php
                                         if ($count_g > 0) {
@@ -185,12 +188,11 @@ if (isset($_GET['slug'])) {
                                                 if ($gallary['image'] != null || $gallary['image'] != '') {
                                         ?>
                                                     <div>
-                                                        <img loading="lazy" src="admin/product_images/<?php echo $gallary['image']; ?>" alt="Image 2xcxcxc">
+                                                        <img class="thumbnail-image" loading="lazy" src="admin/product_images/<?php echo $gallary['image']; ?>" alt="Image 2xcxcxc" data-image2="<?php echo $gallary['image']; ?>">
                                                     </div>
                                                 <?php
                                                 }
                                                 ?>
-
                                             <?php
                                             }
                                             ?>
@@ -201,7 +203,7 @@ if (isset($_GET['slug'])) {
                                                 if ($att_image['image'] != '' || $att_image['image'] != null) {
                                             ?>
                                                     <div>
-                                                        <img loading="lazy" src="admin/product_images/<?php echo $att_image['image']; ?>" alt="Image 2">
+                                                        <img class="thumbnail-image" loading="lazy" src="admin/product_images/<?php echo $att_image['image']; ?>" alt="Image 2" data-image2="<?php echo $att_image['image']; ?>">
                                                     </div>
                                                 <?php
                                                 }
@@ -259,6 +261,9 @@ if (isset($_GET['slug'])) {
                                     ?>
                                 <?php
                                 } ?>
+                                <div class="more_info">
+                                    <p style="color: #000 !important;"> <?php echo $more_info; ?> </p>
+                                </div>
                                 <div class="support">
                                     <div>
                                         <img loading="lazy" src="<?php echo $uploads ?>/support.svg" alt="">
@@ -341,25 +346,7 @@ if (isset($_GET['slug'])) {
                                     ?>
                                     <div class="colors">
                                         <?php
-                                        /*
-                                        if ($allpro_attibutes_count > 0) {
-                                            foreach ($allpro_attibutes as $allpro_att) {
-                                        ?>
 
-                                                <input required data-image="<?php echo $allpro_att['image']; ?>" data-price=<?php echo $allpro_att['price']; ?> id="<?php echo $allpro_att['id']; ?>" type="radio" name="vartion_select" value="<?php echo $allpro_att['id']; ?>">
-                                                <label for=<?php echo $allpro_att['id']; ?> class="color">
-                                                    <p> <?php echo $allpro_att['vartions_name']; ?> </p>
-                                                </label>
-                                            <?php
-                                            }
-                                            ?>
-                                            <div>
-                                                <h6> السعر </h6>
-                                                <span class="text-bold" id="selected_price"> 0.00 ر.س </span>
-                                                <input id="price_value" type="hidden" name="select_price" value="<?php echo $allpro_att['price']; ?>">
-                                            </div>
-                                        <?php
-                                        }*/
 
                                         if ($allpro_attibutes_count > 0) {
                                             echo '<select class="form-control" name="vartion_select" required>';

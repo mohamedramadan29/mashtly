@@ -123,7 +123,7 @@
                                             </div>
                                             
                                             </div> 
-                                            <div class="form-group">
+                                            <div class="form-group" style="width:80%">
                                             <label> الأسم  </label>
                                                 <input name='vartions_name[]' readonly class="form-control" type="text" value="${variantText.slice(0, -3)}">
                                             </div>
@@ -190,7 +190,7 @@
                                             <input placeholder="كلمات مفتاحية للصورة" name='var_image_keys' class="form-control" type="text" value="<?php echo $pro_attribut['image_keys'] ?>">
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" style="width:80%">
                                         <label> الأسم </label>
                                         <input name='vartions_name' readonly class="form-control" type="text" value="<?php echo $pro_attribut['vartions_name'] ?>">
                                     </div>
