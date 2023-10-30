@@ -113,28 +113,22 @@
                 </li>
               </ul>
             </li>
-            <!--
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <p>
-                  منتجات الهدايا
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="main.php?dir=gift_products&page=report" class="nav-link">
-                    <p> جميع المنتجات </p>
+              <li class="nav-item">
+                  <a href="#" class="nav-link">
+                      <p>
+                          السمات والمتغيرات
+                          <i class="fas fa-angle-left right"></i>
+                      </p>
                   </a>
-                </li>
-                <li class="nav-item">
-                  <a href="main.php?dir=gift_products&page=add" class="nav-link">
-                    <p> اضافة هدية </p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-  -->
+                  <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                          <a href="main.php?dir=attribute_vartions&page=report" class="nav-link">
+                              <p> جميع السمات والمتغيرات  </p>
+                          </a>
+                      </li>
+
+                  </ul>
+              </li>
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <p>
@@ -387,23 +381,6 @@
                 </p>
               </a>
             </li>
-            <!--
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <p>
-                  طلبات ووكومرس
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="main.php?dir=woocommerce&page=report" class="nav-link">
-                    <p> جميع الطلبات </p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-  -->
             <li class="nav-item">
               <a href="logout" class="nav-link" style="color: #e74c3c;">
                 <p>

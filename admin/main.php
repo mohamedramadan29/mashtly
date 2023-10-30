@@ -341,6 +341,18 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
     } elseif ($dir == 'product_tail' && $page == 'report') {
         include "product_tail/report.php";
     }
+
+    // START ATTRIBUTE VARTIONS
+    // START Landscap  Orders
+    if ($dir == 'attribute_vartions' && $page == 'add') {
+        include "attribute_vartions/add.php";
+    } elseif ($dir == 'attribute_vartions' && $page == 'edit') {
+        include "attribute_vartions/edit.php";
+    } elseif ($dir == 'attribute_vartions' && $page == 'delete') {
+        include 'attribute_vartions/delete.php';
+    } elseif ($dir == 'attribute_vartions' && $page == 'report') {
+        include "attribute_vartions/report.php";
+    }
     ?>
 
 </div>

@@ -1037,3 +1037,11 @@ if (isset($_POST['edit_main_image'])) {
     } else {
     }
 }
+?>
+<style>
+    .note-editor .note-toolbar .note-dropdown-menu, .note-popover .popover-content .note-dropdown-menu{
+        right:0 !important;
+        left:auto !important;
+        min-width: 200px !important;
+    }
+</style>
