@@ -5,6 +5,7 @@ if (isset($_POST['add_cat'])) {
     $parent = $_POST['parent_id'];
     $description = $_POST['description'];
     $tags = $_POST['tags'];
+    $main_category = $_POST['main_category'];
     if ($parent == 0) {
         $parent = null;
     }
@@ -48,8 +49,8 @@ if (isset($_POST['add_cat'])) {
         $formerror[] = ' اسم القسم موجود من قبل من فضلك ادخل اسم اخر  ';
     }
     if (empty($formerror)) {
-        $stmt = $connect->prepare("INSERT INTO categories (parent_id , name, slug,image,description,tags)
-        VALUES (:zparent,:zname,:zslug,:zimage,:zdesc,:ztags)");
+        $stmt = $connect->prepare("INSERT INTO categories (parent_id , name, slug,image,description,tags,main_category)
+        VALUES (:zparent,:zname,:zslug,:zimage,:zdesc,:ztags,:zmain_category)");
         $stmt->execute(array(
             "zparent" => $parent,
             "zname" => $name,
@@ -57,6 +58,7 @@ if (isset($_POST['add_cat'])) {
             "zimage" => $main_image_uploaded,
             "zdesc" => $description,
             "ztags" => $tags,
+            "zmain_category" => $main_category
         ));
         if ($stmt) {
             $_SESSION['success_message'] = " تمت الأضافة بنجاح  ";

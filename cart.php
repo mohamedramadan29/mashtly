@@ -27,7 +27,6 @@ $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
 $stmt->execute(array($cookie_id));
 $count = $stmt->rowCount();
 $allitems = $stmt->fetchAll();
-
 // update cart items 
 if (isset($_POST['update_cart'])) {
     $quantities = $_POST['quantity'];
@@ -131,7 +130,6 @@ if (isset($_POST['remove_item'])) {
                                                     <?php
                                                     }
                                                     ?>
-
                                                 </a>
                                             </div>
                                             <div class="product_info">
@@ -310,7 +308,6 @@ if (isset($_POST['remove_item'])) {
                                         <div>
                                             <h2 class="total"> <?php echo number_format($total_price, 2); ?> ر.س </h2>
                                         </div>
-
                                     </div>
                                     <div class="first">
                                         <div>
@@ -320,56 +317,22 @@ if (isset($_POST['remove_item'])) {
                                         <div>
                                             <h2 class="total"> <?php echo number_format($farm_services_total, 2); ?> ر.س </h2>
                                         </div>
-
                                     </div>
                                     <div class="first">
-
                                         <div>
                                             <h3> الشحن والتسليم: </h3>
                                             <p> يحدد سعر الشحن حسب الموقع </p>
                                         </div>
                                         <div>
                                             <?php
-                                            if (isset($_SESSION['user_id'])) {
-                                                $user_id = $_SESSION['user_id'];
-                                                $shipping_value = 10;
-                                                // get user address
-                                                $stmt = $connect->prepare("SELECT * FROM user_address WHERE user_id = ? AND default_address = 1");
-                                                $stmt->execute(array($user_id));
-                                                $address_data = $stmt->fetch();
-                                                $user_area = $address_data['area'];
-                                                $area_code = $address_data['area_code'];
-                                                // get if this area in shipping area or not 
-                                                $stmt = $connect->prepare("SELECT * FROM shipping_area WHERE new_area = ?");
-                                                $stmt->execute(array($area_code));
-                                                $count = $stmt->rowCount();
-                                                if ($count > 0) {
-                                                    $shipping_data = $stmt->fetch();
-                                                    $shipping_value = $shipping_data['new_price'];
-                                                } else {
-                                                    $stmt = $connect->prepare("SELECT * FROM shipping_area WHERE id = 1");
-                                                    $stmt->execute();
-                                                    $shipping_data = $stmt->fetch();
-                                                    $shipping_value = $shipping_data['new_price'];
-                                                }
-
-                                            ?>
-                                                <h2 class="total"><?php echo number_format($shipping_value, 2); ?> ر.س </h2>
-                                            <?php
-                                            } else {
-                                                $shipping_value = null;
-                                            ?>
-                                                <h2 class="total"> لم يحدد بعد </h2>
-                                            <?php
-                                            }
+                                            /////////  Shipping Price /////
+                                            include 'tempelate/shiping_price.php';
                                             ?>
                                         </div>
-
                                     </div>
                                     <div class="first">
                                         <?php
                                         $vat_value = ($total_price + $shipping_value + $farm_services_total) * (15 / 100);
-
                                         ?>
                                         <div>
                                             <h3> ضريبة القيمة المضافة VAT: </h3>
@@ -424,7 +387,7 @@ if (isset($_POST['remove_item'])) {
             ?>
         </div>
     </div>
-
+    <br>
 </div>
 
 <?php

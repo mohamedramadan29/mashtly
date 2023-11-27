@@ -4,6 +4,7 @@ if (isset($_POST['edit_cat'])) {
     $name = $_POST['name'];
     $tags = $_POST['tags'];
     $parent = $_POST['parent_id'];
+    $main_category = $_POST['main_category'];
     if ($parent == 0) {
         $parent = null;
     }
@@ -48,8 +49,8 @@ if (isset($_POST['edit_cat'])) {
         $formerror[] = ' اسم القسم موجود من قبل من فضلك ادخل اسم اخر  ';
     }
     if (empty($formerror)) {
-        $stmt = $connect->prepare("UPDATE categories SET parent_id=?,name=?,description=?,tags=? WHERE id = ? ");
-        $stmt->execute(array($parent, $name, $description, $tags, $cat_id));
+        $stmt = $connect->prepare("UPDATE categories SET parent_id=?,name=?,description=?,tags=?,main_category=? WHERE id = ? ");
+        $stmt->execute(array($parent, $name, $description, $tags, $main_category, $cat_id));
         if (!empty($_FILES['main_image']['name'])) {
             $stmt = $connect->prepare("UPDATE categories SET image=? WHERE id = ? ");
             $stmt->execute(array($main_image_uploaded, $cat_id));

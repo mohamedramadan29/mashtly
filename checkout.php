@@ -296,8 +296,27 @@ if (isset($_SESSION['user_id'])) {
                 $status = 0;
                 $status_value = 'لم يبدا';
                 $total_price = $_SESSION['last_total'];
+                // تخزين البيانات في السيشن
+                $_SESSION['order_data'] = [
+                    'order_id' => $order_id,
+                    'order_number' => $order_number,
+                    'user_id' => $user_id,
+                    'name' => $name,
+                    'phone' => $phone,
+                    'area' => $area,
+                    'city' => $city,
+                    'address' => $address,
+                    'email' => $email,
+                    'ship_price' => $ship_price,
+                    'order_date' => $order_date,
+                    'status' => $status,
+                    'status_value' => $status_value,
+                    'total_price' => $total_price,
+                    'cookie_id'=>$cookie_id,
+                ];
                 if (isset($_POST['order_compelete'])) {
                     $payment_method = $_POST['checkout_payment'];
+
                     if ($payment_method === 'الدفع عن الاستلام') {
                         // inset order into orders 
                         $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
@@ -402,7 +421,7 @@ if (isset($_SESSION['user_id'])) {
                                 "amount" => $_SESSION['last_total'], // Total amount to charge (in SAR)
                                 "currency" => "SAR",
                                 "threeDSecure" => true,
-                                "save_card" => false,
+                                "save_card" => true,
                                 "description" => "Purchase of Products", // Description of the purchase
                                 "receipt" => [
                                     "email" => true,
@@ -420,26 +439,27 @@ if (isset($_SESSION['user_id'])) {
                                     "id" => "src_all"
                                 ],
                                 "post" => [
-                                    "url" => "http://localhost/mashtly/payment/payment"
+                                    "url" => "http://localhost/mashtly/checkout"
                                 ],
                                 "redirect" => [
-                                    "url" => "http://localhost/mashtly/payment/payment/callback"
+                                    "url" => "http://localhost/mashtly/payment/callback"
                                 ],
                                 "metadata" => [
                                     "udf1" => "Metadata 1"
                                 ]
                             ],
                             'headers' => [
-                                'Authorization' => 'Bearer sk_test_nbu7ilH8qGNyQIOEAFKm2X3c',
+                                'Authorization' => 'Bearer sk_test_XKokBfNWv6FIYuTMg5sLPjhJ',
                                 'accept' => 'application/json',
                                 'content-type' => 'application/json',
                             ],
                         ]);
-
                         $output = $response->getBody();
                         $output = json_decode($output);
-                        var_dump($output);
-                        // header("location:" . $output->transaction->url);
+                        // var_dump($output);
+                        header("location:" . $output->transaction->url);
+                        // insert order in db and check if it payment correctly or not from callback page
+
                     }
                 }
                 ?>

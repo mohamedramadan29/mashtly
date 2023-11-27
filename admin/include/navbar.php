@@ -197,7 +197,12 @@
                 </p>
               </a>
               <ul class="nav nav-treeview">
-                <li class="nav-item">
+              <li class="nav-item">
+                  <a href="main.php?dir=area_city&page=report" class="nav-link">
+                    <p> المناطق والمدن  </p>
+                  </a>
+                </li>
+                <!-- <li class="nav-item">
                   <a href="main.php?dir=shipping&page=report" class="nav-link">
                     <p> المناطق </p>
                   </a>
@@ -205,6 +210,16 @@
                 <li class="nav-item">
                   <a href="main.php?dir=shipping_weight&page=report" class="nav-link">
                     <p> الاحجام </p>
+                  </a>
+                </li> -->
+                <li class="nav-item">
+                  <a href="main.php?dir=shipping_company&page=report" class="nav-link">
+                    <p> شركات الشحن  </p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="main.php?dir=shipping_weight_tools&page=report" class="nav-link">
+                    <p> الأوزان والاطوال </p>
                   </a>
                 </li>
               </ul>

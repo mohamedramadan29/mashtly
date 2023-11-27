@@ -88,7 +88,36 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
     } elseif ($dir == 'shipping_weight' && $page == 'report') {
         include "shipping_weight/report.php";
     }
-
+    // START Shipping Weight Tail 
+    if ($dir == 'shipping_weight_tools' && $page == 'add') {
+        include "shipping_weight_tools/add.php";
+    } elseif ($dir == 'shipping_weight_tools' && $page == 'edit') {
+        include "shipping_weight_tools/edit.php";
+    } elseif ($dir == 'shipping_weight_tools' && $page == 'delete') {
+        include 'shipping_weight_tools/delete.php';
+    } elseif ($dir == 'shipping_weight_tools' && $page == 'report') {
+        include "shipping_weight_tools/report.php";
+    }
+    // START Shipping Company
+    if ($dir == 'shipping_company' && $page == 'add') {
+        include "shipping_company/add.php";
+    } elseif ($dir == 'shipping_company' && $page == 'edit') {
+        include "shipping_company/edit.php";
+    } elseif ($dir == 'shipping_company' && $page == 'delete') {
+        include 'shipping_company/delete.php';
+    } elseif ($dir == 'shipping_company' && $page == 'report') {
+        include "shipping_company/report.php";
+    }
+    // START Area And City 
+    if ($dir == 'area_city' && $page == 'add') {
+        include "area_city/add.php";
+    } elseif ($dir == 'area_city' && $page == 'edit') {
+        include "area_city/edit.php";
+    } elseif ($dir == 'area_city' && $page == 'delete') {
+        include 'area_city/delete.php';
+    } elseif ($dir == 'area_city' && $page == 'report') {
+        include "area_city/report.php";
+    }
     // START Uncompeleted Baskets
     if ($dir == 'baskets_uncomplete' && $page == 'add') {
         include "baskets_uncomplete/add.php";

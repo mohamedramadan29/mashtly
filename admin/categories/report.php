@@ -76,8 +76,9 @@
                                         <th> النوع </th>
                                         <th> slug </th>
                                         <th> تاج </th>
-                                        <th> صورة القسم </th>
-                                        <th> </th>
+                                        <th> صورة </th>
+                                        <th> الرئيسي للشحن</th>
+                                        <th> العمليات </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -112,11 +113,22 @@
                                             <td> <?php echo  $cat['slug']; ?> </td>
                                             <td> <?php echo  $cat['tags']; ?> </td>
                                             <td>
-                                                <img style="width: 80px; height:80px;" src="category_images/<?php echo $cat['image']; ?>" alt="">
+                                                <img style="width: 50px; height:50px;" src="category_images/<?php echo $cat['image']; ?>" alt="">
+                                            </td>
+                                            <td> <?php
+                                                    if ($cat['main_category'] == 1) {
+                                                    ?>
+                                                    <span class="badge badge-primary"> نباتات </span>
+                                                <?php
+                                                    } else {
+                                                ?>
+                                                    <span class="badge badge-primary"> مستلزمات </span>
+                                                <?php
+                                                    } ?>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $cat['id']; ?>"> تعديل <i class='fa fa-pen'></i> </button>
-                                                <a href="main.php?dir=categories&page=delete&cat_id=<?php echo $cat['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
+                                                <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $cat['id']; ?>"> <i class='fa fa-pen'></i> </button>
+                                                <a href="main.php?dir=categories&page=delete&cat_id=<?php echo $cat['id']; ?>" class="confirm btn btn-danger btn-sm"> <i class='fa fa-trash'></i> </a>
                                             </td>
                                         </tr>
                                         <!-- EDIT NEW CATEGORY MODAL   -->
@@ -160,6 +172,14 @@
                                                                     <input type="file" class="custom-file-input" id="customFile" accept='image/*' name="main_image">
                                                                     <label class="custom-file-label" for="customFile">اختر الصورة</label>
                                                                 </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="Company-2" class="block"> الرئيسي للشحن </label>
+                                                                <select required class='form-control select2' name='main_category'>
+                                                                    <option value="0"> -- اختر للتحديد عند الشحن -- </option>
+                                                                    <option <?php if ($cat['main_category'] == 1) echo 'selected'; ?> value="1"> نباتات </option>
+                                                                    <option <?php if ($cat['main_category'] == 2) echo 'selected'; ?> value="2"> مستلزمات </option>
+                                                                </select>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="Company-2" class="block"> اضافة التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
@@ -226,6 +246,14 @@
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> اضافة التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
                                         <input required id="Company-2" name="tags" type="text" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Company-2" class="block"> الرئيسي للشحن </label>
+                                        <select required class='form-control select2' name='main_category'>
+                                            <option value="0"> -- اختر للتحديد عند الشحن -- </option>
+                                            <option value="1"> نباتات </option>
+                                            <option value="2"> مستلزمات </option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

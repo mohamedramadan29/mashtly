@@ -2,11 +2,10 @@
 ob_start();
 session_start();
 $page_title = 'تفاصيل المنتج ';
-
 include 'init.php';
 if (isset($_GET['slug'])) {
     $slug = $_GET['slug'];
-    $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ? ORDER BY id DESC LIMIT 1 ");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ? ORDER BY id  LIMIT 1 ");
     $stmt->execute(array($slug));
     $product_data = $stmt->fetch();
     $count  = $stmt->rowCount();
@@ -55,6 +54,8 @@ if (isset($_GET['slug'])) {
             $gift_id = null;
         }
         if (isset($_POST['farm_planet'])) {
+            echo "Goood";
+            echo $public_tail;
             $farm_planet = $public_tail;
         } else {
             $farm_planet = null;
@@ -130,7 +131,6 @@ if (isset($_GET['slug'])) {
                                                 <img loading="lazy" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="Image 1">
                                             </a>
                                         </div>
-
                                         <?php
                                         // check if this product have images in gallary
                                         $stmt = $connect->prepare("SELECT * FROM products_gallary WHERE product_id = ?");
@@ -149,7 +149,6 @@ if (isset($_GET['slug'])) {
                                                 <?php
                                                 }
                                                 ?>
-
                                             <?php
                                             }
                                             ?>
@@ -346,8 +345,6 @@ if (isset($_GET['slug'])) {
                                     ?>
                                     <div class="colors">
                                         <?php
-
-
                                         if ($allpro_attibutes_count > 0) {
                                             echo '<select class="form-control" name="vartion_select" required>';
                                             echo '<option value=""> "حدد احد الخيارات" </option>';
@@ -482,8 +479,8 @@ if (isset($_GET['slug'])) {
                                     </div>
                                     <div class="add_cart">
                                         <?php
-                                        $stmt = $connect->prepare("SELECT * FROM cart WHERE product_id = ?");
-                                        $stmt->execute(array($product_id));
+                                        $stmt = $connect->prepare("SELECT * FROM cart WHERE product_id = ? AND cookie_id = ?");
+                                        $stmt->execute(array($product_id, $cookie_id));
                                         $count_pro = $stmt->rowCount();
                                         if ($count_pro > 0) {
                                         ?>

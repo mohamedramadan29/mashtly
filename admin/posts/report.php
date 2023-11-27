@@ -74,16 +74,30 @@
                                         <th> # </th>
                                         <th>الأسم </th>
                                         <th> القسم </th>
-                                        <th> صورة المقال </th>
-
-                                        <th> </th>
+                                        <th> الصورة </th>
+                                        <th> العمليات  </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $stmt = $connect->prepare("SELECT * FROM posts ORDER BY id DESC");
                                     $stmt->execute();
-                                    $allposts = $stmt->fetchAll();
+                                    $totalRecords = count($stmt->fetchAll());
+                                    // تحديد عدد السجلات في كل صفحة والصفحة الحالية
+                                    $recordsPerPage = 30;
+                                    $report_page = isset($_GET['report_page']) ? (int)$_GET['report_page'] : 1; // Cast to integer
+                                    $report_page = max(1, $report_page); // Ensure $page is at least 1
+                                    // حساب الإزاحة
+                                    $offset = ($report_page - 1) * $recordsPerPage;
+
+                                    /////////////
+                                    // استعلام SQL لاسترداد البيانات للصفحة الحالية
+                                    $query = "SELECT * FROM posts  ORDER BY id DESC LIMIT :offset, :limit";
+                                    $statement = $connect->prepare($query);
+                                    $statement->bindParam(':offset', $offset, PDO::PARAM_INT);
+                                    $statement->bindParam(':limit', $recordsPerPage, PDO::PARAM_INT);
+                                    $statement->execute();
+                                    $allposts = $statement->fetchAll(PDO::FETCH_ASSOC); 
                                     $i = 0;
                                     foreach ($allposts as $post) {
                                         $i++;
@@ -97,16 +111,17 @@
                                             </td>
                                             <td>
                                                 <?php
+                                                /*
                                                 $stmt = $connect->prepare("SELECT * FROM category_posts WHERE id=?");
                                                 $stmt->execute(array($post['cat_id']));
                                                 $cat_data = $stmt->fetch();
-
-                                                echo $cat_data['name']; ?>
+                                                */
+                                                echo $post['category']; ?>
                                             </td>
                                             <td> <img style="width: 60px; height:60px" src="posts/images/<?php echo $post['main_image']; ?> " alt=""></td>
                                             <td>
-                                                <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $post['id']; ?>"> تعديل <i class='fa fa-pen'></i> </button>
-                                                <a href="main.php?dir=posts&page=delete&post_id=<?php echo $post['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i>
+                                                <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $post['id']; ?>">  <i class='fa fa-pen'></i> </button>
+                                                <a href="main.php?dir=posts&page=delete&post_id=<?php echo $post['id']; ?>" class="confirm btn btn-danger btn-sm">  <i class='fa fa-trash'></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -183,6 +198,19 @@
                                     }
                                     ?>
                             </table>
+                            <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <?php
+                                $totalPages = ceil($totalRecords / $recordsPerPage);
+                                for ($i = 1; $i <= $totalPages; $i++) {
+                                ?>
+                                    <li class="page-item"><a class="page-link" href="main.php?dir=posts&page=report&report_page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                    </li>
+                                <?php
+                                }
+                                ?>
+                            </ul>
+                        </nav>
                         </div>
                     </div>
                 </div>

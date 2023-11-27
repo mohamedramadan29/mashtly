@@ -4,9 +4,10 @@ session_start();
 $page_title = ' تم الطلب   ';
 include 'init.php';
 if (isset($_SESSION['user_id'])) {
+    $stmt = $connect->prepare("DELETE FROM cart WHERE user_id = ?");
+    $stmt->execute(array($_SESSION['user_id']));
 ?>
     <div class="profile_page retrun_orders">
-
         <div class='container'>
             <div class="data">
                 <div class="breadcrump">

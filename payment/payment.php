@@ -32,8 +32,8 @@ if (isset($_SESSION['username'])) {
         'json' => [
             "amount" => 100, // Total amount to charge (in SAR)
             "currency" => "SAR",
-            "threeDSecure" => true,
-            "save_card" => false,
+            "threeDSecure" => false,
+            "save_card" => true,
             "description" => "Purchase of Products", // Description of the purchase
             "receipt" => [
                 "email" => true,

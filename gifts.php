@@ -56,7 +56,7 @@ if (isset($_GET['cat'])) {
     $cat_data = $stmt->fetch();
     $cat_id = $cat_data['id'];
 }
-$stmt = $connect->prepare("SELECT * FROM products_gift WHERE publish = 1");
+$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_as_gift = 1");
 $stmt->execute();
 $num_products = $stmt->rowCount();
 $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -64,13 +64,13 @@ $pageSize = 20;
 $offset = ($currentpage - 1) * $pageSize;
 
 if (isset($_POST['height_price'])) {
-    $stmt = $connect->prepare("SELECT * FROM products_gift WHERE publish = 1  ORDER BY price DESC LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_as_gift = 1  ORDER BY price DESC LIMIT $pageSize OFFSET :offset");
 } elseif (isset($_POST['low_price'])) {
-    $stmt = $connect->prepare("SELECT * FROM products_gift WHERE publish = 1  ORDER BY price ASC LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_as_gift = 1  ORDER BY price ASC LIMIT $pageSize OFFSET :offset");
 } elseif (isset($_POST['newest'])) {
-    $stmt = $connect->prepare("SELECT * FROM products_gift WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_as_gift = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
 } elseif (isset($_POST['oldest'])) {
-    $stmt = $connect->prepare("SELECT * FROM products_gift WHERE publish = 1  ORDER BY id ASC LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_as_gift = 1  ORDER BY id ASC LIMIT $pageSize OFFSET :offset");
 } elseif (isset($_POST['search_options'])) {
     $selectedOptions = $_POST['options'];
     if (!empty($selectedOptions)) {
@@ -82,11 +82,11 @@ if (isset($_POST['height_price'])) {
         // Get all products with matching IDs
         if (!empty($productIDs)) {
             $productIDsStr = implode(',', $productIDs);
-            $stmt = $connect->prepare("SELECT * FROM products_gift WHERE publish = 1 AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_as_gift = 1 AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
         }
     }
 } else {
-    $stmt = $connect->prepare("SELECT * FROM products_gift WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_as_gift = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
 }
 $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
@@ -213,99 +213,9 @@ $totalPages = ceil($num_products / $pageSize);
                         foreach ($allproducts as $product) {
                         ?>
                             <div class="col-lg-3 col-6">
-                                <div class="product_info">
-                                    <?php
-                                    $stmt = $connect->prepare("SELECT * FROM products_image_gifts WHERE product_id = ?");
-                                    $stmt->execute(array($product['id']));
-                                    $count_image = $stmt->rowCount();
-                                    if ($count_image > 0) {
-                                        $product_data_image = $stmt->fetch();
-                                    ?>
-                                        <img class="main_image" src="admin/gift_products/images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt']; ?>">
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <img class="main_image" src="uploads/product.png" alt="">
-                                    <?php
-                                    }
-                                    ?>
-                                    <div class="product_details">
-                                        <h2> <a href="gift_product?slug=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
-                                        <?php
-                                        $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
-                                        $minimumPrice = INF; // قيمة أدنى سعر ممكنة
-                                        // نشوف علي المنتج يحتوي علي متغيرات او لا 
-                                        $stmt = $connect->prepare("SELECT * FROM product_details WHERE pro_id = ? AND pro_price != ''");
-                                        $stmt->execute(array($product['id']));
-                                        $count_pro_attr = $stmt->rowCount();
-                                        if ($count_pro_attr > 0) {
-                                            $allproduct_data = $stmt->fetchAll();
-                                            foreach ($allproduct_data as $product_data) {
-                                                $pro_price =  $product_data['pro_price'];
-                                                $maximumPrice = max($maximumPrice, $pro_price);
-                                                $minimumPrice = min($minimumPrice, $pro_price);
-                                            }
-                                        ?>
-                                            <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س </h4>
-                                        <?php
-                                        } else {
-                                        ?>
-                                            <h4 class='price'> <?php echo $product['price'] ?> ر.س </h4>
-                                        <?php
-                                        }
-                                        ?>
-                                        <form action="" method="post">
-                                            <input type="hidden" name="price" value="<?php echo $product['price']; ?>">
-                                            <div class='add_cart'>
-                                                <div>
-                                                    <?php
-                                                    if (checkIfProductInCart($connect, $cookie_id, $product['id'])) {
-                                                    ?>
-                                                        <a href="cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
-                                                            مشاهدة السلة
-                                                        </a>
-                                                    <?php
-                                                    } else {
-                                                    ?>
-                                                        <?php
-                                                        if ($count_pro_attr > 0) {
-                                                        ?>
-                                                            <a href="product?slug=<?php echo $product['slug']; ?>" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
-                                                                مشاهدة الاختيارات
-                                                            </a>
-                                                        <?php
-                                                        } else {
-                                                        ?>
-                                                            <button name="add_to_cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                                الي السلة
-                                                            </button>
-                                                        <?php
-                                                        }
-                                                        ?>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </div>
-                                                <div class="heart">
-                                                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                                                    <?php
-                                                    if (isset($_SESSION['user_id']) && checkIfProductIsFavourite($connect, $_SESSION['user_id'], $product['id'])) {
-                                                    ?>
-                                                        <img src="<?php echo $uploads; ?>/heart2.svg" alt="">
-                                                    <?php
-                                                    } else {
-                                                    ?>
-                                                        <button name="add_to_fav" type="submit" style="border: none; background-color:transparent">
-                                                            <img src="<?php echo $uploads ?>/heart.png" alt="">
-                                                        </button>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+                                <?php
+                                include 'tempelate/product.php';
+                                ?>
                             </div>
                         <?php
                         }

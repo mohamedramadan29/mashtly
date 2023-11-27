@@ -30,6 +30,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
             $main_checked = 'image';
         }
         $ship_weight = $_POST['ship_weight'];
+        $ship_tail = $_POST['ship_tail'];
         $more_info = $_POST['more_info'];
         // plant options 
         $plants_options = $_POST['plants_options'];
@@ -158,11 +159,11 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
         }
         if (empty($formerror)) {
             $stmt = $connect->prepare("UPDATE products SET cat_id=?,more_cat=?,name=?, slug=? , description=?,short_desc=?,main_checked=?,purchase_price=?,
-        price=?,sale_price=?,av_num=?,tags=?,related_product=?,publish=?,public_tail=?,ship_weight=?,more_info=? WHERE id = ? ");
+        price=?,sale_price=?,av_num=?,tags=?,related_product=?,publish=?,public_tail=?,ship_weight=?,ship_tail=?,more_info=? WHERE id = ? ");
             $stmt->execute(array(
                 $cat_id, $more_cat_string,  $name, $slug, $description, $short_desc,
                 $main_checked, $purchase_price, $price,
-                $sale_price,  $av_num,  $tags, $related_product_string, $publish, $public_tail, $ship_weight, $more_info, $pro_id
+                $sale_price,  $av_num,  $tags, $related_product_string, $publish, $public_tail, $ship_weight, $ship_tail, $more_info, $pro_id
             ));
             // UPDATE Main Images To db 
             $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
@@ -808,10 +809,18 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                 </div>
                                 <div class="form-group">
                                     <label for="ship_weight"> وزن المنتج للشحن </label>
-                                    <input type="text" id="ship_weight" name="ship_weight" class="form-control" value="<?php if (isset($_REQUEST['ship_weight'])) {
-                                                                                                                            echo $_REQUEST['ship_weight'];
+                                    <input type="number" id="ship_weight" name="ship_weight" class="form-control" value="<?php if (isset($_REQUEST['ship_weight'])) {
+                                                                                                                                echo $_REQUEST['ship_weight'];
+                                                                                                                            } else {
+                                                                                                                                echo $pro_data['ship_weight'];
+                                                                                                                            }  ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ship_tail"> طول المنتج لتحديد الوزن [للشحن] </label>
+                                    <input type="number" id="ship_tail" name="ship_tail" class="form-control" value="<?php if (isset($_REQUEST['ship_tail'])) {
+                                                                                                                            echo $_REQUEST['ship_tail'];
                                                                                                                         } else {
-                                                                                                                            echo $pro_data['ship_weight'];
+                                                                                                                            echo $pro_data['ship_tail'];
                                                                                                                         }  ?>">
                                 </div>
                                 <div class="form-group">
@@ -1039,9 +1048,10 @@ if (isset($_POST['edit_main_image'])) {
 }
 ?>
 <style>
-    .note-editor .note-toolbar .note-dropdown-menu, .note-popover .popover-content .note-dropdown-menu{
-        right:0 !important;
-        left:auto !important;
+    .note-editor .note-toolbar .note-dropdown-menu,
+    .note-popover .popover-content .note-dropdown-menu {
+        right: 0 !important;
+        left: auto !important;
         min-width: 200px !important;
     }
 </style>
