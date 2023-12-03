@@ -1,4 +1,8 @@
 <?php
+$post_id = $_GET['post_id'];
+$stmt = $connect->prepare("SELECT * FROM posts WHERE id = ?");
+$stmt->execute(array($post_id));
+$post = $stmt->fetch();
 if (isset($_POST['edit_cat'])) {
     $post_id = $_POST['post_id'];
     $cat_id = $_POST['cat_id'];
@@ -44,12 +48,152 @@ if (isset($_POST['edit_cat'])) {
         }
         if ($stmt) {
             $_SESSION['success_message'] = "تم التعديل بنجاح ";
-            header('Location:main?dir=posts&page=report');
+            header('Location:main.php?dir=posts&page=edit&post_id=' . $post_id);
             exit();
         }
     } else {
         $_SESSION['error_messages'] = $formerror;
-        header('Location:main?dir=posts&page=report');
+        header('Location:main.php?dir=posts&page=edit&post_id=' . $post_id);
         exit();
     }
 }
+?>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark"> تعديل المقال </h1>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-left">
+                    <li class="breadcrumb-item"><a href="main.php?dir=dashboard&page=dashboard">الرئيسية</a></li>
+                    <li class="breadcrumb-item active"> تعديل المقال </li>
+                </ol>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content-header -->
+
+
+<!-- DOM/Jquery table start -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <?php
+                    if (isset($_SESSION['success_message'])) {
+                        $message = $_SESSION['success_message'];
+                        unset($_SESSION['success_message']);
+                    ?>
+                        <?php
+                        ?>
+                        <script src="plugins/jquery/jquery.min.js"></script>
+                        <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+                        <script>
+                            $(function() {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: '<?php echo $message; ?>',
+                                    showConfirmButton: false,
+                                    timer: 2000
+                                })
+                            })
+                        </script>
+                        <?php
+                    } elseif (isset($_SESSION['error_messages'])) {
+                        $formerror = $_SESSION['error_messages'];
+                        foreach ($formerror as $error) {
+                        ?>
+                            <div class="alert alert-danger alert-dismissible" style="max-width: 800px; margin:20px">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <?php echo $error; ?>
+                            </div>
+                    <?php
+                        }
+                        unset($_SESSION['error_messages']);
+                    }
+                    ?>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <form method="post" action="main.php?dir=posts&page=edit" enctype="multipart/form-data">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input type='hidden' name="post_id" value="<?php echo $post['id']; ?>">
+                                        <label for="Company-2" class="block"> عنوان القال </label>
+                                        <input id="Company-2" required name="name" type="text" class="form-control required" value="<?php echo $post['name'] ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Company-2" class="block"> القسم </label>
+                                        <select name="cat_id" class='form-control select2' id="">
+                                            <option value=""> حدد القسم </option>
+                                            <?php
+                                            $stmt = $connect->prepare("SELECT * FROM category_posts");
+                                            $stmt->execute();
+                                            $allcat = $stmt->fetchAll();
+                                            foreach ($allcat as $cat) { ?>
+                                                <option <?php if ($post['cat_id'] == $cat['id'])
+                                                            echo 'selected'; ?> value="<?php echo $cat['id']; ?>">
+                                                    <?php echo $cat['name']; ?> </option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Company-2" class="block"> الوصف </label>
+                                        <textarea class="summernote" style="height: 150px;" id="summernote" name="description" class="form-control"><?php echo $post['description']; ?></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Company-2" class="block"> وصف مختصر </label>
+                                        <textarea style="height: 70px;" id="Company-2" name="short_desc" class="form-control"><?php echo $post['short_desc']; ?></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="customFile"> تعديل صورة القسم </label>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="customFile" accept='image/*' name="main_image">
+                                            <label class="custom-file-label" for="customFile">اختر
+                                                الصورة</label>
+                                            <img width="80px" class="img-bordered img-thumbnail product-img" src="posts/images/<?php echo $post['main_image']; ?>" alt="">
+                                            <br>
+                                            <br>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Company-2" class="block"> اضافة التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
+                                        <input required id="Company-2" name="tags" type="text" class="form-control" value="<?php echo $post['tags']; ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Company-2" class="block"> نشر المقال </label>
+                                        <select name="publish" id="" class="form-control select2">
+                                            <option value=""> اختر الحالة </option>
+                                            <option <?php if ($post['publish'] == 1) echo 'selected'; ?> value="1"> نشر المقال </option>
+                                            <option <?php if ($post['publish'] == 0) echo 'selected'; ?> value="0"> ارشيف </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" name="edit_cat" class="btn btn-primary waves-effect waves-light "> تعديل
+                                    </button>
+                                    <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">رجوع</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+</section>

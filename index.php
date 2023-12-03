@@ -202,7 +202,8 @@ if (isset($_POST['add_to_cart'])) {
                             $allcats = $stmt->fetchAll();
                             foreach ($allcats as $cat) {
                             ?>
-                                <li> <a data-section="categories" href="category_products?cat=<?php echo $cat['slug']; ?>"> <?php echo $cat['name']; ?> </a> </li>
+                                <li><a data-section="categories" href="category_products?cat=<?php echo $cat['slug']; ?>"> <?php echo $cat['name']; ?> </a>
+                                </li>
                             <?php
                             }
                             ?>
@@ -214,7 +215,7 @@ if (isset($_POST['add_to_cart'])) {
                         <?php
                         $stmt = $connect->prepare("SELECT * FROM products order by id ASC LIMIT 9");
                         $stmt->execute();
-                        $allproducts  = $stmt->fetchAll();
+                        $allproducts = $stmt->fetchAll();
                         foreach ($allproducts as $product) {
                         ?>
                             <div class="col-lg-4">
@@ -225,9 +226,9 @@ if (isset($_POST['add_to_cart'])) {
                         <?php
                         }
                         /*
-                        } else {
-                            echo "No";
-                        }*/
+                            } else {
+                                echo "No";
+                            }*/
                         ?>
                     </div>
                     <a href="shop" class='global_button btn more_button'> تصفح المزيد </a>
@@ -299,7 +300,9 @@ if (isset($_POST['add_to_cart'])) {
                         ?>
 
                         <div class="product_details">
-                            <h2> <a href="product?slug=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
+                            <h2>
+                                <a href="product?slug=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a>
+                            </h2>
                             <?php
                             $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
                             $minimumPrice = INF; // قيمة أدنى سعر ممكنة
@@ -310,17 +313,19 @@ if (isset($_POST['add_to_cart'])) {
                             if ($count_pro_attr > 0) {
                                 $allproduct_data = $stmt->fetchAll();
                                 foreach ($allproduct_data as $product_data) {
-                                    $pro_price =  $product_data['price'];
+                                    $pro_price = $product_data['price'];
                                     $maximumPrice = max($maximumPrice, $pro_price);
                                     $minimumPrice = min($minimumPrice, $pro_price);
                                 }
                             ?>
-                                <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س </h4>
+                                <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?>
+                                    - <?php echo number_format($maximumPrice, 2); ?> ر.س </h4>
                             <?php
                             } else {
                             ?>
                                 <div class='price_diffrent'>
-                                    <h4 class='price'><?php echo number_format($product['sale_price'], 2) ?> ر.س </h4>
+                                    <h4 class='price'><?php echo number_format($product['sale_price'], 2) ?>
+                                        ر.س </h4>
                                     <h4 class='old'> <?php echo number_format($product['price'], 2) ?> ر.س </h4>
                                 </div>
                             <?php
@@ -352,7 +357,7 @@ if (isset($_POST['add_to_cart'])) {
                                             <?php
                                             } else {
                                             ?>
-                                                <button name="add_to_cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                                                <button name="add_to_cart" class='btn global_button'><img src="uploads/shopping-cart.png" alt=""> أضف
                                                     الي السلة
                                                 </button>
                                             <?php
@@ -398,7 +403,8 @@ if (isset($_POST['add_to_cart'])) {
                 <div class="col-lg-5">
                     <div class="info">
                         <h2>تواصل مع الخبير <br> للعناية بنباتاتك المنزلية</h2>
-                        <p> يرغب في تمتعك بنباتات صحية ونامية، وأن تتوفق لأفضل المنتجات المناسبة لك ,لذلك وفرنا خبراء
+                        <p> يرغب في تمتعك بنباتات صحية ونامية، وأن تتوفق لأفضل المنتجات المناسبة لك ,لذلك وفرنا
+                            خبراء
                             متخصصين بالهندسة الزراعية لتقديم الدعم والتوجيه، ولنساعدك في اختيار النباتات </p>
                         <a target="_blank" href="https://t.me/mshtly" class="btn global_button">تواصل مع الخبير</a>
                     </div>
@@ -525,7 +531,7 @@ if (isset($_POST['add_to_cart'])) {
             $post_desc = $last_post['description'];
             $post_desc = explode(' ', $post_desc);
             // استخدم array_slice للحصول على أول 10 كلمات
-            $post_desc_last = implode(' ', array_slice($post_desc, 0, 80));
+            $post_desc_last = implode(' ', array_slice($post_desc, 0, 70));
             $post_short_desc = $last_post['short_desc'];
             $post_date = $last_post['date'];
             $post_slug = $last_post['slug'];
@@ -537,20 +543,20 @@ if (isset($_POST['add_to_cart'])) {
                         <img src="admin/posts/images/<?php echo $post_image; ?>" alt="">
                     </div>
                 </div>
-
                 <div class="col-lg-6">
                     <div class="info">
                         <span> من المدونة </span>
                         <h3> <?php echo $post_head; ?> </h3>
                         <p> <?php echo $post_desc_last . '...' ?> </p>
-                        <a href='blog_details?slug=<?php echo $post_slug; ?>' class='btn global_button'> اقرأ المزيد </a>
+                        <a href='blog_details?slug=<?php echo $post_slug; ?>' class='btn global_button'> اقرأ
+                            المزيد </a>
                     </div>
                 </div>
             </div>
             <div class='from_blog'>
                 <div class='row'>
                     <?php
-                    $stmt = $connect->prepare("SELECT * FROM posts WHERE publish = 1 AND id !=? ORDER BY id DESC LIMIT 4");
+                    $stmt = $connect->prepare("SELECT * FROM posts WHERE publish = 1 AND id !=? ORDER BY id ASC LIMIT 4");
                     $stmt->execute(array($post_id));
                     $allposts = $stmt->fetchAll();
                     foreach ($allposts as $post) {
@@ -599,11 +605,9 @@ if (isset($_POST['add_to_cart'])) {
                             <h2>كيف تغرس </br> الأشجار و النباتات الجديدة </h2>
                             <a href="https://www.youtube.com/channel/UCa-0QzwA1e3hGp-nrQn0qNg" class='btn global_button'> جميع الفيديوهات <img src="uploads/arrow.png" alt=""> </a>
                         </div>
-
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -657,7 +661,6 @@ if (isset($_POST['add_to_cart'])) {
                 <?php
                 }
                 ?>
-
             </div>
         </div>
     </div>

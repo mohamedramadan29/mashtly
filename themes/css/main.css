@@ -1583,9 +1583,9 @@ body {
 
 .testmonails .left_arrow {
     position: relative;
-    top: -260px;
+    top: -262px;
     left: -94%;
-    width: 35px;
+    width: 34px;
     cursor: pointer;
 }
 
@@ -3816,7 +3816,7 @@ body {
     align-items: center;
     background: #fff;
     width: 250px;
-    height: 70px;
+    height: 85px;
     border-radius: 5px;
     margin-top: 25px;
 }

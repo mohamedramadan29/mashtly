@@ -75,7 +75,7 @@
                                         <th>الأسم </th>
                                         <th> القسم </th>
                                         <th> الصورة </th>
-                                        <th> العمليات  </th>
+                                        <th> العمليات </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -97,7 +97,7 @@
                                     $statement->bindParam(':offset', $offset, PDO::PARAM_INT);
                                     $statement->bindParam(':limit', $recordsPerPage, PDO::PARAM_INT);
                                     $statement->execute();
-                                    $allposts = $statement->fetchAll(PDO::FETCH_ASSOC); 
+                                    $allposts = $statement->fetchAll(PDO::FETCH_ASSOC);
                                     $i = 0;
                                     foreach ($allposts as $post) {
                                         $i++;
@@ -107,8 +107,8 @@
                                                 <?php echo $i; ?>
                                             </td>
                                             <td>
-                                                <?php echo $post['name']; ?>
-                                            </td>
+                                            <a href="main.php?dir=posts&page=edit&post_id=<?php echo $post['id']; ?>">  <?php echo $post['name']; ?> </a>
+                                            </td> 
                                             <td>
                                                 <?php
                                                 /*
@@ -120,8 +120,10 @@
                                             </td>
                                             <td> <img style="width: 60px; height:60px" src="posts/images/<?php echo $post['main_image']; ?> " alt=""></td>
                                             <td>
-                                                <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $post['id']; ?>">  <i class='fa fa-pen'></i> </button>
-                                                <a href="main.php?dir=posts&page=delete&post_id=<?php echo $post['id']; ?>" class="confirm btn btn-danger btn-sm">  <i class='fa fa-trash'></i>
+                                                <a href="main.php?dir=posts&page=edit&post_id=<?php echo $post['id']; ?>" class="btn btn-success btn-sm"> <i class='fa fa-pen'></i>
+                                                </a>
+
+                                                <a href="main.php?dir=posts&page=delete&post_id=<?php echo $post['id']; ?>" class="confirm btn btn-danger btn-sm"> <i class='fa fa-trash'></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -199,18 +201,18 @@
                                     ?>
                             </table>
                             <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                                <?php
-                                $totalPages = ceil($totalRecords / $recordsPerPage);
-                                for ($i = 1; $i <= $totalPages; $i++) {
-                                ?>
-                                    <li class="page-item"><a class="page-link" href="main.php?dir=posts&page=report&report_page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                                    </li>
-                                <?php
-                                }
-                                ?>
-                            </ul>
-                        </nav>
+                                <ul class="pagination">
+                                    <?php
+                                    $totalPages = ceil($totalRecords / $recordsPerPage);
+                                    for ($i = 1; $i <= $totalPages; $i++) {
+                                    ?>
+                                        <li class="page-item"><a class="page-link" href="main.php?dir=posts&page=report&report_page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                        </li>
+                                    <?php
+                                    }
+                                    ?>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>

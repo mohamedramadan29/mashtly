@@ -121,7 +121,7 @@ if (isset($_GET['report_page'])) {
                                             <select id="" class="form-control custom-select select2" name="feature_product">
                                                 <option value=""> -- منتج مميز --</option>
                                                 <option <?php if (isset($_POST['feature_product']) && $_POST['feature_product'] == 1) echo "selected"; ?> value="1"> مميز </option>
-                                                
+
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -456,7 +456,7 @@ if (isset($_GET['report_page'])) {
                                                 <th> نشر المنتج</th>
                                                 <th> مميز</th>
                                                 <th> هدية</th>
-                                                <th> الوزن  </th>
+                                                <th> الوزن </th>
                                                 <th> صورة</th>
                                                 <th> العمليات</th>
                                             </tr>
@@ -472,7 +472,7 @@ if (isset($_GET['report_page'])) {
                                                         <input value="<?php echo $pro["id"]; ?>" style="cursor: pointer; box-shadow: none; width: 20px; height: 20px;" type="checkbox" name="products_id[]" class="form-control">
                                                     </td>
                                                     <td> <?php echo $i; ?> </td>
-                                                    <td> <?php echo $pro['name']; ?> </td>
+                                                    <td> <a href="main.php?dir=products&page=edit&pro_id=<?php echo $pro['id']; ?>"> <?php echo $pro['name']; ?> </a> </td>
                                                     <td> <?php
                                                             if ($pro['cat_id'] != null) { ?>
                                                             <?php
@@ -530,7 +530,7 @@ if (isset($_GET['report_page'])) {
                                                             }
                                                         ?>
                                                     </td>
-                                                    <th> <?php echo $pro['ship_weight']; ?> كجم  </th>
+                                                    <th> <?php echo $pro['ship_weight']; ?> كجم </th>
                                                     <td>
                                                         <?php
                                                         $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ? LIMIT 1");

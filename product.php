@@ -268,8 +268,10 @@ if (isset($_GET['slug'])) {
                                         <img loading="lazy" src="<?php echo $uploads ?>/support.svg" alt="">
                                     </div>
                                     <div>
-                                        <h4> دعم الخبراء </h4>
-                                        <p> مجانا قبل وبعد الشراء </p>
+                                        <a href="https://t.me/mshtly" style="text-decoration: none;">
+                                            <h4> دعم الخبراء المجاني </h4>
+                                            <p style="color: #3c3b3b;"> للعناية بالنباتات أو اختيار الأنسب من مهندسي مشتلي </p>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="attention">
@@ -374,7 +376,7 @@ if (isset($_GET['slug'])) {
                                             </div>
                                             <div>
                                                 <h4> التغليف كهدية </h4>
-                                                <p> لا اريد التغليف كهدية </p>
+                                                <p> استعرض النماذج والأسعار. </p>
                                             </div>
                                         </div>
                                         <div style="cursor: pointer;">
