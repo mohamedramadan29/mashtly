@@ -120,216 +120,24 @@ $totalPages = ceil($num_products / $pageSize);
 <!-- END SELECT DATA HEADER -->
 <!-- START INDEX ALL CATEGORY  -->
 <div class="index_all_cat select_plants">
-    <div class="container-fluid">
+    <div class="container">
         <div class="data">
             <div class="data_header">
                 <div class="data_header_name">
                     <h2 class='header2'> النباتات </h2>
                     <p> اجمالي النتائج :<span> <?php echo $num_products; ?> </span> </p>
                 </div>
-                <!--
-                <div class="search_types">
-                    <div class="brach_cat">
-                        <button class="global_button btn" id="brach_orders"> <img src="<?php echo $uploads ?>filter.png" alt=""> تصنيف حسب </button>
-                    </div>
-                    <div class="search">
-                        <button class="global_button btn" id="search_orders"> رتب حسب: <span class="selected_search">
-                                <?php
-                                if (isset($_REQUEST['height_price'])) {
-                                    echo "السعر من الاعلي الي الاقل <i class='fa fa-check'></i>";
-                                } elseif (isset($_REQUEST['low_price'])) {
-                                    echo "السعر من الاقل الي الاعلي <i class='fa fa-check'></i>";
-                                } elseif (isset($_REQUEST['newest'])) {
-                                    echo "الأحدث <i class='fa fa-check'></i>";
-                                } elseif (isset($_REQUEST['oldest'])) {
-                                    echo "الأقدم <i class='fa fa-check'></i>";
-                                } else {
-                                    echo "----";
-                                } ?> </span> </button>
-                        <div class="options">
-                            <form action="" method="post">
-                                <div class="form-check">
-                                    <input name="newest" class="form-check-input" type="checkbox" value="" id="flexCheck3" onclick="submit();">
-                                    <label class="form-check-label" for="flexCheck3">
-                                        الأحدث
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input name="oldest" class="form-check-input" type="checkbox" value="" id="flexCheck4" onclick="submit();">
-                                    <label class="form-check-label" for="flexCheck4">
-                                        الأقدم
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input name="height_price" class="form-check-input" type="checkbox" value="" id="flexCheck1" onclick="submit();">
-                                    <label class="form-check-label" for="flexCheck1">
-                                        السعر من الاعلي الي الاقل
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input name="low_price" class="form-check-input" type="checkbox" value="" id="flexCheck2" onclick="submit();">
-                                    <label class="form-check-label" for="flexCheck2">
-                                        السعر من الاقل الي الاعلي
-                                    </label>
-                                </div>
-                                <!-- Add more options here  
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                            -->
             </div>
             <div class="row">
-                <!--
-                <div class="col-lg-2">
-                    <div class="all_cat">
-                        <form action="" method="post">
-                            <?php
-                            $stmt = $connect->prepare("SELECT * FROM plant_properties");
-                            $stmt->execute();
-                            $allplant_props = $stmt->fetchAll();
-                            foreach ($allplant_props as $plant_props) {
-                            ?>
-                                <div class="search_one">
-                                    <h4 class="select_search"> <?php echo $plant_props['properity_name']; ?> <i class="fa fa-chevron-down"></i> </h4>
-                                    <div class="options">
-                                        <?php
-                                        $stmt = $connect->prepare("SELECT * FROM plant_properity_options WHERE properity_id=?");
-                                        $stmt->execute(array($plant_props['id']));
-                                        $alloptions = $stmt->fetchAll();
-                                        foreach ($alloptions as $option) {
-                                        ?>
-                                            <div class="form-check">
-                                                <input name="options[]" class="form-check-input" type="checkbox" value="<?php echo $option['id'] ?>" id="option<?php echo $option['id'] ?>">
-                                                <label class="form-check-label" for="option<?php echo $option['id'] ?>">
-                                                    <?php echo $option['name'] ?>
-                                                </label>
-                                            </div>
-                                        <?php
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
-                            <?php
-                            }
-                            ?>
-                            <button type="submit" name="search_options" class="global_button search_options"> بحث <i class="fa fa-search"></i> </button>
-                        </form>
-                    </div>
-                </div>
-                        -->
                 <div class="col-lg-12">
                     <div class="row">
                         <?php
                         foreach ($allproducts as $product) {
                         ?>
                             <div class="col-lg-3 col-6">
-                                <div class="product_info">
-                                    <!-- get the product image -->
-                                    <?php
-                                    $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
-                                    $stmt->execute(array($product['id']));
-                                    //  getproductimage($connect,$product['id']);
-                                    $count_image = $stmt->rowCount();
-                                    $product_data_image = $stmt->fetch();
-                                    if ($count_image > 0) {
-                                    ?>
-                                        <img class="main_image" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt']; ?>">
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <img class="main_image" src="uploads/product.png" alt="">
-                                    <?php
-                                    }
-                                    ?>
-
-                                    <div class="product_details">
-                                        <h2> <a href="product?slug=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
-                                        <?php
-                                        $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
-                                        $minimumPrice = INF; // قيمة أدنى سعر ممكنة
-                                        // نشوف علي المنتج يحتوي علي متغيرات او لا
-                                        $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ? AND price != ''");
-                                        $stmt->execute(array($product['id']));
-                                        $count_pro_attr = $stmt->rowCount();
-                                        if ($count_pro_attr > 0) {
-                                            $allproduct_data = $stmt->fetchAll();
-                                            foreach ($allproduct_data as $product_data) {
-                                                $pro_price =  $product_data['price'];
-                                                $maximumPrice = max($maximumPrice, $pro_price);
-                                                $minimumPrice = min($minimumPrice, $pro_price);
-                                            }
-                                        ?>
-                                            <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س </h4>
-                                        <?php
-                                        } else {
-                                        ?>
-                                            <h4 class='price'> <?php
-                                                                if ($product['sale_price'] != '' && $product['sale_price'] != 0) {
-                                                                    echo $product['sale_price'];
-                                                                } else {
-                                                                    echo $product['price'];
-                                                                }
-                                                                ?> ر.س </h4>
-                                        <?php
-                                        }
-                                        ?>
-                                        <form action="" method="post">
-                                            <input type="hidden" name="price" value="<?php if ($product['sale_price'] != '' && $product['sale_price'] != 0) {
-                                                                                            echo $product['sale_price'];
-                                                                                        } else {
-                                                                                            echo $product['price'];
-                                                                                        } ?>">
-                                            <div class='add_cart'>
-                                                <div>
-                                                    <?php
-                                                    if (checkIfProductInCart($connect, $cookie_id, $product['id'])) {
-                                                    ?>
-                                                        <a href="cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
-                                                            مشاهدة السلة
-                                                        </a>
-                                                    <?php
-                                                    } else {
-                                                    ?>
-                                                        <?php
-                                                        if ($count_pro_attr > 0) {
-                                                        ?>
-                                                            <a href="product?slug=<?php echo $product['slug']; ?>" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
-                                                                مشاهدة الاختيارات
-                                                            </a>
-                                                        <?php
-                                                        } else {
-                                                        ?>
-                                                            <button name="add_to_cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                                الي السلة
-                                                            </button>
-                                                        <?php
-                                                        }
-                                                        ?>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </div>
-                                                <div class="heart">
-                                                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                                                    <?php
-                                                    if (isset($_SESSION['user_id']) && checkIfProductIsFavourite($connect, $_SESSION['user_id'], $product['id'])) {
-                                                    ?>
-                                                        <img src="<?php echo $uploads; ?>/heart2.svg" alt="">
-                                                    <?php
-                                                    } else {
-                                                    ?>
-                                                        <button name="add_to_fav" type="submit" style="border: none; background-color:transparent">
-                                                            <img src="<?php echo $uploads ?>/heart.png" alt="">
-                                                        </button>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+                                <?php
+                                include 'tempelate/product.php';
+                                ?>
                             </div>
                         <?php
                         }

@@ -131,7 +131,31 @@
      });
    });
  </script>
-
+ <!-- To Add More Attribute As Edit  -->
+ <script>
+   var uniqueId_add;
+   jQuery(function($) {
+     $(document).on('change', '.pro-attribute_add', function() {
+       var pro_attribute_add = $(this).val();
+       console.log(pro_attribute_add);
+       var uniqueId_add = $(this).data('new_add'); // استخدام الـ data-uniqueId للوصول إلى القيمة الفريدة
+       if (pro_attribute_add != '') {
+         $.ajax({
+           url: "products/get_variation_add.php",
+           method: "POST",
+           data: {
+             pro_attribute_add: pro_attribute_add
+           },
+           success: function(data) {
+             $('.pro-variation_add[data-uniqueId_add="' + uniqueId_add + '"]').html(data); // استخدام الـ uniqueId لتحديد العنصر المستهدف بشكل فريد
+           }
+         });
+       } else {
+         $('.pro-variation_add[data-uniqueId_add="' + uniqueId_add + '"]').html('<option value="">-- اختر --</option>'); // استخدام الـ uniqueId لتحديد العنصر المستهدف بشكل فريد
+       }
+     });
+   });
+ </script>
 
 
  </body>

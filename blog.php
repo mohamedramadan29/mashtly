@@ -5,7 +5,7 @@ $page_title = ' المدونة ';
 include "init.php";
 $stmt = $connect->prepare("SELECT * FROM posts WHERE publish = 1");
 $stmt->execute();
-$count_post = count(($stmt->fetchAll())); 
+$count_post = count(($stmt->fetchAll()));
 ?>
 <div class="profile_page adress_page">
     <div class='container'>
@@ -32,7 +32,8 @@ $count_post = count(($stmt->fetchAll()));
             $last_post = $stmt->fetch();
             $post_id = $last_post['id'];
             $post_head = $last_post['name'];
-            $post_desc = $last_post['description'];
+            $cleaned_desc = strip_tags($last_post['description']);
+            $post_desc = $cleaned_desc;
             $post_desc = explode(' ', $post_desc);
             // استخدم array_slice للحصول على أول 10 كلمات
             $post_desc_last = implode(' ', array_slice($post_desc, 0, 80));
@@ -61,10 +62,32 @@ $count_post = count(($stmt->fetchAll()));
                     <?php
                     $stmt = $connect->prepare("SELECT * FROM posts WHERE publish = 1 AND id !=?");
                     $stmt->execute(array($post_id));
+                    $num_blogs = $stmt->rowCount();
+                    $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
+                    $pageSize = 12;
+                    $offset = ($currentpage - 1) * $pageSize;
+
+                    $stmt = $connect->prepare("SELECT * FROM posts WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+                    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+                    $stmt->execute();
                     $allposts = $stmt->fetchAll();
+                    $totalposts = count($allposts);
+                    /////////////////////////////////
+                    $totalPages = ceil($num_blogs / $pageSize);
+
                     foreach ($allposts as $post) {
-                        $post_desc = explode(' ', $post['description']);
-                        $post_desc = implode(' ', array_slice($post_desc, 0, 20));
+                        if ($post['description'] != null) {
+                            // إزالة التاجات HTML من الوصف
+                            $cleaned_desc = strip_tags($post['description']);
+
+                            // تقسيم النص المنظف إلى كلمات
+                            $post_desc = explode(' ', $cleaned_desc);
+
+                            // اختيار أول 20 كلمة
+                            $post_desc = implode(' ', array_slice($post_desc, 0, 20));
+                        } else {
+                            $post_desc = ' ';
+                        }
                     ?>
                         <div class="col-lg-4">
                             <a href="blog_details?slug=<?php echo $post['slug']; ?>" style="text-decoration: none;">
@@ -78,6 +101,31 @@ $count_post = count(($stmt->fetchAll()));
                     <?php
                     }
                     ?>
+                </div>
+                <div class="pagination_section">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <?php
+                            for ($i = 1; $i <= $totalPages; $i++) {
+                                echo '<li class="page-item';
+                                if ($i == $currentpage) {
+                                    echo ' active';
+                                }
+                                echo '"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
+                            }
+                            ?>
+                            <li class="page-item">
+                                <a class="page-link" href="" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>

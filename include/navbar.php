@@ -20,7 +20,7 @@
               </a>
             </div>
           </div>
-          <div class="col-lg-7">
+          <div class="col-lg-6">
             <div class="search">
               <form action="http://localhost/mashtly/search" method="get" class='form-group'>
                 <div class="box">
@@ -35,7 +35,7 @@
               </form>
             </div>
           </div>
-          <div class='col-lg-3'>
+          <div class='col-lg-4'>
             <div class="info">
               <div class="cart">
                 <a href="http://localhost/mashtly/cart">
@@ -224,7 +224,7 @@
             <a class="nav-link active" aria-current="page" href="http://localhost/mashtly"> <img src="<?php echo $uploads ?>/home.svg" alt=""> الرئيسية </a>
           </li>
           <li class="nav-item category_links">
-            <a class="nav-link" aria-current="page" href="http://localhost/mashtly/categories"> <i class="fa fa-chevron-down"></i> التصنيفات </a>
+            <a class="nav-link" aria-current="page" href="http://localhost/mashtly/categories"> التصنيفات <i class="fa fa-chevron-down"></i></a>
             <div class="links">
               <ul class="list-unstyled">
                 <div class="row">

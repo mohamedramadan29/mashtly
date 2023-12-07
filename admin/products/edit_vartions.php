@@ -14,7 +14,7 @@
                             <div class="form-group">
                                 <br>
                                 <label for="inputStatus">اختر السمة</label>
-                                <select class="form-control custom-select   pro-attribute" name="pro_attribute[]" data-new=<?php echo $uniqueId; ?> data-uniqueId="<?php echo $uniqueId; ?>">
+                                <select class="form-control custom-select pro-attribute" name="pro_attribute[]" data-new=<?php echo $uniqueId; ?> data-uniqueId="<?php echo $uniqueId; ?>">
                                     <option selected disabled>-- اختر --</option>
                                     <?php
                                     $stmt = $connect->prepare("SELECT * FROM product_attribute");
@@ -29,13 +29,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="inputStatus">المتغيرات</label>
-                                <select class="form-control custom-select   pro-variation" name="pro_variations[]" multiple data-uniqueId="<?php echo $uniqueId; ?>">
+                                <select class="form-control custom-select pro-variation" name="pro_variations[]" multiple data-uniqueId="<?php echo $uniqueId; ?>">
                                     <option disabled>-- اختر --</option>
                                 </select>
                             </div>
                         </div>
                         <p class="btn btn-warning btn-sm" id="add_attribute_btn"> اضافة سمه جديد <i class="fa fa-plus"></i> </p>
-
                     </div>
                     <script src="plugins/jquery/jquery.js"></script>
                     <script>
@@ -80,7 +79,6 @@
                     </script>
                     <div class="new_attributes" id="attributes-container"></div>
                     <p class="btn btn-success btn-sm verify_variations2" id="verify_variations"> تاكيد المتغيرات الجديدة </p>
-
                     <script>
                         jQuery(document).ready(function($) {
                             $(document).on('click', '#verify_variations', function() {
@@ -120,12 +118,11 @@
                                             <input placeholder="الاسم البديل" name='var_image_alt[]'  class="form-control" type="text">
                                             <input placeholder="وصف مختصر" name='var_image_desc[]'  class="form-control" type="text">
                                             <input placeholder="كلمات مفتاحية للصورة" name='var_image_keys[]'  class="form-control" type="text">
-                                            </div>
-                                            
+                                            </div> 
                                             </div> 
                                             <div class="form-group" style="width:80%">
                                             <label> الأسم  </label>
-                                                <input name='vartions_name[]' readonly class="form-control" type="text" value="${variantText.slice(0, -3)}">
+                                                <input name='vartions_name[]' class="form-control" type="text" value="${variantText.slice(0, -3)}">
                                             </div>
                                             <div class="form-group">
                                             <label> سعر المنتج  </label>
@@ -168,8 +165,8 @@
                     $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ?");
                     $stmt->execute(array($pro_id));
                     $proudct_attributes = $stmt->fetchAll();
+                    $count_var = $stmt->rowCount();
                     ?>
-
                     <div class="vartions_inputs">
                         <?php
                         foreach ($proudct_attributes as $pro_attribut) {
@@ -192,7 +189,7 @@
                                     </div>
                                     <div class="form-group" style="width:80%">
                                         <label> الأسم </label>
-                                        <input name='vartions_name' readonly class="form-control" type="text" value="<?php echo $pro_attribut['vartions_name'] ?>">
+                                        <input name='vartions_name' class="form-control" type="text" value="<?php echo $pro_attribut['vartions_name'] ?>">
                                     </div>
                                     <div class="form-group">
                                         <label> سعر المنتج </label>
@@ -208,8 +205,69 @@
                         <?php
                         }
                         ?>
-                    </div>
+                        <?php
+                        if ($count_var > 0) {
+                        ?>
+                            <button id="add_new_vartionss" class="btn btn-warning btn-sm"> <i class="fa fa-plus"></i> اضافة متغير جديد للمنتج </button>
+                        <?php
+                        }
 
+                        ?>
+
+                        <form action="" method="post" class="add_new_vartions_form" enctype="multipart/form-data">
+                            <!-- <?php
+                                    $uniqueId_add = uniqid();
+                                    ?>
+                            <div class="attribute-group">
+                                <div class="form-group">
+                                    <br>
+                                    <label for="inputStatus">اختر السمة</label>
+                                    <select class="form-control custom-select pro-attribute_add" name="pro_attribute_add" data-new_add=<?php echo $uniqueId_add; ?> data-uniqueId_add="<?php echo $uniqueId_add; ?>">
+                                        <option selected disabled>-- اختر --</option>
+                                        <?php
+                                        $stmt = $connect->prepare("SELECT * FROM product_attribute");
+                                        $stmt->execute();
+                                        $allatt = $stmt->fetchAll();
+                                        foreach ($allatt as $index => $att) {
+                                            $selected = (isset($_REQUEST['pro_attribute']) && in_array($att['id'], $_REQUEST['pro_attribute'])) ? 'selected' : '';
+                                            echo '<option value="' . $att['id'] . '" ' . $selected . '>' . $att['name'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputStatus">المتغيرات</label>
+                                    <select class="form-control custom-select pro-variation_add" name="pro_variations_add[]" multiple data-uniqueId_add="<?php echo $uniqueId_add; ?>">
+                                        <option disabled>-- اختر --</option>
+                                    </select>
+                                </div>
+                            </div> -->
+                            <div class="d-flex justify-content-between">
+                                <div class="form-group d-flex align-items-center">
+
+                                    <div>
+                                        <label style='display:block'> صورة المنتج </label>
+                                        <input type='file' class='form-control' name='vartion_image'>
+                                        <input placeholder="اسم الصورة" name='var_image_name' class="form-control" type="text">
+                                        <input placeholder="الاسم البديل" name='var_image_alt' class="form-control" type="text">
+                                        <input placeholder="وصف مختصر" name='var_image_desc' class="form-control" type="text">
+                                        <input placeholder="كلمات مفتاحية للصورة" name='var_image_keys' class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group" style="width:80%">
+                                    <label> الأسم </label>
+                                    <input name='vartions_name' class="form-control" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label> سعر المنتج </label>
+                                    <input placeholder="السعر" class="form-control" type="text" name='vartions_price'>
+                                </div>
+                            </div>
+                            <br>
+                            <button name="add_new_var" class="btn btn-primary btn-sm"> <i class="fa fa-plus"></i> أضافه متغير جديد </button>
+                        </form>
+
+                    </div>
                 </div>
             </div>
             <!-- /.card-body -->
@@ -284,12 +342,12 @@ if (isset($_POST['delete_vartion'])) {
 
 if (isset($_POST['edit_vartion'])) {
     $vartion_id = $_POST['vartion_id'];
+    $vartions_name = $_POST['vartions_name'];
     $vartions_price = $_POST['vartions_price'];
     $var_image_name = $_POST['var_image_name'];
     $var_image_alt = $_POST['var_image_alt'];
     $var_image_desc = $_POST['var_image_desc'];
     $var_image_keys = $_POST['var_image_keys'];
-
     if (!empty($_FILES['vartion_image']['name'])) {
         $vartion_image_name = $_FILES['vartion_image']['name'];
         $vartion_image_name = str_replace(' ', '-', $vartion_image_name);
@@ -313,8 +371,8 @@ if (isset($_POST['edit_vartion'])) {
             );
         }
     }
-    $stmt = $connect->prepare("UPDATE product_details2 SET price= ?,image_name=?,image_alt=?,image_desc=?,image_keys=? WHERE id = ? ");
-    $stmt->execute(array($vartions_price, $var_image_name, $var_image_alt, $var_image_desc, $var_image_keys, $vartion_id));
+    $stmt = $connect->prepare("UPDATE product_details2 SET vartions_name = ? ,price= ?,image_name=?,image_alt=?,image_desc=?,image_keys=? WHERE id = ? ");
+    $stmt->execute(array($vartions_name, $vartions_price, $var_image_name, $var_image_alt, $var_image_desc, $var_image_keys, $vartion_id));
     if (!empty($_FILES['vartion_image']['name'])) {
         $stmt = $connect->prepare("UPDATE product_details2 SET  image= ? WHERE id = ? ");
         $stmt->execute(array($vartion_image_uploaded, $vartion_id));
@@ -323,4 +381,62 @@ if (isset($_POST['edit_vartion'])) {
         header('Location:main?dir=products&page=edit&pro_id=' . $pro_id);
     }
 }
+////////////////////// Add New Vartions ///////////////////////////
+
+if (isset($_POST['add_new_var'])) {
+    $vartions_name = $_POST['vartions_name'];
+    $vartions_price = $_POST['vartions_price'];
+    $var_image_name = $_POST['var_image_name'];
+    $var_image_alt = $_POST['var_image_alt'];
+    $var_image_desc = $_POST['var_image_desc'];
+    $var_image_keys = $_POST['var_image_keys'];
+    if (!empty($_FILES['vartion_image']['name'])) {
+        $vartion_image_name = $_FILES['vartion_image']['name'];
+        $vartion_image_name = str_replace(' ', '-', $vartion_image_name);
+        $vartion_image_temp = $_FILES['vartion_image']['tmp_name'];
+        $vartion_image_type = $_FILES['vartion_image']['type'];
+        $vartion_image_size = $_FILES['vartion_image']['size'];
+        // حصل على امتداد الصورة من اسم الملف المرفوع
+        $image_extension = pathinfo($vartion_image_name, PATHINFO_EXTENSION);
+        if (!empty($image_name)) {
+            $image_name = str_replace(' ', '-', $image_name);
+            $vartion_image_uploaded = $image_name . '.' . $image_extension;
+            move_uploaded_file(
+                $main_image_temp,
+                'product_images/' . $vartion_image_uploaded
+            );
+        } else {
+            $vartion_image_uploaded = $vartion_image_name;
+            move_uploaded_file(
+                $vartion_image_temp,
+                'product_images/' . $vartion_image_uploaded
+            );
+        }
+    } else {
+        $vartion_image_uploaded = '';
+    }
+    $stmt = $connect->prepare("UPDATE product_details2 SET vartions_name = ? ,price= ?,image_name=?,image_alt=?,image_desc=?,image_keys=? WHERE id = ? ");
+    $stmt->execute(array($vartions_name, $vartions_price, $var_image_name, $var_image_alt, $var_image_desc, $var_image_keys, $vartion_id));
+    if (!empty($_FILES['vartion_image']['name'])) {
+        $stmt = $connect->prepare("UPDATE product_details2 SET  image= ? WHERE id = ? ");
+        $stmt->execute(array($vartion_image_uploaded, $vartion_id));
+    }
+    $stmt = $connect->prepare("INSERT INTO product_details2 (product_id,vartions_name,price,image,image_name,image_alt,image_desc,image_keys)
+    VALUES(:zproduct_id,:zvartion_name,:zprice,:zimage,:zimage_name,:zimage_alt,:zimage_desc,:zimage_keys)
+    ");
+    $stmt->execute(array(
+        "zproduct_id" => $pro_id,
+        "zvartion_name" => $vartions_name,
+        "zprice" => $vartions_price,
+        "zimage" => $vartion_image_uploaded,
+        "zimage_name" => $var_image_name,
+        "zimage_alt" => $var_image_alt,
+        "zimage_desc" => $var_image_desc,
+        "zimage_keys" => $var_image_keys,
+    ));
+    if ($stmt) {
+        header('Location:main?dir=products&page=edit&pro_id=' . $pro_id);
+    }
+}
+
 ?>

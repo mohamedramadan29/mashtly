@@ -11,7 +11,9 @@ $(document).ready(function () {
         $("#save_vartion").css("display", "block");
     });
     $('.select2').select2();
-
+    $("#add_new_vartionss").click(function () {
+        $(".add_new_vartions_form").toggle();
+    });
     // Datatable 
 
     $('#my_table').DataTable({

@@ -556,11 +556,12 @@ if (isset($_POST['add_to_cart'])) {
             <div class='from_blog'>
                 <div class='row'>
                     <?php
-                    $stmt = $connect->prepare("SELECT * FROM posts WHERE publish = 1 AND id !=? ORDER BY id ASC LIMIT 4");
+                    $stmt = $connect->prepare("SELECT * FROM posts WHERE publish = 1 AND id !=? ORDER BY id DESC LIMIT 4");
                     $stmt->execute(array($post_id));
                     $allposts = $stmt->fetchAll();
                     foreach ($allposts as $post) {
-                        $post_desc = explode(' ', $post['description']);
+                        $cleaned_desc = strip_tags($post['description']);
+                        $post_desc = explode(' ', $cleaned_desc);
                         $post_desc = implode(' ', array_slice($post_desc, 0, 20));
                     ?>
                         <div class="col-lg-3">

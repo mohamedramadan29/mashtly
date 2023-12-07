@@ -240,7 +240,7 @@
             prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-chevron-right"></i></button>',
             nextArrow: '<button type="button" class="slick-next"><i class="fa fa-chevron-left"></i></button>',
             centerMode: false,
-            variableWidth: true,
+            variableWidth: false,
             responsive: [{
                     breakpoint: 1024,
                     settings: {
@@ -254,6 +254,7 @@
                     settings: {
                         slidesToShow: 2,
                         slidesToScroll: 2,
+                        variableWidth: true,
                     }
                 }
                 // You can unslick at a given breakpoint now by adding:
@@ -390,60 +391,7 @@
 </script>
 
 <!-- slider in product images -->
-
-<!-- JavaScript -->
-<script>
-    /*
-    $(document).ready(function() {
-        // تحديد العناصر
-        const mainSlider = document.querySelector('.main-slider');
-        const thumbnailSlider = document.querySelector('.thumbnail-slider');
-        const mainSlides = mainSlider.querySelectorAll('div');
-        const thumbnailSlides = thumbnailSlider.querySelectorAll('.slick-slide');
-        // تنفيذ الشريط الرئيسي
-        mainSlides.forEach((slide) => {
-            slide.style.display = 'none';
-        });
-        let mainIndex = 0;
-        mainSlides[mainIndex].style.display = 'block';
-        // تنفيذ الشريط المصغر
-        thumbnailSlides.forEach((slide, index) => {
-            // قم بقراءة الخصائص data-image وتعيينها كخلفية للشريحة الرئيسية
-            const imageSrc = 'admin/product_images/' + slide.getAttribute('data-image'); // إضافة مسار الصورة هنا
-            mainSlides[index].style.backgroundImage = `url(${imageSrc})`;
-            $('input[type="radio"][name="vartion_select"]').on('change', function() {
-                var selectedImage = $('input[type="radio"][name="vartion_select"]:checked').data('image');
-                if (selectedImage !== undefined) {
-                    mainSlides[index].style.backgroundImage = 'url(admin/product_images/' + selectedImage + ')'; // إضافة مسار الصورة هنا
-                    var main_image = 'admin/product_images/' + selectedImage;
-                    const MainimageSlide = mainSlides[index].querySelector('img');
-                    MainimageSlide.src = main_image;
-                }
-            });
-            slide.addEventListener('click', () => {
-                mainSlides[mainIndex].style.display = 'none';
-                mainIndex = index;
-                mainSlides[mainIndex].style.display = 'block';
-            });
-        });
-    });
-    */
-</script>
-
-
-<!-- To Select Price When Change Product Vartions -->
-<script>
-    /*
-    $(document).ready(function() {
-        $('input[type="radio"][name="vartion_select"]').on('input', function() {
-            var selectedPrice = $('input[type="radio"][name="vartion_select"]:checked').data('price');
-            if (selectedPrice !== undefined) {
-                $('#selected_price').text(selectedPrice + ' ر.س');
-                $("#price_value").val(selectedPrice);
-            }
-        });
-    });*/
-</script>
+ 
 <script>
     $(document).ready(function() {
         // تحديد العناصر

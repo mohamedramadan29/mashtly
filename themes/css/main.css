@@ -450,7 +450,7 @@ body {
 }
 
 .main_navbar .category_links i {
-    font-size: 12px;
+    font-size: 10px;
     width: 14px;
     position: relative;
     top: -1px;
@@ -858,18 +858,22 @@ body {
 .new_producs .products .product_info,
 .index_all_cat .product_info {
     border: 1px solid #ccc;
-    border-radius: 3px 3px 0px 0px;
-    margin-right: 10px;
+    border-radius: 5px;
+    margin-right: 12px;
     margin-left: 10px;
     position: relative;
     min-height: 440px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
 }
 
 .new_producs .products .product_info .main_image,
 .index_all_cat .product_info .main_image {
-    width: 250px;
-    border-radius: 3px 3px 0px 0px;
-    height: 250px;
+    width: 100%;
+    border-radius: 5px 5px 0px 0px;
+    height: 250px; 
 }
 
 .new_producs .products .product_info .product_details,
@@ -884,6 +888,8 @@ body {
     margin-bottom: 12px;
     max-width: 220px;
     line-height: 1.5;
+    height: 85px;
+    overflow: hidden;
 }
 
 .new_producs .products .product_info .product_details h2 a,
@@ -1016,6 +1022,11 @@ body {
     padding: 50px;
     height: 200px;
     padding-right: 200px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
 }
 
 @media(max-width:991px) {
@@ -3135,7 +3146,7 @@ body {
     .new_producs .products .product_info .product_details h2,
     .index_all_cat .product_info .product_details h2 {
         margin-top: 10px;
-        font-size: 16px;
+        font-size: 17px;
     }
 
     .select_plan_head .data .head h2 {
@@ -4658,6 +4669,20 @@ body {
 .post_details p {
     line-height: 1.8;
     color: #1B1B1B;
+}
+
+.post_details p,
+.post_details h2,
+.post_details h1,
+.post_details h3,
+.post_details h4,
+.post_details h5,
+.post_details h6,
+.post_details span,
+.post_details li,
+.post_details a,
+.post_details b {
+    font-family: 'SuisseIntl' !important;
 }
 
 .blogs .data {

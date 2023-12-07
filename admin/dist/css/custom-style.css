@@ -419,3 +419,6 @@ label:not(.form-check-label):not(.custom-file-label) {
     font-size: 15px;
     font-weight: bold;
 }
+.add_new_vartions_form{
+    display: none;
+}

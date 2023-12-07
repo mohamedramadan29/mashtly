@@ -418,6 +418,7 @@ if (isset($_GET['slug'])) {
                                                             }
                                                             ?>
                                                         </div>
+                                                        <button type="button"  data-bs-dismiss="modal" aria-label="Close" style="background-color:#5c8e00; border-radius: 50px; color:#fff;margin:auto;display: block;" class="btn"> حفظ  </button>
                                                     </div>
                                                 </div>
                                             </div>

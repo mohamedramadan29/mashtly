@@ -10,15 +10,10 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
         $slug = createSlug($name);
         $description = $_POST['description'];
         $short_desc = $_POST['short_desc'];
-        //$product_adv = $_POST['product_adv'];
         $price = $_POST['price'];
         $purchase_price = $_POST['purchase_price'];
         $sale_price = $_POST['sale_price'];
         $av_num = $_POST['av_num'];
-        /*  $pro_attributes = $_POST['pro_attribute'];
-        $pro_variations = $_POST['pro_variations'];
-        $pro_prices = $_POST['pro_price'];
-        */
         $public_tail = $_POST['public_tail'];
         $tags = $_POST['tags'];
         $publish = $_POST['publish'];
@@ -457,136 +452,6 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                     }
                                     ?>
                                 </div>
-                                <!--
-                                <div id="attributes-containerxx">
-                                    <?php
-                                    $uniqueId = uniqid();
-                                    ?>
-                                    <div class="attribute-group">
-
-                                        <?php
-                                        $stmt = $connect->prepare("SELECT * FROM product_details WHERE pro_id = ?");
-                                        $stmt->execute(array($pro_id));
-                                        $allattributs = $stmt->fetchAll();
-                                        $count_attribute = count($allattributs);
-                                        if ($count_attribute > 0) {
-                                            foreach ($allattributs as $pro_attribute_detail) { ?>
-                                                <div class="form-group">
-                                                    <label for="inputStatus">اختر السمة</label>
-                                                    <select class="form-control custom-select select2 pro-attribute" name="pro_attribute[]" data-new=<?php echo $uniqueId; ?> data-uniqueId="<?php echo $uniqueId; ?>">
-                                                        <option selected disabled>-- اختر --</option>
-                                                        <?php
-                                                        $stmt = $connect->prepare("SELECT * FROM product_attribute");
-                                                        $stmt->execute();
-                                                        $allatt = $stmt->fetchAll();
-                                                        foreach ($allatt as $index => $att) {
-                                                            $selected = (isset($_REQUEST['pro_attribute']) && in_array($att['id'], $_REQUEST['pro_attribute'])) ? 'selected' : '';
-                                                        ?>
-                                                            <option <?php if ($pro_attribute_detail['pro_attribute'] == $att['id']) echo "selected"; ?> value="<?php echo $att['id']; ?> <?php echo $selected ?>"> <?php echo $att['name'] ?> </option>
-                                                        <?php
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="inputStatus">المتغيرات</label>
-                                                    <select class="form-control custom-select select2 pro-variation" name="pro_variations[]" data-uniqueId="<?php echo $uniqueId; ?>">
-                                                        <option disabled>-- اختر --</option>
-                                                        <option value="<?php echo $pro_attribute_detail['pro_variation']; ?>">
-                                                            <?php
-                                                            $stmt = $connect->prepare("SELECT * FROM product_variations WHERE id = ?");
-                                                            $stmt->execute(array($pro_attribute_detail['pro_variation']));
-                                                            $pro_vartion_details = $stmt->fetch();
-                                                            echo $pro_vartion_details['name']; ?></option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="inputName">سعر جديد </label>
-                                                    <input type="number" id="pro_price" name="pro_price[]" class="form-control" value="<?php echo $pro_attribute_detail['pro_price'] ?>">
-                                                </div>
-                                            <?php
-                                            }
-                                        } else {
-                                            ?>
-                                            <div class="form-group">
-                                                <label for="inputStatus">اختر السمة</label>
-                                                <select class="form-control custom-select select2 pro-attribute" name="pro_attribute[]" data-new=<?php echo $uniqueId; ?> data-uniqueId="<?php echo $uniqueId; ?>">
-                                                    <option selected disabled>-- اختر --</option>
-                                                    <?php
-                                                    $stmt = $connect->prepare("SELECT * FROM product_attribute");
-                                                    $stmt->execute();
-                                                    $allatt = $stmt->fetchAll();
-                                                    foreach ($allatt as $index => $att) {
-                                                        $selected = (isset($_REQUEST['pro_attribute']) && in_array($att['id'], $_REQUEST['pro_attribute'])) ? 'selected' : '';
-                                                        echo '<option value="' . $att['id'] . '" ' . $selected . '>' . $att['name'] . '</option>';
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="inputStatus">المتغيرات</label>
-                                                <select class="form-control custom-select select2 pro-variation" name="pro_variations[]" data-uniqueId="<?php echo $uniqueId; ?>">
-                                                    <option disabled>-- اختر --</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="inputName">سعر جديد </label>
-                                                <input type="number" id="pro_price" name="pro_price[]" class="form-control" value="<?php if (isset($_REQUEST['pro_price'])) echo $_REQUEST['pro_price'] ?>">
-                                            </div>
-                                        <?php
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
-                                <p class="btn btn-warning btn-sm" id="add_attribute_btn"> اضافة سمه جديد <i class="fa fa-plus"></i> </p>
-                                <div class="new_attributes" id="attributes-container"></div>
-                                <script src="plugins/jquery/jquery.js"></script>
-                                <script>
-                                    jQuery(function($) {
-                                        // استهداف زر "اضافة سمة جديدة"
-                                        $(document).on('click', '#add_attribute_btn', function() {
-                                            var uniqueId = Date.now(); // إنشاء معرف فريد جديد
-                                            var newAttributeItem = `
-                                        <div class="attribute-group">
-                                        <div class="form-group">
-                                            <br>
-                                            <label for="inputStatus">اختر السمة</label>
-                                            <select class="form-control custom-select select2 pro-attribute" name="pro_attribute[]" data-new="${uniqueId}" data-uniqueId="${uniqueId}">
-                                            <option selected disabled>-- اختر --</option>
-                                            <?php
-                                            $stmt = $connect->prepare("SELECT * FROM product_attribute");
-                                            $stmt->execute();
-                                            $allatt = $stmt->fetchAll();
-                                            foreach ($allatt as $index => $att) {
-                                                $selected = (isset($_REQUEST['pro_attribute']) && in_array($att['id'], $_REQUEST['pro_attribute'])) ? 'selected' : '';
-                                                echo '<option value="' . $att['id'] . '" ' . $selected . '>' . $att['name'] . '</option>';
-                                            }
-                                            ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputStatus">المتغيرات</label>
-                                            <select class="form-control custom-select select2 pro-variation" name="pro_variations[]" data-uniqueId="${uniqueId}">
-                                            <option disabled>-- اختر --</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputName">سعر جديد </label>
-                                            <input type="number" id="pro_price" name="pro_price[]" class="form-control" value="<?php if (isset($_REQUEST['pro_price'])) echo $_REQUEST['pro_price'] ?>">
-                                        </div>
-                                        <button class="btn btn-sm btn-danger delete_attribute_btn"> حذف العنصر <i class='fa fa-trash'></i> </button>
-                                        </div>
-                                    `;
-                                            $('#attributes-container').append(newAttributeItem); // إضافة العنصر الجديد إلى الصفحة
-                                        });
-                                        // استهداف زر "حذف العنصر"
-                                        $(document).on('click', '.delete_attribute_btn', function() {
-                                            $(this).closest('.attribute-group').remove(); // حذف العنصر
-                                        });
-                                    });
-                                </script>
-                                <br>
-                                -->
                                 <?php
                                 if (!empty($pro_data['related_product'])) {
                                     $related_product = $pro_data['related_product'];
@@ -917,7 +782,6 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                                     <img style="max-width: 100%;" src="product_images/<?= $gallary['image'] ?>" class="img-fluid mb-2" alt="المعرض" />
                                                 </a>
                                                 <div class="d-flex justify-content-around align-items-center">
-
                                                     <form action="" method="post">
                                                         <a href="main.php?dir=products&page=delete_image&image_gallary=<?php echo $gallary['id']; ?>&pro_id=<?php echo $pro_id; ?>" style="text-align: center;margin: auto;display: block;width: 40px;height: 40px;border-radius: 50%;" class="btn btn-danger" type="submit"> <i class="fa fa-trash"></i> </a>
                                                     </form>
