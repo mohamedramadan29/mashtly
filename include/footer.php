@@ -391,7 +391,7 @@
 </script>
 
 <!-- slider in product images -->
- 
+
 <script>
     $(document).ready(function() {
         // تحديد العناصر
