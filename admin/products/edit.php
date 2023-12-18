@@ -674,7 +674,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                 </div>
                                 <div class="form-group">
                                     <label for="ship_weight"> وزن المنتج للشحن </label>
-                                    <input type="number" id="ship_weight" name="ship_weight" class="form-control" value="<?php if (isset($_REQUEST['ship_weight'])) {
+                                    <input type="text" id="ship_weight" name="ship_weight" class="form-control" value="<?php if (isset($_REQUEST['ship_weight'])) {
                                                                                                                                 echo $_REQUEST['ship_weight'];
                                                                                                                             } else {
                                                                                                                                 echo $pro_data['ship_weight'];
@@ -682,7 +682,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                 </div>
                                 <div class="form-group">
                                     <label for="ship_tail"> طول المنتج لتحديد الوزن [للشحن] </label>
-                                    <input type="number" id="ship_tail" name="ship_tail" class="form-control" value="<?php if (isset($_REQUEST['ship_tail'])) {
+                                    <input type="text" id="ship_tail" name="ship_tail" class="form-control" value="<?php if (isset($_REQUEST['ship_tail'])) {
                                                                                                                             echo $_REQUEST['ship_tail'];
                                                                                                                         } else {
                                                                                                                             echo $pro_data['ship_tail'];

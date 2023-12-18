@@ -19,6 +19,9 @@ if (isset($_POST['add_pro'])) {
   $sale_price = $_POST['sale_price'];
   $av_num = $_POST['av_num'];
   $public_tail = $_POST['public_tail'];
+  $ship_weight = $_POST['ship_weight'];
+  $ship_tail = $_POST['ship_tail'];
+  $more_info = $_POST['more_info'];
   $tags = $_POST['tags'];
   $publish = $_POST['publish'];
   $related_product = $_POST['related_product'];
@@ -53,39 +56,65 @@ if (isset($_POST['add_pro'])) {
         $image_name = str_replace(' ', '-', $image_name);
         $main_image_uploaded = $image_name . '.' . $image_extension;
         $upload_path = 'product_images/' . $main_image_uploaded;
+        // حفظ ملف الصورة المرفوع
         move_uploaded_file($main_image_temp, $upload_path);
-        // Check the image type and convert it to WebP if it's supported
+
+        // تحقق من نوع الصورة وتحويلها إلى WebP إذا كان ذلك ممكنًا
         if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
           $image = imagecreatefromjpeg($upload_path);
         } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
+          // افتح الصورة PNG
           $image = imagecreatefrompng($upload_path);
-        }
-        if ($image !== false) {
+
+          // إنشاء نسخة Truecolor فارغة لتحويل الصورة إليها
+          $truecolor_image = imagecreatetruecolor(imagesx($image), imagesy($image));
+
+          // نسخ الصورة إلى النسخة Truecolor
+          imagecopy($truecolor_image, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+
+          // حدد مسار حفظ ملف الصورة بتنسيق WebP
           $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
-          // Save the image as WebP
-          imagewebp($image, $webp_path);
-          // Clean up memory
+
+          // قم بحفظ الصورة كملف WebP
+          imagewebp($truecolor_image, $webp_path);
+
+          // حرر الذاكرة
           imagedestroy($image);
-          // Update the uploaded image path to the WebP version
+          imagedestroy($truecolor_image);
+
+          // قم بتحديث المسار الذي تم تحميل الصورة إليه ليكون بامتداد .webp
           $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
         }
       } else {
         $main_image_uploaded = $main_image_name;
         $upload_path = 'product_images/' . $main_image_uploaded;
+        // حفظ ملف الصورة المرفوع
         move_uploaded_file($main_image_temp, $upload_path);
-        // Check the image type and convert it to WebP if it's supported
+
+        // تحقق من نوع الصورة وتحويلها إلى WebP إذا كان ذلك ممكنًا
         if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
           $image = imagecreatefromjpeg($upload_path);
         } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
+          // افتح الصورة PNG
           $image = imagecreatefrompng($upload_path);
-        }
-        if ($image !== false) {
+
+          // إنشاء نسخة Truecolor فارغة لتحويل الصورة إليها
+          $truecolor_image = imagecreatetruecolor(imagesx($image), imagesy($image));
+
+          // نسخ الصورة إلى النسخة Truecolor
+          imagecopy($truecolor_image, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+
+          // حدد مسار حفظ ملف الصورة بتنسيق WebP
           $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
-          // Save the image as WebP
-          imagewebp($image, $webp_path);
-          // Clean up memory
+
+          // قم بحفظ الصورة كملف WebP
+          imagewebp($truecolor_image, $webp_path);
+
+          // حرر الذاكرة
           imagedestroy($image);
-          // Update the uploaded image path to the WebP version
+          imagedestroy($truecolor_image);
+
+          // قم بتحديث المسار الذي تم تحميل الصورة إليه ليكون بامتداد .webp
           $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
         }
       }
@@ -132,8 +161,9 @@ if (isset($_POST['add_pro'])) {
 
   if (empty($formerror)) {
     $stmt = $connect->prepare("INSERT INTO products (cat_id,more_cat,name, slug , description,short_desc,video,main_checked,purchase_price,
-    price, sale_price , av_num,tags,related_product,publish,public_tail)
-    VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zshort_desc,:zvideo,:zmain_checked,:zpurchase_price,:zprice,:zsale_price,:zav_num,:ztags,:zrelated_product,:zpublish,:zpublic_tail)");
+    price, sale_price , av_num,tags,related_product,publish,public_tail,ship_weight,ship_tail,more_info)
+    VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zshort_desc,:zvideo,:zmain_checked,:zpurchase_price,
+    :zprice,:zsale_price,:zav_num,:ztags,:zrelated_product,:zpublish,:zpublic_tail,:zship_weight,:zship_tail,:zmore_info)");
     $stmt->execute(array(
       "zcat" => $cat_id,
       "zmore_cat" => $more_cat_string,
@@ -152,7 +182,10 @@ if (isset($_POST['add_pro'])) {
       "ztags" => $tags,
       "zrelated_product" => $related_product_string,
       "zpublish" => $publish,
-      "zpublic_tail" => $public_tail
+      "zpublic_tail" => $public_tail,
+      "zship_weight" => $ship_weight,
+      "zship_tail" => $ship_tail,
+      "zmore_info" => $more_info,
     ));
     // get the last product
     $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC LIMIT 1");
@@ -277,35 +310,7 @@ if (isset($_POST['add_pro'])) {
         ));
       }
     }
-    /*
-    if ($pro_attributes > 0) {
-      for ($i = 0; $i < count($pro_attributes); $i++) {
-        $pro_attribute =   $pro_attributes[$i];
-        $pro_price =  $pro_prices[$i];
-        $var_id = $pro_variations[$i];
-        //////////// attribute images //////////////
-        $image_att_name = $_FILES['attribute_image']['name'][$i];
-        $image_att_name = str_replace(' ', '-', $image_att_name);
-        $image_att_temp = $_FILES['attribute_image']['tmp_name'][$i];
-        $image_att_type = $_FILES['attribute_image']['type'][$i];
-        $image_att_size = $_FILES['attribute_image']['size'][$i];
-        $image_extension = pathinfo($image_att_name, PATHINFO_EXTENSION);
-        $main_image_uploaded = $image_name;
-        move_uploaded_file(
-          $image_temp,
-          'product_images/' . $main_image_uploaded
-        );
-        $stmt = $connect->prepare("INSERT INTO product_details (pro_id,pro_attribute,pro_variation,pro_price,pro_image) VALUES 
-      (:zpro_id,:zpro_att,:zpro_var,:zpro_price,:zpro_image)");
-        $stmt->execute(array(
-          "zpro_id" => $last_pro_id,
-          "zpro_att" => $pro_attribute,
-          "zpro_var" => $var_id,
-          "zpro_price" => $pro_price,
-          "zpro_image" => $main_image_uploaded,
-        ));
-      }
-    }*/
+
 
     // insert product plant options 
 
@@ -394,7 +399,7 @@ if (isset($_POST['add_pro'])) {
               </div>
               <div class='form-group'>
                 <label> الوصف </label>
-                <textarea name="description" class="form-control" id="summernote" rows="4" style="min-height: 200px;"> <?php if (isset($_REQUEST['description'])) echo $_REQUEST['description'] ?> </textarea>
+                <textarea name="description" class="form-control" id="summernote" rows="4"  > <?php if (isset($_REQUEST['description'])) echo $_REQUEST['description'] ?> </textarea>
               </div>
               <div class='form-group'>
                 <label> الوصف المختصر </label>
@@ -446,99 +451,7 @@ if (isset($_POST['add_pro'])) {
                   ?>
                 </select>
               </div>
-              <!--
-              <div id="attributes-containerxx">
-                <?php
-                $uniqueId = uniqid();
-                ?>
-                <div class="attribute-group">
-                  <div class="form-group">
-                    <br>
-                    <label for="inputStatus">اختر السمة</label>
-                    <select class="form-control custom-select select2 pro-attribute" name="pro_attribute[]" data-new=<?php echo $uniqueId; ?> data-uniqueId="<?php echo $uniqueId; ?>">
-                      <option selected disabled>-- اختر --</option>
-                      <?php
-                      $stmt = $connect->prepare("SELECT * FROM product_attribute");
-                      $stmt->execute();
-                      $allatt = $stmt->fetchAll();
-                      foreach ($allatt as $index => $att) {
-                        $selected = (isset($_REQUEST['pro_attribute']) && in_array($att['id'], $_REQUEST['pro_attribute'])) ? 'selected' : '';
-                        echo '<option value="' . $att['id'] . '" ' . $selected . '>' . $att['name'] . '</option>';
-                      }
-                      ?>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputStatus">المتغيرات</label>
-                    <select class="form-control custom-select select2 pro-variation" name="pro_variations[]" data-uniqueId="<?php echo $uniqueId; ?>">
-                      <option disabled>-- اختر --</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputName">سعر جديد </label>
-                    <input type="number" id="pro_price" name="pro_price[]" class="form-control" value="<?php if (isset($_REQUEST['pro_price'])) echo $_REQUEST['pro_price'] ?>">
-                  </div>
-                  <div class="form-group">
-                    <label for=""> صورة للمنتج </label>
-                    <input type="file" class="dropify" multiple data-height="100" data-allowed-file-extensions="jpg jpeg png svg webp" data-max-file-size="4M" name="attribute_image[]" data-show-loader="true" />
-                  </div>
-                </div>
-              </div>
-              <p class="btn btn-warning btn-sm" id="add_attribute_btn"> اضافة سمه جديد <i class="fa fa-plus"></i> </p>
-              <script src="plugins/jquery/jquery.js"></script>
 
-              <script>
-                jQuery(function($) {
-                  // استهداف زر "اضافة سمة جديدة"
-                  $(document).on('click', '#add_attribute_btn', function() {
-                    var uniqueId = Date.now(); // إنشاء معرف فريد جديد
-                    var newAttributeItem = `
-        <div class="attribute-group">
-          <div class="form-group">
-            <br>
-            <label for="inputStatus">اختر السمة</label>
-            <select class="form-control custom-select select2 pro-attribute" name="pro_attribute[]" data-new="${uniqueId}" data-uniqueId="${uniqueId}">
-              <option selected disabled>-- اختر --</option>
-              <?php
-              $stmt = $connect->prepare("SELECT * FROM product_attribute");
-              $stmt->execute();
-              $allatt = $stmt->fetchAll();
-              foreach ($allatt as $index => $att) {
-                $selected = (isset($_REQUEST['pro_attribute']) && in_array($att['id'], $_REQUEST['pro_attribute'])) ? 'selected' : '';
-                echo '<option value="' . $att['id'] . '" ' . $selected . '>' . $att['name'] . '</option>';
-              }
-              ?>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="inputStatus">المتغيرات</label>
-            <select class="form-control custom-select select2 pro-variation" name="pro_variations[]" data-uniqueId="${uniqueId}">
-              <option disabled>-- اختر --</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="inputName">سعر جديد </label>
-            <input type="number" id="pro_price" name="pro_price[]" class="form-control" value="<?php if (isset($_REQUEST['pro_price'])) echo $_REQUEST['pro_price'] ?>">
-          </div>
-          <div class="form-group">
-                    <label for=""> صورة للمنتج </label>
-                    <input type="file" class="dropify form-control" multiple data-height="100" data-allowed-file-extensions="jpg jpeg png svg webp" data-max-file-size="4M" name="attribute_image[]" data-show-loader="true" />
-                  </div>
-          <button class="btn btn-sm btn-danger delete_attribute_btn"> حذف العنصر <i class='fa fa-trash'></i> </button>
-        </div>
-      `;
-
-                    $('#attributes-container').append(newAttributeItem); // إضافة العنصر الجديد إلى الصفحة
-                  });
-
-                  // استهداف زر "حذف العنصر"
-                  $(document).on('click', '.delete_attribute_btn', function() {
-                    $(this).closest('.attribute-group').remove(); // حذف العنصر
-                  });
-                });
-              </script>
-              <div class="new_attributes" id="attributes-container"></div>
-              -->
               <br>
               <div class="form-group">
                 <label for="inputStatus"> المنتجات المرتبطة </label>
@@ -685,6 +598,18 @@ if (isset($_POST['add_pro'])) {
                   ?>
                 </select>
               </div>
+              <div class="form-group">
+                <label for="ship_weight"> وزن المنتج للشحن </label>
+                <input type="text" id="ship_weight" name="ship_weight" class="form-control" value="<?php if (isset($_REQUEST['ship_weight'])) echo $_REQUEST['ship_weight'] ?>">
+              </div>
+              <div class="form-group">
+                <label for="ship_tail"> طول المنتج لتحديد الوزن [للشحن] </label>
+                <input type="text" id="ship_tail" name="ship_tail" class="form-control" value="<?php if (isset($_REQUEST['ship_tail'])) echo $_REQUEST['ship_tail'] ?>">
+              </div>
+              <div class="form-group">
+                <label for="ship_weight"> معلومات اضافية </label>
+                <textarea name="more_info" class="form-control summernote" rows="2"><?php if (isset($_REQUEST['more_info'])) echo $_REQUEST['more_info']; ?></textarea>
+              </div>
             </div>
             <!-- /.card-body -->
           </div>
@@ -709,9 +634,10 @@ if (isset($_POST['add_pro'])) {
 
 
 <style>
-    .note-editor .note-toolbar .note-dropdown-menu, .note-popover .popover-content .note-dropdown-menu{
-        right:0 !important;
-        left:auto !important;
-        min-width: 200px !important;
-    }
+  .note-editor .note-toolbar .note-dropdown-menu,
+  .note-popover .popover-content .note-dropdown-menu {
+    right: 0 !important;
+    left: auto !important;
+    min-width: 200px !important;
+  }
 </style>

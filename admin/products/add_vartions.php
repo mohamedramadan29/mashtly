@@ -1,5 +1,4 @@
 <div class="row">
-<div class="row">
     <div class="col-md-12">
         <div class="card card-primary">
             <div class="card-body">
@@ -125,7 +124,7 @@
                                             </div>  
                                             <div class="form-group">
                                             <label> الأسم  </label>
-                                                <input name='vartions_name[]' readonly class="form-control" type="text" value="${variantText.slice(0, -3)}">
+                                                <input name='vartions_name[]' class="form-control" type="text" value="${variantText.slice(0, -3)}">
                                             </div>
                                             <div class="form-group">
                                             <label> سعر المنتج  </label>
