@@ -7,10 +7,16 @@ if (isset($_POST['edit_cat'])) {
     $post_id = $_POST['post_id'];
     $cat_id = $_POST['cat_id'];
     $name = $_POST['name'];
+    $slug = createSlug($name);
     $short_desc = $_POST['short_desc'];
     $description = $_POST['description'];
     $publish = $_POST['publish'];
     $tags = $_POST['tags'];
+    /////////
+    $image_name = $_POST['image_name'];
+    $image_alt = $_POST['image_alt'];
+    $image_desc = $_POST['image_desc'];
+    $image_keys = $_POST['image_keys'];
     // get the  date
     date_default_timezone_set('Asia/Riyadh');
     $date = date('d/m/Y h:i a');
@@ -21,16 +27,77 @@ if (isset($_POST['edit_cat'])) {
     // main image
     if (!empty($_FILES['main_image']['name'])) {
         $main_image_name = $_FILES['main_image']['name'];
+        $main_image_name = str_replace(' ', '-', $main_image_name);
         $main_image_temp = $_FILES['main_image']['tmp_name'];
         $main_image_type = $_FILES['main_image']['type'];
         $main_image_size = $_FILES['main_image']['size'];
-        $main_image_uploaded = time() . '_' . $main_image_name;
-        move_uploaded_file(
-            $main_image_temp,
-            'posts/images/' . $main_image_uploaded
-        );
-    } else {
-        $main_image_uploaded = '';
+        // حصل على امتداد الصورة من اسم الملف المرفوع
+        $image_extension = pathinfo($main_image_name, PATHINFO_EXTENSION);
+        if (!empty($image_name)) {
+            $image_name = str_replace(' ', '-', $image_name);
+            $main_image_uploaded = $image_name . '.' . $image_extension;
+            $upload_path = 'posts/images/' . $main_image_uploaded;
+            // حفظ ملف الصورة المرفوع
+            move_uploaded_file($main_image_temp, $upload_path);
+
+            // تحقق من نوع الصورة وتحويلها إلى WebP إذا كان ذلك ممكنًا
+            if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
+                $image = imagecreatefromjpeg($upload_path);
+            } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
+                // افتح الصورة PNG
+                $image = imagecreatefrompng($upload_path);
+
+                // إنشاء نسخة Truecolor فارغة لتحويل الصورة إليها
+                $truecolor_image = imagecreatetruecolor(imagesx($image), imagesy($image));
+
+                // نسخ الصورة إلى النسخة Truecolor
+                imagecopy($truecolor_image, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+
+                // حدد مسار حفظ ملف الصورة بتنسيق WebP
+                $webp_path = 'posts/images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+
+                // قم بحفظ الصورة كملف WebP
+                imagewebp($truecolor_image, $webp_path);
+
+                // حرر الذاكرة
+                imagedestroy($image);
+                imagedestroy($truecolor_image);
+
+                // قم بتحديث المسار الذي تم تحميل الصورة إليه ليكون بامتداد .webp
+                $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+            }
+        } else {
+            $main_image_uploaded = $main_image_name;
+            $upload_path = 'posts/images/' . $main_image_uploaded;
+            // حفظ ملف الصورة المرفوع
+            move_uploaded_file($main_image_temp, $upload_path);
+
+            // تحقق من نوع الصورة وتحويلها إلى WebP إذا كان ذلك ممكنًا
+            if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
+                $image = imagecreatefromjpeg($upload_path);
+            } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
+                // افتح الصورة PNG
+                $image = imagecreatefrompng($upload_path);
+
+                // إنشاء نسخة Truecolor فارغة لتحويل الصورة إليها
+                $truecolor_image = imagecreatetruecolor(imagesx($image), imagesy($image));
+
+                // نسخ الصورة إلى النسخة Truecolor
+                imagecopy($truecolor_image, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+
+                // حدد مسار حفظ ملف الصورة بتنسيق WebP
+                $webp_path = 'posts/images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                // قم بحفظ الصورة كملف WebP
+                imagewebp($truecolor_image, $webp_path);
+                // حرر الذاكرة
+                imagedestroy($image);
+                imagedestroy($truecolor_image);
+                // قم بتحديث المسار الذي تم تحميل الصورة إليه ليكون بامتداد .webp
+                $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+            }
+        }
+    }elseif($image_name !=''){
+        
     }
 
     $stmt = $connect->prepare("SELECT * FROM posts WHERE name=? AND id !=?");
@@ -40,8 +107,14 @@ if (isset($_POST['edit_cat'])) {
         $formerror[] = ' اسم المقال موجود من قبل من فضلك ادخل اسم اخر  ';
     }
     if (empty($formerror)) {
-        $stmt = $connect->prepare("UPDATE posts SET cat_id=?,name=?,short_desc=?,description=?,tags=?,date=?,publish=? WHERE id = ? ");
-        $stmt->execute(array($cat_id, $name, $short_desc, $description, $tags, $date, $publish, $post_id));
+        // get the category name
+
+        $stmt = $connect->prepare("SELECT * FROM category_posts WHERE id = ?");
+        $stmt->execute(array($cat_id));
+        $cat_data = $stmt->fetch();
+        $cat_name = $cat_data['name'];
+        $stmt = $connect->prepare("UPDATE posts SET cat_id=?,name=?,slug=?,image_name=?,image_alt=?,image_desc=?,image_keys=?,category=?,short_desc=?,description=?,tags=?,date=?,publish=? WHERE id = ? ");
+        $stmt->execute(array($cat_id, $name, $slug, $image_name, $image_alt, $image_desc, $image_keys, $cat_name, $short_desc, $description, $tags, $date, $publish, $post_id));
         if (!empty($_FILES['main_image']['name'])) {
             $stmt = $connect->prepare("UPDATE posts SET main_image=? WHERE id = ? ");
             $stmt->execute(array($main_image_uploaded, $post_id));
@@ -124,7 +197,7 @@ if (isset($_POST['edit_cat'])) {
                     ?>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <form method="post" action="main.php?dir=posts&page=edit" enctype="multipart/form-data">
+                            <form method="post" action="" enctype="multipart/form-data">
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <input type='hidden' name="post_id" value="<?php echo $post['id']; ?>">
@@ -154,17 +227,33 @@ if (isset($_POST['edit_cat'])) {
                                     </div>
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> وصف مختصر </label>
-                                        <textarea style="height: 70px;" id="Company-2" name="short_desc" class="form-control"><?php echo $post['short_desc']; ?></textarea>
+                                        <textarea style="height: 70px;" id="Company-2" name="short_desc" class="form-control summernote"><?php echo $post['short_desc']; ?></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="customFile"> تعديل صورة القسم </label>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="customFile" accept='image/*' name="main_image">
+                                            <input value="<?php echo $post['main_image']; ?>" type="file" class="custom-file-input" id="customFile" accept='image/*' name="main_image">
                                             <label class="custom-file-label" for="customFile">اختر
                                                 الصورة</label>
                                             <img width="80px" class="img-bordered img-thumbnail product-img" src="posts/images/<?php echo $post['main_image']; ?>" alt="">
                                             <br>
                                             <br>
+                                        </div>
+                                        <p class="btn btn-warning btn-sm" id="show_details_image"> تفاصيل اضافية <i class="fa fa-plus"></i> </p>
+                                        <style>
+                                            .image_details {
+                                                display: none;
+                                            }
+                                        </style>
+                                        <div class="image_details">
+                                            <br>
+                                            <input type="text" class="form-control" name="image_name" placeholder="اسم الصورة" value="<?php echo $post['image_name']; ?>">
+                                            <br>
+                                            <input type="text" class="form-control" name="image_alt" placeholder="الاسم البديل" value="<?php echo $post['image_alt']; ?>">
+                                            <br>
+                                            <input type="text" class="form-control" name="image_desc" placeholder="وصف مختصر " value="<?php echo $post['image_desc']; ?>">
+                                            <br>
+                                            <input type="text" class="form-control" name="image_keys" placeholder=" كلمات مفتاحية للصورة  " value="<?php echo $post['image_keys']; ?>">
                                         </div>
 
                                     </div>

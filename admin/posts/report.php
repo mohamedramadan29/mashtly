@@ -29,7 +29,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <button type="button" class="btn btn-primary waves-effect btn-sm" data-toggle="modal" data-target="#add-Modal"> أضافة مقال جديد <i class="fa fa-plus"></i> </button>
+                        <a href="main.php?dir=posts&page=add" type="button" class="btn btn-primary waves-effect btn-sm"> أضافة مقال جديد <i class="fa fa-plus"></i> </a>
                     </div>
                     <?php
                     if (isset($_SESSION['success_message'])) {
