@@ -1,0 +1,71 @@
+{
+    "packages": [
+        {
+            "name": "icamys/php-sitemap-generator",
+            "version": "4.7.0",
+            "version_normalized": "4.7.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/icamys/php-sitemap-generator.git",
+                "reference": "236d8e7de28e9bb3ff028180ab9e3d0fe7c047b8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/icamys/php-sitemap-generator/zipball/236d8e7de28e9bb3ff028180ab9e3d0fe7c047b8",
+                "reference": "236d8e7de28e9bb3ff028180ab9e3d0fe7c047b8",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-dom": "*",
+                "ext-mbstring": "*",
+                "ext-simplexml": "*",
+                "ext-spl": "*",
+                "ext-xml": "*",
+                "ext-xmlwriter": "*",
+                "ext-zlib": "*",
+                "php": "^7.3 || ^8.0"
+            },
+            "require-dev": {
+                "php-mock/php-mock-phpunit": "^2.6.0",
+                "phpunit/phpunit": "^9.5.19"
+            },
+            "time": "2023-08-06T22:25:38+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Icamys\\SitemapGenerator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dmitrii Prisacari",
+                    "email": "prisacari.dmitrii@gmail.com",
+                    "homepage": "https://github.com/icamys/"
+                }
+            ],
+            "description": "Simple PHP sitemap generator.",
+            "homepage": "https://github.com/icamys/php-sitemap-generator",
+            "keywords": [
+                "PSR-1",
+                "PSR-2",
+                "PSR-4",
+                "Sitemap",
+                "generator",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/icamys/php-sitemap-generator/issues",
+                "source": "https://github.com/icamys/php-sitemap-generator/tree/4.7.0"
+            },
+            "install-path": "../icamys/php-sitemap-generator"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}
