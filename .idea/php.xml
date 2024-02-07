@@ -16,6 +16,17 @@
       <path value="$PROJECT_DIR$/password/vendor/phpmailer/phpmailer" />
       <path value="$PROJECT_DIR$/admin/woocommerce/vendor/composer" />
       <path value="$PROJECT_DIR$/admin/woocommerce/vendor/automattic/woocommerce" />
+      <path value="$PROJECT_DIR$/payment/vendor/psr/http-client" />
+      <path value="$PROJECT_DIR$/payment/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/payment/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/payment/vendor/composer" />
+      <path value="$PROJECT_DIR$/payment/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/payment/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/payment/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/payment/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/payment/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/admin/sitemap/vendor/composer" />
+      <path value="$PROJECT_DIR$/admin/sitemap/vendor/icamys/php-sitemap-generator" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />
