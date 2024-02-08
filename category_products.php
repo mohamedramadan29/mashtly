@@ -231,7 +231,7 @@ if (isset($_GET['cat'])) {
                         }
                         ?>
                     </div>
-                    <div class="pagination_section">
+                    <!-- <div class="pagination_section">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li class="page-item">
@@ -255,7 +255,41 @@ if (isset($_GET['cat'])) {
                                 </li>
                             </ul>
                         </nav>
-                    </div>
+                    </div> -->
+
+                    <?php
+                    if ($totalPages > 1) {
+                    ?>
+                        <div class="pagination_section">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item <?php echo ($currentpage == 1) ? 'disabled' : ''; ?>">
+                                        <a class="page-link" href="?cat=<?php echo $cat_slug ?>&page=<?php echo ($currentpage > 1) ? ($currentpage - 1) : 1; ?>" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <?php
+                                    for ($i = 1; $i <= $totalPages; $i++) {
+                                        echo '<li class="page-item';
+                                        if ($i == $currentpage) {
+                                            echo ' active';
+                                        }
+                                        echo '"><a class="page-link" href="?cat=' . $cat_slug . '&page=' . $i . '">' . $i . '</a></li>';
+                                    }
+                                    ?>
+                                    <li class="page-item <?php echo ($currentpage == $totalPages) ? 'disabled' : ''; ?>">
+                                        <a class="page-link" href="?cat=<?php echo $cat_slug ?>&page=<?php echo ($currentpage < $totalPages) ? ($currentpage + 1) : $totalPages; ?>" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+
+                    <?php
+                    }
+
+                    ?>
                 </div>
             </div>
         </div>

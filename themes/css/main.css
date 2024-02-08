@@ -862,7 +862,7 @@ body {
     margin-right: 12px;
     margin-left: 10px;
     position: relative;
-    min-height: 440px;
+    min-height: 480px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
@@ -874,6 +874,8 @@ body {
     width: 100%;
     border-radius: 5px 5px 0px 0px;
     height: 250px; 
+    object-fit:cover;
+    object-position: center;
 }
 
 .new_producs .products .product_info .product_details,
@@ -888,7 +890,7 @@ body {
     margin-bottom: 12px;
     max-width: 220px;
     line-height: 1.5;
-    height: 85px;
+    max-height: 85px;
     overflow: hidden;
 }
 

@@ -11,78 +11,6 @@ if (isset($_SESSION['user_id'])) {
     <div class='container'>
         <div class="data">
             <?php
-            if (isset($_POST['new_account'])) {
-                $formerror = [];
-                $username = sanitizeInput($_POST['user_name']);
-                $password = $_POST['password'];
-                $sha_password = sha1($_POST['password']);
-                $email = sanitizeInput($_POST['email']);
-                $agree_policy = isset($_POST['agree_policy']);
-                $emails_subscribe = isset($_POST['emails_subscribe']);
-                if ($emails_subscribe) {
-                    $emails_subscribe = 1;
-                } else {
-                    $emails_subscribe = 0;
-                }
-                if (strlen($password) < 8 || !preg_match('/^[a-zA-Z0-9!@#$%^&*()_+]+$/', $password) || !preg_match('/\d/', $password)) {
-                    $formerror[] = "كلمة المرور يجب أن تكون اكبر من 8 احرف و تحتوي على الأحرف الإنجليزية والأرقام والرموز الخاصة.";
-                }
-                if (!$agree_policy) {
-                    $formerror[] = 'يجب الموافقة علي الشروط والأحكام';
-                }
-                if (empty($email)) {
-                    $formerror[] = " يجب اضافة البريد الالكتروني  ";
-                } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    $formerror[] = " يجب إدخال عنوان بريد إلكتروني صالح ";
-                } elseif (strlen($email) > 100) {
-                    $formerror[] = "طول البريد الإلكتروني يجب أن لا يتجاوز 100 حرفًا";
-                } elseif (!preg_match('/^[a-zA-Z0-9.@]+$/', $email)) {
-                    $formerror[] = "البريد الإلكتروني يجب أن يحتوي على أحرف وأرقام ورموز صحيحة فقط";
-                } elseif (strpos($email, '..') !== false) {
-                    $formerror[] = "البريد الإلكتروني يحتوي على أحرف غير صالحة";
-                }
-                if (empty($username)) {
-                    $formerror[] = "  من فضلك ادخل الاسم الخاص بك ";
-                }
-                if (strlen($username) > 50) {
-                    $formerror[] = 'اسم المستخدم يجب ان يكون اقل من 50 حرف';
-                }
-                // استخدام الوظيفة للتحقق من وجود البريد الإلكتروني
-                checkIfExists($connect, 'users', 'email', $email, $formerror, 'البريد الإلكتروني مستخدم بالفعل');
-                // استخدام الوظيفة للتحقق من وجود اسم المستخدم
-                checkIfExists($connect, 'users', 'user_name', $username, $formerror, 'اسم المستخدم مستخدم بالفعل');
-                if (empty($formerror)) {
-                    $table = 'users';
-                    $data = array(
-                        "user_name" => $username,
-                        "email" => $email,
-                        "password" => $sha_password,
-                        "emails_subscribe" => $emails_subscribe,
-                    );
-                    $stmt =  insertData($connect, $table, $data);
-                    if ($stmt) {
-            ?>
-                        <div style="max-width: 400px; text-align:center;margin:auto;margin-top:15px;" class="alert alert-success alert-dismissible fade show" role="alert">
-                            تم تسجيل حسابك بنجاح من فضلك سجل دخولك الأن
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    <?php
-
-                    }
-                } else {
-                    ?>
-                    <br><br>
-                    <?php
-                    foreach ($formerror as $error) {
-                    ?>
-                        <div style="max-width: 400px; text-align:center;margin:auto;margin-top:15px;" class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <?php echo $error; ?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    <?php
-                    }
-                }
-            }
             /////////////////////////////////////////// login to account /////////////////////////////////
             if (isset($_POST['login'])) {
                 $formerror = [];
@@ -106,7 +34,7 @@ if (isset($_SESSION['user_id'])) {
                     $formerror[] = 'لا يوجد سجل بهذة البيانات';
 
                     foreach ($formerror as $error) {
-                    ?>
+            ?>
                         <div style="max-width: 400px; text-align:center;margin:auto;margin-top:15px;" class="alert alert-danger alert-dismissible fade show" role="alert">
                             <?php echo $error; ?>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -181,7 +109,80 @@ if (isset($_SESSION['user_id'])) {
                         <div class="login">
                             <div class="data_header_name">
                                 <h2 class='header2'> إنشاء حساب جديد </h2>
-                                <p> إنشئ حسابك مجانا واحصل علي أفصل النباتات </p>
+                                <p> أنشئ حسابك مجاناً واحصل علي أفضل النباتات </p>
+                                <?php
+                                if (isset($_POST['new_account'])) {
+                                    $formerror = [];
+                                    $username = sanitizeInput($_POST['user_name']);
+                                    $password = sanitizeInput($_POST['password']);
+                                    $sha_password = sha1($_POST['password']);
+                                    $email = sanitizeInput($_POST['email']);
+                                    $agree_policy = isset($_POST['agree_policy']);
+                                    $emails_subscribe = isset($_POST['emails_subscribe']);
+                                    if ($emails_subscribe) {
+                                        $emails_subscribe = 1;
+                                    } else {
+                                        $emails_subscribe = 0;
+                                    }
+                                    if (strlen($password) < 8 || !preg_match('/^[a-zA-Z0-9!@#$%^&*()_+]+$/', $password) || !preg_match('/\d/', $password)) {
+                                        $formerror[] = "كلمة المرور يجب أن تكون اكبر من 8 احرف و تحتوي على الأحرف الإنجليزية والأرقام والرموز الخاصة.";
+                                    }
+                                    if (!$agree_policy) {
+                                        $formerror[] = 'يجب الموافقة علي الشروط والأحكام';
+                                    }
+                                    if (empty($email)) {
+                                        $formerror[] = " يجب اضافة البريد الالكتروني  ";
+                                    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                                        $formerror[] = " يجب إدخال عنوان بريد إلكتروني صالح ";
+                                    } elseif (strlen($email) > 100) {
+                                        $formerror[] = "طول البريد الإلكتروني يجب أن لا يتجاوز 100 حرفًا";
+                                    } elseif (!preg_match('/^[a-zA-Z0-9.@]+$/', $email)) {
+                                        $formerror[] = "البريد الإلكتروني يجب أن يحتوي على أحرف وأرقام ورموز صحيحة فقط";
+                                    } elseif (strpos($email, '..') !== false) {
+                                        $formerror[] = "البريد الإلكتروني يحتوي على أحرف غير صالحة";
+                                    }
+                                    if (empty($username)) {
+                                        $formerror[] = "  من فضلك ادخل الاسم الخاص بك ";
+                                    }
+                                    if (strlen($username) > 50) {
+                                        $formerror[] = 'اسم المستخدم يجب ان يكون اقل من 50 حرف';
+                                    }
+                                    // استخدام الوظيفة للتحقق من وجود البريد الإلكتروني
+                                    checkIfExists($connect, 'users', 'email', $email, $formerror, 'البريد الإلكتروني مستخدم بالفعل');
+                                    // استخدام الوظيفة للتحقق من وجود اسم المستخدم
+                                    checkIfExists($connect, 'users', 'user_name', $username, $formerror, 'اسم المستخدم مستخدم بالفعل');
+                                    if (empty($formerror)) {
+                                        $table = 'users';
+                                        $data = array(
+                                            "user_name" => $username,
+                                            "email" => $email,
+                                            "password" => $sha_password,
+                                            "emails_subscribe" => $emails_subscribe,
+                                        );
+                                        $stmt =  insertData($connect, $table, $data);
+                                        if ($stmt) {
+                                ?>
+                                            <div style="max-width: 500px; text-align:center;margin:auto;margin-top:15px;" class="alert alert-success alert-dismissible fade show" role="alert">
+                                                تم تسجيل حسابك بنجاح من فضلك سجل دخولك الأن
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+                                        <?php
+
+                                        }
+                                    } else {
+                                        ?>
+                                        <br><br>
+                                        <?php
+                                        foreach ($formerror as $error) {
+                                        ?>
+                                            <div style="max-width: 500px; text-align:center;margin:auto;margin-top:15px;" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <?php echo $error; ?>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+                                <?php
+                                        }
+                                    }
+                                } ?>
                             </div>
                         </div>
                         <form action="" method="post">
@@ -189,13 +190,13 @@ if (isset($_SESSION['user_id'])) {
                                 <div class='box'>
                                     <div class="input_box">
                                         <label for="user_name"> اسم المستخدم </label>
-                                        <input value="<?php if (isset($_SESSION['new_user_name'])) echo $_SESSION['new_user_name']; ?>" required id="user_name" type="text" name="user_name" class='form-control' placeholder="اكتب…" value="<?php if (isset($_REQUEST['user_name'])) echo $_REQUEST['user_name']; ?>">
+                                        <input required id="user_name" type="text" name="user_name" class='form-control' placeholder="اكتب…" value="<?php if (isset($_REQUEST['user_name'])) echo $_REQUEST['user_name']; ?>">
                                     </div>
                                 </div>
                                 <div class='box'>
                                     <div class="input_box">
                                         <label for="email"> البريد الألكتروني </label>
-                                        <input value="<?php if (isset($_SESSION['new_email'])) echo $_SESSION['new_email']; ?>" required id="email" type="email" name="email" class='form-control' placeholder="اكتب…">
+                                        <input value="<?php if (isset($_REQUEST['email'])) echo $_REQUEST['email']; ?>" required id="email" type="email" name="email" class='form-control' placeholder="اكتب…">
                                     </div>
                                 </div>
                                 <div class='box'>
@@ -211,7 +212,7 @@ if (isset($_SESSION['user_id'])) {
                                         <div class="form-check">
                                             <input required class="form-check-input" type="checkbox" value="" name="agree_policy" id="agree_terms" checked>
                                             <label class="form-check-label" for="agree_terms">
-                                                أوفق علي <a href="terms" target="_blank" style="color: var(--second-color);"> الشروط والأحكام </a>
+                                                أوافق علي <a href="terms" target="_blank" style="color: var(--second-color);"> الشروط والأحكام </a>
                                             </label>
                                         </div>
                                     </div>

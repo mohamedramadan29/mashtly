@@ -77,21 +77,30 @@ if (isset($_POST['height_price'])) {
         $stmt = $connect->prepare("SELECT DISTINCT product_id FROM product_properties_plants WHERE option_id IN ($placeholders)");
         $stmt->execute($selectedOptions);
         $productIDs = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        $num_products = $stmt->rowCount();
         // Get all products with matching IDs
         if (!empty($productIDs)) {
             $productIDsStr = implode(',', $productIDs);
             $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+            $num_products = $stmt->rowCount();
         }
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        $allproducts = $stmt->fetchAll();
+        $totalProducts = count($allproducts);
+        /////////////////////////////////
+        $totalPages = ceil($num_products / $pageSize);
     }
 } else {
     $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $allproducts = $stmt->fetchAll();
+    $totalProducts = count($allproducts);
+    /////////////////////////////////
+    $totalPages = ceil($num_products / $pageSize);
 }
-$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-$stmt->execute();
-$allproducts = $stmt->fetchAll();
-$totalProducts = count($allproducts);
-/////////////////////////////////
-$totalPages = ceil($num_products / $pageSize);
+
 ?>
 <!-- START SELECT DATA HEADER -->
 <div class="select_plan_head">
@@ -218,31 +227,40 @@ $totalPages = ceil($num_products / $pageSize);
                         }
                         ?>
                     </div>
-                    <div class="pagination_section">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <?php
-                                for ($i = 1; $i <= $totalPages; $i++) {
-                                    echo '<li class="page-item';
-                                    if ($i == $currentpage) {
-                                        echo ' active';
+                    <?php
+                    if ($totalPages > 1) {
+                    ?>
+                        <div class="pagination_section">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item <?php echo ($currentpage == 1) ? 'disabled' : ''; ?>">
+                                        <a class="page-link" href="?page=<?php echo ($currentpage > 1) ? ($currentpage - 1) : 1; ?>" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <?php
+                                    for ($i = 1; $i <= $totalPages; $i++) {
+                                        echo '<li class="page-item';
+                                        if ($i == $currentpage) {
+                                            echo ' active';
+                                        }
+                                        echo '"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
                                     }
-                                    echo '"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
-                                }
-                                ?>
-                                <li class="page-item">
-                                    <a class="page-link" href="" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
+                                    ?>
+                                    <li class="page-item <?php echo ($currentpage == $totalPages) ? 'disabled' : ''; ?>">
+                                        <a class="page-link" href="?page=<?php echo ($currentpage < $totalPages) ? ($currentpage + 1) : $totalPages; ?>" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+
+                    <?php
+                    }
+
+                    ?>
+
                 </div>
             </div>
         </div>
@@ -253,3 +271,9 @@ $totalPages = ceil($num_products / $pageSize);
 include $tem . 'footer.php';
 ob_end_flush();
 ?>
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>

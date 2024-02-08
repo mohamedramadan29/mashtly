@@ -1,7 +1,7 @@
 <?php
 ob_start();
  
-$dsn = 'mysql:host=localhost;dbname=mashtly';
+$dsn = 'mysql:host=localhost;dbname=new_mashtly';
 $username = 'root';
 $password = '';
 $option = [PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'];

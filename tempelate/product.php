@@ -8,7 +8,9 @@
     $product_data_image = $stmt->fetch();
     if ($count_image > 0) {
     ?>
-        <img class="main_image" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt']; ?>">
+        <a href="product?slug=<?php echo $product['slug']; ?>">
+            <img class="main_image" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt']; ?>">
+        </a>
     <?php
     } else {
     ?>
