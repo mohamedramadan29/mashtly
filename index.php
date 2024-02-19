@@ -173,7 +173,7 @@ if (isset($_POST['add_to_cart'])) {
             </div>
             <div class="products" id='products'>
                 <?php
-                $stmt = $connect->prepare("SELECT * FROM products WHERE feature_product = 1 ORDER BY id DESC");
+                $stmt = $connect->prepare("SELECT * FROM products WHERE  feature_product = 1 AND name !='' AND price !='' ORDER BY id DESC");
                 $stmt->execute();
                 $allproduct = $stmt->fetchAll();
                 foreach ($allproduct as $product) {

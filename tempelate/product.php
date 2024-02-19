@@ -35,8 +35,17 @@
                 $maximumPrice = max($maximumPrice, $pro_price);
                 $minimumPrice = min($minimumPrice, $pro_price);
             }
+            if ($maximumPrice === $minimumPrice) {
         ?>
-            <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س </h4>
+                <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?> </h4>
+            <?php
+            }else{
+                ?>
+  <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س </h4>
+                <?php 
+            }
+            ?>
+          
         <?php
         } else {
         ?>

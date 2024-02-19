@@ -49,10 +49,10 @@ if (isset($_POST['add_to_cart'])) {
 
 if (isset($_GET['search']) && $_GET['search'] != '') {
     $search = $_GET['search'];
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name LIKE '%$search%'");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND price !='' AND name LIKE '%$search%'");
 } else {
     // start get all products
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !=''");
 }
 $stmt->execute();
 $num_products = $stmt->rowCount();

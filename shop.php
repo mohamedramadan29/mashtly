@@ -62,13 +62,13 @@ $pageSize = 20;
 $offset = ($currentpage - 1) * $pageSize;
 
 if (isset($_POST['height_price'])) {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY price DESC LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !=''  ORDER BY price DESC LIMIT $pageSize OFFSET :offset");
 } elseif (isset($_POST['low_price'])) {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY price ASC LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !=''  ORDER BY price ASC LIMIT $pageSize OFFSET :offset");
 } elseif (isset($_POST['newest'])) {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !=''  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
 } elseif (isset($_POST['oldest'])) {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id ASC LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' ORDER BY id ASC LIMIT $pageSize OFFSET :offset");
 } elseif (isset($_POST['search_options'])) {
     $selectedOptions = $_POST['options'];
     if (!empty($selectedOptions)) {
@@ -81,7 +81,7 @@ if (isset($_POST['height_price'])) {
         // Get all products with matching IDs
         if (!empty($productIDs)) {
             $productIDsStr = implode(',', $productIDs);
-            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
             $num_products = $stmt->rowCount();
         }
         $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
@@ -92,7 +92,7 @@ if (isset($_POST['height_price'])) {
         $totalPages = ceil($num_products / $pageSize);
     }
 } else {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !=''  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
     $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
     $stmt->execute();
     $allproducts = $stmt->fetchAll();

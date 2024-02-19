@@ -57,20 +57,20 @@ if (isset($_GET['cat'])) {
     $check_cat = $stmt->rowCount();
     if ($check_cat > 0) {
         $cat_id = $cat_data['id'];
-        $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND cat_id = ?");
+        $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND cat_id = ?");
         $stmt->execute(array($cat_id));
         $num_products = $stmt->rowCount();
         $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
         $pageSize = 20;
         $offset = ($currentpage - 1) * $pageSize;
         if (isset($_POST['height_price'])) {
-            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND cat_id = $cat_id ORDER BY price DESC LIMIT $pageSize OFFSET :offset");
+            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND cat_id = $cat_id ORDER BY price DESC LIMIT $pageSize OFFSET :offset");
         } elseif (isset($_POST['low_price'])) {
-            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND cat_id = $cat_id ORDER BY price ASC LIMIT $pageSize OFFSET :offset");
+            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND cat_id = $cat_id ORDER BY price ASC LIMIT $pageSize OFFSET :offset");
         } elseif (isset($_POST['newest'])) {
-            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND cat_id = $cat_id ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND cat_id = $cat_id ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
         } elseif (isset($_POST['oldest'])) {
-            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND cat_id = $cat_id ORDER BY id ASC LIMIT $pageSize OFFSET :offset");
+            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND cat_id = $cat_id ORDER BY id ASC LIMIT $pageSize OFFSET :offset");
         } elseif (isset($_POST['search_options']) && $_POST['search_options'] != '') {
             $selectedOptions = $_POST['options'];
             if (!empty($selectedOptions)) {
@@ -82,11 +82,11 @@ if (isset($_GET['cat'])) {
                 // Get all products with matching IDs
                 if (!empty($productIDs)) {
                     $productIDsStr = implode(',', $productIDs);
-                    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND cat_id = $cat_id AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+                    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND cat_id = $cat_id AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
                 }
             }
         } else {
-            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND cat_id = $cat_id ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND cat_id = $cat_id ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
         }
         $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
         $stmt->execute();
