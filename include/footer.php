@@ -22,19 +22,19 @@
                     <div class="col-lg-3">
                         <div class="info">
                             <ul class="list-unstyled">
-                                <li> <a href="blog"> المدونة </a> </li>
-                                <li> <a href="faq"> الاسئلة الشائعة </a> </li>
-                                <li> <a href="contact"> تواصل معنا </a> </li>
-                                <li> <a href="join_us"> انضم الينا </a> </li>
+                                <li> <a href="http://localhost/mashtly/blog"> المدونة </a> </li>
+                                <li> <a href="http://localhost/mashtly/faq"> الاسئلة الشائعة </a> </li>
+                                <li> <a href="http://localhost/mashtly/contact"> تواصل معنا </a> </li>
+                                <li> <a href="http://localhost/mashtly/join_us"> انضم الينا </a> </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="info">
                             <ul class="list-unstyled">
-                                <li> <a href="payment_policy"> سياسة الدفع </a> </li>
-                                <li> <a href="delivery_policy"> التوصيل والارجاع </a> </li>
-                                <li> <a href="terms"> شروط الاستخدام </a> </li>
+                                <li> <a href="http://localhost/mashtly/payment_policy"> سياسة الدفع </a> </li>
+                                <li> <a href="http://localhost/mashtly/delivery_policy"> التوصيل والارجاع </a> </li>
+                                <li> <a href="http://localhost/mashtly/terms"> شروط الاستخدام </a> </li>
                             </ul>
                         </div>
                     </div>
@@ -92,19 +92,19 @@
                     <div class="col-6">
                         <div class="info">
                             <ul class="list-unstyled">
-                                <li> <a href="blog"> المدونة </a> </li>
-                                <li> <a href="faq"> الاسئلة الشائعة </a> </li>
-                                <li> <a href="contact"> تواصل معنا </a> </li>
-                                <li> <a href="join_us"> انضم الينا </a> </li>
+                                <li> <a href="http://localhost/mashtly/blog"> المدونة </a> </li>
+                                <li> <a href="http://localhost/mashtly/faq"> الاسئلة الشائعة </a> </li>
+                                <li> <a href="http://localhost/mashtly/contact"> تواصل معنا </a> </li>
+                                <li> <a href="http://localhost/mashtly/join_us"> انضم الينا </a> </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="info">
                             <ul class="list-unstyled">
-                                <li> <a href="payment_policy"> سياسة الدفع </a> </li>
-                                <li> <a href="delivery_policy"> التوصيل والارجاع </a> </li>
-                                <li> <a href="terms"> شروط الاستخدام </a> </li>
+                                <li> <a href="http://localhost/mashtly/payment_policy"> سياسة الدفع </a> </li>
+                                <li> <a href="http://localhost/mashtly/delivery_policy"> التوصيل والارجاع </a> </li>
+                                <li> <a href="http://localhost/mashtly/terms"> شروط الاستخدام </a> </li>
                             </ul>
                         </div>
                     </div>

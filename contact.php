@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-$page_title = 'الرئيسية';
+$page_title = 'اتصل بنا';
 include "init.php";
 ?>
 <div class="profile_page adress_page">
@@ -81,20 +81,16 @@ include "init.php";
                 <div class='row'>
                     <div class="box">
                         <div class="input_box">
-                            <label for="country"> سبب الاتصال </label>
-                            <select required name="reason" id="" class='form-control select2'>
-                                <option value=""> اختر من القائمة </option>
-                                <option value="1"> السبب الاول 1 </option>
-                                <option value="2"> السبب الثاني 2 </option>
-                                <option value="3"> السبب الثالث 3 </option>
-                                <option value="4"> السبب الرابع 4 </option>
-                            </select>
-                        </div>
-                        <div class="input_box">
                             <label for="name"> الاسم </label>
                             <input value="<?php if (isset($_REQUEST['name'])) echo $_REQUEST['name'] ?>" required id="name" type="text" name="name" class='form-control' placeholder="اكتب…">
                         </div>
+
+                        <div class="input_box">
+                            <label for="reason"> سبب الاتصال </label>
+                            <input type="text" name="reason" value="<?php if (isset($_REQUEST['reason'])) echo $_REQUEST['reason'] ?>" class="form-control" placeholder="سبب التواصل ... ">
+                        </div>
                     </div>
+
                     <div class='box'>
                         <div class="input_box">
                             <label for="phone"> رقم الجوال </label>

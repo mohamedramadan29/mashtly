@@ -1039,7 +1039,7 @@ if (isset($_GET['slug'])) {
 
 
     <!-- START NEWWER PRODUCTS -->
-    <div class="index_all_cat product_testmonails" style="padding-top: 0;">
+    <!-- <div class="index_all_cat product_testmonails" style="padding-top: 0;">
         <div class="container">
             <div class="data" style="box-shadow: none;">
                 <div class="data_header">
@@ -1082,7 +1082,7 @@ if (isset($_GET['slug'])) {
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- END NEWWER PRODUCTS  -->
 
 
