@@ -67,7 +67,7 @@
                     ?>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="my_table" class="table table-striped table-bordered"> 
+                            <table id="my_table" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
                                         <th> # </th>
@@ -111,17 +111,30 @@
                                                 <?php
                                                 } ?>
                                             </td>
-                                            <td> <?php echo $area['ship_type']; ?> </td>
                                             <td> <?php
-                                                    $stmt = $connect->prepare("SELECT * FROM suadia_city WHERE reg_id = ? LIMIT 1");
-                                                    $stmt->execute(array($area['ship_area']));
-                                                    $city_data = $stmt->fetch();
-                                                    $area_name = $city_data['region'];
-                                                    echo $area_name;
-                                                    ?> </td>
+                                                    $ship_types = explode(',', $area['ship_type']);
+                                                    foreach ($ship_types as $ship_type) {
+                                                    ?>
+                                                    <span class="badge badge-info"> <?php echo $ship_type; ?> </span>
+                                                <?php
+                                                    } ?>
+                                            </td>
+                                            <td> <?php
+                                                    $shipping_area = explode(',', $area['ship_area']);
+                                                    foreach ($shipping_area as $ship_area) {
+                                                        $stmt = $connect->prepare("SELECT * FROM suadia_city WHERE reg_id = ? LIMIT 1");
+                                                        $stmt->execute(array($ship_area));
+                                                        $city_data = $stmt->fetch();
+                                                        $area_name = $city_data['region'];
+                                                    ?>
+                                                    <span class="badge badge-info"> <?php echo $area_name; ?> </span>
+                                                <?php
+                                                    }
+                                                ?>
+                                            </td>
                                             <td>
                                                 <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $area['id']; ?>"> <i class='fa fa-pen'></i> </button>
-                                                <a href="main.php?dir=shipping_company&page=delete&area_id=<?php echo $area['id']; ?>" class="confirm btn btn-danger btn-sm"> <i class='fa fa-trash'></i> </a> 
+                                                <a href="main.php?dir=shipping_company&page=delete&area_id=<?php echo $area['id']; ?>" class="confirm btn btn-danger btn-sm"> <i class='fa fa-trash'></i> </a>
                                             </td>
                                         </tr>
                                         <!-- EDIT NEW CATEGORY MODAL   -->
@@ -160,29 +173,34 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="Company-2" class="block"> نوع الشحن </label>
-                                                                <select required name="ship_type" class="select2 form-control" id="">
+                                                                <?php $ship_types = explode(',', $area['ship_type']); ?>
+                                                                <select required name="ship_type[]" multiple class="select2 form-control" id="">
                                                                     <option value=""> -- حدد نوع الشحن -- </option>
-                                                                    <option <?php if ($area['ship_type'] == 'نباتات') echo 'selected'; ?> value="نباتات"> نباتات </option>
-                                                                    <option <?php if ($area['ship_type'] == 'مستلزمات') echo 'selected'; ?> value="مستلزمات"> مستلزمات </option>
-                                                                    <option <?php if ($area['ship_type'] == 'مختلطة نباتات ومستلزمات') echo 'selected'; ?> value="مختلطة نباتات ومستلزمات"> مختلطة نباتات ومستلزمات </option>
+                                                                    <option <?php if (in_array('نباتات', $ship_types)) echo 'selected'; ?> value="نباتات"> نباتات </option>
+                                                                    <option <?php if (in_array('مستلزمات', $ship_types)) echo 'selected'; ?> value="مستلزمات"> مستلزمات </option>
+                                                                    <option <?php if (in_array('مختلطة نباتات ومستلزمات', $ship_types)) echo 'selected'; ?> value="مختلطة نباتات ومستلزمات"> مختلطة نباتات ومستلزمات </option>
                                                                 </select>
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="Company-2" class="block"> منطقه الشحن </label>
-                                                                <select required name="ship_area" class="select2 form-control" id="">
-                                                                    <option value=""> -- حدد المنطقه -- </option>
+                                                                <?php $shipping_areas = explode(',', $area['ship_area']); ?>
+                                                                <select required name="ship_area[]" multiple class="select2 form-control" id="">
+                                                                    
                                                                     <?php
                                                                     $stmt = $connect->prepare("SELECT MAX(reg_id) AS id, region  FROM suadia_city GROUP BY region ORDER BY id DESC");
                                                                     $stmt->execute();
-                                                                    $allarea = $stmt->fetchAll();
-                                                                    foreach ($allarea as $area_data) {
+                                                                    $all_areas = $stmt->fetchAll();
+                                                                    foreach ($all_areas as $area_data) {
+                                                                        $selected = (in_array($area_data['id'], $shipping_areas)) ? 'selected' : '';
                                                                     ?>
-                                                                        <option <?php if ($area_data['id'] == $area['ship_area']) echo 'selected'; ?> value="<?php echo $area_data['id'] ?>"><?php echo $area_data['region']; ?></option>
+                                                                        <option <?php echo $selected; ?> value="<?php echo $area_data['id'] ?>"><?php echo $area_data['region']; ?></option>
                                                                     <?php
                                                                     }
                                                                     ?>
                                                                 </select>
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="Company-2" class="block"> اوزان الشحن المناسبة للشركة <span class="badge badge-danger"> كجم </span> </label>
                                                                 <input required id="Company-2" name="whight_from" type="number" class="form-control" value="<?php echo $area['whight_from']; ?>" placeholder="بداية الوزن ">
@@ -245,7 +263,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> نوع الشحن </label>
-                                        <select required name="ship_type" class="select2 form-control" id="">
+                                        <select required multiple name="ship_type[]" class="select2 form-control" id="">
                                             <option value=""> -- حدد نوع الشحن -- </option>
                                             <option value="نباتات"> نباتات </option>
                                             <option value="مستلزمات"> مستلزمات </option>
@@ -254,7 +272,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> منطقه الشحن </label>
-                                        <select required name="ship_area" class="select2 form-control" id="">
+                                        <select required multiple name="ship_area[]" class="select2 form-control" id="">
                                             <option value=""> -- حدد المنطقه -- </option>
                                             <?php
                                             $stmt = $connect->prepare("SELECT MAX(reg_id) AS id, region  FROM suadia_city GROUP BY region ORDER BY id DESC");
@@ -284,7 +302,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> سعر الكيلو الزائد <span class="badge badge-danger"> ريال </span> </label>
-                                        <input required id="Company-2" name="more_kilo_price" type="number" class="form-control">
+                                        <input required id="Company-2" name="more_kilo_price" type="text" class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> الحالة </label>

@@ -56,7 +56,7 @@ if (isset($_SESSION['user_id'])) {
                             </div>
                         </a>
                     </div>
-                    <div class="col-lg-3">
+                    <!-- <div class="col-lg-3">
                         <a href="payment">
                             <div class="info">
                                 <div>
@@ -68,7 +68,7 @@ if (isset($_SESSION['user_id'])) {
                                 </div>
                             </div>
                         </a>
-                    </div>
+                    </div> -->
                     <div class="col-lg-3">
                         <a href="../cart">
                             <div class="info">

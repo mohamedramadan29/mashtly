@@ -51,12 +51,14 @@ $cat_count = count($allcat);
                                             <h3> <?php echo $cat['name']; ?> </h3>
                                             <p> عدد العناصر: <?php echo $count_pro; ?> </p>
                                         </div>
+                                        <a href="category_products?cat=<?php echo $cat['slug']; ?>">
                                         <div class="overlay">
-                                            <a href="category_products?cat=<?php echo $cat['slug']; ?>">
+                                            
                                                 <img src="<?php echo $uploads ?>cat_arrow.png" alt="">
                                                 <h4> تصفح التصنيف </h4>
-                                            </a>
+                                           
                                         </div>
+                                        </a>
                                     </div>
                                 </a>
                             </div>

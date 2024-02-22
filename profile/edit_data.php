@@ -23,22 +23,41 @@ if (isset($_SESSION['user_id'])) {
         $name = sanitizeInput($_POST['name']);
         $email = sanitizeInput($_POST['email']);
         $phone = sanitizeInput($_POST['phone']);
-        foreach ($allusers as $user) {
-            if ($user['user_name'] == $user_name) {
-                $formerror[] = 'اسم المستخدم موجود بالفعل من فضلك ادخل اسم مستخدم جديد';
-            } elseif ($user['email']) {
-                $formerror[] = 'البريد الألكتروني مستخدم بالفعل';
-            }
-        }
+        // foreach ($allusers as $user) {
+        //     if ($user['user_name'] == $user_name) {
+        //         $formerror[] = 'اسم المستخدم موجود بالفعل من فضلك ادخل اسم مستخدم جديد';
+        //     } elseif ($user['email']) {
+        //         $formerror[] = 'البريد الألكتروني مستخدم بالفعل';
+        //     }
+        // }
+        $stmt = $connect->prepare("SELECT * FROM users WHERE email=? AND  id != ?");
+        $stmt->execute(array($email,$user_id));
+        $check_mail_count = $stmt->rowCount();
+        if($check_mail_count > 0){
+            $formerror[] = 'البريد الالكتروني مستخدم بالفعل ';
+        } 
+        $stmt = $connect->prepare("SELECT * FROM users WHERE user_name =? AND  id != ?");
+        $stmt->execute(array($user_name,$user_id));
+        $check_mail_count = $stmt->rowCount();
+        if($check_mail_count > 0){
+            $formerror[] = ' اسم المستخدم متواجد بالفعل  ';
+        } 
+
+        $stmt = $connect->prepare("SELECT * FROM users WHERE phone =? AND  id != ?");
+        $stmt->execute(array($phone,$user_id));
+        $check_mail_count = $stmt->rowCount();
+        if($check_mail_count > 0){
+            $formerror[] = ' رقم الهاتف متواجد بالفعل ';
+        } 
         if (empty($user_name) || empty($name) || empty($email) || empty($phone)) {
             $formerror[] = 'من فضلك ادخل المعلومات كاملة ';
         }
         if (empty($formerror)) {
             $stmt  = $connect->prepare("UPDATE users SET name=?, user_name = ? , email=?,phone=? WHERE id = ? ");
             $stmt->execute(array($name, $user_name, $email, $phone, $user_id));
-            if ($stmt) {
-                $_SESSION['success'] = ' تم تغير كلمة المرور بنجاح ';
-                header("Location:index");
+            if ($stmt) {?>
+            <div class="alert alert-danger"> تم اعاده تعين كلمه المرور بنجاح  </div>
+            <?php  
             }
         } else {
             $_SESSION['error'] = $formerror;
@@ -69,7 +88,7 @@ if (isset($_SESSION['user_id'])) {
                         unset($_SESSION['success']);
                     }
                     ?>
-                    <form action="#" method="post">
+                    <form action="" method="post">
                         <div class='row'>
                             <div class='box'>
                                 <div class="input_box">
@@ -117,3 +136,10 @@ if (isset($_SESSION['user_id'])) {
 include $tem . 'footer.php';
 ob_end_flush();
 ?>
+
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>

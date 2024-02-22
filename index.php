@@ -83,6 +83,7 @@ include "init.php";
 if (isset($_POST['add_to_fav'])) {
     if (isset($_SESSION['user_id'])) {
         $product_id = $_POST['product_id'];
+      
         $user_id = $_SESSION['user_id'];
         $stmt = $connect->prepare("INSERT INTO user_favourite (user_id, product_id)
         VALUES(:zuser_id, :zproduct_id)
@@ -100,19 +101,21 @@ if (isset($_POST['add_to_fav'])) {
 }
 if (isset($_POST['add_to_cart'])) {
     $product_id = $_POST['product_id'];
+    $product_name = $_POST['product_name'];
     $price = $_POST['price'];
     if (isset($_SESSION['user_id'])) {
         $user_id = $_SESSION['user_id'];
     } else {
         $user_id = null;
     }
-    $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,quantity,price,total_price)
-    VALUES(:zuser_id, :zcookie_id , :zproduct_id,:zquantity ,:zprice , :ztotal_price)
+    $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,product_name,quantity,price,total_price)
+    VALUES(:zuser_id, :zcookie_id , :zproduct_id,:zproduct_name,:zquantity ,:zprice , :ztotal_price)
     ");
     $stmt->execute(array(
         "zuser_id" => $user_id,
         "zcookie_id" => $cookie_id,
         "zproduct_id" => $product_id,
+        "zproduct_name" => $product_name,
         "zquantity" => 1,
         "zprice" => $price,
         "ztotal_price" => $price,
@@ -128,7 +131,7 @@ if (isset($_POST['add_to_cart'])) {
             <div class="data_header">
                 <div class="data_header_name">
                     <h2 class='header2'>وصلنا حديثا</h2>
-                    <p>نبايات جديدة وصلتنا هذا الأسبوع</p>
+                    <p>نباتات جديدة وصلتنا هذا الأسبوع</p>
                 </div>
                 <div>
                     <a href="shop" class='global_button btn'> تصفح المزيد </a>
@@ -673,40 +676,52 @@ if (isset($_POST['add_to_cart'])) {
             <p> أرسلي صور حديقة منزلك ونباتات حديقتك عبر انستجرام وسوف تظهر هنا </p>
             <div class="insta_slider">
                 <div class="insta_info">
-                    <img src="<?php echo $uploads ?>/insta1.png" alt="">
-                    <div class="overlay">
-                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
-                    </div>
+                    <a href="https://www.instagram.com/mshtly1/">
+                        <img src="<?php echo $uploads ?>/insta1.png" alt="">
+                        <div class="overlay">
+                            <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                        </div>
+                    </a>
                 </div>
                 <div class="insta_info">
-                    <img src="<?php echo $uploads ?>/insta2.png" alt="">
-                    <div class="overlay">
-                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
-                    </div>
+                    <a href="https://www.instagram.com/mshtly1/">
+                        <img src="<?php echo $uploads ?>/insta2.png" alt="">
+                        <div class="overlay">
+                            <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                        </div>
+                    </a>
                 </div>
                 <div class="insta_info">
-                    <img src="<?php echo $uploads ?>/insta3.png" alt="">
-                    <div class="overlay">
-                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
-                    </div>
+                    <a href="https://www.instagram.com/mshtly1/">
+                        <img src="<?php echo $uploads ?>/insta3.png" alt="">
+                        <div class="overlay">
+                            <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                        </div>
+                    </a>
                 </div>
                 <div class="insta_info">
-                    <img src="<?php echo $uploads ?>/insta2.png" alt="">
-                    <div class="overlay">
-                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
-                    </div>
+                    <a href="https://www.instagram.com/mshtly1/">
+                        <img src="<?php echo $uploads ?>/insta2.png" alt="">
+                        <div class="overlay">
+                            <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                        </div>
+                    </a>
                 </div>
                 <div class="insta_info">
-                    <img src="<?php echo $uploads ?>/insta1.png" alt="">
-                    <div class="overlay">
-                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
-                    </div>
+                    <a href="https://www.instagram.com/mshtly1/">
+                        <img src="<?php echo $uploads ?>/insta1.png" alt="">
+                        <div class="overlay">
+                            <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                        </div>
+                    </a>
                 </div>
                 <div class="insta_info">
-                    <img src="<?php echo $uploads ?>/insta2.png" alt="">
-                    <div class="overlay">
-                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
-                    </div>
+                    <a href="https://www.instagram.com/mshtly1/">
+                        <img src="<?php echo $uploads ?>/insta2.png" alt="">
+                        <div class="overlay">
+                            <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -716,3 +731,10 @@ if (isset($_POST['add_to_cart'])) {
 include $tem . 'footer.php';
 ob_end_flush();
 ?>
+
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>

@@ -29,6 +29,9 @@ if (isset($_SESSION['user_id'])) {
                         setcookie('email', $username, time() + (86400 * 30));
                         setcookie('pass', $password, time() + (86400 * 30));
                     }
+                    // check if this user have product in the cart or not  AND Update User Id 
+                    $stmt = $connect->prepare("UPDATE cart SET user_id = ? WHERE cookie_id = ?");
+                    $stmt->execute(array($_SESSION['user_id'], $cookie_id));
                     header("Location:profile");
                 } else {
                     $formerror[] = 'لا يوجد سجل بهذة البيانات';

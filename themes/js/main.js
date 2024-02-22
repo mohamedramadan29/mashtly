@@ -1,6 +1,11 @@
 
 (function ($) {
   "use strict";
+
+  $("#sort").on('change',function (){
+    this.form.submit();
+ });
+ 
   if (window.location.href.indexOf("index") > -1) {
     $("#index").addClass("active");
   }

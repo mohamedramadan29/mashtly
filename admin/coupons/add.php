@@ -4,7 +4,7 @@ if (isset($_POST['add_cat'])) {
     $coupon_value = $_POST['coupon_value'];
     $start_date = $_POST['start_date'];
     $end_date = $_POST['end_date'];
-    $available_number = $_POST['available_number'];
+    // $available_number = $_POST['available_number'];
     $formerror = [];
     if (empty($name)) {
         $formerror[] = 'من فضلك ادخل اسم القسم';
@@ -17,8 +17,8 @@ if (isset($_POST['add_cat'])) {
     }
     if (empty($formerror)) {
         $stmt = $connect->prepare("INSERT INTO coupons (name, coupon_value,start_date,
-        end_date,available_number)
-        VALUES (:zname,:zcoupon_value,:zstart_date,:zend_date,:zavailable_number)");
+        end_date)
+        VALUES (:zname,:zcoupon_value,:zstart_date,:zend_date)");
         $stmt->execute(array(
             "zname" => $name,
             "zcoupon_value" => $coupon_value,

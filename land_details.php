@@ -42,7 +42,7 @@ $land_id = $design_data['id'];
 <div class="join_form add_new_address import_request" style="background-color: #FFFFFF9A; border: 2px solid #D6E0DF;" >
     <form action="" method="post" enctype="multipart/form-data">
         <h2> اطلب الخدمة </h2>
-        <p> برجاء ملئ الحقول التالية </p>
+        <p> يرجي ملئ الحقول التالية </p>
         <div class='box'>
             <div class="input_box">
                 <label for="name"> الاسم بالكامل </label>

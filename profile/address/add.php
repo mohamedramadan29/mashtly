@@ -34,7 +34,7 @@ if (isset($_SESSION['user_id'])) {
             $stmt->execute(array($city));
             $city_data = $stmt->fetch();
             $area = $city_data['region'];
-            $area_code = $city_data['regionCode'];
+            $area_code = $city_data['reg_id'];
         }
         if (empty($formerror)) {
             $table = "user_address";
@@ -48,7 +48,7 @@ if (isset($_SESSION['user_id'])) {
                 "build_number" => $build_number,
                 "name" => $name,
                 "phone" => $phone,
-                "default_address" => $default_address,
+                "default_address" => 1,
             );
             $stmt = insertData($connect, $table, $data);
             if ($stmt) {
@@ -90,15 +90,26 @@ if (isset($_SESSION['user_id'])) {
                             <div class="box">
                                 <div class="input_box">
                                     <label for="country"> البلد / الدولة </label>
-                                    <select required id="country" name="country" class='form-control select2'>
-                                        <option value=""> -- اختر الدولة -- </option>
+                                    <select required id="country" name="country" class='form-control'>
+                                        <!-- <option value=""> -- اختر الدولة -- </option> -->
                                         <option value="SAR"> المملكة العربية السعودية </option>
-                                        <option value="EG"> مصر </option>
+                                        <!-- <option value="EG"> مصر </option> -->
                                     </select>
                                 </div>
                                 <div class="input_box">
                                     <label for="country"> المدينة </label>
                                     <select required name="city" id="city" class='select2 form-control'>
+                                        <option value=""> حدد المدينة </option>
+                                        <?php
+                                        $stmt = $connect->prepare("SELECT * FROM suadia_city");
+                                        $stmt->execute();
+                                        $allsaucountry = $stmt->fetchAll();
+                                        foreach ($allsaucountry as $city) {
+                                        ?>
+                                            <option value="<?php echo $city['name']; ?>"> <?php echo $city['name']; ?> </option>
+                                        <?php
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
@@ -122,14 +133,14 @@ if (isset($_SESSION['user_id'])) {
                                     <input required id="build_number" type="text" name="build_number" class='form-control' placeholder="اكتب…">
                                 </div>
                             </div>
-                            <div class="input_box">
+                            <!-- <div class="input_box">
                                 <div class="form-check">
                                     <input name="default_address" class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
                                     <label class="form-check-label" for="flexCheckChecked">
                                         تعيين كعنوان رئيسي
                                     </label>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="submit_buttons">
                                 <button class="btn global_button" type="reset"> إعادة تعيين </button>
                                 <button class="btn global_button" name="add_address" type="submit"> إضافة عنوان جديد </button>
@@ -145,6 +156,11 @@ if (isset($_SESSION['user_id'])) {
     header("location:../../login");
     exit();
 }
+?>
+
+<?php
+include $tem . 'footer.php';
+ob_end_flush();
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -180,4 +196,11 @@ if (isset($_SESSION['user_id'])) {
             }
         });
     });
+</script>
+
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
 </script>

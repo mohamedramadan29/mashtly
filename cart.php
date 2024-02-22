@@ -22,7 +22,10 @@ if (isset($_POST['add_to_fav'])) {
         header("Location:login");
     }
 }
+
+
 // get all product from user cart
+
 $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
 $stmt->execute(array($cookie_id));
 $count = $stmt->rowCount();
@@ -33,7 +36,6 @@ if (isset($_POST['update_cart'])) {
     foreach ($quantities as $product_id => $quantity) {
         // Get the selected value from the dropdown
         $selectedValue = isset($_POST['farmserv'][$product_id]) ? intval($_POST['farmserv'][$product_id]) : null;
-
         $stmt = $connect->prepare("UPDATE cart SET quantity = ?, farm_service = ? WHERE id = ?");
         $stmt->execute(array($quantity, $selectedValue, $product_id));
 
@@ -85,7 +87,7 @@ if (isset($_POST['remove_item'])) {
                                     $stmt = $connect->prepare("SELECT * FROM gifts WHERE id = ?");
                                     $stmt->execute(array($gift_id));
                                     $gift_data = $stmt->fetch();
-                                    $gift_price =  $gift_data['price'];
+                                    $gift_price =   $gift_data['price'] * $item['quantity'];
                                 }
                                 $item_id = $item['id'];
                                 $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
@@ -95,16 +97,17 @@ if (isset($_POST['remove_item'])) {
                                 $pro_slug = $product_data['slug'];
                                 $pro_farm = $product_data['public_tail'];
                                 $farm_services = 0;
-                                if ($item['farm_service'] != null && $pro_farm != null) {
+                                if ($item['farm_service'] != null) {
                                     $stmt = $connect->prepare("SELECT * FROM public_tails WHERE id = ?");
-                                    $stmt->execute(array($pro_farm));
+                                    $stmt->execute(array($item['farm_service']));
                                     $tail_data = $stmt->fetch();
                                     $tail_price = $tail_data['price'];
                                     $farm_services = $tail_price;
-                                    $farm_services_total += $farm_services + $gift_price;
+                                    $farm_services_total += $farm_services * $item['quantity'];
                                 }
                                 $total_price = $total_price + ($item['price'] * $item['quantity']);
-                                $farm_services = $farm_services;
+                                $grand_farm_services = $farm_services_total + $gift_price;
+
                             ?>
                                 <form action="" method="post">
                                     <input type="hidden" name="item_id" value="<?php echo $item['id'] ?>">
@@ -290,15 +293,67 @@ if (isset($_POST['remove_item'])) {
                                 <?php
                             }
                                 ?>
-                                <button class="btn global_button" type="submit" name="update_cart">تحديث السلة <i class="fa fa-pen"></i> </button>
+                                <button class="btn global_button cart_button" type="submit" name="update_cart">تحديث السلة <i class="fa fa-pen"></i> </button>
                                 </form>
+                                <br>
+                                <?php
+                                //////////////////// Coupon Code  /////////////////////
+                                if (isset($_POST['coupon'])) {
+                                    $coupon = sanitizeInput($_POST['coupon_value']);
+                                    // get the coupons data
+                                    $stmt = $connect->prepare("SELECT * FROM coupons WHERE name = ?");
+                                    $stmt->execute(array($coupon));
+                                    $coupon_data = $stmt->fetch();
+                                    $count = $stmt->rowCount();
+                                    if ($count > 0) {
+                                        $start_date = $coupon_data['start_date'];
+                                        $end_date = $coupon_data['end_date'];
+                                        $today_date = date("Y-m-d");
+                                        if ($today_date >= $start_date && $today_date <= $end_date) {
+
+                                            $_SESSION['coupon'] = $coupon_data['coupon_value'];
+                                            $_SESSION['coupon_name'] = $coupon_data['name'];
+                                ?>
+                                            <div class="alert alert-success"> تم تطبيق الكوبون بنجاح وسيتم خصم نسبه [ % <?php echo $coupon_data['coupon_value'] ?> ] من قيمه الشحنه </div>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <div class="alert alert-danger"> كود الخصم غير فعال في الوقت الحالي </div>
+                                        <?php
+                                        }
+                                    } else {
+                                        ?>
+                                        <div class="alert alert-danger"> الكود غير صحيح </div>
+                                <?php
+                                    }
+                                }
+                                //////////////////////// End Coupon Code ///////////////////
+                                ?>
+
+                                <div class="user_address">
+                                    <div>
+
+                                        <h5> أدخل بطاقة هدايا أو كوبون الخصم </h5>
+                                    </div>
+                                </div>
+                                <form method="post" action="">
+                                    <div class="coupon_form">
+                                        <div>
+                                            <input name="coupon_value" type="text" class="form-control" placeholder="أدخل الكوبون">
+                                        </div>
+                                        <div>
+                                            <button name="coupon" type="submit" class="btn global_button"> تطبيق </button>
+                                        </div>
+                                    </div>
+                                </form>
+
                         </div>
                         <div class="col-lg-4">
                             <div class="cart_price_info">
-                                <p class="no_sheap_price">
+                                <!-- <p class="no_sheap_price">
                                     <img src="<?php echo $uploads ?>free.svg" alt="">
                                     أضف 13 ريال واحصل علي شحن مجاني
-                                </p>
+                                </p> -->
                                 <div class="price_sections">
                                     <div class="first">
                                         <div>
@@ -315,53 +370,59 @@ if (isset($_POST['remove_item'])) {
                                             <p> تكلفة الزراعة + تكلفة التغليف كهدية </p>
                                         </div>
                                         <div>
-                                            <h2 class="total"> <?php echo number_format($farm_services_total, 2); ?> ر.س </h2>
+                                            <h2 class="total"> <?php echo number_format($grand_farm_services, 2); ?> ر.س </h2>
                                         </div>
                                     </div>
-                                    <div class="first">
-                                        <div>
-                                            <h3> الشحن والتسليم: </h3>
-                                            <p> يحدد سعر الشحن حسب الموقع </p>
-                                        </div>
-                                        <div>
-                                            <?php
-                                            /////////  Shipping Price /////
-                                            include 'tempelate/shiping_price.php';
-                                            ?>
-                                        </div>
-                                    </div>
+
                                     <div class="first">
                                         <?php
-                                        $vat_value = ($total_price + $shipping_value + $farm_services_total) * (15 / 100);
+                                        // $vat_value = ($total_price + $shipping_value + $farm_services_total) * (15 / 100);
                                         ?>
-                                        <div>
+                                        <!-- <div>
                                             <h3> ضريبة القيمة المضافة VAT: </h3>
                                             <p> القيمة المضافة تساوي 15% من اجمالي الطلب </p>
                                         </div>
                                         <div>
-                                            <h2 class="total"> <?php echo number_format($vat_value, 2); ?> ر.س </h2>
-                                        </div>
-
+                                            <h2 class="total"> <?php //echo number_format($vat_value, 2); 
+                                                                ?> ر.س </h2>
+                                        </div> -->
                                     </div>
                                     <hr>
                                     <div class="first">
                                         <?php
-                                        $last_total = $total_price + $shipping_value + $farm_services_total + $vat_value;
+                                        $last_total = $total_price + $grand_farm_services;
                                         ?>
                                         <div>
-                                            <h3> إجمالي المبلغ: </h3>
+                                            <h3> السعر الكلي قبل الشحن : </h3>
                                             <p> المبلغ المطلوب دفعه </p>
                                         </div>
                                         <div>
                                             <h2 class="total"> <?php echo number_format($last_total, 2); ?> ر.س </h2>
                                         </div>
                                     </div>
+                                    <?php
+                                    if (isset($_SESSION['coupon'])) {
+                                    ?>
+                                        <div class="first">
+                                            <div>
+                                                <h3> قيمه كوبون الخصم : </h3>
+                                                <p>  سيتم الخصم من قيمه الشحنه بالكامل</p>
+                                            </div>
+                                            <div>
+                                                <h2 class="total"> <?php echo number_format($_SESSION['coupon'], 2); ?> % </h2>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    }
+
+                                    ?>
+
                                 </div>
                                 <?php
                                 $_SESSION['total'] = $total_price;
-                                $_SESSION['shipping_value'] = $shipping_value;
-                                $_SESSION['farm_services'] = $farm_services_total;
-                                $_SESSION['vat_value'] = $vat_value;
+                                // $_SESSION['shipping_value'] = $shipping_value;
+                                $_SESSION['farm_services'] = $grand_farm_services;
+                                // $_SESSION['vat_value'] = $vat_value;
                                 $_SESSION['last_total'] = $last_total;
                                 ?>
                                 <a href="checkout" class="btn global_button"> تابع عملية الشراء </a>
@@ -371,8 +432,10 @@ if (isset($_POST['remove_item'])) {
                 </div>
             <?php
             } else {
+                unset($_SESSION['total']);
+                unset($_SESSION['farm_services']);
+                unset($_SESSION['last_total']);
             ?>
-
                 <div class="not_found_orders">
                     <div class="info" style="flex-direction: column;">
                         <img src="<?php echo $uploads ?>plant.png" alt="">
@@ -411,4 +474,10 @@ ob_end_flush();
             // Add your custom code here for increasing quantity
         });
     });
+</script>
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
 </script>

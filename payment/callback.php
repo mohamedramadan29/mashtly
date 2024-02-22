@@ -36,26 +36,26 @@
                 // if ($responseTap->status == 'DECLINED') {
                 // get all product from user cart
                 $order_data = $_SESSION['order_data'];
-                $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
-                $stmt->execute(array($order_data['cookie_id']));
+                $stmt = $connect->prepare("SELECT * FROM cart WHERE user_id = ?");
+                $stmt->execute(array($_SESSION['user_id']));
                 $count = $stmt->rowCount();
                 $allitems = $stmt->fetchAll();
-
+                $_SESSION['online_payment'] = 'online';
                 $payment_method = 'الدفع الالكتروني';
+
                 // inset order into orders 
                 $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
-                  area, city, address, ship_price, order_date, status, status_value,total_price,
-                  payment_method) 
-                  VALUES (:zorder_number , :zuser_id , :zname , :zemail ,:zphone , :zarea , :zcity , :zaddress,
-                  :zship_price, :zorder_date, :zstatus, :zstatus_value,:ztotal_price,:zpayment_method)");
+                    area, city, address, ship_price, order_date, status,status_value,farm_service_price,total_price,
+                    payment_method,coupon_code,discount_value) 
+                    VALUES (:zorder_number , :zuser_id , :zname , :zemail ,:zphone , :zarea , :zcity , :zaddress,
+                    :zship_price, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value)");
                 $stmt->execute(array(
                     "zorder_number" => $order_data['order_number'], "zuser_id" => $order_data['user_id'], "zname" => $order_data['name'],
                     "zemail" => $order_data['email'], "zphone" => $order_data['phone'], "zarea" => $order_data['area'], "zcity" => $order_data['city'],
                     "zaddress" => $order_data['address'], "zship_price" => $order_data['ship_price'], "zorder_date" => $order_data['order_date'],
-                    "zstatus" => $order_data['status'], "zstatus_value" => $order_data['status_value'],
-                    "ztotal_price" => $order_data['total_price'], "zpayment_method" => $payment_method
+                    "zstatus" => $order_data['status'], "zstatus_value" => $order_data['status_value'], "zfarm_service_price" => $order_data['farm_service_price'],
+                    "ztotal_price" => $order_data['total_price'], "zpayment_method" => $payment_method,  "zcoupon_code" => $_SESSION['coupon_name'], "zdiscount_value" => $_SESSION['discount_value']
                 ));
-
                 // get the last order number  id and number 
                 $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
                 $stmt->execute();
@@ -110,14 +110,15 @@
                     ));
                     if ($stmt) {
                         //delete session 
+                        // unset($_SESSION['order_data']);
                         unset($_SESSION['total']);
-                        unset($_SESSION['shipping_value']);
-                        unset($_SESSION['farm_services']);
-                        unset($_SESSION['vat_value']);
+                        // unset($_SESSION['vat_value']);
                         unset($_SESSION['last_total']);
-                        unset($_SESSION['order_data']);
-                        $stmt = $connect->prepare("DELETE FROM cart WHERE cookie_id = ? OR user_id = ?");
-                        $stmt->execute(array($order_data['cookie_id'], $user_id));
+                        unset($_SESSION['coupon']);
+                        unset($_SESSION['discount_value']);
+                        unset($_SESSION['coupon_name']);
+                        // $stmt = $connect->prepare("DELETE FROM cart WHERE cookie_id = ? OR user_id = ?");
+                        // $stmt->execute(array($order_data['cookie_id'], $user_id));
                         header("Location:../profile/orders/compelete");
                     }
                 }
@@ -128,8 +129,10 @@
             ?>
                 <div class='alert alert-danger'> حدث خطا !! من فضلك اعد المحااولة مرة اخري </div>
         <?php
-                // header("refresh:2;URL=../profile");
+                header("refresh:2;URL=../profile");
             }
+        } else {
+            echo "Errrrror";
         } ?>
     </div>
 </div>

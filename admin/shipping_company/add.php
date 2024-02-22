@@ -6,8 +6,8 @@ if (isset($_POST['add_cat'])) {
     $phone = $_POST['phone'];
     $address = $_POST['address'];
     $status = $_POST['status'];
-    $ship_type = $_POST['ship_type'];
-    $ship_area = $_POST['ship_area'];
+    $ship_type = implode(',', $_POST['ship_type']);
+    $ship_area = implode(',', $_POST['ship_area']);
     $whight_from = $_POST['whight_from'];
     $whight_to = $_POST['whight_to'];
     $ship_start_from_price = $_POST['ship_start_from_price'];

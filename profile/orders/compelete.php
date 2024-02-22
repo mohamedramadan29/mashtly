@@ -4,8 +4,34 @@ session_start();
 $page_title = ' تم الطلب   ';
 include 'init.php';
 if (isset($_SESSION['user_id'])) {
-    $stmt = $connect->prepare("DELETE FROM cart WHERE user_id = ?");
-    $stmt->execute(array($_SESSION['user_id']));
+    $user_id = $_SESSION['user_id'];
+    $order_data = $_SESSION['order_data'];
+    if (isset($_SESSION['order_data'])) {
+        if (isset($_SESSION['online_payment'])) {
+            $name = $order_data['name'];
+            $email = $order_data['email'];
+            $phone = $order_data['phone'];
+            $phone = $order_data['phone'];
+            $order_number =  $order_data['order_number'];
+            $order_date = $order_data['order_date'];
+            $farm_service = $order_data['farm_service_price'];
+            $ship_price = $order_data['ship_price'];
+            $grand_total = $order_data['total_price'];
+            $stmt = $connect->prepare("SELECT * FROM cart WHERE user_id = ?");
+            $stmt->execute(array($user_id));
+            $allitems = $stmt->fetchAll();
+            foreach ($allitems as $item) {
+                // echo $item['product_name'];
+            }
+            include "../../send_mail/index.php";
+            unset($_SESSION['order_data']);
+            unset($_SESSION['online_payment']);
+            unset($_SESSION['farm_services']);
+            $stmt = $connect->prepare("DELETE FROM cart WHERE user_id = ?");
+            $stmt->execute(array($_SESSION['user_id']));
+        }
+    }
+
 ?>
     <div class="profile_page retrun_orders">
         <div class='container'>

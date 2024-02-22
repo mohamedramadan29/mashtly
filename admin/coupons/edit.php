@@ -5,7 +5,7 @@ if (isset($_POST['edit_cat'])) {
     $coupon_value = $_POST['coupon_value'];
     $start_date = $_POST['start_date'];
     $end_date = $_POST['end_date'];
-    $available_number = $_POST['available_number'];
+    // $available_number = $_POST['available_number'];
     $formerror = [];
     if (empty($name)) {
         $formerror[] = 'من فضلك ادخل اسم القسم';
@@ -18,8 +18,8 @@ if (isset($_POST['edit_cat'])) {
     }
     if (empty($formerror)) {
         $stmt = $connect->prepare("UPDATE coupons SET name=?, coupon_value=?,start_date=?,
-        end_date=?,available_number=? WHERE id = ? ");
-        $stmt->execute(array($name, $coupon_value,$start_date,$end_date,$available_number,$coupon_id));
+        end_date=? WHERE id = ? ");
+        $stmt->execute(array($name, $coupon_value,$start_date,$end_date,$coupon_id));
         if ($stmt) {
             $_SESSION['success_message'] = "تم التعديل بنجاح ";
             header('Location:main?dir=coupons&page=report');

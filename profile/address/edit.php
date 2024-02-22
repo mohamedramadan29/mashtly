@@ -37,10 +37,10 @@ if (isset($_SESSION['user_id'])) {
             if (isset($_POST['default_address'])) {
                 $default_address = 1;
                 // update to make all all default address = 0 to make this address is main address
-                $stmt = $connect->prepare("UPDATE user_address SET default_address = 0");
+                $stmt = $connect->prepare("UPDATE user_address SET default_address = 1");
                 $stmt->execute();
             } else {
-                $default_address = 0;
+                $default_address = 1;
             }
             if (empty($name) || empty($phone) || empty($country) || empty($city) || empty($street_name) || empty($build_number)) {
                 $formerror[] = 'من فضلك ادخل المعلومات كاملة';
@@ -55,7 +55,7 @@ if (isset($_SESSION['user_id'])) {
                     "build_number" => $build_number,
                     "name" => $name,
                     "phone" => $phone,
-                    "default_address" => $default_address,
+                    "default_address" => 1 ,
                 );
                 $stmt = $connect->prepare("UPDATE user_address SET country=? , city = ? ,area = ? ,street_name=?,
                 build_number=?,name=?, phone=?,default_address=? WHERE id = ?
@@ -103,13 +103,23 @@ if (isset($_SESSION['user_id'])) {
                                         <select required id="country" name="country" class='form-control select2'>
                                             <option value=""> -- اختر الدولة -- </option>
                                             <option <?php if ($address['country'] == "SAR") echo "selected"; ?> value="SAR"> المملكة العربية السعودية </option>
-                                            <option <?php if ($address['country'] == "EG") echo "selected"; ?> value="EG"> مصر </option>
+                                            <!-- <option <?php if ($address['country'] == "EG") echo "selected"; ?> value="EG"> مصر </option> -->
                                         </select>
                                     </div>
                                     <div class="input_box">
                                         <label for="country"> المدينة </label>
                                         <select required name="city" id="city" class='select2 form-control'>
-                                            <option value="<?php echo $address['city']; ?>"> <?php echo $address['city']; ?> </option>
+                                            <option value=""> حدد المدينة </option>
+                                            <?php
+                                            $stmt = $connect->prepare("SELECT * FROM suadia_city");
+                                            $stmt->execute();
+                                            $allsaucountry = $stmt->fetchAll();
+                                            foreach ($allsaucountry as $city) {
+                                            ?>
+                                                <option <?php if ($city['name'] == $address['city']) echo 'selected'; ?> value="<?php echo $city['name']; ?>"> <?php echo $city['name']; ?> </option>
+                                            <?php
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
@@ -133,14 +143,14 @@ if (isset($_SESSION['user_id'])) {
                                         <input required id="build_number" type="text" name="build_number" class='form-control' placeholder="اكتب…" value="<?php echo $build_number; ?>">
                                     </div>
                                 </div>
-                                <div class="input_box">
+                                <!-- <div class="input_box">
                                     <div class="form-check">
                                         <input name="default_address" class="form-check-input" type="checkbox" value="" id="flexCheckChecked" <?php if ($default_address == 1) echo "checked"; ?>>
                                         <label class="form-check-label" for="flexCheckChecked">
                                             تعيين كعنوان رئيسي
                                         </label>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="submit_buttons">
                                     <button class="btn global_button" type="reset"> إعادة تعيين </button>
                                     <button class="btn global_button" name="add_address" type="submit"> تعديل العنوان</button>
@@ -160,6 +170,11 @@ if (isset($_SESSION['user_id'])) {
     header("location:../../login");
     exit();
 }
+?>
+
+<?php
+include $tem . 'footer.php';
+ob_end_flush();
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -195,4 +210,11 @@ if (isset($_SESSION['user_id'])) {
             }
         });
     });
+</script>
+
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
 </script>

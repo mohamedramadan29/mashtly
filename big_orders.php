@@ -20,8 +20,8 @@ include "init.php";
         </div>
     </div>
 </div>
-<div class="join_form add_new_address import_request" style="max-width: 65%;">
-    <form action="" method="post" enctype="multipart/form-data">
+<div class="join_form add_new_address import_request">
+    <form action="" method="post" enctype="multipart/form-data" id="send_form">
         <h2> اطلب الخدمة </h2>
         <p> برجاء ملئ الحقول التالية </p>
         <div class='box'>
@@ -45,7 +45,7 @@ include "init.php";
         </div>
         <div class='box'>
             <div class="input_box">
-                <label for="email"> البريد الألكتروني </label>
+                <label for="email"> البريد الإلكتروني </label>
                 <input required value="<?php if (isset($_REQUEST['email'])) echo $_REQUEST['email'] ?>" id="email" type="email" name="email" class='form-control' placeholder="اكتب…">
             </div>
         </div>
@@ -78,11 +78,11 @@ include "init.php";
             </div>
         </div>
         <div class="box">
-            <button class="btn global_button" name="request_order"> طلب الخدمة </button>
+            <button class="btn global_button" name="request_order" id="send_message"> طلب الخدمة </button>
         </div>
     </form>
     <?php
-    if (isset($_POST['request_order'])) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $company_name = sanitizeInput($_POST['company_name']);
         $company_person_name = sanitizeInput($_POST['company_person_name']);
         $phone = sanitizeInput($_POST['phone']);
@@ -95,6 +95,17 @@ include "init.php";
         $formerror = [];
         if (empty($company_name) || empty($company_person_name) || empty($phone) || empty($email) || empty($city)  || empty($request_type) || empty($order_details)) {
             $formerror[] = 'من فضلك ادخل المعلومات كاملة ';
+        }
+        if (empty($email)) {
+            $formerror[] = " يجب اضافة البريد الالكتروني  ";
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $formerror[] = " يجب إدخال عنوان بريد إلكتروني صالح ";
+        } elseif (strlen($email) > 100) {
+            $formerror[] = "طول البريد الإلكتروني يجب أن لا يتجاوز 100 حرفًا";
+        } elseif (!preg_match('/^[a-zA-Z0-9.@ـ\-\_\+\,\']+$/u', $email)) {
+            $formerror[] = "البريد الإلكتروني يجب أن يحتوي على أحرف وأرقام ورموز صحيحة فقط";
+        } elseif (strpos($email, '..') !== false) {
+            $formerror[] = "البريد الإلكتروني يحتوي على أحرف غير صالحة";
         }
         // main image
         if (!empty($_FILES['order_attachment']['name'])) {
@@ -136,14 +147,30 @@ include "init.php";
             <?php
             }
             ?>
-
     <?php
         }
     }
-
     ?>
 </div>
 <?php
 include $tem . 'footer.php';
 ob_end_flush();
 ?>
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>
+
+<script>
+    // disable button untill Send 
+    $(document).ready(function($) {
+        // قائمة لتخزين معلومات الملفات المختارة
+        let selectedFiles = [];
+        $('#send_form').submit(function() {
+            var submitButton = document.getElementById('send_message');
+            submitButton.setAttribute('disabled', 'disabled');
+        });
+    });
+</script>

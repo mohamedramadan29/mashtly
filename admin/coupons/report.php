@@ -76,8 +76,7 @@
                                         <th> قيمة الخصم </th>
                                         <th> تاريخ البداية </th>
                                         <th> تاريخ النهاية </th>
-                                        <th> عدد الاستخدام </th>
-                                        <th> مرات الاستخدام </th>
+                                       
                                         <th> </th>
                                     </tr>
                                 </thead>
@@ -96,8 +95,7 @@
                                             <td> <?php echo  $coupon['coupon_value']; ?> </td>
                                             <td> <?php echo  $coupon['start_date']; ?> </td>
                                             <td> <?php echo  $coupon['end_date']; ?> </td>
-                                            <td> <?php echo  $coupon['available_number']; ?> </td>
-                                            <td> <?php echo  $coupon['already_used_num']; ?> </td>
+                                            <!-- <td> <?php echo  $coupon['available_number']; ?> </td>  -->
                                             <td>
                                                 <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $coupon['id']; ?>"> تعديل <i class='fa fa-pen'></i> </button>
                                                 <a href="main.php?dir=coupons&page=delete&coupon_id=<?php echo $coupon['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
@@ -129,10 +127,10 @@
                                                                 <label for="Company-2" class="block"> تاريخ النهاية </label>
                                                                 <input id="Company-2" name="end_date" type="date" class="form-control required"  value="<?php echo $coupon['end_date'] ?>">
                                                             </div>
-                                                            <div class="form-group">
+                                                            <!-- <div class="form-group">
                                                                 <label for="Company-2" class="block"> عدد المرات </label>
                                                                 <input id="Company-2" name="available_number" type="number" class="form-control required"  value="<?php echo $coupon['available_number'] ?>">
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="submit" name="edit_cat" class="btn btn-primary waves-effect waves-light "> تعديل </button>
@@ -175,10 +173,10 @@
                                         <label for="Company-2" class="block"> تاريخ النهاية </label>
                                         <input id="Company-2" name="end_date" type="date" class="form-control required">
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label for="Company-2" class="block"> عدد المرات </label>
                                         <input id="Company-2" name="available_number" type="number" class="form-control required">
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="modal-footer">
                                     <button type="submit" name="add_cat" class="btn btn-primary waves-effect waves-light "> حفظ </button>

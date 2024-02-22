@@ -15,7 +15,7 @@ if (isset($_SESSION['user_id'])) {
         $new_password = $_POST['new_password'];
         $confirm_password = $_POST['confirm_password'];
         if (sha1($form_old_password) !== $old_password) {
-            $formerror[] = 'كلمة المرور غير صحيحة ';
+            $formerror[] = ' كلمه المرور القديمه غير صحيحه  ';
         } elseif ($new_password !== $confirm_password) {
             $formerror[] = ' يجب تأكيد كلمة المرور بشكل صحيح  ';
         } elseif (strlen($new_password) < 8) {
@@ -119,5 +119,12 @@ ob_end_flush();
             icon.remove("fa-eye");
             icon.add("fa-eye-slash");
         }
+    }
+</script>
+
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
     }
 </script>

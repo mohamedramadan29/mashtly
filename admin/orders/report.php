@@ -77,19 +77,18 @@
                                                 <td> <?php echo  $order['order_date']; ?> </td>
                                                 <td> <span class="badge badge-info"> <?php echo  $order['status_value']; ?> </span>
                                                     <?php
-                                                    $stmt = $connect->prepare("SELECT * FROM order_steps WHERE order_id = ? ORDER BY id DESC LIMIT 1");
+                                                    $stmt = $connect->prepare("SELECT * FROM order_statuses WHERE order_id = ? ORDER BY id DESC LIMIT 1");
                                                     $stmt->execute(array($order['id']));
                                                     $order_step = $stmt->fetch();
                                                     $count = $stmt->rowCount();
                                                     if ($count > 0) { ?>
-                                                        <span class="badge badge-info"> <?php echo $order_step['date']; ?> </span>
-
+                                                        <span class="badge badge-info"> <?php echo $order_step['change_date']; ?> </span>
                                                     <?php
                                                     }
 
                                                     ?>
                                                 </td>
-                                                <td> <?php echo  $order['total_price']; ?> </td>
+                                                <td> <?php echo  $order['total_price']; ?> ر.س </td>
                                                 <td>
                                                     <a href="main.php?dir=orders&page=order_details&order_id=<?php echo $order['id']; ?>" class="btn btn-success waves-effect btn-sm"> تفاصيل الطلب <i class='fa fa-eye'></i></a>
                                                     <?php

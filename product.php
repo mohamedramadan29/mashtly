@@ -19,6 +19,9 @@ if (isset($_GET['slug'])) {
         $product_category = $product_data['cat_id'];
         $related_products = $product_data['related_product'];
         $public_tail = $product_data['public_tail'];
+        if($public_tail == '' || $public_tail == 0 || $public_tail == null){
+            $public_tail = 5;
+        }
         $more_info = $product_data['more_info'];
         // get product category 
         $stmt = $connect->prepare("SELECT * FROM categories WHERE id = ?");
@@ -26,12 +29,18 @@ if (isset($_GET['slug'])) {
         $category_data = $stmt->fetch();
         $cat_name = $category_data['name'];
         $cat_slug = $category_data['slug'];
+        $category_type = $category_data['main_category'];
     } else {
         header("Location:404");
     }
     ///////////////////// Add To Cart   /////////////////////
     if (isset($_POST['add_to_cart'])) {
         $product_id = $_POST['product_id'];
+        if(isset($_POST['product_name'])){
+            $product_name = $_POST['product_name'];
+        }else{
+            $product_name = $product_name;
+        }
         if (isset($_POST['vartion_select']) && $_POST['vartion_select'] != '') {
             $price = $_POST['select_price'];
             $vartion_name = $_POST['vartion_select'];
@@ -54,8 +63,6 @@ if (isset($_GET['slug'])) {
             $gift_id = null;
         }
         if (isset($_POST['farm_planet'])) {
-            echo "Goood";
-            echo $public_tail;
             $farm_planet = $public_tail;
         } else {
             $farm_planet = null;
@@ -67,14 +74,15 @@ if (isset($_GET['slug'])) {
             $user_id = null;
         }
         $total_price = null;
-        $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,quantity,price,vartion_name,farm_service,
+        $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,product_name,quantity,price,vartion_name,farm_service,
             gift_id,total_price)
-    VALUES(:zuser_id, :zcookie_id,:zproduct_id,:zquantity,:zprice,:zvartion_name,:zfarm_service,:zgift_id,:ztotal_price)
+    VALUES(:zuser_id, :zcookie_id,:zproduct_id,:zproduct_name,:zquantity,:zprice,:zvartion_name,:zfarm_service,:zgift_id,:ztotal_price)
     ");
         $stmt->execute(array(
             "zuser_id" => $user_id,
             "zcookie_id" => $cookie_id,
             "zproduct_id" => $product_id,
+            "zproduct_name" => $product_name,
             "zquantity" => $quantity,
             "zprice" => $price,
             "zvartion_name" => $vartion_name,
@@ -84,6 +92,26 @@ if (isset($_GET['slug'])) {
         ));
         if ($stmt) {
             alertcart();
+        }
+    }
+
+    // add to favorite
+    if (isset($_POST['add_to_fav'])) {
+        if (isset($_SESSION['user_id'])) {
+            $product_id = $_POST['product_id'];
+            $user_id = $_SESSION['user_id'];
+            $stmt = $connect->prepare("INSERT INTO user_favourite (user_id, product_id)
+        VALUES(:zuser_id, :zproduct_id)
+        ");
+            $stmt->execute(array(
+                "zuser_id" => $user_id,
+                "zproduct_id" => $product_id
+            ));
+            if ($stmt) {
+                alertfavorite();
+            }
+        } else {
+            header("Location:login");
         }
     }
 ?>
@@ -153,6 +181,7 @@ if (isset($_GET['slug'])) {
                                             }
                                             ?>
                                         <?php
+                                        } else {
                                         }
                                         ?>
                                         <?php
@@ -177,44 +206,51 @@ if (isset($_GET['slug'])) {
                                         ?>
                                         <!-- يمكنك إضافة المزيد من الصور هنا -->
                                     </div>
-                                    <div class="thumbnail-slider products_thumnails" id="products_thumnails">
-                                        <div>
-                                            <img class="thumbnail-image" loading="lazy" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="Thumbnail 1" data-image2="<?php echo $product_data_image['main_image']; ?>">
+                                    <?php
+                                    if ($count_g > 1) {
+                                    ?>
+                                        <div class="thumbnail-slider products_thumnails" id="products_thumnails">
+                                            <div>
+                                                <img class="thumbnail-image" loading="lazy" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="Thumbnail 1" data-image2="<?php echo $product_data_image['main_image']; ?>">
+                                            </div>
+                                            <?php
+                                            if ($count_g > 0) {
+                                                foreach ($allgallary as $gallary) {
+                                                    if ($gallary['image'] != null || $gallary['image'] != '') {
+                                            ?>
+                                                        <div>
+                                                            <img class="thumbnail-image" loading="lazy" src="admin/product_images/<?php echo $gallary['image']; ?>" alt="Image 2xcxcxc" data-image2="<?php echo $gallary['image']; ?>">
+                                                        </div>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                <?php
+                                                }
+                                                ?>
+                                                <?php
+                                            }
+                                            if ($count_att_g > 0) {
+                                                foreach ($allattimages as $att_image) {
+                                                    if ($att_image['image'] != '' || $att_image['image'] != null) {
+                                                ?>
+                                                        <div>
+                                                            <img class="thumbnail-image" loading="lazy" src="admin/product_images/<?php echo $att_image['image']; ?>" alt="Image 2" data-image2="<?php echo $att_image['image']; ?>">
+                                                        </div>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                <?php
+                                                }
+                                                ?>
+                                            <?php
+                                            }
+                                            ?>
+                                            <!-- يمكنك إضافة المزيد من الصور المصغرة هنا -->
                                         </div>
-                                        <?php
-                                        if ($count_g > 0) {
-                                            foreach ($allgallary as $gallary) {
-                                                if ($gallary['image'] != null || $gallary['image'] != '') {
-                                        ?>
-                                                    <div>
-                                                        <img class="thumbnail-image" loading="lazy" src="admin/product_images/<?php echo $gallary['image']; ?>" alt="Image 2xcxcxc" data-image2="<?php echo $gallary['image']; ?>">
-                                                    </div>
-                                                <?php
-                                                }
-                                                ?>
-                                            <?php
-                                            }
-                                            ?>
-                                            <?php
-                                        }
-                                        if ($count_att_g > 0) {
-                                            foreach ($allattimages as $att_image) {
-                                                if ($att_image['image'] != '' || $att_image['image'] != null) {
-                                            ?>
-                                                    <div>
-                                                        <img class="thumbnail-image" loading="lazy" src="admin/product_images/<?php echo $att_image['image']; ?>" alt="Image 2" data-image2="<?php echo $att_image['image']; ?>">
-                                                    </div>
-                                                <?php
-                                                }
-                                                ?>
-                                            <?php
-                                            }
-                                            ?>
-                                        <?php
-                                        }
-                                        ?>
-                                        <!-- يمكنك إضافة المزيد من الصور المصغرة هنا -->
-                                    </div>
+                                    <?php
+                                    }
+                                    ?>
+
                                 <?php
                                 } else {
                                 ?>
@@ -276,10 +312,203 @@ if (isset($_GET['slug'])) {
                                 </div>
                                 <div class="attention">
                                     <h3> تنويه </h3>
-                                    <p> الصور المعروضة للنبتة هنا توضح مميزاتها وشكلها بعد زراعتها ورعايتها وتقديم كامل احتياجاتها كما هو موضح في وصف النبتة، وبإمكانكم الحصول على تفاصيل أكثر من خلال دعم خبرائنا المجاني . </p>
+                                    <p> الصور المعروضة للمنتج هنا توضح مميزاتها وشكلها بعد زراعتها ورعايتها وتقديم كامل احتياجاتها كما هو موضح في وصف النبتة، وبإمكانكم الحصول على تفاصيل أكثر من خلال دعم خبرائنا المجاني . </p>
                                 </div>
                             </div>
                         </div>
+                        <div class="show_in_small_screen">
+                            <div class="request">
+                                <form action="" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="product_id" value="<?php echo $product_id ?>" id="">
+                                    <input type="hidden" name="product_name" value="<?php echo $product_name ?>" id="">
+                                    <h3> اطلبه الآن </h3>
+                                    <?php
+                                    $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ?");
+                                    $stmt->execute(array($product_id));
+                                    $allpro_attibutes = $stmt->fetchAll();
+                                    $allpro_attibutes_count = count($allpro_attibutes); ?>
+                                    <div class="options">
+                                        <?php
+                                        if ($allpro_attibutes_count > 0) {
+                                        ?>
+                                            <h6> حدد احد الاختيارات </h6>
+                                        <?php
+                                        }
+                                        ?>
+                                        <div class="colors">
+                                            <?php
+                                            if ($allpro_attibutes_count > 0) {
+                                                echo '<select class="form-control" name="vartion_select2" required>';
+                                                echo '<option value=""> "حدد احد الخيارات" </option>';
+                                                foreach ($allpro_attibutes as $allpro_att) {
+                                                    echo '<option value="' . $allpro_att['id'] . '" data-image="' . $allpro_att['image'] . '" data-price="' . $allpro_att['price'] . '" id="' . $allpro_att['id'] . '">' . $allpro_att['vartions_name'] . '</option>';
+                                                }
+                                                echo '</select>';
+                                                echo '<div>';
+                                                echo '<h6>السعر</h6>';
+                                                if ($allpro_att['price'] != '') {
+                                                    echo '<span class="text-bold" id="selected_price2">0.00 ر.س</span>';
+                                                    echo '<input id="price_value2" type="hidden" name="select_price" value="' . $allpro_att['price'] . '">';
+                                                } else {
+                                                    echo '<span class="text-bold"> ' . $product_data['price'] . ' ر.س</span>';
+                                                    echo '<input  type="hidden" name="select_price" value="' . $product_data['price'] . '">';
+                                                }
+
+                                                echo '</div>';
+                                            }
+                                            ?>
+
+                                        </div>
+                                        <h6> الكمية </h6>
+                                        <div class="quantity">
+                                            <button class="increase-btn"> + </button>
+                                            <input name="quantity" type="number" class="quantity-input" value="1" min="1">
+                                            <button class="decrease-btn">-</button>
+                                        </div>
+                                        <div class="present" data-bs-toggle="modal" data-bs-target="#exampleModalgift2">
+                                            <div class="image">
+                                                <div class="pre_image">
+                                                    <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart.png" alt="">
+                                                </div>
+                                                <div>
+                                                    <h4> التغليف كهدية </h4>
+                                                    <p> استعرض النماذج والأسعار. </p>
+                                                </div>
+                                            </div>
+                                            <div style="cursor: pointer;">
+                                                <img loading="lazy" src="<?php echo $uploads ?>/small_left_model.png" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="farm_price preset_price">
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="exampleModalgift2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="modal_price">
+                                                                <div class="header">
+                                                                    <h3> اختر تغليف الهدية المناسبة لك </h3>
+                                                                    <p> تكلفة تغليف الهدية تحسب علي كل نبته </p>
+                                                                </div>
+                                                                <p class="public"> يختلف كل تغليف من حيث التكلفة النهائية </p>
+                                                                <?php
+                                                                // Get Gifts 
+                                                                $stmt = $connect->prepare("SELECT * FROM gifts");
+                                                                $stmt->execute();
+                                                                $allgifts  = $stmt->fetchAll();
+                                                                foreach ($allgifts as $gift) {
+                                                                ?>
+                                                                    <input style="display: none;" class="select_gift" value="<?php echo $gift['id'] ?>" type="radio" name="gift_id" id="<?php echo $gift['id']; ?>2">
+                                                                    <label class="diffrent_price gifts" for="<?php echo $gift['id']; ?>">
+                                                                        <div>
+                                                                            <img loading="lazy" src="admin/gifts/images/<?php echo $gift['image']; ?>" alt="">
+                                                                        </div>
+                                                                        <div>
+                                                                            <p> يكتب هنا اسم ووصف التغليف <br><span> <?php echo $gift['price'] ?> ريال </span> </p>
+                                                                        </div>
+                                                                    </label>
+                                                                <?php
+                                                                }
+                                                                ?>
+                                                            </div>
+                                                            <button type="button" data-bs-dismiss="modal" aria-label="Close" style="background-color:#5c8e00; border-radius: 50px; color:#fff;margin:auto;display: block;" class="btn"> حفظ </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-------------- End Gifts ---------------->
+
+
+
+
+                                        <?php
+                                        if ($category_type == 1) {
+                                        ?>
+                                            <div class="farm">
+                                                <div class="check">
+                                                    <input style="border-color: red;" type="checkbox" name="farm_planet">
+                                                </div>
+                                                <div>
+                                                    <h4> يرجى زراعة النبتة بعد التوصيل </h4>
+                                                    <p> هذة الخدمة داخل مدينة الرياض فقط
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                                                            إعرف التكلفة
+                                                        </button>
+                                                    </p>
+                                                </div>
+                                                <div class="farm_price">
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="modal_price">
+                                                                        <div class="header">
+                                                                            <h3> زراعة النباتات </h3>
+                                                                            <p> تكلفة زراعة النباتات المختلفة </p>
+                                                                        </div>
+                                                                        <p class="public"> تختلف تكلفة زراعة النباتات طبقا لعامل طول ونوع النباتات من حيث كونها زهور موسمية أو أشجار مستديمة الخضرة طبقا للجدول التالي </p>
+                                                                        <div class="farm_services">
+                                                                            <p> خدمة الزرعة تشمل: </p>
+                                                                            <h4> الحفر - التسميد - الزراعة - نظافة الموقع. </h4>
+                                                                        </div>
+                                                                        <?php
+                                                                        // get the tails 
+                                                                        $stmt = $connect->prepare("SELECT * FROM public_tails");
+                                                                        $stmt->execute();
+                                                                        $available_tail = $stmt->fetchAll();
+                                                                        foreach ($available_tail as $tail) { ?>
+                                                                            <div class="diffrent_price">
+                                                                                <div>
+                                                                                    <img loading="lazy" src="<?php echo $uploads ?>/tree.svg" alt="">
+                                                                                </div>
+                                                                                <div>
+                                                                                    <p> <?php echo $tail['name']; ?> <span> <?php echo $tail['price']; ?> ريال </span> </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        <?php
+                                                                        }
+                                                                        ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php
+                                        }
+                                        ?>
+
+                                        <div class="add_cart">
+                                            <?php
+                                            $stmt = $connect->prepare("SELECT * FROM cart WHERE product_id = ? AND cookie_id = ?");
+                                            $stmt->execute(array($product_id, $cookie_id));
+                                            $count_pro = $stmt->rowCount();
+                                            if ($count_pro > 0) {
+                                            ?>
+                                                <a class="btn global_button cart" href="cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> مشاهدة السلة </a>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <button class="btn global_button cart" name="add_to_cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> أضف الي السلة </button>
+                                            <?php
+                                            }
+                                            ?>
+                                            <button class="btn wishlist" name="add_to_wishlist"> <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt=""> أضف الي المفضلة </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
                         <div class="product_description">
                             <h3> وصف المنتج </h3>
                             <p> <?php echo $product_desc ?> </p>
@@ -289,14 +518,19 @@ if (isset($_GET['slug'])) {
                             <div>
                                 <p> شارك عبر </p>
                             </div>
-                            <div>
-                                <ul class="list-unstyled">
-                                    <li> <a href="#"> <i class="fa fa-facebook"></i> </a> </li>
-                                    <li> <a href="#"> <i class="fa fa-twitter"></i> </a> </li>
-                                    <li> <a href="#"> <i class="fa fa-whatsapp"></i> </a> </li>
-                                    <li> <a href="#"> <i class="fa fa-instagram"></i> </a> </li>
-                                </ul>
+                            <!-- AddToAny BEGIN -->
+                            <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+                                <!-- <a class="a2a_dd" href="https://www.addtoany.com/share"></a> -->
+                                <a class="a2a_button_facebook"></a>
+                                <a class="a2a_button_whatsapp"></a>
+                                <a class="a2a_button_linkedin"></a>
+                                <a class="a2a_button_twitter"></a>
+                                <a class="a2a_button_x"></a>
+                                <a class="a2a_button_telegram"></a>
                             </div>
+                            <script async src="https://static.addtoany.com/menu/page.js"></script>
+                            <!-- AddToAny END -->
+
                         </div>
                         <div class="faq">
                             <?php
@@ -327,7 +561,7 @@ if (isset($_GET['slug'])) {
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 show_in_large_screen">
                         <div class="request">
                             <form action="" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="product_id" value="<?php echo $product_id ?>" id="">
@@ -356,8 +590,14 @@ if (isset($_GET['slug'])) {
                                             echo '</select>';
                                             echo '<div>';
                                             echo '<h6>السعر</h6>';
-                                            echo '<span class="text-bold" id="selected_price">0.00 ر.س</span>';
-                                            echo '<input id="price_value" type="hidden" name="select_price" value="' . $allpro_att['price'] . '">';
+                                            if ($allpro_att['price'] != '') {
+                                                echo '<span class="text-bold" id="selected_price">0.00 ر.س</span>';
+                                                echo '<input id="price_value" type="hidden" name="select_price" value="' . $allpro_att['price'] . '">';
+                                            }else{
+                                                echo '<span class="text-bold">'.$product_data['price'].' ر.س</span>';
+                                                echo '<input type="hidden" name="select_price" value="' . $product_data['price'] . '">';
+                                            }
+ 
                                             echo '</div>';
                                         }
                                         ?>
@@ -418,68 +658,75 @@ if (isset($_GET['slug'])) {
                                                             }
                                                             ?>
                                                         </div>
-                                                        <button type="button"  data-bs-dismiss="modal" aria-label="Close" style="background-color:#5c8e00; border-radius: 50px; color:#fff;margin:auto;display: block;" class="btn"> حفظ  </button>
+                                                        <button type="button" data-bs-dismiss="modal" aria-label="Close" style="background-color:#5c8e00; border-radius: 50px; color:#fff;margin:auto;display: block;" class="btn"> حفظ </button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <!-------------- End Gifts ---------------->
-                                    <div class="farm">
-                                        <div class="check">
-                                            <input style="border-color: red;" type="checkbox" name="farm_planet">
-                                        </div>
-                                        <div>
-                                            <h4> يرجى زراعة النبتة بعد التوصيل </h4>
-                                            <p> هذة الخدمة داخل مدينة الرياض فقط
-                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                    إعرف التكلفة
-                                                </button>
-                                            </p>
-                                        </div>
-                                        <div class="farm_price">
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="modal_price">
-                                                                <div class="header">
-                                                                    <h3> زراعة النباتات </h3>
-                                                                    <p> تكلفة زراعة النباتات المختلفة </p>
-                                                                </div>
-                                                                <p class="public"> تختلف تكلفة زراعة النباتات طبقا لعامل طول ونوع النباتات من حيث كونها زهور موسمية أو أشجار مستديمة الخضرة طبقا للجدول التالي </p>
-                                                                <div class="farm_services">
-                                                                    <p> خدمة الزرعة تشمل: </p>
-                                                                    <h4> الحفر - التسميد - الزراعة - نظافة الموقع. </h4>
-                                                                </div>
-                                                                <?php
-                                                                // get the tails 
-                                                                $stmt = $connect->prepare("SELECT * FROM public_tails");
-                                                                $stmt->execute();
-                                                                $available_tail = $stmt->fetchAll();
-                                                                foreach ($available_tail as $tail) { ?>
-                                                                    <div class="diffrent_price">
-                                                                        <div>
-                                                                            <img loading="lazy" src="<?php echo $uploads ?>/tree.svg" alt="">
-                                                                        </div>
-                                                                        <div>
-                                                                            <p> <?php echo $tail['name']; ?> <span> <?php echo $tail['price']; ?> ريال </span> </p>
-                                                                        </div>
+                                    <?php
+                                    if ($category_type == 1) {
+                                    ?>
+
+                                        <div class="farm">
+                                            <div class="check">
+                                                <input style="border-color: red;" type="checkbox" name="farm_planet">
+                                            </div>
+                                            <div>
+                                                <h4> يرجى زراعة النبتة بعد التوصيل </h4>
+                                                <p> هذة الخدمة داخل مدينة الرياض فقط
+                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                        إعرف التكلفة
+                                                    </button>
+                                                </p>
+                                            </div>
+                                            <div class="farm_price">
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="modal_price">
+                                                                    <div class="header">
+                                                                        <h3> زراعة النباتات </h3>
+                                                                        <p> تكلفة زراعة النباتات المختلفة </p>
                                                                     </div>
-                                                                <?php
-                                                                }
-                                                                ?>
+                                                                    <p class="public"> تختلف تكلفة زراعة النباتات طبقا لعامل طول ونوع النباتات من حيث كونها زهور موسمية أو أشجار مستديمة الخضرة طبقا للجدول التالي </p>
+                                                                    <div class="farm_services">
+                                                                        <p> خدمة الزرعة تشمل: </p>
+                                                                        <h4> الحفر - التسميد - الزراعة - نظافة الموقع. </h4>
+                                                                    </div>
+                                                                    <?php
+                                                                    // get the tails 
+                                                                    $stmt = $connect->prepare("SELECT * FROM public_tails");
+                                                                    $stmt->execute();
+                                                                    $available_tail = $stmt->fetchAll();
+                                                                    foreach ($available_tail as $tail) { ?>
+                                                                        <div class="diffrent_price">
+                                                                            <div>
+                                                                                <img loading="lazy" src="<?php echo $uploads ?>/tree.svg" alt="">
+                                                                            </div>
+                                                                            <div>
+                                                                                <p> <?php echo $tail['name']; ?> <span> <?php echo $tail['price']; ?> ريال </span> </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    <?php
+                                                                    }
+                                                                    ?>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    <?php
+                                    }
+                                    ?>
                                     <div class="add_cart">
                                         <?php
                                         $stmt = $connect->prepare("SELECT * FROM cart WHERE product_id = ? AND cookie_id = ?");
@@ -655,112 +902,9 @@ if (isset($_GET['slug'])) {
                     foreach ($allproducts as $product) {
                     ?>
                         <div class="col-lg-3 col-6">
-                            <div class="product_info">
-                                <!-- get the product image -->
-                                <?php
-                                $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
-                                $stmt->execute(array($product['id']));
-                                //  getproductimage($connect,$product['id']);
-                                $count_image = $stmt->rowCount();
-                                $product_data_image = $stmt->fetch();
-                                if ($count_image > 0) {
-                                ?>
-                                    <img class="main_image" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt']; ?>">
-                                <?php
-                                } else {
-                                ?>
-                                    <img class="main_image" src="uploads/product.png" alt="">
-                                <?php
-                                }
-                                ?>
-
-                                <div class="product_details">
-                                    <h2> <a href="product?slug=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
-                                    <?php
-                                    $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
-                                    $minimumPrice = INF; // قيمة أدنى سعر ممكنة
-                                    // نشوف علي المنتج يحتوي علي متغيرات او لا
-                                    $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ? AND price != ''");
-                                    $stmt->execute(array($product['id']));
-                                    $count_pro_attr = $stmt->rowCount();
-                                    if ($count_pro_attr > 0) {
-                                        $allproduct_data = $stmt->fetchAll();
-                                        foreach ($allproduct_data as $product_data) {
-                                            $pro_price =  $product_data['price'];
-                                            $maximumPrice = max($maximumPrice, $pro_price);
-                                            $minimumPrice = min($minimumPrice, $pro_price);
-                                        }
-                                    ?>
-                                        <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س </h4>
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <h4 class='price'> <?php
-                                                            if ($product['sale_price'] != '' && $product['sale_price'] != 0) {
-                                                                echo $product['sale_price'];
-                                                            } else {
-                                                                echo $product['price'];
-                                                            }
-                                                            ?> ر.س </h4>
-                                    <?php
-                                    }
-                                    ?>
-                                    <form action="" method="post">
-                                        <input type="hidden" name="price" value="<?php if ($product['sale_price'] != '' && $product['sale_price'] != 0) {
-                                                                                        echo $product['sale_price'];
-                                                                                    } else {
-                                                                                        echo $product['price'];
-                                                                                    } ?>">
-                                        <div class='add_cart'>
-                                            <div>
-                                                <?php
-                                                if (checkIfProductInCart($connect, $cookie_id, $product['id'])) {
-                                                ?>
-                                                    <a href="cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
-                                                        مشاهدة السلة
-                                                    </a>
-                                                <?php
-                                                } else {
-                                                ?>
-                                                    <?php
-                                                    if ($count_pro_attr > 0) {
-                                                    ?>
-                                                        <a href="product?slug=<?php echo $product['slug']; ?>" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
-                                                            مشاهدة الاختيارات
-                                                        </a>
-                                                    <?php
-                                                    } else {
-                                                    ?>
-                                                        <button name="add_to_cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                            الي السلة
-                                                        </button>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                <?php
-                                                }
-                                                ?>
-                                            </div>
-                                            <div class="heart">
-                                                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                                                <?php
-                                                if (isset($_SESSION['user_id']) && checkIfProductIsFavourite($connect, $_SESSION['user_id'], $product['id'])) {
-                                                ?>
-                                                    <img src="<?php echo $uploads; ?>/heart2.svg" alt="">
-                                                <?php
-                                                } else {
-                                                ?>
-                                                    <button name="add_to_fav" type="submit" style="border: none; background-color:transparent">
-                                                        <img src="<?php echo $uploads ?>/heart.png" alt="">
-                                                    </button>
-                                                <?php
-                                                }
-                                                ?>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                            <?php
+                            include 'tempelate/product.php';
+                            ?>
                         </div>
                     <?php
                     }
@@ -772,7 +916,7 @@ if (isset($_GET['slug'])) {
     <!-- END NEWWER PRODUCTS  -->
 
     <!-- START NEWWER PRODUCTS -->
-    <div class="new_producs index_all_cat" style="padding-top: 0;">
+    <!-- <div class="new_producs index_all_cat" style="padding-top: 0;">
         <div class="container">
             <div class="data" style="box-shadow: none;">
                 <div class="data_header">
@@ -858,9 +1002,8 @@ if (isset($_GET['slug'])) {
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- END NEWWER PRODUCTS  -->
-
 
     <!-- START NEWWER PRODUCTS -->
     <div class="new_producs index_all_cat" style="padding-top: 0;">
@@ -875,118 +1018,15 @@ if (isset($_GET['slug'])) {
                 <div class="row">
                     <?php
                     // get product from the same category 
-                    $stmt = $connect->prepare("SELECT * FROM products WHERE cat_id = ? AND id !=? ORDER BY id DESC LIMIT 4");
+                    $stmt = $connect->prepare("SELECT * FROM products WHERE cat_id = ? AND name !='' AND price !='' AND id !=? ORDER BY id DESC LIMIT 8");
                     $stmt->execute(array($product_category, $product_id));
                     $allproduct = $stmt->fetchAll();
                     foreach ($allproduct as $product) {
                     ?>
                         <div class="col-lg-3 col-6">
-                            <div class="product_info">
-                                <!-- get the product image -->
-                                <?php
-                                $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
-                                $stmt->execute(array($product['id']));
-                                //  getproductimage($connect,$product['id']);
-                                $count_image = $stmt->rowCount();
-                                $product_data_image = $stmt->fetch();
-                                if ($count_image > 0) {
-                                ?>
-                                    <img class="main_image" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt']; ?>">
-                                <?php
-                                } else {
-                                ?>
-                                    <img class="main_image" src="uploads/product.png" alt="">
-                                <?php
-                                }
-                                ?>
-
-                                <div class="product_details">
-                                    <h2> <a href="product?slug=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
-                                    <?php
-                                    $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
-                                    $minimumPrice = INF; // قيمة أدنى سعر ممكنة
-                                    // نشوف علي المنتج يحتوي علي متغيرات او لا
-                                    $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ? AND price != ''");
-                                    $stmt->execute(array($product['id']));
-                                    $count_pro_attr = $stmt->rowCount();
-                                    if ($count_pro_attr > 0) {
-                                        $allproduct_data = $stmt->fetchAll();
-                                        foreach ($allproduct_data as $product_data) {
-                                            $pro_price =  $product_data['price'];
-                                            $maximumPrice = max($maximumPrice, $pro_price);
-                                            $minimumPrice = min($minimumPrice, $pro_price);
-                                        }
-                                    ?>
-                                        <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س </h4>
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <h4 class='price'> <?php
-                                                            if ($product['sale_price'] != '' && $product['sale_price'] != 0) {
-                                                                echo $product['sale_price'];
-                                                            } else {
-                                                                echo $product['price'];
-                                                            }
-                                                            ?> ر.س </h4>
-                                    <?php
-                                    }
-                                    ?>
-                                    <form action="" method="post">
-                                        <input type="hidden" name="price" value="<?php if ($product['sale_price'] != '' && $product['sale_price'] != 0) {
-                                                                                        echo $product['sale_price'];
-                                                                                    } else {
-                                                                                        echo $product['price'];
-                                                                                    } ?>">
-                                        <div class='add_cart'>
-                                            <div>
-                                                <?php
-                                                if (checkIfProductInCart($connect, $cookie_id, $product['id'])) {
-                                                ?>
-                                                    <a href="cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
-                                                        مشاهدة السلة
-                                                    </a>
-                                                <?php
-                                                } else {
-                                                ?>
-                                                    <?php
-                                                    if ($count_pro_attr > 0) {
-                                                    ?>
-                                                        <a href="product?slug=<?php echo $product['slug']; ?>" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
-                                                            مشاهدة الاختيارات
-                                                        </a>
-                                                    <?php
-                                                    } else {
-                                                    ?>
-                                                        <button name="add_to_cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                                            الي السلة
-                                                        </button>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                <?php
-                                                }
-                                                ?>
-                                            </div>
-                                            <div class="heart">
-                                                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                                                <?php
-                                                if (isset($_SESSION['user_id']) && checkIfProductIsFavourite($connect, $_SESSION['user_id'], $product['id'])) {
-                                                ?>
-                                                    <img src="<?php echo $uploads; ?>/heart2.svg" alt="">
-                                                <?php
-                                                } else {
-                                                ?>
-                                                    <button name="add_to_fav" type="submit" style="border: none; background-color:transparent">
-                                                        <img src="<?php echo $uploads ?>/heart.png" alt="">
-                                                    </button>
-                                                <?php
-                                                }
-                                                ?>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                            <?php
+                            include 'tempelate/product.php';
+                            ?>
                         </div>
                     <?php
                     }
@@ -1072,4 +1112,10 @@ ob_end_flush();
             // Add your custom code here for increasing quantity
         });
     });
+</script>
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
 </script>

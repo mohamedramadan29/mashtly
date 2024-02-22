@@ -24,6 +24,9 @@ if (isset($_SESSION['user_id'])) {
     $ship_price = $order_data['ship_price'];
     $order_date = $order_data['order_date'];
     $total_price = $order_data['total_price'];
+    $name = $order_data['name'];
+    $email = $order_data['email'];
+    $phone = $order_data['phone']; 
 
     // get order details
 
@@ -61,15 +64,11 @@ if (isset($_SESSION['user_id'])) {
                                     <li> <span> رقم الجوال: </span> </li>
                                 </ul>
                                 <ul class="list-unstyled">
-                                    <li> #62403441 </li>
-                                    <li> 30 مايو 2023 | 10:31 مساءً </li>
-                                    <li> <?php if (!empty($user_name)) {
-                                                echo $user_name;
-                                            } else {
-                                                echo $user_username;
-                                            }; ?> </li>
-                                    <li> <?php echo $user_email; ?> </li>
-                                    <li> <?php echo $user_phone; ?> </li>
+                                    <li> # <?php echo  $order_number; ?> </li>
+                                    <li> <?php echo $order_date; ?></li>
+                                    <li> <?php echo $name; ?> </li>
+                                    <li> <?php echo $email; ?> </li>
+                                    <li> <?php echo $phone; ?> </li>
                                 </ul>
                             </div>
                         </div>
@@ -123,7 +122,7 @@ if (isset($_SESSION['user_id'])) {
                                             <span> <?php echo $details['qty']; ?> </span>
                                         </div>
                                         <div>
-                                            <span> <?php echo  number_format($details['qty'] * $details['total'], 2); ?> ر.س </span>
+                                            <span> <?php echo  number_format($details['qty'] * $details['product_price'], 2); ?> ر.س </span>
                                         </div>
                                     </div>
                                 </div>
@@ -135,26 +134,15 @@ if (isset($_SESSION['user_id'])) {
                         </div>
                         <div class="order_totals">
                             <div class="price_sections">
+
                                 <div class="first">
-                                    <div>
-                                        <h3> المجموع الفرعي: </h3>
-                                        <p> إجمالي سعر المنتجات في السلة </p>
-                                    </div>
-                                    <div>
-                                        <h2 class="total"> <?php echo number_format($sub_total, 2); ?> ر.س </h2>
-                                    </div>
-                                </div>
-                                <div class="first">
-                                    <?php
-                                    $vat = $total_price * (15 / 100);
-                                    $gift_farm_price = $total_price - ($sub_total + $ship_price + $vat);
-                                    ?>
+
                                     <div>
                                         <h3> تكلفة الإضافات: </h3>
                                         <p> تكلفة الزراعة + تكلفة التغليف كهدية </p>
                                     </div>
                                     <div>
-                                        <h2 class="total"> <?php echo number_format($gift_farm_price, 2); ?> ر.س </h2>
+                                        <h2 class="total"> <?php echo number_format($order_data['farm_service_price'], 2); ?> ر.س </h2>
                                     </div>
                                 </div>
                                 <div class="first">
@@ -164,19 +152,6 @@ if (isset($_SESSION['user_id'])) {
                                     </div>
                                     <div>
                                         <h2 class="total"><?php echo number_format($ship_price, 2); ?> ر.س </h2>
-                                    </div>
-                                </div>
-                                <div class="first">
-                                    <div>
-                                        <h3> ضريبة القيمة المضافة VAT: </h3>
-                                        <p> القيمة المضافة تساوي 15% من اجمالي الطلب </p>
-                                    </div>
-                                    <div>
-                                        <?php
-
-
-                                        ?>
-                                        <h2 class="total"> <?php echo number_format($vat, 2); ?> ر.س </h2>
                                     </div>
                                 </div>
                                 <hr>
@@ -215,6 +190,10 @@ if (isset($_SESSION['user_id'])) {
         .bottom_footer,
         .main_navbar,
         .instagrame_footer {
+            display: none !important;
+        }
+
+        .whatsapp_footer {
             display: none !important;
         }
 

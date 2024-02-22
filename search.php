@@ -24,19 +24,21 @@ if (isset($_POST['add_to_fav'])) {
 }
 if (isset($_POST['add_to_cart'])) {
     $product_id = $_POST['product_id'];
+    $product_name = $_POST['product_name'];
     $price = $_POST['price'];
     if (isset($_SESSION['user_id'])) {
         $user_id = $_SESSION['user_id'];
     } else {
         $user_id = null;
     }
-    $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,quantity,price,total_price)
-    VALUES(:zuser_id, :zcookie_id , :zproduct_id,:zquantity ,:zprice , :ztotal_price)
+    $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,product_name,quantity,price,total_price)
+    VALUES(:zuser_id, :zcookie_id , :zproduct_id,:zproduct_name,:zquantity ,:zprice , :ztotal_price)
     ");
     $stmt->execute(array(
         "zuser_id" => $user_id,
         "zcookie_id" => $cookie_id,
         "zproduct_id" => $product_id,
+        "zproduct_name" => $product_name,
         "zquantity" => 1,
         "zprice" => $price,
         "ztotal_price" => $price,
@@ -62,38 +64,6 @@ $offset = ($currentpage - 1) * $pageSize;
 if (isset($_GET['search']) && $_GET['search'] != '') {
     $search = $_GET['search'];
     $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name LIKE '%$search%'  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
-} elseif (isset($_POST['height_price'])) {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY price DESC LIMIT $pageSize OFFSET :offset");
-} elseif (isset($_POST['low_price'])) {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY price ASC LIMIT $pageSize OFFSET :offset");
-} elseif (isset($_POST['newest'])) {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
-} elseif (isset($_POST['oldest'])) {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id ASC LIMIT $pageSize OFFSET :offset");
-} elseif (isset($_POST['search_options'])) {
-    $options = $_POST['options'];
-    $placeholders = implode(',', array_fill(0, count($selectedOptions), '?'));
-    // get options after get products have this options 
-    $stmt = $connect->prepare("SELECT * FROM product_properties_plants WHERE option_id = ?");
-    $stmt->execute(array($options));
-    $options_data = $stmt->fetchAll();
-    foreach ($options_data as $option_data) {
-        echo $option_data['product_id'];
-    }
-} elseif (isset($_POST['search_options'])) {
-    $selectedOptions = $_POST['options'];
-    if (!empty($selectedOptions)) {
-        // Get product IDs from options table
-        $placeholders = implode(',', array_fill(0, count($selectedOptions), '?'));
-        $stmt = $connect->prepare("SELECT DISTINCT product_id FROM product_properties_plants WHERE option_id IN ($placeholders)");
-        $stmt->execute($selectedOptions);
-        $productIDs = $stmt->fetchAll(PDO::FETCH_COLUMN);
-        // Get all products with matching IDs
-        if (!empty($productIDs)) {
-            $productIDsStr = implode(',', $productIDs);
-            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
-        }
-    }
 } else {
     $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
 }
@@ -146,11 +116,12 @@ $totalPages = ceil($num_products / $pageSize);
                     <div class="pagination_section">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="" aria-label="Previous">
+                                <li class="page-item <?php echo ($currentpage == 1) ? 'disabled' : ''; ?>">
+                                    <a class="page-link" href="?search=<?php echo $search; ?>&page=<?php echo ($currentpage > 1) ? ($currentpage - 1) : 1; ?>" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
+
                                 <?php
                                 for ($i = 1; $i <= $totalPages; $i++) {
                                     echo '<li class="page-item';
@@ -160,11 +131,12 @@ $totalPages = ceil($num_products / $pageSize);
                                     echo '"><a class="page-link" href="?search=' . $search . '&page=' . $i . '">' . $i . '</a></li>';
                                 }
                                 ?>
-                                <li class="page-item">
-                                    <a class="page-link" href="" aria-label="Next">
+                                <li class="page-item <?php echo ($currentpage == $totalPages) ? 'disabled' : ''; ?>">
+                                    <a class="page-link" href="?search=<?php echo $search; ?>&page=<?php echo ($currentpage < $totalPages) ? ($currentpage + 1) : $totalPages; ?>" aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
                                 </li>
+
                             </ul>
                         </nav>
                     </div>

@@ -29,6 +29,7 @@ if (isset($_SESSION['user_id'])) {
                         $stmt = $connect->prepare("SELECT * FROM user_address WHERE user_id=?");
                         $stmt->execute(array($user_id));
                         $alladdress = $stmt->fetchAll();
+                        $count_address = $stmt->rowCount();
                         foreach ($alladdress as $address) {
                             $id = $address['id'];
                             $city = $address['city'];
@@ -46,7 +47,7 @@ if (isset($_SESSION['user_id'])) {
                         ?>
                             <div class="col-lg-4">
                                 <div class="address <?php if ($default_address == 1) echo "active"; ?> ">
-                                    <div class='add_head'>
+                                    <!-- <div class='add_head'>
 
                                         <div class="form-check">
                                             <a href=""><input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault<?php echo $address['id'] ?>" <?php if ($default_address == 1) echo "checked"; ?>></a>
@@ -61,7 +62,7 @@ if (isset($_SESSION['user_id'])) {
                                                 <button id="confirm_delete" name="delete_address" type="submit" onclick="return confirm('هل أنت متأكد من رغبتك في حذف العنوان؟')"> <i class='fa fa-close'></i> حذف العنوان </button>
                                             </div>
                                         </form>
-                                    </div>
+                                    </div> -->
                                     <div class='add_content'>
                                         <h2> <?php echo $city; ?> </h2>
                                         <p class="add_title">
@@ -79,7 +80,10 @@ if (isset($_SESSION['user_id'])) {
                         <?php
                         }
                         ?>
-                        <div class="col-lg-4">
+<?php 
+if($count_address ==  0){
+?>
+    <div class="col-lg-4">
                             <div class="add_new_address">
                                 <a href="add">
                                     <i class="fa fa-plus"></i>
@@ -87,6 +91,10 @@ if (isset($_SESSION['user_id'])) {
                                 </a>
                             </div>
                         </div>
+<?php 
+}
+?>
+                    
                     </div>
                 </div>
             </div>

@@ -13,6 +13,10 @@ if (isset($_SESSION['user_id'])) {
         $count = $stmt->rowCount();
         if ($count > 0) {
             $order_data = $stmt->fetch();
+            // get the order statusss
+            $stmt = $connect->prepare("SELECT * FROM order_statuses WHERE order_id = ?");
+            $stmt->execute(array($order_data['id']));
+
 ?>
             <div class="profile_page new_address_page">
 
@@ -48,32 +52,103 @@ if (isset($_SESSION['user_id'])) {
                                         <p> <?php echo $order_data['order_date']; ?> </p>
                                     </div>
                                 </div>
-                                <div class="step step2">
-                                    <span></span>
-                                    <div>
-                                        <h3> تم تأكيد طلبك </h3>
-                                        <p> 4 أبريل 2023 </p>
+                                <?php
+                                $stmt = $connect->prepare("SELECT * FROM order_statuses WHERE order_id = ? AND status='قيد الانتظار' ORDER BY id DESC");
+                                $stmt->execute(array($order_data['id']));
+                                $status_data = $stmt->fetch();
+                                $count_status = $stmt->rowCount();
+                                if ($count_status > 0) {
+                                ?>
+                                    <div class="step step2 active">
+                                        <span></span>
+                                        <div>
+                                            <h3> تم تأكيد طلبك </h3>
+                                            <p> <?php echo $status_data['change_date']; ?> </p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="step step3">
-                                    <span></span>
-                                    <div>
-                                        <h3> تم الشحن </h3>
-                                        <p> 4 أبريل 2023 </p>
+                                <?php
+                                } else {
+                                ?>
+                                    <div class="step step2">
+                                        <span></span>
+                                        <div>
+                                            <h3> لم يتم تاكيد الطلب </h3>
+                                            <p> <?php echo $order_data['order_date']; ?> </p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="step step4">
-                                    <span></span>
-                                    <div>
-                                        <h3> تم التوصيل </h3>
-                                        <p> 4 أبريل 2023 </p>
+                                <?php
+                                }
+                                ?>
+                                <?php
+
+                                $stmt = $connect->prepare("SELECT * FROM order_statuses WHERE order_id = ? AND status='قيد التنفيذ' ORDER BY id DESC");
+                                $stmt->execute(array($order_data['id']));
+                                $status_data = $stmt->fetch();
+                                $count_status = $stmt->rowCount();
+                                if ($count_status > 0) {
+                                ?>
+                                    <div class="step step3 active">
+                                        <span></span>
+                                        <div>
+                                            <h3> تم الشحن </h3>
+                                            <p> <?php echo $status_data['change_date']; ?> </p>
+                                        </div>
                                     </div>
-                                </div>
+                                <?php
+                                } else {
+                                ?>
+                                    <div class="step step3">
+                                        <span></span>
+                                        <div>
+                                            <h3> لم يتم الشحن </h3>
+                                            <p> <?php echo $order_data['order_date']; ?> </p>
+                                        </div>
+                                    </div>
+                                <?php
+                                }
+                                ?>
+
+                                <?php
+
+                                $stmt = $connect->prepare("SELECT * FROM order_statuses WHERE order_id = ? AND status='مكتمل' ORDER BY id DESC");
+                                $stmt->execute(array($order_data['id']));
+                                $status_data = $stmt->fetch();
+                                $count_status = $stmt->rowCount();
+                                if ($count_status > 0) {
+                                ?>
+                                    <div class="step step4 active">
+                                        <span></span>
+                                        <div>
+                                            <h3> تم التوصيل </h3>
+                                            <p> <?php echo $order_data['order_date']; ?> </p>
+                                        </div>
+                                    </div>
+                                <?php
+                                } else {
+                                ?>
+                                    <div class="step step4">
+                                        <span></span>
+                                        <div>
+                                            <h3> لم يتم التوصيل </h3>
+                                            <p> <?php echo $order_data['order_date']; ?> </p>
+                                        </div>
+                                    </div>
+                                <?php
+                                }
+                                ?>
                             </div>
                             <div class="order_buttons">
                                 <div>
                                     <form action="" method="post">
-                                        <button name="cancel_order" class="btn global_button cancel_button"> إلغاء الطلب </button>
+                                        <?php
+                                        if ($order_data['status_value'] != 'قيد الانتظار' && $order_data['status_value'] != 'قيد التنفيذ' && $order_data['status_value'] != 'مكتمل') {
+                                        ?>
+                                            <button name="cancel_order" class="btn global_button cancel_button"> إلغاء الطلب </button>
+                                        <?php
+                                        }
+                                        ?>
+
+
                                         <a href="print?order_number=<?php echo $order_number; ?>" class="btn global_button"> تفاصيل الطلب </a>
                                     </form>
                                 </div>

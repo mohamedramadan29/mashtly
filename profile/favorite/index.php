@@ -23,59 +23,70 @@ if (isset($_SESSION['user_id'])) {
                     </div>
                 </div>
             </div>
-            
+
             <?php
             // remove items 
-            if(isset($_POST['remove'])){
+            if (isset($_POST['remove'])) {
                 $product_id = $_POST['product_id'];
                 $stmt = $connect->prepare("DELETE FROM user_favourite WHERE user_id = ? AND product_id = ?");
                 $stmt->execute(array($user_id, $product_id));
-                if($stmt){
+                if ($stmt) {
                     header("location:index");
                 }
             }
             ?>
             <?php
-            if($count > 0){
-                ?>
+            if ($count > 0) {
+            ?>
 
-<div class="favorite">
-                <?php
-                foreach ($allfav as $fav) {
-                    $stmt = $connect->prepare("SELECT * FROM products WHERE id=?");
-                    $stmt->execute(array($fav['product_id']));
-                    $product_data = $stmt->fetch();
-                ?>
-                    <div class="fav_data">
-                        <div class="product_data">
-                            <div class="image">
-                                <img src="<?php echo $uploads ?>product.png" alt="">
+                <div class="favorite">
+                    <?php
+                    foreach ($allfav as $fav) {
+                        $stmt = $connect->prepare("SELECT * FROM products WHERE id=?");
+                        $stmt->execute(array($fav['product_id']));
+                        $product_data = $stmt->fetch();
+                    ?>
+                        <div class="fav_data">
+                            <div class="product_data">
+                                <?php
+                                $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
+                                $stmt->execute(array($product_data['id']));
+                                //  getproductimage($connect,$product['id']);
+                                $count_image = $stmt->rowCount();
+                                $product_data_image = $stmt->fetch();
+                                ?>
+                                <a href="../../product?slug=<?php echo $product_data['slug']; ?>">
+                                    <div class="image">
+                                        <img src="../../admin/product_images/<?php echo $product_data_image['main_image'];  ?>" alt="">
+                                    </div>
+                                </a>
+                                <div>
+                                    <a style="text-decoration: none; color:#4e4e4e" href="../../product?slug=<?php echo $product_data['slug']; ?>">
+                                        <h3> <?php echo $product_data['name']; ?> </h3>
+                                    </a>
+                                    <span> <?php echo number_format($product_data['price'], 2) ?> ر.س </span>
+                                </div>
                             </div>
-                            <div>
-                                <h3> <?php echo $product_data['name']; ?> </h3>
-                                <span> <?php echo number_format($product_data['price'],2) ?> ر.س </span>
+                            <div class="remove">
+                                <form action="" method="post">
+                                    <input type="hidden" name="product_id" value="<?php echo $product_data['id']; ?>">
+                                    <!-- <button class="btn global_button"> أضف الي السلة </button> -->
+                                    <p> <span class="fa fa-close"></span> <button id="remove"  type="submit" name="remove" onclick="return confirmDelete();"> إزالة من المفضلة </button> </p>
+                                </form>
                             </div>
                         </div>
-                        <div class="remove">
-                            <form action="" method="post">
-                                <input type="hidden" name="product_id" value="<?php echo $product_data['id']; ?>">
-                            <button class="btn global_button"> أضف الي السلة </button>
-                            <p> <span class="fa fa-close"></span> <button id="remove" type="submit" name="remove"> إزالة من المفضلة  </button> </p>
-                            </form>
-                        </div>
-                    </div>
-                <?php
-                }
+                    <?php
+                    }
 
-                ?>
-            </div>
-                <?php 
-            }else{
-                ?>
+                    ?>
+                </div>
+            <?php
+            } else {
+            ?>
                 <div class="alert alert-success text-center"> لا يوجد لديك عناصر في المفضلة !! </div>
-                <?php 
+            <?php
             }
-            
+
             ?>
         </div>
     </div>
@@ -88,3 +99,16 @@ if (isset($_SESSION['user_id'])) {
 include $tem . 'footer.php';
 ob_end_flush();
 ?>
+
+<script>
+    function confirmDelete() {
+        return confirm("هل أنت متأكد من رغبتك في الحذف؟");
+    }
+</script>
+
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>

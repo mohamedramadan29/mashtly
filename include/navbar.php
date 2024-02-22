@@ -151,9 +151,18 @@
                       <a class="nav-link dropdown-toggle" href="http://localhost/mashtly/categories" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         التصنيفات
                       </a>
+
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">التصنيف الاول </a></li>
-                        <li><a class="dropdown-item" href="#"> التصنيف الثاني </a></li>
+                        <?php
+                        $stmt = $connect->prepare("SELECT * FROM categories");
+                        $stmt->execute();
+                        $allcategories = $stmt->fetchAll();
+                        foreach ($allcategories as $category) {
+                        ?>
+                          <li><a class="dropdown-item" href="http://localhost/mashtly/category_products?cat=<?php echo $category['slug']; ?>"> <?php echo $category['name'] ?> </a></li>
+                        <?php
+                        }
+                        ?>
                       </ul>
                     </li>
                     <li class="nav-item nav_badge">
@@ -235,7 +244,9 @@
                   foreach ($allcategories as $category) {
                   ?>
                     <div class="col-3">
-                      <li> <a href="http://localhost/mashtly/category_products?cat=<?php echo $category['slug']; ?>"> <?php echo $category['name'] ?> </a> </li>
+                      <a style="color: #000;" href="http://localhost/mashtly/category_products?cat=<?php echo $category['slug']; ?>">
+                        <li> <?php echo $category['name'] ?> </li>
+                      </a>
                     </div>
                   <?php
                   }

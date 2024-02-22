@@ -37,15 +37,15 @@
             }
             if ($maximumPrice === $minimumPrice) {
         ?>
-                <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?> </h4>
+                <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?>  ر.س  </h4>
             <?php
-            }else{
-                ?>
-  <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س </h4>
-                <?php 
+            } else {
+            ?>
+                <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س </h4>
+            <?php
             }
             ?>
-          
+
         <?php
         } else {
         ?>
@@ -60,6 +60,8 @@
         }
         ?>
         <form action="" method="post">
+            
+        <input type="hidden" name="product_name" value="<?php echo $product['name']; ?>">
             <input type="hidden" name="price" value="<?php if ($product['sale_price'] != '' && $product['sale_price'] != 0) {
                                                             echo $product['sale_price'];
                                                         } else {
@@ -97,6 +99,7 @@
                 </div>
                 <div class="heart">
                     <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                    
                     <?php
                     if (isset($_SESSION['user_id']) && checkIfProductIsFavourite($connect, $_SESSION['user_id'], $product['id'])) {
                     ?>

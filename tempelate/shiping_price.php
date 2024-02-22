@@ -33,7 +33,10 @@ if (isset($_SESSION['user_id'])) {
                     if ($count_weight_tail > 0) {
                         $product_weight = $product_weight_tail_data['weight'] * $item['quantity'];
                     } else {
-                        echo 'هناك مشكلة في هذا المنتج من فضلك تواصل مع الادارة';
+                        ?>
+                        <span class="badge badge-danger bg-danger"> هناك مشكلة في هذا المنتج من فضلك تواصل مع الادارة </span>
+                        
+                        <?php 
                     }
                 }
             }
@@ -41,6 +44,7 @@ if (isset($_SESSION['user_id'])) {
             // check if this item have wheight or not 
             if (!empty($product_data_ship['ship_weight'])) {
                 $product_weight = $product_data_ship['ship_weight'] * $item['quantity'];
+                // echo $product_weight;
             } else {
                 $product_tail_ship = $product_data_ship['ship_tail'];
                 $stmt = $connect->prepare("SELECT * FROM shipping_weight_tools WHERE tail = ? ORDER BY id DESC LIMIT 1");
@@ -50,7 +54,10 @@ if (isset($_SESSION['user_id'])) {
                 if ($count_weight_tail > 0) {
                     $product_weight = $product_weight_tail_data['weight'] * $item['quantity'];
                 } else {
-                    echo 'هناك مشكلة في هذا المنتج من فضلك تواصل مع الادارة';
+
+?>
+                    <span class="badge badge-danger bg-danger"> هناك مشكلة في هذا المنتج من فضلك تواصل مع الادارة </span>
+    <?php
                 }
             }
         }
@@ -78,38 +85,53 @@ if (isset($_SESSION['user_id'])) {
     } else {
         echo 'نوع الفئة غير متوقع';
     }
-?>
+    ?>
     <?php
     // get user address
     $stmt = $connect->prepare("SELECT * FROM user_address WHERE user_id = ? AND default_address = 1");
     $stmt->execute(array($user_id));
     $address_data = $stmt->fetch();
-    $user_area = $address_data['area'];
-    $area_code = $address_data['area_code'];
-    // get the companies contain all terms in this cart 
-    $stmt = $connect->prepare("SELECT * FROM shipping_company WHERE ship_type = ? AND ship_area = ? AND whight_from <= ? AND whight_to >= ?");
-    $stmt->execute(array($ship_type_data, $area_code, $ship_weights, $ship_weights));
-    $shipping_company_data = $stmt->fetch();
-    $count_shipping_company = $stmt->rowCount();
-    if ($count_shipping_company > 0) {
-        echo "</br>";
-        $company_name = $shipping_company_data['company_name'];
-        $start_from_price = $shipping_company_data['ship_start_from_price'];
-        $end_to_price = $shipping_company_data['ship_end_to_price'];
-        $ship_price = $shipping_company_data['default_whight_ship_price'];
-        $more_kilo_price = $shipping_company_data['more_kilo_price'];
-        if ($ship_weights >= $start_from_price && $ship_weights <= $end_to_price) {
-            $ship_price = $ship_price;
+    $count_address = $stmt->rowCount();
+    if ($count_address > 0) {
+        $user_area = $address_data['area'];
+        $area_code = $address_data['area_code'];
+
+
+        // get the companies contain all terms in this cart 
+        // بناء الاستعلام
+        $stmt = $connect->prepare("SELECT * FROM shipping_company WHERE FIND_IN_SET(?,ship_type) > 0 AND FIND_IN_SET(?, ship_area) > 0 AND whight_from <= ? AND whight_to >= ?");
+        $stmt->execute(array($ship_type_data, $area_code, $ship_weights, $ship_weights));
+        $shipping_company_data = $stmt->fetch();
+        $count_shipping_company = $stmt->rowCount();
+
+        if ($count_shipping_company > 0) {
+            echo "</br>";
+            $company_name = $shipping_company_data['company_name'];
+            $start_from_price = $shipping_company_data['ship_start_from_price'];
+            $end_to_price = $shipping_company_data['ship_end_to_price'];
+            $ship_price = $shipping_company_data['default_whight_ship_price'];
+            $more_kilo_price = $shipping_company_data['more_kilo_price'];
+            if ($ship_weights >= $start_from_price && $ship_weights <= $end_to_price) {
+                $ship_price = $ship_price;
+            } else {
+                // add more price for ship whight
+                $overweight = $ship_weights - $end_to_price;
+                $over_price =  $overweight * $more_kilo_price;
+                $ship_price = $ship_price + $over_price;
+            }
+            $shipping_value =  $ship_price;
         } else {
-            // add more price for ship whight
-            $overweight = $ship_weights - $end_to_price;
-            $over_price =  $overweight * $more_kilo_price;
-            $ship_price = $ship_price + $over_price;
+    ?>
+            <span class="badge badge-danger bg-danger"> لا يوجد شركات متاحة من فضلك تواصل مع الاداره </span>
+        <?php
+
         }
-        $shipping_value =  $ship_price;
     } else {
-        echo 'لا يوجد شركات متاحة ';
+        ?>
+        <div class="alert alert-danger"> <a href="profile/address/index"> اضف عنوانك او اجلعه اساسي لتتمكن من الشحن </a> </div>
+    <?php
     }
+
 
     ?>
     <h2 class="total"><?php echo number_format($shipping_value, 2); ?> ر.س </h2>

@@ -87,11 +87,14 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                 <li class="nav-item">
                   <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false"> تفاصيل الطلب </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false"> العمليات علي الطلب </a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false"> المرفقات </a>
+                </li> -->
+                <li class="nav-item">
+                  <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-order_status" role="tab" aria-controls="custom-tabs-one-order_status" aria-selected="false"> حاله الطلب </a>
                 </li>
               </ul>
             </div>
@@ -284,6 +287,25 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                           <p class="badge badge-secondary" style="font-size: 16px;"> سعر الشحن ::: </p>
                           <span> <strong> <?php echo $order_data['ship_price']; ?> </strong> ريال </span>
                         </div>
+                        <div class="form-group">
+                          <p class="badge badge-primary" style="font-size: 16px;"> سعر الاضافات ::: </p>
+                          <span> <strong> <?php echo $order_data['farm_service_price']; ?> </strong> ريال </span>
+                        </div>
+                        <?php
+                        if ($order_data['coupon_code'] != '') {
+                        ?>
+                          <div class="form-group">
+                            <p class="badge badge-danger" style="font-size: 16px;"> كوبون الخصم ::: </p>
+                            <span> <strong> <?php echo $order_data['coupon_code']; ?> </strong> </span>
+                          </div>
+                          <div class="form-group">
+                            <p class="badge badge-danger" style="font-size: 16px;"> قيمه الخصم ::: </p>
+                            <span> <strong> <?php echo $order_data['discount_value']; ?> </strong> ريال </span>
+                          </div>
+                        <?php
+                        }
+                        ?>
+
                         <div class="form-group">
                           <p class="badge badge-info" style="font-size: 16px;"> السعر الكلي ::: </p>
                           <span> <strong> <?php echo $order_data['total_price']; ?> </strong> ريال </span>
@@ -478,6 +500,92 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                       </tr>
                     </tbody>
                   </table>
+                </div>
+                <div class="tab-pane fade" id="custom-tabs-one-order_status" role="tabpanel" aria-labelledby="custom-tabs-one-order_status-tab">
+
+                  <?php
+                  // get all order status and the last status 
+                  $stmt = $connect->prepare("SELECT * FROM order_statuses where order_id = ? ");
+                  $stmt->execute(array($order_id));
+                  $count_order_status = $stmt->rowCount();
+                  $order_status = $stmt->fetchAll();
+                  if ($count_order_status > 0) {
+                  ?>
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th> تاريخ الحاله </th>
+                          <th> الحاله </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php
+                        foreach ($order_status as $status) {
+                        ?>
+                          <tr>
+                            <td> <?php echo $status['change_date'] ?> </td>
+                            <td> <?php echo $status['status'] ?> </td>
+                          </tr>
+                        <?php
+                        }
+                        ?>
+                        <tr></tr>
+                      </tbody>
+                    </table>
+                  <?php
+                  }
+                  ?>
+                  <?php
+
+                  // get The Last Status Of Order
+                  $stmt = $connect->prepare("SELECT * FROM order_statuses where order_id = ? ORDER BY id DESC ");
+                  $stmt->execute(array($order_id));
+                  $count_last_status = $stmt->rowCount();
+                  $status_data = $stmt->fetch();
+                  ?>
+                  <form action="" method="post">
+                    <div class="form-group">
+                      <label for=""> حاله الطلب الحاليه </label>
+                      <select name="order_status" class="form-control select2" id="">
+                        <option <?php if ($status_data['status'] == 'لم يبدا' || $count_last_status == 0) echo "selected"; ?> value="لم يبدا"> لم يبدا </option>
+                        <option <?php if ($status_data['status'] == 'قيد الانتظار') echo 'selected'; ?> value="قيد الانتظار"> قيد الانتظار </option>
+                        <option <?php if ($status_data['status'] == 'قيد التنفيذ') echo 'selected'; ?> value="قيد التنفيذ"> قيد التنفيذ </option>
+
+                        <option <?php if ($status_data['status'] == 'مكتمل') echo 'selected'; ?> value="مكتمل"> مكتمل </option>
+                        <option <?php if ($status_data['status'] == 'ملغي') echo 'selected'; ?> value="ملغي">ملغي</option>
+                        <option <?php if ($status_data['status'] == 'مسوده') echo 'selected'; ?> value="مسوده">مسوده</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" name="change_status" class="btn btn-primary"> تعديل حاله الطلب </button>
+                    </div>
+                  </form>
+                  <?php
+                  if (isset($_POST['change_status'])) {
+                    $order_status = $_POST['order_status'];
+                    // Insert New Order Status 
+                    $stmt = $connect->prepare("INSERT INTO order_statuses (order_id,change_date,status)
+                    VALUES(:zorder_id,:zchange_date,:zstatus)
+                    ");
+                    $stmt->execute(array(
+                      'zorder_id' => $order_id,
+                      'zchange_date' => date("n/j/Y g:i A"),
+                      "zstatus" => $order_status,
+                    ));
+                    if ($stmt) {
+                      // change status in order 
+                      $stmt = $connect->prepare("UPDATE orders SET status_value = ? WHERE id = ?");
+                      $stmt->execute(array($order_status, $order_id));
+                      header("Location:main.php?dir=orders&page=order_details&order_id=" . $order_id);
+                  ?>
+
+                      <div class="alert alert-danger"> تم اضافه الطلب بنجاح </div>
+                  <?php
+                    }
+                  }
+                  ?>
+
+
                 </div>
               </div>
             </div>
