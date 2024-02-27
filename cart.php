@@ -277,13 +277,13 @@ if (isset($_POST['remove_item'])) {
                                                     </div>
                                                 <?php
                                                 } else { ?>
-                                                    <div class="image">
+                                                    <!-- <div class="image">
                                                         <img src="<?php echo $uploads ?>product.png" alt="">
                                                     </div>
                                                     <div class="gift_info">
                                                         <h3> التغليف كهدية </h3>
                                                         <p> لا اريد التغليف كهدية</p>
-                                                    </div>
+                                                    </div> -->
                                                 <?php
                                                 }
                                                 ?>
@@ -367,7 +367,8 @@ if (isset($_POST['remove_item'])) {
                                     <div class="first">
                                         <div>
                                             <h3> تكلفة الإضافات: </h3>
-                                            <p> تكلفة الزراعة + تكلفة التغليف كهدية </p>
+                                            <!-- <p> تكلفة الزراعة + تكلفة التغليف كهدية </p> -->
+                                            <p> تكلفة الزراعة   </p>
                                         </div>
                                         <div>
                                             <h2 class="total"> <?php echo number_format($grand_farm_services, 2); ?> ر.س </h2>
@@ -406,7 +407,7 @@ if (isset($_POST['remove_item'])) {
                                         <div class="first">
                                             <div>
                                                 <h3> قيمه كوبون الخصم : </h3>
-                                                <p>  سيتم الخصم من قيمه الشحنه بالكامل</p>
+                                                <p> سيتم الخصم من قيمه الشحنه بالكامل</p>
                                             </div>
                                             <div>
                                                 <h2 class="total"> <?php echo number_format($_SESSION['coupon'], 2); ?> % </h2>

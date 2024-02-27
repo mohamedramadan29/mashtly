@@ -200,7 +200,21 @@ body {
     border-radius: 50%;
     position: relative;
 }
-
+@media(max-width:991px){
+    .middel_header .data .info .cart{
+        margin-right: 3px;
+        margin-left: 3px;
+    }
+    .middel_header .data .info .heart{
+        margin-right: 3px;
+        margin-left: 3px;
+    } 
+    .middel_header .data .info .cart, .middel_header .data .info .heart{
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+    } 
+}
 .middel_header .data .info .cart .cart_count {
     color: var(--second-color);
     position: absolute;
@@ -1082,7 +1096,7 @@ body {
     }
 
     .new_producs .data .data_header .data_header_name {
-        margin-right: 35px;
+        margin-right: 5px;
     }
 
     .new_producs .data .data_header p {
@@ -1332,6 +1346,14 @@ body {
     margin-right: 65px;
 }
 
+@media(max-width:991px){
+    .why_mashtly .data .data_header_name{
+        margin-right: 5px;
+    }
+    .header2::after{
+        width: 5px;
+    }
+}
 .why_mashtly .data .header2::after {
     right: -6%;
     top: 14px;
@@ -1343,10 +1365,16 @@ body {
     text-align: center;
     padding: 10px;
     margin-bottom: 22px;
+    min-height: 202px
 }
 
 .why_mashtly .data .info img {
     width: 135px;
+}
+@media(max-width:991px){
+    .why_mashtly .data .info img{
+        width: 80px;
+    }
 }
 
 .why_mashtly .data .info h4 {
@@ -1407,6 +1435,11 @@ body {
 .index_posts .from_blog .post_info {
 
     margin-bottom: 20px;
+}
+@media(max-width:991px){
+    .index_posts .from_blog .post_info{
+        text-align: center;
+    }
 }
 
 .index_posts .from_blog .post_info img {
@@ -1483,6 +1516,11 @@ body {
     line-height: 1.6;
     margin-top: 10px;
     font-size: 28px;
+}
+@media(max-width:991px){
+    .index_video .info h2{
+        font-size: 20px;
+    }
 }
 
 .index_video .info a {}
@@ -1581,10 +1619,10 @@ body {
 }
 
 .testmonails .data .person_info .foo img {
-    width: 60px;
+    width: 40px;
     margin-left: 15px;
-    height: 60px;
-    border-radius: 50%;
+    height: 40px;
+
 }
 
 .testmonails .right_arrow {
@@ -1597,11 +1635,13 @@ body {
 
 .testmonails .left_arrow {
     position: relative;
-    top: -262px;
-    left: -94%;
+    top: -287px;
+    left: -95%;
     width: 34px;
     cursor: pointer;
 }
+
+
 
 .testmonails .data .person_info .foo h5 {
     font-size: 16px;
@@ -1609,6 +1649,36 @@ body {
 
 .testmonails .data .person_info .foo span {
     font-size: 14px;
+}
+
+@media(max-width:991px) {
+    .testmonails .left_arrow {
+        width: 23px;
+        left: -90%;
+        top: -185px;
+    }
+
+    .testmonails .right_arrow {
+        top: -41px;
+        left: 58px;
+        width: 23px;
+    }
+    .testmonails .data .data_header_name {
+        margin-right: 5px;
+    }
+    .testmonails .data .person_info{
+        min-height: auto;
+        width: auto;
+    }
+    .testmonails .data .person_info .head img{
+        width: 25px;
+        margin-bottom: 10px;
+    }
+    .testmonails .data .person_info .foo img{
+        width: 25px;
+        height: 25px;
+    }
+    
 }
 
 /* END TESTMONAILS */
@@ -1639,6 +1709,11 @@ body {
 
 .profile_page .data .data_header_name {
     margin-right: 65px;
+}
+@media(max-width:991px){
+    .profile_page .data .data_header_name {
+        margin-right: 5px;
+    } 
 }
 
 .profile_page .data .header2::after {
@@ -2035,6 +2110,11 @@ body {
     font-size: 20px;
     margin-right: 80px;
     position: relative;
+}
+@media(max-width:991px){
+    .cart .user_address h5{
+        margin-right: 5px;
+    }
 }
 
 .cart .user_address h5::after {
@@ -4830,9 +4910,9 @@ body {
 }
 
 .whatsapp_footer img {
-    width: 70px;
+    width: 50px;
     position: fixed;
-    right: 25px;
+    left: 25px;
     bottom: 25px;
 }
 

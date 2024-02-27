@@ -4,8 +4,6 @@ if (isset($_POST['add_cat'])) {
     $area = $_POST['area'];
     $cities = $_POST['cities'];
     $cities = explode(',', $cities);
-
-
     if (empty($area)) {
         $formerror[] = ' من فضلك ادخل اسم المنطقة   ';
     }
@@ -23,7 +21,6 @@ if (isset($_POST['add_cat'])) {
                 "zreg_id" => $last_reg_id + 1,
             ));
         }
-
         if ($stmt) {
             $_SESSION['success_message'] = " تمت الأضافة بنجاح  ";
             header('Location:main?dir=area_city&page=report');

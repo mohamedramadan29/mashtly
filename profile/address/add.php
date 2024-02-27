@@ -22,6 +22,14 @@ if (isset($_SESSION['user_id'])) {
         if (empty($name) || empty($phone) || empty($country) || empty($city) || empty($street_name) || empty($build_number)) {
             $formerror[] = 'من فضلك ادخل المعلومات كاملة';
         }
+        // تحقق من أن الرقم يتبع إحدى الصيغ التالية:
+        // 1. مفتاح الدولة معرّف مع الرقم (مفتاح الدولة غير الزامي)
+        // 2. الرقم بدون مفتاح الدولة
+        if (!preg_match('/^(?:\+966|00966)?05[0-9]{8}$|^05[0-9]{8}$/', $phone)) {
+            $formerror[] = 'من فضلك، أدخل رقم هاتف صحيح بصيغة سعودية.';
+        }
+
+
         // get the city area
         if ($country == 'EG') {
             $stmt = $connect->prepare("SELECT * FROM eg_city WHERE name=?");
@@ -106,7 +114,7 @@ if (isset($_SESSION['user_id'])) {
                                         $allsaucountry = $stmt->fetchAll();
                                         foreach ($allsaucountry as $city) {
                                         ?>
-                                            <option value="<?php echo $city['name']; ?>"> <?php echo $city['name']; ?> </option>
+                                            <option <?php if(isset($_REQUEST['city'])&& $_REQUEST['city'] == $city['name']) echo "selected"; ?> value="<?php echo $city['name']; ?>"> <?php echo $city['name']; ?> </option>
                                         <?php
                                         }
                                         ?>
@@ -116,21 +124,21 @@ if (isset($_SESSION['user_id'])) {
                             <div class='box'>
                                 <div class="input_box">
                                     <label for="name"> الاسم بالكامل </label>
-                                    <input required id="name" type="text" name="name" class='form-control' placeholder="اكتب…">
+                                    <input required id="name" type="text" name="name" class='form-control' placeholder="اكتب…" value="<?php if(isset($_REQUEST['name'])) echo $_REQUEST['name']; ?>">
                                 </div>
                                 <div class="input_box">
                                     <label for="phone"> رقم الجوال </label>
-                                    <input required id="phone" type="text" name="phone" class='form-control' placeholder="اكتب…">
+                                    <input required id="phone" type="text" name="phone" class='form-control' placeholder="اكتب…" value="<?php if(isset($_REQUEST['phone'])) echo $_REQUEST['phone']; ?>">
                                 </div>
                             </div>
                             <div class="box">
                                 <div class="input_box">
                                     <label for="street_name"> اسم الشارع </label>
-                                    <input required id="street_name" type="text" name="street_name" class='form-control' placeholder="اكتب…">
+                                    <input required id="street_name" type="text" name="street_name" class='form-control' placeholder="اكتب…" value="<?php if(isset($_REQUEST['street_name'])) echo $_REQUEST['street_name']; ?>">
                                 </div>
                                 <div class="input_box">
                                     <label for="build_number"> رقم المبني </label>
-                                    <input required id="build_number" type="text" name="build_number" class='form-control' placeholder="اكتب…">
+                                    <input required id="build_number" type="text" name="build_number" class='form-control' placeholder="اكتب…" value="<?php if(isset($_REQUEST['build_number'])) echo $_REQUEST['build_number']; ?>">
                                 </div>
                             </div>
                             <!-- <div class="input_box">

@@ -45,6 +45,13 @@ if (isset($_SESSION['user_id'])) {
             if (empty($name) || empty($phone) || empty($country) || empty($city) || empty($street_name) || empty($build_number)) {
                 $formerror[] = 'من فضلك ادخل المعلومات كاملة';
             }
+            // تحقق من أن الرقم يتبع إحدى الصيغ التالية:
+            // 1. مفتاح الدولة معرّف مع الرقم (مفتاح الدولة غير الزامي)
+            // 2. الرقم بدون مفتاح الدولة
+            if (!preg_match('/^(?:\+966|00966)?05[0-9]{8}$|^05[0-9]{8}$/', $phone)) {
+                $formerror[] = 'من فضلك، أدخل رقم هاتف صحيح بصيغة سعودية.';
+            }
+            
             if (empty($formerror)) {
                 $table = "user_address";
                 $data = array(
@@ -55,7 +62,7 @@ if (isset($_SESSION['user_id'])) {
                     "build_number" => $build_number,
                     "name" => $name,
                     "phone" => $phone,
-                    "default_address" => 1 ,
+                    "default_address" => 1,
                 );
                 $stmt = $connect->prepare("UPDATE user_address SET country=? , city = ? ,area = ? ,street_name=?,
                 build_number=?,name=?, phone=?,default_address=? WHERE id = ?

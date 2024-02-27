@@ -72,10 +72,10 @@
                                 <thead>
                                     <tr>
                                         <th> # </th>
-                                        <th> العنوان </th>
+                                        <!-- <th> العنوان </th> -->
                                         <th> الوصف </th>
                                         <th> اسم العميل </th>
-                                        <th> صورة العميل </th>
+                                        <!-- <th> صورة العميل </th> -->
                                         <th> </th>
                                     </tr>
                                 </thead>
@@ -90,13 +90,13 @@
                                     ?>
                                         <tr>
                                             <td> <?php echo $i; ?> </td>
-                                            <td> <?php echo  $cat['head']; ?> </td>
+                                            <!-- <td> <?php echo  $cat['head']; ?> </td> -->
 
                                             <td> <?php echo  $cat['description']; ?> </td>
                                             <td> <?php echo  $cat['name']; ?> </td>
-                                            <td> <img style="width: 80px; height:80px;" src="testmonails/images/<?php echo $cat['image']; ?>" alt="">
+                                            <!-- <td> <img style="width: 80px; height:80px;" src="testmonails/images/<?php echo $cat['image']; ?>" alt="">
 
-                                            </td>
+                                            </td> -->
                                             <td>
                                                 <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $cat['id']; ?>"> تعديل <i class='fa fa-pen'></i> </button>
                                                 <a href="main.php?dir=testmonails&page=delete&cat_id=<?php echo $cat['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
@@ -111,11 +111,11 @@
                                                     </div>
                                                     <form method="post" action="main.php?dir=testmonails&page=edit" enctype="multipart/form-data">
                                                         <div class="modal-body">
-                                                            <div class="form-group">
+                                                            <!-- <div class="form-group">
                                                                 <input type='hidden' name="cat_id" value="<?php echo $cat['id']; ?>">
                                                                 <label for="Company-2" class="block"> العنوان </label>
                                                                 <input required id="Company-2" name="head" type="text" class="form-control required" value="<?php echo $cat['head']; ?>">
-                                                            </div>
+                                                            </div> -->
                                                             <div class="form-group">
                                                                 <label for="Company-2" class="block"> الوصف </label>
                                                                 <textarea id="Company-2" name="description" class="form-control"><?php echo  $cat['description'] ?></textarea>
@@ -124,12 +124,12 @@
                                                                 <label for="Company-2" class="block"> اسم العميل </label>
                                                                 <input required id="Company-2" name="name" type="text" class="form-control required" value="<?php echo $cat['name']; ?>">
                                                             </div>
-                                                            <div class="form-group">
+                                                            <!-- <div class="form-group">
                                                                 <label for="customFile"> تعديل صورة القسم </label>
                                                                 <div class="custom-file">
                                                                     <input type="file" class="dropify" multiple data-height="150" data-allowed-file-extensions="jpg jpeg png svg webp" data-max-file-size="4M" name="main_image" data-show-loader="true" />
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="submit" name="edit_cat" class="btn btn-primary waves-effect waves-light "> تعديل </button>
@@ -155,10 +155,10 @@
                             </div>
                             <form action="main.php?dir=testmonails&page=add" method="post" enctype="multipart/form-data">
                                 <div class="modal-body">
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label for="Company-2" class="block"> العنوان </label>
                                         <input required id="Company-2" name="head" type="text" class="form-control required">
-                                    </div>
+                                    </div> -->
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> الوصف </label>
                                         <textarea id="Company-2" name="description" class="form-control"></textarea>
@@ -167,12 +167,12 @@
                                         <label for="Company-2" class="block"> اسم العميل </label>
                                         <input required id="Company-2" name="name" type="text" class="form-control required">
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label for="customFile"> صورة العميل </label>
                                         <div class="custom-file">
                                             <input type="file" class="dropify" multiple data-height="150" data-allowed-file-extensions="jpg jpeg png svg webp" data-max-file-size="4M" name="main_image" data-show-loader="true" />
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="modal-footer">
                                     <button type="submit" name="add_cat" class="btn btn-primary waves-effect waves-light "> حفظ </button>

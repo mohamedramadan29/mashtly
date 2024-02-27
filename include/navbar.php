@@ -120,7 +120,21 @@
             <div class="info">
               <div class="cart">
                 <a href="http://localhost/mashtly/cart">
+                  <?php
+                  // get all product from user cart
+                  $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
+
+                  $stmt->execute(array($cookie_id));
+                  $count_carts = $stmt->rowCount();
+                  $allitems = $stmt->fetchAll();
+                  if ($count_carts > 0) {
+                  ?>
+                    <span class="cart_count"> <?php echo $count_carts; ?> </span>
+                  <?php
+                  }
+                  ?>
                   <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
+
                 </a>
               </div>
               <div class="heart">
@@ -178,9 +192,9 @@
                     <li class="nav-item">
                       <a class="nav-link" href="http://localhost/mashtly/import_service"> خدمات الاستيراد </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                       <a class="nav-link" href="http://localhost/mashtly/gifts"> الهدايا </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                       <a class="nav-link" href="http://localhost/mashtly/blog"> المدونة </a>
                     </li>
@@ -204,14 +218,14 @@
         <div class="row d-flex align-items-center">
           <div class="col-12">
             <div class="search">
-              <form action="#" method="get" class='form-group'>
+              <form action="http://localhost/mashtly/search" method="get" class='form-group'>
                 <div class="box">
                   <div class="box2">
-                    <input type="text" name='search' placeholder="اكتب كلمة البحث…" class="form-control">
-                    <img src="<?php echo $uploads ?>/search.png" alt="">
+                    <input type="text" name='search' value="<?php if (isset($_REQUEST['search'])) echo $_REQUEST['search']; ?>" placeholder="اكتب كلمة البحث…" class="form-control">
+
                   </div>
                   <div class='box3'>
-                    <button type='submit'> البحث المتقدم </button>
+                    <button type='submit'> البحث المتقدم <img src="<?php echo $uploads ?>/search.png" alt=""> </button>
                   </div>
                 </div>
               </form>
@@ -269,9 +283,9 @@
           <li class="nav-item">
             <a class="nav-link" href="http://localhost/mashtly/import_service"> خدمات الاستيراد </a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="http://localhost/mashtly/gifts"> الهدايا </a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link" href="http://localhost/mashtly/blog"> المدونة </a>
           </li>

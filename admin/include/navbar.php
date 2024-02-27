@@ -35,7 +35,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="main.php?dir=dashboard&page=dashboard" class="brand-link">
+      <a href="../index" class="brand-link">
         <span class="brand-text font-weight-light"> مشتلي </span>
         <img src="uploads/logo.png" alt="AdminLTE Logo" class="brand-image elevation-3" style="box-shadow: none;">
 
@@ -213,7 +213,7 @@
                   </a>
                 </li> -->
                 <li class="nav-item">
-                  <a href="main.php?dir=shipping_company&page=report" class="nav-link">
+                  <a href="main.php?dir=shipping_company/companies&page=report" class="nav-link">
                     <p> شركات الشحن  </p>
                   </a>
                 </li>

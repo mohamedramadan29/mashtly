@@ -19,7 +19,7 @@ if (isset($_GET['slug'])) {
         $product_category = $product_data['cat_id'];
         $related_products = $product_data['related_product'];
         $public_tail = $product_data['public_tail'];
-        if($public_tail == '' || $public_tail == 0 || $public_tail == null){
+        if ($public_tail == '' || $public_tail == 0 || $public_tail == null) {
             $public_tail = 5;
         }
         $more_info = $product_data['more_info'];
@@ -36,9 +36,9 @@ if (isset($_GET['slug'])) {
     ///////////////////// Add To Cart   /////////////////////
     if (isset($_POST['add_to_cart'])) {
         $product_id = $_POST['product_id'];
-        if(isset($_POST['product_name'])){
+        if (isset($_POST['product_name'])) {
             $product_name = $_POST['product_name'];
-        }else{
+        } else {
             $product_name = $product_name;
         }
         if (isset($_POST['vartion_select']) && $_POST['vartion_select'] != '') {
@@ -365,7 +365,7 @@ if (isset($_GET['slug'])) {
                                             <input name="quantity" type="number" class="quantity-input" value="1" min="1">
                                             <button class="decrease-btn">-</button>
                                         </div>
-                                        <div class="present" data-bs-toggle="modal" data-bs-target="#exampleModalgift2">
+                                        <!-- <div class="present" data-bs-toggle="modal" data-bs-target="#exampleModalgift2">
                                             <div class="image">
                                                 <div class="pre_image">
                                                     <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart.png" alt="">
@@ -378,7 +378,7 @@ if (isset($_GET['slug'])) {
                                             <div style="cursor: pointer;">
                                                 <img loading="lazy" src="<?php echo $uploads ?>/small_left_model.png" alt="">
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="farm_price preset_price">
                                             <!-- Modal -->
                                             <div class="modal fade" id="exampleModalgift2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -593,11 +593,11 @@ if (isset($_GET['slug'])) {
                                             if ($allpro_att['price'] != '') {
                                                 echo '<span class="text-bold" id="selected_price">0.00 ر.س</span>';
                                                 echo '<input id="price_value" type="hidden" name="select_price" value="' . $allpro_att['price'] . '">';
-                                            }else{
-                                                echo '<span class="text-bold">'.$product_data['price'].' ر.س</span>';
+                                            } else {
+                                                echo '<span class="text-bold">' . $product_data['price'] . ' ر.س</span>';
                                                 echo '<input type="hidden" name="select_price" value="' . $product_data['price'] . '">';
                                             }
- 
+
                                             echo '</div>';
                                         }
                                         ?>
@@ -609,7 +609,7 @@ if (isset($_GET['slug'])) {
                                         <input name="quantity" type="number" class="quantity-input" value="1" min="1">
                                         <button class="decrease-btn">-</button>
                                     </div>
-                                    <div class="present" data-bs-toggle="modal" data-bs-target="#exampleModalgift">
+                                    <!-- <div class="present" data-bs-toggle="modal" data-bs-target="#exampleModalgift">
                                         <div class="image">
                                             <div class="pre_image">
                                                 <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart.png" alt="">
@@ -622,7 +622,7 @@ if (isset($_GET['slug'])) {
                                         <div style="cursor: pointer;">
                                             <img loading="lazy" src="<?php echo $uploads ?>/small_left_model.png" alt="">
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="farm_price preset_price">
                                         <!-- Modal -->
                                         <div class="modal fade" id="exampleModalgift" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

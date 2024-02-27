@@ -33,10 +33,10 @@ if (isset($_SESSION['user_id'])) {
                     if ($count_weight_tail > 0) {
                         $product_weight = $product_weight_tail_data['weight'] * $item['quantity'];
                     } else {
-                        ?>
+?>
                         <span class="badge badge-danger bg-danger"> هناك مشكلة في هذا المنتج من فضلك تواصل مع الادارة </span>
-                        
-                        <?php 
+
+                    <?php
                     }
                 }
             }
@@ -55,7 +55,7 @@ if (isset($_SESSION['user_id'])) {
                     $product_weight = $product_weight_tail_data['weight'] * $item['quantity'];
                 } else {
 
-?>
+                    ?>
                     <span class="badge badge-danger bg-danger"> هناك مشكلة في هذا المنتج من فضلك تواصل مع الادارة </span>
     <?php
                 }
@@ -95,8 +95,6 @@ if (isset($_SESSION['user_id'])) {
     if ($count_address > 0) {
         $user_area = $address_data['area'];
         $area_code = $address_data['area_code'];
-
-
         // get the companies contain all terms in this cart 
         // بناء الاستعلام
         $stmt = $connect->prepare("SELECT * FROM shipping_company WHERE FIND_IN_SET(?,ship_type) > 0 AND FIND_IN_SET(?, ship_area) > 0 AND whight_from <= ? AND whight_to >= ?");

@@ -113,7 +113,7 @@ if (isset($_SESSION['user_id'])) {
                                             </div>
                                             <div>
                                                 <h4> <?php echo $product_data['name']; ?> </h4>
-                                                <p> <?php echo number_format($product_data['price'], 2); ?> ر.س </p>
+                                                <p> <?php echo number_format($details['product_price'], 2); ?> ر.س </p>
                                             </div>
                                         </div>
                                     </div>

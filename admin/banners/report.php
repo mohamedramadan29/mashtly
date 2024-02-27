@@ -113,7 +113,7 @@
                                                                 <label for="Company-2" class="block"> العنوان </label>
                                                                 <input id="Company-2" required name="head_name" type="text" class="form-control required" value="<?php echo  $cat['head_name'] ?>">
                                                             </div>
-                                                            
+
                                                             <div class="form-group">
                                                                 <label for="Company-2" class="block"> الوصف </label>
                                                                 <textarea id="Company-2" name="description" class="form-control"><?php echo  $cat['description'] ?></textarea>
@@ -124,7 +124,7 @@
                                                                     <input type="file" class="custom-file-input" id="customFile" accept='image/*' name="main_image">
                                                                     <label class="custom-file-label" for="customFile">اختر الصورة</label>
                                                                 </div>
-                                                            </div> 
+                                                            </div>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="submit" name="edit_cat" class="btn btn-primary waves-effect waves-light "> تعديل </button>
@@ -162,8 +162,7 @@
                                     <div class="form-group">
                                         <label for="customFile"> صورة البانر </label>
                                         <div class="custom-file">
-                                            <input required type="file" class="custom-file-input" id="customFile" accept='image/*' name="main_image">
-                                            <label class="custom-file-label" for="customFile">اختر الصورة</label>
+                                            <input required type="file" class="form-control" accept='image/*' name="main_image">
                                         </div>
                                     </div>
                                 </div>

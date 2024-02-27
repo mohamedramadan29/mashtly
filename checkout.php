@@ -182,7 +182,7 @@ if (isset($_SESSION['user_id'])) {
                                                     </div>
                                                     <div class="card_data">
                                                         <p class="number"> الدفع عند الاستلام </p>
-                                                        <p class="end_date"> يتم اضافة 5 ريال رسوم تحصيل </p>
+                                                        <!-- <p class="end_date"> يتم اضافة 5 ريال رسوم تحصيل </p> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -210,7 +210,8 @@ if (isset($_SESSION['user_id'])) {
                                         <div class="first">
                                             <div>
                                                 <h3> تكلفة الإضافات: </h3>
-                                                <p> تكلفة الزراعة + تكلفة التغليف كهدية </p>
+                                                <!-- <p> تكلفة الزراعة + تكلفة التغليف كهدية </p> -->
+                                                <p> تكلفة الزراعة  </p>
                                             </div>
                                             <div>
                                                 <h2 class="total"> <?php echo number_format($_SESSION['farm_services'], 2); ?> ر.س </h2>

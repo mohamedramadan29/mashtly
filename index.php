@@ -21,7 +21,7 @@ include "init.php";
             $stmt->execute(array($banner1_data_id));
             $allbanners = $stmt->fetchAll();
             ?>
-            <div class="carousel-item carousel-item1 active">
+            <div class="carousel-item carousel-item1 active" style="background-image: url('admin/banners/images/<?php echo $banner1_data['image']; ?>');">
                 <div class="overlay"></div>
                 <div class="carousel-caption">
                     <h5> <?php echo $banner1_data['head_name'] ?> </h5>
@@ -32,7 +32,7 @@ include "init.php";
             <?php
             foreach ($allbanners as $banner) {
             ?>
-                <div class="carousel-item carousel-item1">
+                <div class="carousel-item carousel-item1" style="background-image: url('admin/banners/images/<?php echo $banner['image']; ?>');">
                     <div class="overlay"></div>
                     <div class="carousel-caption">
                         <h5> <?php echo $banner['head_name']; ?> </h5>
@@ -64,7 +64,7 @@ include "init.php";
                     <div class="info info2">
                         <h2> <?php echo $about_section_head; ?> </h2>
                         <p> <?php echo $about_section_desc; ?> </p>
-                        <a href="shop" class="global_button"> جرب الباحث الآلي الآن <img src="uploads/search_arrow.png" alt=""></a>
+                        <!-- <a href="shop" class="global_button"> جرب الباحث الآلي الآن <img src="uploads/search_arrow.png" alt=""></a> -->
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -83,7 +83,7 @@ include "init.php";
 if (isset($_POST['add_to_fav'])) {
     if (isset($_SESSION['user_id'])) {
         $product_id = $_POST['product_id'];
-      
+
         $user_id = $_SESSION['user_id'];
         $stmt = $connect->prepare("INSERT INTO user_favourite (user_id, product_id)
         VALUES(:zuser_id, :zproduct_id)
@@ -130,7 +130,7 @@ if (isset($_POST['add_to_cart'])) {
         <div class="data">
             <div class="data_header">
                 <div class="data_header_name">
-                    <h2 class='header2'>وصلنا حديثا</h2>
+                    <h2 class='header2'>منتجات جديدة وصلتنا </h2>
                     <p>نباتات جديدة وصلتنا هذا الأسبوع</p>
                 </div>
                 <div>
@@ -406,9 +406,7 @@ if (isset($_POST['add_to_cart'])) {
                 <div class="col-lg-5">
                     <div class="info">
                         <h2>تواصل مع الخبير <br> للعناية بنباتاتك المنزلية</h2>
-                        <p> يرغب في تمتعك بنباتات صحية ونامية، وأن تتوفق لأفضل المنتجات المناسبة لك ,لذلك وفرنا
-                            خبراء
-                            متخصصين بالهندسة الزراعية لتقديم الدعم والتوجيه، ولنساعدك في اختيار النباتات </p>
+                        <p> يرغب متجر مشتلي في أن تتمتع بنباتات نامية وصحية، وأن تتوفق لاختيار أفضل المنتجات, لذلك وفرنا خبراء متخصصين بالهندسة الزراعية لتقديم الدعم والتوجيه والمساعدة. </p>
                         <a target="_blank" href="https://t.me/mshtly" class="btn global_button">تواصل مع الخبير</a>
                     </div>
                 </div>
@@ -593,7 +591,7 @@ if (isset($_POST['add_to_cart'])) {
                 <div class="col-lg-8">
                     <div class="info">
                         <div class="plyr__video-embed" id="player">
-                            <iframe width="400px" height="400px" data-poster="uploads/poster.webp" src="https://www.youtube.com/watch?v=MALvzJsQ2ys" allowfullscreen allowtransparency allow="autoplay"></iframe>
+                            <iframe width="400px" height="400px" data-poster="uploads/poster.webp" src="https://www.youtube.com/watch?v=TFAF1e7eHUU&ab_channel=%D9%85%D8%B4%D8%AA%D9%84%D9%8A" allowfullscreen allowtransparency allow="autoplay"></iframe>
                         </div>
                     </div>
                 </div>
@@ -648,11 +646,11 @@ if (isset($_POST['add_to_cart'])) {
                                 <?php
                                 if ($test['image'] != '') {
                                 ?>
-                                    <img src="admin/testmonails/images/<?php echo $test['image']; ?>" alt="">
+                                    <img src="uploads/plant.svg" alt="">
                                 <?php
                                 } else {
                                 ?>
-                                    <img src="uploads/person.png" alt="">
+                                    <img src="uploads/plant.svg" alt="">
                                 <?php
                                 }
                                 ?>

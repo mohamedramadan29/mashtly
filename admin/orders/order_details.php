@@ -87,15 +87,17 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                 <li class="nav-item">
                   <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false"> تفاصيل الطلب </a>
                 </li>
-                <!-- <li class="nav-item">
-                  <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false"> العمليات علي الطلب </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false"> المرفقات </a>
-                </li> -->
                 <li class="nav-item">
                   <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-order_status" role="tab" aria-controls="custom-tabs-one-order_status" aria-selected="false"> حاله الطلب </a>
                 </li>
+                <!-- <li class="nav-item">
+                  <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false"> العمليات علي الطلب </a>
+                </li> -->
+ 
+                <li class="nav-item">
+                  <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false"> المرفقات </a>
+                </li>
+           
               </ul>
             </div>
             <div class="card-body">
@@ -279,7 +281,6 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                         <div class="form-group">
                           <p class="badge badge-warning" style="font-size: 16px;"> عدد المنتجات ::: </p>
                           <?php
-
                           ?>
                           <span class="text-strong"> <strong> <?php echo $items_count; ?> </strong> </span>
                         </div>
@@ -470,7 +471,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                       </tr>
                     </tbody>
                   </table>
-                  <table class="table table-bordered">
+                  <!-- <table class="table table-bordered">
                     <thead>
                       <h6 class="badge badge-warning"> الصور بعد مراجعه الجودة </h6>
                       <tr>
@@ -499,7 +500,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                         <td> <a href="main.php?dir=orders&page=order_done&order_id=<?php echo $order_id; ?>" class="btn btn-primary btn-sm"> مشاهدة اثباتات التسليم <i class="fa fa-file-invoice"></i> </a> </td>
                       </tr>
                     </tbody>
-                  </table>
+                  </table> -->
                 </div>
                 <div class="tab-pane fade" id="custom-tabs-one-order_status" role="tabpanel" aria-labelledby="custom-tabs-one-order_status-tab">
 

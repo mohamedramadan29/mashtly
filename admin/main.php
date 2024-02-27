@@ -108,6 +108,37 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
     } elseif ($dir == 'shipping_company' && $page == 'report') {
         include "shipping_company/report.php";
     }
+    // Shipping Company Details 
+    if ($dir == 'shipping_company/companies' && $page == 'add') {
+        include "shipping_company/companies/add.php";
+    } elseif ($dir == 'shipping_company/companies' && $page == 'edit') {
+        include "shipping_company/companies/edit.php";
+    } elseif ($dir == 'shipping_company/companies' && $page == 'delete') {
+        include 'shipping_company/companies/delete.php';
+    } elseif ($dir == 'shipping_company/companies' && $page == 'report') {
+        include "shipping_company/companies/report.php";
+    }
+    // Shipping Company Trips 
+    if ($dir == 'shipping_company/trips' && $page == 'add') {
+        include "shipping_company/trips/add.php";
+    } elseif ($dir == 'shipping_company/trips' && $page == 'edit') {
+        include "shipping_company/trips/edit.php";
+    } elseif ($dir == 'shipping_company/trips' && $page == 'delete') {
+        include 'shipping_company/trips/delete.php';
+    } elseif ($dir == 'shipping_company/trips' && $page == 'report') {
+        include "shipping_company/trips/report.php";
+    }
+    // Shipping Company Areas 
+    if ($dir == 'shipping_company/areas' && $page == 'add') {
+        include "shipping_company/areas/add.php";
+    } elseif ($dir == 'shipping_company/areas' && $page == 'edit') {
+        include "shipping_company/areas/edit.php";
+    } elseif ($dir == 'shipping_company/areas' && $page == 'delete') {
+        include 'shipping_company/areas/delete.php';
+    } elseif ($dir == 'shipping_company/areas' && $page == 'report') {
+        include "shipping_company/areas/report.php";
+    }
+    // Shipping Company Details 
     // START Area And City 
     if ($dir == 'area_city' && $page == 'add') {
         include "area_city/add.php";

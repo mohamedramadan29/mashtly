@@ -127,7 +127,7 @@ if (isset($_GET['order_id'])) {
                                                 <span> <?php echo $details['qty']; ?> </span>
                                             </div>
                                             <div>
-                                                <span> <?php echo  number_format($details['qty'] * $details['total'], 2); ?> ر.س </span>
+                                            <span> <?php echo  number_format($details['qty'] * $details['product_price'], 2); ?> ر.س </span>
                                             </div>
                                         </div>
                                     </div>
@@ -138,22 +138,15 @@ if (isset($_GET['order_id'])) {
                             </div>
                             <div class="order_totals">
                                 <div class="price_sections">
+
                                     <div class="first">
-                                        <div>
-                                            <h3> المجموع الفرعي: </h3>
-                                            <p> إجمالي سعر المنتجات في السلة </p>
-                                        </div>
-                                        <div>
-                                            <h2 class="total"> <?php echo number_format(50, 2); ?> ر.س </h2>
-                                        </div>
-                                    </div>
-                                    <div class="first">
+
                                         <div>
                                             <h3> تكلفة الإضافات: </h3>
                                             <p> تكلفة الزراعة + تكلفة التغليف كهدية </p>
                                         </div>
                                         <div>
-                                            <h2 class="total"> <?php echo number_format(40, 2); ?> ر.س </h2>
+                                            <h2 class="total"> <?php echo number_format($order_data['farm_service_price'], 2); ?> ر.س </h2>
                                         </div>
                                     </div>
                                     <div class="first">
@@ -163,19 +156,6 @@ if (isset($_GET['order_id'])) {
                                         </div>
                                         <div>
                                             <h2 class="total"><?php echo number_format($ship_price, 2); ?> ر.س </h2>
-                                        </div>
-                                    </div>
-                                    <div class="first">
-                                        <div>
-                                            <h3> ضريبة القيمة المضافة VAT: </h3>
-                                            <p> القيمة المضافة تساوي 15% من اجمالي الطلب </p>
-                                        </div>
-                                        <div>
-                                            <?php
-                                            $vat = $total_price * (15 / 100);
-
-                                            ?>
-                                            <h2 class="total"> <?php echo number_format($vat, 2); ?> ر.س </h2>
                                         </div>
                                     </div>
                                     <hr>

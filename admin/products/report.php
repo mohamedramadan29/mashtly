@@ -141,7 +141,7 @@ if (isset($_GET['report_page'])) {
                                 $stmt->execute();
                                 $totalRecords = count($stmt->fetchAll());
                                 // تحديد عدد السجلات في كل صفحة والصفحة الحالية
-                                $recordsPerPage = 30;
+                                $recordsPerPage = 900;
                                 $report_page = isset($_GET['report_page']) ? (int)$_GET['report_page'] : 1; // Cast to integer
                                 $report_page = max(1, $report_page); // Ensure $page is at least 1
                                 // حساب الإزاحة
@@ -457,6 +457,9 @@ if (isset($_GET['report_page'])) {
                                                 <th> مميز</th>
                                                 <th> هدية</th>
                                                 <th> الوزن </th>
+                                                <th> الطول لتحديد الوزن </th>
+
+
                                                 <th> صورة</th>
                                                 <th> العمليات</th>
                                             </tr>
@@ -530,7 +533,28 @@ if (isset($_GET['report_page'])) {
                                                             }
                                                         ?>
                                                     </td>
-                                                    <th> <?php echo $pro['ship_weight']; ?> كجم </th>
+                                                    <th> <?php
+                                                            if ($pro['ship_weight'] != '' && $pro['ship_weight'] != 0) {
+                                                                echo $pro['ship_weight'];
+                                                                echo "كجم ";
+                                                            } else {
+                                                            ?>
+                                                            <span style="color: red;"> لا يوجد وزن </span>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                    </th>
+                                                    <th> <?php
+                                                            if ($pro['ship_tail'] != '' && $pro['ship_tail'] != 0) {
+                                                                echo $pro['ship_tail'];
+                                                                echo "متر";
+                                                            } else {
+                                                            ?>
+                                                            <span style="color: red;"> لا يوجد طول </span>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                    </th>
                                                     <td>
                                                         <?php
                                                         $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ? LIMIT 1");

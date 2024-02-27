@@ -74,15 +74,14 @@
                                         <th> اسم الشركة </th>
                                         <th> العنوان </th>
                                         <th> الهاتف </th>
+                                        <th> اعتماد الشركه </th>
                                         <th> الحالة </th>
-                                        <th> نوع الشحن </th>
-                                        <th> المنطقه </th>
                                         <th> العمليات </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $stmt = $connect->prepare("SELECT * FROM shipping_company ORDER BY id DESC");
+                                    $stmt = $connect->prepare("SELECT * FROM new_shipping_company ORDER BY id DESC");
                                     $stmt->execute();
                                     $allshpping_company = $stmt->fetchAll();
                                     $i = 0;
@@ -92,13 +91,18 @@
                                         <tr>
                                             <td> <?php echo $i; ?> </td>
                                             <td>
-                                                <?php echo $area['company_name']; ?>
+                                                <?php echo $area['name']; ?>
                                             </td>
                                             <td>
                                                 <?php echo $area['address']; ?>
                                             </td>
                                             <td>
                                                 <?php echo $area['phone']; ?>
+                                            </td>
+                                            <td>
+                                                <span class="badge badge-danger">
+                                                    <?php echo $area['company_type']; ?>
+                                                </span>
                                             </td>
                                             <td>
                                                 <?php if ($area['status'] == 1) {
@@ -111,30 +115,20 @@
                                                 <?php
                                                 } ?>
                                             </td>
-                                            <td> <?php
-                                                    $ship_types = explode(',', $area['ship_type']);
-                                                    foreach ($ship_types as $ship_type) {
-                                                    ?>
-                                                    <span class="badge badge-info"> <?php echo $ship_type; ?> </span>
-                                                <?php
-                                                    } ?>
-                                            </td>
-                                            <td> <?php
-                                                    $shipping_area = explode(',', $area['ship_area']);
-                                                    foreach ($shipping_area as $ship_area) {
-                                                        $stmt = $connect->prepare("SELECT * FROM suadia_city WHERE reg_id = ? LIMIT 1");
-                                                        $stmt->execute(array($ship_area));
-                                                        $city_data = $stmt->fetch();
-                                                        $area_name = $city_data['region'];
-                                                    ?>
-                                                    <span class="badge badge-info"> <?php echo $area_name; ?> </span>
-                                                <?php
-                                                    }
-                                                ?>
-                                            </td>
                                             <td>
+                                                <?php
+                                                if ($area['company_type'] == 'نطاقات') {
+                                                ?>
+                                                    <a href="main.php?dir=shipping_company/trips&page=report&company_id=<?php echo $area['id']; ?>" class="btn btn-warning btn-sm"> نطاقات الشركه </a>
+                                                <?php
+                                                } elseif ($area['company_type'] == 'مناطق') {
+                                                ?>
+                                                    <a href="main.php?dir=shipping_company/areas&page=report&company_id=<?php echo $area['id']; ?>" class="btn btn-primary btn-sm"> مناطق الشركه </a>
+                                                <?php
+                                                }
+                                                ?>
                                                 <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $area['id']; ?>"> <i class='fa fa-pen'></i> </button>
-                                                <a href="main.php?dir=shipping_company&page=delete&area_id=<?php echo $area['id']; ?>" class="confirm btn btn-danger btn-sm"> <i class='fa fa-trash'></i> </a>
+                                                <a href="main.php?dir=shipping_company/companies&page=delete&area_id=<?php echo $area['id']; ?>" class="confirm btn btn-danger btn-sm"> <i class='fa fa-trash'></i> </a>
                                             </td>
                                         </tr>
                                         <!-- EDIT NEW CATEGORY MODAL   -->
@@ -144,12 +138,12 @@
                                                     <div class="modal-header">
                                                         <h4 class="modal-title"> تعديل شركة الشحن </h4>
                                                     </div>
-                                                    <form action="main.php?dir=shipping_company&page=edit" method="post" enctype="multipart/form-data">
+                                                    <form action="main.php?dir=shipping_company/companies&page=edit" method="post" enctype="multipart/form-data">
                                                         <div class="modal-body">
                                                             <input type='hidden' name="company_id" value="<?php echo $area['id']; ?>">
                                                             <div class="form-group">
                                                                 <label for="Company-2" class="block"> اسم الشركة </label>
-                                                                <input required id="Company-2" name="company_name" type="text" class="form-control required" value="<?php echo $area['company_name']; ?>">
+                                                                <input required id="Company-2" name="company_name" type="text" class="form-control required" value="<?php echo $area['name']; ?>">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="Company-2" class="block"> العنوان </label>
@@ -164,60 +158,20 @@
                                                                 <input required id="Company-2" name="phone" type="text" class="form-control required" value="<?php echo $area['phone']; ?>">
                                                             </div>
                                                             <div class="form-group">
+                                                                <label for="Company-2" class="block"> حدد الشركه تعتمد علي مناطق / نطاقات </label>
+                                                                <select required name="company_type" class="select2 form-control" id="">
+                                                                    <option value=""> -- حدد اعتماد الشركه -- </option>
+                                                                    <option <?php if ($area['company_type'] == 'مناطق') echo "selected"; ?> value="مناطق"> مناطق </option>
+                                                                    <option <?php if ($area['company_type'] == 'نطاقات') echo 'selected'; ?> value="نطاقات"> نطاقات </option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
                                                                 <label for="Company-2" class="block"> الحالة </label>
                                                                 <select required name="status" class="select2 form-control" id="">
                                                                     <option value=""> -- حدد الحالة -- </option>
                                                                     <option <?php if ($area['status'] == 1) echo 'selected'; ?> value="1"> فعاله </option>
                                                                     <option <?php if ($area['status'] == 0) echo 'selected'; ?> value="0"> غير فعاله </option>
                                                                 </select>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="Company-2" class="block"> نوع الشحن </label>
-                                                                <?php $ship_types = explode(',', $area['ship_type']); ?>
-                                                                <select required name="ship_type[]" multiple class="select2 form-control" id="">
-                                                                    <option value=""> -- حدد نوع الشحن -- </option>
-                                                                    <option <?php if (in_array('نباتات', $ship_types)) echo 'selected'; ?> value="نباتات"> نباتات </option>
-                                                                    <option <?php if (in_array('مستلزمات', $ship_types)) echo 'selected'; ?> value="مستلزمات"> مستلزمات </option>
-                                                                    <option <?php if (in_array('مختلطة نباتات ومستلزمات', $ship_types)) echo 'selected'; ?> value="مختلطة نباتات ومستلزمات"> مختلطة نباتات ومستلزمات </option>
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="form-group">
-                                                                <label for="Company-2" class="block"> منطقه الشحن </label>
-                                                                <?php $shipping_areas = explode(',', $area['ship_area']); ?>
-                                                                <select required name="ship_area[]" multiple class="select2 form-control" id="">
-
-                                                                    <?php
-                                                                    $stmt = $connect->prepare("SELECT MAX(reg_id) AS id, region  FROM suadia_city GROUP BY region ORDER BY id DESC");
-                                                                    $stmt->execute();
-                                                                    $all_areas = $stmt->fetchAll();
-                                                                    foreach ($all_areas as $area_data) {
-                                                                        $selected = (in_array($area_data['id'], $shipping_areas)) ? 'selected' : '';
-                                                                    ?>
-                                                                        <option <?php echo $selected; ?> value="<?php echo $area_data['id'] ?>"><?php echo $area_data['region']; ?></option>
-                                                                    <?php
-                                                                    }
-                                                                    ?>
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="form-group">
-                                                                <label for="Company-2" class="block"> اوزان الشحن المناسبة للشركة <span class="badge badge-danger"> كجم </span> </label>
-                                                                <input required id="Company-2" name="whight_from" type="number" class="form-control" value="<?php echo $area['whight_from']; ?>" placeholder="بداية الوزن ">
-                                                                <br>
-                                                                <input required id="Company-2" name="whight_to" type="number" class="form-control" value="<?php echo $area['whight_to']; ?>" placeholder="نهاية الوزن">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="Company-2" class="block"> تكلفه الشحنة </label>
-                                                                <input required id="Company-2" name="ship_start_from_price" type="number" class="form-control" value="<?php echo $area['ship_start_from_price']; ?>" placeholder="  مثال : 1 كجم   ">
-                                                                <br>
-                                                                <input required id="Company-2" name="ship_end_to_price" type="number" class="form-control" value="<?php echo $area['ship_end_to_price']; ?>" placeholder="  الي 10 كجم  ">
-                                                                <br>
-                                                                <input required id="Company-2" name="default_whight_ship_price" type="number" class="form-control" value="<?php echo $area['default_whight_ship_price']; ?>" placeholder=" السعر ">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="Company-2" class="block"> سعر الكيلو الزائد <span class="badge badge-danger"> ريال </span> </label>
-                                                                <input required id="Company-2" name="more_kilo_price" type="number" class="form-control" value="<?php echo $area['more_kilo_price']; ?>">
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
@@ -243,7 +197,7 @@
                             <div class="modal-header">
                                 <h4 class="modal-title"> اضافة شركة شحن </h4>
                             </div>
-                            <form action="main.php?dir=shipping_company&page=add" method="post" enctype="multipart/form-data">
+                            <form action="main.php?dir=shipping_company/companies&page=add" method="post" enctype="multipart/form-data">
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> اسم الشركة </label>
@@ -262,47 +216,12 @@
                                         <input required id="Company-2" name="phone" type="text" class="form-control required">
                                     </div>
                                     <div class="form-group">
-                                        <label for="Company-2" class="block"> نوع الشحن </label>
-                                        <select required multiple name="ship_type[]" class="select2 form-control" id="">
-                                            <option value=""> -- حدد نوع الشحن -- </option>
-                                            <option value="نباتات"> نباتات </option>
-                                            <option value="مستلزمات"> مستلزمات </option>
-                                            <option value="مختلطة نباتات ومستلزمات"> مختلطة نباتات ومستلزمات </option>
+                                        <label for="Company-2" class="block"> حدد الشركه تعتمد علي مناطق / نطاقات </label>
+                                        <select required name="company_type" class="select2 form-control" id="">
+                                            <option value=""> -- حدد اعتماد الشركه -- </option>
+                                            <option value="مناطق"> مناطق </option>
+                                            <option value="نطاقات"> نطاقات </option>
                                         </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="Company-2" class="block"> منطقه الشحن </label>
-                                        <select required multiple name="ship_area[]" class="select2 form-control" id="">
-                                            <option value=""> -- حدد المنطقه -- </option>
-                                            <?php
-                                            $stmt = $connect->prepare("SELECT MAX(reg_id) AS id, region  FROM suadia_city GROUP BY region ORDER BY id DESC");
-                                            $stmt->execute();
-                                            $allarea = $stmt->fetchAll();
-                                            foreach ($allarea as $area) {
-                                            ?>
-                                                <option value="<?php echo $area['id'] ?>"><?php echo $area['region']; ?></option>
-                                            <?php
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="Company-2" class="block"> اوزان الشحن المناسبة للشركة <span class="badge badge-danger"> كجم </span> </label>
-                                        <input required id="Company-2" name="whight_from" type="number" class="form-control" placeholder="بداية الوزن ">
-                                        <br>
-                                        <input required id="Company-2" name="whight_to" type="number" class="form-control" placeholder="نهاية الوزن">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="Company-2" class="block"> تكلفه الشحنة </label>
-                                        <input required id="Company-2" name="ship_start_from_price" type="number" class="form-control" placeholder="  مثال : 1 كجم   ">
-                                        <br>
-                                        <input required id="Company-2" name="ship_end_to_price" type="number" class="form-control" placeholder="  الي 10 كجم  ">
-                                        <br>
-                                        <input required id="Company-2" name="default_whight_ship_price" type="number" class="form-control" placeholder=" السعر ">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="Company-2" class="block"> سعر الكيلو الزائد <span class="badge badge-danger"> ريال </span> </label>
-                                        <input required id="Company-2" name="more_kilo_price" type="text" class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> الحالة </label>

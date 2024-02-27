@@ -6,50 +6,14 @@ include "init.php";
 if (isset($_SESSION['user_id'])) {
     header("location:profile");
 }
+require_once 'send_mail/vendor/autoload.php';
 ?>
 <div class="profile_page new_address_page">
     <div class='container'>
         <div class="data">
-            <?php
-            /////////////////////////////////////////// login to account /////////////////////////////////
-            if (isset($_POST['login'])) {
-                $formerror = [];
-                $username = sanitizeInput($_POST['user_name']);
-                $password = sanitizeInput($_POST['password']);
-                $rememberMe = isset($_POST['remember_me']);
-                $stmt = $connect->prepare("SELECT * FROM users WHERE (user_name=? OR email = ?) AND password=?");
-                $stmt->execute(array($username, $username, sha1($password)));
-                $user_data = $stmt->fetch();
-                $count = $stmt->rowCount();
-                if ($count > 0) {
-                    $_SESSION['user_name'] = $user_data['user_name'];
-                    $_SESSION['user_id']  = $user_data['id'];
-                    // إذا تم تحديد خانة "تذكرني"، قم بضبط الكوكيز
-                    if (isset($_POST['remember_me'])) {
-                        setcookie('email', $username, time() + (86400 * 30));
-                        setcookie('pass', $password, time() + (86400 * 30));
-                    }
-                    // check if this user have product in the cart or not  AND Update User Id 
-                    $stmt = $connect->prepare("UPDATE cart SET user_id = ? WHERE cookie_id = ?");
-                    $stmt->execute(array($_SESSION['user_id'], $cookie_id));
-                    header("Location:profile");
-                } else {
-                    $formerror[] = 'لا يوجد سجل بهذة البيانات';
 
-                    foreach ($formerror as $error) {
-            ?>
-                        <div style="max-width: 400px; text-align:center;margin:auto;margin-top:15px;" class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <?php echo $error; ?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-            <?php
-                    }
-                }
-            }
-
-            ?>
             <div class="breadcrump">
-                <p> <a href="../index"> الرئيسية </a> \ <span> تسجيل الدخول </span>
+                <p><a href="../index"> الرئيسية </a> \ <span> تسجيل الدخول </span>
                 </p>
             </div>
             <div class="row">
@@ -61,6 +25,150 @@ if (isset($_SESSION['user_id'])) {
                                 <p> سجل دخولك واحصل على أفضل النباتات المنزلية والحدائق الجميلة </p>
                             </div>
                         </div>
+                        <?php
+                        //////////////////// resend email activation ////////////////////////////
+                        if (isset($_POST["resend_email_active"])) {
+                            $emailoruser = $_POST['emailoruser'];
+                            $stmt = $connect->prepare("SELECT * FROM users WHERE (user_name=? OR email=?)");
+                            $stmt->execute(array($emailoruser, $emailoruser));
+                            $count_users = $stmt->rowCount();
+                            if ($count_users > 0) {
+                                $user_data = $stmt->fetch();
+                                $email = $user_data['email'];
+                                $username = $user_data['user_name'];
+                                $name = $user_data['name'];
+                                // Generate a unique activation code 
+                                $activationCode = rand(1, 55555);
+                                $stmt = $connect->prepare("UPDATE users SET active_status_code = ? WHERE email=?");
+                                $stmt->execute(array($activationCode, $email));
+
+
+                                $transport = (new Swift_SmtpTransport('smtp.entiqa.co', 587))
+                                    ->setUsername('support@entiqa.co')
+                                    ->setPassword('mohamedramadan2930');
+                                $mailer = new Swift_Mailer($transport);
+                                $body_message = '
+                                        <!DOCTYPE html>
+                                        <html lang="ar" dir="rtl">
+
+                                        <head>
+                                            <meta charset="UTF-8">
+                                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                            <title> تاكيد الحساب </title>
+                                        </head>
+                                        <body style="text-align:right;" dir="rtl">
+                                            <div class="profile_page" style="background-color:#F0F5F0;">
+                                                <div class="container">
+                                                    <div class="data">
+                                                        <div class="print_order" style="background-color: #fff;padding: 50px;border-radius: 30px;max-width: 75%;margin: auto;margin-top: 80px; margin-bottom:80px;">
+                                                            <div class="print printable-content" id="print">
+                                                                <div class="print_head">
+                                                                    <div class="logo" style="text-align: center;
+                                                                    padding: 20px;">
+                                                                        <img src="https://kuwait-developer.com/send_mail/logo.png" alt="">
+                                                                    </div>
+                                                                    <div class="person_data">
+                                                                        <h2 style=" color: #1B1B1B; font-size: 25px; font-weight: bold; margin-bottom: 16px;">
+                                                                            ' . $name . '
+                                                                        </h2>
+                                                                        <p style="color: #585858;  font-size: 17px;  line-height: 1.8;">  شكرا علي تسجيلك معنا في مشتلي 
+                                                                            يرجي تفعيل الحساب الخاص بك لتتمكن من عمليه الدخول  
+                                                                        </p>
+                                                                        <a  style="font-size:18px; font-family:inherit" href="http://localhost/mashtly/activate?active_code=' . $activationCode . '" class="btn btn-primary"> أضغط هنا لتفعيل الحساب الخاص بك  </a>
+                                                                    </div>
+                                                                    </div>
+                                                                </div> 
+                                                                <div class="order_totals">
+                                                                    <p class="thanks" style="margin-top: 25px;color: #1b1b1b; font-size:18px;"> اطيب االتوفيق  <a href="https://www.mshtly.com/" style="text-decoration: none; color:#5c8e00;"> مشتلي </a> </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </body>
+
+                                        </html>
+                                        ';
+                                $title = 'طلب شراء';
+
+                                // Create a message
+                                $message = (new Swift_Message('Confrim Account'))
+                                    ->setFrom(['support@entiqa.co' => 'Mshtly'])
+                                    ->setTo($email)
+                                    ->setBody($body_message, 'text/html');
+                                $result = $mailer->send($message);
+                                if ($result) {
+                        ?>
+                                    <div class="alert alert-success"> تم ارسال ايميل التفعيل بنجاح </div>
+                                <?php
+                                } else {
+                                ?>
+                                    <div class="alert alert-danger"> حدث خطا من فضلك حاول مره اخري </div>
+                            <?php
+                                }
+                            }
+                        }
+                        /////////////////////////////////////////// login to account /////////////////////////////////
+                        if (isset($_SESSION['success_active_code'])) {
+                            ?>
+                            <div class="alert alert-success"> <?php echo $_SESSION['success_active_code']; ?> </div>
+                        <?php
+                        }
+                        if (isset($_SESSION['error_active_code'])) {
+                        ?>
+                            <div class="alert alert-danger"> <?php echo $_SESSION['error_active_code']; ?> </div>
+                            <?php
+                        }
+                        if (isset($_POST['login'])) {
+                            $formerror = [];
+                            $username = sanitizeInput($_POST['user_name']);
+                            $password = sanitizeInput($_POST['password']);
+                            $rememberMe = isset($_POST['remember_me']);
+                            $stmt = $connect->prepare("SELECT * FROM users WHERE (user_name=? OR email = ?) AND password=?");
+                            $stmt->execute(array($username, $username, sha1($password)));
+                            $user_data = $stmt->fetch();
+                            $count = $stmt->rowCount();
+                            if ($count > 0) {
+                                if ($user_data['active_status'] == 1) {
+                                    // إذا تم تحديد خانة "تذكرني"، قم بضبط الكوكيز
+                                    if (isset($_POST['remember_me'])) {
+                                        if (isset($_POST['remember_me'])) {
+                                            setcookie('email', $username, time() + (86400 * 30));
+                                            setcookie('pass', $password, time() + (86400 * 30));
+                                        }
+                                    }
+                                    $_SESSION['user_name'] = $user_data['user_name'];
+                                    $_SESSION['user_id'] = $user_data['id'];
+                                    // check if this user have product in the cart or not  AND Update User Id 
+                                    $stmt = $connect->prepare("UPDATE cart SET user_id = ? WHERE cookie_id = ?");
+                                    $stmt->execute(array($_SESSION['user_id'], $cookie_id));
+                                    header("Location:profile");
+                                    exit();
+                                } else {
+                            ?>
+                                    <div class="alert alert-danger text-center" role="alert"> من فضلك يجب عليك تفعيل الحساب الخاص بك اولا من خلال الايميل المرسل
+                                        <form action="" method="post">
+                                            <input type="hidden" name="emailoruser" value="<?php echo $user_data['email'] ?>">
+                                            <button style="background-color: var(--second-color); border-color:var(--second-color)" class="btn btn-primary mt-3" type="submit" name="resend_email_active"> إعادة ارسال </button>
+                                        </form>
+                                    </div>
+                                <?php
+                                }
+                            } else {
+                                $formerror[] = 'لا يوجد سجل بهذة البيانات';
+
+                                foreach ($formerror as $error) {
+                                ?>
+                                    <div style="max-width: 400px; text-align:center;margin:auto;margin-top:15px;" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <?php echo $error; ?>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                        <?php
+                                }
+                            }
+                        }
+                        ?>
                         <form action="" method="post">
                             <div class='row'>
                                 <div class='box'>
@@ -83,27 +191,27 @@ if (isset($_SESSION['user_id'])) {
                                         <div class="form-check">
                                             <input name="remember_me" class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
                                             <label class="form-check-label" for="flexCheckChecked">
-                                                تذكر كلمة المرور؟
+                                                تذكرني
                                             </label>
                                         </div>
                                     </div>
                                     <div class="input_box">
                                         <div class="form-check">
                                             <label class="form-check-label" for="flexCheckChecked">
-                                                <a href="password/forget" class="forget_password"> هل نسيت كلمة المرور؟ </a>
+                                                <a href="password/forget" class="forget_password"> هل نسيت كلمة
+                                                    المرور؟ </a>
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="submit_buttons">
-                                    <button class="btn global_button" type="submit" name="login"> تسجيل الدخول </button>
+                                    <button class="btn global_button" type="submit" name="login"> تسجيل الدخول</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
                 <div class="col-lg-6">
-
                     <span class="line" style="border-right: 2px solid #ccc;
     position: absolute;
     height: 80%;
@@ -115,6 +223,8 @@ if (isset($_SESSION['user_id'])) {
                                 <p> أنشئ حسابك مجاناً واحصل علي أفضل النباتات </p>
                                 <?php
                                 if (isset($_POST['new_account'])) {
+                                    // Generate a unique activation code 
+                                    $active_status_code = rand(1, 55555);
                                     $formerror = [];
                                     $username = sanitizeInput($_POST['user_name']);
                                     $password = sanitizeInput($_POST['password']);
@@ -160,13 +270,82 @@ if (isset($_SESSION['user_id'])) {
                                             "user_name" => $username,
                                             "email" => $email,
                                             "password" => $sha_password,
+                                            "active_status_code" => $active_status_code,
                                             "emails_subscribe" => $emails_subscribe,
                                         );
-                                        $stmt =  insertData($connect, $table, $data);
+                                        $stmt = insertData($connect, $table, $data);
                                         if ($stmt) {
+                                            //////////////////// Send Email Activation ////////////////////////////
+
+                                            $transport = (new Swift_SmtpTransport('smtp.entiqa.co', 587))
+                                                ->setUsername('support@entiqa.co')
+                                                ->setPassword('mohamedramadan2930');
+                                            $mailer = new Swift_Mailer($transport);
+                                            $body_message = '
+                                        <!DOCTYPE html>
+                                        <html lang="ar" dir="rtl">
+
+                                        <head>
+                                            <meta charset="UTF-8">
+                                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                            <title> تاكيد الحساب </title>
+                                        </head>
+                                        <body style="text-align:right;" dir="rtl">
+                                            <div class="profile_page" style="background-color:#F0F5F0;">
+                                                <div class="container">
+                                                    <div class="data">
+                                                        <div class="print_order" style="background-color: #fff;padding: 50px;border-radius: 30px;max-width: 75%;margin: auto;margin-top: 80px; margin-bottom:80px;">
+                                                            <div class="print printable-content" id="print">
+                                                                <div class="print_head">
+                                                                    <div class="logo" style="text-align: center;
+                                                                    padding: 20px;">
+                                                                        <img src="https://kuwait-developer.com/send_mail/logo.png" alt="">
+                                                                    </div>
+                                                                    <div class="person_data">
+                                                                        <h2 style=" color: #1B1B1B; font-size: 25px; font-weight: bold; margin-bottom: 16px;">
+                                                                            ' . $username . '
+                                                                        </h2>
+                                                                        <p style="color: #585858;  font-size: 17px;  line-height: 1.8;">  شكرا علي تسجيلك معنا في مشتلي 
+                                                                            يرجي تفعيل الحساب الخاص بك لتتمكن من عمليه الدخول  
+                                                                        </p>
+                                                                        <a  style="font-size:18px; font-family:inherit" href="http://localhost/mashtly/activate?active_code=' . $active_status_code . '" class="btn btn-primary"> أضغط هنا لتفعيل الحساب الخاص بك  </a>
+                                                                    </div>
+                                                                    </div>
+                                                                </div> 
+                                                                <div class="order_totals">
+                                                                    <p class="thanks" style="margin-top: 25px;color: #1b1b1b; font-size:18px;"> اطيب االتوفيق  <a href="https://www.mshtly.com/" style="text-decoration: none; color:#5c8e00;"> مشتلي </a> </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </body>
+
+                                        </html>
+                                        ';
+                                            $title = 'طلب شراء';
+
+                                            // Create a message
+                                            $message = (new Swift_Message('Confrim Account'))
+                                                ->setFrom(['support@entiqa.co' => 'Mshtly'])
+                                                ->setTo($email)
+                                                ->setBody($body_message, 'text/html');
+                                            $result = $mailer->send($message);
+                                            if ($result) {
                                 ?>
+                                                <!-- <div class="alert alert-success"> تم ارسال ايميل التفعيل بنجاح </div> -->
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <div class="alert alert-danger"> حدث خطا من فضلك حاول مره اخري </div>
+                                            <?php
+                                            }
+
+
+                                            ?>
                                             <div style="max-width: 500px; text-align:center;margin:auto;margin-top:15px;" class="alert alert-success alert-dismissible fade show" role="alert">
-                                                تم تسجيل حسابك بنجاح من فضلك سجل دخولك الأن
+                                                تم تسجيل حسابك بنجاح من فضلك فعلك حسابك من خلال البريد الالكتروني لتتمكن من تسجيل الدخول
                                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                             </div>
                                         <?php
@@ -231,7 +410,8 @@ if (isset($_SESSION['user_id'])) {
                                     </div>
                                 </div>
                                 <div class="submit_buttons">
-                                    <button class="btn global_button" type="submit" name="new_account"> إنشاء حساب </button>
+                                    <button class="btn global_button" type="submit" name="new_account"> إنشاء حساب
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -244,6 +424,8 @@ if (isset($_SESSION['user_id'])) {
 </div>
 
 <?php
+unset($_SESSION['success_active_code']);
+unset($_SESSION['error_active_code']);
 include $tem . 'footer.php';
 ob_end_flush();
 ?>

@@ -148,7 +148,7 @@ if (isset($_POST['search_options'])) {
         <div class="data">
             <div class="data_header">
                 <div class="data_header_name">
-                    <h2 class='header2'> النباتات </h2>
+                    <h2 class='header2'> المتجر  </h2>
                     <p> اجمالي النتائج :<span> <?php echo $num_products; ?> </span> </p>
                 </div>
                 <div class="search_types">
@@ -214,7 +214,7 @@ if (isset($_POST['search_options'])) {
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">
+                <!-- <div class="col-lg-2">
                     <div class="all_cat">
                         <form action="" method="post">
                             <?php
@@ -249,8 +249,8 @@ if (isset($_POST['search_options'])) {
                             <button type="submit" name="search_options" class="global_button search_options"> بحث <i class="fa fa-search"></i> </button>
                         </form>
                     </div>
-                </div>
-                <div class="col-lg-10">
+                </div> -->
+                <div class="col-lg-12">
                     <div class="row">
                         <?php
                         foreach ($allproducts as $product) {

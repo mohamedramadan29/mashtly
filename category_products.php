@@ -103,41 +103,6 @@ if (isset($_GET['cat'])) {
         $totalProducts = count($allproducts);
         /////////////////////////////////
         $totalPages = ceil($num_products / $pageSize);
-
-        // if (isset($_POST['height_price'])) {
-        //     $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND cat_id = $cat_id ORDER BY price DESC LIMIT $pageSize OFFSET :offset");
-        // } elseif (isset($_POST['low_price'])) {
-        //     $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND cat_id = $cat_id ORDER BY price ASC LIMIT $pageSize OFFSET :offset");
-        // } elseif (isset($_POST['newest'])) {
-        //     $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND cat_id = $cat_id ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
-        // } elseif (isset($_POST['oldest'])) {
-        //     $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND cat_id = $cat_id ORDER BY id ASC LIMIT $pageSize OFFSET :offset");
-        // } elseif (isset($_POST['search_options']) && $_POST['search_options'] != '') {
-        //     $selectedOptions = $_POST['options'];
-        //     if (!empty($selectedOptions)) {
-        //         // Get product IDs from options table
-        //         $placeholders = implode(',', array_fill(0, count($selectedOptions), '?'));
-        //         $stmt = $connect->prepare("SELECT DISTINCT product_id FROM product_properties_plants WHERE option_id IN ($placeholders)");
-        //         $stmt->execute($selectedOptions);
-        //         $productIDs = $stmt->fetchAll(PDO::FETCH_COLUMN);
-        //         // Get all products with matching IDs
-        //         if (!empty($productIDs)) {
-        //             $productIDsStr = implode(',', $productIDs);
-        //             $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND cat_id = $cat_id AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
-        //         }
-        //     }
-        // } else {
-        //     $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND cat_id = $cat_id ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
-        // }
-        // $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-        // $stmt->execute();
-        // $allproducts = $stmt->fetchAll();
-        // $totalProducts = count($allproducts);
-        // if ($totalProducts < 0) {
-        //     echo "not Found";
-        // }
-        // /////////////////////////////////
-        // $totalPages = ceil($num_products / $pageSize);
     } else {
         header("location:index");
     }
@@ -168,7 +133,7 @@ if (isset($_GET['cat'])) {
         <div class="data">
             <div class="data_header">
                 <div class="data_header_name">
-                    <h2 class='header2'> النباتات </h2>
+                    <h2 class='header2'> <a href="shop" style="text-decoration: none; color: var(--main-color);">المتجر</a> / <span style="color: var(--main-color);"> <?php echo $cat_data['name'] ?> </span> </h2>
                     <p> اجمالي النتائج :<span> <?php echo $num_products; ?> </span> </p>
                 </div>
                 <div class="search_types">
@@ -236,7 +201,7 @@ if (isset($_GET['cat'])) {
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">
+                <!-- <div class="col-lg-2">
                     <div class="all_cat">
                         <form action="" method="post">
                             <?php
@@ -271,8 +236,8 @@ if (isset($_GET['cat'])) {
                             <button type="submit" name="search_options" class="global_button search_options"> بحث <i class="fa fa-search"></i> </button>
                         </form>
                     </div>
-                </div>
-                <div class="col-lg-10">
+                </div> -->
+                <div class="col-lg-12">
                     <div class="row">
                         <?php
                         foreach ($allproducts as $product) {
