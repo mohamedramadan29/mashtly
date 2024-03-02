@@ -128,26 +128,28 @@ if (isset($_GET['report_page'])) {
                                             <select id="" class="form-control custom-select select2" name="product_as_gift">
                                                 <option value=""> -- منتج هدية --</option>
                                                 <option <?php if (isset($_POST['product_as_gift']) && $_POST['product_as_gift'] == 1) echo "selected"; ?> value="1"> هدية </option>
-
                                             </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control" type="text" name="product_name" placeholder="اكتب اسم المنتج" value="<?php if(isset($_POST['product_name'])) echo $_POST['product_name'] ?>">
                                         </div>
                                         <div>
                                             <button name="search" class="btn btn-dark btn-sm"> بحث <i class="fa fa-search"></i> </button>
                                         </div>
                                     </div>
                                 </form>
+                                <br> 
                                 <?php
                                 $stmt = $connect->prepare("SELECT * FROM products");
                                 $stmt->execute();
                                 $totalRecords = count($stmt->fetchAll());
                                 // تحديد عدد السجلات في كل صفحة والصفحة الحالية
-                                $recordsPerPage = 900;
+                                $recordsPerPage = 30;
                                 $report_page = isset($_GET['report_page']) ? (int)$_GET['report_page'] : 1; // Cast to integer
                                 $report_page = max(1, $report_page); // Ensure $page is at least 1
                                 // حساب الإزاحة
                                 $offset = ($report_page - 1) * $recordsPerPage;
                                 if (isset($_POST['search'])) {
-
                                     $conditions = array();
                                     $values = array();
                                     if (!empty($_POST['cat_id'])) {
@@ -179,6 +181,11 @@ if (isset($_GET['report_page'])) {
                                         $product_as_gift = $_POST['product_as_gift'];
                                         $conditions[] = "product_as_gift = ?";
                                         $values[] = $product_as_gift;
+                                    }
+                                    if (!empty($_POST['product_name'])) {
+                                        $product_name = $_POST['product_name'];
+                                        $conditions[] = 'name LIKE ?';
+                                        $values[] = '%' . $product_name . '%';
                                     }
                                     $query = "SELECT * FROM products";
                                     if (!empty($conditions)) {
@@ -450,6 +457,8 @@ if (isset($_GET['report_page'])) {
                                                 <th> #</th>
                                                 <th>الأسم</th>
                                                 <th> القسم</th>
+                                                <th> نباتات / مستلزمات </th>
+                                                <th> نوع المنتج </th>
                                                 <th> السعر</th>
                                                 <th> سعر التخفيض</th>
                                                 <th> المخزون</th>
@@ -491,6 +500,28 @@ if (isset($_GET['report_page'])) {
                                                             <span class="badge badge-danger"> لا يوجد </span>
                                                         <?php
                                                             } ?>
+                                                    </td>
+                                                    <td> <?php
+                                                            if ($sub_data['main_category'] == 1) {
+                                                                echo "نباتات";
+                                                            } else {
+                                                                echo "مستلزمات";
+                                                            }
+                                                            ?> </td>
+                                                    <td>
+                                                        <?php
+                                                        $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ?");
+                                                        $stmt->execute(array($pro['id']));
+                                                        $details2 = $stmt->fetchAll();
+                                                        $count_var = $stmt->rowCount();
+                                                        if ($count_var > 0) {
+                                                            foreach ($details2 as $detil) {
+                                                                echo $detil['vartions_name'] . "</br>";
+                                                            }
+                                                        } else {
+                                                            echo "منتج بسيط";
+                                                        }
+                                                        ?>
                                                     </td>
                                                     <td> <?php echo $pro['price']; ?> </td>
                                                     <td> <?php echo $pro['sale_price']; ?> </td>
@@ -750,3 +781,12 @@ if (isset($_GET['report_page'])) {
     </div>
     <!-- /.container-fluid -->
 </section>
+
+
+
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>
