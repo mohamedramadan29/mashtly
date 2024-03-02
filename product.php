@@ -908,7 +908,7 @@ if ($related_products != null) { ?>
             </div>
             <div class="row">
                 <?php
-                $stmt = $connect->prepare("SELECT * FROM products WHERE cat_id = 935 ORDER BY id LIMIT 8");
+                $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND price !='' AND cat_id = 935 ORDER BY id LIMIT 8");
                 $stmt->execute();
                 $allproducts = $stmt->fetchAll();
                 foreach ($allproducts as $product) {
@@ -1030,7 +1030,7 @@ if ($related_products != null) { ?>
             <div class="row">
                 <?php
                 // get product from the same category 
-                $stmt = $connect->prepare("SELECT * FROM products WHERE cat_id = ? AND name !='' AND price !='' AND id !=? ORDER BY id DESC LIMIT 8");
+                $stmt = $connect->prepare("SELECT * FROM products WHERE cat_id = ? AND  publish = 1  AND  name !='' AND price !='' AND id !=? ORDER BY id DESC LIMIT 8");
                 $stmt->execute(array($product_category, $product_id));
                 $allproduct = $stmt->fetchAll();
                 foreach ($allproduct as $product) {

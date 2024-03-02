@@ -8,7 +8,7 @@
     $product_data_image = $stmt->fetch();
     if ($count_image > 0) {
     ?>
-        <a href="product/<?php echo $product['slug']; ?>">
+        <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>">
             <img class="main_image" src="http://localhost/mashtly/admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt']; ?>">
         </a>
     <?php
@@ -20,7 +20,7 @@
     ?>
 
     <div class="product_details">
-        <h2> <a href="product/<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
+        <h2> <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
         <?php
         $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
         $minimumPrice = INF; // قيمة أدنى سعر ممكنة
@@ -81,7 +81,7 @@
                         <?php
                         if ($count_pro_attr > 0) {
                         ?>
-                            <a href="product?slug=<?php echo $product['slug']; ?>" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
+                            <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
                                 مشاهدة الاختيارات
                             </a>
                         <?php

@@ -139,7 +139,7 @@ if (isset($_POST['add_to_cart'])) {
             </div>
             <div class="products" id='products'>
                 <?php
-                $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC LIMIT 10");
+                $stmt = $connect->prepare("SELECT * FROM products WHERE  publish = 1  AND  name !='' AND price !=''  ORDER BY id DESC LIMIT 10");
                 $stmt->execute();
                 $allproduct = $stmt->fetchAll();
                 foreach ($allproduct as $product) {
@@ -176,7 +176,7 @@ if (isset($_POST['add_to_cart'])) {
             </div>
             <div class="products" id='products'>
                 <?php
-                $stmt = $connect->prepare("SELECT * FROM products WHERE  feature_product = 1 AND name !='' AND price !='' ORDER BY id DESC");
+                $stmt = $connect->prepare("SELECT * FROM products WHERE  feature_product = 1 AND  publish = 1  AND name !='' AND price !='' ORDER BY id DESC");
                 $stmt->execute();
                 $allproduct = $stmt->fetchAll();
                 foreach ($allproduct as $product) {
@@ -216,7 +216,7 @@ if (isset($_POST['add_to_cart'])) {
                 <div class="col-lg-9">
                     <div class="row">
                         <?php
-                        $stmt = $connect->prepare("SELECT * FROM products order by id ASC LIMIT 9");
+                        $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !=''  order by id ASC LIMIT 9");
                         $stmt->execute();
                         $allproducts = $stmt->fetchAll();
                         foreach ($allproducts as $product) {
@@ -278,7 +278,7 @@ if (isset($_POST['add_to_cart'])) {
             </div>
             <div class="products" id='products'>
                 <?php
-                $stmt = $connect->prepare("SELECT * FROM products WHERE sale_price!=0 OR sale_price !=null ORDER BY id DESC LIMIT 10");
+                $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND  name !='' AND price !='' AND sale_price!=0 OR sale_price !=null ORDER BY id DESC LIMIT 10");
                 $stmt->execute();
                 $allproduct = $stmt->fetchAll();
                 foreach ($allproduct as $product) {
