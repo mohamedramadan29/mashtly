@@ -27,6 +27,7 @@ if (isset($_SESSION['user_id'])) {
             unset($_SESSION['order_data']);
             unset($_SESSION['online_payment']);
             unset($_SESSION['farm_services']);
+            unset($_SESSION['grand_total']);
             $stmt = $connect->prepare("DELETE FROM cart WHERE user_id = ?");
             $stmt->execute(array($_SESSION['user_id']));
         }

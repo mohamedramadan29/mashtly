@@ -211,7 +211,7 @@ if (isset($_SESSION['user_id'])) {
                                             <div>
                                                 <h3> تكلفة الإضافات: </h3>
                                                 <!-- <p> تكلفة الزراعة + تكلفة التغليف كهدية </p> -->
-                                                <p> تكلفة الزراعة  </p>
+                                                <p> تكلفة الزراعة </p>
                                             </div>
                                             <div>
                                                 <h2 class="total"> <?php echo number_format($_SESSION['farm_services'], 2); ?> ر.س </h2>
@@ -223,26 +223,27 @@ if (isset($_SESSION['user_id'])) {
                                                 <p> يحدد سعر الشحن حسب الموقع </p>
                                             </div>
                                             <div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="shipping_price" id="flexRadioDefault1" value="35" onchange="updateTotal(this)">
+                                                    <label class="form-check-label" for="flexRadioDefault1">
+                                                        داخل الرياض :: 35 ريال
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="shipping_price" id="flexRadioDefault2" value="65" onchange="updateTotal(this)">
+                                                    <label class="form-check-label" for="flexRadioDefault2">
+                                                        خارج الرياض :: 65 ريال
+                                                    </label>
+                                                </div>
+                                                <input type="hidden" name="last_shipping_value" id="lastshippingvalue" value="">
                                                 <?php
                                                 /////////  Shipping Price /////
-                                                include 'tempelate/shiping_price.php';
+                                                //  include 'tempelate/shiping_price.php';
                                                 ?>
 
                                             </div>
 
                                         </div>
-                                        <!-- <div class="first">
-                                            <div>
-                                                <h3> ضريبة القيمة المضافة VAT: </h3>
-                                                <p> القيمة المضافة تساوي 15% من اجمالي الطلب </p>
-                                            </div>
-                                            <div>
-                                                <h2 class="total"> <?php // echo number_format($_SESSION['vat_value'], 2); 
-                                                                    ?> ر.س </h2>
-                                            </div>
-
-                                        </div> -->
-
                                         <hr>
                                         <div class="first">
                                             <div>
@@ -251,32 +252,30 @@ if (isset($_SESSION['user_id'])) {
                                             </div>
                                             <div>
                                                 <?php
-                                                if ($shipping_value == 0) {
-                                                    $shipping_value = 30;
-                                                }
-                                                $grand_total = $_SESSION['total'] + $_SESSION['farm_services'] + $shipping_value;
                                                 if (isset($_SESSION['coupon'])) {
                                                     // تطبيق خصم 10% على قيمة الشحنة
-                                                    $shipping_discount = $grand_total * (10 / 100);
-                                                    $_SESSION['discount_value'] = $shipping_discount;
-                                                    // طرح قيمة الخصم من الإجمالي
-                                                    $grand_total = $grand_total - $shipping_discount;
+                                                    $shipping_discount =  $_SESSION['coupon'] / 100;
+                                                    //$_SESSION['discount_value'] = $shipping_discount;
                                                 }
-                                                $_SESSION['grand_total'] = $grand_total;
                                                 ?>
-                                                <h2 class="total"> <?php echo number_format($grand_total, 2); ?> ر.س </h2>
+                                                <h2 class="total" id="grand_total">  </h2>
+                                                <input type="hidden" name="grand_total" id="grand_total_value" value="">
                                             </div>
                                         </div>
                                         <?php
                                         if (isset($_SESSION['coupon'])) {
                                         ?>
+                                            <input type="hidden" name="" id="discountCoupon" value="<?php echo $shipping_discount; ?>">
+                                            <?php
+                                            ?>
                                             <div class="first">
                                                 <div>
                                                     <h3> قيمه الخصم : </h3>
                                                     <p> قيمه الخصم من تكلفه الشحنه </p>
                                                 </div>
                                                 <div>
-                                                    <h2 class="total"> <?php echo number_format($shipping_discount, 2); ?> ر.س </h2>
+                                                    <input type="hidden" name="discountValue" value="" id="discountValue">
+                                                    <h2 class="total" id="discountValue_total"> </h2>
                                                 </div>
                                             </div>
                                         <?php
@@ -292,54 +291,61 @@ if (isset($_SESSION['user_id'])) {
                     </div>
                 </form>
                 <?php
-                // $get user data 
-                $stmt = $connect->prepare("SELECT * FROM users WHERE id = ?");
-                $stmt->execute(array($user_id));
-                $user_data = $stmt->fetch();
-                // get the last order number 
-                $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
-                $stmt->execute();
-                $order_data = $stmt->fetch();
-                $order_id = $order_data['id'];
-                $order_number = $order_id + 1;
-                $user_id = $user_id;
-                $name = $name;
-                $phone = $phone;
-                $area = $area;
-                $city = $city;
-                $address = $build_number . '-' . $street_name . '-' . $area . '-' . $city . '-' . $country;
-                $email = $user_data['email'];
-                $ship_price = $shipping_value;
-                $order_date = date("n/j/Y g:i A");
-                $status = 0;
-                $status_value = 'لم يبدا';
-                $farm_service = $_SESSION['farm_services'];
-                $grand_total = $_SESSION['grand_total'];
-                // تخزين البيانات في السيشن
-                $_SESSION['order_data'] = [
-                    'order_id' => $order_id,
-                    'order_number' => $order_number,
-                    'user_id' => $user_id,
-                    'name' => $name,
-                    'phone' => $phone,
-                    'area' => $area,
-                    'city' => $city,
-                    'address' => $address,
-                    'email' => $email,
-                    'ship_price' => $ship_price,
-                    'order_date' => $order_date,
-                    'status' => $status,
-                    'status_value' => $status_value,
-                    'farm_service_price' => $_SESSION['farm_services'],
-                    'total_price' => $grand_total,
-                    'cookie_id' => $cookie_id,
-                    'coupon_code' => $_SESSION['coupon'],
-                    'discount_value' => $_SESSION['discount_value'],
-                ];
-                if ($farm_service == '') {
-                    $farm_service = 0;
-                }
                 if (isset($_POST['order_compelete'])) {
+                    $shipping_value = $_POST['last_shipping_value'];
+                    $grand_total = $_POST['grand_total'];
+                    $_SESSION['grand_total'] = $grand_total;
+                    $discountValue = $_POST['discountValue'];
+                    $_SESSION['discount_value'] =  $discountValue;
+                    // $get user data 
+                    $stmt = $connect->prepare("SELECT * FROM users WHERE id = ?");
+                    $stmt->execute(array($user_id));
+                    $user_data = $stmt->fetch();
+                    // get the last order number 
+                    $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
+                    $stmt->execute();
+                    $order_data = $stmt->fetch();
+                    $order_id = $order_data['id'];
+                    $order_number = $order_id + 1;
+                    $user_id = $user_id;
+                    $name = $name;
+                    $phone = $phone;
+                    $area = $area;
+                    $city = $city;
+                    $address = $build_number . '-' . $street_name . '-' . $area . '-' . $city . '-' . $country;
+                    $email = $user_data['email'];
+                    $ship_price = $shipping_value;
+                    $order_date = date("n/j/Y g:i A");
+                    $status = 0;
+                    $status_value = 'لم يبدا';
+                    $farm_service = $_SESSION['farm_services'];
+                    $grand_total = $_SESSION['grand_total'];
+                    // تخزين البيانات في السيشن
+                    $_SESSION['order_data'] = [
+                        'order_id' => $order_id,
+                        'order_number' => $order_number,
+                        'user_id' => $user_id,
+                        'name' => $name,
+                        'phone' => $phone,
+                        'area' => $area,
+                        'city' => $city,
+                        'address' => $address,
+                        'email' => $email,
+                        'ship_price' => $shipping_value,
+                        'order_date' => $order_date,
+                        'status' => $status,
+                        'status_value' => $status_value,
+                        'farm_service_price' => $_SESSION['farm_services'],
+                        'total_price' => $grand_total,
+                        'cookie_id' => $cookie_id,
+                        'coupon_code' => $_SESSION['coupon'],
+                        'discount_value' => $_SESSION['discount_value'],
+                    ];
+                    if ($farm_service == '') {
+                        $farm_service = 0;
+                    }
+
+
                     $payment_method = $_POST['checkout_payment'];
                     if ($payment_method === 'الدفع عن الاستلام') {
                         echo "الدفع عند الاستلام";
@@ -419,6 +425,7 @@ if (isset($_SESSION['user_id'])) {
                                 unset($_SESSION['coupon']);
                                 unset($_SESSION['discount_value']);
                                 unset($_SESSION['coupon_name']);
+                                unset($_SESSION['grand_total']);
                                 $stmt = $connect->prepare("DELETE FROM cart WHERE cookie_id = ? OR user_id = ?");
                                 $stmt->execute(array($cookie_id, $user_id));
                                 header("Location:profile/orders/compelete");
@@ -559,5 +566,29 @@ ob_end_flush();
 <script>
     if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
+    }
+</script>
+
+<script>
+    function updateTotal(selectedRadio) {
+        var shippingValue = parseFloat(selectedRadio.value); // القيمة المحددة للشحن
+        document.getElementById('lastshippingvalue').value = shippingValue;
+        var subTotal = <?php echo $_SESSION['total'] + $_SESSION['farm_services']; ?>; // المجموع الفرعي
+        var grandTotal = subTotal + shippingValue; // الإجمالي الجديد
+        
+        var discount = 0; // الخصم، افترض صفرًا
+
+        // إذا كان هناك خصم موجود
+        <?php if (isset($_SESSION['coupon'])) { ?>
+            discount = grandTotal *  document.getElementById("discountCoupon").value;
+            grandTotal -= discount; // تطبيق الخصم
+            document.getElementById("discountValue").value = discount;
+            document.getElementById('discountValue_total').innerHTML = discount.toFixed(2) + " ر.س";
+        <?php } ?>
+        // عرض الإجمالي الجديد بعد تطبيق الخصم
+        document.getElementById('grand_total').innerHTML = grandTotal.toFixed(2) + " ر.س";
+        document.getElementById('grand_total_value').value = grandTotal;
+        // يمكنك تخزين القيمة الإجمالية في الجلسة للاحتفاظ بها بين الصفحات إذا لزم الأمر
+        <?php $_SESSION['grand_total'] = "grandTotal"; ?>
     }
 </script>

@@ -3,9 +3,9 @@ if (isset($_SESSION['main_user_login'])) {
     //include 'location_currancy.php';
     $connect_db = 'admin/connect.php';
     $tem = "include/";
-    $css = "themes/css/";
-    $js = "themes/js/";
-    $uploads = "uploads/";
+    $css = "http://localhost/mashtly/themes/css/";
+    $js = "http://localhost/mashtly/themes/js/";
+    $uploads = "http://localhost/mashtly/uploads/";
     include $tem . "header.php";
     include 'admin/connect.php';
     include 'global_functions.php';
