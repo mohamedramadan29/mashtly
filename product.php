@@ -3,19 +3,20 @@ ob_start();
 session_start();
 $page_title = 'تفاصيل المنتج ';
 include 'init.php';
-// الحصول على الجزء من العنوان بعد اسم الملف (مثل product)
-$url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$parts = explode('/', $url);
-// البحث عن قيمة المتغير بدون كلمة slug
-$key = array_search('product', $parts);
-if ($key !== false && isset($parts[$key + 1])) {
-    // يمكنك استخدام $parts[$key+1] كـ slug
-    $slug = $parts[$key + 1];
-    $slug =  urldecode($slug);
-} else {
-    // لم يتم العثور على slug
-    echo "العنوان غير صحيح";
-}
+// // الحصول على الجزء من العنوان بعد اسم الملف (مثل product)
+// $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+// $parts = explode('/', $url);
+// // البحث عن قيمة المتغير بدون كلمة slug
+// $key = array_search('product', $parts);
+// if ($key !== false && isset($parts[$key + 1])) {
+//     // يمكنك استخدام $parts[$key+1] كـ slug
+//     $slug = $parts[$key + 1];
+//     $slug =  urldecode($slug);
+// } else {
+//     // لم يتم العثور على slug
+//     echo "العنوان غير صحيح";
+// }
+$slug = $_GET['slug'];
 
 $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ? ORDER BY id  LIMIT 1 ");
 $stmt->execute(array($slug));

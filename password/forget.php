@@ -4,14 +4,7 @@ ob_start();
 session_start();
 $page_title = 'نسيت كلمة المرور';
 include "init.php";
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-
-require 'vendor/autoload.php';
-
-$mail = new PHPMailer(true);
+require_once '../send_mail/vendor/autoload.php';
 ?>
 <div class="profile_page adress_page">
     <div class='container'>
@@ -56,51 +49,72 @@ $mail = new PHPMailer(true);
                     if ($count > 0) {
                         $stmt = $connect->prepare("UPDATE users SET password=?,pass_code=? WHERE email=?");
                         $stmt->execute(array(sha1($randomString), $randomString, $data['email']));
-                        try {
-                            // الإعدادات الأساسية لإعداد البريد الإلكتروني
-                            $mail->CharSet = 'UTF-8';
-                            $mail->WordWrap = true;
-                            $mail->isSMTP();
-                            $mail->Host = 'mshtly.com';
-                            $mail->SMTPAuth = true;
-                            $mail->Username = 'test@mshtly.com';
-                            $mail->Password = 'mohamedramadan2930';
-                            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 
-                            $mail->Port = 465;
 
-                            // مُحتوى الرسالة
 
-                            $mail->setFrom('test@mshtly.com', 'مشتلي');
-                            $mail->addAddress($to_email, $to_name);
-                            $mail->Subject = ' تعديل كلمه المرور الخاصه بك  ';
-                            $mail->Body = " <p style='font-size:18px; font-family:inherit'>مرحبا " . $to_name . ",</p>
-                                                <p style='font-size:18px; font-family:inherit'> كلمه المرور الجديده الخاصه بك علي مشتلي  </p>
-                                                <p style='font-size:18px; font-family:inherit'> " . $randomString . " </p>
-                                            ";
-                            $mail->AltBody = 'This is the plain text message body for non-HTML mail clients.';
-                            // إرسال البريد الإلكتروني
-                            $mail->send();
-                            //                                header('Location:activate');
+                        $transport = (new Swift_SmtpTransport('smtp.entiqa.co', 587))
+                            ->setUsername('support@entiqa.co')
+                            ->setPassword('mohamedramadan2930');
+                        $mailer = new Swift_Mailer($transport);
+                        $body_message = '
+                            <!DOCTYPE html>
+                            <html lang="ar" dir="rtl">
+
+                            <head>
+                                <meta charset="UTF-8">
+                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                <title> تاكيد الحساب </title>
+                            </head>
+                            <body style="text-align:right;" dir="rtl">
+                                <div class="profile_page" style="background-color:#F0F5F0;">
+                                    <div class="container">
+                                        <div class="data">
+                                            <div class="print_order" style="background-color: #fff;padding: 50px;border-radius: 30px;max-width: 75%;margin: auto;margin-top: 80px; margin-bottom:80px;">
+                                                <div class="print printable-content" id="print">
+                                                    <div class="print_head">
+                                                        <div class="logo" style="text-align: center;
+                                                        padding: 20px;">
+                                                            <img src="https://kuwait-developer.com/send_mail/logo.png" alt="">
+                                                        </div>
+                                                        <div class="person_data">
+                                                            <h2 style=" color: #1B1B1B; font-size: 25px; font-weight: bold; margin-bottom: 16px;">
+                                                                ' . $to_name . '
+                                                            </h2>
+                                                            <p style="color: #585858;  font-size: 17px;  line-height: 1.8;">  كلمه المرور الجديده الخاصه بك علي مشتلي 
+                                                            </p>
+                                                            <p> ' . $randomString . '  </p>
+                                                        </div>
+                                                        </div>
+                                                    </div> 
+                                                    <div class="order_totals">
+                                                        <p class="thanks" style="margin-top: 25px;color: #1b1b1b; font-size:18px;"> اطيب االتوفيق  <a href="https://www.mshtly.com/" style="text-decoration: none; color:#5c8e00;"> مشتلي </a> </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </body>
+
+                            </html>
+                            ';
+                        $title = 'طلب شراء';
+
+                        // Create a message
+                        $message = (new Swift_Message('Forget Password'))
+                            ->setFrom(['support@entiqa.co' => 'Mshtly'])
+                            ->setTo($email)
+                            ->setBody($body_message, 'text/html');
+                        $result = $mailer->send($message);
+                        if ($result) {
             ?>
-                            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-                            <script>
-                                new swal({
-                                    title: " شكرا لك   !",
-                                    text: " تم ارسال كلمه المرور الجديده الخاصه بك علي البريد الالكتروني المسجل  ",
-                                    icon: "success",
-                                    button: "اغلاق",
-                                });
-                            </script>
-                            <?php header('refresh:3;url=../login'); ?>
+                            <div class="alert alert-success"> تم ارسال كلمة المرور الجديدة بنجاح  </div>
                         <?php
-                        } catch (Exception $e) {
-                            echo "حدث خطأ في إرسال البريد الإلكتروني: {$mail->ErrorInfo}";
+                        } else {
+                        ?>
+                            <div class="alert alert-danger"> حدث خطا من فضلك حاول مره اخري </div>
+                        <?php
                         }
-                        // END SEND MAIL //////////////////////////////////////
-                        // if ($stmt) {
-                        //     header('refresh:4;url=../login');
-                        // }
                     } else { ?>
                         <li class="alert alert-danger"> لا يوجد سجل بهذة البيانات </li>
                     <?php

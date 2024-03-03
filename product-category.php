@@ -4,6 +4,28 @@ session_start();
 $page_title = ' مشتلي  | التصنيفات  ';
 include "init.php";
 
+// // الحصول على الجزء من العنوان بعد اسم الملف (مثل product)
+// $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+// $parts = explode('/', $url);
+// // البحث عن قيمة المتغير بدون كلمة slug
+// $key = array_search('product-category', $parts);
+// $keyPage = array_search('page', $parts);
+// if ($key !== false && isset($parts[$key + 1])) {
+//     // يمكنك استخدام $parts[$key+1] كـ slug
+//     $cat_slug  = $parts[$key + 1];
+//     $cat_slug =  urldecode($cat_slug);
+// } else {
+//     // لم يتم العثور على slug
+//     echo "العنوان غير صحيح";
+// }
+// if ($keyPage !== false && isset($parts[$keyPage + 1])) {
+//     $keyPage = $parts[$keyPage + 1];
+//     // $keyPage = $currentpage;
+//     $currentpage = $keyPage;
+// } else {
+//     $currentpage = 1;
+// }
+$cat_slug =$_GET['cat'];
 
 // add to favorite
 if (isset($_POST['add_to_fav'])) {
@@ -51,67 +73,66 @@ if (isset($_POST['add_to_cart'])) {
 }
 // start get all products
 // check if url has cat or not 
-if (isset($_GET['cat'])) {
-    $cat_slug = $_GET['cat'];
-    $stmt = $connect->prepare("SELECT * FROM categories WHERE slug = ?");
-    $stmt->execute(array($cat_slug));
-    $cat_data = $stmt->fetch();
-    $check_cat = $stmt->rowCount();
-    if ($check_cat > 0) {
-        $cat_id = $cat_data['id'];
-        // إعداد الاستعلام
-        // $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name != '' AND price != '' AND (cat_id = ? OR FIND_IN_SET(?, more_cat) > 0)");
-        // $stmt->execute(array($cat_id, $cat_id));
 
-        $num_products = $stmt->rowCount();
-        $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
-        $pageSize = 20;
-        $offset = ($currentpage - 1) * $pageSize;
+$stmt = $connect->prepare("SELECT * FROM categories WHERE slug = ?");
+$stmt->execute(array($cat_slug));
+$cat_data = $stmt->fetch();
+$check_cat = $stmt->rowCount();
+if ($check_cat > 0) {
+    $cat_id = $cat_data['id'];
+    // إعداد الاستعلام
+    // $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name != '' AND price != '' AND (cat_id = ? OR FIND_IN_SET(?, more_cat) > 0)");
+    // $stmt->execute(array($cat_id, $cat_id));
+
+    $num_products = $stmt->rowCount();
+
+    $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
+  // echo $currentpage;
+    $pageSize = 20;
+    $offset = ($currentpage - 1) * $pageSize;
 
 
-        // استعلام البيانات الأساسي
-        //$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND cat_id = $cat_id");
-        $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name != '' AND price != '' AND (cat_id = $cat_id OR FIND_IN_SET($cat_id, more_cat) > 0)");
-        if (isset($_GET['sort']) && !empty($_GET['sort'])) {
-            $sort = $_GET['sort'];
-            // تحديد الترتيب
-            switch ($sort) {
-                case 'heigh_to_low':
-                    $order_by = " ORDER BY price DESC";
-                    break;
-                case 'low_to_heigh':
-                    $order_by = " ORDER BY price ASC";
-                    break;
-                case 'newest':
-                    $order_by = " ORDER BY id DESC";
-                    break;
-                case 'oldest':
-                    $order_by = " ORDER BY id ASC";
-                    break;
-                default:
-                    // الترتيب الافتراضي
-                    $order_by = "";
-                    break;
-            }
+    // استعلام البيانات الأساسي
+    //$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND cat_id = $cat_id");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name != '' AND price != '' AND (cat_id = $cat_id OR FIND_IN_SET($cat_id, more_cat) > 0)");
+    if (isset($_GET['sort']) && !empty($_GET['sort'])) {
+        $sort = $_GET['sort'];
+        // تحديد الترتيب
+        switch ($sort) {
+            case 'heigh_to_low':
+                $order_by = " ORDER BY price DESC";
+                break;
+            case 'low_to_heigh':
+                $order_by = " ORDER BY price ASC";
+                break;
+            case 'newest':
+                $order_by = " ORDER BY id DESC";
+                break;
+            case 'oldest':
+                $order_by = " ORDER BY id ASC";
+                break;
+            default:
+                // الترتيب الافتراضي
+                $order_by = "";
+                break;
         }
-        // إضافة ترتيب إلى الاستعلام
-        $stmt->execute();
-        $num_products = $stmt->rowCount();
-
-        // ترتيب النتائج
-        $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND (cat_id = $cat_id OR FIND_IN_SET($cat_id, more_cat) > 0) $order_by LIMIT $pageSize OFFSET :offset");
-        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-        $stmt->execute();
-        $allproducts = $stmt->fetchAll();
-        $totalProducts = count($allproducts);
-        /////////////////////////////////
-        $totalPages = ceil($num_products / $pageSize);
-    } else {
-        header("location:index");
     }
+    // إضافة ترتيب إلى الاستعلام
+    $stmt->execute();
+    $num_products = $stmt->rowCount();
+
+    // ترتيب النتائج
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND (cat_id = $cat_id OR FIND_IN_SET($cat_id, more_cat) > 0) $order_by LIMIT $pageSize OFFSET :offset");
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $allproducts = $stmt->fetchAll();
+    $totalProducts = count($allproducts);
+    /////////////////////////////////
+    $totalPages = ceil($num_products / $pageSize);
 } else {
     header("location:index");
 }
+
 
 
 ?>
@@ -261,7 +282,7 @@ if (isset($_GET['cat'])) {
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
                                     <li class="page-item <?php echo ($currentpage == 1) ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="?cat=<?php echo $cat_slug; ?>&page=<?php echo ($currentpage > 1) ? ($currentpage - 1) : 1; ?>&sort=<?php echo isset($_GET['sort']) ? $_GET['sort'] : ''; ?>" aria-label="Previous">
+                                        <a class="page-link" href="/mashtly/product-category/<?php echo urlencode($cat_slug); ?>/page/<?php echo ($currentpage > 1) ? ($currentpage - 1) : 1; ?>/<?php echo isset($_GET['sort']) ? '?sort=' . $_GET['sort'] : ''; ?>" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
@@ -271,17 +292,19 @@ if (isset($_GET['cat'])) {
                                         if ($i == $currentpage) {
                                             echo ' active';
                                         }
-                                        echo '"><a class="page-link" href="?cat=' . $cat_slug . '&page=' . $i . '&sort=' . (isset($_GET['sort']) ? $_GET['sort'] : '') . '">' . $i . '</a></li>';
+                                        echo '"><a class="page-link" href="/mashtly/product-category/' . urlencode($cat_slug) . '/page/' . $i . '/' . (isset($_GET['sort']) ? '?sort=' . $_GET['sort'] : '') . '">' . $i . '</a></li>';
                                     }
                                     ?>
                                     <li class="page-item <?php echo ($currentpage == $totalPages) ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="?cat=<?php echo $cat_slug; ?>&page=<?php echo ($currentpage < $totalPages) ? ($currentpage + 1) : $totalPages; ?>&sort=<?php echo isset($_GET['sort']) ? $_GET['sort'] : ''; ?>" aria-label="Next">
+                                        <a class="page-link" href="/mashtly/product-category/<?php echo urlencode($cat_slug); ?>/page/<?php echo ($currentpage < $totalPages) ? ($currentpage + 1) : $totalPages; ?>/<?php echo isset($_GET['sort']) ? '?sort=' . $_GET['sort'] : ''; ?>" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>
                                 </ul>
                             </nav>
                         </div>
+
+
                     <?php
                     }
 

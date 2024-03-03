@@ -74,7 +74,7 @@ require_once 'send_mail/vendor/autoload.php';
                                                                         <p style="color: #585858;  font-size: 17px;  line-height: 1.8;">  شكرا علي تسجيلك معنا في مشتلي 
                                                                             يرجي تفعيل الحساب الخاص بك لتتمكن من عمليه الدخول  
                                                                         </p>
-                                                                        <a  style="font-size:18px; font-family:inherit" href="http://localhost/mashtly/activate?active_code=' . $activationCode . '" class="btn btn-primary"> أضغط هنا لتفعيل الحساب الخاص بك  </a>
+                                                                        <a  style="font-size:18px; font-family:inherit" href="https://kuwait-developer.com/mashtly/activate?active_code=' . $activationCode . '" class="btn btn-primary"> أضغط هنا لتفعيل الحساب الخاص بك  </a>
                                                                     </div>
                                                                     </div>
                                                                 </div> 
@@ -237,7 +237,7 @@ require_once 'send_mail/vendor/autoload.php';
                                     } else {
                                         $emails_subscribe = 0;
                                     }
-                                    if (strlen($password) < 8 || !preg_match('/^[a-zA-Z0-9!@#$%^&*()_+]+$/', $password) || !preg_match('/\d/', $password)) {
+                                    if (strlen($password) < 8 || !preg_match('/^[a-zA-Z0-9!@#$%^&*()-=_+]+$/', $password) || !preg_match('/\d/', $password)) {
                                         $formerror[] = "كلمة المرور يجب أن تكون اكبر من 8 احرف و تحتوي على الأحرف الإنجليزية والأرقام والرموز الخاصة.";
                                     }
                                     if (!$agree_policy) {
@@ -308,7 +308,7 @@ require_once 'send_mail/vendor/autoload.php';
                                                                         <p style="color: #585858;  font-size: 17px;  line-height: 1.8;">  شكرا علي تسجيلك معنا في مشتلي 
                                                                             يرجي تفعيل الحساب الخاص بك لتتمكن من عمليه الدخول  
                                                                         </p>
-                                                                        <a  style="font-size:18px; font-family:inherit" href="http://localhost/mashtly/activate?active_code=' . $active_status_code . '" class="btn btn-primary"> أضغط هنا لتفعيل الحساب الخاص بك  </a>
+                                                                        <a  style="font-size:18px; font-family:inherit" href="https://kuwait-developer.com/mashtly/activate?active_code=' . $active_status_code . '" class="btn btn-primary"> أضغط هنا لتفعيل الحساب الخاص بك  </a>
                                                                     </div>
                                                                     </div>
                                                                 </div> 

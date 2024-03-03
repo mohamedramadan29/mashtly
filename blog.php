@@ -3,6 +3,9 @@ ob_start();
 session_start();
 $page_title = ' المدونة ';
 include "init.php";
+
+
+
 $stmt = $connect->prepare("SELECT * FROM posts WHERE publish = 1");
 $stmt->execute();
 $count_post = count(($stmt->fetchAll()));
@@ -49,7 +52,7 @@ $count_post = count(($stmt->fetchAll()));
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <a style="text-decoration: none;" href="blog_details?slug=<?php echo $post_slug; ?>">
+                    <a style="text-decoration: none;" href="index/<?php echo $post_slug; ?>">
                         <div class="info">
                             <h3> <?php echo $post_head; ?> </h3>
                             <p> <?php echo $post_desc_last . '...' ?> </p>
@@ -90,7 +93,7 @@ $count_post = count(($stmt->fetchAll()));
                         }
                     ?>
                         <div class="col-lg-4">
-                            <a href="blog_details?slug=<?php echo $post['slug']; ?>" style="text-decoration: none;">
+                            <a href="index/<?php echo $post['slug']; ?>" style="text-decoration: none;">
                                 <div class="post_info">
                                     <img src="admin/posts/images/<?php echo $post['main_image'] ?>" alt="">
                                     <h4> <?php echo $post['name']; ?> </h4>

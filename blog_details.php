@@ -3,14 +3,25 @@ ob_start();
 session_start();
 $page_title = '  المدونة  ';
 include "init.php";
-if (isset($_GET['slug'])) {
-
-    $slug = $_GET['slug'];
+// الحصول على الجزء من العنوان بعد اسم الملف (مثل product)
+$url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$parts = explode('/', $url);
+// البحث عن قيمة المتغير بدون كلمة slug
+$key = array_search('index', $parts);
+if ($key !== false && isset($parts[$key + 1])) {
+    // يمكنك استخدام $parts[$key+1] كـ slug
+    $slug = $parts[$key + 1];
+    $slug =  urldecode($slug);
+    
+} else {
+    // لم يتم العثور على slug
+    echo "العنوان غير صحيح";
+}
     $stmt = $connect->prepare("SELECT * FROM posts WHERE slug= ?");
     $stmt->execute(array($slug));
     $last_post = $stmt->fetch();
     $count_post = $stmt->rowCount();
-    
+
     $post_head = $last_post['name'];
     $post_desc = $last_post['description'];
 
@@ -56,14 +67,18 @@ if (isset($_GET['slug'])) {
                             <div>
                                 <p> شارك عبر </p>
                             </div>
-                            <div>
-                                <ul class="list-unstyled">
-                                    <li> <a href="#"> <i class="fa fa-facebook"></i> </a> </li>
-                                    <li> <a href="#"> <i class="fa fa-twitter"></i> </a> </li>
-                                    <li> <a href="#"> <i class="fa fa-whatsapp"></i> </a> </li>
-                                    <li> <a href="#"> <i class="fa fa-instagram"></i> </a> </li>
-                                </ul>
+                            <!-- AddToAny BEGIN -->
+                            <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+                                <!-- <a class="a2a_dd" href="https://www.addtoany.com/share"></a> -->
+                                <a class="a2a_button_facebook"></a>
+                                <a class="a2a_button_whatsapp"></a>
+                                <a class="a2a_button_linkedin"></a>
+                                <a class="a2a_button_twitter"></a>
+                                <a class="a2a_button_x"></a>
+                                <a class="a2a_button_telegram"></a>
                             </div>
+                            <script async src="https://static.addtoany.com/menu/page.js"></script>
+                            <!-- AddToAny END -->
                         </div>
                     </div>
                 </div>
@@ -72,7 +87,7 @@ if (isset($_GET['slug'])) {
 
     </div>
 <?php
-}
+ 
 
 
 include $tem . 'footer.php';

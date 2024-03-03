@@ -11,5 +11,8 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^(.*)$ $1.php
 
-RewriteRule ^product/(.*)$ /mashtly/product?slug=$1 [L]
+# RewriteRule ^product/(.*)$ /mashtly/product?slug=$1 [L]
+# RewriteRule ^product-category/(.*)$ /mashtly/product-category?cat=$1 [L]
+# RewriteRule ^index/(.*)$ /mashtly/blog_details?slug=$1 [L]
+
 

@@ -3,6 +3,7 @@ ob_start();
 session_start();
 $page_title = 'مشتلي - الرئيسية';
 include "init.php";
+ 
 ?>
 <div class="hero">
     <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">

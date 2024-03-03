@@ -173,7 +173,7 @@
                         $allcategories = $stmt->fetchAll();
                         foreach ($allcategories as $category) {
                         ?>
-                          <li><a class="dropdown-item" href="http://localhost/mashtly/category_products?cat=<?php echo $category['slug']; ?>"> <?php echo $category['name'] ?> </a></li>
+                          <li><a class="dropdown-item" href="http://localhost/mashtly/product-category?cat=<?php echo $category['slug']; ?>"> <?php echo $category['name'] ?> </a></li>
                         <?php
                         }
                         ?>
@@ -189,9 +189,9 @@
                     <li class="nav-item">
                       <a class="nav-link" href="http://localhost/mashtly/landscap"> تنسيق الحدائق </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                       <a class="nav-link" href="http://localhost/mashtly/import_service"> خدمات الاستيراد </a>
-                    </li>
+                    </li> -->
                     <!-- <li class="nav-item">
                       <a class="nav-link" href="http://localhost/mashtly/gifts"> الهدايا </a>
                     </li> -->
@@ -203,6 +203,9 @@
                       <a class="nav-link" href="#"> زراعة الاسطح </a>
                     </li>
               -->
+                    <li class="nav-item">
+                      <a class="nav-link" href="http://localhost/mashtly/contact"> تواصل معنا </a>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -258,7 +261,7 @@
                   foreach ($allcategories as $category) {
                   ?>
                     <div class="col-3">
-                      <a style="color: #000;" href="http://localhost/mashtly/category_products?cat=<?php echo $category['slug']; ?>">
+                      <a style="color: #000;" href="http://localhost/mashtly/product-category?cat=<?php echo $category['slug']; ?>">
                         <li> <?php echo $category['name'] ?> </li>
                       </a>
                     </div>
@@ -280,20 +283,18 @@
           <li class="nav-item">
             <a class="nav-link" href="http://localhost/mashtly/landscap"> تنسيق الحدائق </a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="http://localhost/mashtly/import_service"> خدمات الاستيراد </a>
-          </li>
+          </li> -->
           <!-- <li class="nav-item">
             <a class="nav-link" href="http://localhost/mashtly/gifts"> الهدايا </a>
           </li> -->
           <li class="nav-item">
             <a class="nav-link" href="http://localhost/mashtly/blog"> المدونة </a>
           </li>
-          <!-- 
           <li class="nav-item">
-            <a class="nav-link" href="#"> زراعة الاسطح </a>
-          </li>
-                -->
+                      <a class="nav-link" href="http://localhost/mashtly/contact"> تواصل معنا </a>
+                    </li>
         </ul>
       </div>
     </div>
