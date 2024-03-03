@@ -7,7 +7,7 @@ include "init.php";
 $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $parts = explode('/', $url);
 // البحث عن قيمة المتغير بدون كلمة slug
-$key = array_search('index', $parts);
+$key = array_search('blog', $parts);
 if ($key !== false && isset($parts[$key + 1])) {
     // يمكنك استخدام $parts[$key+1] كـ slug
     $slug = $parts[$key + 1];

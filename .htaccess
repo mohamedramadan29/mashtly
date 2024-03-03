@@ -13,6 +13,7 @@ RewriteRule ^(.*)$ $1.php
 
 # RewriteRule ^product/(.*)$ /mashtly/product?slug=$1 [L]
 # RewriteRule ^product-category/(.*)$ /mashtly/product-category?cat=$1 [L]
-# RewriteRule ^index/(.*)$ /mashtly/blog_details?slug=$1 [L]
+RewriteRule ^blog/(.*)$ /mashtly/blog_details?slug=$1 [L]
+RewriteRule ^land/(.*)$ /mashtly/land_details?slug=$1 [L]
 
 

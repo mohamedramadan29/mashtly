@@ -4,11 +4,28 @@ session_start();
 $page_title = ' تفاصيل التنسيق  ';
 include "init.php";
 // get the design details
-if (isset($_GET['slug'])) {
-    $slug = $_GET['slug'];
+// if (isset($_GET['slug'])) {
+//     $slug = $_GET['slug'];
+// } else {
+//     header("Location:index");
+// }
+
+// الحصول على الجزء من العنوان بعد اسم الملف (مثل product)
+$url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$parts = explode('/', $url);
+// البحث عن قيمة المتغير بدون كلمة slug
+$key = array_search('land', $parts);
+if ($key !== false && isset($parts[$key + 1])) {
+    // يمكنك استخدام $parts[$key+1] كـ slug
+    $slug = $parts[$key + 1];
+    $slug =  urldecode($slug);
+    
 } else {
-    header("Location:index");
+    // لم يتم العثور على slug
+    echo "العنوان غير صحيح";
 }
+
+
 $stmt = $connect->prepare("SELECT * FROM landscap WHERE slug = ?");
 $stmt->execute(array($slug));
 $design_data = $stmt->fetch();
@@ -21,25 +38,30 @@ $land_id = $design_data['id'];
     <div class='container'>
         <div class="data">
             <div class="breadcrump">
-                <p> <a href="index"> الرئيسية </a> \ <span> <a href="landscap"> تنسيق الحدائق </a> </span> \ <span> <?php echo $name ?></span> </p>
+                <p> <a href="index"> الرئيسية </a> \ <span> <a href="http://localhost/mashtly/landscap"> تنسيق وصيانة الحدائق  </a> </span> \ <span> <?php echo $name ?></span> </p>
             </div>
             <div class="purches_header">
                 <div class="data_header_name">
                     <h2 class='header2'> <?php echo $name ?> </h2>
+                </div>
+            </div>
+            <div class="landscap_details">
+                <div class="row">
+                    <h6> نمط التصميم </h6>
+                    <img src="http://localhost/mashtly/admin/landscap/images/<?php echo $image ?>" alt="">
+                </div>
+            </div>
+            <div class="purches_header">
+                <div class="data_header_name">
+                  
                     <p> <?php echo $description ?> </p>
                 </div>
             </div>
         </div>
-        <div class="landscap_details">
-            <div class="row">
-                <h6> نمط التصميم </h6>
-                <img src="admin/landscap/images/<?php echo $image ?>" alt="">
 
-            </div>
-        </div>
     </div>
 </div>
-<div class="join_form add_new_address import_request" style="background-color: #FFFFFF9A; border: 2px solid #D6E0DF;" >
+<div class="join_form add_new_address import_request" style="background-color: #FFFFFF9A; border: 2px solid #D6E0DF;">
     <form action="" method="post" enctype="multipart/form-data">
         <h2> اطلب الخدمة </h2>
         <p> يرجي ملئ الحقول التالية </p>

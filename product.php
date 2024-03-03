@@ -515,7 +515,7 @@ if (isset($_POST['add_to_fav'])) {
                                         <?php
                                         }
                                         ?>
-                                        <button class="btn wishlist" name="add_to_wishlist"> <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt=""> أضف الي المفضلة </button>
+                                        <!-- <button class="btn wishlist" name="add_to_wishlist"> <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt=""> أضف الي المفضلة </button> -->
                                     </div>
                                 </div>
                             </form>
@@ -755,7 +755,7 @@ if (isset($_POST['add_to_fav'])) {
                                     <?php
                                     }
                                     ?>
-                                    <button class="btn wishlist" name="add_to_wishlist"> <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt=""> أضف الي المفضلة </button>
+                                    <!-- <button class="btn wishlist" name="add_to_wishlist"> <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt=""> أضف الي المفضلة </button> -->
                                 </div>
                             </div>
                         </form>

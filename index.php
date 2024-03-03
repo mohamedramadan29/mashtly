@@ -48,7 +48,7 @@ include "init.php";
     </div>
 </div>
 <!-- START AUTOMATIC SEARCH INDEX -->
-
+<!-- 
 <div class="index_automatic_search">
     <div class="container">
         <div class="data">
@@ -65,7 +65,7 @@ include "init.php";
                     <div class="info info2">
                         <h2> <?php echo $about_section_head; ?> </h2>
                         <p> <?php echo $about_section_desc; ?> </p>
-                        <!-- <a href="shop" class="global_button"> جرب الباحث الآلي الآن <img src="uploads/search_arrow.png" alt=""></a> -->
+                          <a href="shop" class="global_button"> جرب الباحث الآلي الآن <img src="uploads/search_arrow.png" alt=""></a>  
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -76,7 +76,7 @@ include "init.php";
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- END AUTOMATIC SEARCH INDEX -->
 <!-- START NEWWER PRODUCTS -->
 <?php
@@ -126,6 +126,9 @@ if (isset($_POST['add_to_cart'])) {
     }
 }
 ?>
+<br>
+<br>
+<br>
 <div class="new_producs">
     <div class="container">
         <div class="data">
@@ -140,7 +143,7 @@ if (isset($_POST['add_to_cart'])) {
             </div>
             <div class="products" id='products'>
                 <?php
-                $stmt = $connect->prepare("SELECT * FROM products WHERE  publish = 1  AND  name !='' AND price !=''  ORDER BY id DESC LIMIT 10");
+                $stmt = $connect->prepare("SELECT * FROM products WHERE  publish = 1 AND  (cat_id = 227 OR cat_id = 21)  AND  name !='' AND price !='' ORDER BY RAND() LIMIT 10");
                 $stmt->execute();
                 $allproduct = $stmt->fetchAll();
                 foreach ($allproduct as $product) {
@@ -550,7 +553,7 @@ if (isset($_POST['add_to_cart'])) {
                         <span> من المدونة </span>
                         <h3> <?php echo $post_head; ?> </h3>
                         <p> <?php echo $post_desc_last . '...' ?> </p>
-                        <a href='blog_details?slug=<?php echo $post_slug; ?>' class='btn global_button'> اقرأ
+                        <a href='blog/<?php echo $post_slug; ?>' class='btn global_button'> اقرأ
                             المزيد </a>
                     </div>
                 </div>
@@ -567,7 +570,7 @@ if (isset($_POST['add_to_cart'])) {
                         $post_desc = implode(' ', array_slice($post_desc, 0, 20));
                     ?>
                         <div class="col-lg-3">
-                            <a href="blog_details?slug=<?php echo $post['slug']; ?>" style="text-decoration: none;">
+                            <a href="blog/<?php echo $post['slug']; ?>" style="text-decoration: none;">
                                 <div class="post_info">
                                     <img src="admin/posts/images/<?php echo $post['main_image'] ?>" alt="">
                                     <h4> <?php echo $post['name']; ?> </h4>

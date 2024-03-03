@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-$page_title = ' تنسيق الحدائق  ';
+$page_title = ' تنسيق وصيانة الحدائق  ';
 include "init.php";
 
 ?>
@@ -9,11 +9,11 @@ include "init.php";
     <div class='container'>
         <div class="data">
             <div class="breadcrump">
-                <p> <a href="index"> الرئيسية </a> \ <span> تنسيق الحدائق </span> </p>
+                <p> <a href="index"> الرئيسية </a> \ <span> تنسيق وصيانة الحدائق  </span> </p>
             </div>
             <div class="purches_header">
                 <div class="data_header_name">
-                    <h2 class='header2'> تنسيق الحدائق </h2>
+                    <h2 class='header2'> تنسيق وصيانة الحدائق  </h2>
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@ include "init.php";
                             <img src="admin/landscap/images/<?php  echo $landscap['image'] ?>" alt="">
                             <div class="heading">
                                 <h3> <?php echo $landscap['name']; ?> </h3>
-                                <a href="land_details?slug=<?php echo $landscap['slug']; ?>" class="global_button"> المزيد عن الخدمة </a>
+                                <a href="land/<?php echo $landscap['slug']; ?>" class="global_button"> المزيد عن الخدمة </a>
                             </div>
                         </div>
                     </div>

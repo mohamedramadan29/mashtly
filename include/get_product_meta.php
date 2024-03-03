@@ -34,7 +34,7 @@ if (isset($_GET['slug']) && strpos($current_url, $keyword3) !== false) {
     $count  = $stmt->rowCount();
     /* get the product meta */
     $meta_keywords = $product_data['tags'];
-    $meta_short_description = $product_data['description'];
+    $meta_short_description = $product_data['short_desc'];
     $meta_title = $product_data['name'];
 }
 if (isset($_GET['cat']) && strpos($current_url, $keyword4) !== false) {
