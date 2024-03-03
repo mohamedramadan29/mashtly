@@ -5,6 +5,7 @@ if (isset($_POST['edit_cat'])) {
     $slug = createSlug($name);
     $tags = $_POST['tags'];
     $description = $_POST['description'];
+    $short_desc = $_POST['short_desc'];
     $formerror = [];
     if (empty($name)) {
         $formerror[] = 'من فضلك ادخل اسم التنسق';
@@ -24,7 +25,6 @@ if (isset($_POST['edit_cat'])) {
         $main_image_uploaded = '';
     }
 
-
     $stmt = $connect->prepare("SELECT * FROM landscap WHERE slug = ? AND id !=?");
     $stmt->execute(array($slug, $land_id));
     $count = $stmt->rowCount();
@@ -32,8 +32,8 @@ if (isset($_POST['edit_cat'])) {
         $formerror[] = ' اسم التنسيق  موجود من قبل من فضلك ادخل اسم اخر  ';
     }
     if (empty($formerror)) {
-        $stmt = $connect->prepare("UPDATE landscap SET name=?,slug=?,description=?,tags=? WHERE id = ? ");
-        $stmt->execute(array($name, $slug, $description, $tags, $land_id));
+        $stmt = $connect->prepare("UPDATE landscap SET name=?,slug=?,description=?,short_desc=?,tags=? WHERE id = ? ");
+        $stmt->execute(array($name, $slug, $description,$short_desc, $tags, $land_id));
         if (!empty($_FILES['main_image']['name'])) {
             $stmt = $connect->prepare("UPDATE landscap SET image=? WHERE id = ? ");
             $stmt->execute(array($main_image_uploaded, $land_id));

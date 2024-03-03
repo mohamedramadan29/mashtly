@@ -3,6 +3,7 @@ if (isset($_POST['add_cat'])) {
     $name = $_POST['name'];
     $slug = createSlug($name);
     $description = $_POST['description'];
+    $short_desc = $_POST['short_desc'];
     $tags = $_POST['tags'];
 
     $formerror = [];
@@ -31,13 +32,14 @@ if (isset($_POST['add_cat'])) {
         $formerror[] = ' اسم القسم موجود من قبل من فضلك ادخل اسم اخر  ';
     }
     if (empty($formerror)) {
-        $stmt = $connect->prepare("INSERT INTO landscap (name, slug,description,image,tags)
-        VALUES (:zname,:zslug,:zdesc,:zimage,:ztags)");
+        $stmt = $connect->prepare("INSERT INTO landscap (name, slug,description,short_desc,image,tags)
+        VALUES (:zname,:zslug,:zdesc,:zshort_desc,:zimage,:ztags)");
         $stmt->execute(array(
             "zname" => $name,
             "zslug" => $slug,
             "zimage" => $main_image_uploaded,
             "zdesc" => $description,
+            "zshort_desc"=>$short_desc,
             "ztags" => $tags,
         ));
         if ($stmt) {

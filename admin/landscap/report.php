@@ -118,11 +118,15 @@
                                                                 <input id="Company-2" required name="name" type="text" class="form-control required" value="<?php echo  $cat['name'] ?>">
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="Company-2" class="block"> الوصف </label>
-                                                                <textarea id="Company-2" name="description" class="form-control"><?php echo  $cat['description'] ?></textarea>
+                                                                <label for="Company-2" class="block"> الوصف القصير </label>
+                                                                <textarea id="Company-2" name="short_desc" class="form-control"><?php echo  $cat['short_desc'] ?></textarea>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="customFile"> تعديل  صورة التنسيق </label>
+                                                                <label for="Company-2" class="block"> الوصف </label>
+                                                                <textarea id="Company-2" name="description" class="form-control summernote"><?php echo  $cat['description'] ?></textarea>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="customFile"> تعديل صورة التنسيق </label>
                                                                 <div class="custom-file">
                                                                     <input type="file" class="dropify" multiple data-height="150" data-allowed-file-extensions="jpg jpeg png svg webp" data-max-file-size="4M" name="main_image" data-show-loader="true" />
                                                                 </div>
@@ -161,10 +165,13 @@
                                         <label for="Company-2" class="block"> الأسم </label>
                                         <input required id="Company-2" name="name" type="text" class="form-control required">
                                     </div>
-
+                                    <div class="form-group">
+                                        <label for="Company-2" class="block"> الوصف القصير </label>
+                                        <textarea id="Company-2" name="short_desc" class="form-control"></textarea>
+                                    </div>
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> الوصف </label>
-                                        <textarea id="Company-2" name="description" class="form-control"></textarea>
+                                        <textarea id="Company-2" name="description" class="form-control summernote"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="customFile"> صورة التنسيق </label>
