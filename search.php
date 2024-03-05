@@ -51,10 +51,10 @@ if (isset($_POST['add_to_cart'])) {
 
 if (isset($_GET['search']) && $_GET['search'] != '') {
     $search = $_GET['search'];
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND price !='' AND name LIKE '%$search%'");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_status_store = 1 AND price !='' AND name LIKE '%$search%'");
 } else {
     // start get all products
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !=''");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_status_store = 1 AND name !='' AND price !=''");
 }
 $stmt->execute();
 $num_products = $stmt->rowCount();
@@ -63,9 +63,9 @@ $pageSize = 20;
 $offset = ($currentpage - 1) * $pageSize;
 if (isset($_GET['search']) && $_GET['search'] != '') {
     $search = $_GET['search'];
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name LIKE '%$search%'  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_status_store = 1 AND name LIKE '%$search%'  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
 } else {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_status_store = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
 }
 $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();

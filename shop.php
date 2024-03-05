@@ -56,7 +56,7 @@ if (isset($_GET['cat'])) {
     $cat_data = $stmt->fetch();
     $cat_id = $cat_data['id'];
 }
-$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' ");
+$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_status_store = 1 AND name !='' AND price !='' ");
 $stmt->execute();
 $num_products = $stmt->rowCount();
 $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -64,7 +64,7 @@ $pageSize = 20;
 $offset = ($currentpage - 1) * $pageSize;
 
 // استعلام البيانات الأساسي
-$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' ");
+$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_status_store = 1 AND name !='' AND price !='' ");
 
 // جزء الترتيب
 $order_by = "";
@@ -96,7 +96,7 @@ $stmt->execute();
 $num_products = $stmt->rowCount();
 
 // ترتيب النتائج
-$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' $order_by LIMIT $pageSize OFFSET :offset");
+$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_status_store = 1 AND name !='' AND price !='' $order_by LIMIT $pageSize OFFSET :offset");
 $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $allproducts = $stmt->fetchAll();
@@ -115,7 +115,7 @@ if (isset($_POST['search_options'])) {
         // Get all products with matching IDs
         if (!empty($productIDs)) {
             $productIDsStr = implode(',', $productIDs);
-            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_status_store = 1 AND name !='' AND price !='' AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
             $num_products = $stmt->rowCount();
         }
         $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);

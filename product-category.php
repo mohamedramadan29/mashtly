@@ -94,7 +94,7 @@ if ($check_cat > 0) {
 
     // استعلام البيانات الأساسي
     //$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND cat_id = $cat_id");
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name != '' AND price != '' AND (cat_id = $cat_id OR FIND_IN_SET($cat_id, more_cat) > 0)");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_status_store = 1 AND name != '' AND price != '' AND (cat_id = $cat_id OR FIND_IN_SET($cat_id, more_cat) > 0)");
     if (isset($_GET['sort']) && !empty($_GET['sort'])) {
         $sort = $_GET['sort'];
         // تحديد الترتيب
@@ -122,7 +122,7 @@ if ($check_cat > 0) {
     $num_products = $stmt->rowCount();
 
     // ترتيب النتائج
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND (cat_id = $cat_id OR FIND_IN_SET($cat_id, more_cat) > 0) $order_by LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_status_store = 1 AND name !='' AND price !='' AND (cat_id = $cat_id OR FIND_IN_SET($cat_id, more_cat) > 0) $order_by LIMIT $pageSize OFFSET :offset");
     $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
     $stmt->execute();
     $allproducts = $stmt->fetchAll();
