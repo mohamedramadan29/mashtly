@@ -43,7 +43,7 @@ if (isset($_SESSION['user_id'])) {
                                 </div>
                                 <div class="addresses">
                                     <?php
-                                    $stmt = $connect->prepare("SELECT * FROM user_address WHERE user_id=? AND default_address = 1");
+                                    $stmt = $connect->prepare("SELECT * FROM user_address WHERE user_id=?");
                                     $stmt->execute(array($user_id));
                                     $alladdress = $stmt->fetchAll();
                                     $count_address = count($alladdress);
@@ -258,7 +258,7 @@ if (isset($_SESSION['user_id'])) {
                                                     //$_SESSION['discount_value'] = $shipping_discount;
                                                 }
                                                 ?>
-                                                <h2 class="total" id="grand_total">  </h2>
+                                                <h2 class="total" id="grand_total"> </h2>
                                                 <input type="hidden" name="grand_total" id="grand_total_value" value="">
                                             </div>
                                         </div>
@@ -292,6 +292,7 @@ if (isset($_SESSION['user_id'])) {
                 </form>
                 <?php
                 if (isset($_POST['order_compelete'])) {
+                    $formerror = [];
                     $shipping_value = $_POST['last_shipping_value'];
                     $grand_total = $_POST['grand_total'];
                     $_SESSION['grand_total'] = $grand_total;
@@ -301,12 +302,12 @@ if (isset($_SESSION['user_id'])) {
                     $stmt = $connect->prepare("SELECT * FROM users WHERE id = ?");
                     $stmt->execute(array($user_id));
                     $user_data = $stmt->fetch();
-                    // get the last order number 
-                    $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
+
+                    $stmt = $connect->prepare("SELECT COUNT(*) AS order_count FROM orders");
                     $stmt->execute();
-                    $order_data = $stmt->fetch();
-                    $order_id = $order_data['id'];
-                    $order_number = $order_id + 1;
+                    $order_count = $stmt->fetchColumn();
+                    // Increment the count by 1 for the new order number
+                    $order_number = $order_count + 1;
                     $user_id = $user_id;
                     $name = $name;
                     $phone = $phone;
@@ -320,182 +321,198 @@ if (isset($_SESSION['user_id'])) {
                     $status_value = 'لم يبدا';
                     $farm_service = $_SESSION['farm_services'];
                     $grand_total = $_SESSION['grand_total'];
-                    // تخزين البيانات في السيشن
-                    $_SESSION['order_data'] = [
-                        'order_id' => $order_id,
-                        'order_number' => $order_number,
-                        'user_id' => $user_id,
-                        'name' => $name,
-                        'phone' => $phone,
-                        'area' => $area,
-                        'city' => $city,
-                        'address' => $address,
-                        'email' => $email,
-                        'ship_price' => $shipping_value,
-                        'order_date' => $order_date,
-                        'status' => $status,
-                        'status_value' => $status_value,
-                        'farm_service_price' => $_SESSION['farm_services'],
-                        'total_price' => $grand_total,
-                        'cookie_id' => $cookie_id,
-                        'coupon_code' => $_SESSION['coupon'],
-                        'discount_value' => $_SESSION['discount_value'],
-                    ];
+
                     if ($farm_service == '') {
                         $farm_service = 0;
                     }
-
-
                     $payment_method = $_POST['checkout_payment'];
-                    if ($payment_method === 'الدفع عن الاستلام') {
-                        echo "الدفع عند الاستلام";
-                        // inset order into orders 
-                        $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
-                            area, city, address, ship_price, order_date, status,status_value,farm_service_price,total_price,
-                            payment_method,coupon_code,discount_value) 
-                            VALUES (:zorder_number , :zuser_id , :zname , :zemail ,:zphone , :zarea , :zcity , :zaddress,
-                            :zship_price, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value)");
-                        $stmt->execute(array(
-                            "zorder_number" => $order_number, "zuser_id" => $user_id, "zname" => $name,
-                            "zemail" => $email, "zphone" => $phone, "zarea" => $area, "zcity" => $city,
-                            "zaddress" => $address, "zship_price" => $ship_price, "zorder_date" => $order_date,
-                            "zstatus" => $status, "zstatus_value" => $status_value, "zfarm_service_price" => $farm_service,
-                            "ztotal_price" => $grand_total, "zpayment_method" => $payment_method, "zcoupon_code" => $_SESSION['coupon_name'], "zdiscount_value" => $_SESSION['discount_value']
-                        ));
-                        // get the last order number  id and number 
-                        $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
-                        $stmt->execute();
-                        $order_data = $stmt->fetch();
-                        $order_id = $order_data['id'];
-                        $order_number = $order_data['order_number'];
-                        $_SESSION['order_number'] = $order_number;
-                        foreach ($allitems as $item) {
-                            $product_id = $item['product_id'];
-                            $quantity  = $item['quantity'];
-                            $price  = $item['price'];
-                            $farm_service  = $item['farm_service'];
-                            $as_present  = $item['gift_id'];
-                            $more_details = $item['vartion_name'];
-                            $total_price = $item['total_price'];
-                            // Insert Order Details
-                            $stmt = $connect->prepare("INSERT INTO order_details (order_id, order_number,product_id,
-                            qty, product_price, total,farm_service, as_present,more_details)
-                            VALUES (:zorder_id, :zorder_number,:zproduct_id,
-                            :zqty, :zproduct_price, :ztotal,:zfarm_service, :zas_present,:zmore_details)
-                            ");
-                            $stmt->execute(array(
-                                "zorder_id" => $order_id,
-                                "zorder_number" => $order_number,
-                                "zproduct_id" => $product_id,
-                                "zqty" => $quantity,
-                                "zproduct_price" => $price,
-                                "ztotal" => $total_price,
-                                "zfarm_service" => $farm_service,
-                                "zas_present" => $as_present,
-                                "zmore_details" => $more_details,
-                            ));
-                            // insert order steps 
-                            // get the  date
-                            date_default_timezone_set('Asia/Riyadh'); // تحديد المنطقة الزمنية
-                            $date = date('d/m/Y h:i a'); // تنسيق التاريخ والوقت
-                            // Add Order Steps 
-                            $stmt = $connect->prepare("SELECT * FROM employes WHERE role_name='التواصل'");
-                            $stmt->execute();
-                            $emp_data = $stmt->fetch();
-                            $stmt = $connect->prepare("INSERT INTO order_steps (order_id,order_number,username,date,step_name,description,step_status)
-                                VALUES(:zorder_id,:zorder_number,:zusername,:zdate,:zstep_name,:zdescription,:zstep_status)
+                    if (empty($shipping_value)) {
+                        $formerror[] = ' من فضلك حدد الشحن  ';
+                    }
+                    if (empty($payment_method)) {
+                        $formerror[] = ' من فضلك حدد وسيلة الدفع ';
+                    }
+                    if (empty($formerror)) {
+                        // تخزين البيانات في السيشن
+                        $_SESSION['order_data'] = [
+                            'order_number' => $order_number,
+                            'user_id' => $user_id,
+                            'name' => $name,
+                            'phone' => $phone,
+                            'area' => $area,
+                            'city' => $city,
+                            'address' => $address,
+                            'email' => $email,
+                            'ship_price' => $shipping_value,
+                            'order_date' => $order_date,
+                            'status' => $status,
+                            'status_value' => $status_value,
+                            'farm_service_price' => $_SESSION['farm_services'],
+                            'total_price' => $grand_total,
+                            'cookie_id' => $cookie_id,
+                            'coupon_code' => $_SESSION['coupon'],
+                            'discount_value' => $_SESSION['discount_value'],
+                        ];
+                        if ($payment_method === 'الدفع عن الاستلام') {
+                            echo "الدفع عند الاستلام";
+                            // inset order into orders 
+                            try {
+                                $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
+                                area, city, address, ship_price, order_date, status,status_value,farm_service_price,total_price,
+                                payment_method,coupon_code,discount_value) 
+                                VALUES (:zorder_number , :zuser_id , :zname , :zemail ,:zphone , :zarea , :zcity , :zaddress,
+                                :zship_price, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value)");
+                                $stmt->execute(array(
+                                    "zorder_number" => $order_number, "zuser_id" => $user_id, "zname" => $name,
+                                    "zemail" => $email, "zphone" => $phone, "zarea" => $area, "zcity" => $city,
+                                    "zaddress" => $address, "zship_price" => $ship_price, "zorder_date" => $order_date,
+                                    "zstatus" => $status, "zstatus_value" => $status_value, "zfarm_service_price" => $farm_service,
+                                    "ztotal_price" => $grand_total, "zpayment_method" => $payment_method, "zcoupon_code" => $_SESSION['coupon_name'], "zdiscount_value" => $_SESSION['discount_value']
+                                ));
+                                // get the last order number  id and number 
+                                $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
+                                $stmt->execute();
+                                $order_data = $stmt->fetch();
+                                $order_id = $order_data['id'];
+                                $order_number = $order_data['order_number'];
+                                $_SESSION['order_number'] = $order_number;
+                                foreach ($allitems as $item) {
+                                    $product_id = $item['product_id'];
+                                    $quantity  = $item['quantity'];
+                                    $price  = $item['price'];
+                                    $farm_service  = $item['farm_service'];
+                                    $as_present  = $item['gift_id'];
+                                    $more_details = $item['vartion_name'];
+                                    $total_price = $item['total_price'];
+                                    // Insert Order Details
+                                    $stmt = $connect->prepare("INSERT INTO order_details (order_id, order_number,product_id,
+                                qty, product_price, total,farm_service, as_present,more_details)
+                                VALUES (:zorder_id, :zorder_number,:zproduct_id,
+                                :zqty, :zproduct_price, :ztotal,:zfarm_service, :zas_present,:zmore_details)
                                 ");
-                            $stmt->execute(array(
-                                "zorder_id" => $order_id,
-                                "zorder_number" => $order_number,
-                                "zusername" => $emp_data['id'],
-                                "zdate" => $date,
-                                "zstep_name" => 'التواصل',
-                                "zdescription" => ' التواصل مع العميل لبدء الطلب  ',
-                                "zstep_status" => 'لم يبدا'
-                            ));
-                            if ($stmt) {
-                                include "send_mail/index.php";
-                                ////////// End Send Mail 
-                                // delete session 
-                                unset($_SESSION['total']);
-                                unset($_SESSION['farm_services']);
-                                // unset($_SESSION['vat_value']);
-                                unset($_SESSION['last_total']);
-                                unset($_SESSION['coupon']);
-                                unset($_SESSION['discount_value']);
-                                unset($_SESSION['coupon_name']);
-                                unset($_SESSION['grand_total']);
-                                $stmt = $connect->prepare("DELETE FROM cart WHERE cookie_id = ? OR user_id = ?");
-                                $stmt->execute(array($cookie_id, $user_id));
-                                header("Location:profile/orders/compelete");
+                                    $stmt->execute(array(
+                                        "zorder_id" => $order_id,
+                                        "zorder_number" => $order_number,
+                                        "zproduct_id" => $product_id,
+                                        "zqty" => $quantity,
+                                        "zproduct_price" => $price,
+                                        "ztotal" => $total_price,
+                                        "zfarm_service" => $farm_service,
+                                        "zas_present" => $as_present,
+                                        "zmore_details" => $more_details,
+                                    ));
+                                    // insert order steps 
+                                    // get the  date
+                                    date_default_timezone_set('Asia/Riyadh'); // تحديد المنطقة الزمنية
+                                    $date = date('d/m/Y h:i a'); // تنسيق التاريخ والوقت
+                                    // Add Order Steps 
+                                    $stmt = $connect->prepare("SELECT * FROM employes WHERE role_name='التواصل'");
+                                    $stmt->execute();
+                                    $emp_data = $stmt->fetch();
+                                    $stmt = $connect->prepare("INSERT INTO order_steps (order_id,order_number,username,date,step_name,description,step_status)
+                                    VALUES(:zorder_id,:zorder_number,:zusername,:zdate,:zstep_name,:zdescription,:zstep_status)
+                                    ");
+                                    $stmt->execute(array(
+                                        "zorder_id" => $order_id,
+                                        "zorder_number" => $order_number,
+                                        "zusername" => $emp_data['id'],
+                                        "zdate" => $date,
+                                        "zstep_name" => 'التواصل',
+                                        "zdescription" => ' التواصل مع العميل لبدء الطلب  ',
+                                        "zstep_status" => 'لم يبدا'
+                                    ));
+                                    if ($stmt) {
+                                        include "send_mail/index.php";
+                                        ////////// End Send Mail 
+                                        // delete session 
+                                        unset($_SESSION['total']);
+                                        unset($_SESSION['farm_services']);
+                                        // unset($_SESSION['vat_value']);
+                                        unset($_SESSION['last_total']);
+                                        unset($_SESSION['coupon']);
+                                        unset($_SESSION['discount_value']);
+                                        unset($_SESSION['coupon_name']);
+                                        unset($_SESSION['grand_total']);
+                                        $stmt = $connect->prepare("DELETE FROM cart WHERE cookie_id = ? OR user_id = ?");
+                                        $stmt->execute(array($cookie_id, $user_id));
+                                        header("Location:profile/orders/compelete");
+                                    }
+                                }
+                            } catch (\Exception $e) {
+                                echo $e;
                             }
-                        }
-                    } elseif ($payment_method === 'الدفع الالكتروني') {
-                        // Get the user's details (you can fetch these from your database)
-                        $name = $name;
-                        $email = $email;
-                        $phone = $phone;
-                        $order_number = $order_number;
-                        // Define the products to be purchased
-                        $products = [];
-                        foreach ($allitems as $item) {
-                            $product_name = $item['product_id'];
-                            $quantity = $item['quantity'];
-                            $price = $item['price'];
-                            $product = [
-                                "name" => $product_name,
-                                "unit_price" => $price,
-                                "quantity" => intval($quantity),
-                            ];
-                            $products[] = $product;
-                        }
-                        require_once('payment/vendor/autoload.php');
-                        $client = new \GuzzleHttp\Client();
-                        $response = $client->request('POST', 'https://api.tap.company/v2/charges', [
-                            'json' => [
-                                "amount" => $_SESSION['grand_total'], // Total amount to charge (in SAR)
-                                "currency" => "SAR",
-                                "threeDSecure" => true,
-                                "save_card" => true,
-                                "description" => "Purchase of Products", // Description of the purchase
-                                "receipt" => [
-                                    "email" => true,
-                                    "sms" => true
-                                ],
-                                "products" => $products, // Include the product information here
-                                "customer" => [
-                                    "first_name" => $name,
-                                    "email" => $email,
-                                    "phone" => [
-                                        "number" => $phone
+                        } elseif ($payment_method === 'الدفع الالكتروني') {
+                            // Get the user's details (you can fetch these from your database)
+
+                            $name = $name;
+                            $email = $email;
+                            $phone = $phone;
+                            $order_number = $order_number;
+                            // Define the products to be purchased
+                            $products = [];
+                            foreach ($allitems as $item) {
+                                $product_name = $item['product_id'];
+                                $quantity = $item['quantity'];
+                                $price = $item['price'];
+                                $product = [
+                                    "name" => $product_name,
+                                    "unit_price" => $price,
+                                    "quantity" => intval($quantity),
+                                ];
+                                $products[] = $product;
+                            }
+                            require_once('payment/vendor/autoload.php');
+                            $client = new \GuzzleHttp\Client();
+                            $response = $client->request('POST', 'https://api.tap.company/v2/charges', [
+                                'json' => [
+                                    "amount" => $_SESSION['grand_total'], // Total amount to charge (in SAR)
+                                    "currency" => "SAR",
+                                    "threeDSecure" => true,
+                                    "save_card" => false,
+                                    "description" => "Purchase of Products", // Description of the purchase
+                                    "receipt" => [
+                                        "email" => true,
+                                        "sms" => true
+                                    ],
+                                    "products" => $products, // Include the product information here
+                                    "customer" => [
+                                        "first_name" => $name,
+                                        "email" => $email,
+                                        "phone" => [
+                                            "number" => $phone
+                                        ]
+                                    ],
+                                    "source" => [
+                                        "id" => "src_all"
+                                    ],
+                                    "post" => [
+                                        "url" => "http://localhost/mashtly/checkout"
+                                    ],
+                                    "redirect" => [
+                                        "url" => "http://localhost/mashtly/checkout"
+                                    ],
+                                    "metadata" => [
+                                        "udf1" => "Metadata 1"
                                     ]
                                 ],
-                                "source" => [
-                                    "id" => "src_all"
+                                'headers' => [
+                                    'Authorization' => 'Bearer sk_test_nbu7ilH8qGNyQIOEAFKm2X3c',
+                                    'accept' => 'application/json',
+                                    'content-type' => 'application/json',
                                 ],
-                                "post" => [
-                                    "url" => "http://localhost/mashtly/checkout"
-                                ],
-                                "redirect" => [
-                                    "url" => "http://localhost/mashtly/payment/callback"
-                                ],
-                                "metadata" => [
-                                    "udf1" => "Metadata 1"
-                                ]
-                            ],
-                            'headers' => [
-                                'Authorization' => 'Bearer sk_test_XKokBfNWv6FIYuTMg5sLPjhJ',
-                                'accept' => 'application/json',
-                                'content-type' => 'application/json',
-                            ],
-                        ]);
-                        $output = $response->getBody();
-                        $output = json_decode($output);
-                        // var_dump($output);
-                        header("location:" . $output->transaction->url);
-                        // insert order in db and check if it payment correctly or not from callback page
-
+                            ]);
+                            $output = $response->getBody();
+                            $output = json_decode($output);
+                            // var_dump($output);
+                            header("location:" . $output->transaction->url);
+                            // insert order in db and check if it payment correctly or not from callback page
+                        }
+                    } else {
+                        foreach ($formerror as $error) {
+                ?>
+                            <div class="alert alert-danger"> <?php echo $error; ?> </div>
+                <?php
+                        }
                     }
                 }
                 ?>
@@ -575,12 +592,12 @@ ob_end_flush();
         document.getElementById('lastshippingvalue').value = shippingValue;
         var subTotal = <?php echo $_SESSION['total'] + $_SESSION['farm_services']; ?>; // المجموع الفرعي
         var grandTotal = subTotal + shippingValue; // الإجمالي الجديد
-        
+
         var discount = 0; // الخصم، افترض صفرًا
 
         // إذا كان هناك خصم موجود
         <?php if (isset($_SESSION['coupon'])) { ?>
-            discount = grandTotal *  document.getElementById("discountCoupon").value;
+            discount = grandTotal * document.getElementById("discountCoupon").value;
             grandTotal -= discount; // تطبيق الخصم
             document.getElementById("discountValue").value = discount;
             document.getElementById('discountValue_total').innerHTML = discount.toFixed(2) + " ر.س";

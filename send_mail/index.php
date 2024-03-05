@@ -1,8 +1,8 @@
 <?php
 require_once 'vendor/autoload.php';
-$transport = (new Swift_SmtpTransport('smtp.entiqa.co', 587))
-    ->setUsername('support@entiqa.co')
-    ->setPassword('mohamedramadan2930');
+$transport = (new Swift_SmtpTransport('smtp.mshtly.com', 587))
+    ->setUsername('info@mshtly.com')
+    ->setPassword('mohamedramadan2930#');
 $mailer = new Swift_Mailer($transport);
 $body_message = '
 <!DOCTYPE html>
@@ -24,7 +24,7 @@ $body_message = '
                         <div class="print_head">
                             <div class="logo" style="text-align: center;
                             padding: 20px;">
-                                <img src="https://kuwait-developer.com/send_mail/logo.png" alt="">
+                                <img src="https://www.mshtly.com/logo.png" alt="">
                             </div>
                             <div class="person_data">
                                 <h2 style=" color: #1B1B1B; font-size: 25px; font-weight: bold; margin-bottom: 16px;">
@@ -147,7 +147,7 @@ $title = 'طلب شراء';
 
 // Create a message
 $message = (new Swift_Message('New Order'))
-    ->setFrom(['support@entiqa.co' => 'Mshtly'])
+    ->setFrom(['info@mshtly.com' => 'Mshtly'])
     ->setTo($email)
     ->setBody($body_message, 'text/html');
 $result = $mailer->send($message);
