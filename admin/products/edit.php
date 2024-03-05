@@ -7,7 +7,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
         $more_cat = $_POST['more_cat'];
         $more_cat_string = implode(',', (array) $more_cat);
         $name = $_POST['name'];
-        $slug = createSlug($name);
+        //$slug = createSlug($name);
         $description = $_POST['description'];
         $short_desc = $_POST['short_desc'];
         $price = $_POST['price'];

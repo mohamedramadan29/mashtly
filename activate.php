@@ -32,6 +32,7 @@ if (isset($_GET['active_code'])) {
         header("Location:login");
     } else {
         $_SESSION['error_active_code'] = ' كود التفعيل الخاص بك خطأ  ';
+        header("Location:login");
     ?>
         <div class="alert alert-danger"> كود التفعيل الخاص بك خطأ </div>
 <?php

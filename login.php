@@ -265,15 +265,29 @@ require_once 'send_mail/vendor/autoload.php';
                                     // استخدام الوظيفة للتحقق من وجود اسم المستخدم
                                     checkIfExists($connect, 'users', 'user_name', $username, $formerror, 'اسم المستخدم مستخدم بالفعل');
                                     if (empty($formerror)) {
-                                        $table = 'users';
-                                        $data = array(
-                                            "user_name" => $username,
-                                            "email" => $email,
-                                            "password" => $sha_password,
-                                            "active_status_code" => $active_status_code,
-                                            "emails_subscribe" => $emails_subscribe,
-                                        );
-                                        $stmt = insertData($connect, $table, $data);
+                                        try {
+                                            $stmt = $connect->prepare("INSERT INTO users(user_name,email,password,active_status_code,emails_subscribe) VALUES 
+                                            (:zuser_name,:zemail,:zpassword,:zactive_status_code,:zemail_sub)");
+                                            $stmt->execute(array(
+                                                "zuser_name" => $username,
+                                                "zemail" => $email,
+                                                "zpassword" => $sha_password,
+                                                "zactive_status_code" => $active_status_code,
+                                                "zemail_sub" => $emails_subscribe
+                                            ));
+                                        } catch (\Exception $e) {
+                                            echo $e;
+                                        }
+
+                                        // $table = 'users';
+                                        // $data = array(
+                                        //     "user_name" => $username,
+                                        //     "email" => $email,
+                                        //     "password" => $sha_password,
+                                        //     "active_status_code" => $active_status_code,
+                                        //     "emails_subscribe" => $emails_subscribe,
+                                        // );
+                                        // $stmt = insertData($connect, $table, $data);
                                         if ($stmt) {
                                             //////////////////// Send Email Activation ////////////////////////////
 
