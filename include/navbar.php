@@ -173,7 +173,7 @@
                         $allcategories = $stmt->fetchAll();
                         foreach ($allcategories as $category) {
                         ?>
-                          <li><a class="dropdown-item" href="http://localhost/mashtly/product-category?cat=<?php echo $category['slug']; ?>"> <?php echo $category['name'] ?> </a></li>
+                          <li><a class="dropdown-item" href="http://localhost/mashtly/product-category/<?php echo $category['slug']; ?>"> <?php echo $category['name'] ?> </a></li>
                         <?php
                         }
                         ?>
@@ -261,7 +261,7 @@
                   foreach ($allcategories as $category) {
                   ?>
                     <div class="col-3">
-                      <a style="color: #000;" href="http://localhost/mashtly/product-category?cat=<?php echo $category['slug']; ?>">
+                      <a style="color: #000;" href="http://localhost/mashtly/product-category/<?php echo $category['slug']; ?>">
                         <li> <?php echo $category['name'] ?> </li>
                       </a>
                     </div>

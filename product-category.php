@@ -4,28 +4,28 @@ session_start();
 $page_title = ' مشتلي  | التصنيفات  ';
 include "init.php";
 
-// // الحصول على الجزء من العنوان بعد اسم الملف (مثل product)
-// $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-// $parts = explode('/', $url);
-// // البحث عن قيمة المتغير بدون كلمة slug
-// $key = array_search('product-category', $parts);
-// $keyPage = array_search('page', $parts);
-// if ($key !== false && isset($parts[$key + 1])) {
-//     // يمكنك استخدام $parts[$key+1] كـ slug
-//     $cat_slug  = $parts[$key + 1];
-//     $cat_slug =  urldecode($cat_slug);
-// } else {
-//     // لم يتم العثور على slug
-//     echo "العنوان غير صحيح";
-// }
-// if ($keyPage !== false && isset($parts[$keyPage + 1])) {
-//     $keyPage = $parts[$keyPage + 1];
-//     // $keyPage = $currentpage;
-//     $currentpage = $keyPage;
-// } else {
-//     $currentpage = 1;
-// }
-$cat_slug =$_GET['cat'];
+// الحصول على الجزء من العنوان بعد اسم الملف (مثل product)
+$url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$parts = explode('/', $url);
+// البحث عن قيمة المتغير بدون كلمة slug
+$key = array_search('product-category', $parts);
+$keyPage = array_search('page', $parts);
+if ($key !== false && isset($parts[$key + 1])) {
+    // يمكنك استخدام $parts[$key+1] كـ slug
+    $cat_slug  = $parts[$key + 1];
+    $cat_slug =  urldecode($cat_slug);
+} else {
+    // لم يتم العثور على slug
+    echo "العنوان غير صحيح";
+}
+if ($keyPage !== false && isset($parts[$keyPage + 1])) {
+    $keyPage = $parts[$keyPage + 1];
+    // $keyPage = $currentpage;
+    $currentpage = $keyPage;
+} else {
+    $currentpage = 1;
+}
+//$cat_slug =$_GET['cat'];
 
 // add to favorite
 if (isset($_POST['add_to_fav'])) {
@@ -86,7 +86,7 @@ if ($check_cat > 0) {
 
     $num_products = $stmt->rowCount();
 
-    $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
+   // $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
   // echo $currentpage;
     $pageSize = 20;
     $offset = ($currentpage - 1) * $pageSize;
@@ -282,7 +282,7 @@ if ($check_cat > 0) {
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
                                     <li class="page-item <?php echo ($currentpage == 1) ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="/mashtly/product-category/<?php echo urlencode($cat_slug); ?>/page/<?php echo ($currentpage > 1) ? ($currentpage - 1) : 1; ?>/<?php echo isset($_GET['sort']) ? '?sort=' . $_GET['sort'] : ''; ?>" aria-label="Previous">
+                                        <a class="page-link" href="/product-category/<?php echo urlencode($cat_slug); ?>/page/<?php echo ($currentpage > 1) ? ($currentpage - 1) : 1; ?>/<?php echo isset($_GET['sort']) ? '?sort=' . $_GET['sort'] : ''; ?>" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
@@ -292,11 +292,11 @@ if ($check_cat > 0) {
                                         if ($i == $currentpage) {
                                             echo ' active';
                                         }
-                                        echo '"><a class="page-link" href="/mashtly/product-category/' . urlencode($cat_slug) . '/page/' . $i . '/' . (isset($_GET['sort']) ? '?sort=' . $_GET['sort'] : '') . '">' . $i . '</a></li>';
+                                        echo '"><a class="page-link" href="/product-category/' . urlencode($cat_slug) . '/page/' . $i . '/' . (isset($_GET['sort']) ? '?sort=' . $_GET['sort'] : '') . '">' . $i . '</a></li>';
                                     }
                                     ?>
                                     <li class="page-item <?php echo ($currentpage == $totalPages) ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="/mashtly/product-category/<?php echo urlencode($cat_slug); ?>/page/<?php echo ($currentpage < $totalPages) ? ($currentpage + 1) : $totalPages; ?>/<?php echo isset($_GET['sort']) ? '?sort=' . $_GET['sort'] : ''; ?>" aria-label="Next">
+                                        <a class="page-link" href="/product-category/<?php echo urlencode($cat_slug); ?>/page/<?php echo ($currentpage < $totalPages) ? ($currentpage + 1) : $totalPages; ?>/<?php echo isset($_GET['sort']) ? '?sort=' . $_GET['sort'] : ''; ?>" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>

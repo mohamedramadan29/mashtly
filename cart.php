@@ -117,7 +117,7 @@ if (isset($_POST['remove_item'])) {
                                         </button>
                                         <div class="product_data">
                                             <div class="product_image">
-                                                <a href="product?slug=<?php echo $pro_slug ?>">
+                                                <a href="product/<?php echo $pro_slug ?>">
                                                     <?php
                                                     $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
                                                     $stmt->execute(array($item['product_id']));
@@ -136,7 +136,7 @@ if (isset($_POST['remove_item'])) {
                                                 </a>
                                             </div>
                                             <div class="product_info">
-                                                <h3> <a href="product?slug=<?php echo $pro_slug ?>"> <?php echo $pro_name; ?> </a> </h3>
+                                                <h3> <a href="product/<?php echo $pro_slug ?>"> <?php echo $pro_name; ?> </a> </h3>
                                                 <p class="item_price"> سعر الوحدة :<span> <?php echo $item['price']; ?> ر.س </span> </p>
                                                 <?php
                                                 if ($item['vartion_name'] != null && $item['vartion_name'] != '') {

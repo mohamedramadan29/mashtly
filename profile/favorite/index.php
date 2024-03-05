@@ -55,13 +55,13 @@ if (isset($_SESSION['user_id'])) {
                                 $count_image = $stmt->rowCount();
                                 $product_data_image = $stmt->fetch();
                                 ?>
-                                <a href="../../product?slug=<?php echo $product_data['slug']; ?>">
+                                <a href="../../product/<?php echo $product_data['slug']; ?>">
                                     <div class="image">
                                         <img src="../../admin/product_images/<?php echo $product_data_image['main_image'];  ?>" alt="">
                                     </div>
                                 </a>
                                 <div>
-                                    <a style="text-decoration: none; color:#4e4e4e" href="../../product?slug=<?php echo $product_data['slug']; ?>">
+                                    <a style="text-decoration: none; color:#4e4e4e" href="../../product/<?php echo $product_data['slug']; ?>">
                                         <h3> <?php echo $product_data['name']; ?> </h3>
                                     </a>
                                     <span> <?php echo number_format($product_data['price'], 2) ?> ر.س </span>
