@@ -38,7 +38,7 @@ $land_id = $design_data['id'];
     <div class='container'>
         <div class="data">
             <div class="breadcrump">
-                <p> <a href="index"> الرئيسية </a> \ <span> <a href="http://localhost/mashtly/landscap"> تنسيق وصيانة الحدائق  </a> </span> \ <span> <?php echo $name ?></span> </p>
+                <p> <a href="index"> الرئيسية </a> \ <span> <a href="https://www.mshtly.com/landscap"> تنسيق وصيانة الحدائق  </a> </span> \ <span> <?php echo $name ?></span> </p>
             </div>
             <div class="purches_header">
                 <div class="data_header_name">
@@ -48,7 +48,7 @@ $land_id = $design_data['id'];
             <div class="landscap_details">
                 <div class="row">
                     <h6> نمط التصميم </h6>
-                    <img src="http://localhost/mashtly/admin/landscap/images/<?php echo $image ?>" alt="">
+                    <img src="https://www.mshtly.com/admin/landscap/images/<?php echo $image ?>" alt="">
                 </div>
             </div>
             <div class="purches_header">
