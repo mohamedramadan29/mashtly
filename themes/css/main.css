@@ -4938,3 +4938,9 @@ body {
 .cart_button {
     margin-bottom: 15px;
 }
+
+@media(max-width:991px){
+    .index_all_cat .data .header2{
+        margin-right: 5px;
+    }
+}

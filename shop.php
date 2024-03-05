@@ -143,6 +143,7 @@ if (isset($_POST['search_options'])) {
 </div>
 <!-- END SELECT DATA HEADER -->
 <!-- START INDEX ALL CATEGORY  -->
+
 <div class="index_all_cat select_plants">
     <div class="container-fluid">
         <div class="data">
@@ -152,9 +153,9 @@ if (isset($_POST['search_options'])) {
                     <p> اجمالي النتائج :<span> <?php echo $num_products; ?> </span> </p>
                 </div>
                 <div class="search_types">
-                    <div class="brach_cat">
+                    <!-- <div class="brach_cat">
                         <button class="global_button btn" id="brach_orders"> <img src="<?php echo $uploads ?>filter.png" alt=""> تصنيف حسب </button>
-                    </div>
+                    </div> -->
                     <div class="search">
                         <!-- <button class="global_button btn" id="search_orders"> رتب حسب: <span class="selected_search">
                                 <?php

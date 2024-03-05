@@ -116,7 +116,7 @@
               </a>
             </div>
           </div>
-          <div class='col-4'>
+          <div class='col-6'>
             <div class="info">
               <div class="cart">
                 <a href="http://localhost/mashtly/cart">
@@ -133,25 +133,71 @@
                   <?php
                   }
                   ?>
-                  <img src="<?php echo $uploads ?>/shopping-cart.png" alt="">
+                  <img width="24px" src="<?php echo $uploads ?>/shopping-cart.png" alt="">
 
                 </a>
               </div>
               <div class="heart">
                 <a href="http://localhost/mashtly/profile/favorite">
-                  <img src="<?php echo $uploads ?>/heart.png" alt="">
+                  <img width="24px" src="<?php echo $uploads ?>/heart.png" alt="">
                 </a>
               </div>
-              <!--
-              <div class="sign_in">
+
+              <!-- <div class="sign_in">
                 <a href="#"> <img src="<?php echo $uploads ?>/sign-in.png" alt=""> تسجيل الدخول </a>
+              </div> -->
+
+              <div class="sign_in">
+                <?php
+                if (isset($_SESSION['user_id'])) {
+                  $stmt = $connect->prepare("SELECT * FROM users WHERE id = ?");
+                  $stmt->execute(array($_SESSION['user_id']));
+                  $user_data = $stmt->fetch();
+                  $user_name = $user_data['user_name'];
+                ?>
+                  <div class="user_account">
+                    <div class="image">
+                      <img style="width:23px" src="<?php echo $uploads ?>/user.svg" alt="">
+                    </div>
+                    <!-- <div>
+                      <span> مرحبا بك </span>
+                      <h4> <?php echo $user_name; ?> <i class="fa fa-chevron-down"> </i></h4>
+                    </div> -->
+                    <div class="links">
+                      <ul class="list-unstyled">
+                        <li> <img src="<?php echo $uploads ?>/purches.svg" alt=""> <a href="http://localhost/mashtly/profile/purchase">مشترياتي</a> </li>
+                        <li> <img src="<?php echo $uploads ?>/address.svg" alt=""> <a href="http://localhost/mashtly/profile/address">عناويني</a> </li>
+                        <li> <img src="<?php echo $uploads ?>/return.svg" alt=""> <a href="http://localhost/mashtly/profile/purchase">الإرجاع</a> </li>
+                        <!-- <li> <img src="<?php echo $uploads ?>/profile_payment.svg" alt=""> <a href="http://localhost/mashtly/profile/payment">طرق الدفع </a> </li> -->
+                        <li> <img src="<?php echo $uploads ?>/cart.svg" alt=""> <a href="http://localhost/mashtly/cart">سلة الشراء </a> </li>
+                        <li> <img src="<?php echo $uploads ?>/heart_profile.svg" alt=""> <a href="http://localhost/mashtly/profile/favorite"> المفضلة </a> </li>
+                        <li> <img src="<?php echo $uploads ?>/change.svg" alt=""> <a href="http://localhost/mashtly/profile/change_password"> تغيير كلمة المرور </a> </li>
+                        <li> <img src="<?php echo $uploads ?>/edit_data.svg" alt=""> <a href="http://localhost/mashtly/profile/edit_data"> تعديل بياناتي </a> </li>
+                        <li> <i class="fa fa-log"></i> <a style="color: red; padding-right:15px" href="http://localhost/mashtly/logout"> تسجيل خروج </a> </li>
+                      </ul>
+                    </div>
+                  </div>
+                <?php
+                } else {
+                ?>
+                  <div class="user_account">
+                    <div class="image">
+                      <a style="text-decoration: none; background-color:transparent; padding:0;" href="http://localhost/mashtly/login">
+                        <img style="width:23px" src="<?php echo $uploads ?>/user.svg" alt="">
+                      </a>
+                    </div>
+                  </div>
+                  <!-- <a href="http://localhost/mashtly/login"> <img src="<?php echo $uploads ?>/sign-in.png" alt=""> تسجيل الدخول </a> -->
+                <?php
+                }
+                ?>
               </div>
--->
+
             </div>
           </div>
-          <div class='col-4'>
-            <nav class="navbar">
-              <div class="container">
+          <div class='col-2'>
+            <nav class="navbar" style="padding: 0;">
+              
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"><i class='fa fa-bars'></i></span>
                 </button>
@@ -208,7 +254,7 @@
                     </li>
                   </ul>
                 </div>
-              </div>
+              
             </nav>
           </div>
         </div>
@@ -293,8 +339,8 @@
             <a class="nav-link" href="http://localhost/mashtly/blog"> المدونة </a>
           </li>
           <li class="nav-item">
-                      <a class="nav-link" href="http://localhost/mashtly/contact"> تواصل معنا </a>
-                    </li>
+            <a class="nav-link" href="http://localhost/mashtly/contact"> تواصل معنا </a>
+          </li>
         </ul>
       </div>
     </div>
