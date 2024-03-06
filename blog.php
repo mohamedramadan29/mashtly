@@ -106,30 +106,31 @@ $count_post = count(($stmt->fetchAll()));
                     ?>
                 </div>
                 <div class="pagination_section">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <?php
-                            for ($i = 1; $i <= $totalPages; $i++) {
-                                echo '<li class="page-item';
-                                if ($i == $currentpage) {
-                                    echo ' active';
-                                }
-                                echo '"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
-                            }
-                            ?>
-                            <li class="page-item">
-                                <a class="page-link" href="" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="?page=<?php echo $currentpage - 1; ?>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <?php
+            for ($i = 1; $i <= $totalPages; $i++) {
+                echo '<li class="page-item';
+                if ($i == $currentpage) {
+                    echo ' active';
+                }
+                echo '"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
+            }
+            ?>
+            <li class="page-item">
+                <a class="page-link" href="?page=<?php echo $currentpage + 1; ?>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
             </div>
         </div>
     </div>
