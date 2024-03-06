@@ -28,14 +28,14 @@ $cat_count = count($allcat);
                     foreach ($allcat as $cat) {
                         $cat_id = $cat['id'];
                         // count product in cat
-                        $stmt = $connect->prepare("SELECT * FROM products WHERE cat_id = ?");
+                        $stmt = $connect->prepare("SELECT * FROM products WHERE cat_id = ? AND publish = 1 AND product_status_store = 1 AND name !='' AND price !='' ");
                         $stmt->execute(array($cat_id));
                         $allpro = $stmt->fetchAll();
                         $count_pro = count($allpro);
                         if ($count_pro > 0) {
                     ?>
                             <div class="col-6 col-lg-2">
-                                <a href="category_products?cat=<?php echo $cat['slug']; ?>">
+                                <a href="product-category/<?php echo $cat['slug']; ?>">
                                     <div class="cat">
                                         <div class="main">
                                             <?php
@@ -49,15 +49,15 @@ $cat_count = count($allcat);
                                             }
                                             ?>
                                             <h3> <?php echo $cat['name']; ?> </h3>
-                                            <p> عدد العناصر: <?php echo $count_pro; ?> </p>
+                                            <!-- <p> عدد العناصر: <?php echo $count_pro; ?> </p> -->
                                         </div>
-                                        <a href="category_products?cat=<?php echo $cat['slug']; ?>">
-                                        <div class="overlay">
-                                            
+                                        <a href="product-category/<?php echo $cat['slug']; ?>">
+                                            <div class="overlay">
+
                                                 <img src="<?php echo $uploads ?>cat_arrow.png" alt="">
                                                 <h4> تصفح التصنيف </h4>
-                                           
-                                        </div>
+
+                                            </div>
                                         </a>
                                     </div>
                                 </a>
