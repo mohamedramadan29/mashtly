@@ -249,7 +249,7 @@ require_once 'send_mail/vendor/autoload.php';
                                         $formerror[] = " يجب إدخال عنوان بريد إلكتروني صالح ";
                                     } elseif (strlen($email) > 100) {
                                         $formerror[] = "طول البريد الإلكتروني يجب أن لا يتجاوز 100 حرفًا";
-                                    } elseif (!preg_match('/^[a-zA-Z0-9.@]+$/', $email)) {
+                                    } elseif (!preg_match('/^[a-zA-Z0-9.@ـ\-\_\+\,\']+$/u', $email))  {
                                         $formerror[] = "البريد الإلكتروني يجب أن يحتوي على أحرف وأرقام ورموز صحيحة فقط";
                                     } elseif (strpos($email, '..') !== false) {
                                         $formerror[] = "البريد الإلكتروني يحتوي على أحرف غير صالحة";
