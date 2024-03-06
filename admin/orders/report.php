@@ -53,6 +53,7 @@
                                         <th> المدينة </th>
                                         <th> البريد الالكتروني </th>
                                         <th> تاريخ الطلب </th>
+                                        <th> طريقة الدفع  </th>
                                         <th> حالة الطلب </th>
                                         <th> السعر الكلي </th>
                                         <th> </th>
@@ -75,6 +76,7 @@
                                                 <td> <?php echo  $order['city']; ?> </td>
                                                 <td> <?php echo  $order['email']; ?> </td>
                                                 <td> <?php echo  $order['order_date']; ?> </td>
+                                                <td> <span class="badge badge-danger"> <?php echo  $order['payment_method']; ?> </span> </td>
                                                 <td> <span class="badge badge-info"> <?php echo  $order['status_value']; ?> </span>
                                                     <?php
                                                     $stmt = $connect->prepare("SELECT * FROM order_statuses WHERE order_id = ? ORDER BY id DESC LIMIT 1");

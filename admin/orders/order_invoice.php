@@ -69,6 +69,8 @@ if (isset($_GET['order_id'])) {
                                             <li> <span> الاسم: </span> </li>
                                             <li> <span> البريد الألكتروني : </span> </li>
                                             <li> <span> رقم الجوال: </span> </li>
+                                            <li> <span> العنوان : </span> </li>
+                                            <li> <span> طريقة الدفع : </span> </li>
                                         </ul>
                                         <ul class="list-unstyled">
                                             <li> <?php echo $order_data['order_number']; ?> </li>
@@ -76,6 +78,8 @@ if (isset($_GET['order_id'])) {
                                             <li> <?php echo $order_data['name']; ?> </li>
                                             <li> <?php echo $order_data['email']; ?> </li>
                                             <li> <?php echo $order_data['phone']; ?> </li>
+                                            <li> <?php echo $order_data['address']; ?> </li>
+                                            <li> <?php echo $order_data['payment_method']; ?> </li>
                                         </ul>
                                     </div>
                                 </div>
