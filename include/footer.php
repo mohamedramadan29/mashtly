@@ -27,7 +27,9 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="info">
-                            <img src="<?php echo $uploads ?>/footer_logo.png" alt="">
+                            <a href="https://www.mshtly.com/">
+                                <img src="<?php echo $uploads ?>/footer_logo.png" alt="">
+                            </a>
                             <p> تابعونا علي منصات التواصل الاجتماعى عبر </p>
                             <ul class="list-unstyled social_icon">
                                 <li> <a href="https://twitter.com/mshtly"> <i class='fa fa-twitter'> </i> </a> </li>
@@ -101,7 +103,9 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="info text-center">
-                            <img src="<?php echo $uploads ?>/footer_logo.png" alt="">
+                            <a href="https://www.mshtly.com/">
+                                <img src="<?php echo $uploads ?>/footer_logo.png" alt="">
+                            </a>
                         </div>
                     </div>
                 </div>

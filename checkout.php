@@ -192,11 +192,11 @@ if (isset($_SESSION['user_id'])) {
                             </div>
                             <div class="col-lg-4">
                                 <div class="cart_price_info">
-                                    <!-- <p class="no_sheap_price">
-                                <img src="<?php echo $uploads ?>free.svg" alt="">
-                                أضف 13 ريال واحصل علي شحن مجاني
-                            </p>
-                    -->
+                                    <p class="no_sheap_price">
+                                        <img src="<?php echo $uploads ?>free.svg" alt="">
+                                        مدة الشحن المتوقعة 2-7 ايام
+                                    </p>
+
                                     <div class="price_sections">
                                         <div class="first">
                                             <div>

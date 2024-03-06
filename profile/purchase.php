@@ -28,11 +28,11 @@ if (isset($_SESSION['user_id'])) {
                         </form>
                     </div>
                 </div>
-                <?php
+                <?php 
                 $stmt = $connect->prepare("SELECT * FROM orders WHERE user_id = ? ORDER BY id DESC");
                 $stmt->execute(array($user_id));
                 $orders = $stmt->fetchAll();
-                $count_orders = count($stmt->fetchAll());
+                $count_orders = $stmt->rowCount();
                 // Make Search Form
                 if (isset($_POST['search_order'])) {
                     $order_number = $_POST['order_number'];
