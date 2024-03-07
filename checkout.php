@@ -494,7 +494,7 @@ if (isset($_SESSION['user_id'])) {
                                         "url" => "http://localhost/mashtly/checkout"
                                     ],
                                     "redirect" => [
-                                        "url" => "http://localhost/mashtly/checkout"
+                                        "url" => "http://localhost/mashtly/payment/callback"
                                     ],
                                     "metadata" => [
                                         "udf1" => "Metadata 1"
