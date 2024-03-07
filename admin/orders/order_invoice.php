@@ -62,83 +62,112 @@ if (isset($_GET['order_id'])) {
                                     <h2> مرحبا <?php echo $order_data['name']; ?> </h2>
                                     <p> شكرا لطلبك، من مشتلي تم تأكيد طلبك وسوف يصلك في الوقت المحدد لإلغاء الطلب أو تعديله يرجي زيارة الموقع قسم <span style="color: #7a9d12;">مشترياتي</span> </p>
                                     <p style="display: block;"> يوجد أدناه فاتورة برقم الطلب وتفاصيله </p>
-                                    <div class="d-flex ul_div">
-                                        <ul class="list-unstyled">
-                                            <li> <span> رقم الطلب: </span> </li>
-                                            <li> <span> تاريخ الطلب: </span> </li>
-                                            <li> <span> الاسم: </span> </li>
-                                            <li> <span> البريد الألكتروني : </span> </li>
-                                            <li> <span> رقم الجوال: </span> </li>
-                                            <li> <span> العنوان : </span> </li>
-                                            <li> <span> طريقة الدفع : </span> </li>
-                                        </ul>
-                                        <ul class="list-unstyled">
-                                            <li> <?php echo $order_data['order_number']; ?> </li>
-                                            <li> <?php echo $order_data['order_date']; ?> </li>
-                                            <li> <?php echo $order_data['name']; ?> </li>
-                                            <li> <?php echo $order_data['email']; ?> </li>
-                                            <li> <?php echo $order_data['phone']; ?> </li>
-                                            <li> <?php echo $order_data['address']; ?> </li>
-                                            <li> <?php echo $order_data['payment_method']; ?> </li>
-                                        </ul>
+
+                                    <div class="print_head">
+                                        <div class="logo">
+                                            <img src="<?php echo $uploads ?>/logo.png" alt="">
+                                        </div>
+
+                                        <div class="person_data">
+                                            <h2> مرحبا <?php if (!empty($user_name)) {
+                                                            echo $user_name;
+                                                        } else {
+                                                            echo $user_username;
+                                                        }; ?> </h2>
+                                            <p> شكرا لطلبك، من مشتلي تم تأكيد طلبك وسوف يصلك في الوقت المحدد لإلغاء الطلب أو تعديله يرجي زيارة الموقع قسم <span style="color: var(--second-color);"> مشترياتي </span> </p>
+                                            <p> يوجد أدناه فاتورة برقم الطلب وتفاصيله </p>
+                                        </div>
+
+                                        <p class="no_sheap_price">
+                                            <img src="<?php echo $uploads ?>free.svg" alt="">
+                                            مدة الشحن المتوقعة 2-7 ايام
+                                        </p>
+
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th> <span> رقم الطلب: </span> </th>
+                                                <th> # <?php echo $order_data['order_number']; ?> </th>
+                                            </tr>
+                                            <tr>
+                                                <th> <span> تاريخ الطلب: </span> </th>
+                                                <th> <?php echo $order_data['order_date']; ?> </th>
+                                            </tr>
+                                            <tr>
+                                                <th> <span> الاسم: </span> </th>
+                                                <th><?php echo $order_data['name']; ?> </th>
+                                            </tr>
+                                            <tr>
+                                                <th> <span> البريد الألكتروني : </span> </th>
+                                                <th> <?php echo $order_data['email']; ?> </th>
+                                            </tr>
+                                            <tr>
+                                                <th> <span> رقم الجوال: </span> </th>
+                                                <th> <?php echo $order_data['phone']; ?> </th>
+                                            </tr>
+                                            <tr>
+                                                <th> <span> وسية الدفع : </span> </th>
+                                                <th> <?php echo $order_data['payment_method']; ?> </th>
+                                            </tr>
+                                            <tr>
+                                                <th> <span> العنوان: </span> </th>
+                                                <th> <?php echo $order_data['address']; ?> </th>
+                                            </tr>
+                                            <tr>
+                                                <th> <span> ملاحظات اضافية : </span> </th>
+                                                <th> <?php echo $order_data['order_details']; ?> </th>
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                             <div class="order_details">
                                 <h4> تفاصيل الطلب </h4>
-                                <div class="order">
-                                    <div>
-                                        <h6> المنتج </h6>
-                                    </div>
-                                    <div style="display: flex;justify-content: space-between;min-width: 40%;">
-                                        <div>
-                                            <h6> الكمية </h6>
-                                        </div>
-                                        <div>
-                                            <h6> إجمالي السعر </h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php
-                                $stmt = $connect->prepare("SELECT * FROM order_details WHERE order_id = ?");
-                                $stmt->execute(array($order_id));
-                                $alldetails = $stmt->fetchAll();
-                                foreach ($alldetails as $details) {
-                                    // get product data
-                                    $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
-                                    $stmt->execute(array($details['product_id']));
-                                    $product_data = $stmt->fetch();
-                                    // get the product image
-                                    $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
-                                    $stmt->execute(array($product_data['id']));
-                                    $product_image = $stmt->fetch();
-                                    $image = $product_image['main_image'];
-                                ?>
-                                    <div class="order" style="display: flex;">
-                                        <div>
-                                            <div class="product_data">
-                                                <div class="image">
-                                                    <img src="product_images/<?php echo $image ?>" alt="">
-                                                </div>
-                                                <div>
-                                                    <h4> <?php echo $product_data['name']; ?> </h4>
-                                                    <p> <?php echo number_format($product_data['price'], 2); ?> ر.س </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div style="display: flex;justify-content: space-between;min-width: 30%;">
-                                            <div>
-                                                <span> <?php echo $details['qty']; ?> </span>
-                                            </div>
-                                            <div>
-                                            <span> <?php echo  number_format($details['qty'] * $details['product_price'], 2); ?> ر.س </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php
-                                }
 
-                                ?>
+                                <br>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th> المنتج </th>
+                                        <th> الكمية </th>
+                                        <th> إجمالي السعر </th>
+                                    </tr>
+                                    <?php
+                                    $stmt = $connect->prepare("SELECT * FROM order_details WHERE order_id = ?");
+                                    $stmt->execute(array($order_id));
+                                    $alldetails = $stmt->fetchAll();
+                                    foreach ($alldetails as $details) {
+                                        // get product data
+                                        $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
+                                        $stmt->execute(array($details['product_id']));
+                                        $product_data = $stmt->fetch();
+                                        // get the product image
+                                        $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
+                                        $stmt->execute(array($product_data['id']));
+                                        $product_image = $stmt->fetch();
+                                        $image = $product_image['main_image'];
+                                    ?>
+                                        <tr>
+                                            <td>
+                                                <div class="product_data d-flex">
+                                                    <div class="image">
+                                                        <img style="width: 80px;height: 80px;border: 1px solid #ccc;border-radius: 10px;margin-left: 20px;" src="product_images/<?php echo $image ?>" alt="">
+                                                    </div>
+                                                    <div>
+                                                        <h4 style="font-size: 18px;"> <?php echo $product_data['name']; ?> </h4>
+                                                        <p style="color: #5c8e00;font-size: 15px;"> <?php echo number_format($details['product_price'], 2); ?> ر.س </p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span> <?php echo $details['qty']; ?> </span>
+                                            </td>
+                                            <td>
+                                                <span> <?php echo  number_format($details['qty'] * $details['product_price'], 2); ?> ر.س </span>
+                                            </td>
+                                        </tr>
+
+                                    <?php
+                                    } ?>
+                                </table>
                             </div>
                             <div class="order_totals">
                                 <div class="price_sections">

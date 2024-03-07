@@ -334,8 +334,8 @@
             autoplay: true,
             autoplaySpeed: 2000,
             infinite: true,
-            prevArrow: '<img class="right_arrow" src="./<?php echo $uploads ?>/right_arrow.png">',
-            nextArrow: '<img class="left_arrow" src="./<?php echo $uploads ?>/left_arrow.png">',
+            prevArrow: '<img class="right_arrow" src="<?php echo $uploads ?>/right_arrow.png">',
+            nextArrow: '<img class="left_arrow" src="<?php echo $uploads ?>/left_arrow.png">',
             centerMode: false,
             variableWidth: true,
             responsive: [{
