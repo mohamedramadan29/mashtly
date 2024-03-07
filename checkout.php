@@ -284,9 +284,7 @@ if (isset($_SESSION['user_id'])) {
                                             </div>
                                         <?php
                                         }
-
                                         ?>
-
                                     </div>
                                     <button type="submit" name="order_compelete" class="btn global_button"> اكمال عملية الشراء </button>
                                 </div>
@@ -427,22 +425,23 @@ if (isset($_SESSION['user_id'])) {
                                         "zdescription" => ' التواصل مع العميل لبدء الطلب  ',
                                         "zstep_status" => 'لم يبدا'
                                     ));
-                                    if ($stmt) {
-                                        include "send_mail/index.php";
-                                        ////////// End Send Mail 
-                                        // delete session 
-                                        unset($_SESSION['total']);
-                                        unset($_SESSION['farm_services']);
-                                        // unset($_SESSION['vat_value']);
-                                        unset($_SESSION['last_total']);
-                                        unset($_SESSION['coupon']);
-                                        unset($_SESSION['discount_value']);
-                                        unset($_SESSION['coupon_name']);
-                                        unset($_SESSION['grand_total']);
-                                        $stmt = $connect->prepare("DELETE FROM cart WHERE cookie_id = ? OR user_id = ?");
-                                        $stmt->execute(array($cookie_id, $user_id));
-                                        header("Location:profile/orders/compelete");
-                                    }
+                                
+                                }
+                                if ($stmt) {
+                                    include "send_mail/index.php";
+                                    ////////// End Send Mail 
+                                    // delete session 
+                                    unset($_SESSION['total']);
+                                    unset($_SESSION['farm_services']);
+                                    // unset($_SESSION['vat_value']);
+                                    unset($_SESSION['last_total']);
+                                    unset($_SESSION['coupon']);
+                                    unset($_SESSION['discount_value']);
+                                    unset($_SESSION['coupon_name']);
+                                    unset($_SESSION['grand_total']);
+                                    $stmt = $connect->prepare("DELETE FROM cart WHERE cookie_id = ? OR user_id = ?");
+                                    $stmt->execute(array($cookie_id, $user_id));
+                                    header("Location:profile/orders/compelete");
                                 }
                             } catch (\Exception $e) {
                                 echo $e;

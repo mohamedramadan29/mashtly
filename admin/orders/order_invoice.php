@@ -62,27 +62,11 @@ if (isset($_GET['order_id'])) {
                                     <h2> مرحبا <?php echo $order_data['name']; ?> </h2>
                                     <p> شكرا لطلبك، من مشتلي تم تأكيد طلبك وسوف يصلك في الوقت المحدد لإلغاء الطلب أو تعديله يرجي زيارة الموقع قسم <span style="color: #7a9d12;">مشترياتي</span> </p>
                                     <p style="display: block;"> يوجد أدناه فاتورة برقم الطلب وتفاصيله </p>
-
-                                    <div class="print_head">
-                                        <div class="logo">
-                                            <img src="<?php echo $uploads ?>/logo.png" alt="">
-                                        </div>
-
-                                        <div class="person_data">
-                                            <h2> مرحبا <?php if (!empty($user_name)) {
-                                                            echo $user_name;
-                                                        } else {
-                                                            echo $user_username;
-                                                        }; ?> </h2>
-                                            <p> شكرا لطلبك، من مشتلي تم تأكيد طلبك وسوف يصلك في الوقت المحدد لإلغاء الطلب أو تعديله يرجي زيارة الموقع قسم <span style="color: var(--second-color);"> مشترياتي </span> </p>
-                                            <p> يوجد أدناه فاتورة برقم الطلب وتفاصيله </p>
-                                        </div>
-
-                                        <p class="no_sheap_price">
+                                    <p class="no_sheap_price">
                                             <img src="<?php echo $uploads ?>free.svg" alt="">
                                             مدة الشحن المتوقعة 2-7 ايام
                                         </p>
-
+                                    <div class="print_head">
                                         <table class="table table-bordered">
                                             <tr>
                                                 <th> <span> رقم الطلب: </span> </th>
