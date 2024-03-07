@@ -92,6 +92,10 @@ if (isset($_SESSION['user_id'])) {
                                 </div>
 
                                 <div class="user_address">
+                                    <textarea style="box-shadow: none; outline:none; height:100px;border-radius: 10px" name="order_details" class="form-control" placeholder="ملاحظات اضافية علي طلبك"></textarea>
+                                </div>
+                                <br>
+                                <div class="user_address">
                                     <div>
                                         <h5> طريقة الدفع </h5>
                                     </div>
@@ -293,6 +297,7 @@ if (isset($_SESSION['user_id'])) {
                 <?php
                 if (isset($_POST['order_compelete'])) {
                     $formerror = [];
+                    $order_details = sanitizeInput($_POST['order_details']);
                     $shipping_value = $_POST['last_shipping_value'];
                     $grand_total = $_POST['grand_total'];
                     $_SESSION['grand_total'] = $grand_total;
@@ -352,20 +357,21 @@ if (isset($_SESSION['user_id'])) {
                             'cookie_id' => $cookie_id,
                             'coupon_code' => $_SESSION['coupon'],
                             'discount_value' => $_SESSION['discount_value'],
+                            "order_details" => $order_details,
                         ];
                         if ($payment_method === 'الدفع عن الاستلام') {
                             echo "الدفع عند الاستلام";
                             // inset order into orders 
                             try {
                                 $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
-                                area, city, address, ship_price, order_date, status,status_value,farm_service_price,total_price,
+                                area, city, address, ship_price,order_details, order_date, status,status_value,farm_service_price,total_price,
                                 payment_method,coupon_code,discount_value) 
                                 VALUES (:zorder_number , :zuser_id , :zname , :zemail ,:zphone , :zarea , :zcity , :zaddress,
-                                :zship_price, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value)");
+                                :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value)");
                                 $stmt->execute(array(
                                     "zorder_number" => $order_number, "zuser_id" => $user_id, "zname" => $name,
                                     "zemail" => $email, "zphone" => $phone, "zarea" => $area, "zcity" => $city,
-                                    "zaddress" => $address, "zship_price" => $ship_price, "zorder_date" => $order_date,
+                                    "zaddress" => $address, "zship_price" => $ship_price, "zorder_details" => $order_details, "zorder_date" => $order_date,
                                     "zstatus" => $status, "zstatus_value" => $status_value, "zfarm_service_price" => $farm_service,
                                     "ztotal_price" => $grand_total, "zpayment_method" => $payment_method, "zcoupon_code" => $_SESSION['coupon_name'], "zdiscount_value" => $_SESSION['discount_value']
                                 ));

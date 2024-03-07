@@ -440,7 +440,7 @@ if (isset($_POST['add_to_cart'])) {
             <!-- قسم النباتات الداخلية  -->
             <div class="products" id='products'>
                 <?php
-                $stmt = $connect->prepare("SELECT * FROM products WHERE cat_id = 227 ORDER BY id DESC LIMIT 10");
+                $stmt = $connect->prepare("SELECT * FROM products WHERE cat_id = 227 AND publish = 1 AND product_status_store = 1 AND name !='' AND price !='' ORDER BY id DESC LIMIT 10");
                 $stmt->execute();
                 $allproduct = $stmt->fetchAll();
                 foreach ($allproduct as $product) {
