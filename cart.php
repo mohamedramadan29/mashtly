@@ -109,12 +109,18 @@ if (isset($_POST['remove_item'])) {
                                 $grand_farm_services = $farm_services_total + $gift_price;
 
                             ?>
+                                <form action="" method="post" style="">
+                                    <div class="" style="position: relative;">
+                                        <input type="hidden" name="item_id" value="<?php echo $item['id'] ?>">
+                                        <button type="submit" onclick="return confirm('هل أنت متأكد من رغبتك في حذف المنتج ؟ ');" name="remove_item" class="remove_item" style="position:relative; border: none;z-index: 999;right: 95%; top: 40px;left: 5px;width: 26px;background: #A0B2B1;height: 26px;text-align: center;line-height: 26px;  border-radius: 50%;cursor: pointer;  color: #fff; transition: all 0.2s ease-in-out;">
+                                            <span class="fa fa-close"> </span>
+                                        </button>
+                                    </div>
+                                </form>
                                 <form action="" method="post">
                                     <input type="hidden" name="item_id" value="<?php echo $item['id'] ?>">
                                     <div class="card_items">
-                                        <button onclick="return confirm('هل أنت متأكد من رغبتك في حذف المنتج ؟ ');" name="remove_item" class="remove_item" style="border: none;">
-                                            <span class="fa fa-close"> </span>
-                                        </button>
+
                                         <div class="product_data">
                                             <div class="product_image">
                                                 <a href="product/<?php echo $pro_slug ?>">
@@ -368,7 +374,7 @@ if (isset($_POST['remove_item'])) {
                                         <div>
                                             <h3> تكلفة الإضافات: </h3>
                                             <!-- <p> تكلفة الزراعة + تكلفة التغليف كهدية </p> -->
-                                            <p> تكلفة الزراعة   </p>
+                                            <p> تكلفة الزراعة </p>
                                         </div>
                                         <div>
                                             <h2 class="total"> <?php echo number_format($grand_farm_services, 2); ?> ر.س </h2>
