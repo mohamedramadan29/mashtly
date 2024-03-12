@@ -18,9 +18,26 @@
     <?php
     }
     ?>
-
     <div class="product_details">
-        <h2> <a href="http://localhost/mashtly/product/=<?php echo $product['slug']; ?>"> <?php echo $product['name']; ?> </a> </h2>
+        <?php
+        // استخراج الاسم
+        $name = $product['name'];
+
+        // تحويل الاسم إلى مصفوفة من الكلمات
+        $words = explode(' ', $name);
+
+        // الحصول على الكلمات الأولى 15
+        $shortened_name = implode(' ', array_slice($words, 0, 5));
+
+        // إضافة نقطتين بعد الاسم المختصر
+        if (count($words) > 15) {
+            $shortened_name .= ' ...';
+        }
+
+        // عرض الاسم المختصر
+        
+        ?>
+        <h2> <a href="http://localhost/mashtly/product/=<?php echo $product['slug']; ?>"> <?php echo $shortened_name; ?> </a> </h2>
         <?php
         $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
         $minimumPrice = INF; // قيمة أدنى سعر ممكنة
@@ -37,7 +54,7 @@
             }
             if ($maximumPrice === $minimumPrice) {
         ?>
-                <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?>  ر.س  </h4>
+                <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?> ر.س </h4>
             <?php
             } else {
             ?>
@@ -60,8 +77,8 @@
         }
         ?>
         <form action="" method="post">
-            
-        <input type="hidden" name="product_name" value="<?php echo $product['name']; ?>">
+
+            <input type="hidden" name="product_name" value="<?php echo $product['name']; ?>">
             <input type="hidden" name="price" value="<?php if ($product['sale_price'] != '' && $product['sale_price'] != 0) {
                                                             echo $product['sale_price'];
                                                         } else {
@@ -99,7 +116,7 @@
                 </div>
                 <div class="heart">
                     <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                    
+
                     <?php
                     if (isset($_SESSION['user_id']) && checkIfProductIsFavourite($connect, $_SESSION['user_id'], $product['id'])) {
                     ?>
