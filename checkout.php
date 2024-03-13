@@ -244,9 +244,7 @@ if (isset($_SESSION['user_id'])) {
                                                 /////////  Shipping Price /////
                                                 //  include 'tempelate/shiping_price.php';
                                                 ?>
-
                                             </div>
-
                                         </div>
                                         <hr>
                                         <div class="first">
@@ -334,6 +332,9 @@ if (isset($_SESSION['user_id'])) {
                     }
                     if (empty($payment_method)) {
                         $formerror[] = ' من فضلك حدد وسيلة الدفع ';
+                    }
+                    if (empty($area) || empty($city) || empty($name) || empty($phone) || empty($address)) {
+                        $formerror[] = ' من فضلك ادخل العنوان الخاص بك بشكل صحيح  ';
                     }
                     if (empty($formerror)) {
                         // تخزين البيانات في السيشن
@@ -425,7 +426,6 @@ if (isset($_SESSION['user_id'])) {
                                         "zdescription" => ' التواصل مع العميل لبدء الطلب  ',
                                         "zstep_status" => 'لم يبدا'
                                     ));
-                                
                                 }
                                 if ($stmt) {
                                     include "send_mail/index.php";
