@@ -143,7 +143,7 @@ require_once 'send_mail/vendor/autoload.php';
                                     // check if this user have product in the cart or not  AND Update User Id 
                                     $stmt = $connect->prepare("UPDATE cart SET user_id = ? WHERE cookie_id = ?");
                                     $stmt->execute(array($_SESSION['user_id'], $cookie_id));
-                                    header("Location:profile");
+                                    header("Location:cart");
                                     exit();
                                 } else {
                             ?>
@@ -249,7 +249,7 @@ require_once 'send_mail/vendor/autoload.php';
                                         $formerror[] = " يجب إدخال عنوان بريد إلكتروني صالح ";
                                     } elseif (strlen($email) > 100) {
                                         $formerror[] = "طول البريد الإلكتروني يجب أن لا يتجاوز 100 حرفًا";
-                                    } elseif (!preg_match('/^[a-zA-Z0-9.@ـ\-\_\+\,\']+$/u', $email))  {
+                                    } elseif (!preg_match('/^[a-zA-Z0-9.@ـ\-\_\+\,\']+$/u', $email)) {
                                         $formerror[] = "البريد الإلكتروني يجب أن يحتوي على أحرف وأرقام ورموز صحيحة فقط";
                                     } elseif (strpos($email, '..') !== false) {
                                         $formerror[] = "البريد الإلكتروني يحتوي على أحرف غير صالحة";
