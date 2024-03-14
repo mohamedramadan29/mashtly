@@ -21,3 +21,11 @@ function createSlug($name)
     $slug = trim($slug, '-');
     return $slug;
 }
+
+// Function to sanitize input
+function sanitizeInput($input)
+{
+    // Use appropriate sanitization or validation techniques based on your requirements
+    $sanitizedInput = htmlspecialchars(trim($input));
+    return $sanitizedInput;
+}

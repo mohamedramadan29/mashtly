@@ -108,6 +108,8 @@
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $user['id']; ?>"> تعديل الحالة <i class='fa fa-pen'></i> </button>
+                                                <button type="button" class="btn btn-primary btn-sm waves-effect" data-toggle="modal" data-target="#edit-data-Modal_<?php echo $user['id']; ?>"> تعديل <i class='fa fa-pen'></i> </button>
+
                                             </td>
                                         </tr>
                                         <!-- EDIT NEW CATEGORY MODAL   -->
@@ -133,6 +135,43 @@
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="submit" name="edit_cat" class="btn btn-primary waves-effect waves-light "> تعديل </button>
+                                                            <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">رجوع</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- EDIT User Data Model  -->
+                                        <div class="modal fade" id="edit-data-Modal_<?php echo $user['id']; ?>" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title"> بيانات المستخدم </h4>
+                                                    </div>
+                                                    <form method="post" action="main.php?dir=users&page=edit_data" enctype="multipart/form-data">
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <input type='hidden' name="user_id" value="<?php echo $user['id']; ?>">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="Company-2" class="block"> الأسم </label>
+                                                                <input disabled id="Company-2" name="name" type="text" class="form-control required" value="<?php echo $user['name'] ?>">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="Company-2" class="block"> اسم المستخدم </label>
+                                                                <input disabled id="Company-2" name="user_name" type="text" class="form-control required" value="<?php echo $user['user_name'] ?>">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="Company-2" class="block"> البريد الالكتروني </label>
+                                                                <input disabled id="Company-2" name="email" type="email" class="form-control required" value="<?php echo $user['email'] ?>">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="Company-2" class="block"> تعديل كلمة المرور </label>
+                                                                <input id="Company-2" name="password" type="text" class="form-control required">
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" name="edit_user" class="btn btn-primary waves-effect waves-light "> تعديل </button>
                                                             <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">رجوع</button>
                                                         </div>
                                                     </form>

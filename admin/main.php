@@ -187,6 +187,9 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
     } elseif ($dir == 'users' && $page == 'edit') {
         include "users/edit.php";
     }
+    elseif ($dir == 'users' && $page == 'edit_data') {
+        include "users/edit_data.php";
+    }
     // START products
     if ($dir == 'products' && $page == 'add') {
         include "products/add.php";
