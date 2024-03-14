@@ -881,11 +881,17 @@ body {
     margin-right: 12px;
     margin-left: 10px;
     position: relative;
-    min-height: 480px;
+    min-height: 440px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
+}
+@media(max-width:991px){
+    .new_producs .products .product_info,
+.index_all_cat .product_info{
+    min-height: 420px;
+}
 }
 
 .new_producs .products .product_info .main_image,

@@ -30,7 +30,7 @@
         $shortened_name = implode(' ', array_slice($words, 0, 5));
 
         // إضافة نقطتين بعد الاسم المختصر
-        if (count($words) > 15) {
+        if (count($words) > 5) {
             $shortened_name .= ' ...';
         }
 

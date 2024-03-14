@@ -2,33 +2,22 @@
   <div class="top_header">
     <div class="container">
       <style>
-        .moving-text-container {
-          overflow: hidden;
-        }
-
         .moving-text {
-          white-space: nowrap;
+
           animation: moveText 19s linear infinite;
         }
 
         .moving-text p {
           color: #fff;
-          padding-top: 12px;
-        }
-
-        @keyframes moveText {
-          0% {
-            transform: translateX(-100%);
-          }
-
-          100% {
-            transform: translateX(100%);
-          }
+          padding: 5px;
+          text-align: center;
+          font-size: 14px;
+          line-height: 2;
         }
       </style>
       <div class="moving-text-container">
         <div class="moving-text">
-          <p> <span style="background-color: #dc3545 !important;padding: 2px;border-radius: 4px;margin-left: 10px;">  تنبيه: </span>  الموقع حاليا يعمل بنسخة تجريبية جديدة. المرجو التواصل مع الدعم في حال واجهتكم أي مشاكل تقنية </p>
+          <p> <span style="background-color: #dc3545 !important;padding: 2px;border-radius: 4px;margin-left: 10px;"> تنبيه: </span> الموقع حاليا يعمل بنسخة تجريبية جديدة. المرجو التواصل مع الدعم في حال واجهتكم أي مشاكل تقنية </p>
         </div>
       </div>
     </div>

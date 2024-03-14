@@ -264,7 +264,6 @@
                     settings: {
                         slidesToShow: 4,
                         slidesToScroll: 3,
-
                     }
                 },
                 {
@@ -275,9 +274,6 @@
                         variableWidth: true,
                     }
                 }
-                // You can unslick at a given breakpoint now by adding:
-                // settings: "unslick"
-                // instead of a settings object
             ]
 
         });
