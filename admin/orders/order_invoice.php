@@ -23,7 +23,9 @@ if (isset($_GET['order_id'])) {
     $order_date = $order_data['order_date'];
     $total_price = $order_data['total_price'];
 }
+$pagetitle = 'Mohamed';
 ?>
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
@@ -80,6 +82,7 @@ if (isset($_GET['order_id'])) {
                                                 <th> <span> الاسم: </span> </th>
                                                 <th><?php echo $order_data['name']; ?> </th>
                                             </tr>
+                                            <input type="hidden" id="customername" value="<?php echo $order_data['name']; ?>">
                                             <tr>
                                                 <th> <span> البريد الألكتروني : </span> </th>
                                                 <th> <?php echo $order_data['email']; ?> </th>
@@ -106,7 +109,6 @@ if (isset($_GET['order_id'])) {
                             </div>
                             <div class="order_details">
                                 <h4> تفاصيل الطلب </h4>
-
                                 <br>
                                 <table class="table table-bordered">
                                     <tr>
@@ -206,7 +208,7 @@ if (isset($_GET['order_id'])) {
 
                         </div>
                         <div class="row" style="display: flex;justify-content: space-between;">
-                            <button id="print_Button" onclick="window.print(); return false;" class="global_button btn print-link btn-primary"> طباعة الفاتورة <i class="fa fa-print"></i> </button>
+                            <button id="print_Button" onclick="setPrintTitle(); window.print(); return false;" class="global_button btn print-link btn-primary"> طباعة الفاتورة <i class="fa fa-print"></i> </button>
                         </div>
                     </div>
                 </div>
@@ -215,6 +217,21 @@ if (isset($_GET['order_id'])) {
     </div>
     <!-- /.container-fluid -->
 </section>
+<script>
+    function setPrintTitle() {
+        // تعيين عنوان مخصص للصفحة ليتم طباعته
+        document.title = document.getElementById('customername').value;
+
+        // التأكد من أن العنوان الجديد قد تم تعيينه بشكل صحيح
+        console.log("تم تعيين عنوان مخصص للطباعة: " + document.title);
+
+        // إضافة استماع لحدث اكتمال الطباعة لاستعادة العنوان الأصلي بعد الطباعة
+        window.onafterprint = function() {
+            document.title = document.getElementById('customername').value;
+            console.log("استعادة عنوان الصفحة الأصلي: " + document.title);
+        };
+    }
+</script>
 <style>
     @media print {
 
