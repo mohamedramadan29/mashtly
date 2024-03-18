@@ -28,7 +28,7 @@ if (isset($_SESSION['user_id'])) {
                         </form>
                     </div>
                 </div>
-                <?php 
+                <?php
                 $stmt = $connect->prepare("SELECT * FROM orders WHERE user_id = ? ORDER BY id DESC");
                 $stmt->execute(array($user_id));
                 $orders = $stmt->fetchAll();
@@ -124,11 +124,31 @@ if (isset($_SESSION['user_id'])) {
                                         <div class="body_data">
                                             <div class='product_data'>
                                                 <div>
-                                                    <img src="../admin/product_images/<?php echo $product_image; ?>" alt="">
+                                                    <a href="http://localhost/mashtly/product/<?php echo $product_data['slug']; ?>">
+                                                        <img src="../admin/product_images/<?php echo $product_image; ?>" alt="">
+                                                    </a>
                                                 </div>
                                                 <div>
-                                                    <h2> <?php echo $product_data['name']; ?> </h2>
-                                                    <span> <?php echo $product_data['price']; ?> ر.س</span>
+                                                    <a href="http://localhost/mashtly/product/<?php echo $product_data['slug']; ?>">
+                                                        <h2> <?php echo $product_data['name']; ?> </h2>
+                                                    </a>
+                                                    <span> <?php echo number_format($detail['product_price'], 2); ?> ر.س</span>
+                                                    <?php
+                                                    // get more details data
+                                                    $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE id = ?");
+                                                    $stmt->execute(array($detail['more_details']));
+                                                    $more_details_data = $stmt->fetch();
+                                                    $more_detail_name = $more_details_data['vartions_name']
+                                                    ?>
+                                                    <br>
+                                                    <p class="badge badge-danger bg-danger"><?php echo $more_detail_name; ?></p>
+                                                    <br>
+                                                    <p style="display: block; width: 100%;"> امكانية الزراعه ::
+                                                        <?php if ($detail['farm_service'] == 0) {
+                                                            echo "لا";
+                                                        } else {
+                                                            echo "نعم ";
+                                                        } ?> </p>
                                                 </div>
                                             </div>
                                             <div class='order_status'>
@@ -193,7 +213,7 @@ if (isset($_SESSION['user_id'])) {
                         <div class="info" style="flex-direction: column;">
                             <img src="<?php echo $uploads ?>plant.png" alt="">
                             <br>
-                            <h3> لا يوجد طلبات شراء في الوقت الحالي  </h3>
+                            <h3> لا يوجد طلبات شراء في الوقت الحالي </h3>
                             <br>
                             <a href="../shop" class="btn global_button"> تسوق الان </a>
                         </div>
