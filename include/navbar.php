@@ -45,18 +45,28 @@
           </div>
           <div class="col-lg-6">
             <div class="search">
-              <form action="http://localhost/mashtly/search" method="get" class='form-group'>
+              <form action="http://localhost/mashtly/search" method="get" class='form-group' id="searchForm">
                 <div class="box">
                   <div class="box2">
-                    <input type="text" name='search' value="<?php if (isset($_REQUEST['search'])) echo $_REQUEST['search']; ?>" placeholder="اكتب كلمة البحث…" class="form-control">
-
+                    <input type="text" id="searchInput" name='search' value="<?php if (isset($_REQUEST['search'])) echo $_REQUEST['search']; ?>" placeholder="اكتب كلمة البحث…" class="form-control">
                   </div>
                   <div class='box3'>
                     <button type='submit'> البحث المتقدم <img src="<?php echo $uploads ?>/search.png" alt=""> </button>
                   </div>
                 </div>
               </form>
+              <div style="overflow: scroll;max-height:300px;position: absolute;z-index: 9999;background: #fff;border-radius: 18px;line-height: 2" id="searchResults"></div>
             </div>
+            <style>
+              #searchResults a {
+                display: block;
+                text-decoration: none;
+                color: #000;
+                padding: 5px;
+                padding-right: 10px;
+                border-bottom: 1px solid #f0f0f0;
+              }
+            </style>
           </div>
           <div class='col-lg-4'>
             <div class="info">
@@ -279,10 +289,10 @@
         <div class="row d-flex align-items-center">
           <div class="col-12">
             <div class="search">
-              <form action="http://localhost/mashtly/search" method="get" class='form-group'>
+              <form action="http://localhost/mashtly/search" method="get" class='form-group' id="searchForm2">
                 <div class="box">
                   <div class="box2">
-                    <input type="text" name='search' value="<?php if (isset($_REQUEST['search'])) echo $_REQUEST['search']; ?>" placeholder="اكتب كلمة البحث…" class="form-control">
+                    <input type="text" name='search' value="<?php if (isset($_REQUEST['search'])) echo $_REQUEST['search']; ?>" placeholder="اكتب كلمة البحث…" class="form-control" id="searchInput2">
 
                   </div>
                   <div class='box3'>
@@ -290,6 +300,17 @@
                   </div>
                 </div>
               </form>
+              <div style="overflow: scroll;max-height:300px;position: absolute;z-index: 9999;background: #fff;border-radius: 18px;line-height: 2" id="searchResults2"></div>
+              <style>
+              #searchResults2 a {
+                display: block;
+                text-decoration: none;
+                color: #000;
+                padding: 5px;
+                padding-right: 10px;
+                border-bottom: 1px solid #f0f0f0;
+              }
+            </style>
             </div>
           </div>
 
@@ -403,4 +424,96 @@
 
   // Call the fetchData function every 10 seconds
   setInterval(fetchData, 10000); // 10 seconds in milliseconds
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var form = document.getElementById('searchForm');
+    var form2 = document.getElementById('searchForm2');
+    var searchInput = document.getElementById('searchInput');
+    var searchInput2 = document.getElementById('searchInput2');
+    var searchResults = document.getElementById('searchResults');
+    var searchResults2 = document.getElementById('searchResults2');
+    // استخدام الحدث "input" بدلاً من "submit"
+    searchInput.addEventListener('input', function() {
+      var searchValue = searchInput.value.trim();
+      if (!searchValue) {
+        searchResults.innerHTML = '';
+        return;
+      }
+      // إرسال طلب AJAX للبحث
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'http://localhost/mashtly/search2?search=' + encodeURIComponent(searchValue), true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            // عرض النتائج في العنصر المخصص
+            displayResults(response);
+          } else {
+            searchResults.innerHTML = 'حدث خطأ أثناء جلب البيانات';
+          }
+        }
+      };
+      xhr.send();
+    });
+    // In Mobile 
+    searchInput2.addEventListener('input', function() {
+      var searchValue2 = searchInput2.value.trim();
+      if (!searchValue2) {
+        searchResults2.innerHTML = '';
+        return;
+      }
+      // إرسال طلب AJAX للبحث
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'http://localhost/mashtly/search2?search=' + encodeURIComponent(searchValue2), true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            var response2 = JSON.parse(xhr.responseText);
+            // عرض النتائج في العنصر المخصص
+            displayResults2(response2);
+          } else {
+            // searchResults2.innerHTML = 'حدث خطأ أثناء جلب البيانات';
+          }
+        }
+      };
+      xhr.send();
+    });
+
+    function displayResults2(results) {
+      // مسح النتائج السابقة
+      searchResults2.innerHTML = '';
+      if (results.length === 0) {
+        searchResults2.innerHTML = 'لا توجد نتائج للبحث';
+        return;
+      }
+      // عرض النتائج في العنصر المخصص
+      // عرض النتائج في العنصر المخصص
+      results.forEach(function(result) {
+        var resultLink2 = document.createElement('a'); // إنشاء عنصر الرابط
+        resultLink2.textContent = result.name; // تحديد نص الرابط
+        resultLink2.href = '' + result.slug; // تحديد عنوان الرابط مع الإشارة إلى صفحة تفاصيل المنتج
+        searchResults2.appendChild(resultLink2); // إضافة الرابط إلى عنصر النتيجة
+      });
+    }
+    /////////
+    function displayResults(results) {
+      // مسح النتائج السابقة
+      searchResults.innerHTML = '';
+      if (results.length === 0) {
+        searchResults.innerHTML = 'لا توجد نتائج للبحث';
+        return;
+      }
+      // عرض النتائج في العنصر المخصص
+      // عرض النتائج في العنصر المخصص
+      results.forEach(function(result) {
+        var resultLink = document.createElement('a'); // إنشاء عنصر الرابط
+        resultLink.textContent = result.name; // تحديد نص الرابط
+        resultLink.href = '' + result.slug; // تحديد عنوان الرابط مع الإشارة إلى صفحة تفاصيل المنتج
+        searchResults.appendChild(resultLink); // إضافة الرابط إلى عنصر النتيجة
+      });
+
+    }
+  });
 </script>

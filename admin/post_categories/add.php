@@ -3,6 +3,7 @@ if (isset($_POST['add_cat'])) {
     $name = $_POST['name'];
     $description = $_POST['description'];
     $slug = createSlug($name);
+    $parent_id = $_POST['parent_id'];
     $formerror = [];
     if (empty($name)) {
         $formerror[] = 'من فضلك ادخل اسم القسم';
@@ -30,10 +31,11 @@ if (isset($_POST['add_cat'])) {
         $formerror[] = ' اسم القسم موجود من قبل من فضلك ادخل اسم اخر  ';
     }
     if (empty($formerror)) {
-        $stmt = $connect->prepare("INSERT INTO category_posts (name,slug,main_image,description)
-        VALUES (:zname,:zslug,:zimage,:zdesc)");
+        $stmt = $connect->prepare("INSERT INTO category_posts (name,parent_id,slug,main_image,description)
+        VALUES (:zname,:zparent_id,:zslug,:zimage,:zdesc)");
         $stmt->execute(array(
             "zname" => $name,
+            "zparent_id" => $parent_id,
             "zslug" => $slug,
             "zimage" => $main_image_uploaded,
             "zdesc" => $description,

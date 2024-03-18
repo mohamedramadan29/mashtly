@@ -36,8 +36,6 @@ if (isset($_SESSION['user_id'])) {
     $stmt = $connect->prepare("SELECT * FROM order_details WHERE order_number = ?");
     $stmt->execute(array($order_number));
     $alldetails = $stmt->fetchAll();
-
-
 ?>
 
     <div class="profile_page">
@@ -136,6 +134,21 @@ if (isset($_SESSION['user_id'])) {
                                                 <div>
                                                     <h4> <?php echo $product_data['name']; ?> </h4>
                                                     <p style="color: var(--second-color);font-size: 15px;"> <?php echo number_format($details['product_price'], 2); ?> ر.س </p>
+                                                    <?php
+                                                    // get more details data
+                                                    $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE id = ?");
+                                                    $stmt->execute(array($details['more_details']));
+                                                    $more_details_data = $stmt->fetch();
+                                                    $more_detail_name = $more_details_data['vartions_name']
+                                                    ?>
+                                                    <p class="badge badge-danger bg-danger"><?php echo $more_detail_name; ?></p>
+                                                    <br>
+                                                    <p style="display: block; width: 100%;"> امكانية الزراعه ::
+                                                        <?php if ($details['farm_service'] == 0) {
+                                                            echo "لا";
+                                                        } else {
+                                                            echo "نعم ";
+                                                        } ?> </p>
                                                 </div>
                                             </div>
                                         </td>

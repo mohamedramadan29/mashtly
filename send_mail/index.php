@@ -38,7 +38,7 @@ $body_message = "
                                 <p style='color: #585858; font-size: 17px; line-height: 1.8;font-family: cairo;'>يوجد أدناه فاتورة برقم الطلب وتفاصيله</p>
                             </div>
                             <p style='color: #585858; font-size: 17px; line-height: 1.8;font-family: cairo;'>مدة الشحن المتوقعة 2-7 ايام</p>
-                             <table cellpadding='0' cellspacing='0' border='1' style='border-collapse: collapse; border: 1px solid #a2a2a2;width:100%'>
+                            <table cellpadding='0' cellspacing='0' border='1' style='border-collapse: collapse; border: 1px solid #a2a2a2;width:100%'>
                                 <tr>
                                     <th style='padding: 7px;font-size: 17px;font-family: cairo;'><span>رقم الطلب:</span></th>
                                     <th style='padding: 7px;font-size: 17px;font-family: cairo;'>#$order_number</th>
@@ -79,16 +79,27 @@ $body_message = "
                             <table cellpadding='0' cellspacing='0' border='1' style='border-collapse: collapse; border: 1px solid #a2a2a2;width:100%'>
                                 <tr>
                                     <th style='padding: 7px;font-size: 17px;font-family: cairo;'>المنتج</th>
+                                    <th style='padding: 7px;font-size: 17px;font-family: cairo;'>تفاصيل اضافية</th>
                                     <th style='padding: 7px;font-size: 17px;font-family: cairo;'>الكمية</th>
                                     <th style='padding: 7px;font-size: 17px;font-family: cairo;'>إجمالي السعر</th>
                                 </tr> ";
 foreach ($allitemscart as $item) {
+    $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE id = ?");
+    $stmt->execute(array($item['vartion_name']));
+    $more_details_data = $stmt->fetch();
+    $more_detail_name = $more_details_data['vartions_name'];
+    if ($item['farm_service'] == null) {
+        $farm_service2 = 'لا';
+    } else {
+        $farm_service2 = 'نعم';
+    }
     $body_message .= "
-                                    <tr>
-                                        <td style='padding: 7px;font-size: 17px;font-family: cairo;'>{$item['product_name']}</td>
-                                        <td style='padding: 7px;font-size: 17px;font-family: cairo;'>{$item['quantity']}</td>
-                                        <td style='padding: 7px;font-size: 17px;font-family: cairo;'>{$item['price']} ريال </td>
-                                    </tr>";
+                                        <tr>
+                                            <td style='padding: 7px;font-size: 17px;font-family: cairo;'>{$item['product_name']}</td>
+                                            <td style='padding: 7px;font-size: 17px;font-family: cairo;'>{$more_detail_name} || امكانية الزراعة :: {$farm_service2}</td>
+                                            <td style='padding: 7px;font-size: 17px;font-family: cairo;'>{$item['quantity']}</td>
+                                            <td style='padding: 7px;font-size: 17px;font-family: cairo;'>{$item['price']} ريال </td>
+                                        </tr>";
 }
 $body_message .= "
                             </table>   

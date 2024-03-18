@@ -63,9 +63,9 @@ if (isset($_GET['order_id'])) {
                                     <p> شكرا لطلبك، من مشتلي تم تأكيد طلبك وسوف يصلك في الوقت المحدد لإلغاء الطلب أو تعديله يرجي زيارة الموقع قسم <span style="color: #7a9d12;">مشترياتي</span> </p>
                                     <p style="display: block;"> يوجد أدناه فاتورة برقم الطلب وتفاصيله </p>
                                     <p class="no_sheap_price">
-                                            <img src="<?php echo $uploads ?>free.svg" alt="">
-                                            مدة الشحن المتوقعة 2-7 ايام
-                                        </p>
+                                        <img src="<?php echo $uploads ?>free.svg" alt="">
+                                        مدة الشحن المتوقعة 2-7 ايام
+                                    </p>
                                     <div class="print_head">
                                         <table class="table table-bordered">
                                             <tr>
@@ -138,6 +138,21 @@ if (isset($_GET['order_id'])) {
                                                     <div>
                                                         <h4 style="font-size: 18px;"> <?php echo $product_data['name']; ?> </h4>
                                                         <p style="color: #5c8e00;font-size: 15px;"> <?php echo number_format($details['product_price'], 2); ?> ر.س </p>
+                                                        <?php
+                                                        // get more details data
+                                                        $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE id = ?");
+                                                        $stmt->execute(array($details['more_details']));
+                                                        $more_details_data = $stmt->fetch();
+                                                        $more_detail_name = $more_details_data['vartions_name']
+                                                        ?>
+                                                        <span class="badge badge-danger bg-danger"><?php echo $more_detail_name; ?></span>
+                                                        <br>
+                                                        <p style="display: block; width: 100%;"> امكانية الزراعه ::
+                                                            <?php if ($details['farm_service'] == 0) {
+                                                                echo "لا";
+                                                            } else {
+                                                                echo "نعم ";
+                                                            } ?> </p>
                                                     </div>
                                                 </div>
                                             </td>

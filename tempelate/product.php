@@ -37,7 +37,7 @@
         // عرض الاسم المختصر
         
         ?>
-        <h2> <a href="http://localhost/mashtly/product/=<?php echo $product['slug']; ?>"> <?php echo $shortened_name; ?> </a> </h2>
+        <h2> <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>"> <?php echo $shortened_name; ?> </a> </h2>
         <?php
         $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
         $minimumPrice = INF; // قيمة أدنى سعر ممكنة

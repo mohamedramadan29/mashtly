@@ -73,6 +73,7 @@
                                     <tr>
                                         <th> # </th>
                                         <th>الأسم </th>
+                                        <th> القسم الرئيسي </th>
                                         <th> صورة القسم </th>
                                         <th> </th>
                                     </tr>
@@ -89,6 +90,21 @@
                                         <tr>
                                             <td> <?php echo $i; ?> </td>
                                             <td> <?php echo  $cat['name']; ?> </td>
+                                            <td> <?php
+                                                    if ($cat['parent_id'] != null) {
+                                                        $stmt = $connect->prepare("SELECT * FROM category_posts WHERE id = ?");
+                                                        $stmt->execute(array($cat['parent_id']));
+                                                        $parent_data = $stmt->fetch();
+                                                    ?>
+                                                    <span class="badge badge-info"> <?php echo $parent_data['name']; ?> </span>
+                                                <?php
+                                                    }else{
+                                                        ?>
+                                                        <span class="badge badge-warning"> رئيسي </span>
+                                                        <?php 
+                                                    }
+                                                ?>
+                                            </td>
                                             <td> <img style="width: 60px; height:60px" src="post_categories/images/<?php echo $cat['main_image']; ?> " alt=""></td>
                                             <td>
                                                 <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $cat['id']; ?>"> تعديل <i class='fa fa-pen'></i> </button>
@@ -108,7 +124,24 @@
                                                                 <input type='hidden' name="cat_id" value="<?php echo $cat['id']; ?>">
                                                                 <label for="Company-2" class="block">الأسم </label>
                                                                 <input id="Company-2" required name="name" type="text" class="form-control required" value="<?php echo  $cat['name'] ?>">
-                                                            </div> 
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="Company-2" class="block"> القسم الرئيسي </label>
+                                                                <select required class='form-control select2' name='parent_id'>
+                                                                    <option value="0"> -- اختر -- </option>
+                                                                    <option <?php if ($cat['parent_id'] == 0) echo "selected"; ?> value="0"> بدون </option>
+                                                                    <?php
+                                                                    $stmt = $connect->prepare("SELECT * FROM category_posts");
+                                                                    $stmt->execute();
+                                                                    $allcats = $stmt->fetchAll();
+                                                                    foreach ($allcats as $cat_post) {
+                                                                    ?>
+                                                                        <option <?php if ($cat_post['id'] == $cat['parent_id']) echo "selected"; ?> value="<?php echo $cat_post['id']; ?>"> <?php echo $cat_post['name'] ?> </option>
+                                                                    <?php
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
                                                             <div class="form-group">
                                                                 <label for="Company-2" class="block"> الوصف </label>
                                                                 <textarea style="height: 150px;" id="Company-2" name="description" class="form-control"><?php echo  $cat['description'] ?></textarea>
@@ -142,14 +175,31 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">أضافة  قسم رئيسي  </h4>
+                                <h4 class="modal-title">أضافة قسم رئيسي </h4>
                             </div>
                             <form action="main.php?dir=post_categories&page=add" method="post" enctype="multipart/form-data">
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> الأسم </label>
                                         <input required id="Company-2" name="name" type="text" class="form-control required">
-                                    </div> 
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Company-2" class="block"> القسم الرئيسي </label>
+                                        <select required class='form-control select2' name='parent_id'>
+                                            <option value="0"> -- اختر -- </option>
+                                            <option value="0"> بدون </option>
+                                            <?php
+                                            $stmt = $connect->prepare("SELECT * FROM category_posts");
+                                            $stmt->execute();
+                                            $allcat = $stmt->fetchAll();
+                                            foreach ($allcat as $cat) {
+                                            ?>
+                                                <option value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> الوصف </label>
                                         <textarea style="height: 150px;" id="Company-2" name="description" class="form-control"></textarea>
@@ -157,8 +207,8 @@
                                     <div class="form-group">
                                         <label for="customFile"> صورة القسم </label>
                                         <div class="custom-file">
-                                            <input  required type="file" class="dropify" id="customFile" accept='image/*' name="main_image">
-                                            
+                                            <input required type="file" class="dropify" id="customFile" accept='image/*' name="main_image">
+
                                         </div>
                                     </div>
                                 </div>
