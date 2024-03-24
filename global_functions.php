@@ -99,7 +99,7 @@ function deleteRememberTokenFromDatabase($connect, $user_id)
 function alertdefaultedit()
 {
 ?>
-    <script src='themes/js/jquery.min.js'></script>
+ <script src='http://localhost/mashtly/themes/js/jquery.min.js'></script>
     <script>
         $(document).ready(function() {
             swal({
@@ -122,7 +122,7 @@ function alertdefaultedit()
 function alertsendmessage()
 {
 ?>
-    <script src='themes/js/jquery.min.js'></script>
+ <script src='http://localhost/mashtly/themes/js/jquery.min.js'></script>
     <script>
         $(document).ready(function() {
             swal({
@@ -144,7 +144,7 @@ function alertsendmessage()
 function alertcart()
 {
 ?>
-    <script src='themes/js/jquery.min.js'></script>
+    <script src='http://localhost/mashtly/themes/js/jquery.min.js'></script>
     <script>
         $(document).ready(function() {
             swal({
@@ -174,7 +174,7 @@ function alertcart()
 function alertfavorite()
 {
 ?>
-    <script src='themes/js/jquery.min.js'></script>
+     <script src='http://localhost/mashtly/themes/js/jquery.min.js'></script>
     <script>
         $(document).ready(function() {
             swal({

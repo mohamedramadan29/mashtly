@@ -87,27 +87,65 @@ if (isset($_POST['add_to_cart'])) {
         $user_id = null;
     }
     $total_price = null;
-    $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,product_name,quantity,price,vartion_name,farm_service,
-            gift_id,total_price)
-    VALUES(:zuser_id, :zcookie_id,:zproduct_id,:zproduct_name,:zquantity,:zprice,:zvartion_name,:zfarm_service,:zgift_id,:ztotal_price)
-    ");
-    $stmt->execute(array(
-        "zuser_id" => $user_id,
-        "zcookie_id" => $cookie_id,
-        "zproduct_id" => $product_id,
-        "zproduct_name" => $product_name,
-        "zquantity" => $quantity,
-        "zprice" => $price,
-        "zvartion_name" => $vartion_name,
-        "zfarm_service" => $farm_planet,
-        "zgift_id" => $gift_id,
-        "ztotal_price" => $total_price,
-    ));
+    if ($vartion_name != null && $vartion_name != '') {
+        $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ? AND product_id = ? AND vartion_name = ?");
+        $stmt->execute(array($cookie_id, $product_id, $vartion_name));
+        $cart_data = $stmt->fetch();
+        $count_product = $stmt->rowCount();
+        if ($count_product > 0) {
+            $new_qty = $cart_data['quantity'] + 1; // زيادة الكمية بواحد
+            $stmt = $connect->prepare("UPDATE cart SET quantity = ?, total_price = ? WHERE cookie_id = ? AND product_id = ? AND vartion_name = ?");
+            $stmt->execute(array($new_qty, $cart_data['price'] * $new_qty, $cookie_id, $product_id, $vartion_name)); // تحديث الكمية والسعر الإجمالي
+        } else {
+            $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,product_name,quantity,price,vartion_name,farm_service,
+                gift_id,total_price)
+        VALUES(:zuser_id, :zcookie_id,:zproduct_id,:zproduct_name,:zquantity,:zprice,:zvartion_name,:zfarm_service,:zgift_id,:ztotal_price)
+        ");
+            $stmt->execute(array(
+                "zuser_id" => $user_id,
+                "zcookie_id" => $cookie_id,
+                "zproduct_id" => $product_id,
+                "zproduct_name" => $product_name,
+                "zquantity" => $quantity,
+                "zprice" => $price,
+                "zvartion_name" => $vartion_name,
+                "zfarm_service" => $farm_planet,
+                "zgift_id" => $gift_id,
+                "ztotal_price" => $total_price,
+            ));
+        }
+    } else {
+        $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ? AND product_id = ?");
+        $stmt->execute(array($cookie_id, $product_id));
+        $cart_data = $stmt->fetch();
+        $count_product = $stmt->rowCount();
+        if ($count_product > 0) {
+            $new_qty = $cart_data['quantity'] + 1; // زيادة الكمية بواحد
+            $stmt = $connect->prepare("UPDATE cart SET quantity = ?, total_price = ? WHERE cookie_id = ? AND product_id = ?");
+            $stmt->execute(array($new_qty, $cart_data['price'] * $new_qty, $cookie_id, $product_id)); // تحديث الكمية والسعر الإجمالي
+        } else {
+            $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,product_name,quantity,price,farm_service,
+                gift_id,total_price)
+        VALUES(:zuser_id, :zcookie_id,:zproduct_id,:zproduct_name,:zquantity,:zprice,:zfarm_service,:zgift_id,:ztotal_price)
+        ");
+            $stmt->execute(array(
+                "zuser_id" => $user_id,
+                "zcookie_id" => $cookie_id,
+                "zproduct_id" => $product_id,
+                "zproduct_name" => $product_name,
+                "zquantity" => $quantity,
+                "zprice" => $price, 
+                "zfarm_service" => $farm_planet,
+                "zgift_id" => $gift_id,
+                "ztotal_price" => $total_price,
+            ));
+        }
+    }
+
     if ($stmt) {
         alertcart();
     }
 }
-
 // add to favorite
 if (isset($_POST['add_to_fav'])) {
     if (isset($_SESSION['user_id'])) {
@@ -134,9 +172,9 @@ if (isset($_POST['add_to_fav'])) {
         <div class="data">
             <div class="head">
                 <img loading="lazy" src="<?php echo $uploads ?>plant.svg" alt="">
-                <h2> خصم ١٥٪ بمناسبة بداية فصل الربيع </h2>
+                <h2> خصم 10٪ بمناسبة عروض يوم التأسيس </h2>
                 <p>
-                    استخدم هذا الكود عند اتمام عملية الشراء#SP15%
+                    استخدم هذا الكود عند اتمام عملية الشراء msh10
                 </p>
             </div>
         </div>
@@ -329,252 +367,61 @@ if (isset($_POST['add_to_fav'])) {
                             </div>
                         </div>
                     </div>
-                    <div class="show_in_small_screen">
-                        <div class="request">
-                            <form action="" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="product_id" value="<?php echo $product_id ?>" id="">
-                                <input type="hidden" name="product_name" value="<?php echo $product_name ?>" id="">
-                                <h3> اطلبه الآن </h3>
+                    <div class="product_description_large_screen">
+                        <div class="product_description">
+                            <h3> وصف المنتج </h3>
+                            <p> <?php echo $product_desc ?> </p>
+                            <button class="btn"> رقم المنتج:#<?php echo $product_id; ?> </button>
+                        </div>
+                        <div class="social_share">
+                            <div>
+                                <p> شارك عبر </p>
+                            </div>
+                            <!-- AddToAny BEGIN -->
+                            <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+                                <!-- <a class="a2a_dd" href="https://www.addtoany.com/share"></a> -->
+                                <a class="a2a_button_facebook"></a>
+                                <a class="a2a_button_whatsapp"></a>
+                                <a class="a2a_button_linkedin"></a>
+                                <a class="a2a_button_twitter"></a>
+                                <a class="a2a_button_x"></a>
+                                <a class="a2a_button_telegram"></a>
+                            </div>
+                            <script async src="https://static.addtoany.com/menu/page.js"></script>
+                            <!-- AddToAny END -->
+                        </div>
+                        <div class="faq">
+                            <?php
+                            // get product faqs 
+                            $stmt = $connect->prepare("SELECT * FROM product_faqs WHERE product_id = ?");
+                            $stmt->execute(array($product_id));
+                            $allfaqs = $stmt->fetchAll();
+                            ?>
+                            <div class="accordion" id="accordionExample">
                                 <?php
-                                $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ?");
-                                $stmt->execute(array($product_id));
-                                $allpro_attibutes = $stmt->fetchAll();
-                                $allpro_attibutes_count = count($allpro_attibutes); ?>
-                                <div class="options">
-                                    <?php
-                                    if ($allpro_attibutes_count > 0) {
-                                    ?>
-                                        <h6> حدد احد الاختيارات </h6>
-                                    <?php
-                                    }
-                                    ?>
-                                    <div class="colors">
-                                        <?php
-                                        if ($allpro_attibutes_count > 0) {
-                                            echo '<select class="form-control" name="vartion_select2" required>';
-                                            echo '<option value=""> "حدد احد الخيارات" </option>';
-                                            foreach ($allpro_attibutes as $allpro_att) {
-                                                echo '<option value="' . $allpro_att['id'] . '" data-image="' . $allpro_att['image'] . '" data-price="' . $allpro_att['price'] . '" id="' . $allpro_att['id'] . '">' . $allpro_att['vartions_name'] . '</option>';
-                                            }
-                                            echo '</select>';
-                                            echo '<div>';
-                                            echo '<h6>السعر</h6>';
-                                            if ($allpro_att['price'] != '') {
-                                                echo '<span class="text-bold" id="selected_price2">0.00 ر.س</span>';
-                                                echo '<input id="price_value2" type="hidden" name="select_price" value="' . $allpro_att['price'] . '">';
-                                            } else {
-                                                echo '<span class="text-bold"> ' . $product_data['price'] . ' ر.س</span>';
-                                                echo '<input  type="hidden" name="select_price" value="' . $product_data['price'] . '">';
-                                            }
-
-                                            echo '</div>';
-                                        }
-                                        ?>
-
-                                    </div>
-                                    <h6> الكمية </h6>
-                                    <div class="quantity">
-                                        <button class="increase-btn"> + </button>
-                                        <input name="quantity" type="number" class="quantity-input" value="1" min="1">
-                                        <button class="decrease-btn">-</button>
-                                    </div>
-                                    <!-- <div class="present" data-bs-toggle="modal" data-bs-target="#exampleModalgift2">
-                                            <div class="image">
-                                                <div class="pre_image">
-                                                    <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart.png" alt="">
-                                                </div>
-                                                <div>
-                                                    <h4> التغليف كهدية </h4>
-                                                    <p> استعرض النماذج والأسعار. </p>
-                                                </div>
-                                            </div>
-                                            <div style="cursor: pointer;">
-                                                <img loading="lazy" src="<?php echo $uploads ?>/small_left_model.png" alt="">
-                                            </div>
-                                        </div> -->
-                                    <div class="farm_price preset_price">
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="exampleModalgift2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="modal_price">
-                                                            <div class="header">
-                                                                <h3> اختر تغليف الهدية المناسبة لك </h3>
-                                                                <p> تكلفة تغليف الهدية تحسب علي كل نبته </p>
-                                                            </div>
-                                                            <p class="public"> يختلف كل تغليف من حيث التكلفة النهائية </p>
-                                                            <?php
-                                                            // Get Gifts 
-                                                            $stmt = $connect->prepare("SELECT * FROM gifts");
-                                                            $stmt->execute();
-                                                            $allgifts  = $stmt->fetchAll();
-                                                            foreach ($allgifts as $gift) {
-                                                            ?>
-                                                                <input style="display: none;" class="select_gift" value="<?php echo $gift['id'] ?>" type="radio" name="gift_id" id="<?php echo $gift['id']; ?>2">
-                                                                <label class="diffrent_price gifts" for="<?php echo $gift['id']; ?>">
-                                                                    <div>
-                                                                        <img loading="lazy" src="http://localhost/mashtly/admin/gifts/images/<?php echo $gift['image']; ?>" alt="">
-                                                                    </div>
-                                                                    <div>
-                                                                        <p> يكتب هنا اسم ووصف التغليف <br><span> <?php echo $gift['price'] ?> ريال </span> </p>
-                                                                    </div>
-                                                                </label>
-                                                            <?php
-                                                            }
-                                                            ?>
-                                                        </div>
-                                                        <button type="button" data-bs-dismiss="modal" aria-label="Close" style="background-color:#5c8e00; border-radius: 50px; color:#fff;margin:auto;display: block;" class="btn"> حفظ </button>
-                                                    </div>
-                                                </div>
+                                foreach ($allfaqs as $faq) {
+                                ?>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                <?php echo $faq['faq_head'] ?>
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <p> <?php echo $faq['faq_descriptiion'] ?> </p>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-------------- End Gifts ---------------->
-
-
-
-
-                                    <?php
-                                    if ($category_type == 1) {
-                                    ?>
-                                        <div class="farm">
-                                            <div class="check">
-                                                <input style="border-color: red;" type="checkbox" name="farm_planet">
-                                            </div>
-                                            <div>
-                                                <h4> يرجى زراعة النبتة بعد التوصيل </h4>
-                                                <p> هذة الخدمة داخل مدينة الرياض فقط
-                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-                                                        إعرف التكلفة
-                                                    </button>
-                                                </p>
-                                            </div>
-                                            <div class="farm_price">
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="modal_price">
-                                                                    <div class="header">
-                                                                        <h3> زراعة النباتات </h3>
-                                                                        <p> تكلفة زراعة النباتات المختلفة </p>
-                                                                    </div>
-                                                                    <p class="public"> تختلف تكلفة زراعة النباتات طبقا لعامل طول ونوع النباتات من حيث كونها زهور موسمية أو أشجار مستديمة الخضرة طبقا للجدول التالي </p>
-                                                                    <div class="farm_services">
-                                                                        <p> خدمة الزرعة تشمل: </p>
-                                                                        <h4> الحفر - التسميد - الزراعة - نظافة الموقع. </h4>
-                                                                    </div>
-                                                                    <?php
-                                                                    // get the tails 
-                                                                    $stmt = $connect->prepare("SELECT * FROM public_tails");
-                                                                    $stmt->execute();
-                                                                    $available_tail = $stmt->fetchAll();
-                                                                    foreach ($available_tail as $tail) { ?>
-                                                                        <div class="diffrent_price">
-                                                                            <div>
-                                                                                <img loading="lazy" src="<?php echo $uploads ?>/tree.svg" alt="">
-                                                                            </div>
-                                                                            <div>
-                                                                                <p> <?php echo $tail['name']; ?> <span> <?php echo $tail['price']; ?> ريال </span> </p>
-                                                                            </div>
-                                                                        </div>
-                                                                    <?php
-                                                                    }
-                                                                    ?>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <?php
-                                    }
-                                    ?>
-
-                                    <div class="add_cart">
-                                        <?php
-                                        $stmt = $connect->prepare("SELECT * FROM cart WHERE product_id = ? AND cookie_id = ?");
-                                        $stmt->execute(array($product_id, $cookie_id));
-                                        $count_pro = $stmt->rowCount();
-                                        if ($count_pro > 0) {
-                                        ?>
-                                            <a class="btn global_button cart" href="http://localhost/mashtly/cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> مشاهدة السلة </a>
-                                        <?php
-                                        } else {
-                                        ?>
-                                            <button class="btn global_button cart" name="add_to_cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> أضف الي السلة </button>
-                                        <?php
-                                        }
-                                        ?>
-                                        <!-- <button class="btn wishlist" name="add_to_wishlist"> <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt=""> أضف الي المفضلة </button> -->
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div class="product_description">
-                        <h3> وصف المنتج </h3>
-                        <p> <?php echo $product_desc ?> </p>
-                        <button class="btn"> رقم المنتج:#<?php echo $product_id; ?> </button>
-                    </div>
-                    <div class="social_share">
-                        <div>
-                            <p> شارك عبر </p>
-                        </div>
-                        <!-- AddToAny BEGIN -->
-                        <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
-                            <!-- <a class="a2a_dd" href="https://www.addtoany.com/share"></a> -->
-                            <a class="a2a_button_facebook"></a>
-                            <a class="a2a_button_whatsapp"></a>
-                            <a class="a2a_button_linkedin"></a>
-                            <a class="a2a_button_twitter"></a>
-                            <a class="a2a_button_x"></a>
-                            <a class="a2a_button_telegram"></a>
-                        </div>
-                        <script async src="https://static.addtoany.com/menu/page.js"></script>
-                        <!-- AddToAny END -->
-
-                    </div>
-                    <div class="faq">
-                        <?php
-                        // get product faqs 
-                        $stmt = $connect->prepare("SELECT * FROM product_faqs WHERE product_id = ?");
-                        $stmt->execute(array($product_id));
-                        $allfaqs = $stmt->fetchAll();
-                        ?>
-                        <div class="accordion" id="accordionExample">
-                            <?php
-                            foreach ($allfaqs as $faq) {
-                            ?>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingOne">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            <?php echo $faq['faq_head'] ?>
-                                        </button>
-                                    </h2>
-                                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-                                            <p> <?php echo $faq['faq_descriptiion'] ?> </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php
-                            }
-                            ?>
+                                <?php
+                                }
+                                ?>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 show_in_large_screen">
+                <!-- <div class="col-lg-4 show_in_large_screen"> -->
+                <div class="col-lg-4">
                     <div class="request">
                         <form action="" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="product_id" value="<?php echo $product_id ?>" id="">
@@ -745,15 +592,15 @@ if (isset($_POST['add_to_fav'])) {
                                     $stmt = $connect->prepare("SELECT * FROM cart WHERE product_id = ? AND cookie_id = ?");
                                     $stmt->execute(array($product_id, $cookie_id));
                                     $count_pro = $stmt->rowCount();
-                                    if ($count_pro > 0) {
+                                    // if ($count_pro > 0) {
                                     ?>
-                                        <a class="btn global_button cart" href="http://localhost/mashtly/cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> مشاهدة السلة </a>
+                                    <!-- <a class="btn global_button cart" href="http://localhost/mashtly/cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> مشاهدة السلة </a> -->
                                     <?php
-                                    } else {
+                                    // } else {
                                     ?>
-                                        <button class="btn global_button cart" name="add_to_cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> أضف الي السلة </button>
+                                    <button class="btn global_button cart" name="add_to_cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> أضف الي السلة من الكمبوتير</button>
                                     <?php
-                                    }
+                                    // }
                                     ?>
                                     <!-- <button class="btn wishlist" name="add_to_wishlist"> <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt=""> أضف الي المفضلة </button> -->
                                 </div>
@@ -761,8 +608,59 @@ if (isset($_POST['add_to_fav'])) {
                         </form>
                     </div>
                 </div>
+                <div class="product_description_small_screen">
+                    <div class="product_description">
+                        <h3> وصف المنتج </h3>
+                        <p> <?php echo $product_desc ?> </p>
+                        <button class="btn"> رقم المنتج:#<?php echo $product_id; ?> </button>
+                    </div>
+                    <div class="social_share">
+                        <div>
+                            <p> شارك عبر </p>
+                        </div>
+                        <!-- AddToAny BEGIN -->
+                        <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+                            <!-- <a class="a2a_dd" href="https://www.addtoany.com/share"></a> -->
+                            <a class="a2a_button_facebook"></a>
+                            <a class="a2a_button_whatsapp"></a>
+                            <a class="a2a_button_linkedin"></a>
+                            <a class="a2a_button_twitter"></a>
+                            <a class="a2a_button_x"></a>
+                            <a class="a2a_button_telegram"></a>
+                        </div>
+                        <script async src="https://static.addtoany.com/menu/page.js"></script>
+                        <!-- AddToAny END -->
+                    </div>
+                    <div class="faq">
+                        <?php
+                        // get product faqs 
+                        $stmt = $connect->prepare("SELECT * FROM product_faqs WHERE product_id = ?");
+                        $stmt->execute(array($product_id));
+                        $allfaqs = $stmt->fetchAll();
+                        ?>
+                        <div class="accordion" id="accordionExample">
+                            <?php
+                            foreach ($allfaqs as $faq) {
+                            ?>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingOne">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            <?php echo $faq['faq_head'] ?>
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p> <?php echo $faq['faq_descriptiion'] ?> </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -926,6 +824,21 @@ if ($related_products != null) { ?>
         </div>
     </div>
 </div>
+<style>
+    .product_description_small_screen {
+        display: none;
+    }
+
+    @media(max-width:991px) {
+        .product_description_small_screen {
+            display: block;
+        }
+
+        .product_description_large_screen {
+            display: none;
+        }
+    }
+</style>
 <!-- END NEWWER PRODUCTS  -->
 
 <!-- START NEWWER PRODUCTS -->

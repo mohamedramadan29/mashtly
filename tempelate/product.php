@@ -35,7 +35,7 @@
         }
 
         // عرض الاسم المختصر
-        
+
         ?>
         <h2> <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>"> <?php echo $shortened_name; ?> </a> </h2>
         <?php
@@ -87,31 +87,31 @@
             <div class='add_cart'>
                 <div>
                     <?php
-                    if (checkIfProductInCart($connect, $cookie_id, $product['id'])) {
+                    // if (checkIfProductInCart($connect, $cookie_id, $product['id'])) {
                     ?>
-                        <a href="cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
+                    <!-- <a href="cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
                             مشاهدة السلة
+                        </a> -->
+                    <?php
+                    // } else {
+                    ?>
+                    <?php
+                    if ($count_pro_attr > 0) {
+                    ?>
+                        <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
+                            مشاهدة الاختيارات
                         </a>
                     <?php
                     } else {
                     ?>
-                        <?php
-                        if ($count_pro_attr > 0) {
-                        ?>
-                            <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
-                                مشاهدة الاختيارات
-                            </a>
-                        <?php
-                        } else {
-                        ?>
-                            <button name="add_to_cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
-                                الي السلة
-                            </button>
-                        <?php
-                        }
-                        ?>
+                        <button name="add_to_cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                            الي السلة
+                        </button>
                     <?php
                     }
+                    ?>
+                    <?php
+                    //}
                     ?>
                 </div>
                 <div class="heart">

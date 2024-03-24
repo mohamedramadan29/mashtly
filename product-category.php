@@ -55,18 +55,27 @@ if (isset($_POST['add_to_cart'])) {
     } else {
         $user_id = null;
     }
-    $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,product_name,quantity,price,total_price)
-    VALUES(:zuser_id, :zcookie_id , :zproduct_id,:zproduct_name,:zquantity ,:zprice , :ztotal_price)
-    ");
-    $stmt->execute(array(
-        "zuser_id" => $user_id,
-        "zcookie_id" => $cookie_id,
-        "zproduct_id" => $product_id,
-        "zproduct_name" => $product_name,
-        "zquantity" => 1,
-        "zprice" => $price,
-        "ztotal_price" => $price,
-    ));
+    $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ? AND product_id = ?");
+    $stmt->execute(array($cookie_id, $product_id));
+    $cart_data = $stmt->fetch();
+    $count_product = $stmt->rowCount();
+    if ($count_product > 0) {
+        $new_qty = $cart_data['quantity'] + 1; // زيادة الكمية بواحد
+        $stmt = $connect->prepare("UPDATE cart SET quantity = ?, total_price = ? WHERE cookie_id = ? AND product_id = ?");
+        $stmt->execute(array($new_qty, $cart_data['price'] * $new_qty, $cookie_id, $product_id)); // تحديث الكمية والسعر الإجمالي
+    } else {
+        $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id, product_name, quantity, price, total_price)
+        VALUES (:zuser_id, :zcookie_id, :zproduct_id, :zproduct_name, :zquantity, :zprice, :ztotal_price)");
+        $stmt->execute(array(
+            "zuser_id" => $user_id,
+            "zcookie_id" => $cookie_id,
+            "zproduct_id" => $product_id,
+            "zproduct_name" => $product_name,
+            "zquantity" => 1,
+            "zprice" => $price,
+            "ztotal_price" => $price,
+        ));
+    }
     if ($stmt) {
         alertcart();
     }
@@ -86,8 +95,8 @@ if ($check_cat > 0) {
 
     $num_products = $stmt->rowCount();
 
-   // $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
-  // echo $currentpage;
+    // $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
+    // echo $currentpage;
     $pageSize = 20;
     $offset = ($currentpage - 1) * $pageSize;
 
