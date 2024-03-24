@@ -145,9 +145,11 @@ $pagetitle = 'Mohamed';
                                                         $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE id = ?");
                                                         $stmt->execute(array($details['more_details']));
                                                         $more_details_data = $stmt->fetch();
+                                                        echo $more_details_data['vartions_name'];
+                                                        echo $details['more_details'];
                                                         $more_detail_name = $more_details_data['vartions_name']
                                                         ?>
-                                                        <span class="badge badge-danger bg-danger"><?php echo $more_detail_name; ?></span>
+                                                        <p style="display: block; width: 100%;"><?php echo $more_detail_name; ?></p>
                                                         <br>
                                                         <p style="display: block; width: 100%;"> امكانية الزراعه ::
                                                             <?php if ($details['farm_service'] == 0) {

@@ -97,7 +97,7 @@ if (isset($_SESSION['user_id'])) {
                                 <br>
                                 <div class="user_address">
                                     <div>
-                                        <h5> طريقة الدفع </h5>
+                                        <h5> حدد طريقة الدفع المناسبة لك  </h5>
                                     </div>
                                     <!-- <div>
                                         <a href="profile/payment/add"> <i class="fa fa-plus"></i> اضف بطاقة جديدة </a>
@@ -162,35 +162,37 @@ if (isset($_SESSION['user_id'])) {
                                         <?php
                                         }
                                         ?>
-
-                                        <input required style="display: none;" id="visa_payment" type="radio" name="checkout_payment" value="الدفع الالكتروني">
-                                        <label for="visa_payment" class="checkout_address">
-                                            <div class="address payment_method">
-                                                <div class='add_content'>
-                                                    <div class="card_image">
-                                                        <img src="<?php echo $uploads ?>visa.svg" alt="">
-                                                    </div>
-                                                    <div class="card_data">
-                                                        <p class="number"> الدفع الالكتروني </p>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </label>
-                                        <input required style="display: none;" id="when_drive" type="radio" name="checkout_payment" value="الدفع عن الاستلام">
-                                        <label for="when_drive" class="checkout_address">
-                                            <div class="address payment_method">
-                                                <div class='add_content'>
-                                                    <div class="card_image">
-                                                        <img src="<?php echo $uploads ?>cash_on.svg" alt="">
-                                                    </div>
-                                                    <div class="card_data">
-                                                        <p class="number"> الدفع عند الاستلام </p>
-                                                        <!-- <p class="end_date"> يتم اضافة 5 ريال رسوم تحصيل </p> -->
+                                        <div class="d-flex align-items-center">
+                                            <input style="width: 35px;height: 28px;cursor: pointer;" required id="visa_payment" type="radio" name="checkout_payment" value="الدفع الالكتروني">
+                                            <label style="width: 95%;" for="visa_payment" class="checkout_address">
+                                                <div class="address payment_method">
+                                                    <div class='add_content'>
+                                                        <div class="card_image">
+                                                            <img src="<?php echo $uploads ?>visa.svg" alt="">
+                                                        </div>
+                                                        <div class="card_data">
+                                                            <p class="number"> الدفع الالكتروني </p>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </label>
+                                            </label>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <input checked  style="width: 35px;height: 28px;cursor: pointer;" required id="when_drive" type="radio" name="checkout_payment" value="الدفع عن الاستلام">
+                                            <label style="width: 95%;" for="when_drive" class="checkout_address">
+                                                <div class="address payment_method">
+                                                    <div class='add_content'>
+                                                        <div class="card_image">
+                                                            <img src="<?php echo $uploads ?>cash_on.svg" alt="">
+                                                        </div>
+                                                        <div class="card_data">
+                                                            <p class="number"> الدفع عند الاستلام </p>
+                                                            <!-- <p class="end_date"> يتم اضافة 5 ريال رسوم تحصيل </p> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -531,7 +533,7 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 ?>
-<div class="instagrame_footer">
+<!-- <div class="instagrame_footer">
     <div class="container">
         <div class="data">
             <h2> شاركينا جمال بيتك - نباتات الحديقة </h2>
@@ -576,7 +578,7 @@ if (isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 
 <?php
