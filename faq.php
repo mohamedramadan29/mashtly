@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-$page_title = 'الرئيسية';
+$page_title = 'الأسئلة الشائعة';
 include "init.php";
 ?>
 <div class="profile_page adress_page">
@@ -55,89 +55,84 @@ include "init.php";
                 </div>
                 <div class="col-lg-9">
                     <div class="resposne">
-                        <span class="last_update"> آخر تحديث: ٢٣ أكتوبر ٢٠٢٢ </span>
+                        <span class="last_update"> آخر تحديث: ٢٣ أكتوبر ٢٠٢٣ </span>
                         <div class="accordion" id="accordionExample">
                             <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        ما هو موقع مشتلي؟
+                                <h2 class="accordion-header" id="headingthree">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsethree" aria-expanded="true" aria-controls="collapsethree">
+                                        ما هو موقع مشتلي ؟
                                     </button>
                                 </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                <div id="collapsethree" class="accordion-collapse collapse show" aria-labelledby="headingthree" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        <p> نعم، يوفر مشتلي مجموعة واسعة من النباتات الطبية، ومن بينها النعناع والزعتر والألوفيرا والشمام والكركم والزنجبيل والكمون والكركديه وغيرها الكثير. </p>
+                                        <p> مشتلي متجر إلكتروني يوفر لكم أصناف عديدة و متنوعة من النباتات المحلية و المستوردة ، بالإضافة لكل أنواع المستلزمات الزراعية التي يمكن أن يحتاجها مالكو النباتات و المزارعين من أجل استخدامها لزراعة و رعاية مزروعاتهم . </p>
                                     </div>
                                 </div>
                             </div>
                             <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                        هل يمكن طلب النباتات بكمية كبيرة ؟
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <p>
+                                            أهلا بكم في متجر مشتلي ، نعم يمكنكم طلب الكميات الكبيرة و ذلك عبر زيارة الصفحة المخصصة (للطلبيات الكبيرة - رابط داخلي ) التي قمنا بإعدادها خصيصا لعملائنا من المؤسسات التجارية و غيرها.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingtwo">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        هل توفر مشتلي نباتات طبية؟
+                                        هل يمكن الدفع عند الاستلام ؟
                                     </button>
                                 </h2>
                                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingtwo" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        <p> نعم، يوفر مشتلي مجموعة واسعة من النباتات الطبية، ومن بينها النعناع والزعتر والألوفيرا والشمام والكركم والزنجبيل والكمون والكركديه وغيرها الكثير. </p>
+                                        <p> نعم ، نحرص في متجر مشتلي على توفير أساليب الدفع الملائمة للجميع ، يمكنكم الإختيار بين الدفع الالكتروني و الدفع عند الإستلام خلال عملية إتمام الطلب . </p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingthree">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsethree" aria-expanded="false" aria-controls="collapsethree">
-                                        هل يمكن شحن النباتات خارج المملكة العربية السعودية؟
-                                    </button>
-                                </h2>
-                                <div id="collapsethree" class="accordion-collapse collapse" aria-labelledby="headingthree" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <p> نعم، يوفر مشتلي مجموعة واسعة من النباتات الطبية، ومن بينها النعناع والزعتر والألوفيرا والشمام والكركم والزنجبيل والكمون والكركديه وغيرها الكثير. </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingfour">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsefour" aria-expanded="false" aria-controls="collapsefour">
-                                        هل يمكن الدفع عند الاستلام؟
-                                    </button>
-                                </h2>
-                                <div id="collapsefour" class="accordion-collapse collapse" aria-labelledby="headingfour" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <p> نعم، يوفر مشتلي مجموعة واسعة من النباتات الطبية، ومن بينها النعناع والزعتر والألوفيرا والشمام والكركم والزنجبيل والكمون والكركديه وغيرها الكثير. </p>
-                                    </div>
-                                </div>
-                            </div>
+
+
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingfive">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsefive" aria-expanded="false" aria-controls="collapsefive">
-                                        هل يمكن إعادة النباتات بعد شرائها؟
+                                        هل يمكن شحن النباتات خارج المملكة ؟
                                     </button>
                                 </h2>
                                 <div id="collapsefive" class="accordion-collapse collapse" aria-labelledby="headingfive" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        <p> نعم، يوفر مشتلي مجموعة واسعة من النباتات الطبية، ومن بينها النعناع والزعتر والألوفيرا والشمام والكركم والزنجبيل والكمون والكركديه وغيرها الكثير. </p>
+                                        <p> النباتات منتجات حساسة لعوامل التهوية ، الإضاءة و الرطوبة ، فهي إذا تحتاج لظروف شحن خاصة للحفاظ على سلامتها ، لذلك لا يقوم متجر مشتلي بالشحن الدولي كما أنه يقوم بتوصيلها لمناطق محددة فقط داخل المملكة حسب توفر الظروف الملائمة التي تضمن سلامتها. </p>
                                     </div>
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingsix">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsesix" aria-expanded="false" aria-controls="collapsesix">
-                                        هل يمكن طلب نباتات بكميات كبيرة؟
+                                        هل توفر مشتلي نباتات طبية ؟
                                     </button>
                                 </h2>
                                 <div id="collapsesix" class="accordion-collapse collapse" aria-labelledby="headingsix" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        <p> نعم، يوفر مشتلي مجموعة واسعة من النباتات الطبية، ومن بينها النعناع والزعتر والألوفيرا والشمام والكركم والزنجبيل والكمون والكركديه وغيرها الكثير. </p>
+                                        <p> لا ، مع حرص متجر مشتلي على توفير النبااتات التي تلبي احتياجات عملائه إلا أنه لا يمكن أن يوفر منتجات تحتاج لتعليمات خاصة للاستعمال مثل النباتات الطبية .
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingseven">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseseven" aria-expanded="false" aria-controls="collapseseven">
-                                        هل يمكن الحصول على استشارات عن العناية بالنباتات المشتراة؟
+                                        هل يمكن الحصول على استشارات عن العناية بالنباتات ؟
                                     </button>
                                 </h2>
                                 <div id="collapseseven" class="accordion-collapse collapse" aria-labelledby="headingseven" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        <p> نعم، يوفر مشتلي مجموعة واسعة من النباتات الطبية، ومن بينها النعناع والزعتر والألوفيرا والشمام والكركم والزنجبيل والكمون والكركديه وغيرها الكثير. </p>
+                                        <p>
+                                            بكل تأكيد ، نحرص في متجرنا على مواكبة كل عملائنا خلال عملية زراعة و رعاية نباتاتهم بعد توصلهم بها ، كما أننا نتيح خدمة الإستشارة مجانا لكل زوار المت </p>
                                     </div>
                                 </div>
                             </div>
