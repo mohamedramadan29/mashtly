@@ -41,8 +41,6 @@ require_once 'send_mail/vendor/autoload.php';
                                 $activationCode = rand(1, 55555);
                                 $stmt = $connect->prepare("UPDATE users SET active_status_code = ? WHERE email=?");
                                 $stmt->execute(array($activationCode, $email));
-
-
                                 $transport = (new Swift_SmtpTransport('smtp.entiqa.co', 587))
                                     ->setUsername('support@entiqa.co')
                                     ->setPassword('mohamedramadan2930');
@@ -141,9 +139,17 @@ require_once 'send_mail/vendor/autoload.php';
                                     $_SESSION['user_name'] = $user_data['user_name'];
                                     $_SESSION['user_id'] = $user_data['id'];
                                     // check if this user have product in the cart or not  AND Update User Id 
-                                    $stmt = $connect->prepare("UPDATE cart SET user_id = ? WHERE cookie_id = ?");
-                                    $stmt->execute(array($_SESSION['user_id'], $cookie_id));
-                                    header("Location:cart");
+                                    $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
+                                    $stmt->execute(array($cookie_id));
+                                    $count_pro_in_cart = $stmt->rowCount();
+                                    if ($count_pro_in_cart > 0) {
+                                        $stmt = $connect->prepare("UPDATE cart SET user_id = ? WHERE cookie_id = ?");
+                                        $stmt->execute(array($_SESSION['user_id'], $cookie_id));
+                                        header("Location:cart");
+                                    } else {
+                                        header("Location:profile");
+                                    }
+
                                     exit();
                                 } else {
                             ?>
@@ -168,6 +174,17 @@ require_once 'send_mail/vendor/autoload.php';
                                 }
                             }
                         }
+                        ?>
+                        <?php
+                        if (isset($_SESSION["send_message_to_email"])) {
+                        ?>
+                            <div style="max-width: 500px; text-align:center;margin:auto;margin-top:15px;" class="alert alert-success alert-dismissible fade show" role="alert">
+                                تم تسجيل حسابك بنجاح من فضلك فعلك حسابك من خلال البريد الالكتروني لتتمكن من تسجيل الدخول
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <?php
+                        }
+                        unset($_SESSION["send_message_to_email"]);
                         ?>
                         <form action="" method="post">
                             <div class='row'>
@@ -355,15 +372,11 @@ require_once 'send_mail/vendor/autoload.php';
                                                 <div class="alert alert-danger"> حدث خطا من فضلك حاول مره اخري </div>
                                             <?php
                                             }
-
-
                                             ?>
-                                            <div style="max-width: 500px; text-align:center;margin:auto;margin-top:15px;" class="alert alert-success alert-dismissible fade show" role="alert">
-                                                تم تسجيل حسابك بنجاح من فضلك فعلك حسابك من خلال البريد الالكتروني لتتمكن من تسجيل الدخول
-                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                            </div>
-                                        <?php
 
+                                        <?php
+                                            $_SESSION["send_message_to_email"] = "Send Message To Email";
+                                            header("Location:login");
                                         }
                                     } else {
                                         ?>
