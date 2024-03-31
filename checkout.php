@@ -95,9 +95,102 @@ if (isset($_SESSION['user_id'])) {
                                     <textarea style="box-shadow: none; outline:none; height:100px;border-radius: 10px" name="order_details" class="form-control" placeholder="ملاحظات اضافية علي طلبك"></textarea>
                                 </div>
                                 <br>
+                                <div class="col-lg-12">
+                                    <div class="cart_price_info">
+                                        <p class="no_sheap_price">
+                                            <img src="<?php echo $uploads ?>free.svg" alt="">
+                                            مدة الشحن المتوقعة 2-7 ايام
+                                        </p>
+
+                                        <div class="price_sections">
+                                            <div class="first">
+                                                <div>
+                                                    <h3> المجموع الفرعي: </h3>
+                                                    <p> إجمالي سعر المنتجات في السلة </p>
+                                                </div>
+                                                <div>
+                                                    <h2 class="total"> <?php echo number_format($_SESSION['total'], 2); ?> ر.س </h2>
+                                                </div>
+                                            </div>
+                                            <div class="first">
+                                                <div>
+                                                    <h3> تكلفة الإضافات: </h3>
+                                                    <!-- <p> تكلفة الزراعة + تكلفة التغليف كهدية </p> -->
+                                                    <p> تكلفة الزراعة </p>
+                                                </div>
+                                                <div>
+                                                    <h2 class="total"> <?php echo number_format($_SESSION['farm_services'], 2); ?> ر.س </h2>
+                                                </div>
+                                            </div>
+                                            <div class="first">
+                                                <div>
+                                                    <h3> الشحن والتسليم: </h3>
+                                                    <p> يحدد سعر الشحن حسب الموقع </p>
+                                                </div>
+                                                <div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="shipping_price" id="flexRadioDefault1" value="35" onchange="updateTotal(this)">
+                                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                            داخل الرياض :: 35 ريال
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="shipping_price" id="flexRadioDefault2" value="65" onchange="updateTotal(this)">
+                                                        <label class="form-check-label" for="flexRadioDefault2">
+                                                            خارج الرياض :: 65 ريال
+                                                        </label>
+                                                    </div>
+                                                    <input type="hidden" name="last_shipping_value" id="lastshippingvalue" value="">
+                                                    <?php
+                                                    /////////  Shipping Price /////
+                                                    //  include 'tempelate/shiping_price.php';
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="first">
+                                                <div>
+                                                    <h3> إجمالي المبلغ: </h3>
+                                                    <p> المبلغ المطلوب دفعه </p>
+                                                </div>
+                                                <div>
+                                                    <?php
+                                                    if (isset($_SESSION['coupon'])) {
+                                                        // تطبيق خصم 10% على قيمة الشحنة
+                                                        $shipping_discount =  $_SESSION['coupon'] / 100;
+                                                        //$_SESSION['discount_value'] = $shipping_discount;
+                                                    }
+                                                    ?>
+                                                    <h2 class="total" id="grand_total"> </h2>
+                                                    <input type="hidden" name="grand_total" id="grand_total_value" value="">
+                                                </div>
+                                            </div>
+                                            <?php
+                                            if (isset($_SESSION['coupon'])) {
+                                            ?>
+                                                <input type="hidden" name="" id="discountCoupon" value="<?php echo $shipping_discount; ?>">
+                                                <?php
+                                                ?>
+                                                <div class="first">
+                                                    <div>
+                                                        <h3> قيمه الخصم : </h3>
+                                                        <p> قيمه الخصم من تكلفه الشحنه </p>
+                                                    </div>
+                                                    <div>
+                                                        <input type="hidden" name="discountValue" value="" id="discountValue">
+                                                        <h2 class="total" id="discountValue_total"> </h2>
+                                                    </div>
+                                                </div>
+                                            <?php
+                                            }
+                                            ?>
+                                        </div>
+
+                                    </div>
+                                </div>
                                 <div class="user_address">
-                                    <div>
-                                        <h5> حدد طريقة الدفع المناسبة لك  </h5>
+                                    <div style="margin-top: 20px;">
+                                        <h5> حدد الشحن والتسليم لاختيار طريقة الدفع المناسبة لك </h5>
                                     </div>
                                     <!-- <div>
                                         <a href="profile/payment/add"> <i class="fa fa-plus"></i> اضف بطاقة جديدة </a>
@@ -122,6 +215,7 @@ if (isset($_SESSION['user_id'])) {
                                             $cvc = $payment['cvc'];
                                             $default = $payment['default_payment'];
                                         ?>
+
                                             <input required style="display: none;" id="visa_payment" type="radio" name="checkout_payment" value="الدفع الالكتروني">
                                             <label for="visa_payment" class="checkout_address">
                                                 <div class="address payment_method">
@@ -142,7 +236,6 @@ if (isset($_SESSION['user_id'])) {
                                                             } else {
                                                             ?>
                                                                 <img src="<?php echo $uploads ?>visa.svg" alt="">
-
                                                             <?php
                                                             }
                                                             ?>
@@ -162,8 +255,9 @@ if (isset($_SESSION['user_id'])) {
                                         <?php
                                         }
                                         ?>
-                                        <div class="d-flex align-items-center">
-                                            <input checked  style="width: 35px;height: 28px;cursor: pointer;" required id="visa_payment" type="radio" name="checkout_payment" value="الدفع الالكتروني">
+
+                                        <div class="d-flex align-items-center" id="payment1">
+                                            <input checked style="width: 35px;height: 28px;cursor: pointer;" required id="visa_payment" type="radio" name="checkout_payment" value="الدفع الالكتروني">
                                             <label style="width: 95%;" for="visa_payment" class="checkout_address">
                                                 <div class="address payment_method">
                                                     <div class='add_content'>
@@ -177,8 +271,8 @@ if (isset($_SESSION['user_id'])) {
                                                 </div>
                                             </label>
                                         </div>
-                                        <div class="d-flex align-items-center">
-                                            <input  style="width: 35px;height: 28px;cursor: pointer;" required id="when_drive" type="radio" name="checkout_payment" value="الدفع عن الاستلام">
+                                        <div class="d-flex align-items-center" id="payment2">
+                                            <input style="width: 35px;height: 28px;cursor: pointer;" required id="when_drive" type="radio" name="checkout_payment" value="الدفع عن الاستلام">
                                             <label style="width: 95%;" for="when_drive" class="checkout_address">
                                                 <div class="address payment_method">
                                                     <div class='add_content'>
@@ -196,99 +290,8 @@ if (isset($_SESSION['user_id'])) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <div class="cart_price_info">
-                                    <p class="no_sheap_price">
-                                        <img src="<?php echo $uploads ?>free.svg" alt="">
-                                        مدة الشحن المتوقعة 2-7 ايام
-                                    </p>
+                            <button type="submit" name="order_compelete" class="btn global_button"> اكمال عملية الشراء </button>
 
-                                    <div class="price_sections">
-                                        <div class="first">
-                                            <div>
-                                                <h3> المجموع الفرعي: </h3>
-                                                <p> إجمالي سعر المنتجات في السلة </p>
-                                            </div>
-                                            <div>
-                                                <h2 class="total"> <?php echo number_format($_SESSION['total'], 2); ?> ر.س </h2>
-                                            </div>
-                                        </div>
-                                        <div class="first">
-                                            <div>
-                                                <h3> تكلفة الإضافات: </h3>
-                                                <!-- <p> تكلفة الزراعة + تكلفة التغليف كهدية </p> -->
-                                                <p> تكلفة الزراعة </p>
-                                            </div>
-                                            <div>
-                                                <h2 class="total"> <?php echo number_format($_SESSION['farm_services'], 2); ?> ر.س </h2>
-                                            </div>
-                                        </div>
-                                        <div class="first">
-                                            <div>
-                                                <h3> الشحن والتسليم: </h3>
-                                                <p> يحدد سعر الشحن حسب الموقع </p>
-                                            </div>
-                                            <div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="shipping_price" id="flexRadioDefault1" value="35" onchange="updateTotal(this)">
-                                                    <label class="form-check-label" for="flexRadioDefault1">
-                                                        داخل الرياض :: 35 ريال
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="shipping_price" id="flexRadioDefault2" value="65" onchange="updateTotal(this)">
-                                                    <label class="form-check-label" for="flexRadioDefault2">
-                                                        خارج الرياض :: 65 ريال
-                                                    </label>
-                                                </div>
-                                                <input type="hidden" name="last_shipping_value" id="lastshippingvalue" value="">
-                                                <?php
-                                                /////////  Shipping Price /////
-                                                //  include 'tempelate/shiping_price.php';
-                                                ?>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="first">
-                                            <div>
-                                                <h3> إجمالي المبلغ: </h3>
-                                                <p> المبلغ المطلوب دفعه </p>
-                                            </div>
-                                            <div>
-                                                <?php
-                                                if (isset($_SESSION['coupon'])) {
-                                                    // تطبيق خصم 10% على قيمة الشحنة
-                                                    $shipping_discount =  $_SESSION['coupon'] / 100;
-                                                    //$_SESSION['discount_value'] = $shipping_discount;
-                                                }
-                                                ?>
-                                                <h2 class="total" id="grand_total"> </h2>
-                                                <input type="hidden" name="grand_total" id="grand_total_value" value="">
-                                            </div>
-                                        </div>
-                                        <?php
-                                        if (isset($_SESSION['coupon'])) {
-                                        ?>
-                                            <input type="hidden" name="" id="discountCoupon" value="<?php echo $shipping_discount; ?>">
-                                            <?php
-                                            ?>
-                                            <div class="first">
-                                                <div>
-                                                    <h3> قيمه الخصم : </h3>
-                                                    <p> قيمه الخصم من تكلفه الشحنه </p>
-                                                </div>
-                                                <div>
-                                                    <input type="hidden" name="discountValue" value="" id="discountValue">
-                                                    <h2 class="total" id="discountValue_total"> </h2>
-                                                </div>
-                                            </div>
-                                        <?php
-                                        }
-                                        ?>
-                                    </div>
-                                    <button type="submit" name="order_compelete" class="btn global_button"> اكمال عملية الشراء </button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </form>
@@ -517,7 +520,8 @@ if (isset($_SESSION['user_id'])) {
                     } else {
                         foreach ($formerror as $error) {
                 ?>
-                            <div class="alert alert-danger"> <?php echo $error; ?> </div>
+                
+                            <div style="margin-top: 20px;" class="alert alert-danger"> <?php echo $error; ?> </div>
                 <?php
                         }
                     }
@@ -579,7 +583,15 @@ if (isset($_SESSION['user_id'])) {
         </div>
     </div>
 </div> -->
+<style>
+    #payment1 {
+        display: block !important;
+    }
 
+    #payment2 {
+        display: none !important;
+    }
+</style>
 
 <?php
 include $tem . 'footer.php';
@@ -587,11 +599,7 @@ ob_end_flush();
 ?>
 
 
-<script>
-    if (window.history.replaceState) {
-        window.history.replaceState(null, null, window.location.href);
-    }
-</script>
+
 
 <script>
     function updateTotal(selectedRadio) {
@@ -599,9 +607,7 @@ ob_end_flush();
         document.getElementById('lastshippingvalue').value = shippingValue;
         var subTotal = <?php echo $_SESSION['total'] + $_SESSION['farm_services']; ?>; // المجموع الفرعي
         var grandTotal = subTotal + shippingValue; // الإجمالي الجديد
-
         var discount = 0; // الخصم، افترض صفرًا
-
         // إذا كان هناك خصم موجود
         <?php if (isset($_SESSION['coupon'])) { ?>
             discount = grandTotal * document.getElementById("discountCoupon").value;
@@ -614,5 +620,22 @@ ob_end_flush();
         document.getElementById('grand_total_value').value = grandTotal;
         // يمكنك تخزين القيمة الإجمالية في الجلسة للاحتفاظ بها بين الصفحات إذا لزم الأمر
         <?php $_SESSION['grand_total'] = "grandTotal"; ?>
+        ///////////////// select payment method ///////////
+        //var selectedValue = selectedRadio.value;
+        if (shippingValue == "35") {
+            // إذا تم اختيار داخل الرياض 
+            document.getElementById("payment1").style.setProperty('display', 'block', 'important');
+            document.getElementById("payment2").style.setProperty('display', 'block', 'important');
+        } else if (shippingValue == "65") {
+            // إذا تم اختيار خارج الرياض
+            document.getElementById("payment1").style.setProperty('display', 'block', 'important');
+            document.getElementById("payment2").style.setProperty('display', 'none', 'important');
+        }
+    }
+</script>
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
     }
 </script>
