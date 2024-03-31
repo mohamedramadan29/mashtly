@@ -120,9 +120,13 @@
                                             <input placeholder="كلمات مفتاحية للصورة" name='var_image_keys[]'  class="form-control" type="text">
                                             </div> 
                                             </div> 
-                                            <div class="form-group" style="width:80%">
+                                            <div class="form-group" style="width:60%">
                                             <label> الأسم  </label>
                                                 <input name='vartions_name[]' class="form-control" type="text" value="${variantText.slice(0, -3)}">
+                                            </div>
+                                            <div class="form-group" style="width:20%">
+                                            <label> وزن المنتج <span class="badge badge-danger"> كجم  </span> </label>
+                                                <input name='vartions_weghit[]' class="form-control" type="text" value="">
                                             </div>
                                             <div class="form-group">
                                             <label> سعر المنتج  </label>
@@ -187,9 +191,13 @@
                                             <input placeholder="كلمات مفتاحية للصورة" name='var_image_keys' class="form-control" type="text" value="<?php echo $pro_attribut['image_keys'] ?>">
                                         </div>
                                     </div>
-                                    <div class="form-group" style="width:80%">
+                                    <div class="form-group" style="width:60%">
                                         <label> الأسم </label>
                                         <input name='vartions_name' class="form-control" type="text" value="<?php echo $pro_attribut['vartions_name'] ?>">
+                                    </div>
+                                    <div class="form-group" style="width:20%">
+                                        <label> وزن المنتج <span class="badge badge-danger"> كجم </span> </label>
+                                        <input name='vartions_weghit' class="form-control" type="text" value="<?php echo $pro_attribut['vartions_weghit'] ?>">
                                     </div>
                                     <div class="form-group">
                                         <label> سعر المنتج </label>
@@ -254,9 +262,13 @@
                                         <input placeholder="كلمات مفتاحية للصورة" name='var_image_keys' class="form-control" type="text">
                                     </div>
                                 </div>
-                                <div class="form-group" style="width:80%">
+                                <div class="form-group" style="width:60%">
                                     <label> الأسم </label>
                                     <input name='vartions_name' class="form-control" type="text">
+                                </div>
+                                <div class="form-group" style="width:20%">
+                                    <label> ورن المنتج <span class="badge badge-danger"> كجم </span> </label>
+                                    <input name='vartions_weghit' class="form-control" type="text">
                                 </div>
                                 <div class="form-group">
                                     <label> سعر المنتج </label>
@@ -266,7 +278,6 @@
                             <br>
                             <button name="add_new_var" class="btn btn-primary btn-sm"> <i class="fa fa-plus"></i> أضافه متغير جديد </button>
                         </form>
-
                     </div>
                 </div>
             </div>
@@ -286,6 +297,7 @@ if (isset($_POST['save_vartion'])) {
     $stmt = $connect->prepare("DELETE FROM product_details2 WHERE product_id = ?");
     $stmt->execute(array($pro_id));
     $vartions_name = $_POST['vartions_name'];
+    $vartions_weghit = $_POST['vartions_weghit'];
     $vartions_price = $_POST['vartions_price'];
     $var_image_names = $_POST['var_image_name'];
     $var_image_alts = $_POST['var_image_alt'];
@@ -295,6 +307,7 @@ if (isset($_POST['save_vartion'])) {
     if ($vartions_name > 0) {
         for ($i = 0; $i < count($vartions_name); $i++) {
             $vartion_name =   $vartions_name[$i];
+            $vartion_weghit =   $vartions_weghit[$i];
             $vartion_price =  $vartions_price[$i];
             $var_image_name = $var_image_names[$i];
             $var_image_alt = $var_image_alts[$i];
@@ -312,11 +325,12 @@ if (isset($_POST['save_vartion'])) {
                 $image_att_temp,
                 'product_images/' . $main_image_uploaded
             );
-            $stmt = $connect->prepare("INSERT INTO product_details2 (product_id,vartions_name,price,image,image_name,image_alt,image_desc,image_keys) VALUES 
-            (:zpro_id,:zvartion_name,:zprice,:zimage,:zimage_name,:zimage_alt,:zimage_desc,:zimage_keys)");
+            $stmt = $connect->prepare("INSERT INTO product_details2 (product_id,vartions_name,vartions_weghit,price,image,image_name,image_alt,image_desc,image_keys) VALUES 
+            (:zpro_id,:zvartion_name,:zvartions_weghit,:zprice,:zimage,:zimage_name,:zimage_alt,:zimage_desc,:zimage_keys)");
             $stmt->execute(array(
                 "zpro_id" => $pro_id,
                 "zvartion_name" => $vartion_name,
+                "zvartions_weghit" => $vartion_weghit,
                 "zprice" => $vartion_price,
                 "zimage" => $main_image_uploaded,
                 "zimage_name" => $var_image_name,
@@ -343,6 +357,7 @@ if (isset($_POST['delete_vartion'])) {
 if (isset($_POST['edit_vartion'])) {
     $vartion_id = $_POST['vartion_id'];
     $vartions_name = $_POST['vartions_name'];
+    $vartions_weghit = $_POST['vartions_weghit'];
     $vartions_price = $_POST['vartions_price'];
     $var_image_name = $_POST['var_image_name'];
     $var_image_alt = $_POST['var_image_alt'];
@@ -371,8 +386,8 @@ if (isset($_POST['edit_vartion'])) {
             );
         }
     }
-    $stmt = $connect->prepare("UPDATE product_details2 SET vartions_name = ? ,price= ?,image_name=?,image_alt=?,image_desc=?,image_keys=? WHERE id = ? ");
-    $stmt->execute(array($vartions_name, $vartions_price, $var_image_name, $var_image_alt, $var_image_desc, $var_image_keys, $vartion_id));
+    $stmt = $connect->prepare("UPDATE product_details2 SET vartions_name = ?,vartions_weghit=? ,price= ?,image_name=?,image_alt=?,image_desc=?,image_keys=? WHERE id = ? ");
+    $stmt->execute(array($vartions_name, $vartions_weghit, $vartions_price, $var_image_name, $var_image_alt, $var_image_desc, $var_image_keys, $vartion_id));
     if (!empty($_FILES['vartion_image']['name'])) {
         $stmt = $connect->prepare("UPDATE product_details2 SET  image= ? WHERE id = ? ");
         $stmt->execute(array($vartion_image_uploaded, $vartion_id));
@@ -385,6 +400,7 @@ if (isset($_POST['edit_vartion'])) {
 
 if (isset($_POST['add_new_var'])) {
     $vartions_name = $_POST['vartions_name'];
+    $vartions_weghit = $_POST['vartions_weghit'];
     $vartions_price = $_POST['vartions_price'];
     $var_image_name = $_POST['var_image_name'];
     $var_image_alt = $_POST['var_image_alt'];
@@ -415,18 +431,19 @@ if (isset($_POST['add_new_var'])) {
     } else {
         $vartion_image_uploaded = '';
     }
-    $stmt = $connect->prepare("UPDATE product_details2 SET vartions_name = ? ,price= ?,image_name=?,image_alt=?,image_desc=?,image_keys=? WHERE id = ? ");
-    $stmt->execute(array($vartions_name, $vartions_price, $var_image_name, $var_image_alt, $var_image_desc, $var_image_keys, $vartion_id));
+    $stmt = $connect->prepare("UPDATE product_details2 SET vartions_name = ?,vartions_weghit=? ,price= ?,image_name=?,image_alt=?,image_desc=?,image_keys=? WHERE id = ? ");
+    $stmt->execute(array($vartions_name,$vartions_weghit, $vartions_price, $var_image_name, $var_image_alt, $var_image_desc, $var_image_keys, $vartion_id));
     if (!empty($_FILES['vartion_image']['name'])) {
         $stmt = $connect->prepare("UPDATE product_details2 SET  image= ? WHERE id = ? ");
         $stmt->execute(array($vartion_image_uploaded, $vartion_id));
     }
-    $stmt = $connect->prepare("INSERT INTO product_details2 (product_id,vartions_name,price,image,image_name,image_alt,image_desc,image_keys)
-    VALUES(:zproduct_id,:zvartion_name,:zprice,:zimage,:zimage_name,:zimage_alt,:zimage_desc,:zimage_keys)
+    $stmt = $connect->prepare("INSERT INTO product_details2 (product_id,vartions_name,vartions_weghit,price,image,image_name,image_alt,image_desc,image_keys)
+    VALUES(:zproduct_id,:zvartion_name,:zvartions_weghit,:zprice,:zimage,:zimage_name,:zimage_alt,:zimage_desc,:zimage_keys)
     ");
     $stmt->execute(array(
         "zproduct_id" => $pro_id,
         "zvartion_name" => $vartions_name,
+        "zvartions_weghit" => $vartions_weghit,
         "zprice" => $vartions_price,
         "zimage" => $vartion_image_uploaded,
         "zimage_name" => $var_image_name,
