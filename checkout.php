@@ -163,7 +163,7 @@ if (isset($_SESSION['user_id'])) {
                                         }
                                         ?>
                                         <div class="d-flex align-items-center">
-                                            <input style="width: 35px;height: 28px;cursor: pointer;" required id="visa_payment" type="radio" name="checkout_payment" value="الدفع الالكتروني">
+                                            <input checked  style="width: 35px;height: 28px;cursor: pointer;" required id="visa_payment" type="radio" name="checkout_payment" value="الدفع الالكتروني">
                                             <label style="width: 95%;" for="visa_payment" class="checkout_address">
                                                 <div class="address payment_method">
                                                     <div class='add_content'>
@@ -178,7 +178,7 @@ if (isset($_SESSION['user_id'])) {
                                             </label>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <input checked  style="width: 35px;height: 28px;cursor: pointer;" required id="when_drive" type="radio" name="checkout_payment" value="الدفع عن الاستلام">
+                                            <input  style="width: 35px;height: 28px;cursor: pointer;" required id="when_drive" type="radio" name="checkout_payment" value="الدفع عن الاستلام">
                                             <label style="width: 95%;" for="when_drive" class="checkout_address">
                                                 <div class="address payment_method">
                                                     <div class='add_content'>
