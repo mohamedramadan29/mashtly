@@ -65,21 +65,50 @@
                         unset($_SESSION['error_messages']);
                     }
                     ?>
-
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="my_table" class="table table-striped table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th> # </th>
-                                        <th>الأسم </th>
-                                        <th> القسم </th>
-                                        <th> الصورة </th>
-                                        <th> العمليات </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
+                            <div class="form_new_search">
+                                <form method="post" action="">
+                                    <div class="d-flex justify-content-center align-items-center flex-wrap">
+                                        <div class="form-group">
+                                            <input class="form-control" type="text" name="post_name" placeholder=" بحث  " value="<?php if (isset($_POST['post_name'])) echo $_POST['post_name'] ?>">
+                                        </div>
+                                        <div>
+                                            <button name="search" class="btn btn-dark btn-sm"> بحث <i class="fa fa-search"></i> </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <?php
+                                $stmt = $connect->prepare("SELECT * FROM posts");
+                                $stmt->execute();
+                                $totalRecords = count($stmt->fetchAll());
+                                // تحديد عدد السجلات في كل صفحة والصفحة الحالية
+                                $recordsPerPage = 30;
+                                $report_page = isset($_GET['report_page']) ? (int)$_GET['report_page'] : 1; // Cast to integer
+                                $report_page = max(1, $report_page); // Ensure $page is at least 1
+                                // حساب الإزاحة
+                                $offset = ($report_page - 1) * $recordsPerPage;
+                                if (isset($_POST['search'])) {
+                                    $conditions = array();
+                                    $values = array();
+                                    if (!empty($_POST['post_name'])) {
+                                        $post_name = $_POST['post_name'];
+                                        $conditions[] = 'name LIKE ?';
+                                        $values[] = '%' . $post_name . '%';
+                                    }
+                                    $query = "SELECT * FROM posts";
+                                    if (!empty($conditions)) {
+                                        $query .= " WHERE " . implode(" AND ", $conditions);
+                                    }
+
+                                    $query .= " ORDER BY id DESC";
+
+                                    $stmt = $connect->prepare($query);
+                                    $stmt->execute($values);
+                                    $allposts = $stmt->fetchAll();
+                                    $count = count($allposts);
+                                    $i = 0;
+                                } else {
                                     $stmt = $connect->prepare("SELECT * FROM posts ORDER BY id DESC");
                                     $stmt->execute();
                                     $totalRecords = count($stmt->fetchAll());
@@ -99,6 +128,21 @@
                                     $statement->execute();
                                     $allposts = $statement->fetchAll(PDO::FETCH_ASSOC);
                                     $i = 0;
+                                } ?>
+                            </div>
+                            <table id="my_table" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th> # </th>
+                                        <th>الأسم </th>
+                                        <th> القسم </th>
+                                        <th> الصورة </th>
+                                        <th> العمليات </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+
                                     foreach ($allposts as $post) {
                                         $i++;
                                     ?>
@@ -107,8 +151,8 @@
                                                 <?php echo $i; ?>
                                             </td>
                                             <td>
-                                            <a href="main.php?dir=posts&page=edit&post_id=<?php echo $post['id']; ?>">  <?php echo $post['name']; ?> </a>
-                                            </td> 
+                                                <a href="main.php?dir=posts&page=edit&post_id=<?php echo $post['id']; ?>"> <?php echo $post['name']; ?> </a>
+                                            </td>
                                             <td>
                                                 <?php
                                                 /*
@@ -289,3 +333,9 @@
     </div>
     <!-- /.container-fluid -->
 </section>
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>

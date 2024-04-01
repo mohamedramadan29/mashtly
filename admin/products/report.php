@@ -193,7 +193,6 @@ if (isset($_GET['report_page'])) {
                                     }
 
                                     $query .= " ORDER BY id DESC";
-
                                     $stmt = $connect->prepare($query);
                                     $stmt->execute($values);
                                     $allpro = $stmt->fetchAll();
