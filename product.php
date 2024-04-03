@@ -167,7 +167,7 @@ if (isset($_POST['add_to_fav'])) {
 }
 ?>
 <!-- START SELECT DATA HEADER -->
-<div class="select_plan_head">
+<!-- <div class="select_plan_head">
     <div class="container">
         <div class="data">
             <div class="head">
@@ -175,6 +175,21 @@ if (isset($_POST['add_to_fav'])) {
                 <h2> خصم 10٪ بمناسبة عروض يوم التأسيس </h2>
                 <p>
                     استخدم هذا الكود عند اتمام عملية الشراء msh10
+                </p>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!-- END SELECT DATA HEADER -->
+<!-- START SELECT DATA HEADER -->
+<div class="select_plan_head">
+    <div class="container">
+        <div class="data">
+            <div class="head">
+                <img src="<?php echo $uploads ?>plant.svg" alt="">
+                <h2> اختر النباتات الملائمة لاحتياجاتك </h2>
+                <p>
+                    ان اختيار النباتات الملائمة أمرًا مهمًا للحصول على حديقة نباتية جميلة وصحية. لذلك، يجب النظر في المساحة المتاحة ومدى تعرض النباتات للضوء والرطوبة ودرجة الحرارة والتربة في المنطقة التي تعيش فيها بالاضافة الي العديد من العوامل الاخري.
                 </p>
             </div>
         </div>
