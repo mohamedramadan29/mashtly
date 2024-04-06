@@ -70,12 +70,12 @@ if (isset($_GET['report_page'])) {
                         } elseif (isset($_SESSION['error_messages'])) {
                             $formerror = $_SESSION['error_messages'];
                             foreach ($formerror
-
                                 as $error) {
                             ?>
                                 <div class="alert alert-danger alert-dismissible" style="max-width: 800px; margin:20px">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                    <?php echo $error; ?>
+                                    <?php echo $error;
+                                    ?>
                                 </div>
                         <?php
                             }
@@ -131,14 +131,14 @@ if (isset($_GET['report_page'])) {
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <input class="form-control" type="text" name="product_name" placeholder="اكتب اسم المنتج" value="<?php if(isset($_POST['product_name'])) echo $_POST['product_name'] ?>">
+                                            <input class="form-control" type="text" name="product_name" placeholder="اكتب اسم المنتج" value="<?php if (isset($_POST['product_name'])) echo $_POST['product_name'] ?>">
                                         </div>
                                         <div>
                                             <button name="search" class="btn btn-dark btn-sm"> بحث <i class="fa fa-search"></i> </button>
                                         </div>
                                     </div>
                                 </form>
-                                <br> 
+                                <br>
                                 <?php
                                 $stmt = $connect->prepare("SELECT * FROM products");
                                 $stmt->execute();
@@ -780,9 +780,6 @@ if (isset($_GET['report_page'])) {
     </div>
     <!-- /.container-fluid -->
 </section>
-
-
-
 
 <script>
     if (window.history.replaceState) {
