@@ -28,7 +28,17 @@ if (isset($_SESSION['user_id'])) {
                         <h2 class='header2'> اتمام عملية الشراء </h2>
                         <p> عدد العناصر : <span> <?php echo $count ?> </span></p>
                     </div>
+
                 </div>
+                <p class="no_sheap_price" style="text-align: center; line-height:2;font-size:17px;color:#CB772F;">
+                    <img src="<?php echo $uploads ?>free.svg" alt="">
+                    السلام عليكم ورحمة الله وبركاته
+                    <br>
+                    عملائنا الكرام
+                    نحيطكم علما بان التوصيل خارج الرياض سيتوقف الى بعد عيد الفطر بثلاثة أيام بسبب عطلة العيد
+                    وتقبل الله صيامكم و جعلكم من عتقاء الباري من النار
+                    وعيد مبارك سعيد
+                </p>
                 <form action="" method="post">
                     <div class="cart">
                         <div class="row">
@@ -520,7 +530,7 @@ if (isset($_SESSION['user_id'])) {
                     } else {
                         foreach ($formerror as $error) {
                 ?>
-                
+
                             <div style="margin-top: 20px;" class="alert alert-danger"> <?php echo $error; ?> </div>
                 <?php
                         }
