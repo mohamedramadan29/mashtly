@@ -17,7 +17,6 @@ if ($key !== false && isset($parts[$key + 1])) {
     echo "العنوان غير صحيح";
 }
 // $slug = $_GET['slug'];
-
 $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ? ORDER BY id  LIMIT 1 ");
 $stmt->execute(array($slug));
 $product_data = $stmt->fetch();
@@ -93,7 +92,7 @@ if (isset($_POST['add_to_cart'])) {
         $cart_data = $stmt->fetch();
         $count_product = $stmt->rowCount();
         if ($count_product > 0) {
-            $new_qty = $cart_data['quantity'] + 1; // زيادة الكمية بواحد
+            $new_qty = $cart_data['quantity'] + $quantity; // زيادة الكمية بواحد
             $stmt = $connect->prepare("UPDATE cart SET quantity = ?, total_price = ? WHERE cookie_id = ? AND product_id = ? AND vartion_name = ?");
             $stmt->execute(array($new_qty, $cart_data['price'] * $new_qty, $cookie_id, $product_id, $vartion_name)); // تحديث الكمية والسعر الإجمالي
         } else {

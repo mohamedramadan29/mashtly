@@ -22,8 +22,6 @@ if (isset($_POST['add_to_fav'])) {
         header("Location:login");
     }
 }
-
-
 // get all product from user cart
 
 $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
@@ -31,20 +29,37 @@ $stmt->execute(array($cookie_id));
 $count = $stmt->rowCount();
 $allitems = $stmt->fetchAll();
 // update cart items 
-if (isset($_POST['update_cart'])) {
-    $quantities = $_POST['quantity'];
-    foreach ($quantities as $product_id => $quantity) {
-        // Get the selected value from the dropdown
-        $selectedValue = isset($_POST['farmserv'][$product_id]) ? intval($_POST['farmserv'][$product_id]) : null;
-        $stmt = $connect->prepare("UPDATE cart SET quantity = ?, farm_service = ? WHERE id = ?");
-        $stmt->execute(array($quantity, $selectedValue, $product_id));
+// if (isset($_POST['update_cart'])) {
+//     $quantities = $_POST['quantity'];
+//     foreach ($quantities as $product_id => $quantity) {
+//         // Get the selected value from the dropdown
+//         $selectedValue = isset($_POST['farmserv'][$product_id]) ? intval($_POST['farmserv'][$product_id]) : null;
+//         $stmt = $connect->prepare("UPDATE cart SET quantity = ?, farm_service = ? WHERE id = ?");
+//         $stmt->execute(array($quantity, $selectedValue, $product_id));
+//         if ($stmt) {
+//             alertdefaultedit();
+//             header('refresh:1;url=cart');
+//         }
+//     }
+// }
 
-        if ($stmt) {
-            alertdefaultedit();
-            header('refresh:1;url=cart');
-        }
-    }
-}
+// if (isset($_POST['update_cart'])) {
+//     foreach ($_POST['quantity'] as $item_id => $quantity) {
+//         // Get the selected value from the dropdown
+//         $selectedValue = isset($_POST['farmserv'][$item_id]) ? intval($_POST['farmserv'][$item_id]) : null;
+//         $stmt = $connect->prepare("UPDATE cart SET quantity = ?, farm_service = ? WHERE id = ?");
+//         $stmt->execute(array($quantity, $selectedValue, $item_id));
+//         if (!$stmt) {
+//             // If there's an error, break out of the loop and display an error message
+//             echo "Error updating cart. Please try again.";
+//             break;
+//         }
+//     }
+//     // Redirect after processing all items
+//     alertdefaultedit();
+//     header('refresh:1;url=cart');
+// }
+
 
 // delete Items From the cart
 if (isset($_POST['remove_item'])) {
@@ -120,7 +135,6 @@ if (isset($_POST['remove_item'])) {
                                 <form action="" method="post">
                                     <input type="hidden" name="item_id" value="<?php echo $item['id'] ?>">
                                     <div class="card_items">
-
                                         <div class="product_data">
                                             <div class="product_image">
                                                 <a href="product/<?php echo $pro_slug ?>">
@@ -220,7 +234,6 @@ if (isset($_POST['remove_item'])) {
                                             <?php
                                             }
                                             ?>
-
                                             <!--  </form> -->
                                             <div class="farm_price">
                                                 <!-- Modal -->
@@ -299,8 +312,10 @@ if (isset($_POST['remove_item'])) {
                                 <?php
                             }
                                 ?>
-                                <button class="btn global_button cart_button" type="submit" name="update_cart">تحديث السلة <i class="fa fa-pen"></i> </button>
                                 </form>
+
+                                <button id="update_cart_btn" class="btn global_button cart_button" name="update_cart">تحديث السلة <i class="fa fa-pen"></i> </button>
+
                                 <br>
                                 <?php
                                 //////////////////// Coupon Code  /////////////////////
@@ -487,4 +502,36 @@ ob_end_flush();
     if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
     }
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#update_cart_btn').click(function() {
+            var quantities = [];
+            $('.quantity-input').each(function() {
+                var item_id = $(this).attr('name').match(/\[(.*?)\]/)[1]; // استخراج رقم المنتج من اسم المدخل
+                var quantity = $(this).val();
+                quantities.push({
+                    item_id: item_id,
+                    quantity: quantity
+                });
+            });
+            // إرسال قيم المنتجات المحدثة إلى النموذج الأصلي باستخدام AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'update_cart.php',
+                data: {
+                    quantities: quantities
+                },
+                success: function(response) {
+                    // عرض رسالة النجاح
+                    alert(response);
+                    // إعادة توجيه المستخدم إلى صفحة السلة بعد 1 ثانية
+                    setTimeout(function() {
+                        window.location.href = 'cart.php';
+                    }, 1000);
+                }
+            });
+        });
+    });
 </script>
