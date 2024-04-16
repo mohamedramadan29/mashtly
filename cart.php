@@ -395,27 +395,23 @@ if (isset($_POST['remove_item'])) {
                                             <h2 class="total"> <?php echo number_format($grand_farm_services, 2); ?> ر.س </h2>
                                         </div>
                                     </div>
-
                                     <div class="first">
-                                        <?php
-                                        // $vat_value = ($total_price + $shipping_value + $farm_services_total) * (15 / 100);
-                                        ?>
-                                        <!-- <div>
-                                            <h3> ضريبة القيمة المضافة VAT: </h3>
-                                            <p> القيمة المضافة تساوي 15% من اجمالي الطلب </p>
+                                        <div>
+                                            <h3> قيمة الشحن الجديدددة </h3>
+                                            <!-- <p> تكلفة الزراعة + تكلفة التغليف كهدية </p> -->
+                                            <p> /////////////////// </p>
                                         </div>
                                         <div>
-                                            <h2 class="total"> <?php //echo number_format($vat_value, 2); 
-                                                                ?> ر.س </h2>
-                                        </div> -->
+                                            <h2 class="total"> <?php include 'tempelate/shiping_price.php'; ?> </h2>
+                                        </div>
                                     </div>
                                     <hr>
                                     <div class="first">
                                         <?php
-                                        $last_total = $total_price + $grand_farm_services;
+                                        $last_total = $total_price + $grand_farm_services + $shipping_value;
                                         ?>
                                         <div>
-                                            <h3> السعر الكلي قبل الشحن : </h3>
+                                            <h3> السعر الكلي : </h3>
                                             <p> المبلغ المطلوب دفعه </p>
                                         </div>
                                         <div>
@@ -436,9 +432,7 @@ if (isset($_POST['remove_item'])) {
                                         </div>
                                     <?php
                                     }
-
                                     ?>
-
                                 </div>
                                 <?php
                                 $_SESSION['total'] = $total_price;
@@ -529,7 +523,7 @@ ob_end_flush();
                     // إعادة توجيه المستخدم إلى صفحة السلة بعد 1 ثانية
                     setTimeout(function() {
                         window.location.href = 'cart.php';
-                    }, 1000);
+                    }, 100);
                 }
             });
         });

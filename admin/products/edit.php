@@ -2,321 +2,325 @@
 if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
     $pro_id = $_GET['pro_id'];
     if (isset($_POST['edit_pro'])) {
-        $formerror = [];
-        $cat_id = $_POST['cat_id'];
-        $more_cat = $_POST['more_cat'];
-        $more_cat_string = implode(',', (array) $more_cat);
-        $name = $_POST['name'];
-        //$slug = createSlug($name);
-        $description = $_POST['description'];
-        $short_desc = $_POST['short_desc'];
-        $price = $_POST['price'];
-        $purchase_price = $_POST['purchase_price'];
-        $sale_price = $_POST['sale_price'];
-        $av_num = $_POST['av_num'];
-        $public_tail = $_POST['public_tail'];
-        $tags = $_POST['tags'];
-        $publish = $_POST['publish'];
-        $related_product = $_POST['related_product'];
-        $related_product_string = implode(',', (array) $related_product);
-        if (isset($_POST['main_checked'])) {
-            $main_checked = $_POST['main_checked'];
-        } else {
-            $main_checked = 'image';
-        }
-        $ship_weight = $_POST['ship_weight'];
-        $ship_tail = $_POST['ship_tail'];
-        $more_info = $_POST['more_info'];
-        // plant options 
-        $plants_options = $_POST['plants_options'];
-        /**
-         * More Attribute For Main Image
-         */
-        $image_name = $_POST['image_name'];
-        $image_alt = $_POST['image_alt'];
-        $image_desc = $_POST['image_desc'];
-        $image_keys = $_POST['image_keys'];
-        $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ? AND id !=?");
-        $stmt->execute(array($slug, $pro_id));
-        $count = $stmt->rowCount();
-        if ($count > 0) {
-            $formerror[] = ' اسم المنتج موجود من قبل من فضلك ادخل اسم اخر  ';
-        }
-        if (!empty($_FILES['main_image']['name'])) {
-            $main_image_name = $_FILES['main_image']['name'];
-            $main_image_name = str_replace(' ', '-', $main_image_name);
-            $main_image_temp = $_FILES['main_image']['tmp_name'];
-            $main_image_type = $_FILES['main_image']['type'];
-            $main_image_size = $_FILES['main_image']['size'];
-            // حصل على امتداد الصورة من اسم الملف المرفوع
-            $image_extension = pathinfo($main_image_name, PATHINFO_EXTENSION);
-            if (!empty($image_name)) {
-                $image_name = str_replace(' ', '-', $image_name);
-                $main_image_uploaded = $image_name . '.' . $image_extension;
-                $upload_path = 'product_images/' . $main_image_uploaded;
-                // حفظ ملف الصورة المرفوع
-                move_uploaded_file($main_image_temp, $upload_path);
-
-                // تحقق من نوع الصورة وتحويلها إلى WebP إذا كان ذلك ممكنًا
-                if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
-                    $image = imagecreatefromjpeg($upload_path);
-                } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
-                    // افتح الصورة PNG
-                    $image = imagecreatefrompng($upload_path);
-
-                    // إنشاء نسخة Truecolor فارغة لتحويل الصورة إليها
-                    $truecolor_image = imagecreatetruecolor(imagesx($image), imagesy($image));
-
-                    // نسخ الصورة إلى النسخة Truecolor
-                    imagecopy($truecolor_image, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
-
-                    // حدد مسار حفظ ملف الصورة بتنسيق WebP
-                    $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
-
-                    // قم بحفظ الصورة كملف WebP
-                    imagewebp($truecolor_image, $webp_path);
-
-                    // حرر الذاكرة
-                    imagedestroy($image);
-                    imagedestroy($truecolor_image);
-
-                    // قم بتحديث المسار الذي تم تحميل الصورة إليه ليكون بامتداد .webp
-                    $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
-                }
+        try {
+            $formerror = [];
+            $cat_id = $_POST['cat_id'];
+            $more_cat = $_POST['more_cat'];
+            $more_cat_string = implode(',', (array) $more_cat);
+            $name = $_POST['name'];
+            //$slug = createSlug($name);
+            $description = $_POST['description'];
+            $short_desc = $_POST['short_desc'];
+            $price = $_POST['price'];
+            $purchase_price = $_POST['purchase_price'];
+            $sale_price = $_POST['sale_price'];
+            $av_num = $_POST['av_num'];
+            $public_tail = $_POST['public_tail'];
+            $tags = $_POST['tags'];
+            $publish = $_POST['publish'];
+            $related_product = $_POST['related_product'];
+            $related_product_string = implode(',', (array) $related_product);
+            if (isset($_POST['main_checked'])) {
+                $main_checked = $_POST['main_checked'];
             } else {
-                $main_image_uploaded = $main_image_name;
-                $upload_path = 'product_images/' . $main_image_uploaded;
-                // حفظ ملف الصورة المرفوع
-                move_uploaded_file($main_image_temp, $upload_path);
-
-                // تحقق من نوع الصورة وتحويلها إلى WebP إذا كان ذلك ممكنًا
-                if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
-                    $image = imagecreatefromjpeg($upload_path);
-                } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
-                    // افتح الصورة PNG
-                    $image = imagecreatefrompng($upload_path);
-
-                    // إنشاء نسخة Truecolor فارغة لتحويل الصورة إليها
-                    $truecolor_image = imagecreatetruecolor(imagesx($image), imagesy($image));
-
-                    // نسخ الصورة إلى النسخة Truecolor
-                    imagecopy($truecolor_image, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
-
-                    // حدد مسار حفظ ملف الصورة بتنسيق WebP
-                    $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
-
-                    // قم بحفظ الصورة كملف WebP
-                    imagewebp($truecolor_image, $webp_path);
-
-                    // حرر الذاكرة
-                    imagedestroy($image);
-                    imagedestroy($truecolor_image);
-
-                    // قم بتحديث المسار الذي تم تحميل الصورة إليه ليكون بامتداد .webp
-                    $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
-                }
+                $main_checked = 'image';
             }
-        }
-
-
-        // Insert Product Gallary
-        if (!empty($_FILES['more_images']['name'])) {
-            $image_names = $_POST['image_name_gallary'];
-            $image_alts = $_POST['image_alt_gallary'];
-            $image_descs = $_POST['image_desc_gallary'];
-            $image_keyss = $_POST['image_keys_gallary'];
-            $total_images = count($_FILES['more_images']['name']);
-        } else {
-            $total_images = 0;
-        }
-        // main video
-        if (empty($formerror)) {
-            if (!empty($_FILES['video']['name'])) {
-                $video_name = $_FILES['video']['name'];
-                $video_temp = $_FILES['video']['tmp_name'];
-                $video_type = $_FILES['video']['type'];
-                $video_size = $_FILES['video']['size'];
-                $video_uploaded = time() . '_' . $video_name;
-                move_uploaded_file(
-                    $video_temp,
-                    'product_videos/' . $video_uploaded
-                );
-            } else {
-                $video_uploaded = '';
+            $ship_weight = $_POST['ship_weight'];
+            $ship_tail = $_POST['ship_tail'];
+            $more_info = $_POST['more_info'];
+            // plant options 
+            $plants_options = $_POST['plants_options'];
+            /**
+             * More Attribute For Main Image
+             */
+            $image_name = $_POST['image_name'];
+            $image_alt = $_POST['image_alt'];
+            $image_desc = $_POST['image_desc'];
+            $image_keys = $_POST['image_keys'];
+            $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ? AND id !=?");
+            $stmt->execute(array($slug, $pro_id));
+            $count = $stmt->rowCount();
+            if ($count > 0) {
+                $formerror[] = ' اسم المنتج موجود من قبل من فضلك ادخل اسم اخر  ';
             }
-        }
-        if (empty($name)) {
-            $formerror[] = ' من فضلك ادخل اسم المنتج   ';
-        }
-
-        if (empty($cat_id)) {
-            $formerror[] = ' من فضلك ادخل قسم المنتج   ';
-        }
-        if (empty($formerror)) {
-            $stmt = $connect->prepare("UPDATE products SET cat_id=?,more_cat=?,name=?, slug=? , description=?,short_desc=?,main_checked=?,purchase_price=?,
-        price=?,sale_price=?,av_num=?,tags=?,related_product=?,publish=?,public_tail=?,ship_weight=?,ship_tail=?,more_info=? WHERE id = ? ");
-            $stmt->execute(array(
-                $cat_id, $more_cat_string,  $name, $slug, $description, $short_desc,
-                $main_checked, $purchase_price, $price,
-                $sale_price,  $av_num,  $tags, $related_product_string, $publish, $public_tail, $ship_weight, $ship_tail, $more_info, $pro_id
-            ));
-            // UPDATE Main Images To db 
-            $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
-            $stmt->execute(array($pro_id));
-            $count_pro = $stmt->rowCount();
-            if ($count_pro > 0) {
-                $stmt = $connect->prepare("UPDATE products_image SET image_name=?, image_alt=? , image_desc=?,image_keys=? WHERE product_id = ? ");
-                $stmt->execute(array($image_name, $image_alt, $image_desc, $image_keys, $pro_id));
-                if (!empty($_FILES['main_image']['name'])) {
-                    $stmt = $connect->prepare("UPDATE products_image SET main_image=? WHERE product_id = ? ");
-                    $stmt->execute(array(
-                        $main_image_uploaded, $pro_id
-                    ));
-                }
-            } else {
-                // Insert Main Images To db 
-                $stmt = $connect->prepare("INSERT INTO products_image (product_id, main_image,image_name, image_alt , image_desc,image_keys)
-    VALUES(:zproduct_id,:zmain_image,:zimage_name,:zimage_alt, :zimage_desc,:zimage_keys)");
-                $stmt->execute(array(
-                    "zproduct_id" => $pro_id,
-                    "zmain_image" => $main_image_uploaded,
-                    "zimage_name" => $image_name,
-                    "zimage_alt" => $image_alt,
-                    "zimage_desc" => $image_desc,
-                    "zimage_keys" => $image_keys,
-                ));
-            }
-
-
-            // UPDATE Product Gallery To db 
-            // DELETE all image Gallary AND make INSERT AGAIN
-            if ($total_images > 0) {
-                for ($i = 0; $i < $total_images; $i++) {
-                    $new_image_name = $image_names[$i];
-                    $image_alt = $image_alts[$i];
-                    $image_desc = $image_descs[$i];
-                    $image_keys_gal = $image_keyss[$i];
-                    $image_name = $_FILES['more_images']['name'][$i];
+            if (!empty($_FILES['main_image']['name'])) {
+                $main_image_name = $_FILES['main_image']['name'];
+                $main_image_name = str_replace(' ', '-', $main_image_name);
+                $main_image_temp = $_FILES['main_image']['tmp_name'];
+                $main_image_type = $_FILES['main_image']['type'];
+                $main_image_size = $_FILES['main_image']['size'];
+                // حصل على امتداد الصورة من اسم الملف المرفوع
+                $image_extension = pathinfo($main_image_name, PATHINFO_EXTENSION);
+                if (!empty($image_name)) {
                     $image_name = str_replace(' ', '-', $image_name);
-                    $image_temp = $_FILES['more_images']['tmp_name'][$i];
-                    $image_type = $_FILES['more_images']['type'][$i];
-                    $image_size = $_FILES['more_images']['size'][$i];
-                    $image_extension = pathinfo($image_name, PATHINFO_EXTENSION);
-                    if (!empty($new_image_name)) {
-                        $new_image_name = str_replace(' ', '-', $new_image_name);
-                        $main_image_uploaded = $new_image_name . '.' . $image_extension;
-                        $upload_path = 'product_images/' . $main_image_uploaded;
-                        move_uploaded_file($image_temp, $upload_path);
-                        // تحقق من نوع الصورة وتحويلها إلى WebP إذا كان ذلك ممكنًا
-                        if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
-                            $image = imagecreatefromjpeg($upload_path);
-                        } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
-                            $image = imagecreatefrompng($upload_path);
-                        }
+                    $main_image_uploaded = $image_name . '.' . $image_extension;
+                    $upload_path = 'product_images/' . $main_image_uploaded;
+                    // حفظ ملف الصورة المرفوع
+                    move_uploaded_file($main_image_temp, $upload_path);
 
-                        if (isset($image)) {
-                            // حدد مسار حفظ ملف الصورة بتنسيق WebP
-                            $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                    // تحقق من نوع الصورة وتحويلها إلى WebP إذا كان ذلك ممكنًا
+                    if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
+                        $image = imagecreatefromjpeg($upload_path);
+                    } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
+                        // افتح الصورة PNG
+                        $image = imagecreatefrompng($upload_path);
 
-                            // قم بحفظ الصورة كملف WebP
-                            imagewebp($image, $webp_path);
+                        // إنشاء نسخة Truecolor فارغة لتحويل الصورة إليها
+                        $truecolor_image = imagecreatetruecolor(imagesx($image), imagesy($image));
 
-                            // حرر الذاكرة
-                            imagedestroy($image);
+                        // نسخ الصورة إلى النسخة Truecolor
+                        imagecopy($truecolor_image, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
 
-                            // قم بتحديث المسار الذي تم تحميل الصورة إليه ليكون بامتداد .webp
-                            $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
-                        }
-                    } else {
-                        $main_image_uploaded = $image_name;
-                        $upload_path = 'product_images/' . $main_image_uploaded;
-                        move_uploaded_file($image_temp, $upload_path);
-                        // تحقق من نوع الصورة وتحويلها إلى WebP إذا كان ذلك ممكنًا
-                        if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
-                            $image = imagecreatefromjpeg($upload_path);
-                        } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
-                            $image = imagecreatefrompng($upload_path);
-                        }
+                        // حدد مسار حفظ ملف الصورة بتنسيق WebP
+                        $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
 
-                        if (isset($image)) {
-                            // حدد مسار حفظ ملف الصورة بتنسيق WebP
-                            $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                        // قم بحفظ الصورة كملف WebP
+                        imagewebp($truecolor_image, $webp_path);
 
-                            // قم بحفظ الصورة كملف WebP
-                            imagewebp($image, $webp_path);
+                        // حرر الذاكرة
+                        imagedestroy($image);
+                        imagedestroy($truecolor_image);
 
-                            // حرر الذاكرة
-                            imagedestroy($image);
-
-                            // قم بتحديث المسار الذي تم تحميل الصورة إليه ليكون بامتداد .webp
-                            $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
-                        }
+                        // قم بتحديث المسار الذي تم تحميل الصورة إليه ليكون بامتداد .webp
+                        $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
                     }
-                    $stmt = $connect->prepare("INSERT INTO products_gallary (product_id,image,image_name, image_alt , image_desc,image_keys)
-        VALUES(:zproduct_id,:zimage,:zimage_name,:zimage_alt, :zimage_desc,:zimage_keys_gal)");
+                } else {
+                    $main_image_uploaded = $main_image_name;
+                    $upload_path = 'product_images/' . $main_image_uploaded;
+                    // حفظ ملف الصورة المرفوع
+                    move_uploaded_file($main_image_temp, $upload_path);
+
+                    // تحقق من نوع الصورة وتحويلها إلى WebP إذا كان ذلك ممكنًا
+                    if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
+                        $image = imagecreatefromjpeg($upload_path);
+                    } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
+                        // افتح الصورة PNG
+                        $image = imagecreatefrompng($upload_path);
+
+                        // إنشاء نسخة Truecolor فارغة لتحويل الصورة إليها
+                        $truecolor_image = imagecreatetruecolor(imagesx($image), imagesy($image));
+
+                        // نسخ الصورة إلى النسخة Truecolor
+                        imagecopy($truecolor_image, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+
+                        // حدد مسار حفظ ملف الصورة بتنسيق WebP
+                        $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+
+                        // قم بحفظ الصورة كملف WebP
+                        imagewebp($truecolor_image, $webp_path);
+
+                        // حرر الذاكرة
+                        imagedestroy($image);
+                        imagedestroy($truecolor_image);
+
+                        // قم بتحديث المسار الذي تم تحميل الصورة إليه ليكون بامتداد .webp
+                        $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                    }
+                }
+            }
+
+
+            // Insert Product Gallary
+            if (!empty($_FILES['more_images']['name'])) {
+                $image_names = $_POST['image_name_gallary'];
+                $image_alts = $_POST['image_alt_gallary'];
+                $image_descs = $_POST['image_desc_gallary'];
+                $image_keyss = $_POST['image_keys_gallary'];
+                $total_images = count($_FILES['more_images']['name']);
+            } else {
+                $total_images = 0;
+            }
+            // main video
+            if (empty($formerror)) {
+                if (!empty($_FILES['video']['name'])) {
+                    $video_name = $_FILES['video']['name'];
+                    $video_temp = $_FILES['video']['tmp_name'];
+                    $video_type = $_FILES['video']['type'];
+                    $video_size = $_FILES['video']['size'];
+                    $video_uploaded = time() . '_' . $video_name;
+                    move_uploaded_file(
+                        $video_temp,
+                        'product_videos/' . $video_uploaded
+                    );
+                } else {
+                    $video_uploaded = '';
+                }
+            }
+            if (empty($name)) {
+                $formerror[] = ' من فضلك ادخل اسم المنتج   ';
+            }
+
+            if (empty($cat_id)) {
+                $formerror[] = ' من فضلك ادخل قسم المنتج   ';
+            }
+            if (empty($formerror)) {
+                $stmt = $connect->prepare("UPDATE products SET cat_id=?,more_cat=?,name=?, description=?,short_desc=?,main_checked=?,purchase_price=?,
+        price=?,sale_price=?,av_num=?,tags=?,related_product=?,publish=?,public_tail=?,ship_weight=?,ship_tail=?,more_info=? WHERE id = ? ");
+                $stmt->execute(array(
+                    $cat_id, $more_cat_string,  $name, $description, $short_desc,
+                    $main_checked, $purchase_price, $price,
+                    $sale_price,  $av_num,  $tags, $related_product_string, $publish, $public_tail, $ship_weight, $ship_tail, $more_info, $pro_id
+                ));
+                // UPDATE Main Images To db 
+                $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
+                $stmt->execute(array($pro_id));
+                $count_pro = $stmt->rowCount();
+                if ($count_pro > 0) {
+                    $stmt = $connect->prepare("UPDATE products_image SET image_name=?, image_alt=? , image_desc=?,image_keys=? WHERE product_id = ? ");
+                    $stmt->execute(array($image_name, $image_alt, $image_desc, $image_keys, $pro_id));
+                    if (!empty($_FILES['main_image']['name'])) {
+                        $stmt = $connect->prepare("UPDATE products_image SET main_image=? WHERE product_id = ? ");
+                        $stmt->execute(array(
+                            $main_image_uploaded, $pro_id
+                        ));
+                    }
+                } else {
+                    // Insert Main Images To db 
+                    $stmt = $connect->prepare("INSERT INTO products_image (product_id, main_image,image_name, image_alt , image_desc,image_keys)
+    VALUES(:zproduct_id,:zmain_image,:zimage_name,:zimage_alt, :zimage_desc,:zimage_keys)");
                     $stmt->execute(array(
                         "zproduct_id" => $pro_id,
-                        "zimage" => $main_image_uploaded,
-                        "zimage_name" => $new_image_name,
+                        "zmain_image" => $main_image_uploaded,
+                        "zimage_name" => $image_name,
                         "zimage_alt" => $image_alt,
                         "zimage_desc" => $image_desc,
-                        "zimage_keys_gal" => $image_keys_gal,
+                        "zimage_keys" => $image_keys,
                     ));
                 }
-            }
-            ////////////////////////////////
-            // delete all old attribute and make insert agian
 
-            // insert product plant options 
-            // delete all old product_properties_plants and make insert agian
-            $stmt = $connect->prepare("DELETE FROM product_properties_plants WHERE product_id = ?");
-            $stmt->execute(array($pro_id));
-            foreach ($plants_options as $option) {
-                $stmt = $connect->prepare("INSERT INTO product_properties_plants (product_id,option_id)
+
+                // UPDATE Product Gallery To db 
+                // DELETE all image Gallary AND make INSERT AGAIN
+                if ($total_images > 0) {
+                    for ($i = 0; $i < $total_images; $i++) {
+                        $new_image_name = $image_names[$i];
+                        $image_alt = $image_alts[$i];
+                        $image_desc = $image_descs[$i];
+                        $image_keys_gal = $image_keyss[$i];
+                        $image_name = $_FILES['more_images']['name'][$i];
+                        $image_name = str_replace(' ', '-', $image_name);
+                        $image_temp = $_FILES['more_images']['tmp_name'][$i];
+                        $image_type = $_FILES['more_images']['type'][$i];
+                        $image_size = $_FILES['more_images']['size'][$i];
+                        $image_extension = pathinfo($image_name, PATHINFO_EXTENSION);
+                        if (!empty($new_image_name)) {
+                            $new_image_name = str_replace(' ', '-', $new_image_name);
+                            $main_image_uploaded = $new_image_name . '.' . $image_extension;
+                            $upload_path = 'product_images/' . $main_image_uploaded;
+                            move_uploaded_file($image_temp, $upload_path);
+                            // تحقق من نوع الصورة وتحويلها إلى WebP إذا كان ذلك ممكنًا
+                            if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
+                                $image = imagecreatefromjpeg($upload_path);
+                            } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
+                                $image = imagecreatefrompng($upload_path);
+                            }
+
+                            if (isset($image)) {
+                                // حدد مسار حفظ ملف الصورة بتنسيق WebP
+                                $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+
+                                // قم بحفظ الصورة كملف WebP
+                                imagewebp($image, $webp_path);
+
+                                // حرر الذاكرة
+                                imagedestroy($image);
+
+                                // قم بتحديث المسار الذي تم تحميل الصورة إليه ليكون بامتداد .webp
+                                $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                            }
+                        } else {
+                            $main_image_uploaded = $image_name;
+                            $upload_path = 'product_images/' . $main_image_uploaded;
+                            move_uploaded_file($image_temp, $upload_path);
+                            // تحقق من نوع الصورة وتحويلها إلى WebP إذا كان ذلك ممكنًا
+                            if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
+                                $image = imagecreatefromjpeg($upload_path);
+                            } elseif (exif_imagetype($upload_path) === IMAGETYPE_PNG) {
+                                $image = imagecreatefrompng($upload_path);
+                            }
+
+                            if (isset($image)) {
+                                // حدد مسار حفظ ملف الصورة بتنسيق WebP
+                                $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+
+                                // قم بحفظ الصورة كملف WebP
+                                imagewebp($image, $webp_path);
+
+                                // حرر الذاكرة
+                                imagedestroy($image);
+
+                                // قم بتحديث المسار الذي تم تحميل الصورة إليه ليكون بامتداد .webp
+                                $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                            }
+                        }
+                        $stmt = $connect->prepare("INSERT INTO products_gallary (product_id,image,image_name, image_alt , image_desc,image_keys)
+        VALUES(:zproduct_id,:zimage,:zimage_name,:zimage_alt, :zimage_desc,:zimage_keys_gal)");
+                        $stmt->execute(array(
+                            "zproduct_id" => $pro_id,
+                            "zimage" => $main_image_uploaded,
+                            "zimage_name" => $new_image_name,
+                            "zimage_alt" => $image_alt,
+                            "zimage_desc" => $image_desc,
+                            "zimage_keys_gal" => $image_keys_gal,
+                        ));
+                    }
+                }
+                ////////////////////////////////
+                // delete all old attribute and make insert agian
+
+                // insert product plant options 
+                // delete all old product_properties_plants and make insert agian
+                $stmt = $connect->prepare("DELETE FROM product_properties_plants WHERE product_id = ?");
+                $stmt->execute(array($pro_id));
+                foreach ($plants_options as $option) {
+                    $stmt = $connect->prepare("INSERT INTO product_properties_plants (product_id,option_id)
           VALUES(:zproduct_id,:zoption_id)
           ");
-                $stmt->execute(array(
-                    "zproduct_id" => $pro_id,
-                    "zoption_id" => $option
-                ));
-            }
-            if ($stmt) {
-                $_SESSION['success_message'] = " تمت التعديل  بنجاح  ";
-
-                if (isset($_SESSION['success_message'])) {
-                    $message = $_SESSION['success_message'];
-                    unset($_SESSION['success_message']);
-?>
-                    <?php
-                    ?>
-                    <script src="plugins/jquery/jquery.min.js"></script>
-                    <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
-                    <script>
-                        $(function() {
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: '<?php echo $message; ?>',
-                                showConfirmButton: false,
-                                timer: 2000
-                            })
-                        })
-                    </script>
-                <?php
+                    $stmt->execute(array(
+                        "zproduct_id" => $pro_id,
+                        "zoption_id" => $option
+                    ));
                 }
-                header('Location:main?dir=products&page=edit&pro_id=' . $pro_id);
-            }
-        } else {
-            $_SESSION['error_messages'] = $formerror;
-            foreach ($formerror as $error) {
-                ?>
-                <div class="alert alert-danger alert-dismissible" style="max-width: 800px; margin:20px">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <?php echo $error; ?>
-                </div>
+                if ($stmt) {
+                    $_SESSION['success_message'] = " تمت التعديل  بنجاح  ";
+
+                    if (isset($_SESSION['success_message'])) {
+                        $message = $_SESSION['success_message'];
+                        unset($_SESSION['success_message']);
+?>
+                        <?php
+                        ?>
+                        <script src="plugins/jquery/jquery.min.js"></script>
+                        <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+                        <script>
+                            $(function() {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: '<?php echo $message; ?>',
+                                    showConfirmButton: false,
+                                    timer: 2000
+                                })
+                            })
+                        </script>
+                    <?php
+                    }
+                    header('Location:main?dir=products&page=edit&pro_id=' . $pro_id);
+                }
+            } else {
+                $_SESSION['error_messages'] = $formerror;
+                foreach ($formerror as $error) {
+                    ?>
+                    <div class="alert alert-danger alert-dismissible" style="max-width: 800px; margin:20px">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <?php echo $error; ?>
+                    </div>
     <?php
+                }
+                unset($_SESSION['error_messages']);
             }
-            unset($_SESSION['error_messages']);
+        } catch (\Exception $e) {
+            echo $e;
         }
     }
     ?>
@@ -675,18 +679,18 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                 <div class="form-group">
                                     <label for="ship_weight"> وزن المنتج للشحن </label>
                                     <input type="text" id="ship_weight" name="ship_weight" class="form-control" value="<?php if (isset($_REQUEST['ship_weight'])) {
-                                                                                                                                echo $_REQUEST['ship_weight'];
-                                                                                                                            } else {
-                                                                                                                                echo $pro_data['ship_weight'];
-                                                                                                                            }  ?>">
+                                                                                                                            echo $_REQUEST['ship_weight'];
+                                                                                                                        } else {
+                                                                                                                            echo $pro_data['ship_weight'];
+                                                                                                                        }  ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="ship_tail"> طول المنتج لتحديد الوزن [للشحن] </label>
                                     <input type="text" id="ship_tail" name="ship_tail" class="form-control" value="<?php if (isset($_REQUEST['ship_tail'])) {
-                                                                                                                            echo $_REQUEST['ship_tail'];
-                                                                                                                        } else {
-                                                                                                                            echo $pro_data['ship_tail'];
-                                                                                                                        }  ?>">
+                                                                                                                        echo $_REQUEST['ship_tail'];
+                                                                                                                    } else {
+                                                                                                                        echo $pro_data['ship_tail'];
+                                                                                                                    }  ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="ship_weight"> معلومات اضافية </label>
