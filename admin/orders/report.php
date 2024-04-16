@@ -142,6 +142,7 @@
                                             <th> تاريخ الطلب </th>
                                             <th> طريقة الدفع </th>
                                             <th> حالة الطلب </th>
+                                            <th> خصم </th>
                                             <th> السعر الكلي </th>
                                             <th> </th>
                                         </tr>
@@ -164,10 +165,44 @@
                                                     <td> <?php echo  $order['email']; ?> </td>
                                                     <td> <?php echo  $order['order_date']; ?> </td>
                                                     <td>
+                                                        <?php
+                                                        if ($order['payment_method'] == 'الدفع الالكتروني') {
+                                                        ?>
+                                                            <span class="badge badge-primary"> الدفع الالكتروني </span>
+                                                        <?php
+                                                        } else {
+                                                        ?>
+                                                            <span class="badge badge-success"> الدفع عن الاستلام </span>
+                                                        <?php
 
-                                                        <span class="badge badge-danger"> <?php echo  $order['payment_method']; ?> </span>
+                                                        }
+
+                                                        ?>
+                                                         
                                                     </td>
-                                                    <td> <span class="badge badge-info"> <?php echo  $order['status_value']; ?> </span>
+                                                    <td> <?php
+                                                            if ($order['status_value'] == 'لم يبدا ') {
+                                                            ?>
+                                                            <span class="badge badge-info"> لم يبدا </span>
+                                                        <?php
+                                                            } elseif ($order['status_value'] == 'ملغي') {
+                                                        ?>
+                                                            <span class="badge badge-danger"> ملغي </span>
+                                                        <?php
+
+                                                            } elseif ($order['status_value'] == 'مكتمل') {
+                                                        ?>
+                                                            <span class="badge badge-success"> مكتمل </span>
+                                                        <?php
+                                                            } elseif ($order['status_value'] == 'قيد الانتظار') {
+                                                        ?>
+                                                            <span class="badge badge-warning"> قيد الانتظار </span>
+                                                        <?php
+                                                            } else {
+                                                        ?>
+                                                            <span class="badge badge-primary"> <?php echo  $order['status_value']; ?> </span>
+                                                        <?php
+                                                            } ?>
                                                         <?php
                                                         $stmt = $connect->prepare("SELECT * FROM order_statuses WHERE order_id = ? ORDER BY id DESC LIMIT 1");
                                                         $stmt->execute(array($order['id']));
@@ -178,6 +213,19 @@
                                                         <?php
                                                         }
 
+                                                        ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php
+                                                        if ($order['coupon_code'] != '') {
+                                                        ?>
+                                                            <span class="badge badge-info"><?php echo $order['discount_value']; ?> ر.س </span>
+                                                        <?php
+                                                        } else {
+                                                        ?>
+                                                            <span class="badge badge-danger"> لا يوجد خصم </span>
+                                                        <?php
+                                                        }
                                                         ?>
                                                     </td>
                                                     <td> <?php echo  $order['total_price']; ?> ر.س </td>

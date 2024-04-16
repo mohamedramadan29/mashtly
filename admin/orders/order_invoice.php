@@ -103,6 +103,7 @@ $pagetitle = 'Mohamed';
                                                 <th> <span> ملاحظات اضافية : </span> </th>
                                                 <th> <?php echo $order_data['order_details']; ?> </th>
                                             </tr>
+
                                         </table>
                                     </div>
                                 </div>
@@ -194,6 +195,29 @@ $pagetitle = 'Mohamed';
                                             <h2 class="total"><?php echo number_format($ship_price, 2); ?> ر.س </h2>
                                         </div>
                                     </div>
+
+                                    <?php
+                                    if ($order_data['coupon_code'] != '') {
+                                    ?>
+                                        <div class="first">
+                                            <div>
+                                                <h3> كوبون الخصم : </h3>
+                                            </div>
+                                            <div>
+                                                <h2 class="total"><?php echo $order_data['coupon_code']; ?>  </h2>
+                                            </div>
+                                        </div>
+                                        <div class="first">
+                                            <div>
+                                                <h3> قيمة الخصم  : </h3>
+                                            </div>
+                                            <div>
+                                                <h2 class="total"><?php echo $order_data['discount_value']; ?> ر.س </h2>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    }
+                                    ?>
                                     <hr>
                                     <div class="first">
                                         <div>
