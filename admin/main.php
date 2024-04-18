@@ -186,8 +186,7 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
         include "users/report.php";
     } elseif ($dir == 'users' && $page == 'edit') {
         include "users/edit.php";
-    }
-    elseif ($dir == 'users' && $page == 'edit_data') {
+    } elseif ($dir == 'users' && $page == 'edit_data') {
         include "users/edit_data.php";
     }
     // START products
@@ -255,6 +254,8 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
         include "orders/order_done.php";
     } elseif ($dir == 'orders' && $page == 'archieve') {
         include "orders/archieve.php";
+    } elseif ($dir == 'orders' && $page == 'edit_order') {
+        include "orders/edit_order.php";
     }
     // START employee
     if ($dir == 'employee' && $page == 'add') {

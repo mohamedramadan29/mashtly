@@ -133,7 +133,7 @@ if (isset($_POST['add_to_cart'])) {
                 "zproduct_id" => $product_id,
                 "zproduct_name" => $product_name,
                 "zquantity" => $quantity,
-                "zprice" => $price, 
+                "zprice" => $price,
                 "zfarm_service" => $farm_planet,
                 "zgift_id" => $gift_id,
                 "ztotal_price" => $total_price,

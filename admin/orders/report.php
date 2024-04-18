@@ -178,7 +178,7 @@
                                                         }
 
                                                         ?>
-                                                         
+
                                                     </td>
                                                     <td> <?php
                                                             if ($order['status_value'] == 'لم يبدا ') {
@@ -234,6 +234,8 @@
                                                         <?php
                                                         if (isset($_SESSION['admin_username'])) {
                                                         ?>
+                                                            <a href="main.php?dir=orders&page=edit_order&order_id=<?php echo $order['id']; ?>" class="btn btn-primary waves-effect btn-sm">  <i class='fa fa-edit'></i></a>
+
                                                             <a href="main.php?dir=orders&page=delete&order_id=<?php echo $order['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
                                                         <?php
                                                         }
