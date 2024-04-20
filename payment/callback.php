@@ -130,7 +130,7 @@
                 ?>
                     <div class='alert alert-danger'> حدث خطا !! من فضلك اعد المحااولة مرة اخري </div>
         <?php
-                    header("refresh:2;URL=../profile");
+                    header("refresh:2;URL=https://www.mshtly.com/checkout");
                 }
             } else {
                 echo "Errrrror";
