@@ -78,7 +78,7 @@ include "init.php";
                                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
                                         <p>
-                                            أهلا بكم في متجر مشتلي ، نعم يمكنكم طلب الكميات الكبيرة و ذلك عبر زيارة الصفحة المخصصة (للطلبيات الكبيرة - رابط داخلي ) التي قمنا بإعدادها خصيصا لعملائنا من المؤسسات التجارية و غيرها.
+                                            أهلا بكم في متجر مشتلي ، نعم يمكنكم طلب الكميات الكبيرة و ذلك عبر زيارة الصفحة المخصصة  <a href="big_orders"> (للطلبيات الكبيرة )</a> التي قمنا بإعدادها خصيصا لعملائنا من المؤسسات التجارية و غيرها.
                                         </p>
                                     </div>
                                 </div>
