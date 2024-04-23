@@ -72,6 +72,7 @@
                                         <th> رقم الهاتف </th>
                                         <th> عدد الطلبات </th>
                                         <th> حالة المستخدم </th>
+                                        <th> حالة تفعيل الايميل  </th>
                                         <th> العمليات </th>
                                     </tr>
                                 </thead>
@@ -107,6 +108,17 @@
                                                     } ?>
                                             </td>
                                             <td>
+                                            <?php if ($user['active_status'] == 1) {
+                                                    ?>
+                                                    <span class="badge badge-info"> مفعل </span>
+                                                <?php
+                                                    } else {
+                                                ?>
+                                                    <span class="badge badge-danger"> غير مفعل </span>
+                                                <?php
+                                                    } ?>
+                                            </td>
+                                            <td>
                                                 <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $user['id']; ?>"> تعديل الحالة <i class='fa fa-pen'></i> </button>
                                                 <button type="button" class="btn btn-primary btn-sm waves-effect" data-toggle="modal" data-target="#edit-data-Modal_<?php echo $user['id']; ?>"> تعديل <i class='fa fa-pen'></i> </button>
 
@@ -128,8 +140,16 @@
                                                                 <label for="Company-2" class="block"> حالة المستخدم </label>
                                                                 <select required class='form-control select2' name='status'>
                                                                     <option> -- اختر -- </option>
-                                                                    <option value="1"> مفعل </option>
-                                                                    <option value="0"> غير مفعل </option>
+                                                                    <option <?php if($user['status'] == 1) echo 'selected'; ?> value="1"> مفعل </option>
+                                                                    <option <?php if($user['status'] == 0) echo 'selected'; ?> value="0"> غير مفعل </option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="Company-2" class="block"> حالة تفعيل الايميل  </label>
+                                                                <select required class='form-control select2' name='active_status'>
+                                                                    <option> -- اختر -- </option>
+                                                                    <option <?php if($user['active_status'] == 1) echo 'selected'; ?> value="1"> مفعل </option>
+                                                                    <option <?php if($user['active_status'] == 0) echo 'selected'; ?> value="0"> غير مفعل </option>
                                                                 </select>
                                                             </div>
                                                         </div>
