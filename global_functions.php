@@ -151,7 +151,7 @@ function alertcart()
                 title: "تمت الاضافة بنجاح",
                 icon: "success",
                 buttons: {
-                    cancel: "الاستمرار ! ",
+                    cancel: " الاستمرار بالتسوق  ",
                     catch: {
                         text: " مشاهدة السلة  ",
                         value: "catch",
