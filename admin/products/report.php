@@ -209,12 +209,16 @@ if (isset($_GET['report_page'])) {
                                                     <th> #</th>
                                                     <th>الأسم</th>
                                                     <th> القسم</th>
+                                                    <th> نباتات / مستلزمات </th>
+                                                    <th> نوع المنتج </th>
                                                     <th> السعر</th>
                                                     <th> سعر التخفيض</th>
                                                     <th> المخزون</th>
                                                     <th> نشر المنتج</th>
                                                     <th> مميز</th>
                                                     <th> هدية</th>
+                                                    <th> الوزن </th>
+                                                    <th> الطول لتحديد الوزن </th>
                                                     <th> صورة</th>
                                                     <th> العمليات</th>
                                                 </tr>
@@ -246,6 +250,28 @@ if (isset($_GET['report_page'])) {
                                                                 <span class="badge badge-danger"> لا يوجد </span>
                                                             <?php
                                                                 } ?>
+                                                        </td>
+                                                        <td> <?php
+                                                                if ($sub_data['main_category'] == 1) {
+                                                                    echo "نباتات";
+                                                                } else {
+                                                                    echo "مستلزمات";
+                                                                }
+                                                                ?> </td>
+                                                        <td>
+                                                            <?php
+                                                            $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ?");
+                                                            $stmt->execute(array($pro['id']));
+                                                            $details2 = $stmt->fetchAll();
+                                                            $count_var = $stmt->rowCount();
+                                                            if ($count_var > 0) {
+                                                                foreach ($details2 as $detil) {
+                                                                    echo $detil['vartions_name'] . "</br>";
+                                                                }
+                                                            } else {
+                                                                echo "منتج بسيط";
+                                                            }
+                                                            ?>
                                                         </td>
                                                         <td> <?php echo $pro['price']; ?> </td>
                                                         <td> <?php echo $pro['sale_price']; ?> </td>
@@ -288,6 +314,34 @@ if (isset($_GET['report_page'])) {
                                                                 }
                                                             ?>
                                                         </td>
+
+                                                        <th> <?php
+                                                            if ($pro['ship_weight'] != '' && $pro['ship_weight'] != 0) {
+                                                                echo $pro['ship_weight'];
+                                                                echo "كجم ";
+                                                            } else {
+                                                            ?>
+                                                            <span style="color: red;"> لا يوجد وزن </span>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                    </th>
+                                                    <th> <?php
+                                                            if ($pro['ship_tail'] != '' && $pro['ship_tail'] != 0) {
+                                                                echo $pro['ship_tail'];
+                                                                echo "متر";
+                                                            } else {
+                                                            ?>
+                                                            <span style="color: red;"> لا يوجد طول </span>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                    </th>
+
+
+
+
+
                                                         <td>
                                                             <?php
                                                             $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ? LIMIT 1");
