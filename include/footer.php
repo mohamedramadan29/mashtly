@@ -432,9 +432,9 @@
             // تحديث الصورة الخلفية
             const selectedImage = thumbnailSelect.options[selectedIndex].getAttribute('data-image');
             if (selectedImage) {
-                mainSlides[mainIndex].style.backgroundImage = 'url(admin/product_images/' + selectedImage + ')';
+                mainSlides[mainIndex].style.backgroundImage = 'url(http://localhost/mashtly/admin/product_images/' + selectedImage + ')';
                 const mainImageSlide = mainSlides[mainIndex].querySelector('img');
-                mainImageSlide.src = 'admin/product_images/' + selectedImage;
+                mainImageSlide.src = 'http://localhost/mashtly/admin/product_images/' + selectedImage;
             }
         });
         //////////////
@@ -442,11 +442,12 @@
             thumbnailImage.addEventListener('click', function() {
                 // تحديث الصورة الرئيسية بناءً على الصورة المصغرة المنقر عليها
                 const selectedImage = thumbnailImage.getAttribute('data-image2');
-                console.log(selectedImage);
+               // console.log(selectedImage);
                 if (selectedImage) {
-                    mainSlides[mainIndex].style.backgroundImage = 'url(admin/product_images/' + selectedImage + ')';
+                    mainSlides[mainIndex].style.backgroundImage = 'url(http://localhost/mashtly/admin/product_images/' + selectedImage + ')';
                     const mainImageSlide = mainSlides[mainIndex].querySelector('img');
-                    mainImageSlide.src = 'admin/product_images/' + selectedImage;
+                    mainImageSlide.src = 'http://localhost/mashtly/admin/product_images/' + selectedImage;
+                    console.log(mainImageSlide);
                 }
             });
         });

@@ -995,7 +995,6 @@ body {
 .products_thumnails .slick-next,
 .products .slick-next {
     position: absolute;
-
     background: #fff;
     border-radius: 50%;
     box-shadow: 0px 0px 7px #00000029;
@@ -1005,7 +1004,7 @@ body {
     width: 30px;
     height: 30px;
     font-size: 13px;
-    z-index: 9999;
+    z-index: 99;
 }
 
 .products_thumnails .slick-prev {

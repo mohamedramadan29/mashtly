@@ -221,7 +221,7 @@ if (isset($_POST['add_to_fav'])) {
                                 <div class="main-slider gallery-lb">
                                     <div>
                                         <a href="http://localhost/mashtly/admin/product_images/<?php echo $product_data_image['main_image']; ?>">
-                                            <img loading="lazy" src="http://localhost/mashtly/admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="Image 1">
+                                            <img loading="lazy" src="http://localhost/mashtly/admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt'] ?>">
                                         </a>
                                     </div>
                                     <?php
@@ -236,7 +236,7 @@ if (isset($_POST['add_to_fav'])) {
                                     ?>
                                                 <div>
                                                     <a href="http://localhost/mashtly/admin/product_images/<?php echo $gallary['image']; ?>">
-                                                        <img loading="lazy" src="http://localhost/mashtly/admin/product_images/<?php echo $gallary['image']; ?>" alt="Image 2">
+                                                        <img loading="lazy" src="http://localhost/mashtly/admin/product_images/<?php echo $gallary['image']; ?>" alt="<?php echo $gallary['image_alt'] ?>">
                                                     </a>
                                                 </div>
                                             <?php
@@ -246,7 +246,6 @@ if (isset($_POST['add_to_fav'])) {
                                         }
                                         ?>
                                     <?php
-                                    } else {
                                     }
                                     ?>
                                     <?php
@@ -257,12 +256,16 @@ if (isset($_POST['add_to_fav'])) {
                                     $count_att_g = count($allattimages);
                                     if ($count_att_g > 0) {
                                         foreach ($allattimages as $att_image) {
+                                            if ($att_image['image'] != '' && $att_image['image'] != null) {
                                     ?>
-                                            <div>
-                                                <a href="http://localhost/mashtly/admin/product_images/<?php echo $att_image['image']; ?>">
-                                                    <img loading="lazy" src="http://localhost/mashtly/admin/product_images/<?php echo $att_image['image']; ?>" alt="Image 2">
-                                                </a>
-                                            </div>
+                                                <div>
+                                                    <a href="http://localhost/mashtly/admin/product_images/<?php echo $att_image['image']; ?>">
+                                                        <img loading="lazy" src="http://localhost/mashtly/admin/product_images/<?php echo $att_image['image']; ?>" alt="<?php echo $att_image['image_alt']; ?>">
+                                                    </a>
+                                                </div>
+                                            <?php
+                                            }
+                                            ?>
                                         <?php
                                         }
                                         ?>
@@ -276,7 +279,7 @@ if (isset($_POST['add_to_fav'])) {
                                 ?>
                                     <div class="thumbnail-slider products_thumnails" id="products_thumnails">
                                         <div>
-                                            <img class="thumbnail-image" loading="lazy" src="http://localhost/mashtly/admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="Thumbnail 1" data-image2="<?php echo $product_data_image['main_image']; ?>">
+                                            <img class="thumbnail-image" loading="lazy" src="http://localhost/mashtly/admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt'] ?>" data-image2="<?php echo $product_data_image['main_image']; ?>">
                                         </div>
                                         <?php
                                         if ($count_g > 0) {
@@ -284,7 +287,7 @@ if (isset($_POST['add_to_fav'])) {
                                                 if ($gallary['image'] != null || $gallary['image'] != '') {
                                         ?>
                                                     <div>
-                                                        <img class="thumbnail-image" loading="lazy" src="http://localhost/mashtly/admin/product_images/<?php echo $gallary['image']; ?>" alt="Image 2xcxcxc" data-image2="<?php echo $gallary['image']; ?>">
+                                                        <img class="thumbnail-image" loading="lazy" src="http://localhost/mashtly/admin/product_images/<?php echo $gallary['image']; ?>" alt="<?php echo $gallary['image_alt'] ?>" data-image2="<?php echo $gallary['image']; ?>">
                                                     </div>
                                                 <?php
                                                 }
@@ -299,7 +302,7 @@ if (isset($_POST['add_to_fav'])) {
                                                 if ($att_image['image'] != '' || $att_image['image'] != null) {
                                             ?>
                                                     <div>
-                                                        <img class="thumbnail-image" loading="lazy" src="http://localhost/mashtly/admin/product_images/<?php echo $att_image['image']; ?>" alt="Image 2" data-image2="<?php echo $att_image['image']; ?>">
+                                                        <img class="thumbnail-image" loading="lazy" src="http://localhost/mashtly/admin/product_images/<?php echo $att_image['image']; ?>" alt="<?php echo $att_image['image_alt'] ?>" data-image2="<?php echo $att_image['image']; ?>">
                                                     </div>
                                                 <?php
                                                 }
@@ -315,7 +318,6 @@ if (isset($_POST['add_to_fav'])) {
                                 <?php
                                 }
                                 ?>
-
                             <?php
                             } else {
                             ?>
@@ -612,7 +614,7 @@ if (isset($_POST['add_to_fav'])) {
                                     <?php
                                     // } else {
                                     ?>
-                                    <button class="btn global_button cart" name="add_to_cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> أضف الي السلة من الكمبوتير</button>
+                                    <button class="btn global_button cart" name="add_to_cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> أضف الي السلة </button>
                                     <?php
                                     // }
                                     ?>

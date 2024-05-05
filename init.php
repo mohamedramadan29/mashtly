@@ -1,5 +1,5 @@
 <?php
-if (isset($_SESSION['main_user_login'])) {
+ 
     //include 'location_currancy.php';
     $connect_db = 'admin/connect.php';
     $tem = "include/";
@@ -26,6 +26,4 @@ if (isset($_SESSION['main_user_login'])) {
     // استخدام قيمة الكوكيز
     $cookie_id = $user_key;
     include $tem . "navbar.php";
-} else {
-    header("location:new_login");
-}
+ 
