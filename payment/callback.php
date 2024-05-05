@@ -34,7 +34,6 @@
                 // var_dump($response);
 
                 if ($responseTap->status == 'CAPTURED') {
-                    // if ($responseTap->status == 'DECLINED') {
                     // get all product from user cart
                     $order_data = $_SESSION['order_data'];
                     $stmt = $connect->prepare("SELECT * FROM cart WHERE user_id = ?");
@@ -43,7 +42,7 @@
                     $allitems = $stmt->fetchAll();
                     $_SESSION['online_payment'] = 'online';
                     $payment_method = 'الدفع الالكتروني';
-                    
+
                     // inset order into orders 
                     $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
                         area, city, address, ship_price,order_details , order_date, status,status_value,farm_service_price,total_price,
@@ -127,6 +126,61 @@
                     <div class='alert alert-success'> تم الدفع وتسجيل الطلب الخاص بك بنجاح </div>
                 <?php
                 } else {
+                    // get all product from user cart
+                    $order_data = $_SESSION['order_data'];
+                    $stmt = $connect->prepare("SELECT * FROM cart WHERE user_id = ?");
+                    $stmt->execute(array($_SESSION['user_id']));
+                    $count = $stmt->rowCount();
+                    $allitems = $stmt->fetchAll();
+                    $_SESSION['online_payment'] = 'online';
+                    $payment_method = 'الدفع الالكتروني';
+
+                    // inset order into orders 
+                    $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
+    area, city, address, ship_price,order_details , order_date, status,status_value,farm_service_price,total_price,
+    payment_method,payment_status,coupon_code,discount_value) 
+    VALUES (:zorder_number , :zuser_id , :zname , :zemail ,:zphone , :zarea , :zcity , :zaddress,
+    :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zpayment_status,:zcoupon_code,:zdiscount_value)");
+                    $stmt->execute(array(
+                        "zorder_number" =>  $order_data['order_number'], "zuser_id" => $order_data['user_id'], "zname" => $order_data['name'],
+                        "zemail" => $order_data['email'], "zphone" => $order_data['phone'], "zarea" => $order_data['area'], "zcity" => $order_data['city'],
+                        "zaddress" => $order_data['address'], "zship_price" => $order_data['ship_price'], "zorder_details" => $order_data['order_details'], "zorder_date" => $order_data['order_date'],
+                        "zstatus" => $order_data['status'], "zstatus_value" => $order_data['status_value'], "zfarm_service_price" => $order_data['farm_service_price'],
+                        "ztotal_price" => $order_data['total_price'], "zpayment_method" => $payment_method, "zpayment_status" => 0,  "zcoupon_code" => $_SESSION['coupon_name'], "zdiscount_value" => $_SESSION['discount_value']
+                    ));
+                    // get the last order number  id and number 
+                    $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
+                    $stmt->execute();
+                    $order_data = $stmt->fetch();
+                    $order_id = $order_data['id'];
+                    $order_number = $order_data['order_number'];
+                    $_SESSION['order_number'] = $order_number;
+                    foreach ($allitems as $item) {
+                        $product_id = $item['product_id'];
+                        $quantity  = $item['quantity'];
+                        $price  = $item['price'];
+                        $farm_service  = $item['farm_service'];
+                        $as_present  = $item['gift_id'];
+                        $more_details = $item['vartion_name'];
+                        $total_price = $item['total_price'];
+                        // Insert Order Details
+                        $stmt = $connect->prepare("INSERT INTO order_details (order_id, order_number,product_id,
+    qty, product_price, total,farm_service, as_present,more_details)
+    VALUES (:zorder_id, :zorder_number,:zproduct_id,
+    :zqty, :zproduct_price, :ztotal,:zfarm_service, :zas_present,:zmore_details)
+    ");
+                        $stmt->execute(array(
+                            "zorder_id" => $order_id,
+                            "zorder_number" => $order_number,
+                            "zproduct_id" => $product_id,
+                            "zqty" => $quantity,
+                            "zproduct_price" => $price,
+                            "ztotal" => $total_price,
+                            "zfarm_service" => $farm_service,
+                            "zas_present" => $as_present,
+                            "zmore_details" => $more_details,
+                        ));
+                    }
                 ?>
                     <div class='alert alert-danger'> حدث خطا !! من فضلك اعد المحااولة مرة اخري </div>
         <?php

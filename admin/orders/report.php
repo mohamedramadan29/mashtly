@@ -169,6 +169,13 @@
                                                         if ($order['payment_method'] == 'الدفع الالكتروني') {
                                                         ?>
                                                             <span class="badge badge-primary"> الدفع الالكتروني </span>
+                                                            <?php 
+                                                            if($order['payment_status'] == 0){
+                                                                ?>
+                                                                <span class="badge badge-danger"> لم يتم الدفع الالكتروني بشكل صحيح  </span>
+                                                                <?php 
+                                                            }
+                                                            ?>
                                                         <?php
                                                         } else {
                                                         ?>

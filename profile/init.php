@@ -20,7 +20,7 @@ Phone:01011642731
 
     // استخدام قيمة الكوكيز
     $cookie_id = $user_key;
-if (isset($_SESSION['main_user_login'])){
+
 include '../admin/connect.php';
 $connect_db  = '../admin/connect.php';
 $tem = "../include/";
@@ -30,6 +30,4 @@ $uploads = "../uploads/";
 include $tem . "header.php";
 include $tem . "navbar.php";
 include '../global_functions.php';
-}else{
-    header("Location:../new_login");
-}
+ 
