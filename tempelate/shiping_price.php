@@ -86,8 +86,8 @@ if (isset($_SESSION['user_id'])) {
                 }
             }
         }
-
         $ship_weights += $product_weight;
+        $ship_weights = number_format($ship_weights,2);
 
         // check this products category type [ نباتات , مستلزمات  ]
         $stmt = $connect->prepare("SELECT * FROM categories WHERE id = ?");
@@ -101,7 +101,7 @@ if (isset($_SESSION['user_id'])) {
         }
     }
     ?>
-    <h2> وزن المنتجات في السلة :: <?php echo $ship_weights; ?> كيلو جرام </h2>
+    <!-- <h2> وزن المنتجات في السلة :: <?php echo $ship_weights; ?> كيلو جرام </h2> -->
     <?php
     //   var_dump($ship_type);
     // تحديد نوع الشحنة بناءً على فئة المنتج
@@ -115,7 +115,7 @@ if (isset($_SESSION['user_id'])) {
         echo 'نوع الفئة غير متوقع';
     }
     ?>
-    <h2> نوع المنتجات في السلة :: <?php echo $ship_type_data; ?> </h2>
+    <!-- <h2> نوع المنتجات في السلة :: <?php echo $ship_type_data; ?> </h2> -->
     <?php
     // get user address
     $stmt = $connect->prepare("SELECT * FROM user_address WHERE user_id = ?");
@@ -135,7 +135,9 @@ if (isset($_SESSION['user_id'])) {
         $area_data = $stmt->fetch();
         $count_available_area_company = $stmt->rowCount();
         if ($count_available_area_company > 0) {
-            echo "هناك شركة شحن متاحة ";
+            // echo "Area :: company_id " . $area_data['company_id'];
+            //     echo "</br>";
+            // echo "هناك شركة شحن متاحة ";
             $start_from_price = $area_data['ship_start_from_price'];
             $end_to_price = $area_data['ship_end_to_price'];
             $ship_price = $area_data['default_whight_ship_price'];
@@ -156,7 +158,9 @@ if (isset($_SESSION['user_id'])) {
             $trip_data = $stmt->fetch();
             $count_available_trip_company = $stmt->rowCount();
             if ($count_available_trip_company > 0) {
-                echo "هناك شركة شحن متاحة ";
+                // echo "Trip :: company_id " . $trip_data['company_id'];
+                // echo "</br>";
+                // echo "هناك شركة شحن متاحة ";
                 $start_from_price = $trip_data['ship_start_from_price'];
                 $end_to_price = $trip_data['ship_end_to_price'];
                 $ship_price = $trip_data['default_whight_ship_price'];
@@ -172,46 +176,19 @@ if (isset($_SESSION['user_id'])) {
             }
         }
         $shipping_value =  $ship_price;
-        //echo $area_data['ship_type'];
-        // بناء الاستعلام
-        //     $stmt = $connect->prepare("SELECT * FROM shipping_company WHERE FIND_IN_SET(?,ship_type) > 0 AND FIND_IN_SET(?, ship_area) > 0 AND whight_from <= ? AND whight_to >= ?");
-        //     $stmt->execute(array($ship_type_data, $area_code, $ship_weights, $ship_weights));
-        //     $shipping_company_data = $stmt->fetch();
-        //     $count_shipping_company = $stmt->rowCount();
-        //     if ($count_shipping_company > 0) {
-        //         echo "</br>";
-        //         $company_name = $shipping_company_data['company_name'];
-        //         $start_from_price = $shipping_company_data['ship_start_from_price'];
-        //         $end_to_price = $shipping_company_data['ship_end_to_price'];
-        //         $ship_price = $shipping_company_data['default_whight_ship_price'];
-        //         $more_kilo_price = $shipping_company_data['more_kilo_price'];
-        //         if ($ship_weights >= $start_from_price && $ship_weights <= $end_to_price) {
-        //             $ship_price = $ship_price;
-        //         } else {
-        //             // add more price for ship whight
-        //             $overweight = $ship_weights - $end_to_price;
-        //             $over_price =  $overweight * $more_kilo_price;
-        //             $ship_price = $ship_price + $over_price;
-        //         }
-        //         $shipping_value =  $ship_price;
-        //     } else {
-        // 
     ?>
-        <!-- //         <span class="badge badge-danger bg-danger"> لا يوجد شركات متاحة من فضلك تواصل مع الاداره </span> -->
+        <h2 class="total"><?php echo number_format($shipping_value, 2); ?> ر.س </h2>
+        <?php $_SESSION['shipping_value'] = $shipping_value; ?>
     <?php
-        //     }
     } else {
     ?>
         <div class="badge badge-danger bg-danger"> <a style="text-decoration:underline; color:#fff;" href="profile/address/index"> من فضلك اضف عنوانك لحساب قيمة الشحن </a> </div>
     <?php
     }
-
-
     ?>
-    <h2 class="total"><?php echo number_format($shipping_value, 2); ?> ر.س </h2>
+
 <?php
 } else {
-    $shipping_value = 0;
 ?>
     <h2 class="total"> <span class="badge badge-danger bg-danger"> سجل دخولك لتحديد قيمة الشحن </span> </h2>
 <?php

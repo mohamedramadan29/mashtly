@@ -397,9 +397,8 @@ if (isset($_POST['remove_item'])) {
                                     </div>
                                     <div class="first">
                                         <div>
-                                            <h3> قيمة الشحن الجديدددة </h3>
+                                            <h3> الشحن والتسليم: </h3>
                                             <!-- <p> تكلفة الزراعة + تكلفة التغليف كهدية </p> -->
-                                            <p> /////////////////// </p>
                                         </div>
                                         <div>
                                             <h2 class="total"> <?php include 'tempelate/shiping_price.php'; ?> </h2>
@@ -513,7 +512,7 @@ ob_end_flush();
             // إرسال قيم المنتجات المحدثة إلى النموذج الأصلي باستخدام AJAX
             $.ajax({
                 type: 'POST',
-                url: 'update_cart.php',
+                url: 'https://www.mshtly.com/update_cart.php',
                 data: {
                     quantities: quantities
                 },
