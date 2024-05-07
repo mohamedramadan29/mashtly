@@ -7,7 +7,6 @@ if (isset($_GET['company_id'])) {
     $stmt->execute(array($company_id));
     $company_data = $stmt->fetch();
 }
-
 ?>
 <section class="content-header">
     <div class="container-fluid">
@@ -92,8 +91,8 @@ if (isset($_GET['company_id'])) {
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $stmt = $connect->prepare("SELECT * FROM company_trips ORDER BY id DESC");
-                                    $stmt->execute();
+                                    $stmt = $connect->prepare("SELECT * FROM company_trips where company_id = ? ORDER BY id DESC");
+                                    $stmt->execute(array($company_id));
                                     $company_trips = $stmt->fetchAll();
                                     $i = 0;
                                     foreach ($company_trips as $trip) {
