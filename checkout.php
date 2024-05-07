@@ -14,9 +14,7 @@ if (isset($_SESSION['user_id'])) {
     } else {
         header("Location:cart");
     }
-
 ?>
-
     <div class="profile_page adress_page">
         <div class='container'>
             <div class="data">
@@ -318,12 +316,17 @@ if (isset($_SESSION['user_id'])) {
                     $stmt = $connect->prepare("SELECT * FROM users WHERE id = ?");
                     $stmt->execute(array($user_id));
                     $user_data = $stmt->fetch();
-
-                    $stmt = $connect->prepare("SELECT COUNT(*) AS order_count FROM orders");
+                    // get the last order number  id and number 
+                    $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
                     $stmt->execute();
-                    $order_count = $stmt->fetchColumn();
+                    $order_data = $stmt->fetch();
+                    $order_id = $order_data['id'];
+                    //$order_number = $order_data['order_number'];
+                    // $stmt = $connect->prepare("SELECT COUNT(*) AS order_count FROM orders");
+                    // $stmt->execute();
+                    // $order_count = $stmt->fetchColumn();
                     // Increment the count by 1 for the new order number
-                    $order_number = $order_count + 1;
+                    $order_number = $order_data['order_number'] + 1;
                     $user_id = $user_id;
                     $name = $name;
                     $phone = $phone;

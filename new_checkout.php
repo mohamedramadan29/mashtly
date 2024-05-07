@@ -14,9 +14,7 @@ if (isset($_SESSION['user_id'])) {
     } else {
         header("Location:cart");
     }
-
 ?>
-
     <div class="profile_page adress_page">
         <div class='container'>
             <div class="data">
@@ -28,7 +26,6 @@ if (isset($_SESSION['user_id'])) {
                         <h2 class='header2'> اتمام عملية الشراء </h2>
                         <p> عدد العناصر : <span> <?php echo $count ?> </span></p>
                     </div>
-
                 </div>
                 <p class="no_sheap_price" style="text-align: center; line-height:2;font-size:17px;color:#CB772F;">
                     <img src="<?php echo $uploads ?>free.svg" alt="">
@@ -97,10 +94,8 @@ if (isset($_SESSION['user_id'])) {
                                         <div class="alert alert-info"> من فضلك ادخل عنوان الشحن الخاص بك </div>
                                     <?php
                                     }
-
                                     ?>
                                 </div>
-
                                 <div class="user_address">
                                     <textarea style="box-shadow: none; outline:none; height:100px;border-radius: 10px" name="order_details" class="form-control" placeholder="ملاحظات اضافية علي طلبك"></textarea>
                                 </div>
@@ -111,7 +106,6 @@ if (isset($_SESSION['user_id'])) {
                                             <img src="<?php echo $uploads ?>free.svg" alt="">
                                             مدة الشحن المتوقعة 2-7 ايام
                                         </p>
-
                                         <div class="price_sections">
                                             <div class="first">
                                                 <div>
