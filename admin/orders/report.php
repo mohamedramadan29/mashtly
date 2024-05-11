@@ -144,6 +144,7 @@
                                             <th> حالة الطلب </th>
                                             <th> خصم </th>
                                             <th> السعر الكلي </th>
+                                            <th> مشاكل شحن  </th>
                                             <th> </th>
                                         </tr>
                                     </thead>
@@ -236,6 +237,7 @@
                                                         ?>
                                                     </td>
                                                     <td> <?php echo  $order['total_price']; ?> ر.س </td>
+                                                    <td> <?php echo $order['shipping_problem']; ?> </td>
                                                     <td>
                                                         <a href="main.php?dir=orders&page=order_details&order_id=<?php echo $order['id']; ?>" class="btn btn-success waves-effect btn-sm"> تفاصيل الطلب <i class='fa fa-eye'></i></a>
                                                         <?php

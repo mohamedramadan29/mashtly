@@ -380,15 +380,16 @@ if (isset($_SESSION['user_id'])) {
                             try {
                                 $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
                                 area, city, address, ship_price,order_details, order_date, status,status_value,farm_service_price,total_price,
-                                payment_method,coupon_code,discount_value) 
+                                payment_method,coupon_code,discount_value,shipping_problem) 
                                 VALUES (:zorder_number , :zuser_id , :zname , :zemail ,:zphone , :zarea , :zcity , :zaddress,
-                                :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value)");
+                                :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value,:zshipping_problem)");
                                 $stmt->execute(array(
                                     "zorder_number" => $order_number, "zuser_id" => $user_id, "zname" => $name,
                                     "zemail" => $email, "zphone" => $phone, "zarea" => $area, "zcity" => $city,
                                     "zaddress" => $address, "zship_price" => $ship_price, "zorder_details" => $order_details, "zorder_date" => $order_date,
                                     "zstatus" => $status, "zstatus_value" => $status_value, "zfarm_service_price" => $farm_service,
-                                    "ztotal_price" => $grand_total, "zpayment_method" => $payment_method, "zcoupon_code" => $_SESSION['coupon_name'], "zdiscount_value" => $_SESSION['discount_value']
+                                    "ztotal_price" => $grand_total, "zpayment_method" => $payment_method, "zcoupon_code" => $_SESSION['coupon_name'], "zdiscount_value" => $_SESSION['discount_value'],
+                                     "zshipping_problem"=>$_SESSION['shipping_problem'] 
                                 ));
                                 // get the last order number  id and number 
                                 $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
@@ -444,7 +445,7 @@ if (isset($_SESSION['user_id'])) {
                                     ));
                                 }
                                 if ($stmt) {
-                                    include "send_mail/index.php";
+                                    //include "send_mail/index.php";
                                     ////////// End Send Mail 
                                     // delete session 
                                     unset($_SESSION['total']);
@@ -455,6 +456,7 @@ if (isset($_SESSION['user_id'])) {
                                     unset($_SESSION['discount_value']);
                                     unset($_SESSION['coupon_name']);
                                     unset($_SESSION['grand_total']);
+                                    unset($_SESSION['shipping_problem']);
                                     $stmt = $connect->prepare("DELETE FROM cart WHERE cookie_id = ? OR user_id = ?");
                                     $stmt->execute(array($cookie_id, $user_id));
                                     header("Location:profile/orders/compelete");

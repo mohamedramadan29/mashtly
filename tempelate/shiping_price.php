@@ -1,5 +1,9 @@
 <?php
 $shipping_value = 0;
+// تهيئة متغير السيشن إذا لم يتم إنشاؤه بعد
+
+$shpping_errors = [];
+
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
     ///////////////////////// get the products wheight /////////////////////
@@ -39,8 +43,11 @@ if (isset($_SESSION['user_id'])) {
                         if ($count_weight_tail > 0) {
                             $product_weight = $product_weight_tail_data['weight'] * $item['quantity'];
                         } else {
+                            $product_weight = 0;
+                            $shpping_errors[] = 'يوجد مشكلة في منتج  :' . $item['product_name'];
+
 ?>
-                            <span class="badge badge-danger bg-danger"> هناك مشكلة في هذا المنتج من فضلك تواصل مع الادارة </span>
+                            <!-- <span class="badge badge-danger bg-danger"> هناك مشكلة في هذا المنتج من فضلك تواصل مع الادارة </span> -->
 
                         <?php
                         }
@@ -57,12 +64,12 @@ if (isset($_SESSION['user_id'])) {
                         $product_weight = $product_weight_tail_data['weight'] * $item['quantity'];
                     } else {
                         ?>
-                        <span class="badge badge-danger bg-danger"> هناك مشكلة في تحديد وزن الشحنة من فضلك تواصل مع الادارة </span>
+                        <!-- <span class="badge badge-danger bg-danger"> 11 هناك مشكلة في تحديد وزن الشحنة من فضلك تواصل مع الادارة </span> -->
                     <?php
                     }
                 } else {
                     ?>
-                    <span class="badge badge-danger bg-danger"> هناك مشكلة في تحديد وزن الشحنة من فضلك تواصل مع الادارة </span>
+                    <!-- <span class="badge badge-danger bg-danger"> 22 هناك مشكلة في تحديد وزن الشحنة من فضلك تواصل مع الادارة </span> -->
                 <?php
                 }
             }
@@ -80,14 +87,17 @@ if (isset($_SESSION['user_id'])) {
                 if ($count_weight_tail > 0) {
                     $product_weight = $product_weight_tail_data['weight'] * $item['quantity'];
                 } else {
+                    // $product_weight = 0;
+                    $shpping_errors[] = 'يوجد مشكلة في منتج  :' . $item['product_name'];
+                    //echo $_SESSION['shipping_problems'];
                 ?>
-                    <span class="badge badge-danger bg-danger"> هناك مشكلة في تحديد وزن الشحنة من فضلك تواصل مع الادارة </span>
+                    <!-- <span class="badge badge-danger bg-danger"> 33 هناك مشكلة في تحديد وزن الشحنة من فضلك تواصل مع الادارة </span> -->
     <?php
                 }
             }
         }
         $ship_weights += $product_weight;
-        $ship_weights = number_format($ship_weights,2);
+        $ship_weights = number_format($ship_weights, 2);
 
         // check this products category type [ نباتات , مستلزمات  ]
         $stmt = $connect->prepare("SELECT * FROM categories WHERE id = ?");
@@ -176,12 +186,18 @@ if (isset($_SESSION['user_id'])) {
             }
         }
         $shipping_value =  $ship_price;
+        if ($shipping_value == 0) {
+            $shipping_value = 45;
+        }
     ?>
         <h2 class="total"><?php echo number_format($shipping_value, 2); ?> ر.س </h2>
         <?php $_SESSION['shipping_value'] = $shipping_value; ?>
-    <?php
+        <?php
+        
+       $shipping_errors_string = implode(', ', $shpping_errors);
+       $_SESSION['shipping_problem'] = $shipping_errors_string;
     } else {
-    ?>
+        ?>
         <div class="badge badge-danger bg-danger"> <a style="text-decoration:underline; color:#fff;" href="profile/address/index"> من فضلك اضف عنوانك لحساب قيمة الشحن </a> </div>
     <?php
     }

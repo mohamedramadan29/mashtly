@@ -111,6 +111,11 @@
                     <p> اضافة منتج </p>
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a href="main.php?dir=products&page=google_product" class="nav-link">
+                    <p> منتجات جوجل </p>
+                  </a>
+                </li>
               </ul>
             </li>
               <li class="nav-item">

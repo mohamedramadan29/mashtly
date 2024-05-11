@@ -202,6 +202,8 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
         include "products/report.php";
     } elseif ($dir == 'products' && $page == 'get_variation') {
         include "products/get_variation.php";
+    } elseif ($dir == 'products' && $page == 'google_product') {
+        include "products/google_product.php";
     }
     /* 
     elseif ($dir == 'products' && $page == 'add_vartions') {

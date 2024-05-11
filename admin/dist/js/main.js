@@ -19,7 +19,7 @@ $(document).ready(function () {
     $('#my_table').DataTable({
         "paging": true,
         "lengthChange": false,
-        "pageLength": 30, // هنا تقوم بتعيين عدد الصفوف إلى 30
+        "pageLength": 1000, // هنا تقوم بتعيين عدد الصفوف إلى 30
         "searching": true,
         "ordering": true,
         "info": false,
@@ -144,6 +144,8 @@ $(document).ready(function () {
         // ]
         //"responsive": true,
     });
+
+    
 
     // Use Dropify 
 
