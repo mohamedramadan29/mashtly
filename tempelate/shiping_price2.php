@@ -35,7 +35,7 @@ if (isset($_SESSION['user_id'])) {
                         $plant_length = $matches[1];
                         $plant_length = $matches[1];
                         $product_tail_ship = floatval(str_replace('m', '', $plant_length));
-                        //echo $product_tail_ship;
+                        echo $product_tail_ship;
                         $stmt = $connect->prepare("SELECT * FROM shipping_weight_tools WHERE tail = ? ORDER BY id DESC LIMIT 1");
                         $stmt->execute(array($product_tail_ship));
                         $product_weight_tail_data = $stmt->fetch();
@@ -47,7 +47,7 @@ if (isset($_SESSION['user_id'])) {
                             $shpping_errors[] = 'يوجد مشكلة في منتج  :' . $item['product_name'];
 
 ?>
-                            <!-- <span class="badge badge-danger bg-danger"> هناك مشكلة في هذا المنتج من فضلك تواصل مع الادارة </span> -->
+                            <span class="badge badge-danger bg-danger"> هناك مشكلة في هذا المنتج من فضلك تواصل مع الادارة </span>
 
                         <?php
                         }
@@ -64,12 +64,12 @@ if (isset($_SESSION['user_id'])) {
                         $product_weight = $product_weight_tail_data['weight'] * $item['quantity'];
                     } else {
                         ?>
-                        <!-- <span class="badge badge-danger bg-danger"> 11 هناك مشكلة في تحديد وزن الشحنة من فضلك تواصل مع الادارة </span> -->
+                        <span class="badge badge-danger bg-danger"> 11 هناك مشكلة في تحديد وزن الشحنة من فضلك تواصل مع الادارة </span>
                     <?php
                     }
                 } else {
                     ?>
-                    <!-- <span class="badge badge-danger bg-danger"> 22 هناك مشكلة في تحديد وزن الشحنة من فضلك تواصل مع الادارة </span> -->
+                    <span class="badge badge-danger bg-danger"> 22 هناك مشكلة في تحديد وزن الشحنة من فضلك تواصل مع الادارة </span>
                 <?php
                 }
             }
@@ -89,9 +89,9 @@ if (isset($_SESSION['user_id'])) {
                 } else {
                     // $product_weight = 0;
                     $shpping_errors[] = 'يوجد مشكلة في منتج  :' . $item['product_name'];
-                    //echo $_SESSION['shipping_problems'];
+                    echo $_SESSION['shipping_problems'];
                 ?>
-                    <!-- <span class="badge badge-danger bg-danger"> 33 هناك مشكلة في تحديد وزن الشحنة من فضلك تواصل مع الادارة </span> -->
+                    <span class="badge badge-danger bg-danger"> 33 هناك مشكلة في تحديد وزن الشحنة من فضلك تواصل مع الادارة </span>
     <?php
                 }
             }
@@ -111,7 +111,7 @@ if (isset($_SESSION['user_id'])) {
         }
     }
     ?>
-    <!-- <h2> وزن المنتجات في السلة :: <?php echo $ship_weights; ?> كيلو جرام </h2> -->
+    <h2> وزن المنتجات في السلة :: <?php echo $ship_weights; ?> كيلو جرام </h2>
     <?php
     //   var_dump($ship_type);
     // تحديد نوع الشحنة بناءً على فئة المنتج
@@ -125,7 +125,7 @@ if (isset($_SESSION['user_id'])) {
         echo 'نوع الفئة غير متوقع';
     }
     ?>
-    <!-- <h2> نوع المنتجات في السلة :: <?php echo $ship_type_data; ?> </h2> -->
+    <h2> نوع المنتجات في السلة :: <?php echo $ship_type_data; ?> </h2>
     <?php
     // get user address
     $stmt = $connect->prepare("SELECT * FROM user_address WHERE user_id = ?");
@@ -147,7 +147,7 @@ if (isset($_SESSION['user_id'])) {
         if ($count_available_area_company > 0) {
             // echo "Area :: company_id " . $area_data['company_id'];
             //     echo "</br>";
-            // echo "هناك شركة شحن متاحة ";
+            echo "هناك شركة شحن متاحة ";
             $start_from_price = $area_data['ship_start_from_price'];
             $end_to_price = $area_data['ship_end_to_price'];
             $ship_price = $area_data['default_whight_ship_price'];
@@ -161,8 +161,8 @@ if (isset($_SESSION['user_id'])) {
                 $ship_price = $ship_price + $over_price;
             }
         } else {
-            echo "</br>";
             echo "لا يوجد شركات شحن متاحة في المناطق هشوف النطاقات";
+            $company_shipping1 = 0;
             $stmt = $connect->prepare("SELECT * FROM company_trips WHERE  FIND_IN_SET(?,ship_type) > 0 AND FIND_IN_SET(?,ship_city) > 0 AND whight_from <= ? AND whight_to >= ?");
             $stmt->execute(array($ship_type_data, $user_city, $ship_weights, $ship_weights));
             // get the Trip data 
@@ -184,29 +184,21 @@ if (isset($_SESSION['user_id'])) {
                     $over_price =  $overweight * $more_kilo_price;
                     $ship_price = $ship_price + $over_price;
                 }
+                
             } else {
-                //$company_shipping2 = 0;
-                $shipping_value = 0;
-                $_SESSION['shipping_area_error'] = ' نعتذر لك عميلنا العزيز، حالياً لا تتوفر خدمة التوصيل للمنطقة التي اخترتها، وسنوافيكم بمجرد توفرها لاحقاً بإذن الله.';
-                echo $_SESSION['shipping_area_error'];
+                $company_shipping2 = 0;
             }
         }
-        $shipping_value =  $ship_price;
-        // if ($shipping_value == 0) {
-        //     $shipping_value = 45;
-        // }
-        echo "</br>";
-        if ($company_shipping2 == 0) {
-            // $shipping_value = 0;
-            //$_SESSION['shipping_area_error'] = ' نعتذر لك عميلنا العزيز، حالياً لا تتوفر خدمة التوصيل للمنطقة التي اخترتها، وسنوافيكم بمجرد توفرها لاحقاً بإذن الله.';
-            // echo $_SESSION['shipping_area_error'];
-            //unset($_SESSION['shipping_area_error']);
+        $shipping_value = $ship_price;
+        if ($company_shipping1 == 0 && $company_shipping2 == 0) {
+            $shipping_value == 0;
+            $_SESSION['shipping_area_error'] == ' نعتذر لك عميلنا العزيز، حالياً لا تتوفر خدمة التوصيل للمنطقة التي اخترتها، وسنوافيكم بمجرد توفرها لاحقاً بإذن الله.';
+            echo $_SESSION['shipping_area_error'];
         }
     ?>
         <h2 class="total"><?php echo number_format($shipping_value, 2); ?> ر.س </h2>
         <?php $_SESSION['shipping_value'] = $shipping_value; ?>
     <?php
-
         $shipping_errors_string = implode(', ', $shpping_errors);
         $_SESSION['shipping_problem'] = $shipping_errors_string;
     } else {
@@ -217,6 +209,7 @@ if (isset($_SESSION['user_id'])) {
     ?>
 
 <?php
+    //unset($_SESSION['shipping_value']);
 } else {
 ?>
     <h2 class="total"> <span class="badge badge-danger bg-danger"> سجل دخولك لتحديد قيمة الشحن </span> </h2>

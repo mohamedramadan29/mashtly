@@ -62,4 +62,4 @@ Disallow:
 User-agent: yahoo-blogs/v3.9
 Disallow: 
 
-Sitemap: https://kuwaitcode.tech/new_mashtly/sitemap.xml
+Sitemap: https://www.mshtly.com/sitemap.xml

@@ -1,6 +1,6 @@
 <?php
 include "vendor/autoload.php";
-$yourSiteUrl = 'https://kuwaitcode.tech/new_mashtly/';
+$yourSiteUrl = 'https://mshtly.com/';
 
 // Setting the current working directory to be the output directory
 $outputDir = getcwd();
@@ -16,7 +16,7 @@ $stmt = $connect->prepare("SELECT * FROM products");
 $stmt->execute();
 $allproducts = $stmt->fetchAll();
 foreach ($allproducts as $product) {
-    $productUrl = 'https://kuwaitcode.tech/new_mashtly/product?slug=' . $product['slug'];
+    $productUrl = 'https://mshtly.com/product/' . $product['slug'];
     $urls[] = [
         'loc' => $productUrl,
         'lastmod' => (new DateTime())->format('c'),
@@ -30,7 +30,7 @@ $stmt = $connect->prepare("SELECT * FROM categories");
 $stmt->execute();
 $allcategories = $stmt->fetchAll();
 foreach ($allcategories as $category) {
-    $categoryUrl = 'https://kuwaitcode.tech/new_mashtly/category_products?slug=' . $category['slug'];
+    $categoryUrl = 'https://mshtly.com/product-category/' . $category['slug'];
     $urls[] = [
         'loc' => $categoryUrl,
         'lastmod' => (new DateTime())->format('c'),
@@ -44,7 +44,7 @@ $stmt = $connect->prepare("SELECT * FROM posts");
 $stmt->execute();
 $allarticles = $stmt->fetchAll();
 foreach ($allarticles as $article) {
-    $articleUrl = 'https://kuwaitcode.tech/new_mashtly/blog_details?slug=' . $article['slug'];
+    $articleUrl = 'https://mshtly.com/blog/' . $article['slug'];
     $urls[] = [
         'loc' => $articleUrl,
         'lastmod' => (new DateTime())->format('c'),
@@ -55,86 +55,86 @@ foreach ($allarticles as $article) {
 
 // Add other pages to the sitemap
 $urls[] = [
-    'loc' => 'https://kuwaitcode.tech/new_mashtly',
+    'loc' => 'https://mshtly.com',
     'lastmod' => (new DateTime())->format('c'),
     'changefreq' => 'daily',
     'priority' => 0.8,
 ];
 $urls[] = [
-    'loc' => 'https://kuwaitcode.tech/cart',
+    'loc' => 'https://mshtly.com/cart',
     'lastmod' => (new DateTime())->format('c'),
     'changefreq' => 'daily',
     'priority' => 1.0,
 ];
 
 $urls[] = [
-    'loc' => 'https://kuwaitcode.tech/checkout',
+    'loc' => 'https://mshtly.com/checkout',
     'lastmod' => (new DateTime())->format('c'),
     'changefreq' => 'monthly',
     'priority' => 0.7,
 ];
 $urls[] = [
-    'loc' => 'https://kuwaitcode.tech/big_orders',
+    'loc' => 'https://mshtly.com/big_orders',
     'lastmod' => (new DateTime())->format('c'),
     'changefreq' => 'monthly',
     'priority' => 0.7,
 ];
 $urls[] = [
-    'loc' => 'https://kuwaitcode.tech/contact',
+    'loc' => 'https://mshtly.com/contact',
+    'lastmod' => (new DateTime())->format('c'),
+    'changefreq' => 'monthly',
+    'priority' => 0.7,
+];
+// $urls[] = [
+//     'loc' => 'https://mshtly.com/import_service',
+//     'lastmod' => (new DateTime())->format('c'),
+//     'changefreq' => 'monthly',
+//     'priority' => 0.7,
+// ];
+$urls[] = [
+    'loc' => 'https://mshtly.com/join_us',
+    'lastmod' => (new DateTime())->format('c'),
+    'changefreq' => 'monthly',
+    'priority' => 0.7,
+];
+// $urls[] = [
+//     'loc' => 'https://mshtly.com/gifts',
+//     'lastmod' => (new DateTime())->format('c'),
+//     'changefreq' => 'monthly',
+//     'priority' => 0.7,
+// ];
+$urls[] = [
+    'loc' => 'https://mshtly.com/faq',
     'lastmod' => (new DateTime())->format('c'),
     'changefreq' => 'monthly',
     'priority' => 0.7,
 ];
 $urls[] = [
-    'loc' => 'https://kuwaitcode.tech/import_service',
+    'loc' => 'https://mshtly.com/delivery_policy',
     'lastmod' => (new DateTime())->format('c'),
     'changefreq' => 'monthly',
     'priority' => 0.7,
 ];
 $urls[] = [
-    'loc' => 'https://kuwaitcode.tech/join_us',
+    'loc' => 'https://mshtly.com/blog',
     'lastmod' => (new DateTime())->format('c'),
     'changefreq' => 'monthly',
     'priority' => 0.7,
 ];
 $urls[] = [
-    'loc' => 'https://kuwaitcode.tech/gifts',
+    'loc' => 'https://mshtly.com/landscap',
     'lastmod' => (new DateTime())->format('c'),
     'changefreq' => 'monthly',
     'priority' => 0.7,
 ];
 $urls[] = [
-    'loc' => 'https://kuwaitcode.tech/faq',
+    'loc' => 'https://mshtly.com/shop',
     'lastmod' => (new DateTime())->format('c'),
     'changefreq' => 'monthly',
     'priority' => 0.7,
 ];
 $urls[] = [
-    'loc' => 'https://kuwaitcode.tech/delivery_policy',
-    'lastmod' => (new DateTime())->format('c'),
-    'changefreq' => 'monthly',
-    'priority' => 0.7,
-];
-$urls[] = [
-    'loc' => 'https://kuwaitcode.tech/blog',
-    'lastmod' => (new DateTime())->format('c'),
-    'changefreq' => 'monthly',
-    'priority' => 0.7,
-];
-$urls[] = [
-    'loc' => 'https://kuwaitcode.tech/landscap',
-    'lastmod' => (new DateTime())->format('c'),
-    'changefreq' => 'monthly',
-    'priority' => 0.7,
-];
-$urls[] = [
-    'loc' => 'https://kuwaitcode.tech/shop',
-    'lastmod' => (new DateTime())->format('c'),
-    'changefreq' => 'monthly',
-    'priority' => 0.7,
-];
-$urls[] = [
-    'loc' => 'https://kuwaitcode.tech/terms',
+    'loc' => 'https://mshtly.com/terms',
     'lastmod' => (new DateTime())->format('c'),
     'changefreq' => 'monthly',
     'priority' => 0.7,
