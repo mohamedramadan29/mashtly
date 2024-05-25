@@ -93,7 +93,16 @@ $pagetitle = 'Mohamed';
                                             </tr>
                                             <tr>
                                                 <th> <span> وسية الدفع : </span> </th>
-                                                <th> <?php echo $order_data['payment_method']; ?> </th>
+                                                <th>
+                                                    <?php echo $order_data['payment_method']; ?>
+                                                    <?php
+                                                    if ($order['payment_status'] == 0) {
+                                                    ?>
+                                                        <span class="badge badge-danger"> لم يتم الدفع الالكتروني بشكل صحيح </span>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </th>
                                             </tr>
                                             <tr>
                                                 <th> <span> العنوان: </span> </th>
@@ -204,12 +213,12 @@ $pagetitle = 'Mohamed';
                                                 <h3> كوبون الخصم : </h3>
                                             </div>
                                             <div>
-                                                <h2 class="total"><?php echo $order_data['coupon_code']; ?>  </h2>
+                                                <h2 class="total"><?php echo $order_data['coupon_code']; ?> </h2>
                                             </div>
                                         </div>
                                         <div class="first">
                                             <div>
-                                                <h3> قيمة الخصم  : </h3>
+                                                <h3> قيمة الخصم : </h3>
                                             </div>
                                             <div>
                                                 <h2 class="total"><?php echo $order_data['discount_value']; ?> ر.س </h2>

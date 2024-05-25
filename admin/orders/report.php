@@ -220,7 +220,6 @@
                                                             <span class="badge badge-info"> <?php echo $order_step['change_date']; ?> </span>
                                                         <?php
                                                         }
-
                                                         ?>
                                                     </td>
                                                     <td>

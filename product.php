@@ -17,7 +17,7 @@ if ($key !== false && isset($parts[$key + 1])) {
     echo "العنوان غير صحيح";
 }
 // $slug = $_GET['slug'];
-$stmt = $connect->prepare("SELECT * FROM products WHERE slug = ? ORDER BY id  LIMIT 1 ");
+$stmt = $connect->prepare("SELECT * FROM products WHERE slug = ? AND publish = 1 ORDER BY id  LIMIT 1 ");
 $stmt->execute(array($slug));
 $product_data = $stmt->fetch();
 $count  = $stmt->rowCount();
@@ -199,7 +199,7 @@ if (isset($_POST['add_to_fav'])) {
 <div class="container">
     <div class="data">
         <div class="breadcrump">
-            <p> <a href="index"> الرئيسية </a> \ <span> <a href="http://localhost/mashtly/shop"> المتجر </a> </span> \ <span> <a href="http://localhost/mashtly/category_products?cat=<?php echo $cat_slug; ?>"> <?php echo  $cat_name ?> </a> </span> \ <?php echo $product_name ?> </p>
+            <p> <a href="index"> الرئيسية </a> \ <span> <a href="http://localhost/mashtly/shop"> المتجر </a> </span> \ <span> <a href="http://localhost/mashtly/product-category/=<?php echo $cat_slug; ?>"> <?php echo  $cat_name ?> </a> </span> \ <?php echo $product_name ?> </p>
         </div>
     </div>
 </div>

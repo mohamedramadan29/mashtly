@@ -493,7 +493,7 @@
       results.forEach(function(result) {
         var resultLink2 = document.createElement('a'); // إنشاء عنصر الرابط
         resultLink2.textContent = result.name; // تحديد نص الرابط
-        resultLink2.href = '' + result.slug; // تحديد عنوان الرابط مع الإشارة إلى صفحة تفاصيل المنتج
+        resultLink2.href = 'http://localhost/mashtly/product/' + result.slug; // تحديد عنوان الرابط مع الإشارة إلى صفحة تفاصيل المنتج
         searchResults2.appendChild(resultLink2); // إضافة الرابط إلى عنصر النتيجة
       });
     }
@@ -510,10 +510,9 @@
       results.forEach(function(result) {
         var resultLink = document.createElement('a'); // إنشاء عنصر الرابط
         resultLink.textContent = result.name; // تحديد نص الرابط
-        resultLink.href = '' + result.slug; // تحديد عنوان الرابط مع الإشارة إلى صفحة تفاصيل المنتج
+        resultLink.href = 'http://localhost/mashtly/product/' + result.slug; // تحديد عنوان الرابط مع الإشارة إلى صفحة تفاصيل المنتج
         searchResults.appendChild(resultLink); // إضافة الرابط إلى عنصر النتيجة
       });
-
     }
   });
 </script>

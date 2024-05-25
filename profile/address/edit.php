@@ -9,7 +9,6 @@ if (isset($_SESSION['user_id'])) {
     $stmt = $connect->prepare("SELECT * FROM user_address WHERE id = ? AND user_id=?");
     $stmt->execute(array($address_id, $user_id));
     $address = $stmt->fetch();
-
     $city = $address['city'];
     $build_number = $address['build_number'];
     $street_name = $address['street_name'];
@@ -51,23 +50,29 @@ if (isset($_SESSION['user_id'])) {
             if (!preg_match('/^(?:\+966|00966)?05[0-9]{8}$|^05[0-9]{8}$/', $phone)) {
                 $formerror[] = 'من فضلك، أدخل رقم هاتف صحيح بصيغة سعودية.';
             }
-            
+
             if (empty($formerror)) {
-                $table = "user_address";
-                $data = array(
-                    "user_id" => $user_id,
-                    "country" => $country,
-                    "city" => $city,
-                    "street_name" => $street_name,
-                    "build_number" => $build_number,
-                    "name" => $name,
-                    "phone" => $phone,
-                    "default_address" => 1,
-                );
-                $stmt = $connect->prepare("UPDATE user_address SET country=? , city = ? ,area = ? ,street_name=?,
+                //$table = "user_address";
+                // $data = array(
+                //     "user_id" => $user_id,
+                //     "country" => $country,
+                //     "city" => $city,
+                //     "street_name" => $street_name,
+                //     "build_number" => $build_number,
+                //     "name" => $name,
+                //     "phone" => $phone,
+                //     "default_address" => 1,
+                // );
+                $stmt = $connect->prepare("SELECT * FROM suadia_city WHERE name=?");
+                $stmt->execute(array($city));
+                $city_data = $stmt->fetch();
+                $new_area = $city_data['region'];
+                $new_area_code = $city_data['reg_id'];
+                $stmt = $connect->prepare("UPDATE user_address SET country=? , city = ? ,area = ?,area_code = ? ,street_name=?,
                 build_number=?,name=?, phone=?,default_address=? WHERE id = ?
                 ");
-                $stmt->execute(array($country, $city, $area, $street_name, $build_number, $name, $phone, $default_address, $address_id));
+                $stmt->execute(array($country, $city, $new_area,$new_area_code, $street_name, $build_number,
+                 $name, $phone, $default_address, $address_id));
                 if ($stmt) {
                     $_SESSION['success'] = 'تم تعديل العنوان  بنجاح ';
                     header('Location:index');

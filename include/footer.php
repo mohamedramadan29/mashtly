@@ -423,26 +423,29 @@
         mainSlides[mainIndex].style.display = 'block';
 
         // تنفيذ الشريط المصغر
-        thumbnailSelect.addEventListener('change', function() {
-            let selectedIndex = thumbnailSelect.selectedIndex;
-            mainSlides[mainIndex].style.display = 'none';
-            mainIndex = selectedIndex;
-            mainSlides[mainIndex].style.display = 'block';
+        if (thumbnailSelect) {
+            thumbnailSelect.addEventListener('change', function() {
+                let selectedIndex = thumbnailSelect.selectedIndex;
+                mainSlides[mainIndex].style.display = 'none';
+                mainIndex = selectedIndex;
+                mainSlides[mainIndex].style.display = 'block';
 
-            // تحديث الصورة الخلفية
-            const selectedImage = thumbnailSelect.options[selectedIndex].getAttribute('data-image');
-            if (selectedImage) {
-                mainSlides[mainIndex].style.backgroundImage = 'url(http://localhost/mashtly/admin/product_images/' + selectedImage + ')';
-                const mainImageSlide = mainSlides[mainIndex].querySelector('img');
-                mainImageSlide.src = 'http://localhost/mashtly/admin/product_images/' + selectedImage;
-            }
-        });
+                // تحديث الصورة الخلفية
+                const selectedImage = thumbnailSelect.options[selectedIndex].getAttribute('data-image');
+                if (selectedImage) {
+                    mainSlides[mainIndex].style.backgroundImage = 'url(http://localhost/mashtly/admin/product_images/' + selectedImage + ')';
+                    const mainImageSlide = mainSlides[mainIndex].querySelector('img');
+                    mainImageSlide.src = 'http://localhost/mashtly/admin/product_images/' + selectedImage;
+                }
+            });
+        }
+
         //////////////
         thumbnailImages.forEach(thumbnailImage => {
             thumbnailImage.addEventListener('click', function() {
                 // تحديث الصورة الرئيسية بناءً على الصورة المصغرة المنقر عليها
                 const selectedImage = thumbnailImage.getAttribute('data-image2');
-               // console.log(selectedImage);
+                // console.log(selectedImage);
                 if (selectedImage) {
                     mainSlides[mainIndex].style.backgroundImage = 'url(http://localhost/mashtly/admin/product_images/' + selectedImage + ')';
                     const mainImageSlide = mainSlides[mainIndex].querySelector('img');
