@@ -30,7 +30,7 @@
         <!-- small box -->
         <div class="small-box bg-danger">
           <div class="inner">
-            <h3></h3>
+            <h3> 12 </h3>
 
             <p class="text-bold"> الطلبات </p>
           </div>
@@ -177,56 +177,6 @@
         </div>
         <!-- /.card -->
       </div>
-    </div>
-    <div class='row'>
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header">
-            <p class="text-center">
-              <strong> حالة الطلبات </strong>
-            </p>
-          </div>
-          <div class="card-body">
-            <div class="progress-group">
-              لم يبدا
-              <span class="float-right"><b>160</b>/200</span>
-              <div class="progress progress-lg">
-                <div class="progress-bar bg-primary" style="width: 80%"></div>
-              </div>
-            </div>
-            <!-- /.progress-group -->
-
-            <div class="progress-group">
-              جاري التنفيذ
-              <span class="float-right"><b>310</b>/400</span>
-              <div class="progress progress-lg">
-                <div class="progress-bar bg-danger" style="width: 75%"></div>
-              </div>
-            </div>
-
-            <!-- /.progress-group -->
-            <div class="progress-group">
-              <span class="progress-text"> تم التواصل للتنفيذ </span>
-              <span class="float-right"><b>480</b>/800</span>
-              <div class="progress progress-lg">
-                <div class="progress-bar bg-success" style="width: 60%"></div>
-              </div>
-            </div>
-
-            <!-- /.progress-group -->
-            <div class="progress-group">
-              تم التنفيذ
-              <span class="float-right"><b>250</b>/500</span>
-              <div class="progress progress-lg">
-                <div class="progress-bar bg-warning" style="width: 50%"></div>
-              </div>
-            </div>
-            <!-- /.progress-group -->
-          </div>
-
-        </div>
-      </div>
-
     </div>
 
 
