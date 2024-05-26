@@ -159,6 +159,9 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
     } elseif ($dir == 'baskets_uncomplete' && $page == 'report') {
         include "baskets_uncomplete/report.php";
     }
+    elseif ($dir == 'baskets_uncomplete' && $page == 'details') {
+        include "baskets_uncomplete/details.php";
+    }
 
 
     // START Return Orders 
@@ -188,6 +191,8 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
         include "users/edit.php";
     } elseif ($dir == 'users' && $page == 'edit_data') {
         include "users/edit_data.php";
+    } elseif ($dir == 'users' && $page == 'details') {
+        include "users/details.php";
     }
     // START products
     if ($dir == 'products' && $page == 'add') {

@@ -158,13 +158,11 @@ try {
     $xml->endDocument();
     $xml->flush();
 
-    // Update robots.txt file in the output directory or create a new one
-    // (You can add code for this if needed)
-
-    // Submit your sitemap to search engines
-    // (You can add code for this if needed)
 
     echo "تم إنشاء وتحديث ملف sitemap بنجاح!";
 } catch (\Exception $e) {
     echo "حدثت مشكلة أثناء إنشاء وتحديث ملف sitemap: " . $e->getMessage();
 }
+// crontab -e
+// 0 2 */2 * * /usr/bin/php /http://localhost/mashtly/admin/sitemap/sitemap.php
+// /usr/bin/php /http://localhost/mashtly/admin/sitemap/sitemap.php

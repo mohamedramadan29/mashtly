@@ -69,7 +69,7 @@ $pagetitle = 'Mohamed';
                                         مدة الشحن المتوقعة 2-7 ايام
                                     </p>
                                     <div class="print_head">
-                                        <table class="table table-bordered">
+                                        <table class="table table-bordered" id="order-table">
                                             <tr>
                                                 <th> <span> رقم الطلب: </span> </th>
                                                 <th> # <?php echo $order_data['order_number']; ?> </th>
@@ -114,9 +114,15 @@ $pagetitle = 'Mohamed';
                                             </tr>
 
                                         </table>
+                                        <button class="btn btn-primary" id="copy-btn" data-clipboard-target="#order-table">نسخ المحتوى</button>
                                     </div>
                                 </div>
                             </div>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
+                            <script>
+                                // تهيئة Clipboard.js
+                                new ClipboardJS('#copy-btn');
+                            </script>
                             <div class="order_details">
                                 <h4> تفاصيل الطلب </h4>
                                 <br>
@@ -274,7 +280,8 @@ $pagetitle = 'Mohamed';
         .bottom_footer,
         .main_navbar,
         .instagrame_footer,
-        .main-sidebar {
+        .main-sidebar ,
+        #copy-btn {
             display: none !important;
         }
 
