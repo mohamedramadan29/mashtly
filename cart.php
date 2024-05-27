@@ -441,6 +441,12 @@ if (isset($_POST['remove_item'])) {
                                 $_SESSION['last_total'] = $last_total;
                                 ?>
                                 <a href="checkout" class="btn global_button"> تابع عملية الشراء </a>
+                                <?php 
+                                if(isset($_SESSION['tech_support'])){ ?>
+                                    <a href="support_checkout" class="btn global_button"> تابع عملية الشراء كخدمة عملاء  </a>
+                                    <?php 
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>

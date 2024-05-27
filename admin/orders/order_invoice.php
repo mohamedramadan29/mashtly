@@ -211,28 +211,34 @@ $pagetitle = 'Mohamed';
                                         </div>
                                     </div>
 
-                                    <?php
-                                    if ($order_data['coupon_code'] != '') {
-                                    ?>
-                                        <div class="first">
-                                            <div>
-                                                <h3> كوبون الخصم : </h3>
-                                            </div>
-                                            <div>
-                                                <h2 class="total"><?php echo $order_data['coupon_code']; ?> </h2>
-                                            </div>
+                                    <div class="first">
+                                        <div>
+                                            <h3> كوبون الخصم : </h3>
                                         </div>
-                                        <div class="first">
-                                            <div>
-                                                <h3> قيمة الخصم : </h3>
-                                            </div>
-                                            <div>
-                                                <h2 class="total"><?php echo $order_data['discount_value']; ?> ر.س </h2>
-                                            </div>
+                                        <div>
+                                            <h2 class="total"><?php
+                                                                if ($order_data['coupon_code'] != '') {
+                                                                    echo $order_data['coupon_code'];
+                                                                } else {
+                                                                    echo " لا يوجد ";
+                                                                }
+                                                                ?> </h2>
                                         </div>
-                                    <?php
-                                    }
-                                    ?>
+                                    </div>
+                                    <div class="first">
+                                        <div>
+                                            <h3> قيمة الخصم : </h3>
+                                        </div>
+                                        <div>
+                                            <h2 class="total"><?php
+                                            if($order_data['discount_value'] !=''){
+                                                echo $order_data['discount_value'];
+                                            }else{
+                                                echo "0";
+                                            } ?> ر.س </h2>
+                                        </div>
+                                    </div>
+
                                     <hr>
                                     <div class="first">
                                         <div>
@@ -280,7 +286,7 @@ $pagetitle = 'Mohamed';
         .bottom_footer,
         .main_navbar,
         .instagrame_footer,
-        .main-sidebar ,
+        .main-sidebar,
         #copy-btn {
             display: none !important;
         }

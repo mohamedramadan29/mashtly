@@ -15,27 +15,18 @@ if (isset($_SESSION['user_id'])) {
         header("Location:cart");
     }
 ?>
-    <div class="profile_page adress_page">
+    <div class="profile_page adress_page add_new_address">
         <div class='container'>
             <div class="data">
                 <div class="breadcrump">
-                    <p> <a href="index"> الرئيسية </a> \ <span> اتمام عملية الشراء </span> </p>
+                    <p> <a href="index"> الرئيسية </a> \ <span> اتمام عملية الطلب من خدمة العملاء </span> </p>
                 </div>
                 <div class="purches_header">
                     <div class="data_header_name">
-                        <h2 class='header2'> اتمام عملية الشراء </h2>
+                        <h2 class='header2'> اتمام عملية الطلب من خدمة العملاء </h2>
                         <p> عدد العناصر : <span> <?php echo $count ?> </span></p>
                     </div>
                 </div>
-                <p class="no_sheap_price" style="text-align: center; line-height:2;font-size:17px;color:#CB772F;">
-                    <img src="<?php echo $uploads ?>free.svg" alt="">
-                    السلام عليكم ورحمة الله وبركاته
-                    <br>
-                    عملائنا الكرام
-                    نحيطكم علما بان التوصيل خارج الرياض سيتوقف الى بعد عيد الفطر بثلاثة أيام بسبب عطلة العيد
-                    وتقبل الله صيامكم و جعلكم من عتقاء الباري من النار
-                    وعيد مبارك سعيد
-                </p>
                 <form action="" method="post">
                     <div class="cart">
                         <div class="row">
@@ -44,58 +35,63 @@ if (isset($_SESSION['user_id'])) {
                                     <div>
                                         <h5> عنوان الشحن </h5>
                                     </div>
-                                    <div>
-                                        <a href="profile/address"> <i class="fa fa-plus"></i> اضف عنوان جديد </a>
-                                    </div>
                                 </div>
-                                <div class="addresses">
-                                    <?php
-                                    $stmt = $connect->prepare("SELECT * FROM user_address WHERE user_id=?");
-                                    $stmt->execute(array($user_id));
-                                    $alladdress = $stmt->fetchAll();
-                                    $count_address = count($alladdress);
-                                    if ($count_address > 0) {
-                                        foreach ($alladdress as $address) {
-                                            $id = $address['id'];
-                                            $city = $address['city'];
-                                            $build_number = $address['build_number'];
-                                            $street_name = $address['street_name'];
-                                            $area = $address['area'];
-                                            $country = $address['country'];
-                                            $phone = $address['phone'];
-                                            $name = $address['name'];
-                                            $default_address = $address['default_address'];
-                                            if ($country == 'EG') {
-                                                $country = 'مصر';
-                                            } elseif ($country == 'SAR') {
-                                                $country = 'المملكة العربية السعودية';
-                                            }
-                                    ?>
-                                            <div class="checkout_address">
-                                                <div class="address <?php if ($default_address == 1) echo "active"; ?> ">
-                                                    <div class='add_content'>
-                                                        <h2> <?php echo $city; ?> </h2>
-                                                        <p class="add_title">
-                                                            <?php echo $build_number . '-' . $street_name . '-' . $area . '-' . $city . '-' . $country ?>
-                                                        </p>
-                                                        <p class='add_phone'>
-                                                            <span> رقم الهاتف </span> <?php echo $phone; ?>
-                                                        </p>
-                                                    </div>
-                                                    <div>
-                                                        <a href="profile/address" class="btn global_button"> تعديل العنوان </a>
-                                                    </div>
+                                <div class="add_new_address">
+                                    <div class="addresses">
+                                        <div class='row'>
+                                            <div class="box">
+                                                <div class="input_box">
+                                                    <label for="country"> البلد / الدولة </label>
+                                                    <input type="text" readonly name="country" class='form-control' value="SAR">
+                                                </div>
+                                                <br>
+                                                <div class="input_box">
+                                                    <label for="country"> المدينة </label>
+                                                    <select required name="city" id="city" class='select2 form-control'>
+                                                        <option value=""> حدد المدينة </option>
+                                                        <?php
+                                                        $stmt = $connect->prepare("SELECT * FROM suadia_city");
+                                                        $stmt->execute();
+                                                        $allsaucountry = $stmt->fetchAll();
+                                                        foreach ($allsaucountry as $city) {
+                                                        ?>
+                                                            <option <?php if (isset($_REQUEST['city']) && $_REQUEST['city'] == $city['name']) echo "selected"; ?> value="<?php echo $city['name']; ?>"> <?php echo $city['name']; ?> </option>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </select>
                                                 </div>
                                             </div>
-                                        <?php
-                                        }
-                                    } else {
-                                        ?>
-                                        <div class="alert alert-info"> من فضلك ادخل عنوان الشحن الخاص بك </div>
-                                    <?php
-                                    }
-                                    ?>
+                                            <div class='box'>
+                                                <div class="input_box">
+                                                    <label for="name"> الاسم بالكامل </label>
+                                                    <input required id="name" type="text" name="name" class='form-control' placeholder="اكتب…" value="<?php if (isset($_REQUEST['name'])) echo $_REQUEST['name']; ?>">
+                                                </div>
+                                                <div class="input_box">
+                                                    <label for="phone"> رقم الجوال </label>
+                                                    <input required id="phone" type="text" name="phone" class='form-control' placeholder="اكتب…" value="<?php if (isset($_REQUEST['phone'])) echo $_REQUEST['phone']; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="box">
+                                                <div class="input_box">
+                                                    <label for="email"> البريد الالكتروني </label>
+                                                    <input required id="email" type="text" name="email" class='form-control' placeholder="اكتب…" value="<?php if (isset($_REQUEST['email'])) echo $_REQUEST['email']; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="box">
+                                                <div class="input_box">
+                                                    <label for="street_name"> اسم الشارع </label>
+                                                    <input required id="street_name" type="text" name="street_name" class='form-control' placeholder="اكتب…" value="<?php if (isset($_REQUEST['street_name'])) echo $_REQUEST['street_name']; ?>">
+                                                </div>
+                                                <div class="input_box">
+                                                    <label for="build_number"> رقم المبني </label>
+                                                    <input required id="build_number" type="text" name="build_number" class='form-control' placeholder="اكتب…" value="<?php if (isset($_REQUEST['build_number'])) echo $_REQUEST['build_number']; ?>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
                                 <div class="user_address">
                                     <textarea style="box-shadow: none; outline:none; height:100px;border-radius: 10px" name="order_details" class="form-control" placeholder="ملاحظات اضافية علي طلبك"></textarea>
                                 </div>
@@ -137,21 +133,6 @@ if (isset($_SESSION['user_id'])) {
                                                     <h2 class="total"> <?php // echo number_format($_SESSION['shipping_value'],2); 
                                                                         ?> </h2>
                                                 </div>
-                                                <!-- <div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="shipping_price" id="flexRadioDefault1" value="35" onchange="updateTotal(this)">
-                                                        <label class="form-check-label" for="flexRadioDefault1">
-                                                            داخل الرياض :: 35 ريال
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="shipping_price" id="flexRadioDefault2" value="65" onchange="updateTotal(this)">
-                                                        <label class="form-check-label" for="flexRadioDefault2">
-                                                            خارج الرياض :: 65 ريال
-                                                        </label>
-                                                    </div>
-                                                    <input type="hidden" name="last_shipping_value" id="lastshippingvalue" value="">
-                                                </div> -->
                                             </div>
                                             <hr>
                                             <div class="first">
@@ -316,23 +297,27 @@ if (isset($_SESSION['user_id'])) {
                     $_SESSION['grand_total'] = $grand_total;
                     $discountValue = $_POST['discountValue'];
                     $_SESSION['discount_value'] =  $discountValue;
-                    // $get user data 
-                    $stmt = $connect->prepare("SELECT * FROM users WHERE id = ?");
-                    $stmt->execute(array($user_id));
-                    $user_data = $stmt->fetch();
-
-                    $stmt = $connect->prepare("SELECT COUNT(*) AS order_count FROM orders");
+                    // get the last order number  id and number 
+                    $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
                     $stmt->execute();
-                    $order_count = $stmt->fetchColumn();
+                    $order_data = $stmt->fetch();
+                    $order_id = $order_data['id'];
                     // Increment the count by 1 for the new order number
-                    $order_number = $order_count + 1;
+                    $order_number = $order_data['order_number'] + 1;
                     $user_id = $user_id;
-                    $name = $name;
-                    $phone = $phone;
-                    $area = $area;
-                    $city = $city;
+                    $country = $_POST['country'];
+                    $name = $_POST['name'];
+                    $phone = $_POST['phone'];
+                    $city = $_POST['city'];
+                    $build_number = $_POST['build_number'];
+                    $street_name = $_POST['street_name'];
+                    $stmt = $connect->prepare("SELECT * FROM suadia_city WHERE name=?");
+                    $stmt->execute(array($city));
+                    $city_data = $stmt->fetch();
+                    $area = $city_data['region'];
+                    $area_code = $city_data['reg_id'];
                     $address = $build_number . '-' . $street_name . '-' . $area . '-' . $city . '-' . $country;
-                    $email = $user_data['email'];
+                    $email = $_POST['email'];
                     $ship_price = $shipping_value;
                     $order_date = date("n/j/Y g:i A");
                     $status = 0;

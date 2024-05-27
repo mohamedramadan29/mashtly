@@ -24,18 +24,22 @@ if (isset($_SESSION['user_id'])) {
                 <div class="purches_header">
                     <div class="data_header_name">
                         <h2 class='header2'> اتمام عملية الشراء </h2>
-                        <p> عدد العناصر : <span> <?php echo $count ?> </span></p>
-                    </div>
+                        <p> عدد العناصر : <span> <?php echo $count ?> </span></p> </div>
+
                 </div>
-                <p class="no_sheap_price" style="text-align: center; line-height:2;font-size:17px;color:#CB772F;">
-                    <img src="<?php echo $uploads ?>free.svg" alt="">
-                    السلام عليكم ورحمة الله وبركاته
-                    <br>
-                    عملائنا الكرام
-                    نحيطكم علما بان التوصيل خارج الرياض سيتوقف الى بعد عيد الفطر بثلاثة أيام بسبب عطلة العيد
-                    وتقبل الله صيامكم و جعلكم من عتقاء الباري من النار
-                    وعيد مبارك سعيد
-                </p>
+                <?php
+                if (isset($_SESSION['shipping_area_error'])) {
+                ?>
+                    <p class="no_sheap_price" style="text-align: center; line-height:2;font-size:17px;color:#CB772F;">
+                        <img src="<?php echo $uploads ?>free.svg" alt="">
+                        <?php
+                        echo  $_SESSION['shipping_area_error'];
+                        ?>
+                    </p>
+                <?php
+            unset($_SESSION['shipping_area_error']);  
+            }
+                ?>
                 <form action="" method="post">
                     <div class="cart">
                         <div class="row">
@@ -94,8 +98,10 @@ if (isset($_SESSION['user_id'])) {
                                         <div class="alert alert-info"> من فضلك ادخل عنوان الشحن الخاص بك </div>
                                     <?php
                                     }
+
                                     ?>
                                 </div>
+
                                 <div class="user_address">
                                     <textarea style="box-shadow: none; outline:none; height:100px;border-radius: 10px" name="order_details" class="form-control" placeholder="ملاحظات اضافية علي طلبك"></textarea>
                                 </div>
@@ -106,6 +112,7 @@ if (isset($_SESSION['user_id'])) {
                                             <img src="<?php echo $uploads ?>free.svg" alt="">
                                             مدة الشحن المتوقعة 2-7 ايام
                                         </p>
+
                                         <div class="price_sections">
                                             <div class="first">
                                                 <div>
@@ -132,11 +139,6 @@ if (isset($_SESSION['user_id'])) {
                                                     <p> يحدد سعر الشحن حسب الموقع </p>
                                                 </div>
                                                 <div>
-                                                    <h2 class="total"> <?php include 'tempelate/shiping_price.php'; ?> </h2>
-                                                    <input type="hidden" name="last_shipping_value" id="lastshippingvalue" value="<?php echo $shipping_value; ?>">
-                                                    <h2 class="total"> <?php // echo number_format($_SESSION['shipping_value'],2); ?> </h2>
-                                                </div>
-                                                <!-- <div>
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" name="shipping_price" id="flexRadioDefault1" value="35" onchange="updateTotal(this)">
                                                         <label class="form-check-label" for="flexRadioDefault1">
@@ -150,7 +152,11 @@ if (isset($_SESSION['user_id'])) {
                                                         </label>
                                                     </div>
                                                     <input type="hidden" name="last_shipping_value" id="lastshippingvalue" value="">
-                                                </div> -->
+                                                    <?php
+                                                    /////////  Shipping Price /////
+                                                    //  include 'tempelate/shiping_price.php';
+                                                    ?>
+                                                </div>
                                             </div>
                                             <hr>
                                             <div class="first">
@@ -164,19 +170,13 @@ if (isset($_SESSION['user_id'])) {
                                                         // تطبيق خصم 10% على قيمة الشحنة
                                                         $shipping_discount =  $_SESSION['coupon'] / 100;
                                                         //$_SESSION['discount_value'] = $shipping_discount;
-                                                        $grand_total = $_SESSION['total'] + $_SESSION['farm_services'] + $shipping_value;
-                                                        $grand_total = $grand_total - $shipping_discount;
-                                                    }else{
-                                                        $grand_total = $_SESSION['total'] + $_SESSION['farm_services'] + $shipping_value;
                                                     }
                                                     ?>
-                                                    <h2 class="total" id="grand_total"> </h2> 
-                                                    <h2 class="total" id="grand_total"> <?php echo $grand_total; ?> ر.س  </h2>
-                                                    <input type="hidden" name="grand_total" id="grand_total_value" value="<?php echo $grand_total ?>">
+                                                    <h2 class="total" id="grand_total"> </h2>
+                                                    <input type="hidden" name="grand_total" id="grand_total_value" value="">
                                                 </div>
                                             </div>
                                             <?php
-                                            
                                             if (isset($_SESSION['coupon'])) {
                                             ?>
                                                 <input type="hidden" name="" id="discountCoupon" value="<?php echo $shipping_discount; ?>">
@@ -188,8 +188,8 @@ if (isset($_SESSION['user_id'])) {
                                                         <p> قيمه الخصم من تكلفه الشحنه </p>
                                                     </div>
                                                     <div>
-                                                        <input type="hidden" name="discountValue" value="<?php echo $shipping_discount; ?>" id="discountValue">
-                                                        <h2 class="total" id="discountValue_total"> <?php echo $shipping_discount; ?> </h2>
+                                                        <input type="hidden" name="discountValue" value="" id="discountValue">
+                                                        <h2 class="total" id="discountValue_total"> </h2>
                                                     </div>
                                                 </div>
                                             <?php
@@ -319,12 +319,17 @@ if (isset($_SESSION['user_id'])) {
                     $stmt = $connect->prepare("SELECT * FROM users WHERE id = ?");
                     $stmt->execute(array($user_id));
                     $user_data = $stmt->fetch();
-
-                    $stmt = $connect->prepare("SELECT COUNT(*) AS order_count FROM orders");
+                    // get the last order number  id and number 
+                    $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
                     $stmt->execute();
-                    $order_count = $stmt->fetchColumn();
+                    $order_data = $stmt->fetch();
+                    $order_id = $order_data['id'];
+                    //$order_number = $order_data['order_number'];
+                    // $stmt = $connect->prepare("SELECT COUNT(*) AS order_count FROM orders");
+                    // $stmt->execute();
+                    // $order_count = $stmt->fetchColumn();
                     // Increment the count by 1 for the new order number
-                    $order_number = $order_count + 1;
+                    $order_number = $order_data['order_number'] + 1;
                     $user_id = $user_id;
                     $name = $name;
                     $phone = $phone;
@@ -343,7 +348,7 @@ if (isset($_SESSION['user_id'])) {
                         $farm_service = 0;
                     }
                     $payment_method = $_POST['checkout_payment'];
-                    if (empty($shipping_value) || $shipping_value ==  0) {
+                    if (empty($shipping_value)) {
                         $formerror[] = ' من فضلك حدد الشحن  ';
                     }
                     if (empty($payment_method)) {
@@ -380,16 +385,15 @@ if (isset($_SESSION['user_id'])) {
                             try {
                                 $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
                                 area, city, address, ship_price,order_details, order_date, status,status_value,farm_service_price,total_price,
-                                payment_method,coupon_code,discount_value,shipping_problem) 
+                                payment_method,coupon_code,discount_value) 
                                 VALUES (:zorder_number , :zuser_id , :zname , :zemail ,:zphone , :zarea , :zcity , :zaddress,
-                                :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value,:zshipping_problem)");
+                                :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value)");
                                 $stmt->execute(array(
                                     "zorder_number" => $order_number, "zuser_id" => $user_id, "zname" => $name,
                                     "zemail" => $email, "zphone" => $phone, "zarea" => $area, "zcity" => $city,
                                     "zaddress" => $address, "zship_price" => $ship_price, "zorder_details" => $order_details, "zorder_date" => $order_date,
                                     "zstatus" => $status, "zstatus_value" => $status_value, "zfarm_service_price" => $farm_service,
-                                    "ztotal_price" => $grand_total, "zpayment_method" => $payment_method, "zcoupon_code" => $_SESSION['coupon_name'], "zdiscount_value" => $_SESSION['discount_value'],
-                                     "zshipping_problem"=>$_SESSION['shipping_problem'] 
+                                    "ztotal_price" => $grand_total, "zpayment_method" => $payment_method, "zcoupon_code" => $_SESSION['coupon_name'], "zdiscount_value" => $_SESSION['discount_value']
                                 ));
                                 // get the last order number  id and number 
                                 $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
@@ -445,7 +449,7 @@ if (isset($_SESSION['user_id'])) {
                                     ));
                                 }
                                 if ($stmt) {
-                                    //include "send_mail/index.php";
+                                    include "send_mail/index.php";
                                     ////////// End Send Mail 
                                     // delete session 
                                     unset($_SESSION['total']);
@@ -456,7 +460,6 @@ if (isset($_SESSION['user_id'])) {
                                     unset($_SESSION['discount_value']);
                                     unset($_SESSION['coupon_name']);
                                     unset($_SESSION['grand_total']);
-                                    unset($_SESSION['shipping_problem']);
                                     $stmt = $connect->prepare("DELETE FROM cart WHERE cookie_id = ? OR user_id = ?");
                                     $stmt->execute(array($cookie_id, $user_id));
                                     header("Location:profile/orders/compelete");
@@ -509,17 +512,17 @@ if (isset($_SESSION['user_id'])) {
                                         "id" => "src_all"
                                     ],
                                     "post" => [
-                                        "url" => "https://www.mshtly.com/checkout"
+                                        "url" => "http://localhost/mashtly/checkout"
                                     ],
                                     "redirect" => [
-                                        "url" => "https://www.mshtly.com/payment/callback"
+                                        "url" => "http://localhost/mashtly/payment/callback"
                                     ],
                                     "metadata" => [
                                         "udf1" => "Metadata 1"
                                     ]
                                 ],
                                 'headers' => [
-                                    'Authorization' => 'Bearer sk_live_btGUwFZROMA1vTSK4LomyIWn',
+                                    'Authorization' => 'Bearer sk_test_nbu7ilH8qGNyQIOEAFKm2X3c',
                                     'accept' => 'application/json',
                                     'content-type' => 'application/json',
                                 ],
@@ -550,14 +553,60 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 ?>
+<!-- <div class="instagrame_footer">
+    <div class="container">
+        <div class="data">
+            <h2> شاركينا جمال بيتك - نباتات الحديقة </h2>
+            <p> أرسلي صور حديقة منزلك ونباتات حديقتك عبر انستجرام وسوف تظهر هنا </p>
+            <div class="insta_slider">
+                <div class="insta_info">
+                    <img src="<?php echo $uploads ?>/insta1.png" alt="">
+                    <div class="overlay">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="<?php echo $uploads ?>/insta2.png" alt="">
+                    <div class="overlay">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="<?php echo $uploads ?>/insta3.png" alt="">
+                    <div class="overlay">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="<?php echo $uploads ?>/insta2.png" alt="">
+                    <div class="overlay">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="<?php echo $uploads ?>/insta1.png" alt="">
+                    <div class="overlay">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+                <div class="insta_info">
+                    <img src="<?php echo $uploads ?>/insta2.png" alt="">
+                    <div class="overlay">
+                        <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
 <style>
-    /* #payment1 {
+    #payment1 {
         display: block !important;
     }
 
     #payment2 {
         display: none !important;
-    } */
+    }
 </style>
 
 <?php
