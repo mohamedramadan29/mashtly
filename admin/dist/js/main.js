@@ -19,7 +19,7 @@ $(document).ready(function () {
     $('#my_table').DataTable({
         "paging": true,
         "lengthChange": false,
-        "pageLength": 1000, // هنا تقوم بتعيين عدد الصفوف إلى 30
+        "pageLength": 30, // هنا تقوم بتعيين عدد الصفوف إلى 30
         "searching": true,
         "ordering": true,
         "info": false,
@@ -131,18 +131,7 @@ $(document).ready(function () {
             "infoFiltered": "(مرشحة من مجموع _MAX_ مُدخل)",
             "searchPlaceholder": "بحث"
         },
-        "dom": 'Bfrtip',
-        // "buttons": [
-        //     {
-        //         extend: 'excel',
-        //         text: ' تصدير الملف ',
-        //         exportOptions: {
-        //             columns: [1,2,3,4,5,12,13] // تحديد الأعمدة التي تحتاجها بواسطة مؤشرات الأعمدة
-        //         }
-        //     },
-        //     // زر تصدير آخر إلى PDF إذا كنت بحاجة إليه
-        // ]
-        //"responsive": true,
+       // "dom": 'Bfrtip',
     });
 
     

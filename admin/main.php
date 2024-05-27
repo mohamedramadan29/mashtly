@@ -263,6 +263,8 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
         include "orders/archieve.php";
     } elseif ($dir == 'orders' && $page == 'edit_order') {
         include "orders/edit_order.php";
+    }elseif ($dir == 'orders' && $page == 'compeleted_orders') {
+        include "orders/compeleted_orders.php";
     }
     // START employee
     if ($dir == 'employee' && $page == 'add') {

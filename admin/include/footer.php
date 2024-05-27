@@ -32,7 +32,7 @@
  <!-- Select2 -->
  <script src="plugins/select2/js/select2.full.min.js"></script>
  <!--  START TIME PICKER -->
- 
+
 
  <!-- jQuery UI -->
  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/smoothness/jquery-ui.css">
@@ -46,6 +46,8 @@
  <script src="dist/js/dropify.min.js"></script>
  <script src="dist/js/adminlte.min.js"></script>
  <script src="dist/js/main.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+ </script>
  <!-- confirm delete message   -->
  <script>
    // Select all the buttons with the "confirm-button" class
@@ -155,6 +157,29 @@
          $('.pro-variation_add[data-uniqueId_add="' + uniqueId_add + '"]').html('<option value="">-- اختر --</option>'); // استخدام الـ uniqueId لتحديد العنصر المستهدف بشكل فريد
        }
      });
+   });
+ </script>
+
+ <script>
+  const totalOrders = parseInt(document.getElementById('totalOrders').textContent);
+  const completedOrders = parseInt(document.getElementById('completedOrders').textContent);
+  const notStartedOrders = parseInt(document.getElementById('notStartedOrders').textContent);
+  const pendingOrders = parseInt(document.getElementById('pendingOrders').textContent);
+  const canceledOrders = parseInt(document.getElementById('canceledOrders').textContent);
+
+   const xValues = ["عدد الطلبات الكلي", "طلبات مكتملة", "طلبات لم تبدا", "طلبات قيد الانتظار", "طلبات ملغية"];
+   const yValues = [totalOrders, completedOrders, notStartedOrders, pendingOrders, canceledOrders];
+   const barColors = ["#3498db","#2ecc71", "#2980b9", "#f1c40f", "#2c3e50"];
+
+   new Chart("orderschart", {
+     type: "bar",
+     data: {
+       labels: xValues,
+       datasets: [{
+         backgroundColor: barColors,
+         data: yValues
+       }]
+     },
    });
  </script>
 

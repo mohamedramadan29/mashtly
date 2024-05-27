@@ -19,7 +19,12 @@
   <!-- /.container-fluid -->
 </section>
 <!-- /.content-header -->
-
+<!----------- Orders Reports -------------->
+<?php
+$stmt = $connect->prepare("SELECT * FROM orders");
+$stmt->execute();
+$count_orders = $stmt->rowCount();
+?>
 <!-- Main content -->
 <section class="content">
   <div class="container-fluid">
@@ -30,8 +35,7 @@
         <!-- small box -->
         <div class="small-box bg-danger">
           <div class="inner">
-            <h3> 12 </h3>
-
+            <h3> <?php echo $count_orders; ?> </h3>
             <p class="text-bold"> الطلبات </p>
           </div>
           <div class="icon">
@@ -40,7 +44,6 @@
           <a href="main.php?dir=orders&page=report" class="small-box-footer"> التقاصيل <i class="fas fa-arrow-circle-right"></i></a>
         </div>
       </div>
-
       <!-- ./col -->
       <div class="col-lg-3 col-6">
         <!-- small box -->
@@ -89,55 +92,101 @@
 
     <div class='row'>
       <div class='col-lg-6'>
-
-        <!-- TABLE: LATEST ORDERS -->
+        <?php
+        $stmt = $connect->prepare("SELECT * FROM orders");
+        $stmt->execute();
+        $count_orders = $stmt->rowCount();
+        ///////////////////////
+        $stmt = $connect->prepare("SELECT * FROM orders WHERE status_value = 'لم يبدا '");
+        $stmt->execute();
+        $count_orders_not_started = $stmt->rowCount();
+        //////////////////////////
+        $stmt = $connect->prepare("SELECT * FROM orders WHERE status_value = 'مكتمل'");
+        $stmt->execute();
+        $count_orders_compeleted = $stmt->rowCount();
+        ////////////////////////
+        $stmt = $connect->prepare("SELECT * FROM orders WHERE status_value = 'قيد الانتظار'");
+        $stmt->execute();
+        $count_orders_waits = $stmt->rowCount();
+        /////////////////////////
+        $stmt = $connect->prepare("SELECT * FROM orders WHERE status_value = 'ملغي'");
+        $stmt->execute();
+        $count_orders_cancelled = $stmt->rowCount();
+        ?>
         <div class="card">
           <div class="card-header border-transparent">
-            <h3 class="card-title"> اخر الطلبات </h3>
-
+            <h3 class="card-title"> تقارير الطلبات ومبيعات المتجر </h3>
           </div>
-          <!-- /.card-header -->
           <div class="card-body p-0">
-            <div class="table-responsive">
-              <table class="table m-0">
-                <thead>
-                  <tr>
-                    <th>رقم الطلب </th>
-                    <th>حالة الطلب </th>
-                    <th> السعر </th>
-                  </tr>
-                </thead>
-                <tbody>
+            <canvas id="orderschart" style="width:100%;max-width:700px"></canvas>
+            <ul style="margin-right: 10px;" class="list-unstyled products_report">
+              <style>
+                .products_report li {
+                  border-bottom: 1px solid #f5f2f2;
+                  padding-bottom: 10px;
+                  color: #555;
+                  font-size: 15px;
+                }
+              </style>
+              <li> <a href="main.php?dir=orders&page=report" style="color: #555;"> عدد الطلبات الكلي :: </a> <span id="totalOrders" class="badge" style="background-color: #3498db; color:#fff"> <?php echo $count_orders; ?> </span> </li>
+              <li> <a href="main.php?dir=orders&page=compeleted_orders" style="color: #555;"> طلبات مكتملة :: </a> <span id="completedOrders" class="badge" style="background-color: #2ecc71; color:#fff"> <?php echo $count_orders_compeleted; ?> </span> </li>
+              <li> طلبات لم تبدا :: <span id="notStartedOrders" class="badge" style="background-color: #2980b9; color:#fff"> <?php echo $count_orders_not_started; ?> </span> </li>
+              <li> طلبات قيد الانتظار :: <span id="pendingOrders" class="badge" style="background-color: #f1c40f; color:#fff"> <?php echo $count_orders_waits;; ?> </span> </li>
+              <li> طلبات ملغية :: <span id="canceledOrders" class="badge" style="background-color: #2c3e50; color:#fff"> <?php echo $count_orders_cancelled; ?> </span> </li>
+            </ul>
+            <table class="table table-bordered" dir='rtl'>
+              <tbody>
+                <tr>
+                  <th> مجموع الطلبات المكتملة :: </th>
+                  <td> <span class="badge badge-success"> <?php echo $count_orders; ?> طلب </span></td>
+                </tr>
+                <tr>
+                  <th> سعر الكلي :: </th>
                   <?php
-                  $stmt = $connect->prepare("SELECT * FROM orders WHERE archieve = 0 ORDER BY id DESC LIMIT 5");
+                  $stmt = $connect->prepare("SELECT SUM(total_price) as TotalCompeletedOrders FROM orders WHERE  archieve = 0 AND status_value = 'مكتمل'");
                   $stmt->execute();
-                  $allorders = $stmt->fetchAll();
-                  foreach ($allorders as $order) {
+                  $data = $stmt->fetch();
+                  $total_price = $data['TotalCompeletedOrders'];
+
+                  ///////////
                   ?>
-                    <tr>
-                      <td><a href="main.php?dir=orders&page=order_details&order_id=<?php echo $order['id']; ?>"> <?php echo $order['order_number'] ?> </a></td>
-                      <td><span class="badge badge-success"> <?php echo $order['status_value'] ?> </span></td>
-                      <td><span class="text-strong"> <?php echo $order['total_price'] ?> ر.س </span></td>
-                    </tr>
+                  <td> <span class="badge badge-info"> <?php echo $total_price; ?> ريال </span> </td>
+                </tr>
+                <tr>
+                  <th> سعر الشحن :: </th>
                   <?php
-                  }
+                  $stmt = $connect->prepare("SELECT SUM(ship_price) as TotalShippedOrders FROM orders WHERE  archieve = 0 AND status_value = 'مكتمل'");
+                  $stmt->execute();
+                  $data_ship = $stmt->fetch();
+                  $total_shipping = $data_ship['TotalShippedOrders'];
                   ?>
-                </tbody>
-              </table>
-            </div>
-            <!-- /.table-responsive -->
+                  <td> <span class="badge badge-primary"> <?php echo $total_shipping; ?> ريال </span> </td>
+                </tr>
+                <tr>
+                  <th> سعر الاضافات :: </th>
+                  <?php
+                  $stmt = $connect->prepare("SELECT SUM(farm_service_price) as TotalFarmOrders FROM orders WHERE  archieve = 0 AND status_value = 'مكتمل'");
+                  $stmt->execute();
+                  $data_farm = $stmt->fetch();
+                  $total_farming = $data_farm['TotalFarmOrders'];
+                  ?>
+                  <td> <span class="badge badge-warning"> <?php echo $total_farming; ?> ريال </span> </td>
+                </tr>
+                <tr>
+                  <th> صافي الربح :: </th>
+                  <?php
+                  $total_earning = $total_price - ($total_shipping + $total_farming);
+
+                  ?>
+                  <th> <span class="badge badge-danger"> <strong> <?php echo $total_earning; ?> ريال </strong> </span> </th>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <!-- /.card-body -->
-          <div class="card-footer clearfix">
-            <a href="main.php?dir=orders&page=report" class="btn btn-sm btn-secondary float-right"> مشاهدة جميع الطلبات </a>
-          </div>
-          <!-- /.card-footer -->
+
         </div>
-        <!-- /.card -->
       </div>
       <div class='col-lg-6'>
-
-        <!-- PRODUCT LIST -->
         <div class="card">
           <div class="card-header">
             <h3 class="card-title"> اخر المنتجات </h3>
@@ -159,13 +208,13 @@
                     <a href="main.php?dir=products&page=edit&pro_id=<?php echo $product['id']; ?>" class="product-title"> <?php echo $product['name']; ?>
                       <span class="badge badge-warning float-right"><?php echo $product['price']; ?> ر.س</span></a>
                     <span class="product-description">
-                    <?php echo $product['short_desc']; ?>
+                      <?php echo $product['short_desc']; ?>
                     </span>
                   </div>
                 </li>
               <?php
               }
-              ?> 
+              ?>
               <!-- /.item -->
             </ul>
           </div>
