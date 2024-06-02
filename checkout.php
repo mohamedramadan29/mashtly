@@ -520,7 +520,7 @@ if (isset($_SESSION['user_id'])) {
                                     ]
                                 ],
                                 'headers' => [
-                                    'Authorization' => 'Bearer sk_test_nbu7ilH8qGNyQIOEAFKm2X3c',// Sk Live 
+                                    'Authorization' => 'Bearer ',// Sk Live 
                                     'accept' => 'application/json',
                                     'content-type' => 'application/json',
                                 ],
