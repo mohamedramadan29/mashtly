@@ -5,6 +5,8 @@
         session_start();
         $pagetitle = '  حسابي  ';
         include '../admin/connect.php';
+        $_SESSION['cookie_id'];
+          
         try {
             if (isset($_GET['tap_id'])) {
                 $tap_id = $_GET['tap_id'];
@@ -36,8 +38,8 @@
                 if ($responseTap->status == 'CAPTURED') {
                     // get all product from user cart
                     $order_data = $_SESSION['order_data'];
-                    $stmt = $connect->prepare("SELECT * FROM cart WHERE user_id = ?");
-                    $stmt->execute(array($_SESSION['user_id']));
+                    $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
+                    $stmt->execute(array($_SESSION['cookie_id']));
                     $count = $stmt->rowCount();
                     $allitems = $stmt->fetchAll();
                     $_SESSION['online_payment'] = 'online';
@@ -130,8 +132,8 @@
                 } else {
                     // get all product from user cart
                     $order_data = $_SESSION['order_data'];
-                    $stmt = $connect->prepare("SELECT * FROM cart WHERE user_id = ?");
-                    $stmt->execute(array($_SESSION['user_id']));
+                    $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
+                    $stmt->execute(array($_SESSION['cookie_id']));
                     $count = $stmt->rowCount();
                     $allitems = $stmt->fetchAll();
                     $_SESSION['online_payment'] = 'online';

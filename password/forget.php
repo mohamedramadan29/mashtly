@@ -15,7 +15,7 @@ require_once '../send_mail/vendor/autoload.php';
             <div class="purches_header">
                 <div class="data_header_name">
                     <h2 class='header2'> هل نسيت كلمة المرور </h2>
-                    <p> أدخل البريد الإلكتروني الذي قمت بالتسجيل في الموقع من خلاله <br>، وسوف يصلك رابط التأكيد علي بريدك الإلكتروني </p>
+                    <p> أدخل البريد الإلكتروني الذي قمت بالتسجيل في الموقع من خلاله <br>، وسوف يصلك كلمة المرور الجديدة علي بريدك الإلكتروني </p>
                 </div>
             </div>
         </div>
@@ -108,7 +108,7 @@ require_once '../send_mail/vendor/autoload.php';
                         $result = $mailer->send($message);
                         if ($result) {
             ?>
-                            <div class="alert alert-success"> تم ارسال كلمة المرور الجديدة بنجاح  </div>
+                            <div class="alert alert-success"> تم ارسال كلمة المرور الجديدة بنجاح </div>
                         <?php
                         } else {
                         ?>
@@ -138,13 +138,14 @@ require_once '../send_mail/vendor/autoload.php';
                     <div class='box'>
                         <div class="input_box">
                             <label for="email"> البريد الإلكتروني </label>
-                            <input value="<?php if (isset($_REQUEST['email'])) echo $_REQUEST['email']; ?>" id="email" type="email" name="email" class='form-control' placeholder=" Example@gmail.com">
+                            <input required value="<?php if (isset($_REQUEST['email'])) echo $_REQUEST['email']; ?>" id="email" type="email" name="email" class='form-control' placeholder=" Example@gmail.com">
                         </div>
                     </div>
                     <div class="box">
                         <div class="input_box">
                             <div class="submit_buttons" style="width: 100%;">
-                                <button class="btn global_button forget_button" id="send_message" name="forget_button" type="submit" style="display: block;"> ارسال </button>
+                                <button class="btn global_button forget_button" id="send_message" name="forget_button" type="submit"> اعادة ارسال </button>
+                                <a href="https://www.mshtly.com/login" class="btn global_button forget_button" style="display: block;"> تسجيل دخول </a>
                             </div>
                         </div>
                     </div>

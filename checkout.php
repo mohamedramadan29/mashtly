@@ -458,8 +458,8 @@ if (isset($_SESSION['user_id'])) {
                                     unset($_SESSION['coupon_name']);
                                     unset($_SESSION['grand_total']);
                                     unset($_SESSION['shipping_problem']);
-                                    $stmt = $connect->prepare("DELETE FROM cart WHERE cookie_id = ? OR user_id = ?");
-                                    $stmt->execute(array($cookie_id, $user_id));
+                                    $stmt = $connect->prepare("DELETE FROM cart WHERE cookie_id = ?");
+                                    $stmt->execute(array($cookie_id));
                                     header("Location:profile/orders/compelete");
                                 }
                             } catch (\Exception $e) {

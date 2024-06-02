@@ -25,5 +25,6 @@
 
     // استخدام قيمة الكوكيز
     $cookie_id = $user_key;
+    $_SESSION['cookie_id'] = $cookie_id;
     include $tem . "navbar.php";
  

@@ -18,8 +18,8 @@ if (isset($_SESSION['user_id'])) {
                 $farm_service = $order_data['farm_service_price'];
                 $ship_price = $order_data['ship_price'];
                 $grand_total = $order_data['total_price'];
-                $stmt = $connect->prepare("SELECT * FROM cart WHERE user_id = ?");
-                $stmt->execute(array($user_id));
+                $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
+                $stmt->execute(array($_SESSION['cookie_id']));
                 $allitems = $stmt->fetchAll();
                 foreach ($allitems as $item) {
                     // echo $item['product_name'];
@@ -29,8 +29,8 @@ if (isset($_SESSION['user_id'])) {
                 unset($_SESSION['online_payment']);
                 unset($_SESSION['farm_services']);
                 unset($_SESSION['grand_total']);
-                $stmt = $connect->prepare("DELETE FROM cart WHERE user_id = ?");
-                $stmt->execute(array($_SESSION['user_id']));
+                $stmt = $connect->prepare("DELETE FROM cart WHERE cookie_id = ?");
+                $stmt->execute(array($_SESSION['cookie_id']));
             }
         }
     } catch (\Exception $e) {
