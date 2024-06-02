@@ -142,7 +142,7 @@ if (isset($_POST['add_to_cart'])) {
         <div class="data">
             <div class="data_header">
                 <div class="data_header_name">
-                    <h2 class='header2'>منتجات جديدة وصلتنا </h2>
+                    <h1 class='header2'>منتجات جديدة وصلتنا </h1>
                     <p>نباتات جديدة وصلتنا هذا الأسبوع</p>
                 </div>
                 <div>
@@ -174,7 +174,7 @@ if (isset($_POST['add_to_cart'])) {
 </div>
 <!-- END PLANTS REQUIRES -->
 <!-- START BEST PRODUCTS -->
-<div class="new_producs best_products">
+<!-- <div class="new_producs best_products">
     <div class="container">
         <div class="data">
             <div class="data_header">
@@ -198,7 +198,7 @@ if (isset($_POST['add_to_cart'])) {
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- END BEST  PRODUCTS  -->
 <!-- START INDEX ALL CATEGORY  -->
 <div class="index_all_cat index_categories" id="categories">
