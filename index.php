@@ -1,8 +1,11 @@
 <?php
 ob_start();
 session_start();
-$page_title = 'مشتلي - الرئيسية';
+$page_title = 'متجر مشتلي لمختلف أنواع النباتات المنزلية والخارجية';
+$description = ' مشتلي منصة إلكترونية تتيح للعملاء شراء مختلف أنواع النباتات، أشجار زهور ونباتات منزلية، بشكل مريح وسريع دون الحاجة لزيارة المشاتل التقليدية. ';
+$page_keywords = ' مشتلي , النباتات المن ';
 include "init.php";
+
 ?>
 <div class="hero">
     <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
