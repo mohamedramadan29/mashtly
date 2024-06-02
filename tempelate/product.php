@@ -9,12 +9,12 @@
     if ($count_image > 0) {
     ?>
         <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>">
-            <img class="main_image" src="http://localhost/mashtly/admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt']; ?>">
+            <img class="main_image" src="http://localhost/mashtly/admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product['name']; ?>">
         </a>
     <?php
     } else {
     ?>
-        <img class="main_image" src="uploads/product.png" alt="">
+        <img class="main_image" src="uploads/product.png" alt="صورة المنتج">
     <?php
     }
     ?>
@@ -89,7 +89,7 @@
                     <?php
                     // if (checkIfProductInCart($connect, $cookie_id, $product['id'])) {
                     ?>
-                    <!-- <a href="cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
+                    <!-- <a href="cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="سلة الشراء">
                             مشاهدة السلة
                         </a> -->
                     <?php
@@ -104,7 +104,7 @@
                     <?php
                     } else {
                     ?>
-                        <button name="add_to_cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt=""> أضف
+                        <button name="add_to_cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="سلة الشراء"> أضف
                             الي السلة
                         </button>
                     <?php
@@ -120,12 +120,12 @@
                     <?php
                     if (isset($_SESSION['user_id']) && checkIfProductIsFavourite($connect, $_SESSION['user_id'], $product['id'])) {
                     ?>
-                        <img src="<?php echo $uploads; ?>/heart2.svg" alt="">
+                        <img src="<?php echo $uploads; ?>/heart2.svg" alt="المفضلة">
                     <?php
                     } else {
                     ?>
                         <button name="add_to_fav" type="submit" style="border: none; background-color:transparent">
-                            <img src="<?php echo $uploads ?>/heart.png" alt="">
+                            <img src="<?php echo $uploads ?>/heart.png" alt="المفضلة">
                         </button>
                     <?php
                     }

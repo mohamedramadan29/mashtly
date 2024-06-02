@@ -1,7 +1,9 @@
 <?php
 ob_start();
 session_start();
-$page_title = 'الرئيسية';
+$page_title = ' مشتلي - الاقسام الرئيسية  ';
+$description = ' مشتلي منصة إلكترونية تتيح للعملاء شراء مختلف أنواع النباتات، أشجار زهور ونباتات منزلية، بشكل مريح وسريع دون الحاجة لزيارة المشاتل التقليدية. ';
+$page_keywords = ' مشتلي ,متجر مشتلي  ';
 include "init.php";
 $stmt = $connect->prepare("SELECT * FROM categories order by id desc");
 $stmt->execute();
@@ -18,7 +20,7 @@ $cat_count = count($allcat);
             </div>
             <div class="purches_header">
                 <div class="data_header_name">
-                    <h2 class='header2'> التصنيفات </h2>
+                    <h1 class='header2'> التصنيفات </h1>
                     <p> أجمالي عدد التصنيفات : <span> <?php echo $cat_count; ?> </span> </p>
                 </div>
             </div>

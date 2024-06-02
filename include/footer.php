@@ -28,7 +28,7 @@
                     <div class="col-lg-4">
                         <div class="info">
                             <a href="https://www.mshtly.com/">
-                                <img src="<?php echo $uploads ?>/footer_logo.png" alt="">
+                                <img src="<?php echo $uploads ?>/footer_logo.png" alt="متجر مشتلي">
                             </a>
                             <p> تابعونا علي منصات التواصل الاجتماعى عبر </p>
                             <ul class="list-unstyled social_icon">
@@ -59,7 +59,7 @@
                     </div>
                     <div class="col-lg-2">
                         <div class="info">
-                            <img style="max-width: 100%;" src="<?php echo $uploads ?>/commpany.webp" alt="">
+                            <img style="max-width: 100%;" src="<?php echo $uploads ?>/commpany.webp" alt="متجر مشتلي">
                         </div>
                     </div>
                 </div>
@@ -78,16 +78,16 @@
                     <div class="col-lg-8">
                         <div class="payment_method">
                             <div class="images">
-                                <img src="<?php echo $uploads ?>/pay1.svg">
-                                <img src="<?php echo $uploads ?>/pay2.svg">
-                                <img src="<?php echo $uploads ?>/pay3.svg">
-                                <img src="<?php echo $uploads ?>/pay4.svg">
-                                <img src="<?php echo $uploads ?>/pay5.svg">
-                                <img src="<?php echo $uploads ?>/pay6.svg">
-                                <img src="<?php echo $uploads ?>/pay7.svg">
-                                <img src="<?php echo $uploads ?>/pay8.svg">
-                                <img src="<?php echo $uploads ?>/pay9.svg">
-                                <img src="<?php echo $uploads ?>/pay10.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay1.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay2.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay3.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay4.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay5.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay6.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay7.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay8.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay9.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay10.svg">
                             </div>
                         </div>
                     </div>
@@ -104,7 +104,7 @@
                     <div class="col-12">
                         <div class="info text-center">
                             <a href="https://www.mshtly.com/">
-                                <img src="<?php echo $uploads ?>/footer_logo.png" alt="">
+                                <img  src="<?php echo $uploads ?>/footer_logo.png" alt="متجر مشتلي">
                             </a>
                         </div>
                     </div>
@@ -143,7 +143,7 @@
                     </div>
                     <div class="col-4">
                         <div class="info">
-                            <img style="max-width: 100%;" src="<?php echo $uploads ?>/commpany.webp" alt="">
+                            <img style="max-width: 100%;" src="<?php echo $uploads ?>/commpany.webp" alt="متجر مشتلي">
                         </div>
                     </div>
                 </div>
@@ -158,16 +158,16 @@
                     <div class="col-12">
                         <div class="payment_method">
                             <div class="images">
-                                <img src="<?php echo $uploads ?>/pay1.svg">
-                                <img src="<?php echo $uploads ?>/pay2.svg">
-                                <img src="<?php echo $uploads ?>/pay3.svg">
-                                <img src="<?php echo $uploads ?>/pay4.svg">
-                                <img src="<?php echo $uploads ?>/pay5.svg">
-                                <img src="<?php echo $uploads ?>/pay6.svg">
-                                <img src="<?php echo $uploads ?>/pay7.svg">
-                                <img src="<?php echo $uploads ?>/pay8.svg">
-                                <img src="<?php echo $uploads ?>/pay9.svg">
-                                <img src="<?php echo $uploads ?>/pay10.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay1.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay2.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay3.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay4.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay5.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay6.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay7.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay8.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay9.svg">
+                                <img alt="وسائل الدفع - مشتلي" src="<?php echo $uploads ?>/pay10.svg">
                             </div>
                         </div>
                     </div>
@@ -330,8 +330,8 @@
             autoplay: true,
             autoplaySpeed: 2000,
             infinite: true,
-            prevArrow: '<img class="right_arrow" src="<?php echo $uploads ?>/right_arrow.png">',
-            nextArrow: '<img class="left_arrow" src="<?php echo $uploads ?>/left_arrow.png">',
+            prevArrow: '<img class="right_arrow" alt="right arrow" src="<?php echo $uploads ?>/right_arrow.png">',
+            nextArrow: '<img class="left_arrow" alt="left arrow" src="<?php echo $uploads ?>/left_arrow.png">',
             centerMode: false,
             variableWidth: true,
             responsive: [{
@@ -353,163 +353,6 @@
                 // settings: "unslick"
                 // instead of a settings object
             ]
-
-        });
-    });
-</script>
-
-<!-- Product Details  -->
-
-<script>
-    $(document).ready(function() {
-        // تهيئة الصور الرئيسية
-        $('.slider-for').slick({
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            arrows: true, // تعيين القيمة إلى true لعرض الأسهم
-            fade: true,
-            asNavFor: '.slider-nav'
-        });
-
-        // تهيئة الصور المصغرة
-        $('.slider-nav').slick({
-            slidesToShow: 3,
-            slidesToScroll: 1,
-            asNavFor: '.slider-for',
-            dots: true,
-            centerMode: true,
-            focusOnSelect: true
-        });
-    });
-</script>
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const link = document.querySelector('a[data-section]');
-        if (link) {
-            link.addEventListener('click', scrollToSection);
-        }
-    });
-
-    function scrollToSection(event) {
-        event.preventDefault();
-        const slug = this.getAttribute('data-section');
-        const element = document.getElementById(slug);
-        if (element) {
-            element.scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
-    }
-</script>
-
-<!-- slider in product images -->
-
-<script>
-    $(document).ready(function() {
-        // تحديد العناصر
-        const mainSlider = document.querySelector('.main-slider');
-        const thumbnailSlider = document.querySelector('.thumbnail-slider');
-        const mainSlides = mainSlider.querySelectorAll('div');
-        const thumbnailSelect = document.querySelector('select[name="vartion_select"]');
-        const thumbnailImages = document.querySelectorAll('.thumbnail-image');
-        const mainImage = mainSlider.querySelector('img');
-        // تنفيذ الشريط الرئيسي
-        mainSlides.forEach((slide) => {
-            slide.style.display = 'none';
-        });
-        let mainIndex = 0;
-        mainSlides[mainIndex].style.display = 'block';
-
-        // تنفيذ الشريط المصغر
-        if (thumbnailSelect) {
-            thumbnailSelect.addEventListener('change', function() {
-                let selectedIndex = thumbnailSelect.selectedIndex;
-                mainSlides[mainIndex].style.display = 'none';
-                mainIndex = selectedIndex;
-                mainSlides[mainIndex].style.display = 'block';
-
-                // تحديث الصورة الخلفية
-                const selectedImage = thumbnailSelect.options[selectedIndex].getAttribute('data-image');
-                if (selectedImage) {
-                    mainSlides[mainIndex].style.backgroundImage = 'url(http://localhost/mashtly/admin/product_images/' + selectedImage + ')';
-                    const mainImageSlide = mainSlides[mainIndex].querySelector('img');
-                    mainImageSlide.src = 'http://localhost/mashtly/admin/product_images/' + selectedImage;
-                }
-            });
-        }
-
-        //////////////
-        thumbnailImages.forEach(thumbnailImage => {
-            thumbnailImage.addEventListener('click', function() {
-                // تحديث الصورة الرئيسية بناءً على الصورة المصغرة المنقر عليها
-                const selectedImage = thumbnailImage.getAttribute('data-image2');
-                // console.log(selectedImage);
-                if (selectedImage) {
-                    mainSlides[mainIndex].style.backgroundImage = 'url(http://localhost/mashtly/admin/product_images/' + selectedImage + ')';
-                    const mainImageSlide = mainSlides[mainIndex].querySelector('img');
-                    mainImageSlide.src = 'http://localhost/mashtly/admin/product_images/' + selectedImage;
-                    console.log(mainImageSlide);
-                }
-            });
-        });
-    });
-</script>
-
-<script>
-    $(document).ready(function() {
-        const vartionSelect = document.querySelector('select[name="vartion_select"]');
-        const selectedPriceElement = document.getElementById('selected_price');
-        const priceValueInput = document.getElementById('price_value');
-
-        vartionSelect.addEventListener('change', function() {
-            const selectedOption = vartionSelect.options[vartionSelect.selectedIndex];
-            const selectedPrice = selectedOption.getAttribute('data-price');
-
-            if (selectedPrice !== undefined) {
-                selectedPriceElement.textContent = selectedPrice + 'ر.س';
-                priceValueInput.value = selectedPrice;
-            } else {
-                selectedPriceElement.textContent = '0.00 ر.س';
-                priceValueInput.value = '0.00';
-            }
-        });
-    });
-</script>
-
-<!---------------- IN Mobile ------------------>
-<script>
-    $(document).ready(function() {
-        const vartionSelect2 = document.querySelector('select[name="vartion_select2"]');
-        const selectedPriceElement2 = document.getElementById('selected_price2');
-        const priceValueInput2 = document.getElementById('price_value2');
-
-        vartionSelect2.addEventListener('change', function() {
-            const selectedOption = vartionSelect2.options[vartionSelect2.selectedIndex];
-            const selectedPrice2 = selectedOption.getAttribute('data-price');
-
-            if (selectedPrice2 !== undefined) {
-                selectedPriceElement2.textContent = selectedPrice2 + ' ر.س';
-                priceValueInput2.value = selectedPrice2;
-            } else {
-                selectedPriceElement2.textContent = '0.00 ر.س';
-                priceValueInput2.value = '0.00';
-            }
-        });
-    });
-</script>
-
-<!-- To Make Slider To Product Images  -->
-<script>
-    $('.gallery-lb').each(function() { // the containers for all your galleries
-        $(this).magnificPopup({
-            delegate: 'a', // the selector for gallery item
-            type: 'image',
-            gallery: {
-                enabled: true
-            },
-            mainClass: 'mfp-fade',
 
         });
     });

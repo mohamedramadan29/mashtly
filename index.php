@@ -3,7 +3,7 @@ ob_start();
 session_start();
 $page_title = 'متجر مشتلي لمختلف أنواع النباتات المنزلية والخارجية';
 $description = ' مشتلي منصة إلكترونية تتيح للعملاء شراء مختلف أنواع النباتات، أشجار زهور ونباتات منزلية، بشكل مريح وسريع دون الحاجة لزيارة المشاتل التقليدية. ';
-$page_keywords = ' مشتلي , النباتات المن ';
+$page_keywords = ' مشتلي ,متجر مشتلي  ';
 include "init.php";
 
 ?>
@@ -145,7 +145,7 @@ if (isset($_POST['add_to_cart'])) {
         <div class="data">
             <div class="data_header">
                 <div class="data_header_name">
-                    <h1 class='header2'>منتجات جديدة وصلتنا </h1>
+                    <h1 class='header2'> منتجات جديدة وصلتنا حديثا </h1>
                     <p>نباتات جديدة وصلتنا هذا الأسبوع</p>
                 </div>
                 <div>
@@ -171,13 +171,13 @@ if (isset($_POST['add_to_cart'])) {
     <div class="container">
         <div class="data">
             <h2> مستلزمات العناية بنباتاتك </h2>
-            <a href="categories" class="btn global_button"> تصفح جميع المستلزمات <img src="<?php echo $uploads ?>left.svg" alt=""> </a>
+            <a href="categories" class="btn global_button"> تصفح جميع المستلزمات <img src="<?php echo $uploads ?>left.svg" alt="جميع المستلزمات"> </a>
         </div>
     </div>
 </div>
 <!-- END PLANTS REQUIRES -->
 <!-- START BEST PRODUCTS -->
-<!-- <div class="new_producs best_products">
+<div class="new_producs best_products">
     <div class="container">
         <div class="data">
             <div class="data_header">
@@ -201,7 +201,7 @@ if (isset($_POST['add_to_cart'])) {
             </div>
         </div>
     </div>
-</div> -->
+</div>
 <!-- END BEST  PRODUCTS  -->
 <!-- START INDEX ALL CATEGORY  -->
 <div class="index_all_cat index_categories" id="categories">
@@ -264,13 +264,13 @@ if (isset($_POST['add_to_cart'])) {
                 <div class="col-lg-6">
                     <div class="info info1">
                         <h3> خدمات الحدائق </h3>
-                        <a href="landscap" class="btn global_button"> اعرف المزيد <img src="<?php echo $uploads; ?>/arrow_left.svg" alt=""> </a>
+                        <a href="landscap" class="btn global_button"> اعرف المزيد <img src="<?php echo $uploads; ?>/arrow_left.svg" alt="اعرف المزيد"> </a>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="info info2">
                         <h3> الطلبات الكبيرة </h3>
-                        <a href="big_orders" class="btn global_button"> اعرف المزيد <img src="<?php echo $uploads; ?>/right-arrow-2.svg" alt=""> </a>
+                        <a href="big_orders" class="btn global_button"> اعرف المزيد <img src="<?php echo $uploads; ?>/right-arrow-2.svg" alt="اعرف المزيد"> </a>
                     </div>
                 </div>
             </div>
@@ -312,7 +312,7 @@ if (isset($_POST['add_to_cart'])) {
                         <?php
                         } else {
                         ?>
-                            <img class="main_image" src="uploads/product.png" alt="">
+                            <img class="main_image" src="uploads/product.png" alt="الصورة الرئيسية للمنتج">
                         <?php
                         }
                         ?>
@@ -360,7 +360,7 @@ if (isset($_POST['add_to_cart'])) {
                                         <?php
                                         if (checkIfProductInCart($connect, $cookie_id, $product['id'])) {
                                         ?>
-                                            <a href="cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
+                                            <a href="cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="سلة المشتريات">
                                                 مشاهدة السلة
                                             </a>
                                         <?php
@@ -369,13 +369,13 @@ if (isset($_POST['add_to_cart'])) {
                                             <?php
                                             if ($count_pro_attr > 0) {
                                             ?>
-                                                <a href="product?slug=<?php echo $product['slug']; ?>" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
+                                                <a href="product?slug=<?php echo $product['slug']; ?>" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="خيارات المنتج">
                                                     مشاهدة الاختيارات
                                                 </a>
                                             <?php
                                             } else {
                                             ?>
-                                                <button name="add_to_cart" class='btn global_button'><img src="uploads/shopping-cart.png" alt=""> أضف
+                                                <button name="add_to_cart" class='btn global_button'><img src="uploads/shopping-cart.png" alt="سلة المشتريات"> أضف
                                                     الي السلة
                                                 </button>
                                             <?php
@@ -390,12 +390,12 @@ if (isset($_POST['add_to_cart'])) {
                                         <?php
                                         if (isset($_SESSION['user_id']) && checkIfProductIsFavourite($connect, $_SESSION['user_id'], $product['id'])) {
                                         ?>
-                                            <img src="<?php echo $uploads; ?>/heart2.svg" alt="">
+                                            <img src="<?php echo $uploads; ?>/heart2.svg" alt="المفضلة">
                                         <?php
                                         } else {
                                         ?>
                                             <button name="add_to_fav" type="submit" style="border: none; background-color:transparent">
-                                                <img src="<?php echo $uploads ?>/heart.png" alt="">
+                                                <img src="<?php echo $uploads ?>/heart.png" alt="المفضلة">
                                             </button>
                                         <?php
                                         }
@@ -427,7 +427,7 @@ if (isset($_POST['add_to_cart'])) {
                 </div>
                 <div class='col-lg-7'>
                     <div class='image'>
-                        <img src="uploads/points.png" alt="">
+                        <img src="uploads/points.png" alt="العناية بالنباتات">
                     </div>
                 </div>
             </div>
@@ -474,56 +474,56 @@ if (isset($_POST['add_to_cart'])) {
             <div class='row'>
                 <div class='col-lg-3 col-6'>
                     <div class="info">
-                        <img src="uploads/cash_on_delivery.webp" alt="">
+                        <img src="uploads/cash_on_delivery.webp" alt="الدفع عند الاستلام">
                         <h4> الدفع عند الاستلام </h4>
                         <p> حاليا داخل الرياض فقط </p>
                     </div>
                 </div>
                 <div class='col-lg-3 col-6'>
                     <div class="info">
-                        <img src="uploads/to_home2.svg" alt="">
+                        <img src="uploads/to_home2.svg" alt="التوصيل الي المنزل">
                         <h4> التوصيل الى المنزل </h4>
                         <p> حاليا داخل الرياض فقط </p>
                     </div>
                 </div>
                 <div class='col-lg-3 col-6'>
                     <div class="info">
-                        <img src="uploads/hary_delievry.svg" alt="">
+                        <img src="uploads/hary_delievry.svg" alt="توصيل سريع">
                         <h4> توصيل سريع </h4>
                         <p> من 2- 6 أيام عمل </p>
                     </div>
                 </div>
                 <div class='col-lg-3 col-6'>
                     <div class="info">
-                        <img src="uploads/phone_contact.svg" alt="">
+                        <img src="uploads/phone_contact.svg" alt="تواصل معنا">
                         <h4> تواصل معنا </h4>
                         <p> 0530047542 </p>
                     </div>
                 </div>
                 <div class='col-lg-3 col-6'>
                     <div class="info">
-                        <img src="uploads/cus_services.svg" alt="">
+                        <img src="uploads/cus_services.svg" alt="دعم الخبراء">
                         <h4> دعم الخبراء </h4>
                         <p> مجانا قبل وبعد الشراء </p>
                     </div>
                 </div>
                 <div class='col-lg-3 col-6'>
                     <div class="info">
-                        <img src="uploads/quality.svg" alt="">
+                        <img src="uploads/quality.svg" alt="ضمان غير محدود">
                         <h4> ضمان غير محدود </h4>
                         <p> نضمن لك استلام نباتات سليمة وصحية </p>
                     </div>
                 </div>
                 <div class='col-lg-3 col-6'>
                     <div class="info">
-                        <img src="uploads/down_price.svg" alt="">
+                        <img src="uploads/down_price.svg" alt="اسعار تنافسية">
                         <h4> أسعار تنافسية </h4>
                         <p> أسعارنا لا تقبل المنافسة </p>
                     </div>
                 </div>
                 <div class='col-lg-3 col-6'>
                     <div class="info">
-                        <img src="uploads/plants_requirement.svg" alt="">
+                        <img src="uploads/plants_requirement.svg" alt="مستلزمات زراعية">
                         <h4> مستلزمات الزراعة </h4>
                         <p> جميع المستلزمات الزراعية التي قد تحتاجها </p>
                     </div>
@@ -556,7 +556,7 @@ if (isset($_POST['add_to_cart'])) {
             <div class='row'>
                 <div class="col-lg-6">
                     <div class="info">
-                        <img src="admin/posts/images/<?php echo $post_image; ?>" alt="">
+                        <img src="admin/posts/images/<?php echo $post_image; ?>" alt="<?php echo $post_head ?>">
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -583,7 +583,7 @@ if (isset($_POST['add_to_cart'])) {
                         <div class="col-lg-3">
                             <a href="blog/<?php echo $post['slug']; ?>" style="text-decoration: none;">
                                 <div class="post_info">
-                                    <img src="admin/posts/images/<?php echo $post['main_image'] ?>" alt="">
+                                    <img src="admin/posts/images/<?php echo $post['main_image'] ?>" alt="<?php echo $post['name'] ?>">
                                     <h4> <?php echo $post['name']; ?> </h4>
                                     <p> <?php echo $post_desc . "..."; ?> </p>
                                 </div>
@@ -613,14 +613,14 @@ if (isset($_POST['add_to_cart'])) {
                 <div class="col-lg-4">
                     <div class="info">
                         <div class='video_data'>
-                            <img class="image1" src="uploads/points.png" alt="">
-                            <img class="image2" src="uploads/points.png" alt="">
+                            <img class="image1" src="uploads/points.png" alt="videos">
+                            <img class="image2" src="uploads/points.png" alt="videos">
                             <span>
                                 فيديوهات ومقاطع مميزه
                             </span>
-                            <img class="arrow" src="uploads/arrow.png" alt="">
+                            <img class="arrow" src="uploads/arrow.png" alt="المزيد من الفيديوهات">
                             <h2>كيف تغرس </br> الأشجار و النباتات الجديدة </h2>
-                            <a href="https://www.youtube.com/channel/UCa-0QzwA1e3hGp-nrQn0qNg" class='btn global_button'> جميع الفيديوهات <img src="uploads/arrow.png" alt=""> </a>
+                            <a href="https://www.youtube.com/channel/UCa-0QzwA1e3hGp-nrQn0qNg" class='btn global_button'> جميع الفيديوهات <img src="uploads/arrow.png" alt="المزيد من الفيديوهات"> </a>
                         </div>
                     </div>
                 </div>
@@ -650,7 +650,7 @@ if (isset($_POST['add_to_cart'])) {
                                 <h3> <?php echo $test['head']; ?> </h3>
                             </div>
                             <div>
-                                <img src="uploads/quote.svg" alt="">
+                                <img src="uploads/quote.svg" alt="اراء العملاء">
                             </div>
                         </div>
                         <p>
@@ -661,11 +661,11 @@ if (isset($_POST['add_to_cart'])) {
                                 <?php
                                 if ($test['image'] != '') {
                                 ?>
-                                    <img src="uploads/plant.svg" alt="">
+                                    <img src="uploads/plant.svg" alt="مشتلي ">
                                 <?php
                                 } else {
                                 ?>
-                                    <img src="uploads/plant.svg" alt="">
+                                    <img src="uploads/plant.svg" alt="مشتلي">
                                 <?php
                                 }
                                 ?>
@@ -690,49 +690,49 @@ if (isset($_POST['add_to_cart'])) {
             <div class="insta_slider">
                 <div class="insta_info">
                     <a href="https://www.instagram.com/mshtly1/">
-                        <img src="<?php echo $uploads ?>/insta1.png" alt="">
+                        <img src="<?php echo $uploads ?>/insta1.png" alt="نباتات الحديقة">
                         <div class="overlay">
-                            <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                            <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="نباتات الحديقة">
                         </div>
                     </a>
                 </div>
                 <div class="insta_info">
                     <a href="https://www.instagram.com/mshtly1/">
-                        <img src="<?php echo $uploads ?>/insta2.png" alt="">
+                        <img src="<?php echo $uploads ?>/insta2.png" alt="نباتات الحديقة">
                         <div class="overlay">
-                            <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                            <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="نباتات الحديقة">
                         </div>
                     </a>
                 </div>
                 <div class="insta_info">
                     <a href="https://www.instagram.com/mshtly1/">
-                        <img src="<?php echo $uploads ?>/insta3.png" alt="">
+                        <img src="<?php echo $uploads ?>/insta3.png" alt="نباتات الحديقة">
                         <div class="overlay">
-                            <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                            <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="نباتات الحديقة">
                         </div>
                     </a>
                 </div>
                 <div class="insta_info">
                     <a href="https://www.instagram.com/mshtly1/">
-                        <img src="<?php echo $uploads ?>/insta2.png" alt="">
+                        <img src="<?php echo $uploads ?>/insta2.png" alt="نباتات الحديقة">
                         <div class="overlay">
-                            <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                            <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="نباتات الحديقة">
                         </div>
                     </a>
                 </div>
                 <div class="insta_info">
                     <a href="https://www.instagram.com/mshtly1/">
-                        <img src="<?php echo $uploads ?>/insta1.png" alt="">
+                        <img src="<?php echo $uploads ?>/insta1.png" alt="نباتات الحديقة">
                         <div class="overlay">
-                            <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                            <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="نباتات الحديقة">
                         </div>
                     </a>
                 </div>
                 <div class="insta_info">
                     <a href="https://www.instagram.com/mshtly1/">
-                        <img src="<?php echo $uploads ?>/insta2.png" alt="">
+                        <img src="<?php echo $uploads ?>/insta2.png" alt="نباتات الحديقة">
                         <div class="overlay">
-                            <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="">
+                            <img src="<?php echo $uploads ?>/insta_share_icon.svg" alt="نباتات الحديقة">
                         </div>
                     </a>
                 </div>
