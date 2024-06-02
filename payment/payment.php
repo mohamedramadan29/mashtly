@@ -56,7 +56,8 @@ if (isset($_SESSION['username'])) {
             "redirect" => [
                 "url" => "http://localhost/mashtly/payment/payment/callback"
             ],
-            "metadata" => [
+            "metadata" => [ 
+                
                 "udf1" => "Metadata 1"
             ]
         ],
