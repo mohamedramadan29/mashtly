@@ -113,16 +113,17 @@ if (isset($_POST['edit_cat'])) {
         $stmt->execute(array($cat_id));
         $cat_data = $stmt->fetch();
         $cat_name = $cat_data['name'];
-        $stmt = $connect->prepare("UPDATE posts SET cat_id=?,name=?,slug=?,image_name=?,image_alt=?,image_desc=?,image_keys=?,category=?,short_desc=?,description=?,tags=?,date=?,publish=? WHERE id = ? ");
-        $stmt->execute(array($cat_id, $name, $slug, $image_name, $image_alt, $image_desc, $image_keys, $cat_name, $short_desc, $description, $tags, $date, $publish, $post_id));
-        if (!empty($_FILES['main_image']['name'])) {
-            $stmt = $connect->prepare("UPDATE posts SET main_image=? WHERE id = ? ");
-            $stmt->execute(array($main_image_uploaded, $post_id));
-        }
+        $stmt = $connect->prepare("UPDATE posts SET name=?,cat_id=?,slug=?,short_desc=?,description=?,tags=?,image_name=?,image_alt=?,image_desc=?,image_keys=?,category=?,date=?,publish=? WHERE id = ? ");
+        $stmt->execute(array($name,$cat_id, $slug,$short_desc,$description,$tags, $image_name, $image_alt, $image_desc, $image_keys, $cat_name, $date, $publish, $post_id));
+        // if (!empty($_FILES['main_image']['name'])) {
+        //     $stmt = $connect->prepare("UPDATE posts SET main_image=? WHERE id = ? ");
+        //     $stmt->execute(array($main_image_uploaded, $post_id));
+        // }
         if ($stmt) {
-            $_SESSION['success_message'] = "تم التعديل بنجاح ";
-            header('Location:main.php?dir=posts&page=edit&post_id=' . $post_id);
-            exit();
+            echo "good";
+            // $_SESSION['success_message'] = "تم التعديل بنجاح ";
+            // header('Location:main.php?dir=posts&page=edit&post_id=' . $post_id);
+            // exit();
         }
     } else {
         $_SESSION['error_messages'] = $formerror;
@@ -206,7 +207,7 @@ if (isset($_POST['edit_cat'])) {
                                     </div>
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> القسم </label>
-                                        <select name="cat_id" class='form-control select2' id="">
+                                        <select required name="cat_id" class='form-control select2' id="">
                                             <option value=""> حدد القسم </option>
                                             <?php
                                             $stmt = $connect->prepare("SELECT * FROM category_posts");
