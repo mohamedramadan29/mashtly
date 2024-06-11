@@ -177,6 +177,21 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                             <div class="tab-content" id="custom-tabs-one-tabContent">
                                 <div class="tab-pane fade" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
                                     <!-- START USER ORDER  -->
+                                    <!----------------- Start Edit User Data --------------->
+                                    <?php
+                                    if (isset($_POST['edit_customer_data'])) {
+                                        $name = sanitizeInput($_POST['name']);
+                                        $email = sanitizeInput($_POST['email']);
+                                        $phone = sanitizeInput($_POST['phone']);
+                                        $area = sanitizeInput($_POST['area']);
+                                        $address = sanitizeInput($_POST['address']);
+                                        $stmt = $connect->prepare("UPDATE orders SET name = ?, email = ? , phone = ? , area = ? , address = ? WHERE id = ?");
+                                        $stmt->execute(array($name, $email, $phone, $area, $address, $order_id));
+                                        if ($stmt) {
+                                            header("Location:main.php?dir=orders&page=edit_order&order_id=" . $order_id);
+                                        }
+                                    }
+                                    ?>
                                     <form action="" method="post">
                                         <div class="row">
                                             <div class="col-lg-12">
@@ -201,6 +216,9 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                                                     <input required type="text" id="address" name="address" class="form-control" value="<?php echo $order_data['address']; ?>">
                                                 </div>
                                             </div>
+                                            <br>
+                                            <br>
+                                            <button type="submit" class="btn btn-primary btn-sm" name="edit_customer_data"> <i class="fa fa-edit"></i> تعديل معلومات العميل </button>
                                         </div>
 
                                     </form>
