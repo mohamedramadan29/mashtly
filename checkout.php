@@ -267,38 +267,64 @@ if (isset($_SESSION['user_id'])) {
                                         <?php
                                         }
                                         ?>
+                                        <?php
+                                        if ($area == 'منطقة الرياض') {
+                                        ?>
+                                            <div class="d-flex align-items-center" id="payment1">
+                                                <input checked style="width: 35px;height: 28px;cursor: pointer;" required id="visa_payment" type="radio" name="checkout_payment" value="الدفع الالكتروني">
+                                                <label style="width: 95%;" for="visa_payment" class="checkout_address">
+                                                    <div class="address payment_method">
+                                                        <div class='add_content'>
+                                                            <div class="card_image">
+                                                                <img src="<?php echo $uploads ?>visa.svg" alt="">
+                                                            </div>
+                                                            <div class="card_data">
+                                                                <p class="number"> الدفع الالكتروني </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                            <div class="d-flex align-items-center" id="payment2">
+                                                <input style="width: 35px;height: 28px;cursor: pointer;" required id="when_drive" type="radio" name="checkout_payment" value="الدفع عن الاستلام">
+                                                <label style="width: 95%;" for="when_drive" class="checkout_address">
+                                                    <div class="address payment_method">
+                                                        <div class='add_content'>
+                                                            <div class="card_image">
+                                                                <img src="<?php echo $uploads ?>cash_on.svg" alt="">
+                                                            </div>
+                                                            <div class="card_data">
+                                                                <p class="number"> الدفع عند الاستلام </p>
+                                                                <!-- <p class="end_date"> يتم اضافة 5 ريال رسوم تحصيل </p> -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <div class="d-flex align-items-center" id="payment1">
+                                                <input checked style="width: 35px;height: 28px;cursor: pointer;" required id="visa_payment" type="radio" name="checkout_payment" value="الدفع الالكتروني">
+                                                <label style="width: 95%;" for="visa_payment" class="checkout_address">
+                                                    <div class="address payment_method">
+                                                        <div class='add_content'>
+                                                            <div class="card_image">
+                                                                <img src="<?php echo $uploads ?>visa.svg" alt="">
+                                                            </div>
+                                                            <div class="card_data">
+                                                                <p class="number"> الدفع الالكتروني </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
 
-                                        <div class="d-flex align-items-center" id="payment1">
-                                            <input checked style="width: 35px;height: 28px;cursor: pointer;" required id="visa_payment" type="radio" name="checkout_payment" value="الدفع الالكتروني">
-                                            <label style="width: 95%;" for="visa_payment" class="checkout_address">
-                                                <div class="address payment_method">
-                                                    <div class='add_content'>
-                                                        <div class="card_image">
-                                                            <img src="<?php echo $uploads ?>visa.svg" alt="">
-                                                        </div>
-                                                        <div class="card_data">
-                                                            <p class="number"> الدفع الالكتروني </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </div>
-                                        <div class="d-flex align-items-center" id="payment2">
-                                            <input style="width: 35px;height: 28px;cursor: pointer;" required id="when_drive" type="radio" name="checkout_payment" value="الدفع عن الاستلام">
-                                            <label style="width: 95%;" for="when_drive" class="checkout_address">
-                                                <div class="address payment_method">
-                                                    <div class='add_content'>
-                                                        <div class="card_image">
-                                                            <img src="<?php echo $uploads ?>cash_on.svg" alt="">
-                                                        </div>
-                                                        <div class="card_data">
-                                                            <p class="number"> الدفع عند الاستلام </p>
-                                                            <!-- <p class="end_date"> يتم اضافة 5 ريال رسوم تحصيل </p> -->
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </div>
+                                        <?php
+                                        }
+
+                                        ?>
+
                                     </div>
                                 </div>
                             </div>
@@ -520,7 +546,7 @@ if (isset($_SESSION['user_id'])) {
                                     ]
                                 ],
                                 'headers' => [
-                                    'Authorization' => 'Bearer ',// Sk Live 
+                                    'Authorization' => 'Bearer ', // Sk Live 
                                     'accept' => 'application/json',
                                     'content-type' => 'application/json',
                                 ],
