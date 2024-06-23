@@ -31,6 +31,16 @@
     <link rel="stylesheet" href="<?php echo $css; ?>select2.min.css">
     <link rel="stylesheet" href="<?php echo $css ?>main.css">
 
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y96EGZ5SEY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-Y96EGZ5SEY');
+    </script>
 </head>
 
 <body>

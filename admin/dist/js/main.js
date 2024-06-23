@@ -131,7 +131,17 @@ $(document).ready(function () {
             "infoFiltered": "(مرشحة من مجموع _MAX_ مُدخل)",
             "searchPlaceholder": "بحث"
         },
-       // "dom": 'Bfrtip',
+        "dom": 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excel',
+                text: ' Export Excel File '
+            },
+            // {
+            //     extend: 'pdf',
+            //     text: 'PDF'
+            // }
+        ]
     });
 
     

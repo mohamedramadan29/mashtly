@@ -169,7 +169,7 @@
 
    const xValues = ["عدد الطلبات الكلي", "طلبات مكتملة", "طلبات لم تبدا", "طلبات قيد الانتظار", "طلبات ملغية"];
    const yValues = [totalOrders, completedOrders, notStartedOrders, pendingOrders, canceledOrders];
-   const barColors = ["#3498db","#2ecc71", "#2980b9", "#f1c40f", "#2c3e50"];
+   const barColors = ["#3498db","#2ecc71", "#8e44ad", "#f1c40f", "#c0392b"];
 
    new Chart("orderschart", {
      type: "bar",
@@ -182,6 +182,11 @@
      },
    });
  </script>
+
+
+
+ <!--------------------------------- تقرير شهري للمبيعات ---------------------->
+
 
 
  </body>

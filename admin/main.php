@@ -209,6 +209,8 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
         include "products/get_variation.php";
     } elseif ($dir == 'products' && $page == 'google_product') {
         include "products/google_product.php";
+    } elseif ($dir == 'products' && $page == 'products_report') {
+        include "products/products_report.php";
     }
     /* 
     elseif ($dir == 'products' && $page == 'add_vartions') {
@@ -426,6 +428,12 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
     } elseif ($dir == 'attribute_vartions' && $page == 'report') {
         include "attribute_vartions/report.php";
     }
+
+    // START Google Analtyics
+    if ($dir == 'google_analytic' && $page == 'report') {
+        include "google_analytic/report.php";
+    }
+
     ?>
 
 </div>

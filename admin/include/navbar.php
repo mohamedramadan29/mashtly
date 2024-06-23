@@ -111,6 +111,11 @@
                     <p> اضافة منتج </p>
                   </a>
                 </li>
+                  <li class="nav-item">
+                      <a href="main.php?dir=products&page=products_report" class="nav-link">
+                          <p> تقارير عن المنتجات  </p>
+                      </a>
+                  </li>
                 <li class="nav-item">
                   <a href="main.php?dir=products&page=google_product" class="nav-link">
                     <p> منتجات جوجل </p>
@@ -247,6 +252,11 @@
                     <p> جميع الطلبات </p>
                   </a>
                 </li>
+                  <li class="nav-item">
+                      <a href="main.php?dir=orders&page=compeleted_orders" class="nav-link">
+                          <p>  الطلبات المكتملة  </p>
+                      </a>
+                  </li>
                 <li class="nav-item">
                   <a href="main.php?dir=orders&page=archieve" class="nav-link">
                     <p> ارشيف الطلبات </p>

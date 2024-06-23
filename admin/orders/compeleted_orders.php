@@ -53,7 +53,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="table-responsive">
+                        <div class="table-responsive" style="display: flex;flex-direction: column-reverse;">
                             <?php
                             if (isset($_POST['search'])) {
                                 $start_date = $_POST['start_date'];
@@ -132,11 +132,8 @@
                                                     ?>
                                                         <span class="badge badge-success"> الدفع عن الاستلام </span>
                                                     <?php
-
                                                     }
-
                                                     ?>
-
                                                 </td>
                                                 <td> <?php
                                                         if ($order['status_value'] == 'لم يبدا ') {
@@ -207,30 +204,29 @@
                                 <table class="table table-bordered" dir='rtl'>
                                     <tbody>
                                         <tr>
-                                            <th> مجموع الطلبات :: </th>
+                                            <th>عدد الطلبات :: </th>
                                             <td> <span class="badge badge-success"> <?php echo $count_orders; ?> طلب </span></td>
                                         </tr>
                                         <tr>
-                                            <th> سعر الطلبات الكلي :: </th>
+                                            <th>مجموع  الطلبات الكلي :: </th>
                                             <td> <span class="badge badge-info"> <?php echo $total_price; ?> ريال </span> </td>
                                         </tr>
                                         <tr>
-                                            <th> سعر الشحن الكلي :: </th>
+                                            <th>  مجموع الشحن الكلي :: </th>
                                             <td> <span class="badge badge-primary"> <?php echo $total_shipping; ?> ريال </span> </td>
                                         </tr>
                                         <tr>
-                                            <th> سعر الاضافات الكلي :: </th>
+                                            <th> مجموع الاضافات الكلي :: </th>
                                             <td> <span class="badge badge-warning"> <?php echo $total_farming; ?> ريال </span> </td>
                                         </tr>
-                                        <tr>
-                                            <th> صافي الربح :: </th>
-                                            <?php
-                                            $total_earning = $total_price - ($total_shipping + $total_farming);
-
-                                            ?>
-                                            <th> <span class="badge badge-danger"> <strong> <?php echo $total_earning; ?> ريال </strong> </span> </th>
-
-                                        </tr>
+<!--                                        <tr>-->
+<!--                                            <th> صافي الربح :: </th>-->
+<!--                                            --><?php
+//                                            $total_earning = $total_price - ($total_shipping + $total_farming);
+//
+//                                            ?>
+<!--                                            <th> <span class="badge badge-danger"> <strong> --><?php //echo $total_earning; ?><!-- ريال </strong> </span> </th>-->
+<!--                                        </tr>-->
                                     </tbody>
                                 </table>
                                 <?php

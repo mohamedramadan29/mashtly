@@ -250,6 +250,7 @@ require_once 'send_mail/vendor/autoload.php';
                                     $password = sanitizeInput($_POST['password']);
                                     $sha_password = sha1($_POST['password']);
                                     $email = sanitizeInput($_POST['email']);
+                                    $phone = sanitizeInput($_POST['phone']);
                                     $agree_policy = isset($_POST['agree_policy']);
                                     $emails_subscribe = isset($_POST['emails_subscribe']);
                                     if ($emails_subscribe) {
@@ -280,17 +281,22 @@ require_once 'send_mail/vendor/autoload.php';
                                     if (strlen($username) > 50) {
                                         $formerror[] = 'اسم المستخدم يجب ان يكون اقل من 50 حرف';
                                     }
+                                    if (empty($phone)){
+                                        $formerror[] = ' من فضلك ادخل رقم الهاتف ';
+                                    }
                                     // استخدام الوظيفة للتحقق من وجود البريد الإلكتروني
                                     checkIfExists($connect, 'users', 'email', $email, $formerror, 'البريد الإلكتروني مستخدم بالفعل');
+                                    checkIfExists($connect, 'users', 'phone', $phone, $formerror, ' رقم الهاتف مستخدم بالفعل ');
                                     // استخدام الوظيفة للتحقق من وجود اسم المستخدم
                                     checkIfExists($connect, 'users', 'user_name', $username, $formerror, 'اسم المستخدم مستخدم بالفعل');
                                     if (empty($formerror)) {
                                         try {
-                                            $stmt = $connect->prepare("INSERT INTO users(user_name,email,password,active_status_code,emails_subscribe) VALUES 
-                                            (:zuser_name,:zemail,:zpassword,:zactive_status_code,:zemail_sub)");
+                                            $stmt = $connect->prepare("INSERT INTO users(user_name,email,phone,password,active_status_code,emails_subscribe) VALUES 
+                                            (:zuser_name,:zemail,:zphone,:zpassword,:zactive_status_code,:zemail_sub)");
                                             $stmt->execute(array(
                                                 "zuser_name" => $username,
                                                 "zemail" => $email,
+                                                "zphone" => $phone,
                                                 "zpassword" => $sha_password,
                                                 "zactive_status_code" => $active_status_code,
                                                 "zemail_sub" => $emails_subscribe
@@ -411,6 +417,14 @@ require_once 'send_mail/vendor/autoload.php';
                                         <input value="<?php if (isset($_REQUEST['email'])) echo $_REQUEST['email']; ?>" required id="email" type="email" name="email" class='form-control' placeholder="اكتب…">
                                     </div>
                                 </div>
+
+                                <div class='box'>
+                                    <div class="input_box">
+                                        <label for="email">  رقم الهاتف  </label>
+                                        <input value="<?php if (isset($_REQUEST['phone'])) echo $_REQUEST['phone']; ?>" required id="phone" type="text" name="phone" class='form-control' placeholder="اكتب…">
+                                    </div>
+                                </div>
+
                                 <div class='box'>
                                     <div class="input_box">
                                         <label for="password"> كلمة المرور </label>
