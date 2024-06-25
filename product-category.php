@@ -277,7 +277,7 @@ if ($check_cat > 0) {
                         ?>
                             <div class="col-lg-3 col-6">
                                 <?php
-                                include 'tempelate/product.php';
+                                include 'tempelate/product.php'; 
                                 ?>
                             </div>
                         <?php

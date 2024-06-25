@@ -104,7 +104,9 @@
                     <?php
                     } else {
                     ?>
-                        <button name="add_to_cart" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="سلة الشراء"> أضف
+                        <button name="add_to_cart" class='btn global_button'>
+                    
+                        <img alt="سلة الشراء " src="<?php echo $uploads ?>/shopping-cart.png"> أضف
                             الي السلة
                         </button>
                     <?php
