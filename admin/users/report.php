@@ -183,7 +183,7 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="Company-2" class="block"> البريد الالكتروني </label>
-                                                                <input disabled id="Company-2" name="email" type="email" class="form-control required" value="<?php echo $user['email'] ?>">
+                                                                <input id="Company-2" name="email" type="email" class="form-control required" value="<?php echo $user['email'] ?>">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="Company-2" class="block"> تعديل كلمة المرور </label>

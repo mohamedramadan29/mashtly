@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark"> الطلبات </h1>
+                <h1 class="m-0 text-dark"> الطلبات الخارجية  </h1>
             </div>
             <!-- /.col -->
             <div class="col-sm-6">
@@ -18,7 +18,7 @@
                         <?php
                     } ?>
 
-                    <li class="breadcrumb-item active"> جميع الطلبات</li>
+                    <li class="breadcrumb-item active">  الطلبات الخارجية </li>
                 </ol>
             </div>
             <!-- /.col -->
@@ -35,59 +35,9 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <?php
-                        if (isset($_SESSION['admin_username'])) { ?>
-                            <a href="main.php?dir=orders&page=add" class="btn btn-primary waves-effect btn-sm"> أضافة
-                                طلب جديد <i class="fa fa-plus"></i> </a>
-                            <?php
-                        }
-                        ?>
+
                     </div>
                     <div class="card-body">
-                        <div class="form_new_search"
-                             style="box-shadow: 0px 0px 10px 2px #ebebeb;padding: 14px;margin-bottom: 10px; border-radius: 10px;">
-                            <span class="badeg badge-info" style="border-radius: 10px;font-size: 15px">  استخراج تقرير ايميلات الشهر   </span>
-                            <br>
-                            <br>
-                            <form method="post" action="">
-                                <div class="d-flex justify-content-between align-items-center flex-wrap">
-                                    <div class="form-group" style="width: 40%">
-                                        <select required id="" class="form-control custom-select select2"
-                                                name="order_month">
-                                            <option value=""> -- حدد الشهر --</option>
-                                            <option value="1"> 1</option>
-                                            <option value="2"> 2</option>
-                                            <option value="3"> 3</option>
-                                            <option value="4"> 4</option>
-                                            <option value="5"> 5</option>
-                                            <option value="6"> 6</option>
-                                            <option value="7"> 7</option>
-                                            <option value="8"> 8</option>
-                                            <option value="9"> 9</option>
-                                            <option value="10"> 10</option>
-                                            <option value="11"> 11</option>
-                                            <option value="12"> 12</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group" style="width: 40%">
-                                        <select required id="" class="form-control custom-select select2"
-                                                name="order_year">
-                                            <option value=""> -- حدد السنة --</option>
-                                            <option value="2023"> 2023</option>
-                                            <option value="2024"> 2024</option>
-                                            <option value="2025"> 2025</option>
-                                            <option value="2026"> 2026</option>
-                                            <option value="2027"> 2027</option>
-                                        </select>
-                                    </div>
-                                    <div style="width: 10%">
-                                        <button name="search" class="btn btn-dark btn-sm"> بحث <i
-                                                    class="fa fa-search"></i></button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
                         <!------------------------------------------------- ///////////////////////////////// -- ------------->
 
                         <div class="form_new_search"
@@ -146,7 +96,7 @@
                                 $search_date = date('Y-m-d', strtotime("$order_year-$order_month-01"));
                                 //echo $search_date;
                                 // استعلام SQL
-                                $stmt = $connect->prepare("SELECT * FROM orders WHERE MONTH(STR_TO_DATE(order_date, '%c/%e/%Y %l:%i %p')) = ?");
+                                $stmt = $connect->prepare("SELECT * FROM outside_orders WHERE MONTH(STR_TO_DATE(order_date, '%c/%e/%Y %l:%i %p')) = ?");
                                 $stmt->execute([$order_month]);
                                 $allorders = $stmt->fetchAll();
                                 $count = $stmt->rowCount();
@@ -203,18 +153,18 @@
                                         $status_value = $_POST['status_value'];
 
                                         // استعلام لجلب الطلبات بين التاريخين مع الشرط الإضافي
-                                        $stmt = $connect->prepare("SELECT * FROM orders WHERE STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND status_value = ?");
+                                        $stmt = $connect->prepare("SELECT * FROM outside_orders WHERE STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND status_value = ?");
                                         $stmt->execute(array($start_date_formatted, $end_date_formatted, $status_value));
                                     } else {
                                         // استعلام لجلب الطلبات بين التاريخين بدون الشرط الإضافي
-                                        $stmt = $connect->prepare("SELECT * FROM orders WHERE STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')");
+                                        $stmt = $connect->prepare("SELECT * FROM outside_orders WHERE STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')");
                                         $stmt->execute(array($start_date_formatted, $end_date_formatted));
                                     }
                                     // جلب جميع النتائج
                                     $allorders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     $count_orders = $stmt->rowCount();
                                 } else {
-                                    $stmt = $connect->prepare("SELECT * FROM orders WHERE archieve = 0 ORDER By id DESC");
+                                    $stmt = $connect->prepare("SELECT * FROM outside_orders WHERE archieve = 0 ORDER By id DESC");
                                     $stmt->execute();
                                     $allorders = $stmt->fetchAll();
                                     $count_orders = $stmt->rowCount();
@@ -232,7 +182,7 @@
                                             <th> تاريخ الطلب</th>
                                             <th> طريقة الدفع</th>
                                             <th> حالة الطلب</th>
-                                            <th> خصم</th>
+
                                             <th> السعر الكلي</th>
                                             <th> مشاكل شحن</th>
                                             <th></th>
@@ -308,7 +258,7 @@
                                                             <?php
                                                         } ?>
                                                         <?php
-                                                        $stmt = $connect->prepare("SELECT * FROM order_statuses WHERE order_id = ? ORDER BY id DESC LIMIT 1");
+                                                        $stmt = $connect->prepare("SELECT * FROM outside_order_statuses WHERE order_id = ? ORDER BY id DESC LIMIT 1");
                                                         $stmt->execute(array($order['id']));
                                                         $order_step = $stmt->fetch();
                                                         $count = $stmt->rowCount();
@@ -318,33 +268,21 @@
                                                         }
                                                         ?>
                                                     </td>
-                                                    <td>
-                                                        <?php
-                                                        if ($order['coupon_code'] != '') {
-                                                            ?>
-                                                            <span class="badge badge-info"><?php echo $order['discount_value']; ?> ر.س </span>
-                                                            <?php
-                                                        } else {
-                                                            ?>
-                                                            <span class="badge badge-danger"> لا يوجد خصم </span>
-                                                            <?php
-                                                        }
-                                                        ?>
-                                                    </td>
+
                                                     <td> <?php echo $order['total_price']; ?> ر.س</td>
                                                     <td> <?php echo $order['shipping_problem']; ?> </td>
                                                     <td>
-                                                        <a href="main.php?dir=orders&page=order_details&order_id=<?php echo $order['id']; ?>"
+                                                        <a href="main.php?dir=outside_orders&page=order_details&order_id=<?php echo $order['id']; ?>"
                                                            class="btn btn-success waves-effect btn-sm"> تفاصيل الطلب <i
                                                                     class='fa fa-eye'></i></a>
                                                         <?php
                                                         if (isset($_SESSION['admin_username'])) {
                                                             ?>
-                                                            <a href="main.php?dir=orders&page=edit_order&order_id=<?php echo $order['id']; ?>"
+                                                            <a href="main.php?dir=outside_orders&page=edit_order&order_id=<?php echo $order['id']; ?>"
                                                                class="btn btn-primary waves-effect btn-sm"> <i
                                                                         class='fa fa-edit'></i></a>
 
-                                                            <a href="main.php?dir=orders&page=delete&order_id=<?php echo $order['id']; ?>"
+                                                            <a href="main.php?dir=outside_orders&page=delete&order_id=<?php echo $order['id']; ?>"
                                                                class="confirm btn btn-danger btn-sm"> حذف <i
                                                                         class='fa fa-trash'></i> </a>
                                                             <?php
@@ -354,51 +292,7 @@
                                                 </tr>
                                                 <?php
                                             }
-                                        } elseif (isset($_SESSION['username'])) {
-
-                                            $stmt = $connect->prepare("SELECT DISTINCT o.id, o.order_number, o.order_date, o.status_value, o.address, o.total_price,o.name,o.city,o.email 
-                                        FROM orders o 
-                                        INNER JOIN order_steps os ON o.id = os.order_id 
-                                        WHERE os.username = ? 
-                                        ORDER BY o.id DESC");
-                                            $stmt->execute(array($_SESSION['id']));
-                                            $allorders = $stmt->fetchAll();
-                                            $count = count($allorders);
-                                            $i = 0;
-                                            foreach ($allorders as $order) {
-                                                $i++;
-                                                ?>
-                                                <tr>
-                                                    <td> <?php echo $i; ?> </td>
-                                                    <td> <?php echo $order['order_number']; ?> </td>
-                                                    <td> <?php echo $order['name']; ?> </td>
-                                                    <td> <?php echo $order['city']; ?> </td>
-                                                    <td> <?php echo $order['email']; ?> </td>
-                                                    <td> <?php echo $order['order_date']; ?> </td>
-                                                    <td>
-                                                        <span class="badge badge-info"> <?php echo $order['status_value']; ?> </span>
-                                                    </td>
-                                                    <td> <?php echo $order['total_price']; ?> </td>
-                                                    <td>
-                                                        <a href="main.php?dir=orders&page=order_details&order_id=<?php echo $order['id']; ?>"
-                                                           class="btn btn-success btn-sm"> تفاصيل الطلب <i
-                                                                    class='fa fa-eye'></i></a>
-                                                        <?php
-                                                        if (isset($_SESSION['admin_username'])) {
-                                                            ?>
-                                                            <a href="main.php?dir=orders&page=delete&order_id=<?php echo $order['id']; ?>"
-                                                               class="confirm btn btn-danger btn-sm"> حذف <i
-                                                                        class='fa fa-trash'></i> </a>
-                                                            <?php
-                                                        }
-                                                        ?>
-                                                    </td>
-                                                </tr>
-                                                <?php
-                                            }
-                                            //   }
-                                            // $stmt = $connect->prepare("SELECT * FROM orders WHERE id = ?");
-                                        } else {
+                                        }  else {
                                             $allorders = 0;
                                         }
 

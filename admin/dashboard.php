@@ -49,6 +49,27 @@ $count_orders = $stmt->rowCount();
                                 class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
+
+            <!-- ./col -->
+            <?php
+            $stmt = $connect->prepare("SELECT * FROM outside_orders");
+            $stmt->execute();
+            $count_outside_orders = $stmt->rowCount();
+            ?>
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-primary">
+                    <div class="inner">
+                        <h3> <?php echo $count_outside_orders; ?> </h3>
+                        <p class="text-bold">  الطلبات الخارجية  </p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-file"></i>
+                    </div>
+                    <a href="main.php?dir=outside_orders&page=report" class="small-box-footer"> التقاصيل <i
+                                class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
             <!-- ./col -->
             <div class="col-lg-3 col-6">
                 <?php

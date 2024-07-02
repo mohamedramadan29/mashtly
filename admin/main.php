@@ -434,6 +434,51 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
         include "google_analytic/report.php";
     }
 
+    /////////////////////////// Start OutSide Orders
+    ///
+    // START Landscap  Orders
+
+    // START OutSide Orders
+    if ($dir == 'outside_orders' && $page == 'add') {
+        include "outside_orders/add.php";
+    } elseif ($dir == 'outside_orders' && $page == 'add_order') {
+        include "outside_orders/add_order.php";
+    } elseif ($dir == 'outside_orders' && $page == 'edit') {
+        include "outside_orders/edit.php";
+    } elseif ($dir == 'outside_orders' && $page == 'delete') {
+        include 'outside_orders/delete.php';
+    } elseif ($dir == 'outside_orders' && $page == 'report') {
+        include "outside_orders/report.php";
+    } elseif ($dir == 'outside_orders' && $page == 'order_details') {
+        include "outside_orders/order_details.php";
+    } elseif ($dir == 'outside_orders' && $page == 'add_step') {
+        include "outside_orders/add_step.php";
+    } elseif ($dir == 'outside_orders' && $page == 'edit_step') {
+        include "outside_orders/edit_step.php";
+    } elseif ($dir == 'outside_orders' && $page == 'edit_step') {
+        include "outside_orders/edit_step.php";
+    } elseif ($dir == 'outside_orders' && $page == 'prepare_order') {
+        include "outside_orders/prepare_order.php";
+    } elseif ($dir == 'outside_orders' && $page == 'quality_order') {
+        include "outside_orders/quality_order.php";
+    } elseif ($dir == 'outside_orders' && $page == 'order_delivery') {
+        include "outside_orders/order_delivery.php";
+    } elseif ($dir == 'outside_orders' && $page == 'accounting') {
+        include "outside_orders/accounting.php";
+    } elseif ($dir == 'outside_orders' && $page == 'order_products_rev') {
+        include "outside_orders/order_products_rev.php";
+    } elseif ($dir == 'outside_orders' && $page == 'order_invoice') {
+        include "outside_orders/order_invoice.php";
+    } elseif ($dir == 'outside_orders' && $page == 'order_done') {
+        include "outside_orders/order_done.php";
+    } elseif ($dir == 'outside_orders' && $page == 'archieve') {
+        include "outside_orders/archieve.php";
+    } elseif ($dir == 'outside_orders' && $page == 'edit_order') {
+        include "outside_orders/edit_order.php";
+    }elseif ($dir == 'outside_orders' && $page == 'compeleted_orders') {
+        include "outside_orders/compeleted_orders.php";
+    }
+
     ?>
 
 </div>

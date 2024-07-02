@@ -135,7 +135,7 @@ $(document).ready(function () {
         buttons: [
             {
                 extend: 'excel',
-                text: ' Export Excel File '
+                text: ' استخراج ملف اكسيل  '
             },
             // {
             //     extend: 'pdf',
@@ -143,6 +143,8 @@ $(document).ready(function () {
             // }
         ]
     });
+
+    
 
     
 
