@@ -179,7 +179,6 @@ if (isset($_SESSION['user_id'])) {
                                     });
                                 </script>
                                 <!-- -----------------------  اضافة خدمات غير متاحة   --------------------------->
-
                                 <div class="outside_products">
                                     <?php
                                     $total_outside_services = 0;

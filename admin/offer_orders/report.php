@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark"> الطلبات الخارجية </h1>
+                <h1 class="m-0 text-dark"> عروض السعر  </h1>
             </div>
             <!-- /.col -->
             <div class="col-sm-6">
@@ -18,7 +18,7 @@
                     <?php
                     } ?>
 
-                    <li class="breadcrumb-item active"> الطلبات الخارجية </li>
+                    <li class="breadcrumb-item active"> عروض السعر </li>
                 </ol>
             </div>
             <!-- /.col -->
@@ -35,7 +35,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <a href="main.php?dir=outside_orders&page=add" class="btn btn-primary btn-sm"> اضافة طلب خارجي <i class="fa fa-plus"></i> </a>
+                        <a href="main.php?dir=offer_orders&page=add" class="btn btn-primary btn-sm"> اضافة عرض سعر  <i class="fa fa-plus"></i> </a>
                     </div>
                     <div class="card-body">
                         <!------------------------------------------------- ///////////////////////////////// -- ------------->
@@ -85,7 +85,7 @@
                                 $search_date = date('Y-m-d', strtotime("$order_year-$order_month-01"));
                                 //echo $search_date;
                                 // استعلام SQL
-                                $stmt = $connect->prepare("SELECT * FROM outside_orders WHERE MONTH(STR_TO_DATE(order_date, '%c/%e/%Y %l:%i %p')) = ?");
+                                $stmt = $connect->prepare("SELECT * FROM offer_orders WHERE MONTH(STR_TO_DATE(order_date, '%c/%e/%Y %l:%i %p')) = ?");
                                 $stmt->execute([$order_month]);
                                 $allorders = $stmt->fetchAll();
                                 $count = $stmt->rowCount();
@@ -142,18 +142,18 @@
                                         $status_value = $_POST['status_value'];
 
                                         // استعلام لجلب الطلبات بين التاريخين مع الشرط الإضافي
-                                        $stmt = $connect->prepare("SELECT * FROM outside_orders WHERE STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND status_value = ?");
+                                        $stmt = $connect->prepare("SELECT * FROM offer_orders WHERE STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND status_value = ?");
                                         $stmt->execute(array($start_date_formatted, $end_date_formatted, $status_value));
                                     } else {
                                         // استعلام لجلب الطلبات بين التاريخين بدون الشرط الإضافي
-                                        $stmt = $connect->prepare("SELECT * FROM outside_orders WHERE STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')");
+                                        $stmt = $connect->prepare("SELECT * FROM offer_orders WHERE STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')");
                                         $stmt->execute(array($start_date_formatted, $end_date_formatted));
                                     }
                                     // جلب جميع النتائج
                                     $allorders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     $count_orders = $stmt->rowCount();
                                 } else {
-                                    $stmt = $connect->prepare("SELECT * FROM outside_orders WHERE archieve = 0 ORDER By id DESC");
+                                    $stmt = $connect->prepare("SELECT * FROM offer_orders WHERE archieve = 0 ORDER By id DESC");
                                     $stmt->execute();
                                     $allorders = $stmt->fetchAll();
                                     $count_orders = $stmt->rowCount();
@@ -247,7 +247,7 @@
                                                             <?php
                                                                 } ?>
                                                             <?php
-                                                            $stmt = $connect->prepare("SELECT * FROM outside_order_statuses WHERE order_id = ? ORDER BY id DESC LIMIT 1");
+                                                            $stmt = $connect->prepare("SELECT * FROM offer_order_statuses WHERE order_id = ? ORDER BY id DESC LIMIT 1");
                                                             $stmt->execute(array($order['id']));
                                                             $order_step = $stmt->fetch();
                                                             $count = $stmt->rowCount();
@@ -261,13 +261,13 @@
                                                         <td> <?php echo $order['total_price']; ?> ر.س</td>
                                                         <td> <?php echo $order['shipping_problem']; ?> </td>
                                                         <td>
-                                                            <a href="main.php?dir=outside_orders&page=order_details&order_id=<?php echo $order['id']; ?>" class="btn btn-success waves-effect btn-sm"> تفاصيل الطلب <i class='fa fa-eye'></i></a>
+                                                            <a href="main.php?dir=offer_orders&page=order_details&order_id=<?php echo $order['id']; ?>" class="btn btn-success waves-effect btn-sm"> تفاصيل الطلب <i class='fa fa-eye'></i></a>
                                                             <?php
                                                             if (isset($_SESSION['admin_username'])) {
                                                             ?>
-                                                                <a href="main.php?dir=outside_orders&page=edit_order&order_id=<?php echo $order['id']; ?>" class="btn btn-primary waves-effect btn-sm"> <i class='fa fa-edit'></i></a>
+                                                                <a href="main.php?dir=offer_orders&page=edit_order&order_id=<?php echo $order['id']; ?>" class="btn btn-primary waves-effect btn-sm"> <i class='fa fa-edit'></i></a>
 
-                                                                <a href="main.php?dir=outside_orders&page=delete&order_id=<?php echo $order['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
+                                                                <a href="main.php?dir=offer_orders&page=delete&order_id=<?php echo $order['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
                                                             <?php
                                                             }
                                                             ?>

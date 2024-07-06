@@ -144,9 +144,48 @@ $(document).ready(function () {
         ]
     });
 
-    
 
-    
+    $(document).ready(function () {
+        var table = $('#my_table_new_report').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    text: 'Export to Excel',
+                    action: function (e, dt, button, config) {
+                        var data = [];
+                        var headers = [];
+                        $('#my_table_new_report thead th').each(function () {
+                            headers.push($(this).text());
+                        });
+                        data.push(headers);
+
+                        table.rows({ search: 'applied' }).every(function () {
+                            var row = [];
+                            $(this.node()).find('td').each(function () {
+                                var cell = $(this).html();
+                                if ($(this).find('a').length > 0) {
+                                    cell = $(this).find('a').attr('href');
+                                }
+                                row.push(cell);
+                            });
+                            data.push(row);
+                        });
+
+                        var ws = XLSX.utils.aoa_to_sheet(data);
+                        var wb = XLSX.utils.book_new();
+                        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+                        XLSX.writeFile(wb, 'Export.xlsx');
+                    }
+                }
+            ]
+        });
+    });
+
+
+
+
+
+
 
     // Use Dropify 
 

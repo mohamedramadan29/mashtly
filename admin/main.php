@@ -158,8 +158,7 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
         include 'baskets_uncomplete/delete.php';
     } elseif ($dir == 'baskets_uncomplete' && $page == 'report') {
         include "baskets_uncomplete/report.php";
-    }
-    elseif ($dir == 'baskets_uncomplete' && $page == 'details') {
+    } elseif ($dir == 'baskets_uncomplete' && $page == 'details') {
         include "baskets_uncomplete/details.php";
     }
 
@@ -211,6 +210,8 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
         include "products/google_product.php";
     } elseif ($dir == 'products' && $page == 'products_report') {
         include "products/products_report.php";
+    } elseif ($dir == 'products' && $page == 'new_report') {
+        include "products/new_report.php";
     }
     /* 
     elseif ($dir == 'products' && $page == 'add_vartions') {
@@ -265,7 +266,7 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
         include "orders/archieve.php";
     } elseif ($dir == 'orders' && $page == 'edit_order') {
         include "orders/edit_order.php";
-    }elseif ($dir == 'orders' && $page == 'compeleted_orders') {
+    } elseif ($dir == 'orders' && $page == 'compeleted_orders') {
         include "orders/compeleted_orders.php";
     }
     // START employee
@@ -475,8 +476,50 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
         include "outside_orders/archieve.php";
     } elseif ($dir == 'outside_orders' && $page == 'edit_order') {
         include "outside_orders/edit_order.php";
-    }elseif ($dir == 'outside_orders' && $page == 'compeleted_orders') {
+    } elseif ($dir == 'outside_orders' && $page == 'compeleted_orders') {
         include "outside_orders/compeleted_orders.php";
+    }
+
+
+    // START Offer  Orders عروض الاسعار 
+    if ($dir == 'offer_orders' && $page == 'add') {
+        include "offer_orders/add.php";
+    } elseif ($dir == 'offer_orders' && $page == 'add_order') {
+        include "offer_orders/add_order.php";
+    } elseif ($dir == 'offer_orders' && $page == 'edit') {
+        include "offer_orders/edit.php";
+    } elseif ($dir == 'offer_orders' && $page == 'delete') {
+        include 'offer_orders/delete.php';
+    } elseif ($dir == 'offer_orders' && $page == 'report') {
+        include "offer_orders/report.php";
+    } elseif ($dir == 'offer_orders' && $page == 'order_details') {
+        include "offer_orders/order_details.php";
+    } elseif ($dir == 'offer_orders' && $page == 'add_step') {
+        include "offer_orders/add_step.php";
+    } elseif ($dir == 'offer_orders' && $page == 'edit_step') {
+        include "offer_orders/edit_step.php";
+    } elseif ($dir == 'offer_orders' && $page == 'edit_step') {
+        include "offer_orders/edit_step.php";
+    } elseif ($dir == 'offer_orders' && $page == 'prepare_order') {
+        include "offer_orders/prepare_order.php";
+    } elseif ($dir == 'offer_orders' && $page == 'quality_order') {
+        include "offer_orders/quality_order.php";
+    } elseif ($dir == 'offer_orders' && $page == 'order_delivery') {
+        include "offer_orders/order_delivery.php";
+    } elseif ($dir == 'offer_orders' && $page == 'accounting') {
+        include "offer_orders/accounting.php";
+    } elseif ($dir == 'offer_orders' && $page == 'order_products_rev') {
+        include "offer_orders/order_products_rev.php";
+    } elseif ($dir == 'offer_orders' && $page == 'order_invoice') {
+        include "offer_orders/order_invoice.php";
+    } elseif ($dir == 'offer_orders' && $page == 'order_done') {
+        include "offer_orders/order_done.php";
+    } elseif ($dir == 'offer_orders' && $page == 'archieve') {
+        include "offer_orders/archieve.php";
+    } elseif ($dir == 'offer_orders' && $page == 'edit_order') {
+        include "offer_orders/edit_order.php";
+    } elseif ($dir == 'offer_orders' && $page == 'compeleted_orders') {
+        include "offer_orders/compeleted_orders.php";
     }
 
     ?>

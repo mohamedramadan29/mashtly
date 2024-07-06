@@ -7,11 +7,11 @@
 if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
   $order_id = $_GET['order_id'];
   // get order
-  $stmt = $connect->prepare("SELECT * FROM outside_orders WHERE id = ?");
+  $stmt = $connect->prepare("SELECT * FROM offer_orders WHERE id = ?");
   $stmt->execute(array($order_id));
   $order_data = $stmt->fetch();
   // get order details 
-  $stmt = $connect->prepare("SELECT * FROM outside_order_details WHERE order_id = ?");
+  $stmt = $connect->prepare("SELECT * FROM offer_order_details WHERE order_id = ?");
   $stmt->execute(array($order_id));
   $order_details_data = $stmt->fetchAll();
   $items_count = $stmt->rowCount();
@@ -264,7 +264,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                             <div class="col-lg-12">
                               <div class="">
                                 <?php
-                                $stmt = $connect->prepare("SELECT * FROM outside_products WHERE order_id = ?");
+                                $stmt = $connect->prepare("SELECT * FROM offer_products WHERE order_id = ?");
                                 $stmt->execute(array($order_id));
                                 $alloutside_products = $stmt->fetchAll();
                                 $count_outsideproducts = $stmt->rowCount();
@@ -333,7 +333,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                             <div class="col-lg-12">
                               <div class="">
                                 <?php
-                                $stmt = $connect->prepare("SELECT * FROM outside_services WHERE order_id = ?");
+                                $stmt = $connect->prepare("SELECT * FROM offer_services WHERE order_id = ?");
                                 $stmt->execute(array($order_id));
                                 $alloutside_services = $stmt->fetchAll();
                                 $count_outsideservices = $stmt->rowCount();
@@ -438,7 +438,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                     <div class="col-lg-6">
                       <div class="">
                         <?php
-                        $stmt = $connect->prepare("SELECT * FROM outside_products WHERE order_id = ?");
+                        $stmt = $connect->prepare("SELECT * FROM offer_products WHERE order_id = ?");
                         $stmt->execute(array($order_id));
                         $alloutside_products = $stmt->fetchAll();
 
@@ -523,20 +523,20 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                             $outsideproduct_main_price = $_POST['outsideproduct_main_price'];
                             $outside_product_tail = $_POST['outside_product_tail'];
 
-                            $stmt = $connect->prepare("UPDATE outside_products SET product_name=?,product_qty=?,product_type=?,product_tail=?,first_price=?,main_price=? WHERE id = ?");
+                            $stmt = $connect->prepare("UPDATE offer_products SET product_name=?,product_qty=?,product_type=?,product_tail=?,first_price=?,main_price=? WHERE id = ?");
                             $stmt->execute(array($outsideproduct_name, $outsideproduct_qty, $outsideproduct_type, $outside_product_tail, $outsideproduct_first_price, $outsideproduct_main_price, $outsideproduct_id));
 
                             if ($stmt) {
-                              header("Location:main.php?dir=outside_orders&page=order_details&order_id=" . $order_id);
+                              header("Location:main.php?dir=offer_orders&page=order_details&order_id=" . $order_id);
                             }
                           }
 
                           if (isset($_POST['delete_outsideproduct'])) {
                             $outsideproduct_id = $_POST['outside_product_id'];
-                            $stmt = $connect->prepare("DELETE FROM outside_products  WHERE id = ?");
+                            $stmt = $connect->prepare("DELETE FROM offer_products  WHERE id = ?");
                             $stmt->execute(array($outsideproduct_id));
                             if ($stmt) {
-                              header("Location:main.php?dir=outside_orders&page=order_details&order_id=" . $order_id);
+                              header("Location:main.php?dir=offer_orders&page=order_details&order_id=" . $order_id);
                             }
                           }
                           ?>
@@ -568,7 +568,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                     <div class="col-lg-6">
                       <div class="">
                         <?php
-                        $stmt = $connect->prepare("SELECT * FROM outside_services WHERE order_id = ?");
+                        $stmt = $connect->prepare("SELECT * FROM offer_services WHERE order_id = ?");
                         $stmt->execute(array($order_id));
                         $alloutside_services = $stmt->fetchAll();
                         foreach ($alloutside_services as $outside_services) {
@@ -611,21 +611,21 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                             $outside_service_first_price = $_POST['outside_service_first_price'];
                             $outside_service_main_price = $_POST['outside_service_main_price'];
 
-                            $stmt = $connect->prepare("UPDATE outside_services SET serv_name=?,first_price = ? , main_price=? WHERE id=?");
+                            $stmt = $connect->prepare("UPDATE offer_services SET serv_name=?,first_price = ? , main_price=? WHERE id=?");
                             $stmt->execute(array($outside_service_name, $outside_service_first_price, $outside_service_main_price, $outsideserv_id));
 
                             if ($stmt) {
-                              header("Location:main.php?dir=outside_orders&page=order_details&order_id=" . $order_id);
+                              header("Location:main.php?dir=offer_orders&page=order_details&order_id=" . $order_id);
                             }
                           }
                           if (isset($_POST['delete_outsideserv'])) {
                             $outsideserv_id = $_POST['outsideserv_id'];
 
-                            $stmt = $connect->prepare("DELETE FROM outside_services WHERE id = ?");
+                            $stmt = $connect->prepare("DELETE FROM offer_services WHERE id = ?");
                             $stmt->execute(array($outsideserv_id));
 
                             if ($stmt) {
-                              header("Location:main.php?dir=outside_orders&page=order_details&order_id=" . $order_id);
+                              header("Location:main.php?dir=offer_orders&page=order_details&order_id=" . $order_id);
                             }
                           }
                           ?>
@@ -673,10 +673,10 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                               <tbody>
                                 <?php
                                 if (isset($_SESSION['username'])) {
-                                  $stmt = $connect->prepare("SELECT * FROM outside_order_steps WHERE order_id=? AND username=?");
+                                  $stmt = $connect->prepare("SELECT * FROM offer_order_steps WHERE order_id=? AND username=?");
                                   $stmt->execute(array($order_id, $_SESSION['id']));
                                 } else {
-                                  $stmt = $connect->prepare("SELECT * FROM outside_order_steps WHERE order_id=?");
+                                  $stmt = $connect->prepare("SELECT * FROM offer_order_steps WHERE order_id=?");
                                   $stmt->execute(array($order_id));
                                 }
                                 $allsteps = $stmt->fetchAll();
@@ -797,7 +797,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                     <tbody>
                       <tr>
                         <td> <?php echo $order_data['order_number']; ?> </td>
-                        <td> <a href="main.php?dir=outside_orders&page=order_invoice&order_id=<?php echo $order_id; ?>" class="btn btn-primary btn-sm"> مشاهدة الفاتورة <i class="fa fa-file-invoice"></i> </a> </td>
+                        <td> <a href="main.php?dir=offer_orders&page=order_invoice&order_id=<?php echo $order_id; ?>" class="btn btn-primary btn-sm"> مشاهدة الفاتورة <i class="fa fa-file-invoice"></i> </a> </td>
                       </tr>
                     </tbody>
                   </table>
@@ -806,7 +806,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
 
                   <?php
                   // get all order status and the last status 
-                  $stmt = $connect->prepare("SELECT * FROM outside_order_statuses where order_id = ? ");
+                  $stmt = $connect->prepare("SELECT * FROM offer_order_statuses where order_id = ? ");
                   $stmt->execute(array($order_id));
                   $count_order_status = $stmt->rowCount();
                   $order_status = $stmt->fetchAll();
@@ -839,7 +839,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                   <?php
 
                   // get The Last Status Of Order
-                  $stmt = $connect->prepare("SELECT * FROM outside_order_statuses where order_id = ? ORDER BY id DESC ");
+                  $stmt = $connect->prepare("SELECT * FROM offer_order_statuses where order_id = ? ORDER BY id DESC ");
                   $stmt->execute(array($order_id));
                   $count_last_status = $stmt->rowCount();
                   $status_data = $stmt->fetch();
@@ -865,7 +865,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                   if (isset($_POST['change_status'])) {
                     $order_status = $_POST['order_status'];
                     // Insert New Order Status 
-                    $stmt = $connect->prepare("INSERT INTO outside_order_statuses (order_id,change_date,status)
+                    $stmt = $connect->prepare("INSERT INTO offer_order_statuses (order_id,change_date,status)
                     VALUES(:zorder_id,:zchange_date,:zstatus)
                     ");
                     $stmt->execute(array(
@@ -875,9 +875,9 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                     ));
                     if ($stmt) {
                       // change status in order 
-                      $stmt = $connect->prepare("UPDATE outside_orders SET status_value = ? WHERE id = ?");
+                      $stmt = $connect->prepare("UPDATE offer_orders SET status_value = ? WHERE id = ?");
                       $stmt->execute(array($order_status, $order_id));
-                      header("Location:main.php?dir=outside_orders&page=order_details&order_id=" . $order_id);
+                      header("Location:main.php?dir=offer_orders&page=order_details&order_id=" . $order_id);
                   ?>
 
                       <div class="alert alert-danger"> تم اضافه الطلب بنجاح </div>

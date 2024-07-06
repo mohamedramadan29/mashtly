@@ -45,8 +45,7 @@ $count_orders = $stmt->rowCount();
                     <div class="icon">
                         <i class="fa fa-file"></i>
                     </div>
-                    <a href="main.php?dir=orders&page=report" class="small-box-footer"> التقاصيل <i
-                                class="fas fa-arrow-circle-right"></i></a>
+                    <a href="main.php?dir=orders&page=report" class="small-box-footer"> التقاصيل <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
 
@@ -61,13 +60,31 @@ $count_orders = $stmt->rowCount();
                 <div class="small-box bg-primary">
                     <div class="inner">
                         <h3> <?php echo $count_outside_orders; ?> </h3>
-                        <p class="text-bold">  الطلبات الخارجية  </p>
+                        <p class="text-bold"> الطلبات الخارجية </p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-file"></i>
                     </div>
-                    <a href="main.php?dir=outside_orders&page=report" class="small-box-footer"> التقاصيل <i
-                                class="fas fa-arrow-circle-right"></i></a>
+                    <a href="main.php?dir=outside_orders&page=report" class="small-box-footer"> التقاصيل <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <?php
+            $stmt = $connect->prepare("SELECT * FROM offer_orders");
+            $stmt->execute();
+            $count_outside_orders = $stmt->rowCount();
+            ?>
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box" style="background-color:#8e44ad;color:#fff">
+                    <div class="inner">
+                        <h3> <?php echo $count_outside_orders; ?> </h3>
+                        <p class="text-bold"> عروض الاسعار </p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-file"></i>
+                    </div>
+                    <a href="main.php?dir=offer_orders&page=report" class="small-box-footer"> التقاصيل <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -86,8 +103,7 @@ $count_orders = $stmt->rowCount();
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="main.php?dir=categories&page=report" class="small-box-footer"> التقاصيل <i
-                                class="fas fa-arrow-circle-right"></i></a>
+                    <a href="main.php?dir=categories&page=report" class="small-box-footer"> التقاصيل <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -108,8 +124,7 @@ $count_orders = $stmt->rowCount();
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="main.php?dir=products&page=report" class="small-box-footer"> التقاصيل <i
-                                class="fas fa-arrow-circle-right"></i></a>
+                    <a href="main.php?dir=products&page=report" class="small-box-footer"> التقاصيل <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <div class="col-lg-3 col-6">
@@ -126,8 +141,7 @@ $count_orders = $stmt->rowCount();
                     <div class="icon">
                         <i class="fa fa-users"></i>
                     </div>
-                    <a href="main.php?dir=users&page=report" class="small-box-footer"> التقاصيل <i
-                                class="fas fa-arrow-circle-right"></i></a>
+                    <a href="main.php?dir=users&page=report" class="small-box-footer"> التقاصيل <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>
@@ -172,74 +186,71 @@ $count_orders = $stmt->rowCount();
                                 }
                             </style>
                             <li><a href="main.php?dir=orders&page=report" style="color: #555;"> عدد الطلبات الكلي
-                                    :: </a> <span id="totalOrders" class="badge"
-                                                  style="background-color: #3498db; color:#fff"> <?php echo $count_orders; ?> </span>
+                                    :: </a> <span id="totalOrders" class="badge" style="background-color: #3498db; color:#fff"> <?php echo $count_orders; ?> </span>
                             </li>
                             <li><a href="main.php?dir=orders&page=compeleted_orders" style="color: #555;"> طلبات مكتملة
-                                    :: </a> <span id="completedOrders" class="badge"
-                                                  style="background-color: #2ecc71; color:#fff"> <?php echo $count_orders_compeleted; ?> </span>
+                                    :: </a> <span id="completedOrders" class="badge" style="background-color: #2ecc71; color:#fff"> <?php echo $count_orders_compeleted; ?> </span>
                             </li>
-                            <li> طلبات لم تبدا :: <span id="notStartedOrders" class="badge"
-                                                        style="background-color: #8e44ad; color:#fff"> <?php echo $count_orders_not_started; ?> </span>
+                            <li> طلبات لم تبدا :: <span id="notStartedOrders" class="badge" style="background-color: #8e44ad; color:#fff"> <?php echo $count_orders_not_started; ?> </span>
                             </li>
-                            <li> طلبات قيد الانتظار :: <span id="pendingOrders" class="badge"
-                                                             style="background-color: #f1c40f; color:#fff"> <?php echo $count_orders_waits;; ?> </span>
+                            <li> طلبات قيد الانتظار :: <span id="pendingOrders" class="badge" style="background-color: #f1c40f; color:#fff"> <?php echo $count_orders_waits;; ?> </span>
                             </li>
-                            <li> طلبات ملغية :: <span id="canceledOrders" class="badge"
-                                                      style="background-color: #c0392b; color:#fff"> <?php echo $count_orders_cancelled; ?> </span>
+                            <li> طلبات ملغية :: <span id="canceledOrders" class="badge" style="background-color: #c0392b; color:#fff"> <?php echo $count_orders_cancelled; ?> </span>
                             </li>
                         </ul>
                         <table class="table table-bordered" dir='rtl'>
                             <tbody>
-                            <tr>
-                                <th> مجموع الطلبات المكتملة ::</th>
-                                <td>
-                                    <span class="badge badge-success"> <?php echo $count_orders_compeleted; ?> طلب </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th> السعر الكلي للطلبات المكتملة ::</th>
-                                <?php
-                                $stmt = $connect->prepare("SELECT SUM(total_price) as TotalCompeletedOrders FROM orders WHERE  archieve = 0 AND status_value = 'مكتمل'");
-                                $stmt->execute();
-                                $data = $stmt->fetch();
-                                $total_price = $data['TotalCompeletedOrders'];
+                                <tr>
+                                    <th> مجموع الطلبات المكتملة ::</th>
+                                    <td>
+                                        <span class="badge badge-success"> <?php echo $count_orders_compeleted; ?> طلب </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th> السعر الكلي للطلبات المكتملة ::</th>
+                                    <?php
+                                    $stmt = $connect->prepare("SELECT SUM(total_price) as TotalCompeletedOrders FROM orders WHERE  archieve = 0 AND status_value = 'مكتمل'");
+                                    $stmt->execute();
+                                    $data = $stmt->fetch();
+                                    $total_price = $data['TotalCompeletedOrders'];
 
-                                ///////////
-                                ?>
-                                <td><span class="badge badge-info"> <?php echo $total_price; ?> ريال </span></td>
-                            </tr>
-                            <tr>
-                                <th> سعر الشحن ::</th>
-                                <?php
-                                $stmt = $connect->prepare("SELECT SUM(ship_price) as TotalShippedOrders FROM orders WHERE  archieve = 0 AND status_value = 'مكتمل'");
-                                $stmt->execute();
-                                $data_ship = $stmt->fetch();
-                                $total_shipping = $data_ship['TotalShippedOrders'];
-                                ?>
-                                <td><span class="badge badge-primary"> <?php echo $total_shipping; ?> ريال </span></td>
-                            </tr>
-                            <tr>
-                                <th> سعر الاضافات ::</th>
-                                <?php
-                                $stmt = $connect->prepare("SELECT SUM(farm_service_price) as TotalFarmOrders FROM orders WHERE  archieve = 0 AND status_value = 'مكتمل'");
-                                $stmt->execute();
-                                $data_farm = $stmt->fetch();
-                                $total_farming = $data_farm['TotalFarmOrders'];
-                                ?>
-                                <td><span class="badge badge-warning"> <?php echo $total_farming; ?> ريال </span></td>
-                            </tr>
-                            <!--                            <tr>-->
-                            <!--                                <th> صافي الربح ::</th>-->
-                            <!--                                --><?php
-                            //                                $total_earning = $total_price - ($total_shipping + $total_farming);
-                            //
-                            //                                ?>
-                            <!--                                <th>-->
-                            <!--                                    <span class="badge badge-danger"> <strong> -->
-                            <?php //echo $total_earning; ?><!-- ريال </strong> </span>-->
-                            <!--                                </th>-->
-                            <!--                            </tr>-->
+                                    ///////////
+                                    ?>
+                                    <td><span class="badge badge-info"> <?php echo $total_price; ?> ريال </span></td>
+                                </tr>
+                                <tr>
+                                    <th> سعر الشحن ::</th>
+                                    <?php
+                                    $stmt = $connect->prepare("SELECT SUM(ship_price) as TotalShippedOrders FROM orders WHERE  archieve = 0 AND status_value = 'مكتمل'");
+                                    $stmt->execute();
+                                    $data_ship = $stmt->fetch();
+                                    $total_shipping = $data_ship['TotalShippedOrders'];
+                                    ?>
+                                    <td><span class="badge badge-primary"> <?php echo $total_shipping; ?> ريال </span></td>
+                                </tr>
+                                <tr>
+                                    <th> سعر الاضافات ::</th>
+                                    <?php
+                                    $stmt = $connect->prepare("SELECT SUM(farm_service_price) as TotalFarmOrders FROM orders WHERE  archieve = 0 AND status_value = 'مكتمل'");
+                                    $stmt->execute();
+                                    $data_farm = $stmt->fetch();
+                                    $total_farming = $data_farm['TotalFarmOrders'];
+                                    ?>
+                                    <td><span class="badge badge-warning"> <?php echo $total_farming; ?> ريال </span></td>
+                                </tr>
+                                <!--                            <tr>-->
+                                <!--                                <th> صافي الربح ::</th>-->
+                                <!--                                --><?php
+                                                                        //                                $total_earning = $total_price - ($total_shipping + $total_farming);
+                                                                        //
+                                                                        //                                
+                                                                        ?>
+                                <!--                                <th>-->
+                                <!--                                    <span class="badge badge-danger"> <strong> -->
+                                <?php //echo $total_earning; 
+                                ?><!-- ريال </strong> </span>-->
+                                <!--                                </th>-->
+                                <!--                            </tr>-->
                             </tbody>
                         </table>
                     </div>
@@ -283,7 +294,7 @@ $count_orders = $stmt->rowCount();
                             // إعداد الرسم البياني
                             const ctx = document.getElementById('salesChart').getContext('2d');
                             const salesChart = new Chart(ctx, {
-                                type: 'line', // يمكنك تغيير نوع الرسم البياني إلى 'bar' أو 'pie' أو غيرها
+                                type: 'bar', // يمكنك تغيير نوع الرسم البياني إلى 'bar' أو 'pie' أو غيرها
                                 data: {
                                     labels: months,
                                     datasets: [{
@@ -321,40 +332,39 @@ $count_orders = $stmt->rowCount();
                     <div class="card-body p-0" style="height: 605px;overflow: scroll;">
                         <table class="table table-bordered">
                             <thead>
-                            <tr>
-                                <th> #</th>
-                                <th> اسم المنتج</th>
-                                <th> عدد مرات البيع</th>
-                            </tr>
+                                <tr>
+                                    <th> #</th>
+                                    <th> اسم المنتج</th>
+                                    <th> عدد مرات البيع</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <?php
-
-                            $stmt = $connect->prepare("SELECT product_id, COUNT(*) as total_sales FROM order_details
-                                               GROUP BY product_id ORDER BY total_sales DESC LIMIT 20");
-                            $stmt->execute();
-                            $top_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                            $i = 1;
-                            foreach ($top_products as $product) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $i++; ?> </td>
-                                    <td>
-                                        <a href="main.php?dir=products&page=edit&pro_id=<?php echo $product['product_id'] ?>"
-                                           class="product-title"> <?php
-                                            $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
-                                            $stmt->execute(array(($product['product_id'])));
-                                            $pro_data = $stmt->fetch();
-                                            $pro_name = $pro_data['name'];
-                                            echo $pro_name; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $product['total_sales']; ?>
-                                    </td>
-                                </tr>
                                 <?php
-                            }
-                            ?>
+
+                                $stmt = $connect->prepare("SELECT product_id, COUNT(*) as total_sales FROM order_details
+                                               GROUP BY product_id ORDER BY total_sales DESC LIMIT 20");
+                                $stmt->execute();
+                                $top_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                $i = 1;
+                                foreach ($top_products as $product) {
+                                ?>
+                                    <tr>
+                                        <td><?php echo $i++; ?> </td>
+                                        <td>
+                                            <a href="main.php?dir=products&page=edit&pro_id=<?php echo $product['product_id'] ?>" class="product-title"> <?php
+                                                                                                                                                            $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
+                                                                                                                                                            $stmt->execute(array(($product['product_id'])));
+                                                                                                                                                            $pro_data = $stmt->fetch();
+                                                                                                                                                            $pro_name = $pro_data['name'];
+                                                                                                                                                            echo $pro_name; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $product['total_sales']; ?>
+                                        </td>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
 
                             </tbody>
                         </table>
@@ -378,42 +388,42 @@ $count_orders = $stmt->rowCount();
                     <div class="card-body p-0" style="height: 605px;overflow: scroll;">
                         <table class="table table-bordered">
                             <thead>
-                            <tr>
-                                <th> #</th>
-                                <th> اسم المستخدم</th>
-                                <th> عدد الطلبات</th>
-                            </tr>
+                                <tr>
+                                    <th> #</th>
+                                    <th> اسم المستخدم</th>
+                                    <th> عدد الطلبات</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <?php
-
-                            $stmt = $connect->prepare("SELECT user_id, COUNT(*) as total_orders FROM orders
-                                               GROUP BY user_id ORDER BY total_orders DESC LIMIT 20");
-                            $stmt->execute();
-                            $top_users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                            $i = 1;
-                            foreach ($top_users as $user) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $i++; ?> </td>
-                                    <td>
-                                        <?php
-                                        $stmt = $connect->prepare("SELECT * FROM users WHERE id = ?");
-                                        $stmt->execute(array(($user['user_id'])));
-                                        $pro_data = $stmt->fetch();
-                                        $pro_name = $pro_data['user_name'];
-                                        $pro_email = $pro_data['email'];
-                                        echo $pro_name;
-
-                                        ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $user['total_orders']; ?>
-                                    </td>
-                                </tr>
                                 <?php
-                            }
-                            ?>
+
+                                $stmt = $connect->prepare("SELECT user_id, COUNT(*) as total_orders FROM orders
+                                               GROUP BY user_id ORDER BY total_orders DESC LIMIT 20");
+                                $stmt->execute();
+                                $top_users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                $i = 1;
+                                foreach ($top_users as $user) {
+                                ?>
+                                    <tr>
+                                        <td><?php echo $i++; ?> </td>
+                                        <td>
+                                            <?php
+                                            $stmt = $connect->prepare("SELECT * FROM users WHERE id = ?");
+                                            $stmt->execute(array(($user['user_id'])));
+                                            $pro_data = $stmt->fetch();
+                                            $pro_name = $pro_data['user_name'];
+                                            $pro_email = $pro_data['email'];
+                                            echo $pro_name;
+
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $user['total_orders']; ?>
+                                        </td>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
 
                             </tbody>
                         </table>
@@ -438,40 +448,40 @@ $count_orders = $stmt->rowCount();
             <div class="col-6">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title"> اكثر المدن طلبا  </h3>
+                        <h3 class="card-title"> اكثر المدن طلبا </h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body p-0" style="height: 605px;overflow: scroll;">
                         <table class="table table-bordered">
                             <thead>
-                            <tr>
-                                <th> #</th>
-                                <th> اسم المدينة  </th>
-                                <th> عدد مرات البيع</th>
-                            </tr>
+                                <tr>
+                                    <th> #</th>
+                                    <th> اسم المدينة </th>
+                                    <th> عدد مرات البيع</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <?php
-
-                            $stmt = $connect->prepare("SELECT city, COUNT(*) as total_city FROM orders
-                                               GROUP BY city ORDER BY total_city DESC LIMIT 20");
-                            $stmt->execute();
-                            $top_citizen = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                            $i = 1;
-                            foreach ($top_citizen as $city) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $i++; ?> </td>
-                                    <td>
-                                        <?php echo $city['city'] ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $city['total_city']; ?>
-                                    </td>
-                                </tr>
                                 <?php
-                            }
-                            ?>
+
+                                $stmt = $connect->prepare("SELECT city, COUNT(*) as total_city FROM orders
+                                               GROUP BY city ORDER BY total_city DESC LIMIT 20");
+                                $stmt->execute();
+                                $top_citizen = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                $i = 1;
+                                foreach ($top_citizen as $city) {
+                                ?>
+                                    <tr>
+                                        <td><?php echo $i++; ?> </td>
+                                        <td>
+                                            <?php echo $city['city'] ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $city['total_city']; ?>
+                                        </td>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
 
                             </tbody>
                         </table>
