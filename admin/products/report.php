@@ -316,27 +316,27 @@ if (isset($_GET['report_page'])) {
                                                         </td>
 
                                                         <th> <?php
-                                                            if ($pro['ship_weight'] != '' && $pro['ship_weight'] != 0) {
-                                                                echo $pro['ship_weight'];
-                                                                echo "كجم ";
-                                                            } else {
+                                                                if ($pro['ship_weight'] != '' && $pro['ship_weight'] != 0) {
+                                                                    echo $pro['ship_weight'];
+                                                                    echo "كجم ";
+                                                                } else {
+                                                                ?>
+                                                                <span style="color: red;"> لا يوجد وزن </span>
+                                                            <?php
+                                                                }
                                                             ?>
-                                                            <span style="color: red;"> لا يوجد وزن </span>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                    </th>
-                                                    <th> <?php
-                                                            if ($pro['ship_tail'] != '' && $pro['ship_tail'] != 0) {
-                                                                echo $pro['ship_tail'];
-                                                                echo "متر";
-                                                            } else {
+                                                        </th>
+                                                        <th> <?php
+                                                                if ($pro['ship_tail'] != '' && $pro['ship_tail'] != 0) {
+                                                                    echo $pro['ship_tail'];
+                                                                    echo "متر";
+                                                                } else {
+                                                                ?>
+                                                                <span style="color: red;"> لا يوجد طول </span>
+                                                            <?php
+                                                                }
                                                             ?>
-                                                            <span style="color: red;"> لا يوجد طول </span>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                    </th>
+                                                        </th>
 
 
 

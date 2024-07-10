@@ -17,7 +17,7 @@ if ($key !== false && isset($parts[$key + 1])) {
     echo "العنوان غير صحيح";
 }
 // $slug = $_GET['slug'];
-$stmt = $connect->prepare("SELECT * FROM products WHERE slug = ? AND publish = 1 ORDER BY id  LIMIT 1 ");
+$stmt = $connect->prepare("SELECT * FROM products WHERE slug = ? AND product_status_store = 1 AND publish = 1 ORDER BY id  LIMIT 1 ");
 $stmt->execute(array($slug));
 $product_data = $stmt->fetch();
 $count  = $stmt->rowCount();

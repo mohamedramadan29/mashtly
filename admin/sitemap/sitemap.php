@@ -12,7 +12,7 @@ $sitemapFileName = "../sitemap.xml";
 
 // get all products 
 
-$stmt = $connect->prepare("SELECT * FROM products");
+$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1");
 $stmt->execute();
 $allproducts = $stmt->fetchAll();
 foreach ($allproducts as $product) {
