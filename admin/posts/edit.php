@@ -10,6 +10,7 @@ if (isset($_POST['edit_cat'])) {
     $slug = createSlug($name);
     $short_desc = $_POST['short_desc'];
     $description = $_POST['description'];
+    $description2 = $_POST['description2'];
     $publish = $_POST['publish'];
     $tags = $_POST['tags'];
     /////////
@@ -96,8 +97,7 @@ if (isset($_POST['edit_cat'])) {
                 $main_image_uploaded = pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
             }
         }
-    }elseif($image_name !=''){
-        
+    } elseif ($image_name != '') {
     }
 
     $stmt = $connect->prepare("SELECT * FROM posts WHERE name=? AND id !=?");
@@ -113,17 +113,16 @@ if (isset($_POST['edit_cat'])) {
         $stmt->execute(array($cat_id));
         $cat_data = $stmt->fetch();
         $cat_name = $cat_data['name'];
-        $stmt = $connect->prepare("UPDATE posts SET name=?,cat_id=?,slug=?,short_desc=?,description=?,tags=?,image_name=?,image_alt=?,image_desc=?,image_keys=?,category=?,date=?,publish=? WHERE id = ? ");
-        $stmt->execute(array($name,$cat_id, $slug,$short_desc,$description,$tags, $image_name, $image_alt, $image_desc, $image_keys, $cat_name, $date, $publish, $post_id));
-        // if (!empty($_FILES['main_image']['name'])) {
-        //     $stmt = $connect->prepare("UPDATE posts SET main_image=? WHERE id = ? ");
-        //     $stmt->execute(array($main_image_uploaded, $post_id));
-        // }
-        if ($stmt) {
-            echo "good";
-            // $_SESSION['success_message'] = "تم التعديل بنجاح ";
-            // header('Location:main.php?dir=posts&page=edit&post_id=' . $post_id);
-            // exit();
+        try {
+            $stmt = $connect->prepare("UPDATE posts SET name=?,cat_id=?,slug=?,short_desc=?,description=?,description2=?,tags=?,image_name=?,image_alt=?,image_desc=?,image_keys=?,category=?,date=?,publish=? WHERE id = ? ");
+            $stmt->execute(array($name, $cat_id, $slug, $short_desc, $description, $description2, $tags, $image_name, $image_alt, $image_desc, $image_keys, $cat_name, $date, $publish, $post_id));
+            if ($stmt) {
+                $_SESSION['success_message'] = "تم التعديل بنجاح ";
+                header('Location:main.php?dir=posts&page=edit&post_id=' . $post_id);
+                exit();
+            }
+        } catch (\Exception $e) {
+            echo $e;
         }
     } else {
         $_SESSION['error_messages'] = $formerror;
@@ -225,6 +224,10 @@ if (isset($_POST['edit_cat'])) {
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> الوصف </label>
                                         <textarea class="summernote" style="height: 150px;" id="summernote" name="description" class="form-control"><?php echo $post['description']; ?></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Company-2" class="block"> تكملة الوصف </label>
+                                        <textarea class="summernote" style="height: 150px;" id="summernote" name="description2" class="form-control"><?php echo $post['description2']; ?></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> وصف مختصر </label>

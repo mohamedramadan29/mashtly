@@ -182,7 +182,8 @@ require_once 'send_mail/vendor/autoload.php';
                         if (isset($_SESSION["send_message_to_email"])) {
                         ?>
                             <div style="max-width: 500px; text-align:center;margin:auto;margin-top:15px;" class="alert alert-success alert-dismissible fade show" role="alert">
-                                تم تسجيل حسابك بنجاح من فضلك فعلك حسابك من خلال البريد الالكتروني لتتمكن من تسجيل الدخول
+                                <!-- تم تسجيل حسابك بنجاح من فضلك فعلك حسابك من خلال البريد الالكتروني لتتمكن من تسجيل الدخول -->
+                                تم تسجيل حسابك بنجاح من فضلك سجل دخولك الان
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         <?php
@@ -281,7 +282,7 @@ require_once 'send_mail/vendor/autoload.php';
                                     if (strlen($username) > 50) {
                                         $formerror[] = 'اسم المستخدم يجب ان يكون اقل من 50 حرف';
                                     }
-                                    if (empty($phone)){
+                                    if (empty($phone)) {
                                         $formerror[] = ' من فضلك ادخل رقم الهاتف ';
                                     }
                                     // استخدام الوظيفة للتحقق من وجود البريد الإلكتروني
@@ -291,96 +292,91 @@ require_once 'send_mail/vendor/autoload.php';
                                     checkIfExists($connect, 'users', 'user_name', $username, $formerror, 'اسم المستخدم مستخدم بالفعل');
                                     if (empty($formerror)) {
                                         try {
-                                            $stmt = $connect->prepare("INSERT INTO users(user_name,email,phone,password,active_status_code,emails_subscribe) VALUES 
-                                            (:zuser_name,:zemail,:zphone,:zpassword,:zactive_status_code,:zemail_sub)");
+                                            $stmt = $connect->prepare("INSERT INTO users(user_name,email,phone,password,active_status,active_status_code,emails_subscribe) VALUES 
+                                            (:zuser_name,:zemail,:zphone,:zpassword,:zactive_status,:zactive_status_code,:zemail_sub)");
                                             $stmt->execute(array(
                                                 "zuser_name" => $username,
                                                 "zemail" => $email,
                                                 "zphone" => $phone,
                                                 "zpassword" => $sha_password,
+                                                'zactive_status' => 1,
                                                 "zactive_status_code" => $active_status_code,
                                                 "zemail_sub" => $emails_subscribe
                                             ));
                                         } catch (\Exception $e) {
                                             echo $e;
                                         }
-
-                                        // $table = 'users';
-                                        // $data = array(
-                                        //     "user_name" => $username,
-                                        //     "email" => $email,
-                                        //     "password" => $sha_password,
-                                        //     "active_status_code" => $active_status_code,
-                                        //     "emails_subscribe" => $emails_subscribe,
-                                        // );
                                         // $stmt = insertData($connect, $table, $data);
                                         if ($stmt) {
+
                                             //////////////////// Send Email Activation ////////////////////////////
 
-                                            $transport = (new Swift_SmtpTransport('smtp.entiqa.co', 587))
-                                                ->setUsername('support@entiqa.co')
-                                                ->setPassword('mohamedramadan2930');
-                                            $mailer = new Swift_Mailer($transport);
-                                            $body_message = '
-                                        <!DOCTYPE html>
-                                        <html lang="ar" dir="rtl">
+                                            //             $transport = (new Swift_SmtpTransport('smtp.entiqa.co', 587))
+                                            //                 ->setUsername('support@entiqa.co')
+                                            //                 ->setPassword('mohamedramadan2930');
+                                            //             $mailer = new Swift_Mailer($transport);
+                                            //             $body_message = '
+                                            //         <!DOCTYPE html>
+                                            //         <html lang="ar" dir="rtl">
 
-                                        <head>
-                                            <meta charset="UTF-8">
-                                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                            <title> تاكيد الحساب </title>
-                                        </head>
-                                        <body style="text-align:right;" dir="rtl">
-                                            <div class="profile_page" style="background-color:#F0F5F0;">
-                                                <div class="container">
-                                                    <div class="data">
-                                                        <div class="print_order" style="background-color: #fff;padding: 50px;border-radius: 30px;max-width: 75%;margin: auto;margin-top: 80px; margin-bottom:80px;">
-                                                            <div class="print printable-content" id="print">
-                                                                <div class="print_head">
-                                                                    <div class="logo" style="text-align: center;
-                                                                    padding: 20px;">
-                                                                        <img src="https://kuwait-developer.com/send_mail/logo.png" alt="">
-                                                                    </div>
-                                                                    <div class="person_data">
-                                                                        <h2 style=" color: #1B1B1B; font-size: 25px; font-weight: bold; margin-bottom: 16px;">
-                                                                            ' . $username . '
-                                                                        </h2>
-                                                                        <p style="color: #585858;  font-size: 17px;  line-height: 1.8;">  شكرا علي تسجيلك معنا في مشتلي 
-                                                                            يرجي تفعيل الحساب الخاص بك لتتمكن من عمليه الدخول  
-                                                                        </p>
-                                                                        <a  style="font-size:18px; font-family:inherit" href="https://kuwait-developer.com/mashtly/activate?active_code=' . $active_status_code . '" class="btn btn-primary"> أضغط هنا لتفعيل الحساب الخاص بك  </a>
-                                                                    </div>
-                                                                    </div>
-                                                                </div> 
-                                                                <div class="order_totals">
-                                                                    <p class="thanks" style="margin-top: 25px;color: #1b1b1b; font-size:18px;"> اطيب االتوفيق  <a href="https://www.mshtly.com/" style="text-decoration: none; color:#5c8e00;"> مشتلي </a> </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </body>
+                                            //         <head>
+                                            //             <meta charset="UTF-8">
+                                            //             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                            //             <title> تاكيد الحساب </title>
+                                            //         </head>
+                                            //         <body style="text-align:right;" dir="rtl">
+                                            //             <div class="profile_page" style="background-color:#F0F5F0;">
+                                            //                 <div class="container">
+                                            //                     <div class="data">
+                                            //                         <div class="print_order" style="background-color: #fff;padding: 50px;border-radius: 30px;max-width: 75%;margin: auto;margin-top: 80px; margin-bottom:80px;">
+                                            //                             <div class="print printable-content" id="print">
+                                            //                                 <div class="print_head">
+                                            //                                     <div class="logo" style="text-align: center;
+                                            //                                     padding: 20px;">
+                                            //                                         <img src="https://kuwait-developer.com/send_mail/logo.png" alt="">
+                                            //                                     </div>
+                                            //                                     <div class="person_data">
+                                            //                                         <h2 style=" color: #1B1B1B; font-size: 25px; font-weight: bold; margin-bottom: 16px;">
+                                            //                                             ' . $username . '
+                                            //                                         </h2>
+                                            //                                         <p style="color: #585858;  font-size: 17px;  line-height: 1.8;">  شكرا علي تسجيلك معنا في مشتلي 
+                                            //                                             يرجي تفعيل الحساب الخاص بك لتتمكن من عمليه الدخول  
+                                            //                                         </p>
+                                            //                                         <a  style="font-size:18px; font-family:inherit" href="https://kuwait-developer.com/mashtly/activate?active_code=' . $active_status_code . '" class="btn btn-primary"> أضغط هنا لتفعيل الحساب الخاص بك  </a>
+                                            //                                     </div>
+                                            //                                     </div>
+                                            //                                 </div> 
+                                            //                                 <div class="order_totals">
+                                            //                                     <p class="thanks" style="margin-top: 25px;color: #1b1b1b; font-size:18px;"> اطيب االتوفيق  <a href="https://www.mshtly.com/" style="text-decoration: none; color:#5c8e00;"> مشتلي </a> </p>
+                                            //                                 </div>
+                                            //                             </div>
+                                            //                         </div>
+                                            //                     </div>
+                                            //                 </div>
+                                            //             </div>
+                                            //         </body>
 
-                                        </html>
-                                        ';
-                                            $title = 'طلب شراء';
+                                            //         </html>
+                                            //         ';
+                                            //             $title = 'طلب شراء';
 
-                                            // Create a message
-                                            $message = (new Swift_Message('Confrim Account'))
-                                                ->setFrom(['support@entiqa.co' => 'Mshtly'])
-                                                ->setTo($email)
-                                                ->setBody($body_message, 'text/html');
-                                            $result = $mailer->send($message);
-                                            if ($result) {
+                                            //             // Create a message
+                                            //             $message = (new Swift_Message('Confrim Account'))
+                                            //                 ->setFrom(['support@entiqa.co' => 'Mshtly'])
+                                            //                 ->setTo($email)
+                                            //                 ->setBody($body_message, 'text/html');
+                                            //             $result = $mailer->send($message);
+                                            //             if ($result) {
+                                            // 
                                 ?>
-                                                <!-- <div class="alert alert-success"> تم ارسال ايميل التفعيل بنجاح </div> -->
+                                            <!-- <div class="alert alert-success"> تم ارسال ايميل التفعيل بنجاح </div> -->
                                             <?php
-                                            } else {
+                                            //             } else {
+                                            //             
                                             ?>
-                                                <div class="alert alert-danger"> حدث خطا من فضلك حاول مره اخري </div>
+                                            <!-- <div class="alert alert-danger"> حدث خطا من فضلك حاول مره اخري </div> -->
                                             <?php
-                                            }
+                                            //             }
                                             ?>
 
                                         <?php
@@ -420,7 +416,7 @@ require_once 'send_mail/vendor/autoload.php';
 
                                 <div class='box'>
                                     <div class="input_box">
-                                        <label for="email">  رقم الهاتف  </label>
+                                        <label for="email"> رقم الهاتف </label>
                                         <input value="<?php if (isset($_REQUEST['phone'])) echo $_REQUEST['phone']; ?>" required id="phone" type="text" name="phone" class='form-control' placeholder="اكتب…">
                                     </div>
                                 </div>

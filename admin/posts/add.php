@@ -5,6 +5,7 @@ if (isset($_POST['add_cat'])) {
     $slug = createSlug($name);
     $short_desc = $_POST['short_desc'];
     $description = $_POST['description'];
+    $description2 = $_POST['description2'];
     $publish = $_POST['publish'];
     $tags = $_POST['tags'];
     $image_name = $_POST['image_name'];
@@ -116,8 +117,8 @@ if (isset($_POST['add_cat'])) {
         $cat_data = $stmt->fetch();
         $cat_name = $cat_data['name'];
 
-        $stmt = $connect->prepare("INSERT INTO posts (cat_id,name,slug,main_image,image_name,image_alt,image_desc,image_keys,category,short_desc,description,tags,date,publish)
-        VALUES (:zcat_id,:zname,:zslug,:zimage,:zimage_name,:zimage_alt,:zimage_desc,:zimage_keys,:zcategory,:zshort_desc,:zdesc,:ztags,:zdate,:zpublish)");
+        $stmt = $connect->prepare("INSERT INTO posts (cat_id,name,slug,main_image,image_name,image_alt,image_desc,image_keys,category,short_desc,description,description2,tags,date,publish)
+        VALUES (:zcat_id,:zname,:zslug,:zimage,:zimage_name,:zimage_alt,:zimage_desc,:zimage_keys,:zcategory,:zshort_desc,:zdesc,:zdesc2,:ztags,:zdate,:zpublish)");
         $stmt->execute(array(
             "zcat_id" => $cat_id,
             "zname" => $name,
@@ -130,6 +131,7 @@ if (isset($_POST['add_cat'])) {
             "zcategory" => $cat_name,
             "zshort_desc" => $short_desc,
             "zdesc" => $description,
+            'zdesc2'=>$description2,
             "ztags" => $tags,
             "zdate" => $date,
             "zpublish" => $publish,
@@ -233,6 +235,10 @@ if (isset($_POST['add_cat'])) {
                                 <div class="form-group">
                                     <label for="Company-2" class="block"> الوصف </label>
                                     <textarea class="summernote" style="height: 150px;" id="summernote" name="description" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Company-2" class="block"> تكلمة الوصف </label>
+                                    <textarea class="summernote" style="height: 150px;" id="summernote" name="description2" class="form-control"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="Company-2" class="block"> وصف مختصر </label>
