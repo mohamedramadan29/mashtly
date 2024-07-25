@@ -522,6 +522,17 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
         include "offer_orders/compeleted_orders.php";
     }
 
+      // START Mshtly Reviews 
+      if ($dir == 'mshtly_reviews' && $page == 'add') {
+        include "mshtly_reviews/add.php";
+    } elseif ($dir == 'mshtly_reviews' && $page == 'edit') {
+        include "mshtly_reviews/edit.php";
+    } elseif ($dir == 'mshtly_reviews' && $page == 'delete') {
+        include 'mshtly_reviews/delete.php';
+    } elseif ($dir == 'mshtly_reviews' && $page == 'report') {
+        include "mshtly_reviews/report.php";
+    }
+
     ?>
 
 </div>

@@ -204,10 +204,27 @@ $(document).ready(function () {
         lang: 'ar-EG'
     });
     // Summernote
+    // $('.summernote').summernote({
+    //     tabsize: 2,
+    //     height: 200,
+    //     lang: 'ar-EG'
+    // });
+
     $('.summernote').summernote({
         tabsize: 2,
         height: 200,
-        lang: 'ar-EG'
+        lang: 'ar-EG',
+        callbacks: {
+            onImageUpload: function(files) {
+                // يمكنك استخدام هذه الدالة لتحسين وضغط الصور قبل الإدراج
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    // تحسين وضغط الصورة هنا إذا لزم الأمر
+                    $('#summernote').summernote('insertImage', e.target.result);
+                };
+                reader.readAsDataURL(files[0]);
+            }
+        }
     });
 });
 

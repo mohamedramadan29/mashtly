@@ -262,9 +262,14 @@
                   <!-- <li class="nav-item">
                       <a class="nav-link" href="http://localhost/mashtly/gifts"> الهدايا </a>
                     </li> -->
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <a class="nav-link" href="http://localhost/mashtly/blog"> المدونة </a>
+                  </li> -->
+
+                  <li class="nav-item">
+                    <a class="nav-link" href="http://localhost/mashtly/blog-category">  المدونة  </a>
                   </li>
+
                   <!--
                     <li class="nav-item">
                       <a class="nav-link" href="#"> زراعة الاسطح </a>
@@ -367,9 +372,12 @@
           <!-- <li class="nav-item">
             <a class="nav-link" href="http://localhost/mashtly/gifts"> الهدايا </a>
           </li> -->
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="http://localhost/mashtly/blog"> المدونة </a>
-          </li>
+          </li> -->
+          <li class="nav-item">
+                    <a class="nav-link" href="http://localhost/mashtly/blog-category"> المدونة  </a>
+                  </li>
           <li class="nav-item">
             <a class="nav-link" href="http://localhost/mashtly/contact"> تواصل معنا </a>
           </li>

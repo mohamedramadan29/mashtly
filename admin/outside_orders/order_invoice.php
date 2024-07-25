@@ -58,6 +58,7 @@ $pagetitle = 'Mohamed';
                         <div class="inv_header">
                             <div class="logo text-center">
                                 <img src="uploads/logo.png" alt="">
+                                <h3 style="margin-top: 20px;font-size: 22px;color: #000;"> فاتورة طلب خارجي   </h3>
                             </div>
                             <div class="header_data">
                                 <div class="row" style=" padding:10px; margin-top:10px; margin-bottom:10px">

@@ -292,8 +292,8 @@ require_once 'send_mail/vendor/autoload.php';
                                     checkIfExists($connect, 'users', 'user_name', $username, $formerror, 'اسم المستخدم مستخدم بالفعل');
                                     if (empty($formerror)) {
                                         try {
-                                            $stmt = $connect->prepare("INSERT INTO users(user_name,email,phone,password,active_status,active_status_code,emails_subscribe) VALUES 
-                                            (:zuser_name,:zemail,:zphone,:zpassword,:zactive_status,:zactive_status_code,:zemail_sub)");
+                                            $stmt = $connect->prepare("INSERT INTO users(user_name,email,phone,password,active_status,active_status_code,emails_subscribe,created_at) VALUES 
+                                            (:zuser_name,:zemail,:zphone,:zpassword,:zactive_status,:zactive_status_code,:zemail_sub,:zcreated_at)");
                                             $stmt->execute(array(
                                                 "zuser_name" => $username,
                                                 "zemail" => $email,
@@ -301,7 +301,8 @@ require_once 'send_mail/vendor/autoload.php';
                                                 "zpassword" => $sha_password,
                                                 'zactive_status' => 1,
                                                 "zactive_status_code" => $active_status_code,
-                                                "zemail_sub" => $emails_subscribe
+                                                "zemail_sub" => $emails_subscribe,
+                                                'zcreated_at' =>  date("n/j/Y g:i A"),
                                             ));
                                         } catch (\Exception $e) {
                                             echo $e;

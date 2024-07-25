@@ -114,6 +114,10 @@ if (isset($_POST['add_new_outside_order'])) {
         }
         include "offer_orders/shipping_price.php";
 
+        if($shipping_value == 0){
+            $shipping_value = $_POST['normal_ship_price'];
+        }
+        
         $total_prices = $total_product_inside + $outsideproduct_price + $outside_services_price + $shipping_value;
 
         if (empty($formerror)) {

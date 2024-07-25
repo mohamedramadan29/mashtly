@@ -25,6 +25,7 @@ if ($keyPage !== false && isset($parts[$keyPage + 1])) {
 } else {
     $currentpage = 1;
 }
+
 //$cat_slug =$_GET['cat'];
 
 // add to favorite

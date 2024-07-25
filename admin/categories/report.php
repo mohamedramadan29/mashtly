@@ -78,6 +78,7 @@
                                         <th> تاج </th>
                                         <th> صورة </th>
                                         <th> الرئيسي للشحن</th>
+                                        <th> الترتيب في صفحة التصنيفات  </th>
                                         <th> العمليات </th>
                                     </tr>
                                 </thead>
@@ -126,6 +127,7 @@
                                                 <?php
                                                     } ?>
                                             </td>
+                                            <td> <?php echo  $cat['number']; ?> </td>
                                             <td>
                                                 <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $cat['id']; ?>"> <i class='fa fa-pen'></i> </button>
                                                 <a href="main.php?dir=categories&page=delete&cat_id=<?php echo $cat['id']; ?>" class="confirm btn btn-danger btn-sm"> <i class='fa fa-trash'></i> </a>
@@ -184,6 +186,10 @@
                                                             <div class="form-group">
                                                                 <label for="Company-2" class="block"> اضافة التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
                                                                 <input required id="Company-2" name="tags" type="text" class="form-control" value="<?php echo  $cat['tags']; ?>">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="Company-2" class="block"> الترتيب في صفحة التصنيفات </label>
+                                                                <input required id="Company-2" name="number" type="number" class="form-control" value="<?php echo  $cat['number']; ?>">
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">

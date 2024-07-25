@@ -1,8 +1,8 @@
 <?php
 if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
     $order_id = $_GET['order_id'];
-
-    $stmt = $connect->prepare('SELECT *offer_orders WHERE id= ?');
+//echo $order_id;
+    $stmt = $connect->prepare('SELECT * FROM offer_orders WHERE id= ?');
     $stmt->execute([$order_id]);
     $order_data = $stmt->fetch();
     $stmt = $connect->prepare("DELETE FROM offer_order_details WHERE order_id = ?");

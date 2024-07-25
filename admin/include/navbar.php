@@ -192,6 +192,24 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <p>
+                            تقيمات المتجر 
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="main.php?dir=mshtly_reviews&page=report" class="nav-link">
+                                <p> تقيمات المتجر  </p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <p>
                             السمات والمتغيرات
                             <i class="fas fa-angle-left right"></i>
                         </p>
@@ -444,7 +462,7 @@
                 <li class="nav-item">
                     <a href="main.php?dir=users&page=report" class="nav-link">
                         <p>
-                            المستخدمين
+                             العملاء 
                         </p>
                     </a>
                 </li>

@@ -62,8 +62,55 @@
                     }
                     ?>
                     <div class="card-body">
+
+                        <!------------------------------------------------- ///////////////////////////////// -- ------------->
+
+                        <div class="form_new_search" style="box-shadow: 0px 0px 10px 2px #ebebeb;padding: 14px;margin-bottom: 10px; border-radius: 10px;">
+                            <span class="badeg badge-info" style="border-radius: 10px;font-size: 15px"> حدد الفترة الزمنية للبحث </span>
+                            <br>
+                            <br>
+                            <form method="post" action="">
+                                <div class="d-flex justify-content-around align-items-center">
+                                    <div class="form-group">
+                                        <label> حدد بداية الفترة </label>
+                                        <input style="width: 300px;" class="form-control" required type="date" name="start_date" value="<?php if (isset($_REQUEST['start_date'])) echo $_REQUEST['start_date']; ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label> حدد نهاية الفترة </label>
+                                        <input style="width: 300px" class="form-control" required type="date" name="end_date" value="<?php if (isset($_REQUEST['end_date'])) echo $_REQUEST['end_date']; ?>">
+                                    </div>
+                                    <div>
+                                        <button style="margin-top: 25px;" name="pro_search" class="btn btn-primary btn-sm"> بحث <i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <?php
+                        if (isset($_POST['pro_search'])) {
+                            $start_date = $_POST['start_date'];
+                            $end_date = $_POST['end_date'];
+
+                            $start_date_formatted = date('Y-m-d H:i:s', strtotime($start_date));
+                            $end_date_formatted = date('Y-m-d H:i:s', strtotime($end_date));
+
+
+                            $stmt = $connect->prepare("SELECT * FROM users WHERE STR_TO_DATE(created_at, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')");
+                            $stmt->execute(array($start_date_formatted, $end_date_formatted));
+
+                            $allusers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            $count_users = $stmt->rowCount();
+                        } else {
+                            $stmt = $connect->prepare("SELECT * FROM users ORDER BY id DESC");
+                            $stmt->execute();
+                            $allusers = $stmt->fetchAll();
+                            $count_users = $stmt->rowCount();
+                        }
+                        ?>
                         <div class="table-responsive">
                             <table id="my_table" class="table table-striped table-bordered">
+                                <span class="badge bagde-danger bg-danger"> عدد العملاء :: <?php echo $count_users; ?> </span>
+                              <br>
                                 <thead>
                                     <tr>
                                         <th> # </th>
@@ -72,15 +119,14 @@
                                         <th> رقم الهاتف </th>
                                         <th> عدد الطلبات </th>
                                         <th> حالة المستخدم </th>
-                                        <th> حالة تفعيل الايميل  </th>
+                                        <th> حالة تفعيل الايميل </th>
+                                        <th> تاريخ التسجيل </th>
                                         <th> العمليات </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $stmt = $connect->prepare("SELECT * FROM users ORDER BY id DESC");
-                                    $stmt->execute();
-                                    $allusers = $stmt->fetchAll();
+
                                     $i = 0;
                                     foreach ($allusers as $user) {
                                         $i++;
@@ -108,16 +154,17 @@
                                                     } ?>
                                             </td>
                                             <td>
-                                            <?php if ($user['active_status'] == 1) {
-                                                    ?>
+                                                <?php if ($user['active_status'] == 1) {
+                                                ?>
                                                     <span class="badge badge-info"> مفعل </span>
                                                 <?php
-                                                    } else {
+                                                } else {
                                                 ?>
                                                     <span class="badge badge-danger"> غير مفعل </span>
                                                 <?php
-                                                    } ?>
+                                                } ?>
                                             </td>
+                                            <td> <?php echo  $user['created_at']; ?> </td>
                                             <td>
                                                 <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $user['id']; ?>"> تعديل الحالة <i class='fa fa-pen'></i> </button>
                                                 <button type="button" class="btn btn-primary btn-sm waves-effect" data-toggle="modal" data-target="#edit-data-Modal_<?php echo $user['id']; ?>"> تعديل <i class='fa fa-pen'></i> </button>
@@ -140,16 +187,16 @@
                                                                 <label for="Company-2" class="block"> حالة المستخدم </label>
                                                                 <select required class='form-control select2' name='status'>
                                                                     <option> -- اختر -- </option>
-                                                                    <option <?php if($user['status'] == 1) echo 'selected'; ?> value="1"> مفعل </option>
-                                                                    <option <?php if($user['status'] == 0) echo 'selected'; ?> value="0"> غير مفعل </option>
+                                                                    <option <?php if ($user['status'] == 1) echo 'selected'; ?> value="1"> مفعل </option>
+                                                                    <option <?php if ($user['status'] == 0) echo 'selected'; ?> value="0"> غير مفعل </option>
                                                                 </select>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="Company-2" class="block"> حالة تفعيل الايميل  </label>
+                                                                <label for="Company-2" class="block"> حالة تفعيل الايميل </label>
                                                                 <select required class='form-control select2' name='active_status'>
                                                                     <option> -- اختر -- </option>
-                                                                    <option <?php if($user['active_status'] == 1) echo 'selected'; ?> value="1"> مفعل </option>
-                                                                    <option <?php if($user['active_status'] == 0) echo 'selected'; ?> value="0"> غير مفعل </option>
+                                                                    <option <?php if ($user['active_status'] == 1) echo 'selected'; ?> value="1"> مفعل </option>
+                                                                    <option <?php if ($user['active_status'] == 0) echo 'selected'; ?> value="0"> غير مفعل </option>
                                                                 </select>
                                                             </div>
                                                         </div>

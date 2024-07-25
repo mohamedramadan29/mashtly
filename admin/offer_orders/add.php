@@ -3,13 +3,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark"> اضافة عرض سعر  </h1>
+                <h1 class="m-0 text-dark"> اضافة عرض سعر </h1>
             </div>
             <!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-left">
                     <li class="breadcrumb-item"><a href="main.php?dir=dashboard&page=dashboard">الرئيسية</a></li>
-                    <li class="breadcrumb-item active">  اضافة عرض سعر  </li>
+                    <li class="breadcrumb-item active"> اضافة عرض سعر </li>
                 </ol>
             </div>
             <!-- /.col -->
@@ -101,6 +101,14 @@ if (isset($_SESSION['success_message'])) {
                                             }
                                             ?>
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="normal_ship_price"> سعر الشحن الافتراضي </label>
+                                        <input type="text" id="normal_ship_price" name="normal_ship_price" class="form-control" value="<?php if (isset($_REQUEST['normal_ship_price'])) echo $_REQUEST['normal_ship_price'] ?>">
                                     </div>
                                 </div>
                             </div>
@@ -389,6 +397,29 @@ if (isset($_SESSION['success_message'])) {
         });
 
         // Add new product section
+        // $('#add_new_inside_product').click(function($e) {
+        //     $e.preventDefault();
+        //     // Clone the addinsideproducts section
+        //     var original = $('.addinsideproducts').first();
+        //     var clone = original.clone(true);
+
+        //     // Clear the input values in the cloned section
+        //     clone.find('input').val('');
+        //     clone.find('.select_product_vartions').html('<option> -- حدد -- </option>');
+
+        //     // Append the cloned section to the container
+        //     $('#add_new_product_inside').append(clone);
+        // });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        // Initialize select2 for the first select elements
+        $('.select2').select2();
+
+        // Add new product section
         $('#add_new_inside_product').click(function($e) {
             $e.preventDefault();
             // Clone the addinsideproducts section
@@ -397,10 +428,14 @@ if (isset($_SESSION['success_message'])) {
 
             // Clear the input values in the cloned section
             clone.find('input').val('');
+            clone.find('.select2').val(null).trigger('change'); // Clear select2
             clone.find('.select_product_vartions').html('<option> -- حدد -- </option>');
 
             // Append the cloned section to the container
             $('#add_new_product_inside').append(clone);
+
+            // Re-initialize select2 for the new select elements
+            clone.find('.select2').select2();
         });
     });
 </script>

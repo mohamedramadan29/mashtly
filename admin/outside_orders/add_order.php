@@ -21,6 +21,7 @@ if (isset($_POST['add_new_outside_order'])) {
         $status = 0;
         $status_value = 'لم يبدا';
         $farm_service = 0;
+
         /////////////////// 
         /// المشاكل في 
         // 1 - الشحن 
@@ -114,6 +115,9 @@ if (isset($_POST['add_new_outside_order'])) {
         }
         include "outside_orders/shipping_price.php";
 
+        if($shipping_value == 0){
+            $shipping_value = $_POST['normal_ship_price'];
+        }
         $total_prices = $total_product_inside + $outsideproduct_price + $outside_services_price + $shipping_value;
 
         if (empty($formerror)) {

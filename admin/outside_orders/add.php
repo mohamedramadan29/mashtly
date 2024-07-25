@@ -107,6 +107,14 @@ if (isset($_SESSION['success_message'])) {
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
+                                        <label for="normal_ship_price"> سعر الشحن الافتراضي </label>
+                                        <input type="text" id="normal_ship_price" name="normal_ship_price" class="form-control" value="<?php if (isset($_REQUEST['normal_ship_price'])) echo $_REQUEST['normal_ship_price'] ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
                                         <label for="inputName"> اسم الشارع </label>
                                         <input required type="text" id="city" name="street_name" class="form-control" value="<?php if (isset($_REQUEST['street_name'])) echo $_REQUEST['street_name'] ?>">
                                     </div>
@@ -142,7 +150,7 @@ if (isset($_SESSION['success_message'])) {
                                         <div class="form-group">
                                             <label for="inputName">حدد المنتج</label>
                                             <!-- قائمة المنتجات -->
-                                            <select class="form-control select_products" name="select_product_from_store[]">
+                                            <select class="form-control select_products select2" name="select_product_from_store[]">
                                                 <option> - حدد المنتجات - </option>
                                                 <?php
                                                 $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1");
@@ -389,6 +397,29 @@ if (isset($_SESSION['success_message'])) {
         });
 
         // Add new product section
+        // $('#add_new_inside_product').click(function($e) {
+        //     $e.preventDefault();
+        //     // Clone the addinsideproducts section
+        //     var original = $('.addinsideproducts').first();
+        //     var clone = original.clone(true);
+
+        //     // Clear the input values in the cloned section
+        //     clone.find('input').val('');
+        //     clone.find('.select_product_vartions').html('<option> -- حدد -- </option>');
+
+        //     // Append the cloned section to the container
+        //     $('#add_new_product_inside').append(clone);
+        // });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        // Initialize select2 for the first select elements
+        $('.select2').select2();
+
+        // Add new product section
         $('#add_new_inside_product').click(function($e) {
             $e.preventDefault();
             // Clone the addinsideproducts section
@@ -397,10 +428,14 @@ if (isset($_SESSION['success_message'])) {
 
             // Clear the input values in the cloned section
             clone.find('input').val('');
+            clone.find('.select2').val(null).trigger('change'); // Clear select2
             clone.find('.select_product_vartions').html('<option> -- حدد -- </option>');
 
             // Append the cloned section to the container
             $('#add_new_product_inside').append(clone);
+
+            // Re-initialize select2 for the new select elements
+            clone.find('.select2').select2();
         });
     });
 </script>

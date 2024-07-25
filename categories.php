@@ -5,7 +5,7 @@ $page_title = ' مشتلي - الاقسام الرئيسية  ';
 $description = ' مشتلي منصة إلكترونية تتيح للعملاء شراء مختلف أنواع النباتات، أشجار زهور ونباتات منزلية، بشكل مريح وسريع دون الحاجة لزيارة المشاتل التقليدية. ';
 $page_keywords = ' مشتلي ,متجر مشتلي  ';
 include "init.php";
-$stmt = $connect->prepare("SELECT * FROM categories order by id desc");
+$stmt = $connect->prepare("SELECT * FROM categories order by number ASC");
 $stmt->execute();
 $allcat = $stmt->fetchAll();
 $cat_count = count($allcat);

@@ -136,7 +136,7 @@ $count_orders = $stmt->rowCount();
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3> <?php echo $count_users; ?> </h3>
-                        <p class="text-bold"> المستخدمين </p>
+                        <p class="text-bold"> العملاء </p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-users"></i>
@@ -275,11 +275,11 @@ $count_orders = $stmt->rowCount();
                         $sales_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                         // تحضير البيانات للعرض
-                        $months = [];
+                        $ordermonths = [];
                         $sales = [];
 
                         foreach ($sales_data as $data) {
-                            $months[] = $data['month'];
+                            $ordermonths[] = $data['month'];
                             $sales[] = $data['total_sales'];
                         }
 
@@ -289,14 +289,14 @@ $count_orders = $stmt->rowCount();
                         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                         <script>
                             // بيانات الرسم البياني
-                            const months = <?php echo json_encode($months); ?>;
+                            const ordermonths = <?php echo json_encode($ordermonths); ?>;
                             const sales = <?php echo json_encode($sales); ?>;
                             // إعداد الرسم البياني
                             const ctx = document.getElementById('salesChart').getContext('2d');
                             const salesChart = new Chart(ctx, {
                                 type: 'bar', // يمكنك تغيير نوع الرسم البياني إلى 'bar' أو 'pie' أو غيرها
                                 data: {
-                                    labels: months,
+                                    labels: ordermonths,
                                     datasets: [{
                                         label: 'عدد المبيعات',
                                         data: sales,
@@ -318,6 +318,67 @@ $count_orders = $stmt->rowCount();
                     </div>
                 </div>
                 <!-- /.card -->
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"> رسم بياني شهري لتسجيل العملاء </div>
+                    </div>
+                    <div class="card-body">
+                        <?php
+                        // استعلام للحصول على عدد العملاء لكل شهر
+                        $stmt = $connect->prepare("
+                        SELECT DATE_FORMAT(STR_TO_DATE(created_at, '%c/%e/%Y %l:%i %p'), '%Y-%m') AS month, COUNT(*) AS total_users
+                        FROM users
+                        GROUP BY month
+                        ORDER BY month 
+                    ");
+                        $stmt->execute();
+                        $users_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        // تحضير البيانات للعرض
+                        $months = [];
+                        $users = [];
+                        foreach ($users_data as $data) {
+                            $months[] = $data['month'];
+                            $users[] = $data['total_users'];
+                        }
+                        ?>
+
+                        <canvas id="usersChart" height="250"></canvas>
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        <script>
+                            // بيانات الرسم البياني
+                            const months = <?php echo json_encode($months); ?>;
+                            const users = <?php echo json_encode($users); ?>;
+                            // إعداد الرسم البياني
+                            const ctxuser = document.getElementById('usersChart').getContext('2d');
+                            const usersChart = new Chart(ctxuser, {
+                                type: 'line', // يمكنك تغيير نوع الرسم البياني إلى 'bar' أو 'pie' أو غيرها
+                                data: {
+                                    labels: months,
+                                    datasets: [{
+                                        label: ' عدد العملاء ',
+                                        data: users,
+                                        backgroundColor: 'rgba(255, 99, 132, 0.2)', // لون الخلفية للعملاء
+                                        borderColor: 'rgba(255, 99, 132, 1)', // لون الحدود للعملاء
+                                        borderWidth: 3
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true
+                                        }
+                                    }
+                                }
+                            });
+                        </script>
+                    </div>
+
+                </div>
             </div>
         </div>
 
