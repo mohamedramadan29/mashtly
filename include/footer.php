@@ -45,6 +45,7 @@
                                 <li> <a href="http://localhost/mashtly/faq"> الاسئلة الشائعة </a> </li>
                                 <li> <a href="http://localhost/mashtly/contact"> تواصل معنا </a> </li>
                                 <li> <a href="http://localhost/mashtly/join_us"> انضم الينا </a> </li>
+                                <li> <a href="http://localhost/mashtly/review"> تقيم مشتلي  </a> </li>
                             </ul>
                         </div>
                     </div>

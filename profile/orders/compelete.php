@@ -51,6 +51,7 @@ if (isset($_SESSION['user_id'])) {
                         <h2 class='header2'> تم الطلب </h2>
                     </div>
                 </div>
+                
                 <div class="not_found_orders ">
                     <div class="info">
                         <img src="<?php echo $uploads ?>shopping-cart-check.svg" alt="">
@@ -60,6 +61,7 @@ if (isset($_SESSION['user_id'])) {
                         <div style="margin-top: 20px;">
                             <a href="tracking?order_number=<?php echo $_SESSION['order_number']; ?>" class="btn global_button"> تتبع الطلب </a>
                             <a style="background-color: transparent; color: var(--second-color); border-color:var(--second-color)" href="http://localhost/mashtly/contact" class="btn global_button contact"> تواصل معنا </a>
+                            <a style="background-color: transparent; color: var(--second-color); border-color:var(--second-color)" href="http://localhost/mashtly/review" class="btn global_button contact"> تقيم مشتلي  </a>
                         </div>
                     </div>
                 </div>
