@@ -4,6 +4,7 @@ session_start();
 $page_title = ' اتمام عملية الشراء  ';
 include "init.php";
 if (isset($_SESSION['user_id'])) {
+    //cho $_SESSION['cookie_id'];
     $user_id = $_SESSION['user_id'];
     // get all product from user cart
     $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
@@ -47,7 +48,7 @@ if (isset($_SESSION['user_id'])) {
                                                 <br>
                                                 <div class="input_box">
                                                     <label for="country"> المدينة </label>
-                                                    <select required name="city" id="city" class='select2 form-control'>
+                                                    <select required name="city" id="city" class='form-control'>
                                                         <option value=""> حدد المدينة </option>
                                                         <?php
                                                         $stmt = $connect->prepare("SELECT * FROM suadia_city");
@@ -109,6 +110,7 @@ if (isset($_SESSION['user_id'])) {
                                                     <p> إجمالي سعر المنتجات في السلة </p>
                                                 </div>
                                                 <div>
+                                                    <input type="hidden" id='product_total' value="<?php echo $_SESSION['total']; ?>">
                                                     <h2 class="total"> <?php echo number_format($_SESSION['total'], 2); ?> ر.س </h2>
                                                 </div>
                                             </div>
@@ -127,11 +129,16 @@ if (isset($_SESSION['user_id'])) {
                                                     <h3> الشحن والتسليم: </h3>
                                                     <p> يحدد سعر الشحن حسب الموقع </p>
                                                 </div>
+                                                <!-- <div id="shipping-cost">
+
+                                                </div> -->
+
                                                 <div>
-                                                    <h2 class="total"> <?php include 'tempelate/shiping_price.php'; ?> </h2>
+                                                    <!-- <h2 class="total"> <?php //include 'tempelate/shiping_price.php'; 
+                                                                            ?> </h2> -->
+                                                    <h2 id="shipping-cost"></h2>
                                                     <input type="hidden" name="last_shipping_value" id="lastshippingvalue" value="<?php echo $shipping_value; ?>">
-                                                    <h2 class="total"> <?php // echo number_format($_SESSION['shipping_value'],2); 
-                                                                        ?> </h2>
+                                                    <h2 class="total"> </h2>
                                                 </div>
                                             </div>
                                             <hr>
@@ -152,7 +159,7 @@ if (isset($_SESSION['user_id'])) {
                                                         $grand_total = $_SESSION['total'] + $_SESSION['farm_services'] + $shipping_value;
                                                     }
                                                     ?>
-                                                    <h2 class="total" id="grand_total"> </h2>
+                                                    <!-- <h2 class="total" id="grand_total"> </h2> -->
                                                     <h2 class="total" id="grand_total"> <?php echo $grand_total; ?> ر.س </h2>
                                                     <input type="hidden" name="grand_total" id="grand_total_value" value="<?php echo $grand_total ?>">
                                                 </div>
@@ -323,7 +330,7 @@ if (isset($_SESSION['user_id'])) {
                     $status = 0;
                     $status_value = 'لم يبدا';
                     $farm_service = $_SESSION['farm_services'];
-                    $grand_total = $_SESSION['grand_total'];
+                    // $grand_total = $_SESSION['grand_total'];
 
                     if ($farm_service == '') {
                         $farm_service = 0;
@@ -370,11 +377,24 @@ if (isset($_SESSION['user_id'])) {
                                 VALUES (:zorder_number , :zuser_id , :zname , :zemail ,:zphone , :zarea , :zcity , :zaddress,
                                 :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value,:zshipping_problem)");
                                 $stmt->execute(array(
-                                    "zorder_number" => $order_number, "zuser_id" => $user_id, "zname" => $name,
-                                    "zemail" => $email, "zphone" => $phone, "zarea" => $area, "zcity" => $city,
-                                    "zaddress" => $address, "zship_price" => $ship_price, "zorder_details" => $order_details, "zorder_date" => $order_date,
-                                    "zstatus" => $status, "zstatus_value" => $status_value, "zfarm_service_price" => $farm_service,
-                                    "ztotal_price" => $grand_total, "zpayment_method" => $payment_method, "zcoupon_code" => $_SESSION['coupon_name'], "zdiscount_value" => $_SESSION['discount_value'],
+                                    "zorder_number" => $order_number,
+                                    "zuser_id" => $user_id,
+                                    "zname" => $name,
+                                    "zemail" => $email,
+                                    "zphone" => $phone,
+                                    "zarea" => $area,
+                                    "zcity" => $city,
+                                    "zaddress" => $address,
+                                    "zship_price" => $ship_price,
+                                    "zorder_details" => $order_details,
+                                    "zorder_date" => $order_date,
+                                    "zstatus" => $status,
+                                    "zstatus_value" => $status_value,
+                                    "zfarm_service_price" => $farm_service,
+                                    "ztotal_price" => $grand_total,
+                                    "zpayment_method" => $payment_method,
+                                    "zcoupon_code" => $_SESSION['coupon_name'],
+                                    "zdiscount_value" => $_SESSION['discount_value'],
                                     "zshipping_problem" => $_SESSION['shipping_problem']
                                 ));
                                 // get the last order number  id and number 
@@ -585,6 +605,41 @@ ob_end_flush();
             document.getElementById("payment2").style.setProperty('display', 'none', 'important');
         }
     }
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    var sessionTotal = <?php echo $_SESSION['total']; ?>;
+    $(document).ready(function() {
+        $('#city').change(function() {
+            // console.log('city Changed');
+            var city = $(this).val();
+            $.ajax({
+                url: 'tempelate/shiping_price2.php', // صفحة معالجة تكلفة الشحن
+                type: 'POST',
+                data: {
+                    city: city
+                },
+                success: function(response) {
+                    // تحويل response إلى قيمة عددية 
+                    var shippingCost = parseFloat(response);
+                    if (isNaN(shippingCost)) {
+                        alert(' نعتذر لك عميلنا العزيز، حالياً لا تتوفر خدمة التوصيل للمنطقة التي اخترتها، وسنوافيكم بمجرد توفرها لاحقاً بإذن الله.');
+                        return;
+                    } else {
+                        // تحديث قيمة الشحن
+                        $('#shipping-cost').html(shippingCost + ' ر.س');
+                        $('#lastshippingvalue').val(shippingCost);
+
+                        // حساب المجموع الكلي 
+                        var grandTotal = sessionTotal + shippingCost;
+                        // تحديث المجموع الكلي في الصفحة
+                        $('#grand_total').html(grandTotal + ' ر.س');
+                        $('#grand_total_value').val(grandTotal);
+                    }
+                }
+            });
+        });
+    });
 </script>
 
 <script>

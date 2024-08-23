@@ -10,7 +10,10 @@ if (isset($_SESSION['admin_username'])) {
 if (isset($_SESSION['username'])) {
     include 'include/emp_navbar.php';
 }
-if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
+if(isset($_SESSION['mos_username'])){
+    include 'include/mos_navbar.php';
+}
+if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !isset($_SESSION['mos_username'])) {
     header("Location: index.php");
     exit;
 }
@@ -212,6 +215,10 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username'])) {
         include "products/products_report.php";
     } elseif ($dir == 'products' && $page == 'new_report') {
         include "products/new_report.php";
+    }
+    //////// المستلزمات الزراعية 
+    elseif ($dir == 'products' && $page == 'mstlzamat_products') {
+        include "products/mstlzamat_products.php";
     }
     /* 
     elseif ($dir == 'products' && $page == 'add_vartions') {

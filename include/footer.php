@@ -186,7 +186,9 @@
 </div>
 <script src='<?php echo $js; ?>/jquery.min.js'></script>
 <script src='<?php echo $js; ?>/bootstrap.min.js'></script>
-<script src="https://kit.fontawesome.com/588e070751.js" crossorigin="anonymous"></script>
+<!-- <script src="https://kit.fontawesome.com/588e070751.js" crossorigin="anonymous"></script> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<script src=""></script>
 <!--<script src='<?php echo $js; ?>/slick.min.js'></script> -->
 <!-- start large image -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.js"></script>

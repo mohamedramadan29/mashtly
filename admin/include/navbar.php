@@ -112,6 +112,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="main.php?dir=products&page=mstlzamat_products" class="nav-link">
+                                <p> المستلزمات الزراعية  </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="main.php?dir=products&page=products_report" class="nav-link">
                                 <p> تقارير عن المنتجات </p>
                             </a>

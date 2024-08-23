@@ -5,6 +5,7 @@ $shipping_value = 0;
 $shpping_errors = [];
 
 if (isset($_SESSION['user_id'])) {
+    
     $user_id = $_SESSION['user_id'];
     ///////////////////////// get the products wheight /////////////////////
     $ship_weights = 0;
@@ -124,6 +125,8 @@ if (isset($_SESSION['user_id'])) {
     } else {
         echo 'نوع الفئة غير متوقع';
     }
+
+    echo $ship_type_data;
     ?>
     <!-- <h2> نوع المنتجات في السلة :: <?php echo $ship_type_data; ?> </h2> -->
     <?php
@@ -161,8 +164,8 @@ if (isset($_SESSION['user_id'])) {
                 $ship_price = $ship_price + $over_price;
             }
         } else {
-            echo "</br>";
-            echo "لا يوجد شركات شحن متاحة في المناطق هشوف النطاقات";
+          //  $company_shipping1 = 0;
+            //echo "لا يوجد شركات شحن متاحة في المناطق هشوف النطاقات";
             $stmt = $connect->prepare("SELECT * FROM company_trips WHERE  FIND_IN_SET(?,ship_type) > 0 AND FIND_IN_SET(?,ship_city) > 0 AND whight_from <= ? AND whight_to >= ?");
             $stmt->execute(array($ship_type_data, $user_city, $ship_weights, $ship_weights));
             // get the Trip data 
@@ -170,8 +173,8 @@ if (isset($_SESSION['user_id'])) {
             $count_available_trip_company = $stmt->rowCount();
             if ($count_available_trip_company > 0) {
                 // echo "Trip :: company_id " . $trip_data['company_id'];
-                echo "</br>";
-                echo "هناك شركة شحن متاحة ";
+                // echo "</br>";
+                // echo "هناك شركة شحن متاحة ";
                 $start_from_price = $trip_data['ship_start_from_price'];
                 $end_to_price = $trip_data['ship_end_to_price'];
                 $ship_price = $trip_data['default_whight_ship_price'];
@@ -185,23 +188,16 @@ if (isset($_SESSION['user_id'])) {
                     $ship_price = $ship_price + $over_price;
                 }
             } else {
-                //$company_shipping2 = 0;
-                $shipping_value = 0;
-                $_SESSION['shipping_area_error'] = ' نعتذر لك عميلنا العزيز، حالياً لا تتوفر خدمة التوصيل للمنطقة التي اخترتها، وسنوافيكم بمجرد توفرها لاحقاً بإذن الله.';
-                echo $_SESSION['shipping_area_error'];
+                 $shipping_value = 0;
+            $_SESSION['shipping_area_error'] = ' نعتذر لك عميلنا العزيز، حالياً لا تتوفر خدمة التوصيل للمنطقة التي اخترتها، وسنوافيكم بمجرد توفرها لاحقاً بإذن الله.';
+            echo $_SESSION['shipping_area_error'];
             }
         }
         $shipping_value =  $ship_price;
         // if ($shipping_value == 0) {
         //     $shipping_value = 45;
         // }
-        echo "</br>";
-        if ($company_shipping2 == 0) {
-            // $shipping_value = 0;
-            //$_SESSION['shipping_area_error'] = ' نعتذر لك عميلنا العزيز، حالياً لا تتوفر خدمة التوصيل للمنطقة التي اخترتها، وسنوافيكم بمجرد توفرها لاحقاً بإذن الله.';
-            // echo $_SESSION['shipping_area_error'];
-            //unset($_SESSION['shipping_area_error']);
-        }
+         
     ?>
         <h2 class="total"><?php echo number_format($shipping_value, 2); ?> ر.س </h2>
         <?php $_SESSION['shipping_value'] = $shipping_value; ?>

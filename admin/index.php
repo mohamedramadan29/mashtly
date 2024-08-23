@@ -34,6 +34,22 @@ if (isset($_POST['login']) == 'POST' && $_POST['permision'] == 'admin') {
     header('Location:main.php?dir=dashboard&page=emp_dashboard');
     exit();
   }
+} elseif (isset($_POST['login']) == 'POST' && $_POST['permision'] == 'mostlzamat') {
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+  $stmt = $connect->prepare(
+    'SELECT * FROM employes WHERE username=? AND password=?'
+  );
+  $stmt->execute([$username, $password]);
+  $data = $stmt->fetch();
+  $count = $stmt->rowCount();
+  if ($count > 0) {
+    //echo "Goood";
+    $_SESSION['mos_username'] = $data['username'];
+    $_SESSION['id'] = $data['id'];
+    header('Location:main.php?dir=dashboard&page=mostlzamat');
+    exit();
+  }
 }
 ?>
 <!doctype html>
@@ -85,6 +101,7 @@ if (isset($_POST['login']) == 'POST' && $_POST['permision'] == 'admin') {
                     <option value=""> -- اختر الصلاحية -- </option>
                     <option value="admin"> الأدمن </option>
                     <option value="emp"> موظف </option>
+                    <option value="mostlzamat"> خاص بالمستلزمات </option>
                   </select>
                 </div>
                 <div class="d-sm-flex mb-5 align-items-center">
