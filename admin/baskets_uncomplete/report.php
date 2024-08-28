@@ -74,9 +74,16 @@
                                     <tr>
                                         <th> # </th>
                                         <th> المستخدم </th>
-                                        <th> تفاصيل السلة  </th>
+                                        <th> تفاصيل السلة </th>
                                         <th> التاريخ </th>
-                                        <th> </th>
+                                        <?php
+                                        if (isset($_SESSION['admin_username'])) {
+                                        ?>
+                                            <th> </th>
+                                        <?php
+                                        }
+                                        ?>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -118,9 +125,16 @@
                                             <td> <a href="main.php?dir=baskets_uncomplete&page=details&cookie_id=<?php echo $cart['cookie_id']; ?>" class="btn btn-success btn-sm"> تفاصيل السلة المتروكة </a> </td>
                                             <td> <?php echo $cart['start_date'] ?> </td>
 
-                                            <td>
-                                                <a href="main.php?dir=baskets_uncomplete&page=delete&cart_id=<?php echo $cart['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
-                                            </td>
+                                            <?php
+                                            if (isset($_SESSION['admin_username'])) {
+                                            ?>
+                                                <td>
+                                                    <a href="main.php?dir=baskets_uncomplete&page=delete&cart_id=<?php echo $cart['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
+                                                </td>
+                                            <?php
+                                            }
+                                            ?>
+
                                         </tr>
 
                                     <?php

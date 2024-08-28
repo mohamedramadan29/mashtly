@@ -121,7 +121,13 @@
                                         <th> حالة المستخدم </th>
                                         <th> حالة تفعيل الايميل </th>
                                         <th> تاريخ التسجيل </th>
+                                        <?php
+                                            if (isset($_SESSION['admin_username'])) {
+                                            ?>
                                         <th> العمليات </th>
+                                        <?php 
+                                            }
+                                        ?>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -165,11 +171,17 @@
                                                 } ?>
                                             </td>
                                             <td> <?php echo  $user['created_at']; ?> </td>
+                                            <?php
+                                            if (isset($_SESSION['admin_username'])) {
+                                            ?>
                                             <td>
                                                 <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $user['id']; ?>"> تعديل الحالة <i class='fa fa-pen'></i> </button>
                                                 <button type="button" class="btn btn-primary btn-sm waves-effect" data-toggle="modal" data-target="#edit-data-Modal_<?php echo $user['id']; ?>"> تعديل <i class='fa fa-pen'></i> </button>
 
                                             </td>
+                                            <?php 
+                                            }
+                                            ?>
                                         </tr>
                                         <!-- EDIT NEW CATEGORY MODAL   -->
                                         <div class="modal fade" id="edit-Modal_<?php echo $user['id']; ?>" tabindex="-1" role="dialog">

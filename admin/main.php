@@ -13,7 +13,10 @@ if (isset($_SESSION['username'])) {
 if(isset($_SESSION['mos_username'])){
     include 'include/mos_navbar.php';
 }
-if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !isset($_SESSION['mos_username'])) {
+if (isset($_SESSION['marketer'])) {
+    include 'include/marketer_navbar.php';
+}
+if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !isset($_SESSION['mos_username']) && !isset($_SESSION['marketer'])) {
     header("Location: index.php");
     exit;
 }
@@ -34,8 +37,10 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
         include 'dashboard.php';
     } elseif ($dir == 'dashboard' && $page == 'emp_dashboard') {
         include 'emp_dashboard.php';
+    }elseif($dir == 'dashboard' && $page == 'marketer-dashboard'){
+        include 'marketer-dashboard.php';
     }
-    // END DASHBAORD
+    // END DASHBAORD{}
     // START Category
     if ($dir == 'categories' && $page == 'add') {
         include "categories/add.php";
