@@ -95,7 +95,7 @@ $count_post = count(($stmt->fetchAll()));
                 <div class='row'>
                     <?php
                     $stmt = $connect->prepare("SELECT * FROM posts WHERE cat_id = ? AND  publish = 1 AND id !=?");
-                    $stmt->execute(array($cat_id,$post_id));
+                    $stmt->execute(array($cat_id, $post_id));
                     $num_blogs = $stmt->rowCount();
                     $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
                     $pageSize = 12;
@@ -139,11 +139,14 @@ $count_post = count(($stmt->fetchAll()));
                 <div class="pagination_section">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="?page=<?php echo $currentpage - 1; ?>" aria-label="Previous">
+                            <!-- زر "السابق" -->
+                            <li class="page-item <?php echo ($currentpage <= 1) ? 'disabled' : ''; ?>">
+                                <a class="page-link" href="?page=<?php echo $currentpage - 1; ?>" aria-label="Previous" <?php echo ($currentpage <= 1) ? 'tabindex="-1" aria-disabled="true"' : ''; ?>>
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
+
+                            <!-- أزرار الصفحات -->
                             <?php
                             for ($i = 1; $i <= $totalPages; $i++) {
                                 echo '<li class="page-item';
@@ -153,14 +156,17 @@ $count_post = count(($stmt->fetchAll()));
                                 echo '"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
                             }
                             ?>
-                            <li class="page-item">
-                                <a class="page-link" href="?page=<?php echo $currentpage + 1; ?>" aria-label="Next">
+
+                            <!-- زر "التالي" -->
+                            <li class="page-item <?php echo ($currentpage >= $totalPages) ? 'disabled' : ''; ?>">
+                                <a class="page-link" href="?page=<?php echo $currentpage + 1; ?>" aria-label="Next" <?php echo ($currentpage >= $totalPages) ? 'tabindex="-1" aria-disabled="true"' : ''; ?>>
                                     <span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>
                         </ul>
                     </nav>
                 </div>
+
 
             </div>
         </div>

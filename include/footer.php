@@ -32,9 +32,9 @@
                             </a>
                             <p> تابعونا علي منصات التواصل الاجتماعى عبر </p>
                             <ul class="list-unstyled social_icon">
-                                <li> <a href="https://twitter.com/mshtly"> <i class='fa fa-twitter'> </i> </a> </li>
-                                <li> <a href="https://www.instagram.com/mshtly1/"> <i class='fa fa-instagram'> </i> </a> </li>
-                                <li> <a href="https://www.youtube.com/channel/UC97csCKptQNPdwQX1AidVXg"> <i class='fa fa-youtube'> </i> </a> </li>
+                                <li> <a href="https://twitter.com/mshtly"> <i class='fab fa-x-twitter'> </i> </a> </li>
+                                <li> <a href="https://www.instagram.com/mshtly1/"> <i class='fab fa-instagram'> </i> </a> </li>
+                                <li> <a href="https://www.youtube.com/channel/UC97csCKptQNPdwQX1AidVXg"> <i class='fab fa-youtube'> </i> </a> </li>
                             </ul>
                         </div>
                     </div>
@@ -136,9 +136,9 @@
                         <div class="info">
                             <p> تابعونا علي منصات التواصل الاجتماعى عبر </p>
                             <ul class="list-unstyled social_icon">
-                                <li> <a href="https://twitter.com/mshtly"> <i class='fa fa-twitter'> </i> </a> </li>
-                                <li> <a href="https://www.instagram.com/mshtly1/"> <i class='fa fa-instagram'> </i> </a> </li>
-                                <li> <a href="https://www.youtube.com/channel/UC97csCKptQNPdwQX1AidVXg"> <i class='fa fa-youtube'> </i> </a> </li>
+                                <li> <a href="https://twitter.com/mshtly"> <i class='fab fa-x-twitter'> </i> </a> </li>
+                                <li> <a href="https://www.instagram.com/mshtly1/"> <i class='fab fa-instagram'> </i> </a> </li>
+                                <li> <a href="https://www.youtube.com/channel/UC97csCKptQNPdwQX1AidVXg"> <i class='fab fa-youtube'> </i> </a> </li>
                             </ul>
                         </div>
                     </div>
