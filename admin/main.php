@@ -10,7 +10,7 @@ if (isset($_SESSION['admin_username'])) {
 if (isset($_SESSION['username'])) {
     include 'include/emp_navbar.php';
 }
-if(isset($_SESSION['mos_username'])){
+if (isset($_SESSION['mos_username'])) {
     include 'include/mos_navbar.php';
 }
 if (isset($_SESSION['marketer'])) {
@@ -37,8 +37,10 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
         include 'dashboard.php';
     } elseif ($dir == 'dashboard' && $page == 'emp_dashboard') {
         include 'emp_dashboard.php';
-    }elseif($dir == 'dashboard' && $page == 'marketer-dashboard'){
+    } elseif ($dir == 'dashboard' && $page == 'marketer-dashboard') {
         include 'marketer-dashboard.php';
+    } elseif ($dir == 'dashboard' && $page == 'fetch_orders') {
+        include 'fetch_orders.php';
     }
     // END DASHBAORD{}
     // START Category
@@ -534,8 +536,8 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
         include "offer_orders/compeleted_orders.php";
     }
 
-      // START Mshtly Reviews 
-      if ($dir == 'mshtly_reviews' && $page == 'add') {
+    // START Mshtly Reviews 
+    if ($dir == 'mshtly_reviews' && $page == 'add') {
         include "mshtly_reviews/add.php";
     } elseif ($dir == 'mshtly_reviews' && $page == 'edit') {
         include "mshtly_reviews/edit.php";

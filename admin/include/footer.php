@@ -160,29 +160,6 @@
    });
  </script>
 
- <script>
-  const totalOrders = parseInt(document.getElementById('totalOrders').textContent);
-  const completedOrders = parseInt(document.getElementById('completedOrders').textContent);
-  const notStartedOrders = parseInt(document.getElementById('notStartedOrders').textContent);
-  const pendingOrders = parseInt(document.getElementById('pendingOrders').textContent);
-  const canceledOrders = parseInt(document.getElementById('canceledOrders').textContent);
-
-   const xValues = ["عدد الطلبات الكلي", "طلبات مكتملة", "طلبات لم تبدا", "طلبات قيد الانتظار", "طلبات ملغية"];
-   const yValues = [totalOrders, completedOrders, notStartedOrders, pendingOrders, canceledOrders];
-   const barColors = ["#3498db","#2ecc71", "#8e44ad", "#f1c40f", "#c0392b"];
-
-   new Chart("orderschart", {
-     type: "bar",
-     data: {
-       labels: xValues,
-       datasets: [{
-         backgroundColor: barColors,
-         data: yValues
-       }]
-     },
-   });
- </script>
-
 
 
  <!--------------------------------- تقرير شهري للمبيعات ---------------------->

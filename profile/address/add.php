@@ -5,6 +5,11 @@ $page_title = 'اضافة عنوان جديد ';
 include 'init.php';
 $user_id = $_SESSION['user_id'];
 if (isset($_SESSION['user_id'])) {
+    ////// Get The User Phone 
+    $stmt = $connect->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute(array($_SESSION['user_id']));
+    $user_data = $stmt->fetch();
+    $user_phone = $user_data['phone'];
     if (isset($_POST['add_address'])) {
         $formerror = [];
         $name = sanitizeInput($_POST['name']);
@@ -25,9 +30,9 @@ if (isset($_SESSION['user_id'])) {
         // تحقق من أن الرقم يتبع إحدى الصيغ التالية:
         // 1. مفتاح الدولة معرّف مع الرقم (مفتاح الدولة غير الزامي)
         // 2. الرقم بدون مفتاح الدولة
-        if (!preg_match('/^(?:\+966|00966)?05[0-9]{8}$|^05[0-9]{8}$/', $phone)) {
-            $formerror[] = 'من فضلك، أدخل رقم هاتف صحيح بصيغة سعودية.';
-        }
+        // if (!preg_match('/^(?:\+966|00966)?05[0-9]{8}$|^05[0-9]{8}$/', $phone)) {
+        //     $formerror[] = 'من فضلك، أدخل رقم هاتف صحيح بصيغة سعودية.';
+        // }
 
 
         // get the city area
@@ -128,7 +133,7 @@ if (isset($_SESSION['user_id'])) {
                                 </div>
                                 <div class="input_box">
                                     <label for="phone"> رقم الجوال </label>
-                                    <input required id="phone" type="text" name="phone" class='form-control' placeholder="اكتب…" value="<?php if(isset($_REQUEST['phone'])) echo $_REQUEST['phone']; ?>">
+                                    <input required id="phone" type="text" name="phone" class='form-control' placeholder="اكتب…" value="<?php echo $user_phone; ?>">
                                 </div>
                             </div>
                             <div class="box">
