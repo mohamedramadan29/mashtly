@@ -17,7 +17,7 @@ if ($key !== false && isset($parts[$key + 1])) {
     echo "العنوان غير صحيح";
 }
 // $slug = $_GET['slug'];
-$stmt = $connect->prepare("SELECT * FROM products WHERE slug = ? AND product_status_store = 1 AND publish = 1 ORDER BY id  LIMIT 1 ");
+$stmt = $connect->prepare("SELECT * FROM products WHERE slug = ? AND publish = 1 ORDER BY id  LIMIT 1 ");
 $stmt->execute(array($slug));
 $product_data = $stmt->fetch();
 $count  = $stmt->rowCount();
@@ -31,6 +31,7 @@ if ($count > 0) {
     $product_category = $product_data['cat_id'];
     $related_products = $product_data['related_product'];
     $public_tail = $product_data['public_tail'];
+    $product_status_store = $product_data['product_status_store'];
     if ($public_tail == '' || $public_tail == 0 || $public_tail == null) {
         $public_tail = 5;
     }
@@ -327,7 +328,7 @@ if (isset($_POST['add_to_fav'])) {
                             ?>
                         </div>
                         <div class="product_info">
-                            <h1 class="product_header">   <?php echo $product_name; ?> </h1>
+                            <h1 class="product_header"> <?php echo $product_name; ?> </h1>
                             <!-- check if products have more price in attribute or not -->
                             <?php
                             $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
@@ -603,23 +604,37 @@ if (isset($_POST['add_to_fav'])) {
                                 <?php
                                 }
                                 ?>
-                                <div class="add_cart">
-                                    <?php
-                                    $stmt = $connect->prepare("SELECT * FROM cart WHERE product_id = ? AND cookie_id = ?");
-                                    $stmt->execute(array($product_id, $cookie_id));
-                                    $count_pro = $stmt->rowCount();
-                                    // if ($count_pro > 0) {
-                                    ?>
-                                    <!-- <a class="btn global_button cart" href="http://localhost/mashtly/cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> مشاهدة السلة </a> -->
-                                    <?php
-                                    // } else {
-                                    ?>
-                                    <button class="btn global_button cart" name="add_to_cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt="سلة الشراء"> أضف الي السلة </button>
-                                    <?php
-                                    // }
-                                    ?>
-                                    <!-- <button class="btn wishlist" name="add_to_wishlist"> <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt="المفضلة"> أضف الي المفضلة </button> -->
-                                </div>
+                                <?php
+                                ?>
+                                    <div class="add_cart">
+                                        <?php 
+                                        $stmt = $connect->prepare("SELECT * FROM cart WHERE product_id = ? AND cookie_id = ?");
+                                        $stmt->execute(array($product_id, $cookie_id));
+                                        $count_pro = $stmt->rowCount();
+                                        // if ($count_pro > 0) {
+                                        ?>
+                                        <!-- <a class="btn global_button cart" href="http://localhost/mashtly/cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> مشاهدة السلة </a> -->
+                                        <?php
+                                        // } else {
+                                        ?>
+                                        <?php 
+                                        if($product_status_store !=1){
+                                            ?>
+                                           <button class='btn global_button'> المنتج غير متوفر  </button>
+                                            <?php 
+                                        }else{
+                                            ?>
+                                             <button class="btn global_button cart" name="add_to_cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt="سلة الشراء"> أضف الي السلة </button>
+                                            <?php 
+                                        }
+                                        ?>
+                                       
+                                        <?php
+                                        // }
+                                        ?>
+                                        <!-- <button class="btn wishlist" name="add_to_wishlist"> <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt="المفضلة"> أضف الي المفضلة </button> -->
+                                    </div>
+                                 
                             </div>
                         </form>
                     </div>
@@ -760,7 +775,18 @@ if ($related_products != null) { ?>
                         </div>
                         <div>
                             <form action="" method="post">
-                                <button class="btn global_button" name="add_to_cart_related"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt="سلة الشراء"> أضف الي السلة </button>
+                                <?php
+                                if ($product_data['product_status_store'] != 1) {
+                                ?>
+                                    <button class="btn global_button"> المنتج غير متوفر </button>
+                                <?php
+                                } else {
+                                ?>
+                                    <button class="btn global_button" name="add_to_cart_related"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt="سلة الشراء"> أضف الي السلة </button>
+                                <?php
+                                }
+                                ?>
+
                             </form>
                             <?php
                             if (isset($_POST['add_to_cart_related'])) {
@@ -856,7 +882,7 @@ if ($related_products != null) { ?>
     }
 </style>
 <!-- END NEWWER PRODUCTS  -->
- 
+
 
 <!-- START NEWWER PRODUCTS -->
 <div class="new_producs index_all_cat" style="padding-top: 0;">
@@ -1064,7 +1090,7 @@ ob_end_flush();
                     mainSlides[mainIndex].style.backgroundImage = 'url(http://localhost/mashtly/admin/product_images/' + selectedImage + ')';
                     const mainImageSlide = mainSlides[mainIndex].querySelector('img');
                     mainImageSlide.src = 'http://localhost/mashtly/admin/product_images/' + selectedImage;
-                   // console.log(mainImageSlide);
+                    // console.log(mainImageSlide);
                 }
             });
         });

@@ -98,17 +98,39 @@
                     <?php
                     if ($count_pro_attr > 0) {
                     ?>
-                        <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
-                            مشاهدة الاختيارات
-                        </a>
+                        <?php
+                        if ($product['product_status_store'] != 1) {
+                        ?>
+                            <p class="btn global_button"> المنتج غير متوفر </p>
+                        <?php
+                        } else {
+                        ?>
+                            <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>" class='btn global_button'> <img src="uploads/shopping-cart.png" alt="">
+                                مشاهدة الاختيارات
+                            </a>
+                        <?php
+                        }
+                        ?>
+
                     <?php
                     } else {
                     ?>
-                        <button name="add_to_cart" class='btn global_button'>
-                    
-                        <img alt="سلة الشراء " src="<?php echo $uploads ?>/shopping-cart.png"> أضف
-                            الي السلة
-                        </button>
+                        <?php
+                        if ($product['product_status_store'] != 1)  {
+                        ?>
+                            <button class="btn global_button"> المنتج غير متوفر </button>
+                        <?php
+                        } else {
+                        ?>
+                            <button name="add_to_cart" class='btn global_button'>
+
+                                <img alt="سلة الشراء " src="<?php echo $uploads ?>/shopping-cart.png"> أضف
+                                الي السلة
+                            </button>
+                        <?php
+                        }
+                        ?>
+
                     <?php
                     }
                     ?>

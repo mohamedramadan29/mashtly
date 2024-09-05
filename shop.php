@@ -105,7 +105,7 @@ $stmt->execute();
 $num_products = $stmt->rowCount();
 
 // ترتيب النتائج
-$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_status_store = 1 AND name !='' AND price !='' $order_by LIMIT $pageSize OFFSET :offset");
+$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' $order_by LIMIT $pageSize OFFSET :offset");
 $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $allproducts = $stmt->fetchAll();
@@ -124,7 +124,7 @@ if (isset($_POST['search_options'])) {
         // Get all products with matching IDs
         if (!empty($productIDs)) {
             $productIDsStr = implode(',', $productIDs);
-            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_status_store = 1 AND name !='' AND price !='' AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+            $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND id IN ($productIDsStr) ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
             $num_products = $stmt->rowCount();
         }
         $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
