@@ -1,6 +1,6 @@
 <!-- Whats App Button  -->
 <div class="whatsapp_footer">
-    <a href="https://wa.me/966530047542"> <img src="<?php echo $uploads ?>/WhatsAppfly.gif" alt=""> </a>
+    <a href="https://wa.me/966530047542"> <i class="bi bi-whatsapp"></i>  </a>
 </div>
 <div>
     <!--Start of Tawk.to Script-->
@@ -32,9 +32,21 @@
                             </a>
                             <p> تابعونا علي منصات التواصل الاجتماعى عبر </p>
                             <ul class="list-unstyled social_icon">
-                                <li> <a href="https://twitter.com/mshtly"> <i class='fab fa-x-twitter'> </i> </a> </li>
-                                <li> <a href="https://www.instagram.com/mshtly1/"> <i class='fab fa-instagram'> </i> </a> </li>
-                                <li> <a href="https://www.youtube.com/channel/UC97csCKptQNPdwQX1AidVXg"> <i class='fab fa-youtube'> </i> </a> </li>
+                                <li>
+                                    <a href="https://twitter.com/mshtly" aria-label="تويتر ">
+                                        <i class="bi bi-twitter-x"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.instagram.com/mshtly1/" aria-label="انستجرام">
+                                        <i class="bi bi-instagram"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.youtube.com/channel/UC97csCKptQNPdwQX1AidVXg" aria-label="يوتيوب">
+                                        <i class="bi bi-youtube"></i>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -45,7 +57,7 @@
                                 <li> <a href="http://localhost/mashtly/faq"> الاسئلة الشائعة </a> </li>
                                 <li> <a href="http://localhost/mashtly/contact"> تواصل معنا </a> </li>
                                 <li> <a href="http://localhost/mashtly/join_us"> انضم الينا </a> </li>
-                                <li> <a href="http://localhost/mashtly/review"> تقيم مشتلي  </a> </li>
+                                <li> <a href="http://localhost/mashtly/review"> تقيم مشتلي </a> </li>
                             </ul>
                         </div>
                     </div>
@@ -105,7 +117,7 @@
                     <div class="col-12">
                         <div class="info text-center">
                             <a href="https://www.mshtly.com/">
-                                <img  src="<?php echo $uploads ?>/footer_logo.png" alt="متجر مشتلي">
+                                <img src="<?php echo $uploads ?>/footer_logo.png" alt="متجر مشتلي">
                             </a>
                         </div>
                     </div>
@@ -136,9 +148,21 @@
                         <div class="info">
                             <p> تابعونا علي منصات التواصل الاجتماعى عبر </p>
                             <ul class="list-unstyled social_icon">
-                                <li> <a href="https://twitter.com/mshtly"> <i class='fab fa-x-twitter'> </i> </a> </li>
-                                <li> <a href="https://www.instagram.com/mshtly1/"> <i class='fab fa-instagram'> </i> </a> </li>
-                                <li> <a href="https://www.youtube.com/channel/UC97csCKptQNPdwQX1AidVXg"> <i class='fab fa-youtube'> </i> </a> </li>
+                                <li>
+                                    <a href="https://twitter.com/mshtly" aria-label="تويتر ">
+                                        <i class="bi bi-twitter-x"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.instagram.com/mshtly1/" aria-label="انستجرام">
+                                        <i class="bi bi-instagram"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.youtube.com/channel/UC97csCKptQNPdwQX1AidVXg" aria-label="يوتيوب">
+                                        <i class="bi bi-youtube"></i>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -184,25 +208,28 @@
         </div>
     </div>
 </div>
-<script src='<?php echo $js; ?>/jquery.min.js'></script>
-<script src='<?php echo $js; ?>/bootstrap.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- <script src='<?php echo $js; ?>/jquery.min.js'></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- <script src='<?php echo $js; ?>/bootstrap.min.js'></script> -->
 <!-- <script src="https://kit.fontawesome.com/588e070751.js" crossorigin="anonymous"></script> -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"> -->
 <script src=""></script>
 <!--<script src='<?php echo $js; ?>/slick.min.js'></script> -->
 <!-- start large image -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe-ui-default.min.js" defer></script>
 <!-- end large image -->
-<!-- nice vide -->
-<script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 <!-- Sweet Alert  -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src='<?php echo $js; ?>/select2.min.js'></script>
+<!-- <script src='<?php echo $js; ?>/select2.min.js'></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" defer integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src='<?php echo $js; ?>/jquery.magnific-popup.min.js'></script>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-<script src='<?php echo $js; ?>/slick.js'></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lite-youtube-embed/src/lite-yt-embed.js"></script>
+<script src='<?php echo $js; ?>/slick.min.js'></script>
 <script src='<?php echo $js; ?>/slick-custom.js'></script>
+
 <script src='<?php echo $js; ?>/main.js'></script>
 </body>
 
@@ -258,8 +285,8 @@
             autoplay: true,
             autoplaySpeed: 2000,
             infinite: true,
-            prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-chevron-right"></i></button>',
-            nextArrow: '<button type="button" class="slick-next"><i class="fa fa-chevron-left"></i></button>',
+            prevArrow: '<button type="button" class="slick-prev" aria-label="Previous slide"><i class="bi bi-chevron-right"></i></button>',
+            nextArrow: '<button type="button" class="slick-next" aria-label="Next slide"><i class="bi bi-chevron-left"></i></button>',
             centerMode: true,
             variableWidth: false,
             responsive: [{
@@ -292,8 +319,8 @@
             autoplay: true,
             autoplaySpeed: 2000,
             infinite: true,
-            prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-chevron-right"></i></button>',
-            nextArrow: '<button type="button" class="slick-next"><i class="fa fa-chevron-left"></i></button>',
+            prevArrow: '<button type="button" class="slick-prev" aria-label="Previous slide"><i class="bi bi-chevron-right"></i></button>',
+            nextArrow: '<button type="button" class="slick-next" aria-label="Next slide"><i class="bi bi-chevron-left"></i></button>',
             centerMode: false,
             variableWidth: false,
             responsive: [{
@@ -319,10 +346,7 @@
         });
     });
 </script>
-<!-- to video -->
-<script>
-    const player = new Plyr('#player');
-</script>
+
 <!-- for testmonails -->
 <script>
     $(document).ready(function() {

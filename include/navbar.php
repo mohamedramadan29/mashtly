@@ -1,29 +1,6 @@
 <div class="main_navbar">
   <div class="top_header">
     <div class="container">
-      <style>
-        .moving-text {
-
-          animation: moveText 19s linear infinite;
-        }
-
-        .moving-text p {
-          color: #fff;
-          padding: 5px;
-          text-align: center;
-          font-size: 14px;
-          line-height: 2;
-        }
-      </style>
-      <div class="moving-text-container">
-        <div class="moving-text">
-          <p> <span style="background-color: #dc3545 !important;padding: 2px;border-radius: 4px;margin-left: 10px;"> تنبيه: </span> الموقع حاليا يعمل بنسخة تجريبية جديدة. المرجو التواصل مع الدعم في حال واجهتكم أي مشاكل تقنية </p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="top_header">
-    <div class="container">
       <div class="data">
         <div class="speed_contact">
           <p>للتواصل السريع أو الاستفسارات 0530047542 </p>
@@ -51,7 +28,7 @@
                     <input type="text" id="searchInput" name='search' value="<?php if (isset($_REQUEST['search'])) echo $_REQUEST['search']; ?>" placeholder="اكتب كلمة البحث…" class="form-control">
                   </div>
                   <div class='box3'>
-                    <button type='submit'> البحث المتقدم <img src="<?php echo $uploads ?>/search.png" alt="بحث"> </button>
+                    <button type='submit'> البحث المتقدم <img src="<?php echo $uploads ?>/search.webp" alt="بحث"> </button>
                   </div>
                 </div>
               </form>
@@ -75,12 +52,12 @@
 
                   <span class="cart_count count_carts"> </span>
 
-                  <img src="<?php echo $uploads ?>/shopping-cart.png" alt="سلة المشتريات">
+                  <img src="<?php echo $uploads ?>/shopping-cart.webp" alt="سلة المشتريات">
                 </a>
               </div>
               <div class="heart">
                 <a href="http://localhost/mashtly/profile/favorite">
-                  <img src="<?php echo $uploads ?>/heart.png" alt="المفضلة">
+                  <img src="<?php echo $uploads ?>/heart.webp" alt="المفضلة">
                 </a>
               </div>
               <div class="sign_in">
@@ -155,13 +132,13 @@
                   <?php
                   }
                   ?>
-                  <img width="24px" src="<?php echo $uploads ?>/shopping-cart.png" alt="سلة المشتريات">
+                  <img width="24px" src="<?php echo $uploads ?>/shopping-cart.webp" alt="سلة المشتريات">
 
                 </a>
               </div>
               <div class="heart">
                 <a href="http://localhost/mashtly/profile/favorite">
-                  <img width="24px" src="<?php echo $uploads ?>/heart.png" alt="المفضلة">
+                  <img width="24px" src="<?php echo $uploads ?>/heart.webp" alt="المفضلة">
                 </a>
               </div>
 
@@ -220,7 +197,7 @@
             <nav class="navbar" style="padding: 0;">
 
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"><i class='fa fa-bars'></i></span>
+                <span class="navbar-toggler-icon"><i class="bi bi-justify"></i></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -300,7 +277,7 @@
 
                   </div>
                   <div class='box3'>
-                    <button type='submit'> البحث المتقدم <img src="<?php echo $uploads ?>/search.png" alt="البحث"> </button>
+                    <button type='submit'> البحث المتقدم <img src="<?php echo $uploads ?>/search.webp" alt="البحث"> </button>
                   </div>
                 </div>
               </form>

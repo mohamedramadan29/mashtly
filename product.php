@@ -200,7 +200,7 @@ if (isset($_POST['add_to_fav'])) {
 <div class="container">
     <div class="data">
         <div class="breadcrump">
-            <p> <a href="index"> الرئيسية </a> \ <span> <a href="http://localhost/mashtly/shop"> المتجر </a> </span> \ <span> <a href="http://localhost/mashtly/product-category/=<?php echo $cat_slug; ?>"> <?php echo  $cat_name ?> </a> </span> \ <?php echo $product_name ?> </p>
+            <p> <a href="index"> الرئيسية </a> \ <span> <a href="http://localhost/mashtly/shop"> المتجر </a> </span> \ <span> <a href="http://localhost/mashtly/product-category/<?php echo $cat_slug; ?>"> <?php echo  $cat_name ?> </a> </span> \ <?php echo $product_name ?> </p>
         </div>
     </div>
 </div>

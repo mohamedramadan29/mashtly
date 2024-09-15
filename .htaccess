@@ -4,20 +4,100 @@ Order deny,allow
 Allow from *
 
 # ------------------------------------------
-# Rewrite so that php extentions are not shown
-RewriteEngine on
+# إعادة التوجيه من HTTP إلى HTTPS
+RewriteEngine On
 
+# إعادة التوجيه من HTTP إلى HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# إعادة التوجيه من non-www إلى www
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteRule ^ https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ------------------------------------------
+# استبدال category_products بـ product-category
+RewriteCond %{THE_REQUEST} /category_products\?cat=([^\s&]+) [NC]
+RewriteRule ^category_products$ /product-category/%1? [R=301,L]
+
+# ------------------------------------------
+# إزالة امتدادات .php
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^(.*)$ $1.php
 
+# ------------------------------------------
+# القواعد الحالية لموقعك
 RewriteRule ^product/(.*)$ /mashtly/product?slug=$1 [L]
 RewriteRule ^product-category/(.*)$ /mashtly/product-category?cat=$1 [L]
-# RewriteRule ^blog-categories-details/(.*)$ /mashtly/blog-categories-details?cat=$1 [L]
-# RewriteRule ^blog-categories-details/(.*)$ /mashtly/blog-categories-details?cat=$1 [L]
-# RewriteRule ^blog-categories-details/(.*)$ /mashtly/blog-categories-details?cat=$1 [L]
+
 RewriteRule ^blog-categories-details/(.*)$ /mashtly/blog-categories-details?cat=$1 [L,QSA]
 RewriteRule ^blog/(.*)$ /mashtly/blog_details?slug=$1 [L]
 RewriteRule ^land/(.*)$ /mashtly/land_details?slug=$1 [L]
 
+# ------------------------------------------
+# Enable Gzip compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/x-httpd-php
+</IfModule>
 
+# ------------------------------------------
+# Enable Brotli compression (if supported)
+<IfModule mod_brotli.c>
+    AddOutputFilterByType BROTLI_COMPRESS text/plain
+    AddOutputFilterByType BROTLI_COMPRESS text/html
+    AddOutputFilterByType BROTLI_COMPRESS text/xml
+    AddOutputFilterByType BROTLI_COMPRESS text/css
+    AddOutputFilterByType BROTLI_COMPRESS text/javascript
+    AddOutputFilterByType BROTLI_COMPRESS application/xml
+    AddOutputFilterByType BROTLI_COMPRESS application/xhtml+xml
+    AddOutputFilterByType BROTLI_COMPRESS application/rss+xml
+    AddOutputFilterByType BROTLI_COMPRESS application/javascript
+    AddOutputFilterByType BROTLI_COMPRESS application/x-javascript
+    AddOutputFilterByType BROTLI_COMPRESS application/x-httpd-php
+</IfModule>
+
+# ------------------------------------------
+# إعدادات التخزين المؤقت للمتصفح
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+    
+    # Images
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    
+    # CSS and JavaScript
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    
+    # Fonts
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+    
+    # Other
+    ExpiresByType application/pdf "access plus 1 month"
+    ExpiresByType video/mp4 "access plus 1 month"
+</IfModule>
+
+# ------------------------------------------
+# Enable cache control headers
+<IfModule mod_headers.c>
+    <FilesMatch "\.(jpg|jpeg|png|gif|webp|css|js|woff|woff2|ttf|otf|pdf|mp4)$">
+        Header set Cache-Control "max-age=31536000, public"
+    </FilesMatch>
+</IfModule>

@@ -1,5 +1,4 @@
 <?php
- 
     //include 'location_currancy.php';
     $connect_db = 'admin/connect.php';
     $tem = "include/";
@@ -7,6 +6,7 @@
     $js = "http://localhost/mashtly/themes/js/";
     $uploads = "http://localhost/mashtly/uploads/";
     include $tem . "header.php";
+    
     include 'admin/connect.php';
     include 'global_functions.php';
     date_default_timezone_set('Asia/Riyadh');

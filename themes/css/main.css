@@ -15,7 +15,7 @@
 
 body {
     font-family: SuisseIntl, sans-serif;
-    background: #f0f5f0
+    background: #ffffff
 }
 
 * {
@@ -515,7 +515,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url(../../uploads/header_overlay.png)
+    background-image: url(../../uploads/header_overlay.webp)
 }
 
 .hero .carousel-caption {
@@ -551,12 +551,13 @@ body {
 }
 
 .carousel-indicators [data-bs-target] {
-    width: 10px;
-    height: 10px;
+    width: 20px;
+    height: 20px;
     background-color: #fff;
     border-radius: 50%;
     right: 0;
-    left: auto
+    left: auto;
+    margin: 0 10px;
 }
 
 .carousel-indicators .active, .order_tracking .order_steps .step.active span {
@@ -750,7 +751,7 @@ body {
     right: 10px
 }
 
-.products_thumnails .slick-next .fa-chevron-left {
+.products_thumnails .slick-next .bi-chevron-left {
     position: absolute;
     top: 8px;
     left: 10px
@@ -761,13 +762,13 @@ body {
     top: 41%
 }
 
-.products .slick-next .fa-chevron-left {
+.products .slick-next .bi-chevron-left {
     position: absolute;
     top: 28%;
     right: 40%
 }
 
-.products .slick-prev .fa-chevron-right {
+.products .slick-prev .bi-chevron-right {
     position: absolute;
     top: 28%;
     left: 40%
@@ -821,7 +822,7 @@ body {
 }
 
 .index_all_cat .data {
-    background: linear-gradient(180deg, #f0f5f0 0, #f0f5f0 100%) no-repeat padding-box;
+    background: linear-gradient(180deg, #fbfbfb 0, #ffffff 100%) no-repeat padding-box;
     box-shadow: 0 12px 15px #00000017;
     border-radius: 15px;
     padding-bottom: 30px
@@ -973,11 +974,22 @@ body {
     line-height: 1.8
 }
 
-.expert_connect .data .image {
-    background-image: url(../../uploads/expert_contact.webp);
+.lazy-background {
+    background-color: #f0f0f0;
+    /* لون الخلفية الافتراضي */
     height: 100%;
-    position: relative
+    position: relative;
+
 }
+
+.expert_connect .data .image.loaded {
+    background-image: url(../../uploads/expert_contact.webp) !important;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}
+
 
 .expert_connect .data .image img {
     position: absolute;
@@ -1010,7 +1022,7 @@ body {
 }
 
 .why_mashtly .data .info h4 {
-    color: var(--main-color);
+    color: #131313;
     font-weight: 700;
     font-size: 18px;
     margin-top: 15px;
@@ -1236,11 +1248,11 @@ body {
 }
 
 .data .breadcrump p, .data_header_name p {
-    color: #8f918f
+    color: #5c5c5c
 }
 
 .data .breadcrump p a {
-    color: #8f918f;
+    color: #5c5c5c;
     text-decoration: none
 }
 
@@ -1418,7 +1430,7 @@ body {
     min-height: 255px
 }
 
-.adress_page .addresses .active, .adress_page .addresses input[type=radio]:checked + .checkout_address .payment_method {
+.adress_page .addresses .active, .adress_page .addresses input[type=radio]:checked+.checkout_address .payment_method {
     box-shadow: 0 0 14px #a1d0418D;
     border: 2px solid #8ebf2d
 }
@@ -1434,7 +1446,7 @@ body {
     font-size: 15px
 }
 
-.adress_page .addresses .address .add_head .form-check input:checked ~ label {
+.adress_page .addresses .address .add_head .form-check input:checked~label {
     color: var(--second-color) !important
 }
 
@@ -1651,7 +1663,7 @@ body {
     border-color: var(--second-color)
 }
 
-.add_new_address form .input_box input[type=checkbox] ~ label {
+.add_new_address form .input_box input[type=checkbox]~label {
     margin-bottom: 0;
     margin-right: 10px;
     cursor: pointer
@@ -3003,7 +3015,7 @@ body {
     top: 13px
 }
 
-.product_details .data .product .product_info > p {
+.product_details .data .product .product_info>p {
     font-weight: 700;
     font-size: 15px
 }
@@ -3166,7 +3178,7 @@ body {
     flex-wrap: wrap
 }
 
-.product_details .data .request .options .colors .color:hover, .product_details .data .request .options .colors input[type=radio]:checked + label {
+.product_details .data .request .options .colors .color:hover, .product_details .data .request .options .colors input[type=radio]:checked+label {
     border: 1.5px solid #5c8e007d;
     background-color: #5c8e007d
 }
@@ -3371,7 +3383,7 @@ body {
     margin-top: 10px
 }
 
-.preset_price .modal_price input[type=radio]:checked + label {
+.preset_price .modal_price input[type=radio]:checked+label {
     border-color: var(--second-color);
     border-width: 2px
 }
@@ -3744,12 +3756,29 @@ body {
     max-height: 500px
 }
 
+
 .whatsapp_footer {
     position: fixed;
-    right: 0;
-    bottom: 0
+    left: 13px;
+    bottom: 25px;
+    background: #5C8E00;
+    color: #fff;
+    border-radius: 50%;
 }
-
+.whatsapp_footer a {
+    text-decoration: none;
+    color: #fff;
+    width: 45px;
+    height: 45px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 50%;
+    line-height: 45px;
+}
+.whatsapp_footer a i{
+    text-align: center;
+    font-size: 21px;
+}
 .whatsapp_footer img {
     width: 50px;
     position: fixed;
