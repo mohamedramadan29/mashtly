@@ -140,6 +140,61 @@ if (isset($_POST['add_to_cart'])) {
 <br>
 <br>
 <br>
+
+<!-- START BEST PRODUCTS -->
+<div class="new_producs best_products">
+    <div class="container">
+        <div class="data">
+            <div class="data_header">
+                <div class="data_header_name">
+                    <h2 class='header2'> الأفضل مبيعا </h2>
+                    <p> المنتجات الافضل والاكثر مبيعا في مشتلي </p>
+                </div>
+                <div>
+                    <a href="shop" class='global_button btn'> تصفح المزيد </a>
+                </div>
+            </div>
+            <div class="products" id='products'>
+                <?php
+                $stmt = $connect->prepare("SELECT product_id, COUNT(*) as total_sales FROM order_details
+                GROUP BY product_id ORDER BY total_sales DESC LIMIT 20");
+                $stmt->execute();
+                $top_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($top_products as $top_product){
+                    $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
+                    $stmt->execute(array(($top_product['product_id'])));
+                    $product = $stmt->fetch();
+                    include 'tempelate/product.php';
+                }
+
+                $stmt = $connect->prepare("SELECT * FROM products WHERE  feature_product = 1 AND  publish = 1 AND product_status_store = 1  AND name !='' AND price !='' ORDER BY id DESC");
+                $stmt->execute();
+                $allproduct = $stmt->fetchAll();
+                foreach ($allproduct as $product) {
+                    include 'tempelate/product.php';
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END BEST  PRODUCTS  -->
+
+
+<!-- START PLANTS REQUIRES -->
+<div class='planets_require_index'>
+    <div class="container">
+        <div class="data">
+            <h2> مستلزمات العناية بنباتاتك </h2>
+            <a href="categories" class="btn global_button"> تصفح جميع المستلزمات <img src="<?php echo $uploads ?>left.svg" alt="جميع المستلزمات"> </a>
+        </div>
+    </div>
+</div>
+<!-- END PLANTS REQUIRES -->
+         
+
+
+
 <div class="new_producs">
     <div class="container">
         <div class="data">
@@ -166,43 +221,12 @@ if (isset($_POST['add_to_cart'])) {
     </div>
 </div>
 <!-- END NEWWER PRODUCTS  -->
-<!-- START PLANTS REQUIRES -->
-<div class='planets_require_index'>
-    <div class="container">
-        <div class="data">
-            <h2> مستلزمات العناية بنباتاتك </h2>
-            <a href="categories" class="btn global_button"> تصفح جميع المستلزمات <img src="<?php echo $uploads ?>left.svg" alt="جميع المستلزمات"> </a>
-        </div>
-    </div>
-</div>
-<!-- END PLANTS REQUIRES -->
-<!-- START BEST PRODUCTS -->
-<div class="new_producs best_products">
-    <div class="container">
-        <div class="data">
-            <div class="data_header">
-                <div class="data_header_name">
-                    <h2 class='header2'> الأفضل مبيعا </h2>
-                    <p> خصومات هائلة بمناسبة يوم التأسيس ويوم الحب </p>
-                </div>
-                <div>
-                    <a href="shop" class='global_button btn'> تصفح المزيد </a>
-                </div>
-            </div>
-            <div class="products" id='products'>
-                <?php
-                $stmt = $connect->prepare("SELECT * FROM products WHERE  feature_product = 1 AND  publish = 1 AND product_status_store = 1  AND name !='' AND price !='' ORDER BY id DESC");
-                $stmt->execute();
-                $allproduct = $stmt->fetchAll();
-                foreach ($allproduct as $product) {
-                    include 'tempelate/product.php';
-                }
-                ?>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- END BEST  PRODUCTS  -->
+
+
+
+
+
+
 <!-- START INDEX ALL CATEGORY  -->
 <div class="index_all_cat index_categories" id="categories">
     <div class="container">

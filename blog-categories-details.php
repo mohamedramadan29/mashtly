@@ -109,6 +109,13 @@ $count_post = count(($stmt->fetchAll()));
                     /////////////////////////////////
                     $totalPages = ceil($num_blogs / $pageSize);
 
+                    // التأكد من أن الصفحة المطلوبة لا تتجاوز العدد الكلي للصفحات
+                    if ($currentpage > $totalPages) {
+                        // إعادة توجيه المستخدم إلى الصفحة الأخيرة
+                        header("Location: ?page=$totalPages");
+                        exit;
+                    }
+
                     foreach ($allposts as $post) {
                         if ($post['description'] != null) {
                             // إزالة التاجات HTML من الوصف

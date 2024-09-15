@@ -519,7 +519,7 @@ $count_orders = $stmt->rowCount();
                                 <?php
 
                                 $stmt = $connect->prepare("SELECT product_id, COUNT(*) as total_sales FROM order_details
-                                               GROUP BY product_id ORDER BY total_sales DESC LIMIT 20");
+                                            GROUP BY product_id ORDER BY total_sales DESC LIMIT 20");
                                 $stmt->execute();
                                 $top_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 $i = 1;
