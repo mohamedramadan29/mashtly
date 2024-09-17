@@ -10,7 +10,7 @@ $cookie_id = isset($_GET['cookie_id']) ? $_GET['cookie_id'] : '';
 $stmt = $connect->prepare("SELECT COUNT(*) FROM cart WHERE cookie_id = ?");
 $stmt->execute(array($cookie_id));
 $count_carts = $stmt->fetchColumn();
-
+echo $cookie_id;
 // Return the count of carts as a response
 
 if($count_carts > 0){

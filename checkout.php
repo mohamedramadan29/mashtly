@@ -370,9 +370,9 @@ if (isset($_SESSION['user_id'])) {
                         $farm_service = 0;
                     }
                     $payment_method = $_POST['checkout_payment'];
-                    if (empty($shipping_value) || $shipping_value ==  0) {
-                        $formerror[] = ' من فضلك حدد الشحن  ';
-                    }
+                    // if (empty($shipping_value) || $shipping_value ==  0) {
+                    //     $formerror[] = ' من فضلك حدد الشحن  ';
+                    // }
                     if (empty($payment_method)) {
                         $formerror[] = ' من فضلك حدد وسيلة الدفع ';
                     }
@@ -411,11 +411,24 @@ if (isset($_SESSION['user_id'])) {
                                 VALUES (:zorder_number , :zuser_id , :zname , :zemail ,:zphone , :zarea , :zcity , :zaddress,
                                 :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value,:zshipping_problem)");
                                 $stmt->execute(array(
-                                    "zorder_number" => $order_number, "zuser_id" => $user_id, "zname" => $name,
-                                    "zemail" => $email, "zphone" => $phone, "zarea" => $area, "zcity" => $city,
-                                    "zaddress" => $address, "zship_price" => $ship_price, "zorder_details" => $order_details, "zorder_date" => $order_date,
-                                    "zstatus" => $status, "zstatus_value" => $status_value, "zfarm_service_price" => $farm_service,
-                                    "ztotal_price" => $grand_total, "zpayment_method" => $payment_method, "zcoupon_code" => $_SESSION['coupon_name'], "zdiscount_value" => $_SESSION['discount_value'],
+                                    "zorder_number" => $order_number,
+                                    "zuser_id" => $user_id,
+                                    "zname" => $name,
+                                    "zemail" => $email,
+                                    "zphone" => $phone,
+                                    "zarea" => $area,
+                                    "zcity" => $city,
+                                    "zaddress" => $address,
+                                    "zship_price" => $ship_price,
+                                    "zorder_details" => $order_details,
+                                    "zorder_date" => $order_date,
+                                    "zstatus" => $status,
+                                    "zstatus_value" => $status_value,
+                                    "zfarm_service_price" => $farm_service,
+                                    "ztotal_price" => $grand_total,
+                                    "zpayment_method" => $payment_method,
+                                    "zcoupon_code" => $_SESSION['coupon_name'],
+                                    "zdiscount_value" => $_SESSION['discount_value'],
                                     "zshipping_problem" => $_SESSION['shipping_problem']
                                 ));
                                 // get the last order number  id and number 
@@ -493,6 +506,94 @@ if (isset($_SESSION['user_id'])) {
                             }
                         } elseif ($payment_method === 'الدفع الالكتروني') {
                             // Get the user's details (you can fetch these from your database)
+                            try{
+
+                            }catch(\Exception $e){
+                                echo $e;
+                            }
+                            $payment_method = 'الدفع الالكتروني';
+                            $status_value = 'pending';
+                            $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
+                                area, city, address, ship_price,order_details, order_date, status,status_value,farm_service_price,total_price,
+                                payment_method,coupon_code,discount_value,shipping_problem) 
+                                VALUES (:zorder_number , :zuser_id , :zname , :zemail ,:zphone , :zarea , :zcity , :zaddress,
+                                :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value,:zshipping_problem)");
+                            $stmt->execute(array(
+                                "zorder_number" => $order_number,
+                                "zuser_id" => $user_id,
+                                "zname" => $name,
+                                "zemail" => $email,
+                                "zphone" => $phone,
+                                "zarea" => $area,
+                                "zcity" => $city,
+                                "zaddress" => $address,
+                                "zship_price" => $ship_price,
+                                "zorder_details" => $order_details,
+                                "zorder_date" => $order_date,
+                                "zstatus" => $status,
+                                "zstatus_value" => $status_value,
+                                "zfarm_service_price" => $farm_service,
+                                "ztotal_price" => $grand_total,
+                                "zpayment_method" => $payment_method,
+                                "zcoupon_code" => $_SESSION['coupon_name'],
+                                "zdiscount_value" => $_SESSION['discount_value'],
+                                "zshipping_problem" => $_SESSION['shipping_problem']
+                            ));
+                            // get the last order number  id and number 
+                            $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
+                            $stmt->execute();
+                            $order_data = $stmt->fetch();
+                            $order_id = $order_data['id'];
+                            $order_number = $order_data['order_number'];
+                            $_SESSION['order_number'] = $order_number;
+                            foreach ($allitems as $item) {
+                                $product_id = $item['product_id'];
+                                $quantity  = $item['quantity'];
+                                $price  = $item['price'];
+                                $farm_service  = $item['farm_service'];
+                                $as_present  = $item['gift_id'];
+                                $more_details = $item['vartion_name'];
+                                $total_price = $item['total_price'];
+                                // Insert Order Details
+                                $stmt = $connect->prepare("INSERT INTO order_details (order_id, order_number,product_id,
+                                qty, product_price, total,farm_service, as_present,more_details)
+                                VALUES (:zorder_id, :zorder_number,:zproduct_id,
+                                :zqty, :zproduct_price, :ztotal,:zfarm_service, :zas_present,:zmore_details)
+                                ");
+                                $stmt->execute(array(
+                                    "zorder_id" => $order_id,
+                                    "zorder_number" => $order_number,
+                                    "zproduct_id" => $product_id,
+                                    "zqty" => $quantity,
+                                    "zproduct_price" => $price,
+                                    "ztotal" => $total_price,
+                                    "zfarm_service" => $farm_service,
+                                    "zas_present" => $as_present,
+                                    "zmore_details" => $more_details,
+                                ));
+                                // insert order steps 
+                                // get the  date
+                                date_default_timezone_set('Asia/Riyadh'); // تحديد المنطقة الزمنية
+                                $date = date('d/m/Y h:i a'); // تنسيق التاريخ والوقت
+                                // Add Order Steps 
+                                $stmt = $connect->prepare("SELECT * FROM employes WHERE role_name='التواصل'");
+                                $stmt->execute();
+                                $emp_data = $stmt->fetch();
+                                $stmt = $connect->prepare("INSERT INTO order_steps (order_id,order_number,username,date,step_name,description,step_status)
+                                    VALUES(:zorder_id,:zorder_number,:zusername,:zdate,:zstep_name,:zdescription,:zstep_status)
+                                    ");
+                                $stmt->execute(array(
+                                    "zorder_id" => $order_id,
+                                    "zorder_number" => $order_number,
+                                    "zusername" => $emp_data['id'],
+                                    "zdate" => $date,
+                                    "zstep_name" => 'التواصل',
+                                    "zdescription" => ' التواصل مع العميل لبدء الطلب  ',
+                                    "zstep_status" => 'لم يبدا'
+                                ));
+                            }
+
+
 
                             $name = $name;
                             $email = $email;

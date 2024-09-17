@@ -188,7 +188,7 @@ if (isset($_SESSION['user_id'])) {
                     $ship_price = $ship_price + $over_price;
                 }
             } else {
-                 $shipping_value = 0;
+                $shipping_value = 0;
             $_SESSION['shipping_area_error'] = ' نعتذر لك عميلنا العزيز، حالياً لا تتوفر خدمة التوصيل للمنطقة التي اخترتها، وسنوافيكم بمجرد توفرها لاحقاً بإذن الله.';
             echo $_SESSION['shipping_area_error'];
             }

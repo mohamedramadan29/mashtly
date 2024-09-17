@@ -526,6 +526,10 @@ body {
     bottom: 4.25rem
 }
 
+.hero .first_carsoul{
+    border-right: none;
+}
+
 .hero h5 {
     font-size: 50px;
     font-weight: 700;

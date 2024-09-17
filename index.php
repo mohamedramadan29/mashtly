@@ -25,11 +25,11 @@ include "init.php";
             $allbanners = $stmt->fetchAll();
             ?>
             <div class="carousel-item carousel-item1 active lazy-background" data-bg="admin/banners/images/<?php echo $banner1_data['image']; ?>">
-                <div class="overlay"></div>
-                <div class="carousel-caption">
+                <!-- <div class="overlay"></div> -->
+                <div class="carousel-caption first_carsoul">
                     <h5> <?php echo $banner1_data['head_name'] ?> </h5>
                     <p> <?php echo $banner1_data['description'] ?> </p>
-                    <a target="_blank" href="https://t.me/mshtly" class="btn"> تواصل مع الخبير </a>
+                    <!-- <a target="_blank" href="https://t.me/mshtly" class="btn"> تواصل مع الخبير </a> -->
                 </div>
             </div>
             <?php
