@@ -33,14 +33,7 @@ if (isset($_SESSION['user_id'])) {
             $city = sanitizeInput($_POST['city']);
             $street_name = sanitizeInput($_POST['street_name']);
             $build_number = sanitizeInput($_POST['build_number']);
-            if (isset($_POST['default_address'])) {
-                $default_address = 1;
-                // update to make all all default address = 0 to make this address is main address
-                $stmt = $connect->prepare("UPDATE user_address SET default_address = 1");
-                $stmt->execute();
-            } else {
-                $default_address = 1;
-            }
+             
             if (empty($name) || empty($phone) || empty($country) || empty($city) || empty($street_name) || empty($build_number)) {
                 $formerror[] = 'من فضلك ادخل المعلومات كاملة';
             }
@@ -72,7 +65,7 @@ if (isset($_SESSION['user_id'])) {
                 build_number=?,name=?, phone=?,default_address=? WHERE id = ?
                 ");
                 $stmt->execute(array($country, $city, $new_area,$new_area_code, $street_name, $build_number,
-                 $name, $phone, $default_address, $address_id));
+                $name, $phone, $default_address, $address_id));
                 if ($stmt) {
                     $_SESSION['success'] = 'تم تعديل العنوان  بنجاح ';
                     header('Location:index');
@@ -155,14 +148,14 @@ if (isset($_SESSION['user_id'])) {
                                         <input required id="build_number" type="text" name="build_number" class='form-control' placeholder="اكتب…" value="<?php echo $build_number; ?>">
                                     </div>
                                 </div>
-                                <!-- <div class="input_box">
+                                <div class="input_box">
                                     <div class="form-check">
                                         <input name="default_address" class="form-check-input" type="checkbox" value="" id="flexCheckChecked" <?php if ($default_address == 1) echo "checked"; ?>>
                                         <label class="form-check-label" for="flexCheckChecked">
                                             تعيين كعنوان رئيسي
                                         </label>
                                     </div>
-                                </div> -->
+                                </div>
                                 <div class="submit_buttons">
                                     <button class="btn global_button" type="reset"> إعادة تعيين </button>
                                     <button class="btn global_button" name="add_address" type="submit"> تعديل العنوان</button>

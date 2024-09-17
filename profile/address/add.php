@@ -146,14 +146,14 @@ if (isset($_SESSION['user_id'])) {
                                     <input required id="build_number" type="text" name="build_number" class='form-control' placeholder="اكتب…" value="<?php if(isset($_REQUEST['build_number'])) echo $_REQUEST['build_number']; ?>">
                                 </div>
                             </div>
-                            <!-- <div class="input_box">
+                            <div class="input_box">
                                 <div class="form-check">
                                     <input name="default_address" class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
                                     <label class="form-check-label" for="flexCheckChecked">
                                         تعيين كعنوان رئيسي
                                     </label>
                                 </div>
-                            </div> -->
+                            </div>
                             <div class="submit_buttons">
                                 <button class="btn global_button" type="reset"> إعادة تعيين </button>
                                 <button class="btn global_button" name="add_address" type="submit"> إضافة عنوان جديد </button>
