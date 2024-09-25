@@ -25,7 +25,7 @@
 </section>
 <!----------- Orders Reports -------------->
 <?php
-$stmt = $connect->prepare("SELECT * FROM orders");
+$stmt = $connect->prepare("SELECT * FROM orders where  status_value !='pending' ");
 $stmt->execute();
 $count_orders = $stmt->rowCount();
 ?>
@@ -150,7 +150,7 @@ $count_orders = $stmt->rowCount();
         <div class='row'>
             <div class='col-lg-6'>
                 <?php
-                $stmt = $connect->prepare("SELECT * FROM orders");
+                $stmt = $connect->prepare("SELECT * FROM orders where  status_value !='pending' ");
                 $stmt->execute();
                 $count_orders = $stmt->rowCount();
                 ///////////////////////

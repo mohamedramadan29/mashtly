@@ -29,7 +29,7 @@ if (isset($_SESSION['user_id'])) {
                     </div>
                 </div>
                 <?php
-                $stmt = $connect->prepare("SELECT * FROM orders WHERE user_id = ? ORDER BY id DESC");
+                $stmt = $connect->prepare("SELECT * FROM orders WHERE user_id = ? AND  status_value !='pending'  ORDER BY id DESC");
                 $stmt->execute(array($user_id));
                 $orders = $stmt->fetchAll();
                 $count_orders = $stmt->rowCount();

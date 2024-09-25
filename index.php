@@ -7,48 +7,72 @@ $page_keywords = ' مشتلي ,متجر مشتلي  ';
 include "init.php";
 
 ?>
- <div class="hero">
-    <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-            <?php
-            $stmt = $connect->prepare("SELECT * FROM banners ORDER BY id asc LIMIT 1");
-            $stmt->execute();
-            $banner1_data = $stmt->fetch();
-            $banner1_data_id = $banner1_data['id'];
-            $stmt = $connect->prepare("SELECT * FROM banners WHERE id !=? ");
-            $stmt->execute(array($banner1_data_id));
-            $allbanners = $stmt->fetchAll();
-            ?>
-            <div class="carousel-item carousel-item1 active lazy-background" data-bg="admin/banners/images/<?php echo $banner1_data['image']; ?>">
-                <!-- <div class="overlay"></div> -->
-                <div class="carousel-caption first_carsoul">
-                    <h5> <?php echo $banner1_data['head_name'] ?> </h5>
-                    <p> <?php echo $banner1_data['description'] ?> </p>
-                    <!-- <a target="_blank" href="https://t.me/mshtly" class="btn"> تواصل مع الخبير </a> -->
-                </div>
-            </div>
-            <?php
-            foreach ($allbanners as $banner) {
-            ?>
-                <div class="carousel-item carousel-item1 lazy-background" data-bg="admin/banners/images/<?php echo $banner['image']; ?>">
-                    <div class="overlay"></div>
-                    <div class="carousel-caption">
-                        <h5> <?php echo $banner['head_name']; ?> </h5>
-                        <p> <?php echo $banner['description']; ?> </p>
-                        <a target="_blank" href="https://t.me/mshtly" class="btn"> تواصل مع الخبير </a>
+<div id='hero_lg'></div>
+<div id='hero_mobile'></div>
+
+<script>
+    // دالة للتحقق من حجم الشاشة وتحميل القسم المناسب
+    function loadBlogSection() {
+        // تفريغ المحتويات من كلا القسمين للتأكد من عدم التكرار
+        document.getElementById('hero_lg').innerHTML = '';
+        document.getElementById('hero_mobile').innerHTML = '';
+
+        if (window.innerWidth > 991) {
+            // تحميل الكاروسيل الخاص بالشاشات الكبيرة
+            document.getElementById('hero_lg').innerHTML = `
+            <div class="hero">
+                <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img loading="lazy" src="uploads/lgbanner1.webp" class="d-block w-100" alt="عروض اليوم الوطني">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="uploads/lgbanner2.webp" class="d-block w-100" alt="عروض اليوم الوطني">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="uploads/lgbanner3.webp" class="d-block w-100" alt="عروض اليوم الوطني">
+                        </div>
                     </div>
                 </div>
-            <?php
-            }
-            ?>
-        </div>
-    </div>
-</div>
+            </div>`;
+        } else {
+            // تحميل الكاروسيل الخاص بالشاشات الصغيرة (الموبايل)
+            document.getElementById('hero_mobile').innerHTML = `
+            <div class="hero">
+                <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img loading="lazy" src="uploads/mbanner11.webp" class="d-block w-100" alt="عروض اليوم الوطني">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="uploads/mbanner2.webp" class="d-block w-100" alt="عروض اليوم الوطني">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="uploads/mbanner3.webp" class="d-block w-100" alt="عروض اليوم الوطني">
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        }
+    }
+
+    // استدعاء الدالة فور تحميل الصفحة
+    loadBlogSection();
+
+    // استدعاء الدالة عند تغيير حجم الشاشة
+    window.addEventListener('resize', loadBlogSection);
+</script>
+
 <!-- START AUTOMATIC SEARCH INDEX -->
 
 <!-- END AUTOMATIC SEARCH INDEX -->
@@ -114,7 +138,7 @@ if (isset($_POST['add_to_cart'])) {
 <br>
 
 <!-- START BEST PRODUCTS -->
-<div class="new_producs best_products">
+<div class="new_producs best_products lazy-section">
     <div class="container">
         <div class="data">
             <div class="data_header">
@@ -154,7 +178,7 @@ if (isset($_POST['add_to_cart'])) {
 
 
 <!-- START PLANTS REQUIRES -->
-<div class='planets_require_index'>
+<div class='planets_require_index lazy-section'>
     <div class="container">
         <div class="data">
             <h2> مستلزمات العناية بنباتاتك </h2>
@@ -167,7 +191,7 @@ if (isset($_POST['add_to_cart'])) {
 
 
 
-<div class="new_producs">
+<div class="new_producs lazy-section">
     <div class="container">
         <div class="data">
             <div class="data_header">
@@ -200,7 +224,15 @@ if (isset($_POST['add_to_cart'])) {
 
 
 <!-- START INDEX ALL CATEGORY  -->
-<div class="index_all_cat index_categories" id="categories">
+<div id='index_all_cat_desktop lazy-section'>
+
+</div>
+<script>
+    // دالة للتحقق من حجم الشاشة وتحميل القسم إذا كان العرض أكبر من 991 بكسل
+    function loadBlogSection() {
+        if (window.innerWidth > 991) {
+            // استدعاء قسم المقالات فقط إذا كان العرض أكبر من 991 بكسل
+            document.getElementById('from_blog_container').innerHTML = `<div class="index_all_cat index_categories" id="categories">
     <div class="container">
         <div class="data">
             <div class="data_header_name">
@@ -250,7 +282,16 @@ if (isset($_POST['add_to_cart'])) {
             </div>
         </div>
     </div>
-</div>
+</div>`;
+        }
+    }
+
+    // استدعاء الدالة فور تحميل الصفحة
+    loadBlogSection();
+
+    // استدعاء الدالة عند تغيير حجم الشاشة
+    window.addEventListener('resize', loadBlogSection);
+</script>
 <!-- END INDEX ALL CATEGORY  -->
 <!-- START GARDEN SERVICES -->
 <div class="garden_services">
@@ -575,7 +616,13 @@ if ($countSaleproduct > 0) {
                     </div>
                 </div>
             </div>
-            <div class='from_blog'>
+            <div id="from_blog_container"></div>
+            <script>
+                // دالة للتحقق من حجم الشاشة وتحميل القسم إذا كان العرض أكبر من 991 بكسل
+                function loadBlogSection() {
+                    if (window.innerWidth > 991) {
+                        // استدعاء قسم المقالات فقط إذا كان العرض أكبر من 991 بكسل
+                        document.getElementById('from_blog_container').innerHTML = `<div class='from_blog'>
                 <div class='row'>
                     <?php
                     $stmt = $connect->prepare("SELECT * FROM posts WHERE publish = 1 AND id !=? ORDER BY id DESC LIMIT 4");
@@ -599,13 +646,30 @@ if ($countSaleproduct > 0) {
                     }
                     ?>
                 </div>
-            </div>
+            </div>`;
+                    }
+                }
+                // استدعاء الدالة فور تحميل الصفحة
+                loadBlogSection();
+
+                // استدعاء الدالة عند تغيير حجم الشاشة
+                window.addEventListener('resize', loadBlogSection);
+            </script>
+
         </div>
     </div>
 </div>
 <!-- END  POST INDEX -->
 <!-- START INDEX VIDEO  -->
-<div class='index_video'>
+
+<div id="index_video_container"></div>
+
+<script>
+    // دالة للتحقق من حجم الشاشة وتحميل القسم إذا كان العرض أكبر من 991 بكسل
+    function loadBlogSection() {
+        if (window.innerWidth > 991) {
+            // استدعاء قسم المقالات فقط إذا كان العرض أكبر من 991 بكسل
+            document.getElementById('index_video_container').innerHTML = `<div class='index_video'>
     <div class='container'>
         <div class='data'>
             <div class="row">
@@ -633,7 +697,16 @@ if ($countSaleproduct > 0) {
             </div>
         </div>
     </div>
-</div>
+</div>`;
+        }
+    }
+
+    // استدعاء الدالة فور تحميل الصفحة
+    loadBlogSection();
+
+    // استدعاء الدالة عند تغيير حجم الشاشة
+    window.addEventListener('resize', loadBlogSection);
+</script>
 <!--- END INDEX VIDEO  -->
 <!-- START CUSTOMER TESTMON -->
 <div class='testmonails'>
@@ -747,10 +820,14 @@ if ($countSaleproduct > 0) {
     </div>
 </div>
 <?php
-include $tem . 'footer_content.php';
+include $tem . 'footer.php';
+ob_end_flush();
+
 ?>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+<script src='<?php echo $js; ?>/jquery.min.js'></script>
+<script src='<?php echo $js; ?>/bootstrap.min.js'></script>
 <!-- Sweet Alert  -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/lite-youtube-embed/src/lite-yt-embed.js"></script>
@@ -811,7 +888,7 @@ include $tem . 'footer_content.php';
             infinite: true,
             prevArrow: '<button type="button" class="slick-prev" aria-label="Previous slide"><i class="bi bi-chevron-right"></i></button>',
             nextArrow: '<button type="button" class="slick-next" aria-label="Next slide"><i class="bi bi-chevron-left"></i></button>',
-            centerMode: true,
+            centerMode: false,
             variableWidth: false,
             responsive: [{
                     breakpoint: 1024,
@@ -824,7 +901,7 @@ include $tem . 'footer_content.php';
                     breakpoint: 900,
                     settings: {
                         slidesToShow: 2,
-                        slidesToScroll: 2,
+                        slidesToScroll: 1,
                         variableWidth: true,
                     }
                 }
@@ -906,27 +983,45 @@ include $tem . 'footer_content.php';
     });
 </script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const lazyBackgrounds = document.querySelectorAll('.lazy-background');
+    document.addEventListener('DOMContentLoaded', function() {
+        const lazyBackgrounds = document.querySelectorAll('.lazy-background');
 
-    function lazyLoad() {
-        lazyBackgrounds.forEach(bg => {
-            if (bg.getBoundingClientRect().top < window.innerHeight && !bg.classList.contains('loaded')) {
-                bg.style.backgroundImage = `url(${bg.dataset.bg})`;
-                bg.classList.add('loaded');
-                bg.classList.remove('lazy-background');
-            }
-        });
-    }
+        function lazyLoad() {
+            lazyBackgrounds.forEach(bg => {
+                if (bg.getBoundingClientRect().top < window.innerHeight && !bg.classList.contains('loaded')) {
+                    bg.style.backgroundImage = `url(${bg.dataset.bg})`;
+                    bg.classList.add('loaded');
+                    bg.classList.remove('lazy-background');
+                }
+            });
+        }
 
-    lazyLoad();
-    window.addEventListener('scroll', lazyLoad);
-});
+        lazyLoad();
+        window.addEventListener('scroll', lazyLoad);
+    });
 </script>
-ob_end_flush();
-?>
+
 <script>
     if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
     }
+</script>
+
+<script>
+    let lazySections = document.querySelectorAll('.lazy-section');
+
+let observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            let section = entry.target;
+            section.classList.add('visible');
+            observer.unobserve(section); // إلغاء المراقبة بعد التحميل
+        }
+    });
+});
+
+lazySections.forEach(section => {
+    observer.observe(section);
+});
+
 </script>

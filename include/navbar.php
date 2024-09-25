@@ -5,18 +5,24 @@
         <div class="speed_contact">
           <p>للتواصل السريع أو الاستفسارات 0530047542 </p>
         </div>
-        <div class='country'> <img src="<?php echo $uploads ?>/sudia_logo.png" alt="لوجو السعودية"> السعودية </div>
+        <div class='country'> <img loading="lazy" src="<?php echo $uploads ?>/sudia_logo.png" alt="لوجو السعودية"> السعودية </div>
       </div>
     </div>
   </div>
-  <div class="middel_header">
+  <div id="middle_header_load"></div>
+  <script>
+    // دالة للتحقق من حجم الشاشة وتحميل القسم إذا كان العرض أكبر من 991 بكسل
+    function loadBlogSection() {
+      if (window.innerWidth > 991) {
+        // استدعاء قسم المقالات فقط إذا كان العرض أكبر من 991 بكسل
+        document.getElementById('middle_header_load').innerHTML = `  <div class="middel_header">
     <div class="container">
       <div class="data">
         <div class="row d-flex align-items-center">
           <div class="col-lg-2">
             <div class="logo">
               <a href="http://localhost/mashtly/index">
-                <img src="<?php echo $uploads ?>/logo.png" alt="">
+                <img loading="lazy" src="<?php echo $uploads ?>/logo.png" alt="">
               </a>
             </div>
           </div>
@@ -52,12 +58,12 @@
 
                   <span class="cart_count count_carts"> </span>
 
-                  <img src="<?php echo $uploads ?>/shopping-cart.webp" alt="سلة المشتريات">
+                  <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart.webp" alt="سلة المشتريات">
                 </a>
               </div>
               <div class="heart">
                 <a href="http://localhost/mashtly/profile/favorite">
-                  <img src="<?php echo $uploads ?>/heart.webp" alt="المفضلة">
+                  <img loading="lazy" src="<?php echo $uploads ?>/heart.webp" alt="المفضلة">
                 </a>
               </div>
               <div class="sign_in">
@@ -70,7 +76,7 @@
                 ?>
                   <div class="user_account">
                     <div class="image">
-                      <img src="<?php echo $uploads ?>/user.svg" alt="حسابي">
+                      <img loading="lazy" src="<?php echo $uploads ?>/user.svg" alt="حسابي">
                     </div>
                     <div>
                       <span> مرحبا بك </span>
@@ -78,14 +84,14 @@
                     </div>
                     <div class="links">
                       <ul class="list-unstyled">
-                        <li> <img src="<?php echo $uploads ?>/purches.svg" alt="مشترياتي"> <a href="http://localhost/mashtly/profile/purchase">مشترياتي</a> </li>
-                        <li> <img src="<?php echo $uploads ?>/address.svg" alt="العنوان"> <a href="http://localhost/mashtly/profile/address">عناويني</a> </li>
-                        <li> <img src="<?php echo $uploads ?>/return.svg" alt="ارجاع المشتريات"> <a href="http://localhost/mashtly/profile/purchase">الإرجاع</a> </li>
-                        <li> <img src="<?php echo $uploads ?>/profile_payment.svg" alt="وسائل الدفع"> <a href="http://localhost/mashtly/profile/payment">طرق الدفع </a> </li>
-                        <li> <img src="<?php echo $uploads ?>/cart.svg" alt="سلة المشتريات"> <a href="http://localhost/mashtly/cart">سلة الشراء </a> </li>
-                        <li> <img src="<?php echo $uploads ?>/heart_profile.svg" alt="المفضلة"> <a href="http://localhost/mashtly/profile/favorite"> المفضلة </a> </li>
-                        <li> <img src="<?php echo $uploads ?>/change.svg" alt="تغير كلمة المرور"> <a href="http://localhost/mashtly/profile/change_password"> تغيير كلمة المرور </a> </li>
-                        <li> <img src="<?php echo $uploads ?>/edit_data.svg" alt="تعديل الحساب"> <a href="http://localhost/mashtly/profile/edit_data"> تعديل بياناتي </a> </li>
+                        <li> <img loading="lazy" src="<?php echo $uploads ?>/purches.svg" alt="مشترياتي"> <a href="http://localhost/mashtly/profile/purchase">مشترياتي</a> </li>
+                        <li> <img loading="lazy" src="<?php echo $uploads ?>/address.svg" alt="العنوان"> <a href="http://localhost/mashtly/profile/address">عناويني</a> </li>
+                        <li> <img loading="lazy" src="<?php echo $uploads ?>/return.svg" alt="ارجاع المشتريات"> <a href="http://localhost/mashtly/profile/purchase">الإرجاع</a> </li>
+                        <li> <img loading="lazy" src="<?php echo $uploads ?>/profile_payment.svg" alt="وسائل الدفع"> <a href="http://localhost/mashtly/profile/payment">طرق الدفع </a> </li>
+                        <li> <img loading="lazy" src="<?php echo $uploads ?>/cart.svg" alt="سلة المشتريات"> <a href="http://localhost/mashtly/cart">سلة الشراء </a> </li>
+                        <li> <img loading="lazy" src="<?php echo $uploads ?>/heart_profile.svg" alt="المفضلة"> <a href="http://localhost/mashtly/profile/favorite"> المفضلة </a> </li>
+                        <li> <img loading="lazy" src="<?php echo $uploads ?>/change.svg" alt="تغير كلمة المرور"> <a href="http://localhost/mashtly/profile/change_password"> تغيير كلمة المرور </a> </li>
+                        <li> <img loading="lazy" src="<?php echo $uploads ?>/edit_data.svg" alt="تعديل الحساب"> <a href="http://localhost/mashtly/profile/edit_data"> تعديل بياناتي </a> </li>
                         <li> <i class="fa fa-log"></i> <a style="color: red; padding-right:15px" href="http://localhost/mashtly/logout"> تسجيل خروج </a> </li>
                       </ul>
                     </div>
@@ -93,7 +99,7 @@
                 <?php
                 } else {
                 ?>
-                  <a href="http://localhost/mashtly/login"> <img src="<?php echo $uploads ?>/sign-in.png" alt="تسجيل الدخول"> تسجيل الدخول </a>
+                  <a href="http://localhost/mashtly/login"> <img loading="lazy" src="<?php echo $uploads ?>/sign-in.png" alt="تسجيل الدخول"> تسجيل الدخول </a>
                 <?php
                 }
                 ?>
@@ -104,6 +110,17 @@
       </div>
     </div>
   </div>
+            `;
+      }
+    }
+
+    // استدعاء الدالة فور تحميل الصفحة
+    loadBlogSection();
+
+    // استدعاء الدالة عند تغيير حجم الشاشة
+    window.addEventListener('resize', loadBlogSection);
+  </script>
+
   <div class="mobile_middel_header middel_header">
     <div class="container">
       <div class="data">
@@ -111,7 +128,7 @@
           <div class="col-4">
             <div class="logo">
               <a href="index">
-                <img src="<?php echo $uploads ?>/logo.png" alt="لوجو - مشتلي">
+                <img loading="lazy" src="<?php echo $uploads ?>/logo.png" alt="لوجو - مشتلي">
               </a>
             </div>
           </div>
@@ -132,15 +149,15 @@
                   <?php
                   }
                   ?>
-                  <img width="24px" src="<?php echo $uploads ?>/shopping-cart.webp" alt="سلة المشتريات">
+                  <img loading="lazy" width="20px" src="<?php echo $uploads ?>/shopping-cart.webp" alt="سلة المشتريات">
 
                 </a>
               </div>
-              <div class="heart">
+              <!-- <div class="heart">
                 <a href="http://localhost/mashtly/profile/favorite">
                   <img width="24px" src="<?php echo $uploads ?>/heart.webp" alt="المفضلة">
                 </a>
-              </div>
+              </div> -->
 
               <!-- <div class="sign_in">
                 <a href="#"> <img src="<?php echo $uploads ?>/sign-in.png" alt=""> تسجيل الدخول </a>
@@ -156,7 +173,7 @@
                 ?>
                   <div class="user_account">
                     <div class="image">
-                      <img style="width:23px" src="<?php echo $uploads ?>/user.svg" alt="حسابي ">
+                      <img loading="lazy" style="width:17px" src="<?php echo $uploads ?>/user.svg" alt="حسابي ">
                     </div>
                     <!-- <div>
                       <span> مرحبا بك </span>
@@ -164,14 +181,14 @@
                     </div> -->
                     <div class="links">
                       <ul class="list-unstyled">
-                        <li> <img src="<?php echo $uploads ?>/purches.svg" alt="مشترياتي"> <a href="http://localhost/mashtly/profile/purchase">مشترياتي</a> </li>
-                        <li> <img src="<?php echo $uploads ?>/address.svg" alt="العنوان"> <a href="http://localhost/mashtly/profile/address">عناويني</a> </li>
-                        <li> <img src="<?php echo $uploads ?>/return.svg" alt="ارجاع المشتريات"> <a href="http://localhost/mashtly/profile/purchase">الإرجاع</a> </li>
+                        <li> <img loading="lazy" src="<?php echo $uploads ?>/purches.svg" alt="مشترياتي"> <a href="http://localhost/mashtly/profile/purchase">مشترياتي</a> </li>
+                        <li> <img loading="lazy" src="<?php echo $uploads ?>/address.svg" alt="العنوان"> <a href="http://localhost/mashtly/profile/address">عناويني</a> </li>
+                        <li> <img loading="lazy" src="<?php echo $uploads ?>/return.svg" alt="ارجاع المشتريات"> <a href="http://localhost/mashtly/profile/purchase">الإرجاع</a> </li>
                         <!-- <li> <img src="<?php echo $uploads ?>/profile_payment.svg" alt=""> <a href="http://localhost/mashtly/profile/payment">طرق الدفع </a> </li> -->
-                        <li> <img src="<?php echo $uploads ?>/cart.svg" alt="سلة المشتريات"> <a href="http://localhost/mashtly/cart">سلة الشراء </a> </li>
-                        <li> <img src="<?php echo $uploads ?>/heart_profile.svg" alt="المفضلة"> <a href="http://localhost/mashtly/profile/favorite"> المفضلة </a> </li>
-                        <li> <img src="<?php echo $uploads ?>/change.svg" alt="تغير كلمة المرور"> <a href="http://localhost/mashtly/profile/change_password"> تغيير كلمة المرور </a> </li>
-                        <li> <img src="<?php echo $uploads ?>/edit_data.svg" alt="تعديل البيانات"> <a href="http://localhost/mashtly/profile/edit_data"> تعديل بياناتي </a> </li>
+                        <li> <img loading="lazy" src="<?php echo $uploads ?>/cart.svg" alt="سلة المشتريات"> <a href="http://localhost/mashtly/cart">سلة الشراء </a> </li>
+                        <li> <img loading="lazy" src="<?php echo $uploads ?>/heart_profile.svg" alt="المفضلة"> <a href="http://localhost/mashtly/profile/favorite"> المفضلة </a> </li>
+                        <li> <img loading="lazy" src="<?php echo $uploads ?>/change.svg" alt="تغير كلمة المرور"> <a href="http://localhost/mashtly/profile/change_password"> تغيير كلمة المرور </a> </li>
+                        <li> <img loading="lazy" src="<?php echo $uploads ?>/edit_data.svg" alt="تعديل البيانات"> <a href="http://localhost/mashtly/profile/edit_data"> تعديل بياناتي </a> </li>
                         <li> <i class="fa fa-log"></i> <a style="color: red; padding-right:15px" href="http://localhost/mashtly/logout"> تسجيل خروج </a> </li>
                       </ul>
                     </div>
@@ -182,7 +199,7 @@
                   <div class="user_account">
                     <div class="image">
                       <a style="text-decoration: none; background-color:transparent; padding:0;" href="http://localhost/mashtly/login">
-                        <img style="width:23px" src="<?php echo $uploads ?>/user.svg" alt="حسابي">
+                        <img loading="lazy" style="width:17px" src="<?php echo $uploads ?>/user.svg" alt="حسابي">
                       </a>
                     </div>
                   </div>
@@ -194,37 +211,43 @@
             </div>
           </div>
           <div class='col-2'>
-            <nav class="navbar" style="padding: 0;">
+            <a class="btn toggle_button" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+              <i class="bi bi-justify"></i>
+            </a>
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+              <div class="offcanvas-header">
+                <a href="index">
+                  <img loading="lazy" class="logo" src="<?php echo $uploads ?>/logo.png" alt="لوجو - مشتلي">
+                </a>
 
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"><i class="bi bi-justify"></i></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-body">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="http://localhost/mashtly"> <img src="<?php echo $uploads ?>/home.svg" alt="الرئيسية">
+                    <a class="nav-link active" aria-current="page" href="http://localhost/mashtly"> <i class="bi bi-home"></i>
                       الرئيسية </a>
                   </li>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="http://localhost/mashtly/categories" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      التصنيفات
-                    </a>
-
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <?php
-                      $stmt = $connect->prepare("SELECT * FROM categories");
-                      $stmt->execute();
-                      $allcategories = $stmt->fetchAll();
-                      foreach ($allcategories as $category) {
-                      ?>
-                        <li><a class="dropdown-item" href="http://localhost/mashtly/product-category/<?php echo $category['slug']; ?>"> <?php echo $category['name'] ?> </a></li>
-                      <?php
-                      }
-                      ?>
-                    </ul>
+                  <li>
+                    <div class="dropdown mobile_dropdown">
+                      <button class="dropdown-toggle"> <a href='http://localhost/mashtly/categories'> التصنيفات </a> </button>
+                      <ul class="dropdown-menu">
+                        <?php
+                        $stmt = $connect->prepare("SELECT * FROM categories");
+                        $stmt->execute();
+                        $allcategories = $stmt->fetchAll();
+                        foreach ($allcategories as $category) {
+                        ?>
+                          <li><a class="dropdown-item" href="http://localhost/mashtly/product-category/<?php echo $category['slug']; ?>"> <?php echo $category['name']; ?> </a></li>
+                        <?php
+                        }
+                        ?>
+                      </ul>
+                    </div>
                   </li>
+
                   <li class="nav-item nav_badge">
-                    <span class="badge badge-danger"> جديد </span>
+
                     <a class="nav-link" href="http://localhost/mashtly/shop"> تصفح حسب احتياجاتك </a>
                   </li>
                   <li class="nav-item">
@@ -233,32 +256,32 @@
                   <li class="nav-item">
                     <a class="nav-link" href="http://localhost/mashtly/landscap"> تنسيق الحدائق </a>
                   </li>
-                  <!-- <li class="nav-item">
-                      <a class="nav-link" href="http://localhost/mashtly/import_service"> خدمات الاستيراد </a>
-                    </li> -->
-                  <!-- <li class="nav-item">
-                      <a class="nav-link" href="http://localhost/mashtly/gifts"> الهدايا </a>
-                    </li> -->
-                  <!-- <li class="nav-item">
-                    <a class="nav-link" href="http://localhost/mashtly/blog"> المدونة </a>
-                  </li> -->
-
                   <li class="nav-item">
-                    <a class="nav-link" href="http://localhost/mashtly/blog-category">  المدونة  </a>
+                    <a class="nav-link" href="http://localhost/mashtly/blog-category"> المدونة </a>
                   </li>
-
-                  <!--
-                    <li class="nav-item">
-                      <a class="nav-link" href="#"> زراعة الاسطح </a>
-                    </li>
-              -->
                   <li class="nav-item">
                     <a class="nav-link" href="http://localhost/mashtly/contact"> تواصل معنا </a>
                   </li>
                 </ul>
               </div>
+            </div>
 
-            </nav>
+            <script>
+              // إضافة حدث عند النقر لعرض وإخفاء القائمة
+              const dropdownToggle = document.querySelector('.dropdown-toggle');
+              const dropdownMenu = document.querySelector('.dropdown-menu');
+
+              dropdownToggle.addEventListener('click', function() {
+                dropdownMenu.classList.toggle('show');
+              });
+
+              // إخفاء القائمة عند النقر خارجها
+              window.addEventListener('click', function(e) {
+                if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                  dropdownMenu.classList.remove('show');
+                }
+              });
+            </script>
           </div>
         </div>
       </div>
@@ -283,15 +306,15 @@
               </form>
               <div style="overflow: scroll;max-height:300px;position: absolute;z-index: 9999;background: #fff;border-radius: 18px;line-height: 2" id="searchResults2"></div>
               <style>
-              #searchResults2 a {
-                display: block;
-                text-decoration: none;
-                color: #000;
-                padding: 5px;
-                padding-right: 10px;
-                border-bottom: 1px solid #f0f0f0;
-              }
-            </style>
+                #searchResults2 a {
+                  display: block;
+                  text-decoration: none;
+                  color: #000;
+                  padding: 5px;
+                  padding-right: 10px;
+                  border-bottom: 1px solid #f0f0f0;
+                }
+              </style>
             </div>
           </div>
 
@@ -299,7 +322,14 @@
       </div>
     </div>
   </div>
-  <nav class="navbar navbar-expand-lg">
+  <div id="lg_navbar_load"></div>
+  <script>
+    // دالة للتحقق من حجم الشاشة وتحميل القسم إذا كان العرض أكبر من 991 بكسل
+    function loadBlogSection() {
+      if (window.innerWidth > 991) {
+        // استدعاء قسم المقالات فقط إذا كان العرض أكبر من 991 بكسل
+        document.getElementById('lg_navbar_load').innerHTML = `
+          <nav class="navbar navbar-expand-lg">
     <div class="container">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -353,8 +383,8 @@
             <a class="nav-link" href="http://localhost/mashtly/blog"> المدونة </a>
           </li> -->
           <li class="nav-item">
-                    <a class="nav-link" href="http://localhost/mashtly/blog-category"> المدونة  </a>
-                  </li>
+            <a class="nav-link" href="http://localhost/mashtly/blog-category"> المدونة </a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="http://localhost/mashtly/contact"> تواصل معنا </a>
           </li>
@@ -362,6 +392,17 @@
       </div>
     </div>
   </nav>
+        `;
+      }
+    }
+
+    // استدعاء الدالة فور تحميل الصفحة
+    loadBlogSection();
+
+    // استدعاء الدالة عند تغيير حجم الشاشة
+    window.addEventListener('resize', loadBlogSection);
+  </script>
+
 </div>
 
 <script>

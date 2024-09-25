@@ -26,35 +26,14 @@
     <meta name="twitter:title" content="<?php echo $page_title; ?>" />
     <meta name="twitter:description" content="<?php echo isset($meta_short_description) ? $meta_short_description : $description; ?>" />
     <meta name="twitter:image" content="<?php echo $uploads; ?>/logo.png" />
-
-    <!-- AMP Boilerplate -->
-    <style amp-boilerplate>
-        body {
-            visibility: hidden
-        }
-
-        body.amp-active {
-            visibility: visible
-        }
-    </style>
-    <noscript>
-        <style amp-boilerplate>
-            body {
-                visibility: visible
-            }
-        </style>
-    </noscript>
-    <!-- AMP JS Library -->
-    <script async src="https://cdn.ampproject.org/v0.js"></script>
-    <!-- Example for AMP Analytics -->
-    <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
-
+ 
     <link rel="alternate" href="http://mshtly.com/" hreflang="ar-SA" />
     <link rel="alternate" href="http://mshtly.com/" hreflang="x-default" />
     <link rel="icon" href="<?php echo $uploads; ?>/logo.png" type="image/x-icon">
-    <!-- <link rel="stylesheet" href="<?php echo $css; ?>bootstrap.rtl.min.css"> -->
+    <link rel="stylesheet" href="<?php echo $css; ?>bootstrap.rtl.min.css">
     <link rel="stylesheet" rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+     -->
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" /> -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css">

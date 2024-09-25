@@ -221,7 +221,7 @@
                                     $allorders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     $count_orders = $stmt->rowCount();
                                 } else {
-                                    $stmt = $connect->prepare("SELECT * FROM orders WHERE archieve = 0 ORDER By id DESC");
+                                    $stmt = $connect->prepare("SELECT * FROM orders WHERE   status_value !='pending' AND archieve = 0  ORDER By id DESC");
                                     $stmt->execute();
                                     $allorders = $stmt->fetchAll();
                                     $count_orders = $stmt->rowCount();
@@ -262,9 +262,9 @@
                                                 $total_farming = 0;
                                                 foreach ($allorders as $order) {
 
-                                                    $total_price = $total_price + $order['total_price'];
-                                                    $total_shipping = $total_shipping + $order['ship_price'];
-                                                    $total_farming = $total_farming + $order['farm_service_price'];
+                                                    $total_price += floatval($order['total_price']);
+                                                    $total_shipping += floatval($order['ship_price']);
+                                                    $total_farming += floatval($order['farm_service_price']);
 
                                                     $i++;
                                             ?>
@@ -428,6 +428,7 @@
                                             }
 
                                             ?>
+                                        </tbody>
                                     </table>
 
                                     <table class="table table-bordered" dir='rtl'>

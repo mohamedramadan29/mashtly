@@ -80,8 +80,8 @@ RewriteRule ^land/(.*)$ /mashtly/land_details?slug=$1 [L]
     ExpiresByType image/webp "access plus 1 year"
     
     # CSS and JavaScript
-    ExpiresByType text/css "access plus 1 month"
-    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/css "access plus 1 week" 
+    ExpiresByType application/javascript "access plus 1 week"
     
     # Fonts
     ExpiresByType application/font-woff "access plus 1 year"

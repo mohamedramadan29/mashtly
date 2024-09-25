@@ -68,9 +68,10 @@
         ?>
             <h4 class='price'> <?php
                                 if ($product['sale_price'] != '' && $product['sale_price'] != 0) {
-                                    echo $product['sale_price'];
+                                     echo number_format($product['sale_price'],2);
                                 } else {
-                                    echo $product['price'];
+
+                                    echo number_format($product['price'],2);
                                 }
                                 ?> ر.س </h4>
         <?php
@@ -105,7 +106,7 @@
                         <?php
                         } else {
                         ?>
-                            <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>" class='btn global_button'> <img loading="lazy" src="uploads/shopping-cart.png" alt="">
+                            <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>" class='btn global_button'> <img loading="lazy" src="uploads/shopping-cart.png" alt=" سلة الشراء ">
                                 مشاهدة الاختيارات
                             </a>
                         <?php
