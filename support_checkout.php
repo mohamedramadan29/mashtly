@@ -606,10 +606,18 @@ ob_end_flush();
         }
     }
 </script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     var sessionTotal = <?php echo $_SESSION['total']; ?>;
     $(document).ready(function() {
+        var citySelect = new Choices('#city', {
+            searchEnabled: true, // تفعيل خاصية البحث
+            removeItemButton: true, // إمكانية إزالة العناصر (اختياري)
+            placeholder: true,
+            placeholderValue: 'حدد المدينة',
+        });
         $('#city').change(function() {
             // console.log('city Changed');
             var city = $(this).val();
