@@ -20,6 +20,11 @@ if ($product_index !== false && isset($url_parts[$product_index + 1])) {
     $meta_keywords = $product_data['tags'];
     $meta_short_description = strip_tags($product_data['short_desc']);
     $meta_title = $product_data['name'];
+    ///// get the product image
+    $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
+    $stmt->execute(array($product_data['id']));
+    $product_data_image = $stmt->fetch();
+    $pro_image = $product_data_image['main_image'];
 }
 $url_parts = explode('/', $current_url);
 $blog_index = array_search($keyword2, $url_parts);

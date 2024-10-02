@@ -35,6 +35,7 @@ RewriteRule ^blog-categories-details/(.*)$ /mashtly/blog-categories-details?cat=
 RewriteRule ^blog/(.*)$ /mashtly/blog_details?slug=$1 [L]
 RewriteRule ^land/(.*)$ /mashtly/land_details?slug=$1 [L]
 
+
 # ------------------------------------------
 # Enable Gzip compression
 <IfModule mod_deflate.c>
@@ -101,3 +102,6 @@ RewriteRule ^land/(.*)$ /mashtly/land_details?slug=$1 [L]
         Header set Cache-Control "max-age=31536000, public"
     </FilesMatch>
 </IfModule>
+
+
+ 

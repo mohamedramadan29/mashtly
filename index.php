@@ -2,14 +2,57 @@
 ob_start();
 session_start();
 $page_title = 'متجر مشتلي لمختلف أنواع النباتات المنزلية والخارجية';
-$description = ' مشتلي منصة إلكترونية تتيح للعملاء شراء مختلف أنواع النباتات، أشجار زهور ونباتات منزلية، بشكل مريح وسريع دون الحاجة لزيارة المشاتل التقليدية. ';
+$description = ' مشتلي هي منصة إلكترونية مبتكرة تتيح للعملاء شراء مختلف أنواع النباتات، بما في ذلك الأشجار والزهور والنباتات المنزلية، بشكل مريح وسريع. تتميز المنصة بتوفير تجربة تسوق فريدة من نوعها، حيث يمكن للعميل اختيار النباتات التي تناسب احتياجاته دون الحاجة لزيارة المشاتل التقليدية، مما يسهل عليه الحصول على كل ما يحتاجه من راحة منزله. ';
 $page_keywords = ' مشتلي ,متجر مشتلي  ';
 include "init.php";
 
 ?>
+<div class="hero">
+    <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <?php
+            $stmt = $connect->prepare("SELECT * FROM banners ORDER BY id asc LIMIT 1");
+            $stmt->execute();
+            $banner1_data = $stmt->fetch();
+            $banner1_data_id = $banner1_data['id'];
+            $stmt = $connect->prepare("SELECT * FROM banners WHERE id !=? ");
+            $stmt->execute(array($banner1_data_id));
+            $allbanners = $stmt->fetchAll();
+            ?>
+            <div class="carousel-item carousel-item1 active" style="background-image: url('admin/banners/images/<?php echo $banner1_data['image']; ?>');">
+                <div class="overlay"></div>
+                <div class="carousel-caption">
+                    <h5> <?php echo $banner1_data['head_name'] ?> </h5>
+                    <p> <?php echo $banner1_data['description'] ?> </p>
+                    <a target="_blank" href="https://t.me/mshtly" class="btn"> تواصل مع الخبير </a>
+                </div>
+            </div>
+            <?php
+            foreach ($allbanners as $banner) {
+            ?>
+                <div class="carousel-item carousel-item1" style="background-image: url('admin/banners/images/<?php echo $banner['image']; ?>');">
+                    <div class="overlay"></div>
+                    <div class="carousel-caption">
+                        <h5> <?php echo $banner['head_name']; ?> </h5>
+                        <p> <?php echo $banner['description']; ?> </p>
+                        <a target="_blank" href="https://t.me/mshtly" class="btn"> تواصل مع الخبير </a>
+                    </div>
+                </div>
+            <?php
+            }
+            ?>
+        </div>
+    </div>
+</div>
+
 <div id='hero_lg'></div>
 <div id='hero_mobile'></div>
-
+<!-- 
 <script>
     // دالة للتحقق من حجم الشاشة وتحميل القسم المناسب
     function loadBlogSection() {
@@ -71,7 +114,7 @@ include "init.php";
 
     // استدعاء الدالة عند تغيير حجم الشاشة
     window.addEventListener('resize', loadBlogSection);
-</script>
+</script> -->
 
 <!-- START AUTOMATIC SEARCH INDEX -->
 
@@ -301,13 +344,13 @@ if (isset($_POST['add_to_cart'])) {
                 <div class="col-lg-6">
                     <div class="info info1">
                         <h3> خدمات الحدائق </h3>
-                        <a href="landscap" class="btn global_button"> اعرف المزيد <img loading="lazy" src="<?php echo $uploads; ?>/arrow_left.svg" alt=""> </a>
+                        <a href="landscap" class="btn global_button"> اعرف المزيد <img loading="lazy" src="<?php echo $uploads; ?>/arrow_left.svg" alt="المزيد"> </a>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="info info2">
                         <h3> الطلبات الكبيرة </h3>
-                        <a href="big_orders" class="btn global_button"> اعرف المزيد <img loading="lazy" src="<?php echo $uploads; ?>/right-arrow-2.svg" alt=""> </a>
+                        <a href="big_orders" class="btn global_button"> اعرف المزيد <img loading="lazy" src="<?php echo $uploads; ?>/right-arrow-2.svg" alt="المزيد"> </a>
                     </div>
                 </div>
             </div>
@@ -437,9 +480,14 @@ if ($countSaleproduct > 0) {
                                             <?php
                                             } else {
                                             ?>
-                                                <button name="add_to_fav" type="submit" style="border: none; background-color:transparent">
+                                                <button id='add_to_fav2' name="add_to_fav" type="submit">
                                                     <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt="المفضلة">
                                                 </button>
+                                                <style>
+                                                    #add_to_fav2{
+                                                        border: none; background-color:transparent
+                                                    }
+                                                </style>
                                             <?php
                                             }
                                             ?>
@@ -492,7 +540,7 @@ if ($countSaleproduct > 0) {
                     <p> النباتات المنزلية الداخلية تفعل الكثير أما الخارجية فتصنع السحر </p>
                 </div>
                 <div>
-                    <a href="category_products?cat=النباتات-الداخلية" class='global_button btn'> تصفح المزيد </a>
+                    <a href="product-category/النباتات-الداخلية" class='global_button btn'> تصفح المزيد </a>
                 </div>
             </div>
             <!-- قسم النباتات الداخلية  -->

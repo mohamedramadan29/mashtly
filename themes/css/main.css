@@ -665,7 +665,7 @@ body {
     padding: 15px
 }
 
-.index_all_cat .product_info .product_details h2, .new_producs .products .product_info .product_details h2 {
+.index_all_cat .product_info .product_details p, .new_producs .products .product_info .product_details p {
     color: #1b1b1b;
     font-size: 18px;
     margin-bottom: 12px;
@@ -675,7 +675,7 @@ body {
     overflow: hidden
 }
 
-.cart .card_items .product_data .product_info h3 a, .index_all_cat .product_info .product_details h2 a, .new_producs .products .product_info .product_details h2 a, .related_product .linked_products .link_pro .product_details h2 a {
+.cart .card_items .product_data .product_info h3 a, .index_all_cat .product_info .product_details p a, .new_producs .products .product_info .product_details p a, .related_product .linked_products .link_pro .product_details p a {
     text-decoration: none;
     color: #1b1b1b
 }

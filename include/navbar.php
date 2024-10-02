@@ -22,7 +22,7 @@
           <div class="col-lg-2">
             <div class="logo">
               <a href="http://localhost/mashtly/index">
-                <img loading="lazy" src="<?php echo $uploads ?>/logo.png" alt="">
+                <img loading="lazy" src="<?php echo $uploads ?>/logo.png" alt="لوجو - مشتلي">
               </a>
             </div>
           </div>
@@ -38,9 +38,18 @@
                   </div>
                 </div>
               </form>
-              <div style="overflow: scroll;max-height:300px;position: absolute;z-index: 9999;background: #fff;border-radius: 18px;line-height: 2" id="searchResults"></div>
+              <div id="searchResults"></div>
             </div>
             <style>
+            #searchResults{
+                      overflow: scroll;
+                      max-height:300px;
+                      position: absolute;
+                      z-index: 9999;
+                      background: #fff;
+                      border-radius: 18px;
+                      line-height: 2
+              }
               #searchResults a {
                 display: block;
                 text-decoration: none;
@@ -198,9 +207,14 @@
                 ?>
                   <div class="user_account">
                     <div class="image">
-                      <a style="text-decoration: none; background-color:transparent; padding:0;" href="http://localhost/mashtly/login">
+                      <a id="login_link" href="http://localhost/mashtly/login">
                         <img loading="lazy" style="width:17px" src="<?php echo $uploads ?>/user.svg" alt="حسابي">
                       </a>
+                      <style>
+                        #login_link{
+                          text-decoration: none; background-color:transparent; padding:0;
+                        }
+                      </style>
                     </div>
                   </div>
                 <?php
@@ -251,7 +265,7 @@
                     <a class="nav-link" href="http://localhost/mashtly/shop"> تصفح حسب احتياجاتك </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="http://localhost/mashtly/big_orders"> الطلبات الكبيرة </a>
+                    <a class="nav-link" href="http://localhost/mashtly/big-orders"> الطلبات الكبيرة </a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="http://localhost/mashtly/landscap"> تنسيق الحدائق </a>
@@ -304,8 +318,17 @@
                   </div>
                 </div>
               </form>
-              <div style="overflow: scroll;max-height:300px;position: absolute;z-index: 9999;background: #fff;border-radius: 18px;line-height: 2" id="searchResults2"></div>
+              <div  id="searchResults2"></div>
               <style>
+                #searchResults2{
+                  overflow: scroll;
+                  max-height:300px;
+                  position: absolute;
+                  z-index: 9999;
+                  background: #fff;
+                  border-radius: 18px;
+                  line-height: 2
+                }
                 #searchResults2 a {
                   display: block;
                   text-decoration: none;
@@ -368,7 +391,7 @@
             <a class="nav-link" href="http://localhost/mashtly/shop"> تصفح حسب احتياجاتك </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="http://localhost/mashtly/big_orders"> الطلبات الكبيرة </a>
+            <a class="nav-link" href="http://localhost/mashtly/big-orders"> الطلبات الكبيرة </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="http://localhost/mashtly/landscap"> تنسيق الحدائق </a>

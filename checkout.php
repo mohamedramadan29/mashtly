@@ -370,9 +370,9 @@ if (isset($_SESSION['user_id'])) {
                         $farm_service = 0;
                     }
                     $payment_method = $_POST['checkout_payment'];
-                    // if (empty($shipping_value) || $shipping_value ==  0) {
-                    //     $formerror[] = ' من فضلك حدد الشحن  ';
-                    // }
+                    if (empty($shipping_value) || $shipping_value ==  0) {
+                        $formerror[] = ' من فضلك حدد الشحن  ';
+                    }
                     if (empty($payment_method)) {
                         $formerror[] = ' من فضلك حدد وسيلة الدفع ';
                     }

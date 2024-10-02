@@ -33,11 +33,10 @@
         if (count($words) > 5) {
             $shortened_name .= ' ...';
         }
-
         // عرض الاسم المختصر
 
         ?>
-        <h2> <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>"> <?php echo $shortened_name; ?> </a> </h2>
+        <p> <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>"> <?php echo $shortened_name; ?> </a> </p>
         <?php
         $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
         $minimumPrice = INF; // قيمة أدنى سعر ممكنة
@@ -125,7 +124,7 @@
                         ?>
                             <button name="add_to_cart" class='btn global_button'>
 
-                                <img loading="lazy" alt="سلة الشراء " src="<?php echo $uploads ?>/shopping-cart.png"> أضف
+                                <img loading="lazy"  src="<?php echo $uploads ?>/shopping-cart.png" alt="سلة الشراء "> أضف
                                 الي السلة
                             </button>
                         <?php
@@ -149,9 +148,14 @@
                     <?php
                     } else {
                     ?>
-                        <button name="add_to_fav" type="submit" style="border: none; background-color:transparent">
+                        <button id="add_to_fav" name="add_to_fav" type="submit">
                             <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt="المفضلة">
                         </button>
+                        <style>
+                            #add_to_fav{
+                                border: none; background-color:transparent
+                            }
+                        </style>
                     <?php
                     }
                     ?>

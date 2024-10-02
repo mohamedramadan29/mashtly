@@ -15,17 +15,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="<?php echo $page_title; ?>">
+    <meta property="og:title" content="<?php echo isset($meta_title) ? $meta_title : $page_title; ?>">
     <meta property="og:description" content="<?php echo isset($meta_short_description) ? $meta_short_description : $description; ?>">
-    <meta property="og:image" content="<?php echo $uploads; ?>/logo.png">
+    <meta property="og:image" content="<?php  echo $uploads; ?>/logo.png">
+    <meta property="og:image" content="<?php echo isset($pro_image) && $pro_image != '' ? 'admin/product_images/'.$pro_image : $uploads.'/logo.png'; ?>">
+
     <meta property="og:url" content="<?php echo $current_url; ?>">
     <meta property="og:type" content="website"> <!-- يجب أن يكون النوع "website" أو نوع مناسب آخر -->
     
     <!-- يمكنك أيضًا إضافة Twitter Cards إذا كنت ترغب في ذلك -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="<?php echo $page_title; ?>" />
+    <meta name="twitter:title" content="<?php echo isset($meta_title) ? $meta_title : $page_title; ?>" />
     <meta name="twitter:description" content="<?php echo isset($meta_short_description) ? $meta_short_description : $description; ?>" />
-    <meta name="twitter:image" content="<?php echo $uploads; ?>/logo.png" />
+    <meta name="twitter:image" content="<?php echo isset($pro_image) && $pro_image != '' ? 'admin/product_images/'.$pro_image : $uploads.'/logo.png'; ?>" />
  
     <link rel="alternate" href="http://mshtly.com/" hreflang="ar-SA" />
     <link rel="alternate" href="http://mshtly.com/" hreflang="x-default" />
