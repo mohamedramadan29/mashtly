@@ -272,10 +272,10 @@ if (isset($_POST['add_to_cart'])) {
 </div>
 <script>
     // دالة للتحقق من حجم الشاشة وتحميل القسم إذا كان العرض أكبر من 991 بكسل
-    function loadBlogSection() {
+    function loadallSection() {
         if (window.innerWidth > 991) {
             // استدعاء قسم المقالات فقط إذا كان العرض أكبر من 991 بكسل
-            document.getElementById('from_blog_container').innerHTML = `<div class="index_all_cat index_categories" id="categories">
+            document.getElementById('index_all_cat_desktop').innerHTML = `<div class="index_all_cat index_categories" id="categories">
     <div class="container">
         <div class="data">
             <div class="data_header_name">
@@ -330,10 +330,10 @@ if (isset($_POST['add_to_cart'])) {
     }
 
     // استدعاء الدالة فور تحميل الصفحة
-    loadBlogSection();
+    loadallSection();
 
     // استدعاء الدالة عند تغيير حجم الشاشة
-    window.addEventListener('resize', loadBlogSection);
+    window.addEventListener('resize', loadallSection);
 </script>
 <!-- END INDEX ALL CATEGORY  -->
 <!-- START GARDEN SERVICES -->
@@ -714,7 +714,7 @@ if ($countSaleproduct > 0) {
 
 <script>
     // دالة للتحقق من حجم الشاشة وتحميل القسم إذا كان العرض أكبر من 991 بكسل
-    function loadBlogSection() {
+    function loadvideoSection() {
         if (window.innerWidth > 991) {
             // استدعاء قسم المقالات فقط إذا كان العرض أكبر من 991 بكسل
             document.getElementById('index_video_container').innerHTML = `<div class='index_video'>
@@ -750,10 +750,10 @@ if ($countSaleproduct > 0) {
     }
 
     // استدعاء الدالة فور تحميل الصفحة
-    loadBlogSection();
+    loadvideoSection();
 
     // استدعاء الدالة عند تغيير حجم الشاشة
-    window.addEventListener('resize', loadBlogSection);
+    window.addEventListener('resize', loadvideoSection);
 </script>
 <!--- END INDEX VIDEO  -->
 <!-- START CUSTOMER TESTMON -->
