@@ -151,7 +151,7 @@ if (isset($_SESSION['success_message'])) {
                                             <label for="inputName">حدد المنتج</label>
                                             <!-- قائمة المنتجات -->
                                             <select class="form-control select_products" name="select_product_from_store[]">
-                                                <option> - حدد المنتجات - </option>
+                                                <option disabled value="" selected> - حدد المنتجات - </option>
                                                 <?php
                                                 $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1");
                                                 $stmt->execute();

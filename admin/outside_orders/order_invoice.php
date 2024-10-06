@@ -305,7 +305,9 @@ $pagetitle = 'Mohamed';
                                         </div>
                                     </div>
                                 </div>
-                                <p class="thanks"> شكرا لتسوقكم من <a href="#"> مشتلي </a> </p>
+                                <br>
+                                <p class="thanks" style="font-size: 14px;"> الرقم الضريبي  <a href="#">  310600908300003   </a> </p>
+                                <p class="thanks"> شكرا لتسوقكم من <a href="#"> مشتلي</a> </p>
                             </div>
 
                         </div>

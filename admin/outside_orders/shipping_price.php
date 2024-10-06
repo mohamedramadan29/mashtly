@@ -9,36 +9,58 @@ $ship_weights = 0;
 $ship_type = [];
 
 //////////////// Get The Products Weight And Ship Inside Shop 
-foreach ($pro_names_inside as $index => $product_id) {
-    $inside_vartion = $inside_vartions[$index];
-    $inside_qty =  $inside_qtys[$index];
-    //foreach ($allitems as $item) {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
-    $stmt->execute(array($product_id));
-    $product_data_ship = $stmt->fetch();
-    // before all check if this product have varibales tails or not 
-    if ($inside_vartion != null) {
-        $vartion_id = $inside_vartion;
-        $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id=? AND id = ?");
-        $stmt->execute(array($product_id, $vartion_id));
-        $varibales_data = $stmt->fetch();
-        $count_variables = $stmt->rowCount();
-        if ($count_variables > 0) {
-            // check if this product varition have weight or not 
-            $product_var_whiehgt = $varibales_data['vartions_weghit'];
-            $product_tails = $varibales_data['vartions_name'];
-            if ($product_var_whiehgt != null) {
-                $product_weight = $product_var_whiehgt * $inside_qty;
-            } elseif (strpos($product_tails, 'طول النبتة:') !== false) {
-                // check if this products have tail or not 
-                // استخراج الطول من النص
-                preg_match('/طول النبتة:\s*\(([\d.]+m)\)/u', $product_tails, $matches);
-                // إذا وجدت قيمة للطول، قم بطباعتها
-                if (!empty($matches[1])) {
-                    $plant_length = $matches[1];
-                    $plant_length = $matches[1];
-                    $product_tail_ship = floatval(str_replace('m', '', $plant_length));
-                    //echo $product_tail_ship;
+
+if (isset($_POST['select_product_from_store']) && !empty($_POST['select_product_from_store'])) {
+    echo "Goooood Inside";
+    foreach ($pro_names_inside as $index => $product_id) {
+        $inside_vartion = $inside_vartions[$index];
+        $inside_qty =  $inside_qtys[$index];
+        //foreach ($allitems as $item) {
+        $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
+        $stmt->execute(array($product_id));
+        $product_data_ship = $stmt->fetch();
+        // before all check if this product have varibales tails or not 
+        if ($inside_vartion != null) {
+            $vartion_id = $inside_vartion;
+            $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id=? AND id = ?");
+            $stmt->execute(array($product_id, $vartion_id));
+            $varibales_data = $stmt->fetch();
+            $count_variables = $stmt->rowCount();
+            if ($count_variables > 0) {
+                // check if this product varition have weight or not 
+                $product_var_whiehgt = $varibales_data['vartions_weghit'];
+                $product_tails = $varibales_data['vartions_name'];
+                if ($product_var_whiehgt != null) {
+                    $product_weight = $product_var_whiehgt * $inside_qty;
+                } elseif (strpos($product_tails, 'طول النبتة:') !== false) {
+                    // check if this products have tail or not 
+                    // استخراج الطول من النص
+                    preg_match('/طول النبتة:\s*\(([\d.]+m)\)/u', $product_tails, $matches);
+                    // إذا وجدت قيمة للطول، قم بطباعتها
+                    if (!empty($matches[1])) {
+                        $plant_length = $matches[1];
+                        $plant_length = $matches[1];
+                        $product_tail_ship = floatval(str_replace('m', '', $plant_length));
+                        //echo $product_tail_ship;
+                        $stmt = $connect->prepare("SELECT * FROM shipping_weight_tools WHERE tail = ? ORDER BY id DESC LIMIT 1");
+                        $stmt->execute(array($product_tail_ship));
+                        $product_weight_tail_data = $stmt->fetch();
+                        $count_weight_tail = $stmt->rowCount();
+                        if ($count_weight_tail > 0) {
+                            $product_weight = $product_weight_tail_data['weight'] * $inside_qty;
+                        } else {
+                            $product_weight = 0;
+                            $shpping_errors[] = 'يوجد مشكلة في منتج  :' . $product_id;
+?>
+                            <!-- <span class="badge badge-danger bg-danger"> هناك مشكلة في هذا المنتج من فضلك تواصل مع الادارة </span> -->
+
+                        <?php
+                        }
+                    }
+                } elseif (!empty($product_data_ship['ship_weight'])) {
+                    $product_weight = $product_data_ship['ship_weight'] * $inside_qty;
+                } elseif (!empty($product_data_ship['ship_tail'])) {
+                    $product_tail_ship = $product_data_ship['ship_tail'];
                     $stmt = $connect->prepare("SELECT * FROM shipping_weight_tools WHERE tail = ? ORDER BY id DESC LIMIT 1");
                     $stmt->execute(array($product_tail_ship));
                     $product_weight_tail_data = $stmt->fetch();
@@ -46,17 +68,22 @@ foreach ($pro_names_inside as $index => $product_id) {
                     if ($count_weight_tail > 0) {
                         $product_weight = $product_weight_tail_data['weight'] * $inside_qty;
                     } else {
-                        $product_weight = 0;
-                        $shpping_errors[] = 'يوجد مشكلة في منتج  :' . $product_id;
-?>
-                        <!-- <span class="badge badge-danger bg-danger"> هناك مشكلة في هذا المنتج من فضلك تواصل مع الادارة </span> -->
-
+                        ?>
+                        <!-- <span class="badge badge-danger bg-danger"> 11 هناك مشكلة في تحديد وزن الشحنة من فضلك تواصل مع الادارة </span> -->
                     <?php
                     }
+                } else {
+                    ?>
+                    <!-- <span class="badge badge-danger bg-danger"> 22 هناك مشكلة في تحديد وزن الشحنة من فضلك تواصل مع الادارة </span> -->
+                <?php
                 }
-            } elseif (!empty($product_data_ship['ship_weight'])) {
+            }
+        } else {
+            // check if this item have wheight or not 
+            if (!empty($product_data_ship['ship_weight'])) {
                 $product_weight = $product_data_ship['ship_weight'] * $inside_qty;
-            } elseif (!empty($product_data_ship['ship_tail'])) {
+                //echo $product_weight;
+            } else {
                 $product_tail_ship = $product_data_ship['ship_tail'];
                 $stmt = $connect->prepare("SELECT * FROM shipping_weight_tools WHERE tail = ? ORDER BY id DESC LIMIT 1");
                 $stmt->execute(array($product_tail_ship));
@@ -65,88 +92,69 @@ foreach ($pro_names_inside as $index => $product_id) {
                 if ($count_weight_tail > 0) {
                     $product_weight = $product_weight_tail_data['weight'] * $inside_qty;
                 } else {
-                    ?>
-                    <!-- <span class="badge badge-danger bg-danger"> 11 هناك مشكلة في تحديد وزن الشحنة من فضلك تواصل مع الادارة </span> -->
-                <?php
-                }
-            } else {
+                    // $product_weight = 0;
+                    $shpping_errors[] = 'يوجد مشكلة في منتج  :' . $product_id;
+                    //echo $_SESSION['shipping_problems'];
                 ?>
-                <!-- <span class="badge badge-danger bg-danger"> 22 هناك مشكلة في تحديد وزن الشحنة من فضلك تواصل مع الادارة </span> -->
-            <?php
-            }
-        }
-    } else {
-        // check if this item have wheight or not 
-        if (!empty($product_data_ship['ship_weight'])) {
-            $product_weight = $product_data_ship['ship_weight'] * $inside_qty;
-            //echo $product_weight;
-        } else {
-            $product_tail_ship = $product_data_ship['ship_tail'];
-            $stmt = $connect->prepare("SELECT * FROM shipping_weight_tools WHERE tail = ? ORDER BY id DESC LIMIT 1");
-            $stmt->execute(array($product_tail_ship));
-            $product_weight_tail_data = $stmt->fetch();
-            $count_weight_tail = $stmt->rowCount();
-            if ($count_weight_tail > 0) {
-                $product_weight = $product_weight_tail_data['weight'] * $inside_qty;
-            } else {
-                // $product_weight = 0;
-                $shpping_errors[] = 'يوجد مشكلة في منتج  :' . $product_id;
-                //echo $_SESSION['shipping_problems'];
-            ?>
-                <!-- <span class="badge badge-danger bg-danger"> 33 هناك مشكلة في تحديد وزن الشحنة من فضلك تواصل مع الادارة </span> -->
+                    <!-- <span class="badge badge-danger bg-danger"> 33 هناك مشكلة في تحديد وزن الشحنة من فضلك تواصل مع الادارة </span> -->
 <?php
+                }
             }
         }
-    }
-    $ship_weights += $product_weight;
-    $ship_weights = number_format($ship_weights, 2);
+        $ship_weights += $product_weight;
+        $ship_weights = number_format($ship_weights, 2);
 
-    echo "</br>";
-    // check this products category type [ نباتات , مستلزمات  ]
-    $stmt = $connect->prepare("SELECT * FROM categories WHERE id = ?");
-    $stmt->execute(array($product_data_ship['cat_id']));
-    $category_data = $stmt->fetch();
-    $category_type = $category_data['main_category'];
-    if ($category_type == 1) {
-        $ship_type[] = 1;
-    } elseif ($category_type == 2) {
-        $ship_type[] = 2;
+        echo "</br>";
+        // check this products category type [ نباتات , مستلزمات  ]
+        $stmt = $connect->prepare("SELECT * FROM categories WHERE id = ?");
+        $stmt->execute(array($product_data_ship['cat_id']));
+        $category_data = $stmt->fetch();
+        $category_type = $category_data['main_category'];
+        if ($category_type == 1) {
+            $ship_type[] = 1;
+        } elseif ($category_type == 2) {
+            $ship_type[] = 2;
+        }
     }
 }
+
 ////////////////////////////////////////////////////////// Get The Product Weight ///////////////////////////
 //////////////
 //////////////////
 //////////////
 
 $outside_ship_weights = 0;
-foreach ($pro_names as $index => $outside_product_id) {
-    $outside_tail = $pro_tails[$index];
-    $outside_qty = $pro_qtys[$index];
-    $outside_type = $pro_types[$index];
-    //foreach ($allitems as $item) {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
-    $stmt->execute(array($product_id));
-    $product_data_ship = $stmt->fetch();
-    // before all check if this product have varibales tails or not 
-    if ($outside_tail != null) {
+if (isset($pro_names) && !empty($pro_names)) {
+    echo "Goood Ouut Side ";
+    foreach ($pro_names as $index => $outside_product_id) {
+        $outside_tail = $pro_tails[$index];
+        $outside_qty = $pro_qtys[$index];
+        $outside_type = $pro_types[$index];
+        //foreach ($allitems as $item) {
+        $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
+        $stmt->execute(array($product_id));
+        $product_data_ship = $stmt->fetch();
+        // before all check if this product have varibales tails or not 
+        if ($outside_tail != null) {
+            $stmt = $connect->prepare("SELECT * FROM shipping_weight_tools WHERE tail = ? ORDER BY id DESC LIMIT 1");
+            $stmt->execute(array($outside_tail));
+            $product_weight_tail_data = $stmt->fetch();
+            $count_weight_tail = $stmt->rowCount();
+            if ($count_weight_tail > 0) {
+                $product_weight = $product_weight_tail_data['weight'] * $outside_qty;
+            }
+        }
 
-        $stmt = $connect->prepare("SELECT * FROM shipping_weight_tools WHERE tail = ? ORDER BY id DESC LIMIT 1");
-        $stmt->execute(array($outside_tail));
-        $product_weight_tail_data = $stmt->fetch();
-        $count_weight_tail = $stmt->rowCount();
-        if ($count_weight_tail > 0) {
-            $product_weight = $product_weight_tail_data['weight'] * $outside_qty;
+        $outside_ship_weights += $product_weight;
+        $outside_ship_weights = number_format($outside_ship_weights, 2);
+        if ($outside_type == 'نباتات') {
+            $ship_type[] = 1;
+        } elseif ($outside_type == 'مستلزمات') {
+            $ship_type[] = 2;
         }
     }
-
-    $outside_ship_weights += $product_weight;
-    $outside_ship_weights = number_format($outside_ship_weights, 2);
-    if ($outside_type == 'نباتات') {
-        $ship_type[] = 1;
-    } elseif ($outside_type == 'مستلزمات') {
-        $ship_type[] = 2;
-    }
 }
+
 
 ////////////////////////////////////////////////////////// Get The Product Weight ///////////////////////////
 //////////////
