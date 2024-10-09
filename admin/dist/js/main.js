@@ -143,8 +143,7 @@ $(document).ready(function () {
             // }
         ]
     });
-
-
+    
     $(document).ready(function () {
         var table = $('#my_table_new_report').DataTable({
             dom: 'Bfrtip',

@@ -302,8 +302,7 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
         include "woocommerce/product.php";
     } elseif ($dir == 'woocommerce' && $page == 'report') {
         include "woocommerce/report.php";
-    }
-    elseif ($dir == 'woocommerce' && $page == 'orders') {
+    } elseif ($dir == 'woocommerce' && $page == 'orders') {
         include "woocommerce/orders.php";
     }
 
@@ -548,6 +547,20 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
         include 'mshtly_reviews/delete.php';
     } elseif ($dir == 'mshtly_reviews' && $page == 'report') {
         include "mshtly_reviews/report.php";
+    }
+
+    //////////// Start Reports ////////////////// 
+
+    if ($dir == 'reports' && $page == 'index') {
+        include "reports/index.php";
+    } elseif ($dir == 'reports' && $page == 'orders') {
+        include "reports/orders.php";
+    } elseif ($dir == 'reports' && $page == 'products') {
+        include 'reports/products.php';
+    } elseif ($dir == 'reports' && $page == 'report') {
+        include 'reports/report.php';
+    } elseif ($dir == 'reports' && $page == 'clients') {
+        include 'reports/clients.php';
     }
 
     ?>

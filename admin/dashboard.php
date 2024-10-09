@@ -150,7 +150,7 @@ $count_orders = $stmt->rowCount();
         <div class='row'>
             <div class='col-lg-6'>
                 <?php
-                $stmt = $connect->prepare("SELECT * FROM orders where  status_value !='pending' ");
+                $stmt = $connect->prepare("SELECT * FROM orders WHERE  status_value !='pending' ");
                 $stmt->execute();
                 $count_orders = $stmt->rowCount();
                 ///////////////////////
@@ -172,25 +172,9 @@ $count_orders = $stmt->rowCount();
                 ?>
                 <div class="card">
                     <div class="card-header border-transparent">
-                        <h3 class="card-title"> متابعة الطلبات والمبيعات </h3>
+                        <h3 class="card-title"> تقارير الطلبات ومبيعات المتجر </h3>
                     </div>
                     <div class="card-body p-0">
-                        <label for="timePeriod">اختر الفترة الزمنية:</label>
-                        <select id="timePeriod">
-                            <option value=""> -- حدد الفترة الزمنية -- </option>
-                            <option value="current_year">السنة الحالية</option>
-                            <option value="previous_month">الشهر السابق</option>
-                            <option value="current_month">الشهر الجاري</option>
-                            <option value="last_7_days">آخر 7 أيام</option>
-                            <option value="custom">تحديد الفترة</option>
-                        </select>
-
-                        <div id="customDateRange" style="display:none;">
-                            <label for="startDate">من تاريخ:</label>
-                            <input type="date" id="startDate">
-                            <label for="endDate">إلى تاريخ:</label>
-                            <input type="date" id="endDate">
-                        </div>
                         <canvas id="orderschart" style="width:100%;max-width:700px"></canvas>
                         <ul style="margin-right: 10px;" class="list-unstyled products_report">
                             <style>
@@ -269,106 +253,6 @@ $count_orders = $stmt->rowCount();
                                 <!--                            </tr>-->
                             </tbody>
                         </table>
-                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                        <script>
-                            const totalOrders = parseInt(document.getElementById('totalOrders').textContent);
-                            const completedOrders = parseInt(document.getElementById('completedOrders').textContent);
-                            const notStartedOrders = parseInt(document.getElementById('notStartedOrders').textContent);
-                            const pendingOrders = parseInt(document.getElementById('pendingOrders').textContent);
-                            const canceledOrders = parseInt(document.getElementById('canceledOrders').textContent);
-
-                            const xValues = ["عدد الطلبات الكلي", "طلبات مكتملة", "طلبات لم تبدا", "طلبات قيد الانتظار", "طلبات ملغية"];
-                            const yValues = [totalOrders, completedOrders, notStartedOrders, pendingOrders, canceledOrders];
-                            const barColors = ["#3498db", "#2ecc71", "#8e44ad", "#f1c40f", "#c0392b"];
-
-                            new Chart("orderschart", {
-                                type: "bar",
-                                data: {
-                                    labels: xValues,
-                                    datasets: [{
-                                        backgroundColor: barColors,
-                                        data: yValues
-                                    }]
-                                },
-                            });
-
-
-
-
-
-
-
-
-
-
-
-                            document.getElementById('timePeriod').addEventListener('change', function() {
-                                const period = this.value;
-
-                                if (period === 'custom') {
-                                    document.getElementById('customDateRange').style.display = 'block';
-                                } else {
-                                    document.getElementById('customDateRange').style.display = 'none';
-                                    loadChartData(period);
-                                }
-                            });
-
-                            document.getElementById('endDate').addEventListener('change', function() {
-                                const startDate = document.getElementById('startDate').value;
-                                const endDate = this.value;
-                                if (startDate && endDate) {
-                                    loadChartData('custom', startDate, endDate);
-                                }
-                            });
-
-                            function loadChartData(period, startDate = null, endDate = null) {
-                                // هنا يتم استخدام AJAX لجلب البيانات بناءً على الفترة الزمنية المحددة
-                                let url = `fetch_orders.php?period=${period}`;
-
-                                if (period === 'custom') {
-                                    url += `&start_date=${startDate}&end_date=${endDate}`;
-                                }
-
-                                fetch(url)
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        updateChart(data.labels, data.data);
-                                    });
-                            }
-
-                            function updateChart(labels, data) {
-                                const ctx = document.getElementById('orderschart').getContext('2d');
-                                new Chart(ctx, {
-                                    type: 'bar',
-                                    data: {
-                                        labels: labels,
-                                        datasets: [{
-                                            label: 'عدد الطلبات',
-                                            backgroundColor: ["#3498db", "#2ecc71", "#8e44ad", "#f1c40f", "#c0392b"],
-                                            data: data
-                                        }]
-                                    },
-                                    options: {
-                                        tooltips: {
-                                            callbacks: {
-                                                label: function(tooltipItem, data) {
-                                                    return 'عدد الطلبات: ' + tooltipItem.yLabel;
-                                                }
-                                            }
-                                        },
-                                        scales: {
-                                            y: {
-                                                beginAtZero: true
-                                            }
-                                        }
-                                    }
-                                });
-                            }
-
-                            // تحميل البيانات الافتراضية عند تحميل الصفحة
-                            loadChartData('current_year');
-                        </script>
-
                     </div>
 
                 </div>
@@ -383,7 +267,7 @@ $count_orders = $stmt->rowCount();
                         // استعلام للحصول على عدد المبيعات لكل شهر
                         $stmt = $connect->prepare("
                             SELECT DATE_FORMAT(STR_TO_DATE(order_date, '%c/%e/%Y %l:%i %p'), '%Y-%m') AS month, COUNT(*) AS total_sales
-                            FROM orders WHERE status_value !='ملغي'
+                            FROM orders WHERE status_value !='ملغي' AND status_value !='pending' 
                             GROUP BY month
                             ORDER BY month 
                         ");
@@ -519,7 +403,7 @@ $count_orders = $stmt->rowCount();
                                 <?php
 
                                 $stmt = $connect->prepare("SELECT product_id, COUNT(*) as total_sales FROM order_details
-                                            GROUP BY product_id ORDER BY total_sales DESC LIMIT 20");
+                                               GROUP BY product_id ORDER BY total_sales DESC LIMIT 20");
                                 $stmt->execute();
                                 $top_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 $i = 1;
@@ -669,24 +553,6 @@ $count_orders = $stmt->rowCount();
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     </div>

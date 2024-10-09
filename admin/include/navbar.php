@@ -81,6 +81,31 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <p>
+                            التقارير
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="main.php?dir=reports&page=index" class="nav-link">
+                                <p> الرئيسية  </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="main.php?dir=reports&page=orders" class="nav-link">
+                                <p>   الطلبات    </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="main.php?dir=reports&page=orders" class="nav-link">
+                                <p>   الطلبات    </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <p>
                             الأقسام
                             <i class="right fas fa-angle-left"></i>
                         </p>
