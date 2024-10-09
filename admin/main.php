@@ -303,6 +303,9 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
     } elseif ($dir == 'woocommerce' && $page == 'report') {
         include "woocommerce/report.php";
     }
+    elseif ($dir == 'woocommerce' && $page == 'orders') {
+        include "woocommerce/orders.php";
+    }
 
     // START USER PROFILE
     if ($dir == 'profile' && $page == 'report') {
