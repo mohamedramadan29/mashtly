@@ -56,7 +56,14 @@ if (isset($_SESSION['user_id'])) {
                     <div class="info">
                         <img src="<?php echo $uploads ?>shopping-cart-check.svg" alt="">
                         <h3 style="margin-top: 20px; margin-bottom: 20px;"> تم إكمال الشراء بنجاح </h3>
+                        <?php 
+                        $stmt = $connect->prepare("SELECT total_price FROM orders WHERE order_number = ?");
+                        $stmt->execute(array($_SESSION['order_number']));
+                        $price_data = $stmt->fetch();
+                        
+                        ?>
                         <p style="color: #8F918F;"> رقم الطلب : <span style="color: #000;"> <?php echo $_SESSION['order_number']; ?> </span> </p>
+                        <p style="color: #8F918F;"> السعر الكلي  : <span style="color: #000;"> <span id="purches_price" class="strong"> <?php echo $price_data['total_price']; ?> </span> ريال </span> </p>
                         <span style="color: #8F918F; font-size: 14px;"> يمكنك تتع طلبك من هنا </span>
                         <div style="margin-top: 20px;">
                             <a href="tracking?order_number=<?php echo $_SESSION['order_number']; ?>" class="btn global_button"> تتبع الطلب </a>
