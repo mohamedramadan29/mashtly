@@ -79,26 +79,28 @@
                     </a>
                 </li>
                 <li class="nav-item">
+
                     <a href="#" class="nav-link">
                         <p>
                             التقارير
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview"> 
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="main.php?dir=reports&page=visits" class="nav-link">
+                                <p> زيارات الموقع </p>
+                            </a>
+                        </li>
+
                         <li class="nav-item">
                             <a href="main.php?dir=reports&page=orders" class="nav-link">
-                                <p>   الطلبات    </p>
+                                <p> الطلبات </p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="main.php?dir=reports&page=clients" class="nav-link">
-                                <p>   العملاء   </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="main.php?dir=reports&page=visits" class="nav-link">
-                                <p>  زيارات الموقع   </p>
+                                <p> العملاء </p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -111,7 +113,7 @@
                                 <p> معدل الاحتفاظ بالعملاء [ CRR ] </p>
                             </a>
                         </li>
-                        
+
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -149,7 +151,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="main.php?dir=products&page=mstlzamat_products" class="nav-link">
-                                <p> المستلزمات الزراعية  </p>
+                                <p> المستلزمات الزراعية </p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -215,7 +217,7 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <p>
-                            عروض الاسعار 
+                            عروض الاسعار
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -223,7 +225,7 @@
 
                         <li class="nav-item">
                             <a href="main.php?dir=offer_orders&page=report" class="nav-link">
-                                <p> جميع عروض الاسعار  </p>
+                                <p> جميع عروض الاسعار </p>
                             </a>
                         </li>
 
@@ -233,7 +235,7 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <p>
-                            تقيمات المتجر 
+                            تقيمات المتجر
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -241,7 +243,7 @@
 
                         <li class="nav-item">
                             <a href="main.php?dir=mshtly_reviews&page=report" class="nav-link">
-                                <p> تقيمات المتجر  </p>
+                                <p> تقيمات المتجر </p>
                             </a>
                         </li>
 
@@ -503,7 +505,7 @@
                 <li class="nav-item">
                     <a href="main.php?dir=users&page=report" class="nav-link">
                         <p>
-                             العملاء 
+                            العملاء
                         </p>
                     </a>
                 </li>

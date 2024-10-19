@@ -62,23 +62,34 @@
                             <div class='col-lg-6'>
                                 <?php
                                 // Prepare order statistics
-                                $stmt = $connect->prepare("SELECT * FROM orders WHERE  status_value !='pending' ");
+                                $stmt = $connect->prepare("SELECT * FROM orders WHERE  status_value !='pending' UNION ALL SELECT * FROM orders_old ");
                                 $stmt->execute();
                                 $count_orders = $stmt->rowCount();
 
-                                $stmt = $connect->prepare("SELECT * FROM orders WHERE status_value = 'لم يبدا '");
+                                // حساب عدد الطلبات
+                                // $stmt = $connect->prepare("
+                                //     SELECT COUNT(*) AS total_orders FROM (
+                                //         SELECT * FROM orders WHERE status_value != 'pending'
+                                //         UNION ALL
+                                //         SELECT * FROM orders_old
+                                //     ) AS combined_orders
+                                //     ");
+                                // $stmt->execute();
+                                // $count_orders = $stmt->fetchColumn();
+
+                                $stmt = $connect->prepare("SELECT * FROM orders WHERE status_value = 'لم يبدا ' ");
                                 $stmt->execute();
                                 $count_orders_not_started = $stmt->rowCount();
 
-                                $stmt = $connect->prepare("SELECT * FROM orders WHERE status_value = 'مكتمل'");
+                                $stmt = $connect->prepare("SELECT * FROM orders WHERE status_value = 'مكتمل' UNION ALL SELECT * FROM orders_old WHERE status_value = 'completed' ");
                                 $stmt->execute();
                                 $count_orders_completed = $stmt->rowCount();
 
-                                $stmt = $connect->prepare("SELECT * FROM orders WHERE status_value = 'قيد الانتظار'");
+                                $stmt = $connect->prepare("SELECT * FROM orders WHERE status_value = 'قيد الانتظار'  UNION ALL SELECT * FROM orders_old WHERE status_value = 'processing' ");
                                 $stmt->execute();
                                 $count_orders_waiting = $stmt->rowCount();
 
-                                $stmt = $connect->prepare("SELECT * FROM orders WHERE status_value = 'ملغي'");
+                                $stmt = $connect->prepare("SELECT * FROM orders WHERE status_value = 'ملغي'  UNION ALL SELECT * FROM orders_old WHERE status_value = 'cancelled' ");
                                 $stmt->execute();
                                 $count_orders_cancelled = $stmt->rowCount();
                                 ?>
@@ -164,10 +175,24 @@
                                 $stmtRevenue->execute();
                                 $totalRevenue = $stmtRevenue->fetch(PDO::FETCH_ASSOC)['total_revenue'];
 
+                                // استعلام لجلب إجمالي الإيرادات من القديم 
+                                $stmtRevenue_old = $connect->prepare("SELECT SUM(total_price) AS total_revenue_old FROM orders_old WHERE status_value != 'cancelled'");
+                                $stmtRevenue_old->execute();
+                                $totalRevenue_old = $stmtRevenue_old->fetch(PDO::FETCH_ASSOC)['total_revenue_old'];
+
                                 // استعلام لجلب عدد الطلبات
                                 $stmtCount = $connect->prepare("SELECT COUNT(*) AS order_count FROM orders WHERE status_value != 'pending' AND status_value != 'ملغي'");
                                 $stmtCount->execute();
                                 $count_orders = $stmtCount->fetch(PDO::FETCH_ASSOC)['order_count'];
+
+                                // استعلام لجلب عدد الطلبات
+                                $stmtCount_old = $connect->prepare("SELECT COUNT(*) AS order_count_old FROM orders_old WHERE status_value != 'cancelled'");
+                                $stmtCount_old->execute();
+                                $count_orders_old = $stmtCount_old->fetch(PDO::FETCH_ASSOC)['order_count_old'];
+
+
+
+
                                 ?>
 
                                 <div class="card">
@@ -184,10 +209,14 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <?php
+                                                $alltotalrev = $totalRevenue + $totalRevenue_old;
+                                                $alltotalcount = $count_orders + $count_orders_old;
+                                                ?>
                                                 <tr>
-                                                    <td> <?php echo $count_orders ?> </td>
-                                                    <td> <?php echo  number_format($totalRevenue, 2)  ?> ريال </td>
-                                                    <td> <strong> <?php echo  number_format($totalRevenue / $count_orders, 2)  ?> </strong> ريال </td>
+                                                    <td> <?php echo $alltotalcount ?> </td>
+                                                    <td> <?php echo  number_format($alltotalrev, 2)  ?> ريال </td>
+                                                    <td> <strong> <?php echo  number_format($alltotalrev / $alltotalcount, 2)  ?> </strong> ريال </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -265,54 +294,125 @@
                                     </div>
                                     <div class="card-body">
                                         <?php
-                                        $stmt = $connect->prepare("SELECT payment_method, COUNT(*) as count FROM orders GROUP BY payment_method");
+                                        // احصل على البيانات من جدول orders
+                                        $stmt = $connect->prepare("
+   SELECT 
+       CASE 
+           WHEN LOWER(TRIM(payment_method)) IN ('الدفع عند الاستلام', 'دفع عند الاستلام') THEN 'الدفع عند الاستلام'
+           WHEN LOWER(TRIM(payment_method)) IN ('دفع الكتروني', 'الدفع الالكتروني', 'دفع إلكتروني') THEN 'الدفع الالكتروني'
+           ELSE payment_method
+       END as payment_method, 
+       COUNT(*) as count 
+   FROM orders
+   GROUP BY payment_method
+");
                                         $stmt->execute();
-                                        $payment_methods = $stmt->fetchAll();
+                                        $payment_methods_orders = $stmt->fetchAll();
+
+                                        // احصل على البيانات من جدول orders_old
+                                        $stmt = $connect->prepare("
+   SELECT 
+       CASE 
+           WHEN LOWER(TRIM(payment_method)) IN ('الدفع عند الاستلام', 'دفع عند الاستلام') THEN 'الدفع عند الاستلام'
+           WHEN LOWER(TRIM(payment_method)) IN ('دفع الكتروني', 'الدفع الالكتروني', 'دفع إلكتروني') THEN 'الدفع الالكتروني'
+           ELSE payment_method
+       END as payment_method, 
+       COUNT(*) as count 
+   FROM orders_old
+   GROUP BY payment_method
+");
+                                        $stmt->execute();
+                                        $payment_methods_orders_old = $stmt->fetchAll();
+
+                                        // دمج البيانات من كلا الجدولين
+                                        $combined_payment_methods = [];
+
+                                        // دمج بيانات جدول orders
+                                        foreach ($payment_methods_orders as $row) {
+                                            $method = $row['payment_method'];
+                                            if (!isset($combined_payment_methods[$method])) {
+                                                $combined_payment_methods[$method] = 0;
+                                            }
+                                            $combined_payment_methods[$method] += $row['count'];
+                                        }
+
+                                        // دمج بيانات جدول orders_old
+                                        foreach ($payment_methods_orders_old as $row) {
+                                            $method = $row['payment_method'];
+                                            if (!isset($combined_payment_methods[$method])) {
+                                                $combined_payment_methods[$method] = 0;
+                                            }
+                                            $combined_payment_methods[$method] += $row['count'];
+                                        }
+
+                                        // تحويل النتائج إلى صيغة مناسبة للعرض
+                                        $payment_methods = [];
+                                        foreach ($combined_payment_methods as $method => $count) {
+                                            $payment_methods[] = [
+                                                'payment_method' => $method,
+                                                'count' => $count
+                                            ];
+                                        }
+
+                                        // طباعة النتائج للتحقق (اختياري)
+                                        // echo "<pre>";
+                                        // print_r($payment_methods);
+                                        // echo "</pre>";
                                         ?>
-                                        <div style="height:400px">
+                                        <div style="height:450px">
                                             <canvas id="paymentChart"></canvas>
                                         </div>
+
 
                                         <script>
                                             var ctxpayment = document.getElementById('paymentChart').getContext('2d');
                                             var paymentMethods = <?php echo json_encode(array_column($payment_methods, 'payment_method')); ?>;
                                             var paymentCounts = <?php echo json_encode(array_column($payment_methods, 'count')); ?>;
 
-                                            var chart = new Chart(ctxpayment, {
-                                                type: 'doughnut',
+                                            var paymentChart = new Chart(ctxpayment, {
+                                                type: 'pie',
                                                 data: {
                                                     labels: paymentMethods,
                                                     datasets: [{
-                                                        label: 'عدد الطلبات حسب طريقة الدفع',
+                                                        label: 'عدد الطلبات',
                                                         data: paymentCounts,
-                                                        backgroundColor: ['#3498db', '#2ecc71', '#e74c3c', '#f1c40f'],
-                                                        borderColor: '#fff',
+                                                        backgroundColor: [
+                                                            'rgba(75, 192, 192, 0.6)', // لون 1
+                                                            'rgba(255, 99, 132, 0.6)', // لون 2
+                                                            'rgba(255, 205, 86, 0.6)', // لون 3
+                                                            'rgba(54, 162, 235, 0.6)', // لون 4
+                                                            'rgba(153, 102, 255, 0.6)', // لون 5
+                                                            'rgba(201, 203, 207, 0.6)', // لون 6
+                                                            'rgba(255, 159, 64, 0.6)' // لون 7
+                                                        ],
+                                                        borderColor: [
+                                                            'rgba(75, 192, 192, 1)', // حدود اللون 1
+                                                            'rgba(255, 99, 132, 1)', // حدود اللون 2
+                                                            'rgba(255, 205, 86, 1)', // حدود اللون 3
+                                                            'rgba(54, 162, 235, 1)', // حدود اللون 4
+                                                            'rgba(153, 102, 255, 1)', // حدود اللون 5
+                                                            'rgba(201, 203, 207, 1)', // حدود اللون 6
+                                                            'rgba(255, 159, 64, 1)' // حدود اللون 7
+                                                        ],
                                                         borderWidth: 1
                                                     }]
                                                 },
                                                 options: {
-                                                    responsive: true,
-                                                    plugins: {
-                                                        legend: {
-                                                            position: 'top',
-                                                        },
-                                                        tooltip: {
-                                                            callbacks: {
-                                                                label: function(tooltipItem) {
-                                                                    return paymentMethods[tooltipItem.dataIndex] + ': ' + paymentCounts[tooltipItem.dataIndex] + ' طلبات';
-                                                                }
-                                                            }
+                                                    scales: {
+                                                        y: {
+                                                            beginAtZero: true
                                                         }
                                                     }
                                                 }
                                             });
                                         </script>
+
                                     </div>
 
                                 </div>
 
                             </div>
-                            
+
                         </div>
                     </div>
 

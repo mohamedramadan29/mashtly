@@ -15,12 +15,29 @@ $stmt = $connect->prepare("SELECT * FROM orders WHERE status_value !='pending' A
 $stmt->execute(array($fromDateFormatted, $toDateFormatted));
 $allorders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $count_orders = $stmt->rowCount();
-
+echo $count_orders;
+echo "</br>";
+// استعلام لجلب الطلبات من الوقع القديم  بين التاريخين مع الشرط الإضافي
+$stmt = $connect->prepare("SELECT * FROM orders_old WHERE status_value !='cancelled' AND  STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')");
+$stmt->execute(array($fromDateFormatted, $toDateFormatted));
+$allorders_old = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$count_orders_old = $stmt->rowCount();
+echo $count_orders_old;
+echo "</br>";
 
 // استعلام لجلب إجمالي الإيرادات
 $stmtRevenue = $connect->prepare("SELECT SUM(total_price) AS total_revenue FROM orders WHERE status_value != 'pending' AND status_value != 'ملغي' AND  STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') ");
 $stmtRevenue->execute(array($fromDateFormatted, $toDateFormatted));
 $totalRevenue = $stmtRevenue->fetch(PDO::FETCH_ASSOC)['total_revenue'];
+
+
+
+// استعلام لجلب إجمالي الإيرادات
+$stmtRevenue_old = $connect->prepare("SELECT SUM(total_price) AS total_revenue_old FROM orders_old WHERE status_value != 'cancelled' AND  STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') ");
+$stmtRevenue_old->execute(array($fromDateFormatted, $toDateFormatted));
+$totalRevenue_old = $stmtRevenue_old->fetch(PDO::FETCH_ASSOC)['total_revenue_old'];
+
+
 
 
 // تحديد شرط التجميع بناءً على القيمة المحددة في `groupBy`
@@ -45,14 +62,18 @@ $stmt = $connect->prepare("
         CASE 
             WHEN '$groupBy' = 'day' THEN DATE(STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p'))
             WHEN '$groupBy' = 'week' THEN DATE_FORMAT(STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p'), '%Y-%u')
-            
             WHEN '$groupBy' = 'month' THEN DATE_FORMAT(STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p'), '%Y-%m')
             WHEN '$groupBy' = 'year' THEN YEAR(STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p'))
         END as group_date, 
         COUNT(id) as total_orders, 
         SUM(total_price) as total_price 
-    FROM orders 
-    WHERE status_value !='pending' AND STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') 
+    FROM (
+        SELECT order_date, total_price, id FROM orders WHERE status_value !='pending' AND status_value != 'ملغي'
+        UNION ALL
+        SELECT order_date, total_price, id FROM orders_old WHERE status_value !='cancelled'
+    ) as combined_orders
+    WHERE STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') 
+    AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') 
     GROUP BY group_date 
     ORDER BY group_date ASC
 ");
@@ -77,7 +98,8 @@ $groupedOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                                 } elseif ($groupBy == 'month') {
                                                                     echo 'شهري';
                                                                 }
-                                                                ucfirst($groupBy); ?> </h1>
+                                                                ucfirst($groupBy); ?>
+                </h1>
             </div>
             <!-- /.col -->
             <div class="col-sm-6">
@@ -86,7 +108,7 @@ $groupedOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <li class="breadcrumb-item active"> نتائج التقرير حسب <?php echo ucfirst($groupBy); ?> </li>
                 </ol>
             </div>
-             
+
             <!-- /.col -->
         </div>
         <!-- /.row -->
@@ -95,14 +117,13 @@ $groupedOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </section>
 <!-- /.content-header -->
 
-
 <!-- عرض الرسم البياني -->
 <section class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <div class='card'>
-                <table class="table table-bordered">
+                <!-- <div class='card'>
+                    <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th> إجمالي عدد الطلبات </th>
@@ -111,14 +132,18 @@ $groupedOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </tr>
                         </thead>
                         <tbody>
+                            <?php
+                            $alltotalrev = $totalRevenue + $totalRevenue_old;
+                            $allcountorders = $count_orders + $count_orders_old;
+                            ?>
                             <tr>
-                                <td> <?php echo $count_orders ?> </td>
-                                <td> <?php echo  number_format($totalRevenue, 2)  ?> ريال </td>
-                                <td> <strong> <?php echo  number_format($totalRevenue / $count_orders, 2)  ?> </strong> ريال </td>
+                                <td> <?php echo $allcountorders ?> </td>
+                                <td> <?php echo  number_format($alltotalrev, 2)  ?> ريال </td>
+                                <td> <strong> <?php echo  number_format($alltotalrev / $allcountorders, 2)  ?> </strong> ريال </td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div> -->
                 <div class="card">
                     <div class="card-body">
                         <canvas id="ordersChart" width="400" height="200"></canvas>
