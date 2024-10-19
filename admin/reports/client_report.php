@@ -9,50 +9,35 @@ $groupBy = isset($_GET['groupBy']) ? $_GET['groupBy'] : 'day'; // القيمة �
 $fromDateFormatted = date('Y-m-d H:i:s', strtotime($fromDate));
 $toDateFormatted = date('Y-m-d H:i:s', strtotime($toDate));
 
-
-// استعلام لجلب الطلبات بين التاريخين مع الشرط الإضافي
-$stmt = $connect->prepare("SELECT * FROM orders WHERE status_value !='pending' AND status_value !='ملغي' AND  STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')");
-$stmt->execute(array($fromDateFormatted, $toDateFormatted));
-$allorders = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$count_orders = $stmt->rowCount();
-
-
-// استعلام لجلب إجمالي الإيرادات
-$stmtRevenue = $connect->prepare("SELECT SUM(total_price) AS total_revenue FROM orders WHERE status_value != 'pending' AND status_value != 'ملغي' AND  STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') ");
-$stmtRevenue->execute(array($fromDateFormatted, $toDateFormatted));
-$totalRevenue = $stmtRevenue->fetch(PDO::FETCH_ASSOC)['total_revenue'];
-
-
 // تحديد شرط التجميع بناءً على القيمة المحددة في `groupBy`
 switch ($groupBy) {
     case 'week':
-        $groupCondition = "DATE_FORMAT(order_date, '%Y-%u')";
+        $groupCondition = "DATE_FORMAT(created_at, '%Y-%u')";
         break;
     case 'month':
-        $groupCondition = "DATE_FORMAT(order_date, '%Y-%m')";
+        $groupCondition = "DATE_FORMAT(created_at, '%Y-%m')";
         break;
     case 'year':
-        $groupCondition = "YEAR(order_date)";
+        $groupCondition = "YEAR(created_at)";
         break;
     case 'day':
     default:
-        $groupCondition = "DATE(order_date)";
+        $groupCondition = "DATE(created_at)";
         break;
 }
 
 $stmt = $connect->prepare("
     SELECT 
         CASE 
-            WHEN '$groupBy' = 'day' THEN DATE(STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p'))
-            WHEN '$groupBy' = 'week' THEN DATE_FORMAT(STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p'), '%Y-%u')
+            WHEN '$groupBy' = 'day' THEN DATE(STR_TO_DATE(created_at, '%m/%d/%Y %h:%i %p'))
+            WHEN '$groupBy' = 'week' THEN DATE_FORMAT(STR_TO_DATE(created_at, '%m/%d/%Y %h:%i %p'), '%Y-%u')
             
-            WHEN '$groupBy' = 'month' THEN DATE_FORMAT(STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p'), '%Y-%m')
-            WHEN '$groupBy' = 'year' THEN YEAR(STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p'))
+            WHEN '$groupBy' = 'month' THEN DATE_FORMAT(STR_TO_DATE(created_at, '%m/%d/%Y %h:%i %p'), '%Y-%m')
+            WHEN '$groupBy' = 'year' THEN YEAR(STR_TO_DATE(created_at, '%m/%d/%Y %h:%i %p'))
         END as group_date, 
-        COUNT(id) as total_orders, 
-        SUM(total_price) as total_price 
-    FROM orders 
-    WHERE status_value !='pending' AND STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') 
+        COUNT(id) as total_users
+    FROM users
+    WHERE STR_TO_DATE(created_at, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') 
     GROUP BY group_date 
     ORDER BY group_date ASC
 ");
@@ -67,26 +52,25 @@ $groupedOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark"> نتائج التقرير حسب <?php
-                                                                if ($groupBy == 'day') {
-                                                                    echo " يومي ";
-                                                                } elseif ($groupBy == 'week') {
-                                                                    echo "اسبوعي ";
-                                                                } elseif ($groupBy == 'year') {
-                                                                    echo "سنوي";
-                                                                } elseif ($groupBy == 'month') {
-                                                                    echo 'شهري';
-                                                                }
-                                                                ucfirst($groupBy); ?> </h1>
+                <h1 class="m-0 text-dark">  نتائج التقرير حسب <?php   
+                if($groupBy == 'day'){
+                    echo " يومي ";
+                }elseif($groupBy == 'week'){
+                    echo "اسبوعي ";
+                }elseif($groupBy == 'year'){
+                    echo "سنوي";
+                }elseif($groupBy == 'month'){
+                    echo 'شهري';
+                }
+                ucfirst($groupBy); ?> </h1>
             </div>
             <!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-left">
                     <li class="breadcrumb-item"><a href="main.php?dir=dashboard&page=dashboard">الرئيسية</a></li>
-                    <li class="breadcrumb-item active"> نتائج التقرير حسب <?php echo ucfirst($groupBy); ?> </li>
+                    <li class="breadcrumb-item active">  نتائج التقرير حسب <?php echo ucfirst($groupBy); ?> </li>
                 </ol>
             </div>
-             
             <!-- /.col -->
         </div>
         <!-- /.row -->
@@ -101,26 +85,8 @@ $groupedOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <div class='card'>
-                <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th> إجمالي عدد الطلبات </th>
-                                <th> إجمالي الإيرادات </th>
-                                <th> متوسط قيمة الطلب </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td> <?php echo $count_orders ?> </td>
-                                <td> <?php echo  number_format($totalRevenue, 2)  ?> ريال </td>
-                                <td> <strong> <?php echo  number_format($totalRevenue / $count_orders, 2)  ?> </strong> ريال </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body"> 
                         <canvas id="ordersChart" width="400" height="200"></canvas>
                         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                         <script>
@@ -147,8 +113,8 @@ $groupedOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                 $startOfWeek->setISODate($year, $weekNumber);
                                                 echo "'" . $startOfWeek->format('Y-m-d') . "', ";
                                             } elseif ($groupBy == 'month') {
-                                                // echo "'" . date('F Y', strtotime($order['group_date'])) . "', ";
-                                                echo "'" . date('F Y', strtotime($order['group_date'])) . "', ";
+                                               // echo "'" . date('F Y', strtotime($order['group_date'])) . "', ";
+                                                echo "'" . date('F Y', strtotime($order['group_date'])) . "', "; 
                                             } elseif ($groupBy == 'year') {
                                                 echo "'" . date('Y', strtotime($order['group_date'])) . "', ";
                                             }
@@ -156,11 +122,11 @@ $groupedOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         ?>
                                     ],
                                     datasets: [{
-                                        label: 'عدد الطلبات',
+                                        label: 'عدد المستخدمين ',
                                         data: [
                                             <?php
                                             foreach ($groupedOrders as $order) {
-                                                echo $order['total_orders'] . ", "; // عرض عدد الطلبات في كل فترة
+                                                echo $order['total_users'] . ", "; // عرض عدد الطلبات في كل فترة
                                             }
                                             ?>
                                         ],
@@ -175,7 +141,7 @@ $groupedOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             label: function(tooltipItem, data) {
                                                 let date = tooltipItem.label;
                                                 let value = tooltipItem.value;
-                                                return 'الفترة: ' + date + ' | عدد الطلبات: ' + value;
+                                                return 'الفترة: ' + date + ' | عدد المستخدمين : ' + value;
                                             }
                                         }
                                     },

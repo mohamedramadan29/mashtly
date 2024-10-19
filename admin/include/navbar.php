@@ -85,22 +85,33 @@
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="main.php?dir=reports&page=index" class="nav-link">
-                                <p> الرئيسية  </p>
-                            </a>
-                        </li>
+                    <ul class="nav nav-treeview"> 
                         <li class="nav-item">
                             <a href="main.php?dir=reports&page=orders" class="nav-link">
                                 <p>   الطلبات    </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="main.php?dir=reports&page=orders" class="nav-link">
-                                <p>   الطلبات    </p>
+                            <a href="main.php?dir=reports&page=clients" class="nav-link">
+                                <p>   العملاء   </p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="main.php?dir=reports&page=visits" class="nav-link">
+                                <p>  زيارات الموقع   </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="main.php?dir=reports&page=cart" class="nav-link">
+                                <p> السلات </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="main.php?dir=reports&page=crr" class="nav-link">
+                                <p> معدل الاحتفاظ بالعملاء [ CRR ] </p>
+                            </a>
+                        </li>
+                        
                     </ul>
                 </li>
                 <li class="nav-item">

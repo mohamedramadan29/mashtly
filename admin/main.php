@@ -561,6 +561,17 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
         include 'reports/report.php';
     } elseif ($dir == 'reports' && $page == 'clients') {
         include 'reports/clients.php';
+    } elseif ($dir == 'reports' && $page == 'client_report') {
+        include 'reports/client_report.php';
+    } elseif ($dir == 'reports' && $page == 'visits') {
+        include 'reports/visits.php';
+    } elseif ($dir == 'reports' && $page == 'cart') {
+        include 'reports/cart.php';
+    } elseif ($dir == 'reports' && $page == 'crr') {
+        include 'reports/crr.php';
+    }
+    elseif ($dir == 'reports' && $page == 'state') {
+        include 'reports/state.php';
     }
 
     ?>

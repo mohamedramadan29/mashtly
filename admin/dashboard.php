@@ -325,7 +325,7 @@ $count_orders = $stmt->rowCount();
             <div class="col-6">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title"> رسم بياني شهري لتسجيل العملاء </div>
+                        <div class="card-title">  رسم بياني لتسجيل العملاء </div>
                     </div>
                     <div class="card-body">
                         <?php

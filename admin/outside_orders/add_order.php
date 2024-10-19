@@ -181,13 +181,25 @@ if (isset($_POST['add_new_outside_order'])) {
                         foreach ($pro_names_inside as $index => $name) {
                             if (!empty($name)) {
                                 $product_id = $name;
+                                $inside_vartion = $inside_vartions[$index];
+                                if ($inside_vartion != null) {
+                                    /// Get the Vartion 
+                                    $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE id = ?");
+                                    $stmt->execute(array($inside_vartion));
+                                    $vartion_data = $stmt->fetch();
+                                    $price = $vartion_data['price'];
+                                } else {
+                                    $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
+                                    $stmt->execute(array($product_id));
+                                    $product_data = $stmt->fetch();
+                                    $price = $product_data['price'];
+                                }
+                                
                                 $qty = $inside_qtys[$index];
-                                //$pro_qty_inside = 1;
-                               // $price = 12;
                                 $farm_service = null;
                                 $as_present = null;
                                 $more_details = $inside_vartions[$index];
-                                $total_price = $price * $quantity;
+                                $total_price = $price * $qty;
                                 // Insert Order Details
                                 $stmt = $connect->prepare("INSERT INTO outside_order_details (order_id, order_number,product_id,
                                     qty, product_price, total,farm_service, as_present,more_details)

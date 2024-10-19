@@ -158,6 +158,43 @@
                                 </script>
                             </div>
                             <div class='col-lg-6'>
+                                <?php
+                                // استعلام لجلب إجمالي الإيرادات
+                                $stmtRevenue = $connect->prepare("SELECT SUM(total_price) AS total_revenue FROM orders WHERE status_value != 'pending' AND status_value != 'ملغي'");
+                                $stmtRevenue->execute();
+                                $totalRevenue = $stmtRevenue->fetch(PDO::FETCH_ASSOC)['total_revenue'];
+
+                                // استعلام لجلب عدد الطلبات
+                                $stmtCount = $connect->prepare("SELECT COUNT(*) AS order_count FROM orders WHERE status_value != 'pending' AND status_value != 'ملغي'");
+                                $stmtCount->execute();
+                                $count_orders = $stmtCount->fetch(PDO::FETCH_ASSOC)['order_count'];
+                                ?>
+
+                                <div class="card">
+                                    <div class="card-header border-transparent">
+                                        <h3 class="card-title">متوسط قيمة الطلب </h3>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <table class="table table-bordered table-primary">
+                                            <thead>
+                                                <tr>
+                                                    <th> إجمالي عدد الطلبات </th>
+                                                    <th> إجمالي الإيرادات </th>
+                                                    <th> متوسط قيمة الطلب </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td> <?php echo $count_orders ?> </td>
+                                                    <td> <?php echo  number_format($totalRevenue, 2)  ?> ريال </td>
+                                                    <td> <strong> <?php echo  number_format($totalRevenue / $count_orders, 2)  ?> </strong> ريال </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-lg-6'>
                                 <div class="card">
                                     <div class="card-header">
                                         <h3 class="card-title"> رسم بياني شهري للمبيعات </h3>
@@ -219,13 +256,8 @@
                                 </div>
                                 <!-- /.card -->
                             </div>
-                        </div>
-                    </div>
 
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
+
                             <div class="col-lg-6">
                                 <div class="card">
                                     <div class="card-header border-transparent">
@@ -237,7 +269,7 @@
                                         $stmt->execute();
                                         $payment_methods = $stmt->fetchAll();
                                         ?>
-                                        <div style="width: 350px; height:350px">
+                                        <div style="height:400px">
                                             <canvas id="paymentChart"></canvas>
                                         </div>
 
@@ -280,6 +312,14 @@
                                 </div>
 
                             </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
                         </div>
 
                     </div>
