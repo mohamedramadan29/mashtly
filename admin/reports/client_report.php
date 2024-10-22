@@ -26,23 +26,37 @@ switch ($groupBy) {
         break;
 }
 
+// تحضير الاستعلام لدمج بيانات المستخدمين الجدد والقدامى مع التجميع حسب 'day'، 'week'، 'month'، أو 'year'
 $stmt = $connect->prepare("
     SELECT 
         CASE 
             WHEN '$groupBy' = 'day' THEN DATE(STR_TO_DATE(created_at, '%m/%d/%Y %h:%i %p'))
             WHEN '$groupBy' = 'week' THEN DATE_FORMAT(STR_TO_DATE(created_at, '%m/%d/%Y %h:%i %p'), '%Y-%u')
-            
             WHEN '$groupBy' = 'month' THEN DATE_FORMAT(STR_TO_DATE(created_at, '%m/%d/%Y %h:%i %p'), '%Y-%m')
             WHEN '$groupBy' = 'year' THEN YEAR(STR_TO_DATE(created_at, '%m/%d/%Y %h:%i %p'))
         END as group_date, 
         COUNT(id) as total_users
     FROM users
-    WHERE STR_TO_DATE(created_at, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') 
-    GROUP BY group_date 
+    WHERE STR_TO_DATE(created_at, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')
+    
+    UNION ALL
+    
+    SELECT 
+        CASE 
+            WHEN '$groupBy' = 'day' THEN DATE(STR_TO_DATE(created_at, '%m/%d/%Y %h:%i %p'))
+            WHEN '$groupBy' = 'week' THEN DATE_FORMAT(STR_TO_DATE(created_at, '%m/%d/%Y %h:%i %p'), '%Y-%u')
+            WHEN '$groupBy' = 'month' THEN DATE_FORMAT(STR_TO_DATE(created_at, '%m/%d/%Y %h:%i %p'), '%Y-%m')
+            WHEN '$groupBy' = 'year' THEN YEAR(STR_TO_DATE(created_at, '%m/%d/%Y %h:%i %p'))
+        END as group_date, 
+        COUNT(id) as total_users
+    FROM users_old
+    WHERE STR_TO_DATE(created_at, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')
+    
+    GROUP BY group_date
     ORDER BY group_date ASC
 ");
 
-$stmt->execute(array($fromDateFormatted, $toDateFormatted));
+$stmt->execute(array($fromDateFormatted, $toDateFormatted,$fromDateFormatted, $toDateFormatted));
 // جلب النتائج
 $groupedOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -116,7 +130,8 @@ $groupedOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                // echo "'" . date('F Y', strtotime($order['group_date'])) . "', ";
                                                 echo "'" . date('F Y', strtotime($order['group_date'])) . "', "; 
                                             } elseif ($groupBy == 'year') {
-                                                echo "'" . date('Y', strtotime($order['group_date'])) . "', ";
+                                               // echo "'" . date('Y', strtotime($order['group_date'])) . "', ";
+                                               echo "'" . $order['group_date'] . "', ";
                                             }
                                         }
                                         ?>

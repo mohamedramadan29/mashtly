@@ -66,13 +66,16 @@
                                     </div>
                                     <div class="card-body">
                                         <?php
-                                        // استعلام للحصول على عدد العملاء لكل شهر
                                         $stmt = $connect->prepare("
-                        SELECT DATE_FORMAT(STR_TO_DATE(created_at, '%c/%e/%Y %l:%i %p'), '%Y-%m') AS month, COUNT(*) AS total_users
-                        FROM users
-                        GROUP BY month
-                        ORDER BY month 
-                    ");
+                                    SELECT DATE_FORMAT(STR_TO_DATE(created_at, '%c/%e/%Y %l:%i %p'), '%Y-%m') AS month, COUNT(*) AS total_users
+                                    FROM users
+                                    GROUP BY month
+                                    UNION ALL
+                                    SELECT DATE_FORMAT(STR_TO_DATE(created_at, '%c/%e/%Y %l:%i %p'), '%Y-%m') AS month, COUNT(*) AS total_users
+                                    FROM users_old
+                                    GROUP BY month
+                                    ORDER BY month
+                                ");
                                         $stmt->execute();
                                         $users_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         // تحضير البيانات للعرض
@@ -165,9 +168,9 @@
                                                     <?php echo $user['total_orders']; ?>
                                                 </td>
                                                 <td>
-                                                <?php echo number_format($user['total_purchases'], 2); ?>
-                                            ريال   
-                                            </td>
+                                                    <?php echo number_format($user['total_purchases'], 2); ?>
+                                                    ريال
+                                                </td>
                                             </tr>
                                         <?php
                                         }
