@@ -468,6 +468,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                       <tr>
                         <td> <?php echo $order_data['order_number']; ?> </td>
                         <td> <a href="main.php?dir=orders&page=order_invoice&order_id=<?php echo $order_id; ?>" class="btn btn-primary btn-sm"> مشاهدة الفاتورة <i class="fa fa-file-invoice"></i> </a> </td>
+                        <td> <a href="main.php?dir=orders&page=order_qrcode&order_id=<?php echo $order_id; ?>" class="btn btn-primary btn-sm"> ملصقات الطلب  <i class="fa fa-file-invoice"></i> </a> </td>
                       </tr>
                     </tbody>
                   </table>

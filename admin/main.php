@@ -282,6 +282,8 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
         include "orders/edit_order.php";
     } elseif ($dir == 'orders' && $page == 'compeleted_orders') {
         include "orders/compeleted_orders.php";
+    }elseif ($dir == 'orders' && $page == 'order_qrcode') {
+        include "orders/order_qrcode.php";
     }
     // START employee
     if ($dir == 'employee' && $page == 'add') {
