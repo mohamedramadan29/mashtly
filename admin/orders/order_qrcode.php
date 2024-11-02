@@ -80,9 +80,9 @@ include 'order_qrcode/phpqrcode/qrlib.php';
                         $qrCodeImage = 'data:image/png;base64,' . $imageString;
                     ?>
                         <div class="">
-                            <div class="logo text-center">
+                            <!-- <div class="logo text-center">
                                 <img style="max-width: 100%;" src="uploads/qr_header.png" alt="">
-                            </div>
+                            </div> -->
 
                             <div class="shap_info">
                                 <img class="shap_logo" src="uploads/logo.png">
@@ -106,9 +106,9 @@ include 'order_qrcode/phpqrcode/qrlib.php';
                                     <img src="uploads/last_shap_image.png" alt="">
                                 </div>
                             </div>
-                            <div class="mshtly_qr">
+                            <!-- <div class="mshtly_qr">
                                 <img src="uploads/mshtly_qr.png" alt="">
-                            </div>
+                            </div> -->
                         </div>
                         </br>
                         </br>
