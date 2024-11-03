@@ -115,7 +115,7 @@ if (isset($_SESSION['success_message'])) {
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="inputName"> اسم الشارع </label>
+                                        <label for="inputName"> الحي   </label>
                                         <input required type="text" id="city" name="street_name" class="form-control" value="<?php if (isset($_REQUEST['street_name'])) echo $_REQUEST['street_name'] ?>">
                                     </div>
                                 </div>
