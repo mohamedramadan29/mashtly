@@ -124,7 +124,7 @@
                         ?>
                             <button name="add_to_cart" class='btn global_button'>
 
-                                <img loading="lazy"  src="<?php echo $uploads ?>/shopping-cart.png" alt="سلة الشراء "> أضف
+                                <img loading="lazy"  src="https://www.mshtly.com/uploads/shopping-cart.png" alt="سلة الشراء "> أضف
                                 الي السلة
                             </button>
                         <?php
@@ -144,12 +144,12 @@
                     <?php
                     if (isset($_SESSION['user_id']) && checkIfProductIsFavourite($connect, $_SESSION['user_id'], $product['id'])) {
                     ?>
-                        <img loading="lazy" src="<?php echo $uploads; ?>/heart2.svg" alt="المفضلة">
+                        <img loading="lazy" src="https://www.mshtly.com/uploads/heart2.svg" alt="المفضلة">
                     <?php
                     } else {
                     ?>
                         <button id="add_to_fav" name="add_to_fav" type="submit">
-                            <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt="المفضلة">
+                            <img loading="lazy" src="https://www.mshtly.com/uploads/heart.png" alt="المفضلة">
                         </button>
                         <style>
                             #add_to_fav{

@@ -90,20 +90,10 @@ $cat_data = $stmt->fetch();
 $check_cat = $stmt->rowCount();
 if ($check_cat > 0) {
     $cat_id = $cat_data['id'];
-    // إعداد الاستعلام
-    // $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name != '' AND price != '' AND (cat_id = ? OR FIND_IN_SET(?, more_cat) > 0)");
-    // $stmt->execute(array($cat_id, $cat_id));
-
     $num_products = $stmt->rowCount();
-
-    // $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
-    // echo $currentpage;
-    $pageSize = 20;
+    $pageSize = 10;
     $offset = ($currentpage - 1) * $pageSize;
-
-
     // استعلام البيانات الأساسي
-    //$stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND name !='' AND price !='' AND cat_id = $cat_id");
     $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_status_store = 1 AND name != '' AND price != '' AND (cat_id = $cat_id OR FIND_IN_SET($cat_id, more_cat) > 0)");
     if (isset($_GET['sort']) && !empty($_GET['sort'])) {
         $sort = $_GET['sort'];
@@ -272,13 +262,13 @@ if ($check_cat > 0) {
                     </div>
                 </div> -->
                 <div class="col-lg-12">
-                    <div class="row">
+                    <div class="row" id="content_section">
                         <?php
                         foreach ($allproducts as $product) {
                         ?>
                             <div class="col-lg-3 col-6">
                                 <?php
-                                include 'tempelate/product.php'; 
+                                include 'tempelate/product.php';
                                 ?>
                             </div>
                         <?php
@@ -288,7 +278,7 @@ if ($check_cat > 0) {
                     <?php
                     if ($totalPages > 1) {
                     ?>
-                        <div class="pagination_section">
+                        <!-- <div class="pagination_section">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
                                     <li class="page-item <?php echo ($currentpage == 1) ? 'disabled' : ''; ?>">
@@ -312,8 +302,8 @@ if ($check_cat > 0) {
                                     </li>
                                 </ul>
                             </nav>
-                        </div>
-
+                        </div> -->
+                        <button id="loadMoreButton" class="btn btn-primary">تحميل المزيد</button>
 
                     <?php
                     }
@@ -329,3 +319,43 @@ if ($check_cat > 0) {
 include $tem . 'footer.php';
 ob_end_flush();
 ?>
+
+<script>
+    let currentPage = 1;
+    const pageSize = 20;
+    const catId = <?php echo $cat_id; ?>; // قم بتحديد cat_id حسب القسم الحالي
+
+    function loadMoreProducts() {
+        currentPage++;
+        const sortOption = document.getElementById('sort').value;
+        const formData = new FormData();
+        formData.append('page', currentPage);
+        formData.append('cat_id', catId);
+        formData.append('sort', sortOption);
+
+        fetch('https://www.localhost/mashtly/load_more_products_by_category.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text()) // تغيير إلى text لأن الاستجابة هي HTML الآن
+            .then(data => {
+                if (data.trim() === "") {
+                    // إخفاء الزر إذا لم يكن هناك المزيد من المحتوى
+                    document.getElementById('loadMoreButton').style.display = 'none';
+                } else {
+                    // إضافة المحتوى الجديد
+                    document.getElementById('content_section').innerHTML += data;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // تنفيذ تحميل المزيد عند الضغط على الزر
+    document.getElementById('loadMoreButton').addEventListener('click', loadMoreProducts);
+
+    document.getElementById('sort').addEventListener('change', function() {
+        currentPage = 1;
+        document.getElementById('content_section').innerHTML = ''; // مسح المنتجات الحالية
+        loadMoreProducts(); // إعادة تحميل المنتجات حسب الترتيب الجديد
+    });
+</script>
