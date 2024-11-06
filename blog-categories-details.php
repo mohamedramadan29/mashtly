@@ -91,30 +91,37 @@ $count_post = count(($stmt->fetchAll()));
                     </a>
                 </div>
             </div>
-            <div class='from_blog'>
-                <div class='row'>
+            <div class='from_blog' >
+                <div class='row' id="content_section">
                     <?php
-                    $stmt = $connect->prepare("SELECT * FROM posts WHERE cat_id = ? AND  publish = 1 AND id !=?");
-                    $stmt->execute(array($cat_id, $post_id));
-                    $num_blogs = $stmt->rowCount();
-                    $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
-                    $pageSize = 12;
-                    $offset = ($currentpage - 1) * $pageSize;
+                    $pageSize = 6; // عدد العناصر التي سيتم تحميلها في كل مرة
+                    $offset = 0; // البداية من الصفحة الأولى عند التحميل الأول
+                    // $stmt = $connect->prepare("SELECT * FROM posts WHERE cat_id = ? AND  publish = 1 AND id !=?");
+                    // $stmt->execute(array($cat_id, $post_id));
+                    // $num_blogs = $stmt->rowCount();
+                    // $currentpage = isset($_GET['page']) ? $_GET['page'] : 1;
+                    // $pageSize = 12;
+                    // $offset = ($currentpage - 1) * $pageSize;
 
                     $stmt = $connect->prepare("SELECT * FROM posts WHERE cat_id = $cat_id AND  publish = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
                     $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
                     $stmt->execute();
                     $allposts = $stmt->fetchAll();
-                    $totalposts = count($allposts);
+                    // $totalposts = count($allposts);
                     /////////////////////////////////
-                    $totalPages = ceil($num_blogs / $pageSize);
+                    // $totalPages = ceil($num_blogs / $pageSize);
+
+                    // جلب أول مجموعة من المنشورات
+                    // $stmt = $connect->prepare("SELECT * FROM posts WHERE cat_id = ? AND publish = 1 ORDER BY id DESC LIMIT $pageSize OFFSET ?");
+                    // $stmt->execute(array($cat_id, $offset));
+                    // $allposts = $stmt->fetchAll();
 
                     // التأكد من أن الصفحة المطلوبة لا تتجاوز العدد الكلي للصفحات
-                    if ($currentpage > $totalPages) {
-                        // إعادة توجيه المستخدم إلى الصفحة الأخيرة
-                        header("Location: ?page=$totalPages");
-                        exit;
-                    }
+                    // if ($currentpage > $totalPages) {
+                    //     // إعادة توجيه المستخدم إلى الصفحة الأخيرة
+                    //     header("Location: ?page=$totalPages");
+                    //     exit;
+                    // }
 
                     foreach ($allposts as $post) {
                         if ($post['description'] != null) {
@@ -143,35 +150,8 @@ $count_post = count(($stmt->fetchAll()));
                     }
                     ?>
                 </div>
-                <div class="pagination_section">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <!-- زر "السابق" -->
-                            <li class="page-item <?php echo ($currentpage <= 1) ? 'disabled' : ''; ?>">
-                                <a class="page-link" href="?page=<?php echo $currentpage - 1; ?>" aria-label="Previous" <?php echo ($currentpage <= 1) ? 'tabindex="-1" aria-disabled="true"' : ''; ?>>
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-
-                            <!-- أزرار الصفحات -->
-                            <?php
-                            for ($i = 1; $i <= $totalPages; $i++) {
-                                echo '<li class="page-item';
-                                if ($i == $currentpage) {
-                                    echo ' active';
-                                }
-                                echo '"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
-                            }
-                            ?>
-
-                            <!-- زر "التالي" -->
-                            <li class="page-item <?php echo ($currentpage >= $totalPages) ? 'disabled' : ''; ?>">
-                                <a class="page-link" href="?page=<?php echo $currentpage + 1; ?>" aria-label="Next" <?php echo ($currentpage >= $totalPages) ? 'tabindex="-1" aria-disabled="true"' : ''; ?>>
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                <div class="load-more-section text-center mt-3">
+                    <button id="loadMoreButton" class="btn global_button">مشاهدة المزيد</button>
                 </div>
 
 
@@ -180,7 +160,33 @@ $count_post = count(($stmt->fetchAll()));
     </div>
 </div>
 <!-- END  POST INDEX -->
+
 <?php
 include $tem . 'footer.php';
 ob_end_flush();
 ?>
+
+<script>
+    let currentPage = 1;
+    const pageSize = <?php echo $pageSize; ?>;
+
+    document.getElementById('loadMoreButton').addEventListener('click', function() {
+        currentPage++;
+        loadMoreContent(currentPage);
+    });
+
+    function loadMoreContent(page) {
+        fetch(`https://localhost/mashtly/load_more.php?page=${page}&pageSize=${pageSize}&cat_id=<?php echo $cat_id; ?>`)
+            .then(response => response.text())
+            .then(data => {
+                if (data.trim() === "") {
+                    // إخفاء الزر إذا لم يكن هناك المزيد من المحتوى
+                    document.getElementById('loadMoreButton').style.display = 'none';
+                } else {
+                    // إضافة المحتوى الجديد
+                    document.getElementById('content_section').innerHTML += data;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>

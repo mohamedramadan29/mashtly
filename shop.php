@@ -261,7 +261,7 @@ if (isset($_POST['search_options'])) {
                     </div>
                 </div> -->
                 <div class="col-lg-12">
-                    <div class="row">
+                    <div class="row" id="content_section">
                         <?php
                         foreach ($allproducts as $product) {
                         ?>
@@ -277,7 +277,7 @@ if (isset($_POST['search_options'])) {
                     <?php
                     if ($totalPages > 1) {
                     ?>
-                        <div class="pagination_section">
+                        <!-- <div class="pagination_section">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
                                     <li class="page-item <?php echo ($currentpage == 1) ? 'disabled' : ''; ?>">
@@ -302,13 +302,16 @@ if (isset($_POST['search_options'])) {
 
                                 </ul>
                             </nav>
-                        </div>
+                        </div> -->
                     <?php
                     }
 
                     ?>
-
+                    <br>
+                    <br>
+                    <button style="text-align: center; margin:auto;display:block;" id="loadMoreButton" class="btn global_button">تحميل المزيد</button>
                 </div>
+
             </div>
         </div>
     </div>
@@ -318,6 +321,46 @@ if (isset($_POST['search_options'])) {
 include $tem . 'footer.php';
 ob_end_flush();
 ?>
+
+
+<script>
+    let currentPage = 1;
+    const pageSize = 20;
+    const sortOption = document.getElementById('sort').value;
+
+    function loadMoreProducts() {
+        currentPage++;
+        const formData = new FormData();
+        formData.append('page', currentPage);
+        formData.append('sort', sortOption);
+        fetch('load_more_products.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data.trim() === "") {
+                    // إخفاء الزر إذا لم يكن هناك المزيد من المحتوى
+                    document.getElementById('loadMoreButton').style.display = 'none';
+                } else {
+                    // إضافة المحتوى الجديد
+                    document.getElementById('content_section').innerHTML += data;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // تنفيذ تحميل المزيد عند الضغط على الزر
+    document.getElementById('loadMoreButton').addEventListener('click', loadMoreProducts);
+
+
+    document.getElementById('sort').addEventListener('change', function() {
+        currentPage = 1;
+        document.getElementById('content_section').innerHTML = ''; // مسح المنتجات الحالية
+        loadMoreProducts(); // إعادة تحميل المنتجات حسب الترتيب الجديد
+    });
+</script>
+
 
 <script>
     if (window.history.replaceState) {

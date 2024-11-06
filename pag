@@ -1,0 +1,30 @@
+                <div class="pagination_section">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <!-- زر "السابق" -->
+                            <li class="page-item <?php echo ($currentpage <= 1) ? 'disabled' : ''; ?>">
+                                <a class="page-link" href="?page=<?php echo $currentpage - 1; ?>" aria-label="Previous" <?php echo ($currentpage <= 1) ? 'tabindex="-1" aria-disabled="true"' : ''; ?>>
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+
+                            <!-- أزرار الصفحات -->
+                            <?php
+                            for ($i = 1; $i <= $totalPages; $i++) {
+                                echo '<li class="page-item';
+                                if ($i == $currentpage) {
+                                    echo ' active';
+                                }
+                                echo '"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
+                            }
+                            ?>
+
+                            <!-- زر "التالي" -->
+                            <li class="page-item <?php echo ($currentpage >= $totalPages) ? 'disabled' : ''; ?>">
+                                <a class="page-link" href="?page=<?php echo $currentpage + 1; ?>" aria-label="Next" <?php echo ($currentpage >= $totalPages) ? 'tabindex="-1" aria-disabled="true"' : ''; ?>>
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
