@@ -24,7 +24,7 @@ if (isset($_GET['order_id'])) {
     $total_price = $order_data['total_price'];
 }
 $pagetitle = 'Mohamed';
- 
+
 
 include 'order_qrcode/phpqrcode/qrlib.php';
 
@@ -105,7 +105,7 @@ include 'order_qrcode/phpqrcode/qrlib.php';
                                     <img src="uploads/last_shap_image.png" alt="">
                                 </div>
                             </div>
-                    
+
                         </div>
 
                     <?php
@@ -134,14 +134,16 @@ include 'order_qrcode/phpqrcode/qrlib.php';
         </div>
         <style>
             .shap_info {
-                border: 2px solid #000;
-                padding-top: 20px;
-                margin: 15px;
+                border: 1px solid #000;
+                padding-top: 0px;
+                margin: 1px;
+                width: 5cm !important;
+                height: 4cm !important;
             }
 
             .shap_info .shap_logo {
                 display: block;
-                width: 60px;
+                width: 40px;
                 text-align: center;
                 margin: auto;
             }
@@ -149,54 +151,55 @@ include 'order_qrcode/phpqrcode/qrlib.php';
             .shap_info .product_info {
                 display: flex;
                 justify-content: space-between;
-                padding: 10px;
-                border-bottom: 2px solid #000;
+                padding: 1px;
+                border-bottom: 1px solid #000;
             }
 
             .shap_info .product_info h4 {
-                font-size: 7px;
+                font-size: 6px;
                 font-weight: bold;
-                margin-bottom: 15px;
+                margin-bottom: 0px;
                 color: #000;
             }
 
             .shap_info .product_info p {
-                font-size: 8px;
+                font-size: 6px;
             }
 
             .shap_info .product_info img {
-                width: 50px;
+                width: 40px;
             }
 
             .person_info {
-                padding: 10px;
-                font-size: 8px;
+                padding: 1px;
+                font-size: 7px;
             }
 
             .person_info p {
                 font-weight: bold;
                 color: #000;
+                margin: 1px;
             }
 
             .person_info p span {}
 
             .more_info {
-                padding: 10px;
-                border-top: 2px solid #000;
+                padding: 1px;
+                border-top: 1px solid #000;
                 display: flex;
                 justify-content: space-between;
             }
 
             .more_info h5 {
                 font-weight: bold;
-                line-height: 1.8;
+                line-height: 1.2;
                 color: #000;
-                font-size: 8px;
+                font-size: 7px;
             }
 
             .more_info img {
-                width: 45px;
-                height: 45px;
+                width: 40px;
+                height: 40px;
             }
 
             .mshtly_qr {}
@@ -205,6 +208,18 @@ include 'order_qrcode/phpqrcode/qrlib.php';
                 max-width: 75%;
                 margin: auto;
                 display: block;
+            }
+
+
+            .label-container {
+                page-break-after: always;
+                width: 5cm !important;
+                /* العرض 5 سم */
+                height: 4cm !important;
+                /* الارتفاع 4 سم */
+                margin: auto;
+                padding: 0;
+                background-color: #fff;
             }
         </style>
     </div>
@@ -219,9 +234,7 @@ include 'order_qrcode/phpqrcode/qrlib.php';
         margin: auto;
         padding: 0;
         background-color: #fff;
-        width: 5cm !important;
-            /* العرض 5 سم */
-            height: 4cm !important;
+     
     }
 
 
@@ -238,24 +251,26 @@ include 'order_qrcode/phpqrcode/qrlib.php';
 
         .label-container {
             page-break-after: always;
+            /* width: 5cm !important;
+            
+            height: 4cm !important;
+           
+            margin: auto;
+            padding: 0;
+            background-color: #fff; */
         }
 
         /* ضبط العنصر للطباعة */
         #print {
-            width: 5cm !important;
-            /* العرض 5 سم */
-            height: 4cm !important;
-            /* الارتفاع 4 سم */
-            margin: auto;
-            padding: 0;
-            background-color: #fff;
+            
         }
 
 
         .print_order {
-        max-width: 100% !important;
-        padding: 5px !important; /* تعديل المسافة الداخلية */
-    }
+            max-width: 100% !important;
+            padding: 5px !important;
+            /* تعديل المسافة الداخلية */
+        }
 
         body {
             background-color: #fff;
@@ -272,7 +287,7 @@ include 'order_qrcode/phpqrcode/qrlib.php';
 
         /* ضبط حجم الصفحة للطباعة */
         @page {
-            size: 5cm 4cm;
+            /* size: 5cm 4cm; */
             /* العرض 5 سم والارتفاع 4 سم */
             margin: 0;
         }
@@ -283,6 +298,12 @@ include 'order_qrcode/phpqrcode/qrlib.php';
             padding: 0;
             background-color: #fff;
         }
-
+        .shap_info {
+                border: 1px solid #000;
+                padding-top: 0px;
+                margin: 1px;
+                width: 5cm !important;
+                height: 4cm !important;
+            }
     }
 </style>
