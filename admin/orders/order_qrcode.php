@@ -24,8 +24,7 @@ if (isset($_GET['order_id'])) {
     $total_price = $order_data['total_price'];
 }
 $pagetitle = 'Mohamed';
-?>
-<?php
+ 
 
 include 'order_qrcode/phpqrcode/qrlib.php';
 
@@ -79,7 +78,7 @@ include 'order_qrcode/phpqrcode/qrlib.php';
 
                         $qrCodeImage = 'data:image/png;base64,' . $imageString;
                     ?>
-                        <div class="">
+                        <div class="label-container">
                             <!-- <div class="logo text-center">
                                 <img style="max-width: 100%;" src="uploads/qr_header.png" alt="">
                             </div> -->
@@ -106,14 +105,9 @@ include 'order_qrcode/phpqrcode/qrlib.php';
                                     <img src="uploads/last_shap_image.png" alt="">
                                 </div>
                             </div>
-                            <!-- <div class="mshtly_qr">
-                                <img src="uploads/mshtly_qr.png" alt="">
-                            </div> -->
+                    
                         </div>
-                        </br>
-                        </br>
-                        </br>
-                        </br>
+
                     <?php
                     }
                     ?>
@@ -147,7 +141,7 @@ include 'order_qrcode/phpqrcode/qrlib.php';
 
             .shap_info .shap_logo {
                 display: block;
-                width: 90px;
+                width: 60px;
                 text-align: center;
                 margin: auto;
             }
@@ -160,18 +154,23 @@ include 'order_qrcode/phpqrcode/qrlib.php';
             }
 
             .shap_info .product_info h4 {
-                font-size: 18px;
+                font-size: 7px;
                 font-weight: bold;
                 margin-bottom: 15px;
                 color: #000;
             }
 
-            .shap_info .product_info p {}
+            .shap_info .product_info p {
+                font-size: 8px;
+            }
 
-            .shap_info .product_info img {}
+            .shap_info .product_info img {
+                width: 50px;
+            }
 
             .person_info {
                 padding: 10px;
+                font-size: 8px;
             }
 
             .person_info p {
@@ -192,10 +191,12 @@ include 'order_qrcode/phpqrcode/qrlib.php';
                 font-weight: bold;
                 line-height: 1.8;
                 color: #000;
+                font-size: 8px;
             }
 
             .more_info img {
-                width: 90px;
+                width: 45px;
+                height: 45px;
             }
 
             .mshtly_qr {}
@@ -218,6 +219,9 @@ include 'order_qrcode/phpqrcode/qrlib.php';
         margin: auto;
         padding: 0;
         background-color: #fff;
+        width: 5cm !important;
+            /* العرض 5 سم */
+            height: 4cm !important;
     }
 
 
@@ -232,21 +236,26 @@ include 'order_qrcode/phpqrcode/qrlib.php';
             display: none !important;
         }
 
-
-        #print {
-            width: 15cm !important;
-            height: auto;
-            /* الطول يكون بحسب المحتوى */
-            margin: auto;
-            padding: 0;
+        .label-container {
+            page-break-after: always;
         }
 
+        /* ضبط العنصر للطباعة */
+        #print {
+            width: 5cm !important;
+            /* العرض 5 سم */
+            height: 4cm !important;
+            /* الارتفاع 4 سم */
+            margin: auto;
+            padding: 0;
+            background-color: #fff;
+        }
 
 
         .print_order {
-            max-width: 100% !important;
-            padding: 10px !important;
-        }
+        max-width: 100% !important;
+        padding: 5px !important; /* تعديل المسافة الداخلية */
+    }
 
         body {
             background-color: #fff;
@@ -260,12 +269,20 @@ include 'order_qrcode/phpqrcode/qrlib.php';
             display: none !important;
         }
 
+
+        /* ضبط حجم الصفحة للطباعة */
         @page {
+            size: 5cm 4cm;
+            /* العرض 5 سم والارتفاع 4 سم */
             margin: 0;
         }
 
+        /* إعداد الجسم للطباعة */
         body {
-            margin: 1.6cm;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
         }
+
     }
 </style>

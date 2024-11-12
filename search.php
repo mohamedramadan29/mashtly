@@ -3,6 +3,7 @@ ob_start();
 session_start();
 $page_title = 'البحث';
 include "init.php";
+
 // add to favorite
 if (isset($_POST['add_to_fav'])) {
     if (isset($_SESSION['user_id'])) {
@@ -62,8 +63,7 @@ if (isset($_GET['search']) && $_GET['search'] != '') {
     $search = $_GET['search'];
     $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_status_store = 1 AND price !='' AND name LIKE '%$search%'");
 } else {
-    // start get all products
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_status_store = 1 AND name !='' AND price !=''");
+    header("Location:https://www.mshtly.com");
 }
 $stmt->execute();
 $num_products = $stmt->rowCount();
@@ -72,15 +72,12 @@ $pageSize = 20;
 $offset = ($currentpage - 1) * $pageSize;
 if (isset($_GET['search']) && $_GET['search'] != '') {
     $search = $_GET['search'];
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_status_store = 1 AND name LIKE '%$search%'  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_status_store = 1 AND name LIKE '%$search%'  ORDER BY id DESC");
 } else {
-    $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND product_status_store = 1  ORDER BY id DESC LIMIT $pageSize OFFSET :offset");
+    header("Location:https://www.mshtly.com");
 }
-$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $allproducts = $stmt->fetchAll();
-$totalProducts = count($allproducts);
-$totalPages = ceil($num_products / $pageSize);
 ?>
 <!-- START SELECT DATA HEADER -->
 <div class="select_plan_head">
@@ -121,33 +118,6 @@ $totalPages = ceil($num_products / $pageSize);
                         <?php
                         }
                         ?>
-                    </div>
-                    <div class="pagination_section">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                                <li class="page-item <?php echo ($currentpage == 1) ? 'disabled' : ''; ?>">
-                                    <a class="page-link" href="?search=<?php echo $search; ?>&page=<?php echo ($currentpage > 1) ? ($currentpage - 1) : 1; ?>" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-
-                                <?php
-                                for ($i = 1; $i <= $totalPages; $i++) {
-                                    echo '<li class="page-item';
-                                    if ($i == $currentpage) {
-                                        echo ' active';
-                                    }
-                                    echo '"><a class="page-link" href="?search=' . $search . '&page=' . $i . '">' . $i . '</a></li>';
-                                }
-                                ?>
-                                <li class="page-item <?php echo ($currentpage == $totalPages) ? 'disabled' : ''; ?>">
-                                    <a class="page-link" href="?search=<?php echo $search; ?>&page=<?php echo ($currentpage < $totalPages) ? ($currentpage + 1) : $totalPages; ?>" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </nav>
                     </div>
                 </div>
             </div>

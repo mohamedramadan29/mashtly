@@ -210,18 +210,18 @@
                                         $status_value = $_POST['status_value'];
 
                                         // استعلام لجلب الطلبات بين التاريخين مع الشرط الإضافي
-                                        $stmt = $connect->prepare("SELECT * FROM orders WHERE STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND status_value = ?");
+                                        $stmt = $connect->prepare("SELECT * FROM orders WHERE status_value !='pending' AND  STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND status_value = ?");
                                         $stmt->execute(array($start_date_formatted, $end_date_formatted, $status_value));
                                     } else {
                                         // استعلام لجلب الطلبات بين التاريخين بدون الشرط الإضافي
-                                        $stmt = $connect->prepare("SELECT * FROM orders WHERE STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')");
+                                        $stmt = $connect->prepare("SELECT * FROM orders WHERE status_value !='pending' AND  STR_TO_DATE(order_date, '%m/%d/%Y %h:%i %p') BETWEEN STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')");
                                         $stmt->execute(array($start_date_formatted, $end_date_formatted));
                                     }
                                     // جلب جميع النتائج
                                     $allorders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     $count_orders = $stmt->rowCount();
                                 } else {
-                                    $stmt = $connect->prepare("SELECT * FROM orders WHERE   status_value !='pending' AND archieve = 0  ORDER By id DESC");
+                                    $stmt = $connect->prepare("SELECT * FROM orders WHERE status_value !='pending' AND archieve = 0  ORDER By id DESC");
                                     $stmt->execute();
                                     $allorders = $stmt->fetchAll();
                                     $count_orders = $stmt->rowCount();

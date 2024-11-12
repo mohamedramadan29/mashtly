@@ -30,7 +30,7 @@ include "init.php";
                 ?>
                     <div class="col-lg-3">
                         <div class="info">
-                            <img src="admin/post_categories/images/<?php echo $cat['main_image'] ?>" alt="">
+                            <img src="admin/post_categories/images/<?php echo $cat['main_image'] ?>" alt="<?php echo $cat['name'] ?>">
                             <div class="heading">
                                 <h3> <?php echo $cat['name']; ?> </h3>
                                 <p>

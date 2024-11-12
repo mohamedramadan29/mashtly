@@ -140,7 +140,7 @@ $count_post = count(($stmt->fetchAll()));
                         <div class="col-lg-4">
                             <a href="https://www.mshtly.com/blog/<?php echo $post['slug']; ?>" style="text-decoration: none;">
                                 <div class="post_info">
-                                    <img src="https://www.mshtly.com/admin/posts/images/<?php echo $post['main_image'] ?>" alt="">
+                                    <img src="https://www.mshtly.com/admin/posts/images/<?php echo $post['main_image'] ?>" alt="<?php echo $post['name'] ?>">
                                     <h4> <?php echo $post['name']; ?> </h4>
                                     <p> <?php echo $post_desc . "..."; ?> </p>
                                 </div>

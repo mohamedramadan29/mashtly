@@ -267,7 +267,7 @@ $count_orders = $stmt->rowCount();
                         // استعلام للحصول على عدد المبيعات لكل شهر
                         $stmt = $connect->prepare("
                             SELECT DATE_FORMAT(STR_TO_DATE(order_date, '%c/%e/%Y %l:%i %p'), '%Y-%m') AS month, COUNT(*) AS total_sales
-                            FROM orders WHERE status_value !='ملغي' AND status_value !='pending' 
+                            FROM orders WHERE status_value !='pending' 
                             GROUP BY month
                             ORDER BY month 
                         ");
@@ -282,9 +282,7 @@ $count_orders = $stmt->rowCount();
                             $ordermonths[] = $data['month'];
                             $sales[] = $data['total_sales'];
                         }
-
                         ?>
-
                         <canvas id="salesChart" height="250"></canvas>
                         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                         <script>
