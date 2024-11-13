@@ -171,22 +171,22 @@
                             <div class='col-lg-6'>
                                 <?php
                                 // استعلام لجلب إجمالي الإيرادات
-                                $stmtRevenue = $connect->prepare("SELECT SUM(total_price) AS total_revenue FROM orders WHERE status_value != 'pending' AND status_value != 'ملغي'");
+                                $stmtRevenue = $connect->prepare("SELECT SUM(total_price) AS total_revenue FROM orders WHERE status_value != 'pending'");
                                 $stmtRevenue->execute();
                                 $totalRevenue = $stmtRevenue->fetch(PDO::FETCH_ASSOC)['total_revenue'];
 
                                 // استعلام لجلب إجمالي الإيرادات من القديم 
-                                $stmtRevenue_old = $connect->prepare("SELECT SUM(total_price) AS total_revenue_old FROM orders_old WHERE status_value != 'cancelled'");
+                                $stmtRevenue_old = $connect->prepare("SELECT SUM(total_price) AS total_revenue_old FROM orders_old");
                                 $stmtRevenue_old->execute();
                                 $totalRevenue_old = $stmtRevenue_old->fetch(PDO::FETCH_ASSOC)['total_revenue_old'];
 
                                 // استعلام لجلب عدد الطلبات
-                                $stmtCount = $connect->prepare("SELECT COUNT(*) AS order_count FROM orders WHERE status_value != 'pending' AND status_value != 'ملغي'");
+                                $stmtCount = $connect->prepare("SELECT COUNT(*) AS order_count FROM orders WHERE status_value != 'pending'");
                                 $stmtCount->execute();
                                 $count_orders = $stmtCount->fetch(PDO::FETCH_ASSOC)['order_count'];
 
                                 // استعلام لجلب عدد الطلبات
-                                $stmtCount_old = $connect->prepare("SELECT COUNT(*) AS order_count_old FROM orders_old WHERE status_value != 'cancelled'");
+                                $stmtCount_old = $connect->prepare("SELECT COUNT(*) AS order_count_old FROM orders_old");
                                 $stmtCount_old->execute();
                                 $count_orders_old = $stmtCount_old->fetch(PDO::FETCH_ASSOC)['order_count_old'];
 
@@ -233,7 +233,7 @@
                                         // استعلام للحصول على عدد المبيعات لكل شهر
                                         $stmt = $connect->prepare("
                             SELECT DATE_FORMAT(STR_TO_DATE(order_date, '%c/%e/%Y %l:%i %p'), '%Y-%m') AS month, COUNT(*) AS total_sales
-                            FROM orders WHERE status_value !='ملغي' AND status_value !='pending' 
+                            FROM orders WHERE status_value !='pending' 
                             GROUP BY month
                             ORDER BY month 
                         ");

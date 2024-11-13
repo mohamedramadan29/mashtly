@@ -131,7 +131,8 @@
 
                                     // تحويل التواريخ إلى تنسيق 'Y-m-d H:i:s'
                                     $start_date_formatted = date('Y-m-d H:i:s', strtotime($start_date));
-                                    $end_date_formatted = date('Y-m-d H:i:s', strtotime($end_date));
+                                    //$end_date_formatted = date('Y-m-d H:i:s', strtotime($end_date));
+                                    $end_date_formatted = date('Y-m-d H:i:s', strtotime($end_date . ' +1 day'));
 
                                     // echo "تاريخ البداية: " . $start_date_formatted . "<br>";
                                     // echo "تاريخ النهاية: " . $end_date_formatted . "<br>";

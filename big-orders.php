@@ -82,6 +82,7 @@ include "init.php";
         </div>
     </form>
     <?php
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $company_name = sanitizeInput($_POST['company_name']);
         $company_person_name = sanitizeInput($_POST['company_person_name']);
@@ -92,6 +93,8 @@ include "init.php";
         $request_type = $_POST['request_type'];
         $request_type = implode(',', (array) $request_type);
         $date = date("Y-m-d");
+
+        echo $phone;
         $formerror = [];
         if (empty($company_name) || empty($company_person_name) || empty($phone) || empty($email) || empty($city)  || empty($request_type) || empty($order_details)) {
             $formerror[] = 'من فضلك ادخل المعلومات كاملة ';

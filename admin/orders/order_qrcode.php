@@ -57,7 +57,7 @@ include 'order_qrcode/phpqrcode/qrlib.php';
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class="card-body" id="print">
+                <div class="card-body">
                     <?php
                     $stmt = $connect->prepare("SELECT * FROM order_details WHERE order_id = ?");
                     $stmt->execute(array($order_id));
@@ -78,12 +78,11 @@ include 'order_qrcode/phpqrcode/qrlib.php';
 
                         $qrCodeImage = 'data:image/png;base64,' . $imageString;
                     ?>
-                        <div class="label-container">
+                        <div id="print">
                             <!-- <div class="logo text-center">
                                 <img style="max-width: 100%;" src="uploads/qr_header.png" alt="">
                             </div> -->
-
-                            <div class="shap_info">
+                            <div class="shap_info label-container">
                                 <img class="shap_logo" src="uploads/logo.png">
                                 <div class="product_info">
                                     <div style="max-width: 50%;">
@@ -127,18 +126,21 @@ include 'order_qrcode/phpqrcode/qrlib.php';
                                 document.title = document.getElementById('customername').value;
                                 console.log("استعادة عنوان الصفحة الأصلي: " + document.title);
                             };
+
+
                         }
                     </script>
+
                 </div>
             </div>
         </div>
         <style>
             .shap_info {
-                border: 1px solid #000;
+                /* border: 1px solid #000;
                 padding-top: 0px;
                 margin: 1px;
                 width: 5cm !important;
-                height: 4cm !important;
+                height: 4cm !important; */
             }
 
             .shap_info .shap_logo {
@@ -209,18 +211,6 @@ include 'order_qrcode/phpqrcode/qrlib.php';
                 margin: auto;
                 display: block;
             }
-
-
-            .label-container {
-                page-break-after: always;
-                width: 5cm !important;
-                /* العرض 5 سم */
-                height: 4cm !important;
-                /* الارتفاع 4 سم */
-                margin: auto;
-                padding: 0;
-                background-color: #fff;
-            }
         </style>
     </div>
     <!-- /.container-fluid -->
@@ -228,17 +218,42 @@ include 'order_qrcode/phpqrcode/qrlib.php';
 
 <style>
     #print {
-        width: 15cm !important;
+
         height: auto;
         /* الطول يكون بحسب المحتوى */
         margin: auto;
         padding: 0;
         background-color: #fff;
-     
+
+
     }
 
+    .content-wrapper>.content {
+        width: 50mm;
+        margin: 0;
+        padding: 0;
+    }
+
+    .card-body {
+        margin: 0;
+        padding: 0;
+    }
 
     @media print {
+
+        /* ضبط حجم الصفحة للطباعة */
+        @page {
+            size: 50mm 40mm;
+            margin: 0;
+            padding: 0;
+            transform-origin: top center;
+        }
+
+        .content-wrapper>.content {
+            width: 50mm;
+            margin: 0;
+            padding: 0;
+        }
 
         .footer,
         .bottom_footer,
@@ -249,32 +264,36 @@ include 'order_qrcode/phpqrcode/qrlib.php';
             display: none !important;
         }
 
-        .label-container {
-            page-break-after: always;
-            /* width: 5cm !important;
-            
-            height: 4cm !important;
-           
-            margin: auto;
+        .card-body {
+            margin: 0;
             padding: 0;
-            background-color: #fff; */
+        }
+
+        .container-fluid {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* تنسيق العنصر الرئيسي ليملأ الورقة بالكامل */
+        .label-container {
+            transform-origin: top left;
+            page-break-before: always;
+            width: 100%;
+            margin: auto;
+            display: block;
+
         }
 
         /* ضبط العنصر للطباعة */
         #print {
-            
+
+            /* تقليص الحجم بنسبة 70% */
+            transform-origin: top center; 
+            margin: auto;
+            display: block; 
+            /* تحديد نقطة الأصل */
         }
 
-
-        .print_order {
-            max-width: 100% !important;
-            padding: 5px !important;
-            /* تعديل المسافة الداخلية */
-        }
-
-        body {
-            background-color: #fff;
-        }
 
         #print_Button {
             display: none !important;
@@ -285,25 +304,101 @@ include 'order_qrcode/phpqrcode/qrlib.php';
         }
 
 
-        /* ضبط حجم الصفحة للطباعة */
-        @page {
-            /* size: 5cm 4cm; */
-            /* العرض 5 سم والارتفاع 4 سم */
-            margin: 0;
-        }
+
+
 
         /* إعداد الجسم للطباعة */
         body {
+            width: 50mm;
+            height: 40mm;
+
+            overflow: hidden;
+            /* إخفاء المحتوى الزائد */
+            font-size: 10px;
+            width: 100%;
+            margin: auto;
+            display: block;
+            /* تقليص حجم الخط */
+            transform-origin: top center;
             margin: 0;
             padding: 0;
-            background-color: #fff;
         }
+
         .shap_info {
-                border: 1px solid #000;
-                padding-top: 0px;
-                margin: 1px;
-                width: 5cm !important;
-                height: 4cm !important;
+
+            border: 1px solid #000;
+            font-size: 8px;
+        }
+
+        .shap_info .shap_logo {
+                display: block;
+                width: 40px;
+                text-align: center;
+                margin: auto;
             }
+
+            .shap_info .product_info {
+                display: flex;
+                justify-content: space-between;
+                padding: 1px;
+                border-bottom: 1px solid #000;
+            }
+
+            .shap_info .product_info h4 {
+                font-size: 6px;
+                font-weight: bold;
+                margin-bottom: 0px;
+                color: #000;
+            }
+
+            .shap_info .product_info p {
+                font-size: 6px;
+            }
+
+            .shap_info .product_info img {
+                width: 40px;
+            }
+
+            .person_info {
+                padding: 1px;
+                font-size: 7px;
+            }
+
+            .person_info p {
+                font-weight: bold;
+                color: #000;
+                margin: 1px;
+            }
+
+            .person_info p span {}
+
+            .more_info {
+                padding: 1px;
+                border-top: 1px solid #000;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .more_info h5 {
+                font-weight: bold;
+                line-height: 1.2;
+                color: #000;
+                font-size: 7px;
+            }
+
+            .more_info img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .mshtly_qr {}
+
+            .mshtly_qr img {
+                max-width: 75%;
+                margin: auto;
+                display: block;
+            }
+
+
     }
 </style>

@@ -3,8 +3,24 @@ include 'admin/connect.php';
 // Function to sanitize input
 function sanitizeInput($input)
 {
-    // Use appropriate sanitization or validation techniques based on your requirements
-    $sanitizedInput = htmlspecialchars(trim($input));
+    // Trim and remove unnecessary characters
+    $sanitizedInput = trim($input);
+    $sanitizedInput = stripslashes($sanitizedInput);
+    $sanitizedInput = htmlspecialchars($sanitizedInput, ENT_QUOTES, 'UTF-8');
+    
+    // Convert the input to lowercase for consistent keyword matching
+    $dataLower = strtolower($sanitizedInput);
+    
+    // Define an array of SQL keywords to filter out
+    $sql_keywords = ['select', 'sleep', 'delete', 'insert', 'update', 'drop', 'alter', '--','>','<','!=','!!','<>', '#', '/*', '*/','alert','script','Injected','&amp','amp','Injected','OR','AND','waitfor delay','waitfor','delay'];
+    
+    // Check for SQL keywords and remove or replace them with empty strings
+    foreach ($sql_keywords as $keyword) {
+        if (strpos($dataLower, $keyword) !== false) {
+            $sanitizedInput = str_ireplace($keyword, '', $sanitizedInput);
+        }
+    }
+    
     return $sanitizedInput;
 }
 

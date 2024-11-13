@@ -7,7 +7,8 @@ $groupBy = isset($_GET['groupBy']) ? $_GET['groupBy'] : 'day'; // القيمة �
 
 // تحويل التواريخ إلى تنسيق 'Y-m-d H:i:s'
 $fromDateFormatted = date('Y-m-d H:i:s', strtotime($fromDate));
-$toDateFormatted = date('Y-m-d H:i:s', strtotime($toDate));
+$toDateFormatted = date('Y-m-d H:i:s', strtotime($toDate . '+1 day'));
+
 
 
 // استعلام لجلب الطلبات بين التاريخين مع الشرط الإضافي
