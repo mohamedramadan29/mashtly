@@ -71,9 +71,9 @@ include 'order_qrcode/phpqrcode/qrlib.php';
                         $productUrl = 'https://www.mshtly.com/product/' . $product_data['slug'];
 
                         // توليد رمز QR كصورة Base64
-                        ob_start();
-                        QRcode::png($productUrl, null, QR_ECLEVEL_L, 4);
-                        $imageString = base64_encode(ob_get_contents());
+                        ob_start(); 
+                        QRcode::png($productUrl, null, QR_ECLEVEL_H, 6, 2); 
+                        $imageString = base64_encode(ob_get_contents()); 
                         ob_end_clean();
 
                         $qrCodeImage = 'data:image/png;base64,' . $imageString;
@@ -83,15 +83,15 @@ include 'order_qrcode/phpqrcode/qrlib.php';
                                 <img style="max-width: 100%;" src="uploads/qr_header.png" alt="">
                             </div> -->
                             <div class="shap_info label-container">
-                                <img class="shap_logo" src="uploads/logo.png">
+                                <h5 style="text-align: center; font-size:12px;"> مشتلي  </h5>
                                 <div class="product_info">
                                     <div style="max-width: 50%;">
                                         <h4> اسم المنتج : </h4>
                                         <p> <?php echo $product_data['name']; ?> </p>
                                     </div>
-                                    <div>
+                                    <div style="width: 50%; text-algin:center">
                                         <h4> رمز QR لصفحة المنتج: </h4>
-                                        <img src="<?php echo $qrCodeImage; ?>" alt="QR Code لصفحة المنتج">
+                                        <img style=" " src="<?php echo $qrCodeImage; ?>" alt="QR Code لصفحة المنتج">
                                     </div>
                                 </div>
                                 <div class="person_info">
@@ -136,11 +136,7 @@ include 'order_qrcode/phpqrcode/qrlib.php';
         </div>
         <style>
             .shap_info {
-                /* border: 1px solid #000;
-                padding-top: 0px;
-                margin: 1px;
-                width: 5cm !important;
-                height: 4cm !important; */
+                border: 1px solid #000;
             }
 
             .shap_info .shap_logo {
@@ -221,7 +217,7 @@ include 'order_qrcode/phpqrcode/qrlib.php';
 
         height: auto;
         /* الطول يكون بحسب المحتوى */
-        margin: auto;
+        margin: 0;
         padding: 0;
         background-color: #fff;
 
@@ -255,6 +251,11 @@ include 'order_qrcode/phpqrcode/qrlib.php';
             padding: 0;
         }
 
+        #print{
+            margin: 0;
+            padding: 0;
+        }
+
         .footer,
         .bottom_footer,
         .main_navbar,
@@ -279,19 +280,15 @@ include 'order_qrcode/phpqrcode/qrlib.php';
             transform-origin: top left;
             page-break-before: always;
             width: 100%;
-            margin: auto;
+            margin: 0;
+            padding: 0;
             display: block;
 
         }
 
         /* ضبط العنصر للطباعة */
         #print {
-
-            /* تقليص الحجم بنسبة 70% */
-            transform-origin: top center; 
-            margin: auto;
-            display: block; 
-            /* تحديد نقطة الأصل */
+ 
         }
 
 
@@ -302,16 +299,10 @@ include 'order_qrcode/phpqrcode/qrlib.php';
         .print-link {
             display: none !important;
         }
-
-
-
-
-
         /* إعداد الجسم للطباعة */
         body {
-            width: 50mm;
-            height: 40mm;
-
+            font-family: Arial, sans-serif;
+       
             overflow: hidden;
             /* إخفاء المحتوى الزائد */
             font-size: 10px;
@@ -325,80 +316,100 @@ include 'order_qrcode/phpqrcode/qrlib.php';
         }
 
         .shap_info {
-
             border: 1px solid #000;
             font-size: 8px;
         }
-
         .shap_info .shap_logo {
-                display: block;
-                width: 40px;
-                text-align: center;
-                margin: auto;
-            }
+            display: block;
+            width: 40px;
+            text-align: center;
+            margin: auto;
+        }
 
-            .shap_info .product_info {
-                display: flex;
-                justify-content: space-between;
-                padding: 1px;
-                border-bottom: 1px solid #000;
-            }
+        .shap_info .product_info {
+            display: flex;
+            justify-content: space-between;
+            padding: 1px;
+            border-bottom: 1px solid #000;
+        }
 
-            .shap_info .product_info h4 {
-                font-size: 6px;
-                font-weight: bold;
-                margin-bottom: 0px;
-                color: #000;
-            }
+        .shap_info .product_info h4 {
+            font-size: 6px;
+            font-weight: bold;
+            margin-bottom: 0px;
+            color: #000;
+        }
 
-            .shap_info .product_info p {
-                font-size: 6px;
-            }
+        .shap_info .product_info p {
+            font-size: 6px;
+        }
 
-            .shap_info .product_info img {
-                width: 40px;
-            }
+        .shap_info .product_info img {
+            width: 40px;
+        }
 
-            .person_info {
-                padding: 1px;
-                font-size: 7px;
-            }
+        .person_info {
+            padding: 1px;
+            font-size: 7px;
+        }
 
-            .person_info p {
-                font-weight: bold;
-                color: #000;
-                margin: 1px;
-            }
+        .person_info p {
+            font-weight: bold;
+            color: #000;
+            margin: 1px;
+        }
 
-            .person_info p span {}
+        .person_info p span {}
 
-            .more_info {
-                padding: 1px;
-                border-top: 1px solid #000;
-                display: flex;
-                justify-content: space-between;
-            }
+        .more_info {
+            padding: 1px;
+            border-top: 1px solid #000;
+            display: flex;
+            justify-content: space-between;
+        }
 
-            .more_info h5 {
-                font-weight: bold;
-                line-height: 1.2;
-                color: #000;
-                font-size: 7px;
-            }
+        .more_info h5 {
+            font-weight: bold;
+            line-height: 1.2;
+            color: #000;
+            font-size: 7px;
+        }
 
-            .more_info img {
-                width: 40px;
-                height: 40px;
-            }
+        .more_info img {
+            width: 40px;
+            height: 40px;
+        }
 
-            .mshtly_qr {}
+        .mshtly_qr {}
 
-            .mshtly_qr img {
-                max-width: 75%;
-                margin: auto;
-                display: block;
-            }
+        .mshtly_qr img {
+            max-width: 75%;
+            margin: auto;
+            display: block;
+        }
 
+        .shap_info .product_info img,
+        .more_info img,
+        .mshtly_qr img {
+            max-width: 100%;
+            /* ضمان ملء العنصر */
+            height: auto;
+            /* الحفاظ على نسبة الأبعاد */
+            display: block;
+            /* التأكد من عرض الصورة */
+            margin: auto;
+            /* توسيط الصورة */
+        }
+
+        .mshtly_qr img {
+            max-width: 90%;
+            /* زيادة الحجم */
+            height: auto;
+            margin: auto;
+            display: block;
+            border: 1px solid #000;
+            /* لإضافة حواف واضحة */
+        }
 
     }
 </style>
