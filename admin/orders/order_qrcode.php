@@ -82,7 +82,7 @@ include 'order_qrcode/phpqrcode/qrlib.php';
                             <div class="shap_info label-container"> 
                                 <div class="product_info">
                                     <div style="max-width:50%">
-                                        <h4> اسم المنتج : </h4>
+                                        <h4> اسم المنتج   </h4>
                                         <p> <?php echo $product_data['name']; ?> </p>
                                         <?php
                                         // get more details data
@@ -96,7 +96,7 @@ include 'order_qrcode/phpqrcode/qrlib.php';
                                         <span style="font-size:7px;color:#000;font-weight:bold"><?php echo $more_detail_name; ?></span>
                                     </div>
                                     <div style="text-algin:center">
-                                        <h4> رمز صفحة المنتج : </h4>
+                                        <h4> رمز صفحة المنتج   </h4>
                                         <img style=" " src="<?php echo $qrCodeImage; ?>" alt="QR Code لصفحة المنتج">
                                     </div>
                                 </div>
@@ -173,10 +173,11 @@ include 'order_qrcode/phpqrcode/qrlib.php';
                 font-weight: bold;
                 margin-bottom: 0px;
                 color: #000;
+                text-align: center;
             }
 
             .shap_info .product_info p {
-                font-size: 6px;
+                font-size: 9px;
             }
 
             .shap_info .product_info img {
@@ -347,17 +348,18 @@ include 'order_qrcode/phpqrcode/qrlib.php';
         }
 
         .shap_info .product_info h4 {
-            font-size: 6px;
+            font-size: 8px;
             font-weight: bold;
-            margin-bottom: 0px;
+            margin-bottom: -2px;
             color: #000;
+            text-align: center;
         }
 
         .shap_info .product_info p {
             font-weight: bold;
             color: #000;
             margin: 1px;
-            font-size: 8px;
+            font-size: 9px;
             padding: 0;
         }
 
@@ -373,14 +375,14 @@ include 'order_qrcode/phpqrcode/qrlib.php';
         .person_info p {
             font-weight: bold;
             color: #000;
-            margin: 1px;
+            margin: 0px;
         }
 
         .person_info p span {}
 
         .more_info {
             padding-right: 5px;
-            border-top: 1px solid #000;
+            border-top: .5px solid #000;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -391,11 +393,13 @@ include 'order_qrcode/phpqrcode/qrlib.php';
             line-height: 1;
             color: #000;
             font-size: 8px;
+            margin-top: 2px;
         }
 
         .more_info img {
             width: 22px;
             height: 22px;
+            margin-left: 10px;
         }
  
  
