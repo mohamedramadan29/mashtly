@@ -5,6 +5,7 @@ $keyword1 = "product";
 $keyword2 = "blog";
 $keyword3 = "land_details";
 $keyword4 = 'product-category';
+$keyword5 = 'blog-categories-details';
 // تقسيم الرابط بناءً على "/" والحصول على جزء الاسم بعد "product/"
 $url_parts = explode('/', $current_url);
 $product_index = array_search($keyword1, $url_parts);
@@ -73,4 +74,26 @@ if ($category_index !== false && isset($url_parts[$category_index + 1])) {
         $description = $description; // Use the full description if it's shorter than 160 characters
     }
     $meta_title = $product_data['name'];
+}
+
+$blog_category_index = array_search($keyword5, $url_parts);
+if ($blog_category_index !== false && isset($url_parts[$blog_category_index + 1])) {
+    $blog_category_index = $url_parts[$blog_category_index + 1];
+    $slug = urldecode(string: $blog_category_index);
+    $stmt = $connect->prepare("SELECT * FROM category_posts WHERE slug = ? ORDER BY id DESC LIMIT 1 ");
+    $stmt->execute(array($slug));
+    $category_data = $stmt->fetch();
+    $count  = $stmt->rowCount();
+    /* get the product meta */
+    $meta_keywords = '';
+    $meta_short_description = strip_tags($category_data['description']);
+    $description = $category_data['description'];
+    $description = strip_tags($description);
+    $maxLength = 160;
+    if (strlen($description) > $maxLength) {
+        $description = substr($description, 0, $maxLength) . '...'; // Truncate and add ellipsis
+    } else {
+        $description = $description; // Use the full description if it's shorter than 160 characters
+    }
+    $meta_title = $category_data['name'];
 }

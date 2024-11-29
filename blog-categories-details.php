@@ -2,6 +2,7 @@
 ob_start();
 session_start();
 $page_title = ' المدونة ';
+
 include "init.php";
 
 // الحصول على الجزء من العنوان بعد اسم الملف (مثل product)
@@ -45,11 +46,11 @@ $count_post = count(($stmt->fetchAll()));
     <div class='container'>
         <div class="data">
             <div class="breadcrump">
-                <p> <a href="index"> الرئيسية </a> \ <span> المدونة </span> </p>
+                <p> <a href="index"> الرئيسية </a> \ <span> <?php  echo $cat_data['name'] ?> </span> </p>
             </div>
             <div class="purches_header">
                 <div class="data_header_name">
-                    <h2 class='header2'> المدونة </h2>
+                    <h2 class='header2'> <?php  echo $cat_data['name'] ?> </h2>
                     <p> اجمالي عدد المقالات : <span> <?php echo $count_post; ?> </span></p>
                 </div>
             </div>
