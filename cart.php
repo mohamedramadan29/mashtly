@@ -2,6 +2,7 @@
 ob_start();
 session_start();
 $page_title = 'سلة الشراء ';
+$description = 'سلة الشراء، أكمل تسوقك بسهولة عبر متجر مشتلي للنباتات، راجع منتجاتك المفضلة وأضف اللمسات النهائية لتأكيد طلبك. استمتع بتجربة تسوق آمنة ومريحة عبر خطوات بسيطة';
 include "init.php";
 // add to favorite
 if (isset($_POST['add_to_fav'])) {

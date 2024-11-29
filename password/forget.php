@@ -3,6 +3,7 @@
 ob_start();
 session_start();
 $page_title = 'نسيت كلمة المرور';
+$description=' نسيت كلمة المرور، أدخل بريدك الإلكتروني المسجل لاستعادة كلمة المرور بسهولة. ستتلقى كلمة مرور جديدة عبر البريد الإلكتروني لاستعادة الوصول إلى حسابك في مشتلي.';
 include "init.php";
 require_once '../send_mail/vendor/autoload.php';
 ?>

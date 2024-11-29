@@ -1,7 +1,8 @@
 <?php
 ob_start();
 session_start();
-$page_title = 'الرئيسية';
+$page_title = 'سياسة الدفع';
+$description = 'سياسة الدفع توفر خيارات متنوعة تشمل الدفع عند الاستلام، بطاقة الائتمان، وPayPal لضمان تجربة شراء آمنة وسلسة عبر موقع مشتلي، مع حماية بيانات الدفع الخاصة بكم.';
     include "init.php";
 ?>
 <div class="profile_page new_address_page">

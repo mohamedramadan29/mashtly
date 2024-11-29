@@ -2,6 +2,7 @@
 ob_start();
 session_start();
 $page_title = ' استبيان للموقع   ';
+$description = 'تقييم العملاء وارائهم حول منتجات وخدمات متجر مشتلي. اكتشف تجاربهم السابقة خلال تجربة الشراء لتساعدك في اتخاذ قرارات شراء أفضل. قراءة المراجعات الآن في الاسفل';
 include 'init.php';
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];

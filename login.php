@@ -1,7 +1,8 @@
 <?php
 ob_start();
 session_start();
-$page_title = 'الرئيسية';
+$page_title = 'تسجيل الدخول';
+$description = 'سجل الدخول للوصول إلى أفضل النباتات المنزلية وتصاميم الحدائق المميزة. استمتع بخدمات زراعية فريدة وحلول لتجميل المساحات الخارجية والداخلية بأسهل الطرق الممكنة.';
 include "init.php";
 if (isset($_SESSION['user_id'])) {
     header("location:profile");

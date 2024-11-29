@@ -2,6 +2,7 @@
 ob_start();
 session_start();
 $page_title = ' مشتلي - المتجر  ';
+$description = 'متجر مشتلي حيث تجد أفضل تشكيلة من النباتات والأشجار والمستلزمات الزراعية بالاضافة الى أحواض الزراعة. تسوق بسهولة وجودة مضمونة لتلبية احتياجات حديقتك ومنزلك.';
 include "init.php";
 // add to favorite
 if (isset($_POST['add_to_fav'])) {

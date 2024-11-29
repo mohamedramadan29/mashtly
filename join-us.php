@@ -1,7 +1,8 @@
 <?php
 ob_start();
 session_start();
-$page_title = 'الرئيسية';
+$page_title = 'انضم الينا';
+$description = 'انضم إلى فريق مشتلي وكن جزءًا من بيئة عمل إبداعية ومميزة. اكتشف الفرص المتاحة، وطوّر مهاراتك في البستنة، وشارك شغفك مع فريق متخصص في عالم النباتات والزراعة';
 include "init.php";
 ?>
 <div class="profile_page adress_page">

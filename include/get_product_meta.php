@@ -41,6 +41,7 @@ if ($blog_index !== false && isset($url_parts[$blog_index + 1])) {
     $meta_short_description = strip_tags($product_data['short_desc']);
     $meta_title = $product_data['name'];
 }
+
 if (isset($_GET['slug']) && strpos($current_url, $keyword3) !== false) {
     $slug = $_GET['slug'];
     $stmt = $connect->prepare("SELECT * FROM landscap WHERE slug = ? ORDER BY id DESC LIMIT 1 ");

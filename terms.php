@@ -2,6 +2,7 @@
 ob_start();
 session_start();
 $page_title = ' شروط الاستخدام';
+$description='شروط وأحكام الاستخدام الخاصة بموقع مشتلي والتي تشمل قواعد شراء النباتات والخصوصية وسياسات التعامل مع الطلبات، قراءة هذه البنود تضمن تجربة تسوق سلسة وآمنة.';
 include 'init.php';
 ?>
 <div class="profile_page new_address_page">

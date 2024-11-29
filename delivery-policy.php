@@ -1,7 +1,8 @@
 <?php
 ob_start();
 session_start();
-$page_title = 'الرئيسية';
+$page_title = 'التوصيل والإرجاع';
+$description = 'سياسة التوصيل والإرجاع تعرف عليهما من مشتلي مع تفاصيل شاملة حول الشروط، أوقات التوصيل، وتكاليف الشحن، لضمان تجربة تسوق سهلة وآمنة بوصول سريع لجميع طلباتك بسلام';
     include "init.php";
 ?>
 <div class="profile_page new_address_page">
