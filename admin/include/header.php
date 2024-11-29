@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="dist/css/dropify.min.css">
   <link rel="stylesheet" href="dist/css/bootstrap-rtl.min.css">
 
+  <script src="https://cdn.tiny.cloud/1/yarh0eqmcfzdxf1md0ocq6unm36dr3h0vuekgnrgry3ilwaq/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
@@ -49,3 +50,48 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
+
+    <script>
+      tinymce.init({
+        selector: '.tinymce',
+        height: 300,
+        directionality: 'rtl', // لجعل المحرر يعمل من اليمين إلى اليسار
+        language: 'ar',
+        plugins: [
+          'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
+          'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
+          'media', 'table', 'emoticons', 'help'
+        ],
+        toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
+          'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
+          'forecolor backcolor emoticons',
+        menu: {
+          favs: {
+            title: 'My Favorites',
+            items: 'code visualaid | searchreplace | emoticons'
+          }
+        },
+        image_title: true, // السماح بتعديل العنوان
+        automatic_uploads: true,
+        images_upload_url: 'post_uploads', // مسار API لاستقبال الصور
+        file_picker_types: 'image',
+        file_picker_callback: function(cb, value, meta) {
+          if (meta.filetype === 'image') {
+            var input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*');
+            input.onchange = function() {
+              var file = this.files[0];
+              var reader = new FileReader();
+              reader.onload = function() {
+                cb(reader.result, {
+                  title: file.name
+                });
+              };
+              reader.readAsDataURL(file);
+            };
+            input.click();
+          }
+        }
+      });
+    </script>

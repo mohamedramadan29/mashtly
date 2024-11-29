@@ -114,9 +114,18 @@ if (isset($_POST['edit_cat'])) {
         $cat_data = $stmt->fetch();
         $cat_name = $cat_data['name'];
         try {
-            $stmt = $connect->prepare("UPDATE posts SET name=?,cat_id=?,slug=?,short_desc=?,description=?,description2=?,tags=?,image_name=?,image_alt=?,image_desc=?,image_keys=?,category=?,date=?,publish=? WHERE id = ? ");
+            $stmt = $connect->prepare("UPDATE posts SET name=?,cat_id=?,slug=?,short_desc=?,description=?,description2=?,tags=?,image_name=?,image_alt=?,image_desc=?,image_keys=?,category=?,date=?,publish=?,updated_at = NOW() WHERE id = ? ");
             $stmt->execute(array($name, $cat_id, $slug, $short_desc, $description, $description2, $tags, $image_name, $image_alt, $image_desc, $image_keys, $cat_name, $date, $publish, $post_id));
             if ($stmt) {
+                // استدعاء رابط تحديث السايت ماب
+                $sitemap_url = 'https://www.mshtly.com/admin/main.php?dir=sitemap&page=sitemap';
+                file_get_contents($sitemap_url);
+
+                // $_SESSION['success_message'] = "تم التعديل بنجاح ";
+                // header('Location:main.php?dir=posts&page=edit&post_id=' . $post_id);
+                // exit();
+
+
                 $_SESSION['success_message'] = "تم التعديل بنجاح ";
                 header('Location:main.php?dir=posts&page=edit&post_id=' . $post_id);
                 exit();
@@ -223,15 +232,15 @@ if (isset($_POST['edit_cat'])) {
                                     </div>
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> الوصف </label>
-                                        <textarea class="summernote" style="height: 150px;" id="summernote" name="description" class="form-control"><?php echo $post['description']; ?></textarea>
+                                        <textarea class="form-control tinymce" style="height: 150px;" name="description" class="form-control"><?php echo $post['description']; ?></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> تكملة الوصف </label>
-                                        <textarea class="summernote" style="height: 150px;" id="summernote" name="description2" class="form-control"><?php echo $post['description2']; ?></textarea>
+                                        <textarea class="tinymce form-control" style="height: 150px;" name="description2" class="form-control"><?php echo $post['description2']; ?></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> وصف مختصر </label>
-                                        <textarea style="height: 70px;" id="Company-2" name="short_desc" class="form-control summernote"><?php echo $post['short_desc']; ?></textarea>
+                                        <textarea style="height: 70px;" id="Company-2" name="short_desc" class="form-control"><?php echo $post['short_desc']; ?></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="customFile"> تعديل صورة القسم </label>

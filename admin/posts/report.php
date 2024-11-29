@@ -136,6 +136,7 @@
                                         <th> # </th>
                                         <th>الأسم </th>
                                         <th> القسم </th>
+                                        <th> الكاتب </th>
                                         <th> الصورة </th>
                                         <th> العمليات </th>
                                     </tr>
@@ -162,6 +163,16 @@
                                                 */
                                                 echo $post['category']; ?>
                                             </td>
+                                            <td> <?php
+                                                    if (!empty($post['writer_id'])) {
+                                                        $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
+                                                        $stmt->execute(array($post["writer_id"]));
+                                                        $writer_data =  $stmt->fetch();
+                                                      echo   $writer_data["username"];
+                                                    } else {
+                                                        echo "الادمن ";
+                                                    }
+                                                    ?> </td>
                                             <td> <img style="width: 60px; height:60px" src="posts/images/<?php echo $post['main_image']; ?> " alt=""></td>
                                             <td>
                                                 <a href="main.php?dir=posts&page=edit&post_id=<?php echo $post['id']; ?>" class="btn btn-success btn-sm"> <i class='fa fa-pen'></i>

@@ -19,7 +19,7 @@ foreach ($allproducts as $product) {
     $productUrl = 'https://mshtly.com/product/' . $product['slug'];
     $urls[] = [
         'loc' => $productUrl,
-        'lastmod' => (new DateTime())->format('c'),
+        'lastmod' => (new DateTime($product['updated_at']))->format('c'),
         'changefreq' => 'always',
         'priority' => 0.5,
     ];
@@ -47,98 +47,88 @@ foreach ($allarticles as $article) {
     $articleUrl = 'https://mshtly.com/blog/' . $article['slug'];
     $urls[] = [
         'loc' => $articleUrl,
-        'lastmod' => (new DateTime())->format('c'),
+        'lastmod' => (new DateTime($article['updated_at']))->format('c'),
         'changefreq' => 'always',
         'priority' => 0.5,
     ];
 }
 
 // Add other pages to the sitemap
-$urls[] = [
-    'loc' => 'https://mshtly.com',
-    'lastmod' => (new DateTime())->format('c'),
-    'changefreq' => 'daily',
-    'priority' => 0.8,
-];
-$urls[] = [
-    'loc' => 'https://mshtly.com/cart',
-    'lastmod' => (new DateTime())->format('c'),
-    'changefreq' => 'daily',
-    'priority' => 1.0,
+$urls = [
+    [
+        'loc' => 'https://mshtly.com',
+        'lastmod' => (new DateTime('2024-11-01'))->format('c'),
+        'changefreq' => 'daily',
+        'priority' => 1.0,
+    ],
+    [
+        'loc' => 'https://mshtly.com/cart',
+        'lastmod' => (new DateTime('2024-11-01'))->format('c'),
+        'changefreq' => 'daily',
+        'priority' => 0.9,
+    ],
+    [
+        'loc' => 'https://mshtly.com/checkout',
+        'lastmod' => (new DateTime('2024-11-01'))->format('c'),
+        'changefreq' => 'weekly',
+        'priority' => 0.8,
+    ],
+    [
+        'loc' => 'https://mshtly.com/big-orders',
+        'lastmod' => (new DateTime('2024-11-01'))->format('c'),
+        'changefreq' => 'monthly',
+        'priority' => 0.7,
+    ],
+    [
+        'loc' => 'https://mshtly.com/contact',
+        'lastmod' => (new DateTime('2024-11-01'))->format('c'),
+        'changefreq' => 'monthly',
+        'priority' => 0.7,
+    ],
+    [
+        'loc' => 'https://mshtly.com/join-us',
+        'lastmod' => (new DateTime('2024-11-01'))->format('c'),
+        'changefreq' => 'monthly',
+        'priority' => 0.7,
+    ],
+    [
+        'loc' => 'https://mshtly.com/faq',
+        'lastmod' => (new DateTime('2024-11-01'))->format('c'),
+        'changefreq' => 'monthly',
+        'priority' => 0.7,
+    ],
+    [
+        'loc' => 'https://mshtly.com/delivery-policy',
+        'lastmod' => (new DateTime('2024-11-01'))->format('c'),
+        'changefreq' => 'yearly',
+        'priority' => 0.6,
+    ],
+    [
+        'loc' => 'https://mshtly.com/blog',
+        'lastmod' => (new DateTime('2024-11-01'))->format('c'),
+        'changefreq' => 'weekly',
+        'priority' => 0.8,
+    ],
+    [
+        'loc' => 'https://mshtly.com/landscap',
+        'lastmod' => (new DateTime('2024-11-01'))->format('c'),
+        'changefreq' => 'monthly',
+        'priority' => 0.7,
+    ],
+    [
+        'loc' => 'https://mshtly.com/shop',
+        'lastmod' => (new DateTime('2024-11-01'))->format('c'),
+        'changefreq' => 'weekly',
+        'priority' => 0.8,
+    ],
+    [
+        'loc' => 'https://mshtly.com/terms',
+        'lastmod' => (new DateTime('2024-11-01'))->format('c'),
+        'changefreq' => 'yearly',
+        'priority' => 0.5,
+    ],
 ];
 
-$urls[] = [
-    'loc' => 'https://mshtly.com/checkout',
-    'lastmod' => (new DateTime())->format('c'),
-    'changefreq' => 'monthly',
-    'priority' => 0.7,
-];
-$urls[] = [
-    'loc' => 'https://mshtly.com/big_orders',
-    'lastmod' => (new DateTime())->format('c'),
-    'changefreq' => 'monthly',
-    'priority' => 0.7,
-];
-$urls[] = [
-    'loc' => 'https://mshtly.com/contact',
-    'lastmod' => (new DateTime())->format('c'),
-    'changefreq' => 'monthly',
-    'priority' => 0.7,
-];
-// $urls[] = [
-//     'loc' => 'https://mshtly.com/import_service',
-//     'lastmod' => (new DateTime())->format('c'),
-//     'changefreq' => 'monthly',
-//     'priority' => 0.7,
-// ];
-$urls[] = [
-    'loc' => 'https://mshtly.com/join_us',
-    'lastmod' => (new DateTime())->format('c'),
-    'changefreq' => 'monthly',
-    'priority' => 0.7,
-];
-// $urls[] = [
-//     'loc' => 'https://mshtly.com/gifts',
-//     'lastmod' => (new DateTime())->format('c'),
-//     'changefreq' => 'monthly',
-//     'priority' => 0.7,
-// ];
-$urls[] = [
-    'loc' => 'https://mshtly.com/faq',
-    'lastmod' => (new DateTime())->format('c'),
-    'changefreq' => 'monthly',
-    'priority' => 0.7,
-];
-$urls[] = [
-    'loc' => 'https://mshtly.com/delivery_policy',
-    'lastmod' => (new DateTime())->format('c'),
-    'changefreq' => 'monthly',
-    'priority' => 0.7,
-];
-$urls[] = [
-    'loc' => 'https://mshtly.com/blog',
-    'lastmod' => (new DateTime())->format('c'),
-    'changefreq' => 'monthly',
-    'priority' => 0.7,
-];
-$urls[] = [
-    'loc' => 'https://mshtly.com/landscap',
-    'lastmod' => (new DateTime())->format('c'),
-    'changefreq' => 'monthly',
-    'priority' => 0.7,
-];
-$urls[] = [
-    'loc' => 'https://mshtly.com/shop',
-    'lastmod' => (new DateTime())->format('c'),
-    'changefreq' => 'monthly',
-    'priority' => 0.7,
-];
-$urls[] = [
-    'loc' => 'https://mshtly.com/terms',
-    'lastmod' => (new DateTime())->format('c'),
-    'changefreq' => 'monthly',
-    'priority' => 0.7,
-];
 try {
     $xml = new XMLWriter();
     $xml->openUri($sitemapFileName);
@@ -163,6 +153,3 @@ try {
 } catch (\Exception $e) {
     echo "حدثت مشكلة أثناء إنشاء وتحديث ملف sitemap: " . $e->getMessage();
 }
-// crontab -e
-// 0 2 */2 * * /usr/bin/php /http://localhost/mashtly/admin/sitemap/sitemap.php
-// /usr/bin/php /http://localhost/mashtly/admin/sitemap/sitemap.php

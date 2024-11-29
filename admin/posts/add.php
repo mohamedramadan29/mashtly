@@ -12,6 +12,11 @@ if (isset($_POST['add_cat'])) {
     $image_alt = $_POST['image_alt'];
     $image_desc = $_POST['image_desc'];
     $image_keys = $_POST['image_keys'];
+    if (isset($_SESSION['writer'])) {
+        $writer_id = $_SESSION['writer'];
+    } else {
+        $writer_id = '';
+    }
     // get the  date
     date_default_timezone_set('Asia/Riyadh');
     $date = date('d/m/Y h:i a');
@@ -117,8 +122,8 @@ if (isset($_POST['add_cat'])) {
         $cat_data = $stmt->fetch();
         $cat_name = $cat_data['name'];
 
-        $stmt = $connect->prepare("INSERT INTO posts (cat_id,name,slug,main_image,image_name,image_alt,image_desc,image_keys,category,short_desc,description,description2,tags,date,publish)
-        VALUES (:zcat_id,:zname,:zslug,:zimage,:zimage_name,:zimage_alt,:zimage_desc,:zimage_keys,:zcategory,:zshort_desc,:zdesc,:zdesc2,:ztags,:zdate,:zpublish)");
+        $stmt = $connect->prepare("INSERT INTO posts (cat_id,name,slug,main_image,image_name,image_alt,image_desc,image_keys,category,short_desc,description,description2,tags,date,publish,writer_id,updated_at)
+        VALUES (:zcat_id,:zname,:zslug,:zimage,:zimage_name,:zimage_alt,:zimage_desc,:zimage_keys,:zcategory,:zshort_desc,:zdesc,:zdesc2,:ztags,:zdate,:zpublish,:zwriter_id,NOW())");
         $stmt->execute(array(
             "zcat_id" => $cat_id,
             "zname" => $name,
@@ -131,12 +136,16 @@ if (isset($_POST['add_cat'])) {
             "zcategory" => $cat_name,
             "zshort_desc" => $short_desc,
             "zdesc" => $description,
-            'zdesc2'=>$description2,
+            'zdesc2' => $description2,
             "ztags" => $tags,
             "zdate" => $date,
             "zpublish" => $publish,
+            'zwriter_id' => $writer_id,
         ));
         if ($stmt) {
+            // استدعاء رابط تحديث السايت ماب
+            $sitemap_url = 'https://www.mshtly.com/admin/main.php?dir=sitemap&page=sitemap';
+            file_get_contents($sitemap_url);
             $_SESSION['success_message'] = " تمت الأضافة بنجاح  ";
             header('Location:main?dir=posts&page=add');
         }
@@ -234,15 +243,18 @@ if (isset($_POST['add_cat'])) {
                                 </div>
                                 <div class="form-group">
                                     <label for="Company-2" class="block"> الوصف </label>
-                                    <textarea class="summernote" style="height: 150px;" id="summernote" name="description" class="form-control"></textarea>
+                                    <textarea style="height: 150px;" name="description" class="form-control tinymce"></textarea>
                                 </div>
+
+
+
                                 <div class="form-group">
                                     <label for="Company-2" class="block"> تكلمة الوصف </label>
-                                    <textarea class="summernote" style="height: 150px;" id="summernote" name="description2" class="form-control"></textarea>
+                                    <textarea class="tinymce form-control" style="height: 150px;" name="description2" class="form-control"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="Company-2" class="block"> وصف مختصر </label>
-                                    <textarea style="height: 70px;" id="Company-2" name="short_desc" class="form-control summernote"></textarea>
+                                    <textarea style="height: 70px;" id="Company-2" name="short_desc" class="form-control"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="customFile"> صورة المقال </label>

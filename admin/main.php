@@ -16,7 +16,10 @@ if (isset($_SESSION['mos_username'])) {
 if (isset($_SESSION['marketer'])) {
     include 'include/marketer_navbar.php';
 }
-if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !isset($_SESSION['mos_username']) && !isset($_SESSION['marketer'])) {
+if (isset($_SESSION['writer'])) {
+    include 'include/writer_navbar.php';
+}
+if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !isset($_SESSION['mos_username']) && !isset($_SESSION['marketer']) && !isset($_SESSION['writer'])) {
     header("Location: index.php");
     exit;
 }
@@ -41,6 +44,8 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
         include 'marketer-dashboard.php';
     } elseif ($dir == 'dashboard' && $page == 'fetch_orders') {
         include 'fetch_orders.php';
+    }elseif ($dir == 'dashboard' && $page == 'writer-dashboard') {
+        include 'writer-dashboard.php';
     }
     // END DASHBAORD{}
     // START Category
@@ -282,7 +287,7 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
         include "orders/edit_order.php";
     } elseif ($dir == 'orders' && $page == 'compeleted_orders') {
         include "orders/compeleted_orders.php";
-    }elseif ($dir == 'orders' && $page == 'order_qrcode') {
+    } elseif ($dir == 'orders' && $page == 'order_qrcode') {
         include "orders/order_qrcode.php";
     }
     // START employee
@@ -571,8 +576,7 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
         include 'reports/cart.php';
     } elseif ($dir == 'reports' && $page == 'crr') {
         include 'reports/crr.php';
-    }
-    elseif ($dir == 'reports' && $page == 'state') {
+    } elseif ($dir == 'reports' && $page == 'state') {
         include 'reports/state.php';
     }
 

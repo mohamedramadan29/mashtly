@@ -50,8 +50,7 @@ if (isset($_POST['login']) == 'POST' && $_POST['permision'] == 'admin') {
     header('Location:main.php?dir=dashboard&page=mostlzamat');
     exit();
   }
-}
-elseif (isset($_POST['login']) == 'POST' && $_POST['permision'] == 'marketer') {
+} elseif (isset($_POST['login']) == 'POST' && $_POST['permision'] == 'marketer') {
   $username = $_POST['username'];
   $password = $_POST['password'];
   $stmt = $connect->prepare(
@@ -63,8 +62,24 @@ elseif (isset($_POST['login']) == 'POST' && $_POST['permision'] == 'marketer') {
   if ($count > 0) {
     //echo "Goood";
     $_SESSION['marketer'] = $data['username'];
-    $_SESSION['id'] = $data['id']; 
+    $_SESSION['id'] = $data['id'];
     header('Location:main.php?dir=dashboard&page=marketer-dashboard');
+    exit();
+  }
+} elseif (isset($_POST['login']) == 'POST' && $_POST['permision'] == 'writer') {
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+  $stmt = $connect->prepare(
+    'SELECT * FROM employes WHERE username=? AND password=?'
+  );
+  $stmt->execute([$username, $password]);
+  $data = $stmt->fetch();
+  $count = $stmt->rowCount();
+  if ($count > 0) {
+    //echo "Goood";
+    $_SESSION['writer'] = $data['username'];
+    $_SESSION['id'] = $data['id'];
+    header('Location:main.php?dir=dashboard&page=writer-dashboard');
     exit();
   }
 }
@@ -120,6 +135,7 @@ elseif (isset($_POST['login']) == 'POST' && $_POST['permision'] == 'marketer') {
                     <option value="emp"> موظف </option>
                     <option value="marketer"> مسوق </option>
                     <option value="mostlzamat"> خاص بالمستلزمات </option>
+                    <option value="writer">كاتب</option>
                   </select>
                 </div>
                 <div class="d-sm-flex mb-5 align-items-center">

@@ -74,7 +74,7 @@
                                         <th> # </th>
                                         <th>اسم المستخدم </th>
                                         <th> البريد الألكتروني </th>
-                                        <th> رقم الهاتف </th> 
+                                        <th> رقم الهاتف </th>
                                         <th> صلاحية الموظف </th>
                                         <th> </th>
                                     </tr>
@@ -92,7 +92,7 @@
                                             <td> <?php echo $i; ?> </td>
                                             <td> <?php echo  $emp['username']; ?> </td>
                                             <td> <?php echo  $emp['email']; ?> </td>
-                                            <td> <?php echo  $emp['phone']; ?> </td> 
+                                            <td> <?php echo  $emp['phone']; ?> </td>
                                             <td> <span class="badge badge-warning"> <?php echo  $emp['role_name']; ?> </span> </td>
                                             <td>
                                                 <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $emp['id']; ?>"> تعديل صلاحية <i class='fa fa-pen'></i> </button>
@@ -146,9 +146,21 @@
                             <form action="main.php?dir=employee&page=add" method="post" enctype="multipart/form-data">
                                 <div class="modal-body">
                                     <div class="form-group">
+                                        <label for="Company-2" class="block"> اسم المستخدم </label>
+                                        <input required id="Company-2" name="user_name" type="text" class="form-control required">
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="Company-2" class="block"> البريد الألكتروني </label>
                                         <input required id="Company-2" name="email" type="email" class="form-control required">
                                     </div>
+
+                                    <div class="form-group">
+                                        <label for="Company-2" class="block">  كلمة المرور </label>
+                                        <input required id="Company-2" name="password" type="text" class="form-control required">
+                                    </div>
+
+
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> صلاحية الموظف </label>
                                         <select required class='form-control select2' name='role_name'>
@@ -158,6 +170,7 @@
                                             <option value="التوصيل"> التوصيل </option>
                                             <option value="الجودة"> الجودة </option>
                                             <option value="المحاسبة"> المحاسبة </option>
+                                            <option value="كاتب"> كاتب </option>
                                         </select>
                                     </div>
                                 </div>
