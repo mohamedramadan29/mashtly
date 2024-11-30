@@ -33,17 +33,17 @@
                             <p> تابعونا علي منصات التواصل الاجتماعى عبر </p>
                             <ul class="list-unstyled social_icon">
                                 <li>
-                                    <a href="https://twitter.com/mshtly" aria-label="تويتر ">
+                                    <a href="https://twitter.com/mshtly" aria-label="تويتر " rel="nofollow">
                                         <i class="bi bi-twitter-x"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="https://www.instagram.com/mshtly1/" aria-label="انستجرام">
+                                    <a href="https://www.instagram.com/mshtly1/" aria-label="انستجرام" rel="nofollow">
                                         <i class="bi bi-instagram"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="https://www.youtube.com/channel/UC97csCKptQNPdwQX1AidVXg" aria-label="يوتيوب">
+                                    <a href="https://www.youtube.com/channel/UC97csCKptQNPdwQX1AidVXg" aria-label="يوتيوب" rel="nofollow">
                                         <i class="bi bi-youtube"></i>
                                     </a>
                                 </li>
@@ -149,17 +149,17 @@
                             <p> تابعونا علي منصات التواصل الاجتماعى عبر </p>
                             <ul class="list-unstyled social_icon">
                                 <li>
-                                    <a href="https://twitter.com/mshtly" aria-label="تويتر ">
+                                    <a href="https://twitter.com/mshtly" aria-label="تويتر " rel="nofollow">
                                         <i class="bi bi-twitter-x"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="https://www.instagram.com/mshtly1/" aria-label="انستجرام">
+                                    <a href="https://www.instagram.com/mshtly1/" aria-label="انستجرام" rel="nofollow">
                                         <i class="bi bi-instagram"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="https://www.youtube.com/channel/UC97csCKptQNPdwQX1AidVXg" aria-label="يوتيوب">
+                                    <a href="https://www.youtube.com/channel/UC97csCKptQNPdwQX1AidVXg" aria-label="يوتيوب" rel="nofollow">
                                         <i class="bi bi-youtube"></i>
                                     </a>
                                 </li>
