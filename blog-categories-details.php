@@ -46,11 +46,11 @@ $count_post = count(($stmt->fetchAll()));
     <div class='container'>
         <div class="data">
             <div class="breadcrump">
-                <p> <a href="index"> الرئيسية </a> \ <span> <?php  echo $cat_data['name'] ?> </span> </p>
+                <p> <a href="index"> الرئيسية </a> \ <span> <?php echo $cat_data['name'] ?> </span> </p>
             </div>
             <div class="purches_header">
                 <div class="data_header_name">
-                    <h2 class='header2'> <?php  echo $cat_data['name'] ?> </h2>
+                    <h2 class='header2'> <?php echo $cat_data['name'] ?> </h2>
                     <p> اجمالي عدد المقالات : <span> <?php echo $count_post; ?> </span></p>
                 </div>
             </div>
@@ -92,7 +92,7 @@ $count_post = count(($stmt->fetchAll()));
                     </a>
                 </div>
             </div>
-            <div class='from_blog' >
+            <div class='from_blog'>
                 <div class='row' id="content_section">
                     <?php
                     $pageSize = 6; // عدد العناصر التي سيتم تحميلها في كل مرة
@@ -142,6 +142,37 @@ $count_post = count(($stmt->fetchAll()));
                             <a href="https://www.mshtly.com/blog/<?php echo $post['slug']; ?>" style="text-decoration: none;">
                                 <div class="post_info">
                                     <img src="https://www.mshtly.com/admin/posts/images/<?php echo $post['main_image'] ?>" alt="<?php echo $post['name'] ?>">
+                                    <div class="post_person_info">
+                                        <div>
+                                            <i class="bi bi-calendar"></i>
+                                            <span>
+                                                <?php $dateTime = DateTime::createFromFormat('d/m/Y H:i a', $post['date']);
+                                                echo $dateTime->format('d/m/Y');
+                                                ?>
+                                            </span>
+                                        </div>
+
+                                        <div>
+                                            <?php
+                                            if ($post['writer_id'] != null) {
+                                                $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ? LIMIT 1");
+                                                $stmt->execute(array($post['writer_id']));
+                                                $writer_data = $stmt->fetch();
+
+                                            ?>
+                                                <i class="bi bi-person"></i>
+                                                <span> <?php echo $writer_data['username'] ?> </span>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <i class="bi bi-person"></i>
+                                                <span> الادمن </span>
+                                            <?php
+                                            }
+                                            ?>
+
+                                        </div>
+                                    </div>
                                     <h4> <?php echo $post['name']; ?> </h4>
                                     <p> <?php echo $post_desc . "..."; ?> </p>
                                 </div>

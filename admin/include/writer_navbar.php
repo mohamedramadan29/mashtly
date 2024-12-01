@@ -84,8 +84,13 @@
                         </li>
                     </ul>
                 </li>
-
-
+                <li class="nav-item">
+                    <a href="main.php?dir=account&page=index" class="nav-link">
+                        <p>
+                            حسابي 
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="logout" class="nav-link" style="color: #e74c3c;">
                         <p>

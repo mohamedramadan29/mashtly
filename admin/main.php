@@ -580,6 +580,13 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
         include 'reports/state.php';
     }
 
+    //////////////////// Start Account Page 
+    if ($dir == 'account' && $page == 'index') {
+        include "account/index.php";
+    } elseif ($dir == 'account' && $page == 'edit') {
+        include "account/edit.php";
+    }
+
     ?>
 
 </div>

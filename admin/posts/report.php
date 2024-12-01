@@ -68,19 +68,32 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <div class="form_new_search">
-                                <form method="post" action="">
-                                    <div class="d-flex justify-content-center align-items-center flex-wrap">
-                                        <div class="form-group">
-                                            <input class="form-control" type="text" name="post_name" placeholder=" بحث  " value="<?php if (isset($_POST['post_name'])) echo $_POST['post_name'] ?>">
-                                        </div>
-                                        <div>
-                                            <button name="search" class="btn btn-dark btn-sm"> بحث <i class="fa fa-search"></i> </button>
-                                        </div>
-                                    </div>
-                                </form>
+
                                 <?php
-                                $stmt = $connect->prepare("SELECT * FROM posts");
-                                $stmt->execute();
+                                if (isset($_SESSION['admin_username'])) {
+                                ?>
+                                    <form method="post" action="">
+                                        <div class="d-flex justify-content-center align-items-center flex-wrap">
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" name="post_name" placeholder=" بحث  " value="<?php if (isset($_POST['post_name'])) echo $_POST['post_name'] ?>">
+                                            </div>
+                                            <div>
+                                                <button name="search" class="btn btn-dark btn-sm"> بحث <i class="fa fa-search"></i> </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                <?php
+                                }
+                                ?>
+                                <?php
+                                if (isset($_SESSION['writer'])) {
+                                    $stmt = $connect->prepare("SELECT * FROM posts where writer_id = ?");
+                                    $stmt->execute(array($_SESSION['writer_id']));
+                                } else {
+                                    $stmt = $connect->prepare("SELECT * FROM posts");
+                                    $stmt->execute();
+                                }
+
                                 $totalRecords = count($stmt->fetchAll());
                                 // تحديد عدد السجلات في كل صفحة والصفحة الحالية
                                 $recordsPerPage = 30;
@@ -109,8 +122,14 @@
                                     $count = count($allposts);
                                     $i = 0;
                                 } else {
-                                    $stmt = $connect->prepare("SELECT * FROM posts ORDER BY id DESC");
-                                    $stmt->execute();
+                                    if (isset($_SESSION['writer'])) {
+                                        $stmt = $connect->prepare("SELECT * FROM posts where writer_id = ? ORDER BY id DESC");
+                                        $stmt->execute(array($_SESSION['writer_id']));
+                                    } else {
+                                        $stmt = $connect->prepare("SELECT * FROM posts ORDER BY id DESC");
+                                        $stmt->execute();
+                                    }
+
                                     $totalRecords = count($stmt->fetchAll());
                                     // تحديد عدد السجلات في كل صفحة والصفحة الحالية
                                     $recordsPerPage = 30;
@@ -121,10 +140,21 @@
 
                                     /////////////
                                     // استعلام SQL لاسترداد البيانات للصفحة الحالية
-                                    $query = "SELECT * FROM posts  ORDER BY id DESC LIMIT :offset, :limit";
-                                    $statement = $connect->prepare($query);
-                                    $statement->bindParam(':offset', $offset, PDO::PARAM_INT);
-                                    $statement->bindParam(':limit', $recordsPerPage, PDO::PARAM_INT);
+                                    if (isset($_SESSION['writer'])) {
+                                        // echo $_SESSION['writer'];
+                                        // echo $_SESSION['writer_id'];
+                                        $query = "SELECT * FROM posts WHERE writer_id = :writer_id ORDER BY id DESC LIMIT :offset, :limit";
+                                        $statement = $connect->prepare($query);
+                                        $statement->bindValue(':writer_id', intval($_SESSION['writer_id']), PDO::PARAM_INT);
+                                        $statement->bindValue(':offset', $offset, PDO::PARAM_INT);
+                                        $statement->bindValue(':limit', $recordsPerPage, PDO::PARAM_INT);
+                                    } else {
+                                        $query = "SELECT * FROM posts ORDER BY id DESC LIMIT :offset, :limit";
+                                        $statement = $connect->prepare($query);
+                                        $statement->bindValue(':offset', $offset, PDO::PARAM_INT);
+                                        $statement->bindValue(':limit', $recordsPerPage, PDO::PARAM_INT);
+                                    }
+                                    // تنفيذ الاستعلام
                                     $statement->execute();
                                     $allposts = $statement->fetchAll(PDO::FETCH_ASSOC);
                                     $i = 0;
@@ -138,6 +168,7 @@
                                         <th> القسم </th>
                                         <th> الكاتب </th>
                                         <th> الصورة </th>
+                                        <th> الحالة </th>
                                         <th> العمليات </th>
                                     </tr>
                                 </thead>
@@ -168,18 +199,40 @@
                                                         $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
                                                         $stmt->execute(array($post["writer_id"]));
                                                         $writer_data =  $stmt->fetch();
-                                                      echo   $writer_data["username"];
+                                                        echo   $writer_data["username"];
                                                     } else {
                                                         echo "الادمن ";
                                                     }
-                                                    ?> </td>
+                                                    ?>
+                                            </td>
+
                                             <td> <img style="width: 60px; height:60px" src="posts/images/<?php echo $post['main_image']; ?> " alt=""></td>
+
+                                            <td>
+                                                <?php
+                                                if ($post['publish'] == 1) {
+                                                ?>
+                                                    <span class="badge badge-success"> تم النشر </span>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <span class="badge badge-danger"> ارشيف </span>
+                                                <?php
+                                                }
+                                                ?>
+                                            </td>
                                             <td>
                                                 <a href="main.php?dir=posts&page=edit&post_id=<?php echo $post['id']; ?>" class="btn btn-success btn-sm"> <i class='fa fa-pen'></i>
                                                 </a>
+                                                <?php
+                                                if (isset($_SESSION['admin_username'])) {
+                                                ?>
+                                                    <a href="main.php?dir=posts&page=delete&post_id=<?php echo $post['id']; ?>" class="confirm btn btn-danger btn-sm"> <i class='fa fa-trash'></i>
+                                                    </a>
+                                                <?php
+                                                }
+                                                ?>
 
-                                                <a href="main.php?dir=posts&page=delete&post_id=<?php echo $post['id']; ?>" class="confirm btn btn-danger btn-sm"> <i class='fa fa-trash'></i>
-                                                </a>
                                             </td>
                                         </tr>
                                         <!-- EDIT NEW CATEGORY MODAL   -->

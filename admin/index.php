@@ -78,7 +78,7 @@ if (isset($_POST['login']) == 'POST' && $_POST['permision'] == 'admin') {
   if ($count > 0) {
     //echo "Goood";
     $_SESSION['writer'] = $data['username'];
-    $_SESSION['id'] = $data['id'];
+    $_SESSION['writer_id'] = $data['id'];
     header('Location:main.php?dir=dashboard&page=writer-dashboard');
     exit();
   }

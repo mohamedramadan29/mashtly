@@ -4085,3 +4085,18 @@ border-bottom: 1px solid #ebebeb;
         font-size: 16px !important;
     }
 }
+
+
+.post_person_info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px;
+    color: #5b5b5b;
+}
+.post_person_info span{
+
+}
+.post_person_info i{
+color: #5c8e00;
+}
