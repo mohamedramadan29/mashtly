@@ -18,6 +18,11 @@ if (isset($_POST['edit_cat'])) {
     $image_alt = $_POST['image_alt'];
     $image_desc = $_POST['image_desc'];
     $image_keys = $_POST['image_keys'];
+    if (isset($_SESSION['writer'])) {
+        $writer_id = $_SESSION['writer_id'];
+    } else {
+        $writer_id = null;
+    }
     // get the  date
     date_default_timezone_set('Asia/Riyadh');
     $date = date('d/m/Y h:i a');
@@ -278,7 +283,13 @@ if (isset($_POST['edit_cat'])) {
                                         <label for="Company-2" class="block"> نشر المقال </label>
                                         <select name="publish" id="" class="form-control select2">
                                             <option value=""> اختر الحالة </option>
-                                            <option <?php if ($post['publish'] == 1) echo 'selected'; ?> value="1"> نشر المقال </option>
+                                            <?php
+                                            if ($_SESSION['admin_username']) {
+                                            ?>
+                                                <option <?php if ($post['publish'] == 1) echo 'selected'; ?> value="1"> نشر المقال </option>
+                                            <?php
+                                            }
+                                            ?>
                                             <option <?php if ($post['publish'] == 0) echo 'selected'; ?> value="0"> ارشيف </option>
                                         </select>
                                     </div>

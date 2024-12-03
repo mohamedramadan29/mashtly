@@ -13,9 +13,9 @@ if (isset($_POST['add_cat'])) {
     $image_desc = $_POST['image_desc'];
     $image_keys = $_POST['image_keys'];
     if (isset($_SESSION['writer'])) {
-        $writer_id = $_SESSION['writer'];
+        $writer_id = $_SESSION['writer_id'];
     } else {
-        $writer_id = '';
+        $writer_id = null;
     }
     // get the  date
     date_default_timezone_set('Asia/Riyadh');
@@ -115,40 +115,45 @@ if (isset($_POST['add_cat'])) {
         $formerror[] = ' اسم المقال موجود من قبل من فضلك ادخل اسم اخر  ';
     }
     if (empty($formerror)) {
+        try {
+            $stmt = $connect->prepare("SELECT * FROM category_posts WHERE id = ?");
+            $stmt->execute(array($cat_id));
+            $cat_data = $stmt->fetch();
+            $cat_name = $cat_data['name'];
+
+            $stmt = $connect->prepare("INSERT INTO posts (cat_id,name,slug,main_image,image_name,image_alt,image_desc,image_keys,category,short_desc,description,description2,tags,date,publish,writer_id,updated_at)
+            VALUES (:zcat_id,:zname,:zslug,:zimage,:zimage_name,:zimage_alt,:zimage_desc,:zimage_keys,:zcategory,:zshort_desc,:zdesc,:zdesc2,:ztags,:zdate,:zpublish,:zwriter_id,NOW())");
+            $stmt->execute(array(
+                "zcat_id" => $cat_id,
+                "zname" => $name,
+                "zslug" => $slug,
+                "zimage" => $main_image_uploaded,
+                "zimage_name" => $image_name,
+                "zimage_alt" => $image_alt,
+                "zimage_desc" => $image_desc,
+                "zimage_keys" => $image_keys,
+                "zcategory" => $cat_name,
+                "zshort_desc" => $short_desc,
+                "zdesc" => $description,
+                'zdesc2' => $description2,
+                "ztags" => $tags,
+                "zdate" => $date,
+                "zpublish" => $publish,
+                'zwriter_id' => $writer_id,
+            ));
+            if ($stmt) {
+                // استدعاء رابط تحديث السايت ماب
+                // $sitemap_url = 'https://www.mshtly.com/admin/main.php?dir=sitemap&page=sitemap';
+                //  file_get_contents($sitemap_url);
+                $_SESSION['success_message'] = " تمت الأضافة بنجاح  ";
+                header('Location:main?dir=posts&page=add');
+            }
+        } catch (\Exception $e) {
+            echo $e;
+        }
         // get the category name
 
-        $stmt = $connect->prepare("SELECT * FROM category_posts WHERE id = ?");
-        $stmt->execute(array($cat_id));
-        $cat_data = $stmt->fetch();
-        $cat_name = $cat_data['name'];
 
-        $stmt = $connect->prepare("INSERT INTO posts (cat_id,name,slug,main_image,image_name,image_alt,image_desc,image_keys,category,short_desc,description,description2,tags,date,publish,writer_id,updated_at)
-        VALUES (:zcat_id,:zname,:zslug,:zimage,:zimage_name,:zimage_alt,:zimage_desc,:zimage_keys,:zcategory,:zshort_desc,:zdesc,:zdesc2,:ztags,:zdate,:zpublish,:zwriter_id,NOW())");
-        $stmt->execute(array(
-            "zcat_id" => $cat_id,
-            "zname" => $name,
-            "zslug" => $slug,
-            "zimage" => $main_image_uploaded,
-            "zimage_name" => $image_name,
-            "zimage_alt" => $image_alt,
-            "zimage_desc" => $image_desc,
-            "zimage_keys" => $image_keys,
-            "zcategory" => $cat_name,
-            "zshort_desc" => $short_desc,
-            "zdesc" => $description,
-            'zdesc2' => $description2,
-            "ztags" => $tags,
-            "zdate" => $date,
-            "zpublish" => $publish,
-            'zwriter_id' => $writer_id,
-        ));
-        if ($stmt) {
-            // استدعاء رابط تحديث السايت ماب
-            $sitemap_url = 'https://www.mshtly.com/admin/main.php?dir=sitemap&page=sitemap';
-            file_get_contents($sitemap_url);
-            $_SESSION['success_message'] = " تمت الأضافة بنجاح  ";
-            header('Location:main?dir=posts&page=add');
-        }
     } else {
         $_SESSION['error_messages'] = $formerror;
         header('Location:main?dir=posts&page=add');
@@ -282,12 +287,20 @@ if (isset($_POST['add_cat'])) {
                                     <label for="Company-2" class="block"> اضافة التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
                                     <input required id="Company-2" name="tags" type="text" class="form-control">
                                 </div>
+
                                 <div class="form-group">
                                     <label for="Company-2" class="block"> نشر المقال </label>
                                     <select name="publish" id="" class="form-control select2">
                                         <option value=""> اختر الحالة </option>
-                                        <option value="1"> نشر المقال </option>
-                                        <option value="0"> ارشيف </option>
+                                        <?php
+                                        if ($_SESSION['admin_username']) {
+                                        ?>
+                                            <option value="1"> نشر المقال </option>
+                                        <?php
+                                        }
+                                        ?>
+
+                                        <option selected value="0"> ارشيف </option>
                                     </select>
                                 </div>
                             </div>
