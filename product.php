@@ -388,7 +388,7 @@ if (isset($_POST['add_to_fav'])) {
                         <div class="product_description">
                             <h3> وصف المنتج </h3>
                             <p> <?php echo $product_desc ?> </p>
-                            <button class="btn"> رقم المنتج:#<?php echo $product_id; ?> </button>
+                           
                         </div>
                         <div class="social_share">
                             <div>
@@ -606,34 +606,7 @@ if (isset($_POST['add_to_fav'])) {
                                 ?>
                                 <?php
                                 ?>
-                                    <div class="add_cart">
-                                        <?php 
-                                        $stmt = $connect->prepare("SELECT * FROM cart WHERE product_id = ? AND cookie_id = ?");
-                                        $stmt->execute(array($product_id, $cookie_id));
-                                        $count_pro = $stmt->rowCount();
-                                        // if ($count_pro > 0) {
-                                        ?>
-                                        <!-- <a class="btn global_button cart" href="http://localhost/mashtly/cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt=""> مشاهدة السلة </a> -->
-                                        <?php
-                                        // } else {
-                                        ?>
-                                        <?php 
-                                        if($product_status_store !=1){
-                                            ?>
-                                           <button class='btn global_button'> المنتج غير متوفر  </button>
-                                            <?php 
-                                        }else{
-                                            ?>
-                                             <button class="btn global_button cart" name="add_to_cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt="سلة الشراء"> أضف الي السلة </button>
-                                            <?php 
-                                        }
-                                        ?>
-                                       
-                                        <?php
-                                        // }
-                                        ?>
-                                        <!-- <button class="btn wishlist" name="add_to_wishlist"> <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt="المفضلة"> أضف الي المفضلة </button> -->
-                                    </div>
+                                   
                                  
                             </div>
                         </form>
@@ -643,7 +616,7 @@ if (isset($_POST['add_to_fav'])) {
                     <div class="product_description">
                         <h3> وصف المنتج </h3>
                         <p> <?php echo $product_desc ?> </p>
-                        <button class="btn"> رقم المنتج:#<?php echo $product_id; ?> </button>
+                        <!-- <button class="btn"> رقم المنتج:#<?php echo $product_id; ?> </button> -->
                     </div>
                     <div class="social_share">
                         <div>
@@ -769,69 +742,7 @@ if ($related_products != null) { ?>
                     <?php
                     }
                     ?>
-                    <div class="link_pro total_links">
-                        <div class="total">
-                            <p> إجمالي السعر: <span> <?php echo $related_total_price; ?> ر.س </span> </p>
-                        </div>
-                        <div>
-                            <form action="" method="post">
-                                <?php
-                                if ($product_data['product_status_store'] != 1) {
-                                ?>
-                                    <button class="btn global_button"> المنتج غير متوفر </button>
-                                <?php
-                                } else {
-                                ?>
-                                    <button class="btn global_button" name="add_to_cart_related"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt="سلة الشراء"> أضف الي السلة </button>
-                                <?php
-                                }
-                                ?>
-
-                            </form>
-                            <?php
-                            if (isset($_POST['add_to_cart_related'])) {
-                                foreach ($related_products as $related_pro) {
-                                    $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ?");
-                                    $stmt->execute(array($related_pro));
-                                    $product_related = $stmt->fetch();
-                                    $product_related_count = $stmt->rowCount();
-                                    if ($product_related_count > 0) {
-                                    } else {
-                                        $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
-                                        $stmt->execute(array($related_pro));
-                                        $product_data_related = $stmt->fetch();
-                                        if ($product_data_related['sale_price'] != '') {
-                                            $price =  $product_data_related['sale_price'];
-                                        } else {
-                                            $price =  $product_data_related['price'];
-                                        }
-
-                                        $product_id = $product_data_related['id'];
-                                        if (isset($_SESSION['user_id'])) {
-                                            $user_id = $_SESSION['user_id'];
-                                        } else {
-                                            $user_id = null;
-                                        }
-                                        $stmt = $connect->prepare("INSERT INTO cart (user_id, cookie_id, product_id,quantity,price,total_price)
-                                        VALUES(:zuser_id, :zcookie_id , :zproduct_id,:zquantity ,:zprice , :ztotal_price)
-                                        ");
-                                        $stmt->execute(array(
-                                            "zuser_id" => $user_id,
-                                            "zcookie_id" => $cookie_id,
-                                            "zproduct_id" => $product_id,
-                                            "zquantity" => 1,
-                                            "zprice" => $price,
-                                            "ztotal_price" => $price,
-                                        ));
-                                        if ($stmt) {
-                                            alertcart();
-                                        }
-                                    }
-                                }
-                            }
-                            ?>
-                        </div>
-                    </div>
+                 
                 </div>
             </div>
         </div>
