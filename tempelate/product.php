@@ -9,7 +9,7 @@
     if ($count_image > 0) {
     ?>
         <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>">
-            <img loading="lazy" class="main_image" src="http://localhost/mashtly/admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product['name']; ?>">
+            <img loading="lazy" class="main_image" src="http://localhost/mashtly/uploads/products/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product['name']; ?>">
         </a>
     <?php
     } else {
@@ -67,10 +67,10 @@
         ?>
             <h4 class='price'> <?php
                                 if ($product['sale_price'] != '' && $product['sale_price'] != 0) {
-                                     echo number_format($product['sale_price'],2);
+                                    echo number_format($product['sale_price'], 2);
                                 } else {
 
-                                    echo number_format($product['price'],2);
+                                    echo number_format($product['price'], 2);
                                 }
                                 ?> ر.س </h4>
         <?php
@@ -105,9 +105,12 @@
                         <?php
                         } else {
                         ?>
-                            <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>" class='btn global_button'> <img loading="lazy" src="uploads/shopping-cart.png" alt=" سلة الشراء ">
+                            <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>" class='btn global_button'>
+                                  
                                 مشاهدة الاختيارات
                             </a>
+
+                            
                         <?php
                         }
                         ?>
@@ -116,7 +119,7 @@
                     } else {
                     ?>
                         <?php
-                        if ($product['product_status_store'] != 1)  {
+                        if ($product['product_status_store'] != 1) {
                         ?>
                             <button class="btn global_button"> المنتج غير متوفر </button>
                         <?php
@@ -124,7 +127,8 @@
                         ?>
                             <button name="add_to_cart" class='btn global_button'>
 
-                                <img loading="lazy"  src="https://www.mshtly.com/uploads/shopping-cart.png" alt="سلة الشراء "> أضف
+                                <img loading="lazy" src="https://www.mshtly.com/uploads/shopping-cart.png" alt="سلة الشراء ">
+                                أضف
                                 الي السلة
                             </button>
                         <?php
@@ -152,8 +156,9 @@
                             <img loading="lazy" src="https://www.mshtly.com/uploads/heart.png" alt="المفضلة">
                         </button>
                         <style>
-                            #add_to_fav{
-                                border: none; background-color:transparent
+                            #add_to_fav {
+                                border: none;
+                                background-color: transparent
                             }
                         </style>
                     <?php

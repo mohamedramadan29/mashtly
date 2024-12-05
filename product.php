@@ -221,8 +221,8 @@ if (isset($_POST['add_to_fav'])) {
                             ?>
                                 <div class="main-slider gallery-lb">
                                     <div>
-                                        <a href="http://localhost/mashtly/admin/product_images/<?php echo $product_data_image['main_image']; ?>">
-                                            <img loading="lazy" src="http://localhost/mashtly/admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt'] ?>">
+                                        <a href="http://localhost/mashtly/uploads/products/<?php echo $product_data_image['main_image']; ?>">
+                                            <img loading="lazy" src="http://localhost/mashtly/uploads/products/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt'] ?>">
                                         </a>
                                     </div>
                                     <?php
@@ -236,8 +236,8 @@ if (isset($_POST['add_to_fav'])) {
                                             if ($gallary['image'] != null || $gallary['image'] != '') {
                                     ?>
                                                 <div>
-                                                    <a href="http://localhost/mashtly/admin/product_images/<?php echo $gallary['image']; ?>">
-                                                        <img loading="lazy" src="http://localhost/mashtly/admin/product_images/<?php echo $gallary['image']; ?>" alt="<?php echo $gallary['image_alt'] ?>">
+                                                    <a href="http://localhost/mashtly/uploads/products/<?php echo $gallary['image']; ?>">
+                                                        <img loading="lazy" src="http://localhost/mashtly/uploads/products/<?php echo $gallary['image']; ?>" alt="<?php echo $gallary['image_alt'] ?>">
                                                     </a>
                                                 </div>
                                             <?php
@@ -260,8 +260,8 @@ if (isset($_POST['add_to_fav'])) {
                                             if ($att_image['image'] != '' && $att_image['image'] != null) {
                                     ?>
                                                 <div>
-                                                    <a href="http://localhost/mashtly/admin/product_images/<?php echo $att_image['image']; ?>">
-                                                        <img loading="lazy" src="http://localhost/mashtly/admin/product_images/<?php echo $att_image['image']; ?>" alt="<?php echo $att_image['image_alt']; ?>">
+                                                    <a href="http://localhost/mashtly/uploads/products/<?php echo $att_image['image']; ?>">
+                                                        <img loading="lazy" src="http://localhost/mashtly/uploads/products/<?php echo $att_image['image']; ?>" alt="<?php echo $att_image['image_alt']; ?>">
                                                     </a>
                                                 </div>
                                             <?php
@@ -280,7 +280,7 @@ if (isset($_POST['add_to_fav'])) {
                                 ?>
                                     <div class="thumbnail-slider products_thumnails" id="products_thumnails">
                                         <div>
-                                            <img class="thumbnail-image" loading="lazy" src="http://localhost/mashtly/admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt'] ?>" data-image2="<?php echo $product_data_image['main_image']; ?>">
+                                            <img class="thumbnail-image" loading="lazy" src="http://localhost/mashtly/uploads/products/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt'] ?>" data-image2="<?php echo $product_data_image['main_image']; ?>">
                                         </div>
                                         <?php
                                         if ($count_g > 0) {
@@ -288,7 +288,7 @@ if (isset($_POST['add_to_fav'])) {
                                                 if ($gallary['image'] != null || $gallary['image'] != '') {
                                         ?>
                                                     <div>
-                                                        <img class="thumbnail-image" loading="lazy" src="http://localhost/mashtly/admin/product_images/<?php echo $gallary['image']; ?>" alt="<?php echo $gallary['image_alt'] ?>" data-image2="<?php echo $gallary['image']; ?>">
+                                                        <img class="thumbnail-image" loading="lazy" src="http://localhost/mashtly/uploads/products/<?php echo $gallary['image']; ?>" alt="<?php echo $gallary['image_alt'] ?>" data-image2="<?php echo $gallary['image']; ?>">
                                                     </div>
                                                 <?php
                                                 }
@@ -303,7 +303,7 @@ if (isset($_POST['add_to_fav'])) {
                                                 if ($att_image['image'] != '' || $att_image['image'] != null) {
                                             ?>
                                                     <div>
-                                                        <img class="thumbnail-image" loading="lazy" src="http://localhost/mashtly/admin/product_images/<?php echo $att_image['image']; ?>" alt="<?php echo $att_image['image_alt'] ?>" data-image2="<?php echo $att_image['image']; ?>">
+                                                        <img class="thumbnail-image" loading="lazy" src="http://localhost/mashtly/uploads/products/<?php echo $att_image['image']; ?>" alt="<?php echo $att_image['image_alt'] ?>" data-image2="<?php echo $att_image['image']; ?>">
                                                     </div>
                                                 <?php
                                                 }
@@ -708,7 +708,7 @@ if ($related_products != null) { ?>
                                 if ($product_image_data_count > 0) {
                                     $product_image_related = $product_image_data['main_image'];
                                 ?>
-                                    <img loading="lazy" class="main_image" src="http://localhost/mashtly/admin/product_images/<?php echo $product_image_related; ?>" alt="<?php echo $product_data_related['name']; ?>">
+                                    <img loading="lazy" class="main_image" src="http://localhost/mashtly/uploads/products/<?php echo $product_image_related; ?>" alt="<?php echo $product_data_related['name']; ?>">
                                 <?php
                                 } else {
                                 ?>
@@ -984,9 +984,9 @@ ob_end_flush();
                 // تحديث الصورة الخلفية
                 const selectedImage = thumbnailSelect.options[selectedIndex].getAttribute('data-image');
                 if (selectedImage) {
-                    mainSlides[mainIndex].style.backgroundImage = 'url(http://localhost/mashtly/admin/product_images/' + selectedImage + ')';
+                    mainSlides[mainIndex].style.backgroundImage = 'url(http://localhost/mashtly/uploads/products/' + selectedImage + ')';
                     const mainImageSlide = mainSlides[mainIndex].querySelector('img');
-                    mainImageSlide.src = 'http://localhost/mashtly/admin/product_images/' + selectedImage;
+                    mainImageSlide.src = 'http://localhost/mashtly/uploads/products/' + selectedImage;
                 }
             });
         }
@@ -998,9 +998,9 @@ ob_end_flush();
                 const selectedImage = thumbnailImage.getAttribute('data-image2');
                 // console.log(selectedImage);
                 if (selectedImage) {
-                    mainSlides[mainIndex].style.backgroundImage = 'url(http://localhost/mashtly/admin/product_images/' + selectedImage + ')';
+                    mainSlides[mainIndex].style.backgroundImage = 'url(http://localhost/mashtly/uploads/products/' + selectedImage + ')';
                     const mainImageSlide = mainSlides[mainIndex].querySelector('img');
-                    mainImageSlide.src = 'http://localhost/mashtly/admin/product_images/' + selectedImage;
+                    mainImageSlide.src = 'http://localhost/mashtly/uploads/products/' + selectedImage;
                     // console.log(mainImageSlide);
                 }
             });

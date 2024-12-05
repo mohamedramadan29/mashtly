@@ -54,7 +54,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                 if (!empty($image_name)) {
                     $image_name = str_replace(' ', '-', $image_name);
                     $main_image_uploaded = $image_name . '.' . $image_extension;
-                    $upload_path = 'product_images/' . $main_image_uploaded;
+                    $upload_path = '../uploads/products/' . $main_image_uploaded;
                     // حفظ ملف الصورة المرفوع
                     move_uploaded_file($main_image_temp, $upload_path);
 
@@ -72,7 +72,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                         imagecopy($truecolor_image, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
 
                         // حدد مسار حفظ ملف الصورة بتنسيق WebP
-                        $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                        $webp_path = '../uploads/products/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
 
                         // قم بحفظ الصورة كملف WebP
                         imagewebp($truecolor_image, $webp_path);
@@ -86,7 +86,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                     }
                 } else {
                     $main_image_uploaded = $main_image_name;
-                    $upload_path = 'product_images/' . $main_image_uploaded;
+                    $upload_path = '../uploads/products/' . $main_image_uploaded;
                     // حفظ ملف الصورة المرفوع
                     move_uploaded_file($main_image_temp, $upload_path);
 
@@ -104,7 +104,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                         imagecopy($truecolor_image, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
 
                         // حدد مسار حفظ ملف الصورة بتنسيق WebP
-                        $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                        $webp_path = '../uploads/products/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
 
                         // قم بحفظ الصورة كملف WebP
                         imagewebp($truecolor_image, $webp_path);
@@ -206,7 +206,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                         if (!empty($new_image_name)) {
                             $new_image_name = str_replace(' ', '-', $new_image_name);
                             $main_image_uploaded = $new_image_name . '.' . $image_extension;
-                            $upload_path = 'product_images/' . $main_image_uploaded;
+                            $upload_path = '../uploads/products/' . $main_image_uploaded;
                             move_uploaded_file($image_temp, $upload_path);
                             // تحقق من نوع الصورة وتحويلها إلى WebP إذا كان ذلك ممكنًا
                             if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
@@ -217,7 +217,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
 
                             if (isset($image)) {
                                 // حدد مسار حفظ ملف الصورة بتنسيق WebP
-                                $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                                $webp_path = '../uploads/products/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
 
                                 // قم بحفظ الصورة كملف WebP
                                 imagewebp($image, $webp_path);
@@ -230,7 +230,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                             }
                         } else {
                             $main_image_uploaded = $image_name;
-                            $upload_path = 'product_images/' . $main_image_uploaded;
+                            $upload_path = '../uploads/products/' . $main_image_uploaded;
                             move_uploaded_file($image_temp, $upload_path);
                             // تحقق من نوع الصورة وتحويلها إلى WebP إذا كان ذلك ممكنًا
                             if (exif_imagetype($upload_path) === IMAGETYPE_JPEG) {
@@ -241,7 +241,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
 
                             if (isset($image)) {
                                 // حدد مسار حفظ ملف الصورة بتنسيق WebP
-                                $webp_path = 'product_images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                                $webp_path = '../uploads/products/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
 
                                 // قم بحفظ الصورة كملف WebP
                                 imagewebp($image, $webp_path);
@@ -729,8 +729,8 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                         <div class="col-4">
                             <div class="info">
                                 <h6> الرئيسية </h6>
-                                <a target='_blank' href="product_images/<?php echo $product_image_data['main_image']; ?>" data-toggle="lightbox" data-title="sample 2 - black">
-                                    <img style="max-width: 100%;" src="product_images/<?php echo $product_image_data['main_image'];  ?>" class="img-fluid mb-2" alt="الرئيسية" />
+                                <a target='_blank' href="../uploads/products/<?php echo $product_image_data['main_image']; ?>" data-toggle="lightbox" data-title="sample 2 - black">
+                                    <img style="max-width: 100%;" src="../uploads/products/<?php echo $product_image_data['main_image'];  ?>" class="img-fluid mb-2" alt="الرئيسية" />
                                 </a>
                                 <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#edit-main-image"> <i class="fa fa-edit"> </i> </button>
                                 <div class="modal fade" id="edit-main-image" tabindex="-1" role="dialog">
@@ -782,8 +782,8 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                     ?>
                                         <div class="col-4">
                                             <div class="">
-                                                <a target='_blank' href="product_images/<?= $gallary['image'] ?>" data-toggle="lightbox" data-title="sample 2 - black">
-                                                    <img style="max-width: 100%;" src="product_images/<?= $gallary['image'] ?>" class="img-fluid mb-2" alt="المعرض" />
+                                                <a target='_blank' href="../uploads/products/<?= $gallary['image'] ?>" data-toggle="lightbox" data-title="sample 2 - black">
+                                                    <img style="max-width: 100%;" src="../uploads/products/<?= $gallary['image'] ?>" class="img-fluid mb-2" alt="المعرض" />
                                                 </a>
                                                 <div class="d-flex justify-content-around align-items-center">
                                                     <form action="" method="post">
@@ -868,8 +868,8 @@ if (isset($_POST['edit_image_gallary'])) {
 
 
     // قم بتحديث اسم الملف في النظام الملفاتي
-    $old_image_path = "product_images/" . $old_image_name;
-    $new_image_path = "product_images/" . $new_file_name;
+    $old_image_path = "../uploads/products/" . $old_image_name;
+    $new_image_path = "../uploads/products/" . $new_file_name;
 
     if (rename($old_image_path, $new_image_path)) {
         $image_alt_gallary = $_POST['image_alt_gallary'];
@@ -900,8 +900,8 @@ if (isset($_POST['edit_main_image'])) {
     // قم بتشكيل الاسم الجديد مع الجزء النصي الجديد والامتداد القديم
     $new_file_name = $new_image_name . "." . $extension;
     // قم بتحديث اسم الملف في النظام الملفاتي
-    $old_image_path = "product_images/" . $old_image_name;
-    $new_image_path = "product_images/" . $new_file_name;
+    $old_image_path = "../uploads/products/" . $old_image_name;
+    $new_image_path = "../uploads/products/" . $new_file_name;
     if (rename($old_image_path, $new_image_path)) {
         $image_alt_gallary = $_POST['image_alt_gallary'];
         $image_desc_gallary = $_POST['image_desc_gallary'];

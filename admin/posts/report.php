@@ -206,7 +206,7 @@
                                                     ?>
                                             </td>
 
-                                            <td> <img style="width: 60px; height:60px" src="posts/images/<?php echo $post['main_image']; ?> " alt=""></td>
+                                            <td> <img style="width: 60px; height:60px" src="../uploads/posts/<?php echo $post['main_image']; ?> " alt=""></td>
 
                                             <td>
                                                 <?php

@@ -42,7 +42,7 @@ if (isset($_POST['edit_cat'])) {
         if (!empty($image_name)) {
             $image_name = str_replace(' ', '-', $image_name);
             $main_image_uploaded = $image_name . '.' . $image_extension;
-            $upload_path = 'posts/images/' . $main_image_uploaded;
+            $upload_path = '../uploads/posts/' . $main_image_uploaded;
             // حفظ ملف الصورة المرفوع
             move_uploaded_file($main_image_temp, $upload_path);
 
@@ -60,7 +60,7 @@ if (isset($_POST['edit_cat'])) {
                 imagecopy($truecolor_image, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
 
                 // حدد مسار حفظ ملف الصورة بتنسيق WebP
-                $webp_path = 'posts/images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                $webp_path = '../uploads/posts/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
 
                 // قم بحفظ الصورة كملف WebP
                 imagewebp($truecolor_image, $webp_path);
@@ -74,7 +74,7 @@ if (isset($_POST['edit_cat'])) {
             }
         } else {
             $main_image_uploaded = $main_image_name;
-            $upload_path = 'posts/images/' . $main_image_uploaded;
+            $upload_path = '../uploads/posts/' . $main_image_uploaded;
             // حفظ ملف الصورة المرفوع
             move_uploaded_file($main_image_temp, $upload_path);
 
@@ -92,7 +92,7 @@ if (isset($_POST['edit_cat'])) {
                 imagecopy($truecolor_image, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
 
                 // حدد مسار حفظ ملف الصورة بتنسيق WebP
-                $webp_path = 'posts/images/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
+                $webp_path = '../uploads/posts/' . pathinfo($main_image_uploaded, PATHINFO_FILENAME) . '.webp';
                 // قم بحفظ الصورة كملف WebP
                 imagewebp($truecolor_image, $webp_path);
                 // حرر الذاكرة
@@ -245,7 +245,7 @@ if (isset($_POST['edit_cat'])) {
                                     </div>
                                     <div class="form-group">
                                         <label for="Company-2" class="block"> وصف مختصر </label>
-                                        <textarea style="height: 70px;" id="Company-2" name="short_desc" class="form-control"><?php echo $post['short_desc']; ?></textarea>
+                                        <textarea style="height: 70px;" id="Company-2" name="short_desc" class="form-control tinymce"><?php echo $post['short_desc']; ?></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="customFile"> تعديل صورة القسم </label>
@@ -253,7 +253,7 @@ if (isset($_POST['edit_cat'])) {
                                             <input value="<?php echo $post['main_image']; ?>" type="file" class="custom-file-input" id="customFile" accept='image/*' name="main_image">
                                             <label class="custom-file-label" for="customFile">اختر
                                                 الصورة</label>
-                                            <img width="80px" class="img-bordered img-thumbnail product-img" src="posts/images/<?php echo $post['main_image']; ?>" alt="">
+                                            <img width="80px" class="img-bordered img-thumbnail product-img" src="../uploads/posts/<?php echo $post['main_image']; ?>" alt="">
                                             <br>
                                             <br>
                                         </div>

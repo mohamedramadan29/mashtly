@@ -18,7 +18,7 @@ if (isset($_POST['add_cat'])) {
         $main_image_uploaded = time() . '_' . $main_image_name;
         move_uploaded_file(
             $main_image_temp,
-            'post_categories/images/' . $main_image_uploaded
+            '../uploads/post_categories/' . $main_image_uploaded
         );
     } else {
         $main_image_uploaded = '';

@@ -105,7 +105,7 @@
                                                     }
                                                 ?>
                                             </td>
-                                            <td> <img style="width: 60px; height:60px" src="post_categories/images/<?php echo $cat['main_image']; ?> " alt=""></td>
+                                            <td> <img style="width: 60px; height:60px" src="../uploads/post_categories/<?php echo $cat['main_image']; ?> " alt=""></td>
                                             <td>
                                                 <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $cat['id']; ?>"> تعديل <i class='fa fa-pen'></i> </button>
                                                 <a href="main.php?dir=post_categories&page=delete&cat_id=<?php echo $cat['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>

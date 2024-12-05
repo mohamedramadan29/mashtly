@@ -80,7 +80,7 @@ $count_post = count(($stmt->fetchAll()));
             <div class='row main_blog'>
                 <div class="col-lg-6">
                     <div class="info">
-                        <img src="https://www.mshtly.com/admin/posts/images/<?php echo $post_image; ?>" alt="">
+                        <img src="https://www.mshtly.com/uploads/posts/<?php echo $post_image; ?>" alt="">
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -141,7 +141,7 @@ $count_post = count(($stmt->fetchAll()));
                         <div class="col-lg-4">
                             <a href="https://www.mshtly.com/blog/<?php echo $post['slug']; ?>" style="text-decoration: none;">
                                 <div class="post_info">
-                                    <img src="https://www.mshtly.com/admin/posts/images/<?php echo $post['main_image'] ?>" alt="<?php echo $post['name'] ?>">
+                                    <img src="https://www.mshtly.com/uploads/posts/<?php echo $post['main_image'] ?>" alt="<?php echo $post['name'] ?>">
                                     <div class="post_person_info">
                                         <div>
                                             <i class="bi bi-calendar"></i>

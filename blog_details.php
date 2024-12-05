@@ -41,7 +41,7 @@ if ($key !== false && isset($parts[$key + 1])) {
                 <div class="post_details">
                     <!-- <h5> <img class="calendar_name" src="<?php echo $uploads ?>/calendar2.svg" alt=""> <?php echo $post_date; ?> </h5> -->
                     <h2> <?php echo $post_head; ?> </h2>
-                    <img src="admin/posts/images/<?php echo $post_image; ?>" alt="<?php echo $post_head ?>">
+                    <img src="uploads/posts/<?php echo $post_image; ?>" alt="<?php echo $post_head ?>">
                     <?php echo $post_desc; ?> 
                      <?php echo $post_desc2; ?>  
 
