@@ -27,7 +27,13 @@ if ($product_index !== false && isset($url_parts[$product_index + 1])) {
     $product_data_image = $stmt->fetch();
     $pro_image = $product_data_image['main_image'];
 }
-$url_parts = explode('/', $current_url);
+
+$current_url = urldecode($current_url);
+// فصل الرابط عن المعاملات
+$parsed_url = parse_url($current_url);
+$path = $parsed_url['path'];
+
+$url_parts = explode('/', trim($path, '/'));
 $blog_index = array_search($keyword2, $url_parts);
 if ($blog_index !== false && isset($url_parts[$blog_index + 1])) {
     $blog_name = $url_parts[$blog_index + 1];
@@ -96,5 +102,5 @@ if ($blog_category_index !== false && isset($url_parts[$blog_category_index + 1]
     } else {
         $description = $description; // Use the full description if it's shorter than 160 characters
     }
-    $meta_title = $category_data['name'];
+    $meta_title = 'المدونة / '.$category_data['name'];
 }
