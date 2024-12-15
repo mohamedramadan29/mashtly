@@ -6,6 +6,17 @@ $description = ' اقسام المدونة  ';
 $page_keywords = '  مشتلي , تصنيفات المدونة   ';
 include "init.php";
 
+// احصل على الرابط الكامل
+$current_url = $_SERVER['REQUEST_URI'];
+
+// التحقق من وجود الأجزاء الإضافية
+if (strpos($current_url, '?cat=index.php/index') !== false) {
+    // إذا كان الرابط يحتوي على "?cat=index.php/index"، قم بإعادة التوجيه إلى الرابط الصحيح
+    $correct_url = "/blog-category";
+    header("Location: $correct_url", true, 301);
+    exit;
+}
+
 ?>
 <div class="profile_page adress_page">
     <div class='container'>
@@ -27,10 +38,11 @@ include "init.php";
                 $stmt->execute();
                 $allcat = $stmt->fetchAll();
                 foreach ($allcat as $cat) {
-                ?>
+                    ?>
                     <div class="col-lg-3">
                         <div class="info">
-                            <img src="admin/post_categories/images/<?php echo $cat['main_image'] ?>" alt="<?php echo $cat['name'] ?>">
+                            <img src="admin/post_categories/images/<?php echo $cat['main_image'] ?>"
+                                alt="<?php echo $cat['name'] ?>">
                             <div class="heading">
                                 <h3> <?php echo $cat['name']; ?> </h3>
                                 <p>
@@ -40,11 +52,12 @@ include "init.php";
                                     echo implode(' ', $first_20_words) . '...';
                                     ?>
                                 </p>
-                                <a href="blog-categories-details/<?php echo $cat['slug']; ?>" class="global_button"> المقالات </a>
+                                <a href="blog-categories-details/<?php echo $cat['slug']; ?>" class="global_button">
+                                    المقالات </a>
                             </div>
                         </div>
                     </div>
-                <?php
+                    <?php
                 }
                 ?>
 

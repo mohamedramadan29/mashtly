@@ -1,27 +1,37 @@
 <?php
 ob_start();
 session_start();
-$page_title = ' مشتلي  | التصنيفات  ';
+$page_title = 'مشتلي | التصنيفات';
 include "init.php";
 
-// الحصول على الجزء من العنوان بعد اسم الملف (مثل product)
+// الحصول على الجزء من العنوان بعد اسم الملف
 $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $parts = explode('/', $url);
-// البحث عن قيمة المتغير بدون كلمة slug
+
+// البحث عن "product-category"
 $key = array_search('product-category', $parts);
 $keyPage = array_search('page', $parts);
+
 if ($key !== false && isset($parts[$key + 1])) {
-    // يمكنك استخدام $parts[$key+1] كـ slug
-    $cat_slug  = $parts[$key + 1];
-    $cat_slug =  urldecode($cat_slug);
+    // قراءة slug
+    $cat_slug = urldecode($parts[$key + 1]);
+
+    // تحقق من وجود أجزاء إضافية في الرابط
+    if (isset($parts[$key + 2]) && !empty($parts[$key + 2])) {
+        // إذا كان هناك جزء إضافي، قم بإعادة التوجيه إلى الرابط الصحيح
+        $correct_url = "/product-category/" . $cat_slug;
+        header("Location: $correct_url", true, 301);
+        exit;
+    }
 } else {
     // لم يتم العثور على slug
     echo "العنوان غير صحيح";
+    exit;
 }
+
+// التحقق من وجود صفحة في الرابط
 if ($keyPage !== false && isset($parts[$keyPage + 1])) {
-    $keyPage = $parts[$keyPage + 1];
-    // $keyPage = $currentpage;
-    $currentpage = $keyPage;
+    $currentpage = $parts[$keyPage + 1];
 } else {
     $currentpage = 1;
 }
@@ -144,7 +154,9 @@ if ($check_cat > 0) {
                 <img src="<?php echo $uploads ?>plant.svg" alt="">
                 <h2> اختر النباتات الملائمة لاحتياجاتك </h2>
                 <p>
-                    ان اختيار النباتات الملائمة أمرًا مهمًا للحصول على حديقة نباتية جميلة وصحية. لذلك، يجب النظر في المساحة المتاحة ومدى تعرض النباتات للضوء والرطوبة ودرجة الحرارة والتربة في المنطقة التي تعيش فيها بالاضافة الي العديد من العوامل الاخري.
+                    ان اختيار النباتات الملائمة أمرًا مهمًا للحصول على حديقة نباتية جميلة وصحية. لذلك، يجب النظر في
+                    المساحة المتاحة ومدى تعرض النباتات للضوء والرطوبة ودرجة الحرارة والتربة في المنطقة التي تعيش فيها
+                    بالاضافة الي العديد من العوامل الاخري.
                 </p>
             </div>
         </div>
@@ -157,12 +169,15 @@ if ($check_cat > 0) {
         <div class="data">
             <div class="data_header">
                 <div class="data_header_name">
-                    <h2 class='header2'> <a href="shop" style="text-decoration: none; color: var(--main-color);">المتجر</a> / <span style="color: var(--main-color);"> <?php echo $cat_data['name'] ?> </span> </h2>
+                    <h2 class='header2'> <a href="shop"
+                            style="text-decoration: none; color: var(--main-color);">المتجر</a> / <span
+                            style="color: var(--main-color);"> <?php echo $cat_data['name'] ?> </span> </h2>
                     <p> اجمالي النتائج :<span> <?php echo $num_products; ?> </span> </p>
                 </div>
                 <div class="search_types">
                     <div class="brach_cat">
-                        <button class="global_button btn" id="brach_orders"> <img src="<?php echo $uploads ?>filter.png" alt=""> تصنيف حسب </button>
+                        <button class="global_button btn" id="brach_orders"> <img src="<?php echo $uploads ?>filter.png"
+                                alt=""> تصنيف حسب </button>
                     </div>
                     <div class="search">
                         <!-- <button class="global_button btn" id="search_orders"> رتب حسب: <span class="selected_search">
@@ -180,40 +195,50 @@ if ($check_cat > 0) {
                                 } ?> </span> </button> -->
                         <div class="os">
                             <form action="" method="get" name="sortProducts" id="sortProducts">
-                                <select class="form-control" name="sort" id="sort" style="border-radius: 24px;padding: 8px;border-color: var(--second-color);background: transparent;color: var(--second-color);min-width: 230px;">
+                                <select class="form-control" name="sort" id="sort"
+                                    style="border-radius: 24px;padding: 8px;border-color: var(--second-color);background: transparent;color: var(--second-color);min-width: 230px;">
                                     <option value=""> رتب حسب ... </option>
-                                    <option <?php if (isset($_GET['sort']) && $_GET['sort'] == 'newest') echo "selected"; ?> value="newest"> الاحدث </option>
-                                    <option <?php if (isset($_GET['sort']) && $_GET['sort'] == 'oldest') echo "selected"; ?> value="oldest"> الاقدم </option>
-                                    <!-- <option <?php if (isset($_GET['sort']) && $_GET['sort'] == 'heigh_to_low') echo "selected"; ?> value="heigh_to_low">  السعر من الاعلي الي الاقل  </option>
-                                <option <?php if (isset($_GET['sort']) && $_GET['sort'] == 'low_to_heigh') echo "selected"; ?> value="low_to_heigh"> السعر من الاقل الي الاعلي  </option> -->
+                                    <option <?php if (isset($_GET['sort']) && $_GET['sort'] == 'newest')
+                                        echo "selected"; ?> value="newest"> الاحدث </option>
+                                    <option <?php if (isset($_GET['sort']) && $_GET['sort'] == 'oldest')
+                                        echo "selected"; ?> value="oldest"> الاقدم </option>
+                                    <!-- <option <?php if (isset($_GET['sort']) && $_GET['sort'] == 'heigh_to_low')
+                                        echo "selected"; ?> value="heigh_to_low">  السعر من الاعلي الي الاقل  </option>
+                                <option <?php if (isset($_GET['sort']) && $_GET['sort'] == 'low_to_heigh')
+                                    echo "selected"; ?> value="low_to_heigh"> السعر من الاقل الي الاعلي  </option> -->
 
                                     <!-- تضمين قيمة الفئة -->
-                                    <input type="hidden" name="cat" value="<?php echo isset($_GET['cat']) ? $_GET['cat'] : ''; ?>">
+                                    <input type="hidden" name="cat"
+                                        value="<?php echo isset($_GET['cat']) ? $_GET['cat'] : ''; ?>">
                                 </select>
                             </form>
                         </div>
                         <div class="options">
                             <form action="" method="post">
                                 <div class="form-check">
-                                    <input name="newest" class="form-check-input" type="checkbox" value="" id="flexCheck3" onclick="submit();">
+                                    <input name="newest" class="form-check-input" type="checkbox" value=""
+                                        id="flexCheck3" onclick="submit();">
                                     <label class="form-check-label" for="flexCheck3">
                                         الأحدث
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input name="oldest" class="form-check-input" type="checkbox" value="" id="flexCheck4" onclick="submit();">
+                                    <input name="oldest" class="form-check-input" type="checkbox" value=""
+                                        id="flexCheck4" onclick="submit();">
                                     <label class="form-check-label" for="flexCheck4">
                                         الأقدم
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input name="height_price" class="form-check-input" type="checkbox" value="" id="flexCheck1" onclick="submit();">
+                                    <input name="height_price" class="form-check-input" type="checkbox" value=""
+                                        id="flexCheck1" onclick="submit();">
                                     <label class="form-check-label" for="flexCheck1">
                                         السعر من الاعلي الي الاقل
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input name="low_price" class="form-check-input" type="checkbox" value="" id="flexCheck2" onclick="submit();">
+                                    <input name="low_price" class="form-check-input" type="checkbox" value=""
+                                        id="flexCheck2" onclick="submit();">
                                     <label class="form-check-label" for="flexCheck2">
                                         السعر من الاقل الي الاعلي
                                     </label>
@@ -233,7 +258,7 @@ if ($check_cat > 0) {
                             $stmt->execute();
                             $allplant_props = $stmt->fetchAll();
                             foreach ($allplant_props as $plant_props) {
-                            ?>
+                                ?>
                                 <div class="search_one">
                                     <h4 class="select_search"> <?php echo $plant_props['properity_name']; ?> <i class="fa fa-chevron-down"></i> </h4>
                                     <div class="options">
@@ -242,7 +267,7 @@ if ($check_cat > 0) {
                                         $stmt->execute(array($plant_props['id']));
                                         $alloptions = $stmt->fetchAll();
                                         foreach ($alloptions as $option) {
-                                        ?>
+                                            ?>
                                             <div class="form-check">
                                                 <input name="options[]" class="form-check-input" type="checkbox" value="<?php echo $option['id'] ?>" id="option<?php echo $option['id'] ?>">
                                                 <label class="form-check-label" for="option<?php echo $option['id'] ?>">
@@ -265,19 +290,19 @@ if ($check_cat > 0) {
                     <div class="row" id="content_section">
                         <?php
                         foreach ($allproducts as $product) {
-                        ?>
+                            ?>
                             <div class="col-lg-3 col-6">
                                 <?php
                                 include 'tempelate/product.php';
                                 ?>
                             </div>
-                        <?php
+                            <?php
                         }
                         ?>
                     </div>
                     <?php
                     if ($totalPages > 1) {
-                    ?>
+                        ?>
                         <!-- <div class="pagination_section">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
@@ -305,7 +330,7 @@ if ($check_cat > 0) {
                         </div> -->
                         <button id="loadMoreButton" class="btn btn-primary">تحميل المزيد</button>
 
-                    <?php
+                        <?php
                     }
 
                     ?>
@@ -334,9 +359,9 @@ ob_end_flush();
         formData.append('sort', sortOption);
 
         fetch('https://www.localhost/mashtly/load_more_products_by_category.php', {
-                method: 'POST',
-                body: formData
-            })
+            method: 'POST',
+            body: formData
+        })
             .then(response => response.text()) // تغيير إلى text لأن الاستجابة هي HTML الآن
             .then(data => {
                 if (data.trim() === "") {
@@ -353,7 +378,7 @@ ob_end_flush();
     // تنفيذ تحميل المزيد عند الضغط على الزر
     document.getElementById('loadMoreButton').addEventListener('click', loadMoreProducts);
 
-    document.getElementById('sort').addEventListener('change', function() {
+    document.getElementById('sort').addEventListener('change', function () {
         currentPage = 1;
         document.getElementById('content_section').innerHTML = ''; // مسح المنتجات الحالية
         loadMoreProducts(); // إعادة تحميل المنتجات حسب الترتيب الجديد
