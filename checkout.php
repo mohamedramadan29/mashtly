@@ -3,6 +3,28 @@ ob_start();
 session_start();
 $page_title = ' اتمام عملية الشراء  ';
 include "init.php";
+require 'admin/vendor/autoload.php'; // إذا كنت تستخدم Composer
+use Google\Client;
+use Google\Service\Sheets;
+function addOrderToGoogleSheet($orderData)
+{
+    // تحميل بيانات الاعتماد من ملف JSON
+    $client = new Client();
+    $client->setAuthConfig('refreshing-glow-438708-b2-b759bbeb40eb.json');
+    $client->addScope(Sheets::SPREADSHEETS);
+    $service = new Sheets($client);
+    // إعدادات الـ Google Sheet
+    $spreadsheetId = '1Maxt487hN-r0SpUReaRZQ7CONfpaVsEPFdq2PyqplwQ'; // ضع هنا الـ ID من رابط Google Sheet
+    $range = 'Sheet1!A1'; // الورقة والنطاق
+    $values = [$orderData]; // بيانات الطلبات
+    $body = new Sheets\ValueRange(['values' => $values]);
+
+    // كتابة البيانات في Google Sheet
+    $params = ['valueInputOption' => 'RAW'];
+    $result = $service->spreadsheets_values->append($spreadsheetId, $range, $body, $params);
+
+    return $result;
+}
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
     // get all product from user cart
@@ -14,7 +36,8 @@ if (isset($_SESSION['user_id'])) {
     } else {
         header("Location:cart");
     }
-?>
+
+    ?>
     <div class="profile_page adress_page">
         <div class='container'>
             <div class="data">
@@ -70,9 +93,10 @@ if (isset($_SESSION['user_id'])) {
                                             } elseif ($country == 'SAR') {
                                                 $country = 'المملكة العربية السعودية';
                                             }
-                                    ?>
+                                            ?>
                                             <div class="checkout_address">
-                                                <div class="address <?php if ($default_address == 1) echo "active"; ?> ">
+                                                <div class="address <?php if ($default_address == 1)
+                                                    echo "active"; ?> ">
                                                     <div class='add_content'>
                                                         <h2> <?php echo $city; ?> </h2>
                                                         <p class="add_title">
@@ -87,17 +111,19 @@ if (isset($_SESSION['user_id'])) {
                                                     </div>
                                                 </div>
                                             </div>
-                                        <?php
+                                            <?php
                                         }
                                     } else {
                                         ?>
                                         <div class="alert alert-info"> من فضلك ادخل عنوان الشحن الخاص بك </div>
-                                    <?php
+                                        <?php
                                     }
                                     ?>
                                 </div>
                                 <div class="user_address">
-                                    <textarea style="box-shadow: none; outline:none; height:100px;border-radius: 10px" name="order_details" class="form-control" placeholder="ملاحظات اضافية علي طلبك"></textarea>
+                                    <textarea style="box-shadow: none; outline:none; height:100px;border-radius: 10px"
+                                        name="order_details" class="form-control"
+                                        placeholder="ملاحظات اضافية علي طلبك"></textarea>
                                 </div>
                                 <br>
                                 <div class="col-lg-12">
@@ -113,7 +139,8 @@ if (isset($_SESSION['user_id'])) {
                                                     <p> إجمالي سعر المنتجات في السلة </p>
                                                 </div>
                                                 <div>
-                                                    <h2 class="total"> <?php echo number_format($_SESSION['total'], 2); ?> ر.س </h2>
+                                                    <h2 class="total"> <?php echo number_format($_SESSION['total'], 2); ?>
+                                                        ر.س </h2>
                                                 </div>
                                             </div>
                                             <div class="first">
@@ -123,7 +150,9 @@ if (isset($_SESSION['user_id'])) {
                                                     <p> تكلفة الزراعة </p>
                                                 </div>
                                                 <div>
-                                                    <h2 class="total"> <?php echo number_format($_SESSION['farm_services'], 2); ?> ر.س </h2>
+                                                    <h2 class="total">
+                                                        <?php echo number_format($_SESSION['farm_services'], 2); ?> ر.س
+                                                    </h2>
                                                 </div>
                                             </div>
                                             <div class="first">
@@ -133,9 +162,10 @@ if (isset($_SESSION['user_id'])) {
                                                 </div>
                                                 <div>
                                                     <h2 class="total"> <?php include 'tempelate/shiping_price.php'; ?> </h2>
-                                                    <input type="hidden" name="last_shipping_value" id="lastshippingvalue" value="<?php echo $shipping_value; ?>">
+                                                    <input type="hidden" name="last_shipping_value" id="lastshippingvalue"
+                                                        value="<?php echo $shipping_value; ?>">
                                                     <h2 class="total"> <?php // echo number_format($_SESSION['shipping_value'],2); 
-                                                                        ?> </h2>
+                                                        ?> </h2>
                                                 </div>
                                                 <!-- <div>
                                                     <div class="form-check">
@@ -163,7 +193,7 @@ if (isset($_SESSION['user_id'])) {
                                                     <?php
                                                     if (isset($_SESSION['coupon'])) {
                                                         // تطبيق خصم 10% على قيمة الشحنة
-                                                        $shipping_discount =  $_SESSION['coupon'] / 100;
+                                                        $shipping_discount = $_SESSION['coupon'] / 100;
                                                         //$_SESSION['discount_value'] = $shipping_discount;
                                                         $grand_total = $_SESSION['total'] + $_SESSION['farm_services'] + $shipping_value;
                                                         $grand_total = $grand_total - $shipping_discount;
@@ -172,15 +202,18 @@ if (isset($_SESSION['user_id'])) {
                                                     }
                                                     ?>
                                                     <h2 class="total" id="grand_total"> </h2>
-                                                    <h2 class="total" id="grand_total"> <?php echo $grand_total; ?> ر.س </h2>
-                                                    <input type="hidden" name="grand_total" id="grand_total_value" value="<?php echo $grand_total ?>">
+                                                    <h2 class="total" id="grand_total"> <?php echo $grand_total; ?> ر.س
+                                                    </h2>
+                                                    <input type="hidden" name="grand_total" id="grand_total_value"
+                                                        value="<?php echo $grand_total ?>">
                                                 </div>
                                             </div>
                                             <?php
 
                                             if (isset($_SESSION['coupon'])) {
-                                            ?>
-                                                <input type="hidden" name="" id="discountCoupon" value="<?php echo $shipping_discount; ?>">
+                                                ?>
+                                                <input type="hidden" name="" id="discountCoupon"
+                                                    value="<?php echo $shipping_discount; ?>">
                                                 <?php
                                                 ?>
                                                 <div class="first">
@@ -189,11 +222,14 @@ if (isset($_SESSION['user_id'])) {
                                                         <p> قيمه الخصم من تكلفه الشحنه </p>
                                                     </div>
                                                     <div>
-                                                        <input type="hidden" name="discountValue" value="<?php echo $shipping_discount; ?>" id="discountValue">
-                                                        <h2 class="total" id="discountValue_total"> <?php echo $shipping_discount; ?> </h2>
+                                                        <input type="hidden" name="discountValue"
+                                                            value="<?php echo $shipping_discount; ?>" id="discountValue">
+                                                        <h2 class="total" id="discountValue_total">
+                                                            <?php echo $shipping_discount; ?>
+                                                        </h2>
                                                     </div>
                                                 </div>
-                                            <?php
+                                                <?php
                                             }
                                             ?>
                                         </div>
@@ -226,9 +262,10 @@ if (isset($_SESSION['user_id'])) {
                                             $end_date = $payment['end_date'];
                                             $cvc = $payment['cvc'];
                                             $default = $payment['default_payment'];
-                                        ?>
+                                            ?>
 
-                                            <input required style="display: none;" id="visa_payment" type="radio" name="checkout_payment" value="الدفع الالكتروني">
+                                            <input required style="display: none;" id="visa_payment" type="radio"
+                                                name="checkout_payment" value="الدفع الالكتروني">
                                             <label for="visa_payment" class="checkout_address">
                                                 <div class="address payment_method">
                                                     <div class='add_content'>
@@ -237,41 +274,50 @@ if (isset($_SESSION['user_id'])) {
                                                             $visa_public_name = 'فيزا';
                                                             if ($first_number == 5 || $first_number == 2) {
                                                                 $visa_public_name = 'ماستر كارد ';
-                                                            ?>
+                                                                ?>
                                                                 <img src="<?php echo $uploads ?>master.png" alt="">
-                                                            <?php
+                                                                <?php
                                                             } elseif ($first_number == 4) {
                                                                 $visa_public_name = 'فيزا';
-                                                            ?>
+                                                                ?>
                                                                 <img src="<?php echo $uploads ?>visa.svg" alt="">
-                                                            <?php
+                                                                <?php
                                                             } else {
-                                                            ?>
+                                                                ?>
                                                                 <img src="<?php echo $uploads ?>visa.svg" alt="">
-                                                            <?php
+                                                                <?php
                                                             }
                                                             ?>
                                                         </div>
                                                         <div class="card_data">
-                                                            <p class="number"> <?php echo $visa_public_name; ?> تنتهي ب <?php echo $lastFourDigits; ?> </p>
-                                                            <p class="end_date"> الأسم علي البطاقة : <span style="font-weight: bold; color:#000"> <?php echo $card_name; ?></span> </p>
-                                                            <p class="end_date"> تنتهي صلاحية البطاقة : <span style="font-weight: bold; color:#000"> <?php echo $end_date; ?></span> </p>
+                                                            <p class="number"> <?php echo $visa_public_name; ?> تنتهي ب
+                                                                <?php echo $lastFourDigits; ?>
+                                                            </p>
+                                                            <p class="end_date"> الأسم علي البطاقة : <span
+                                                                    style="font-weight: bold; color:#000">
+                                                                    <?php echo $card_name; ?></span> </p>
+                                                            <p class="end_date"> تنتهي صلاحية البطاقة : <span
+                                                                    style="font-weight: bold; color:#000">
+                                                                    <?php echo $end_date; ?></span> </p>
                                                         </div>
                                                     </div>
                                                     <div class="security_number">
                                                         <label for=""> رقم التحقق CVC </label>
-                                                        <input maxlength="3" type="text" name="security_number" placeholder="123">
+                                                        <input maxlength="3" type="text" name="security_number"
+                                                            placeholder="123">
                                                     </div>
                                                 </div>
                                             </label>
-                                        <?php
+                                            <?php
                                         }
                                         ?>
                                         <?php
                                         if ($area == 'منطقة الرياض') {
-                                        ?>
+                                            ?>
                                             <div class="d-flex align-items-center" id="payment1">
-                                                <input checked style="width: 35px;height: 28px;cursor: pointer;" required id="visa_payment" type="radio" name="checkout_payment" value="الدفع الالكتروني">
+                                                <input checked style="width: 35px;height: 28px;cursor: pointer;" required
+                                                    id="visa_payment" type="radio" name="checkout_payment"
+                                                    value="الدفع الالكتروني">
                                                 <label style="width: 95%;" for="visa_payment" class="checkout_address">
                                                     <div class="address payment_method">
                                                         <div class='add_content'>
@@ -286,7 +332,9 @@ if (isset($_SESSION['user_id'])) {
                                                 </label>
                                             </div>
                                             <div class="d-flex align-items-center" id="payment2">
-                                                <input style="width: 35px;height: 28px;cursor: pointer;" required id="when_drive" type="radio" name="checkout_payment" value="الدفع عن الاستلام">
+                                                <input style="width: 35px;height: 28px;cursor: pointer;" required
+                                                    id="when_drive" type="radio" name="checkout_payment"
+                                                    value="الدفع عن الاستلام">
                                                 <label style="width: 95%;" for="when_drive" class="checkout_address">
                                                     <div class="address payment_method">
                                                         <div class='add_content'>
@@ -301,11 +349,13 @@ if (isset($_SESSION['user_id'])) {
                                                     </div>
                                                 </label>
                                             </div>
-                                        <?php
+                                            <?php
                                         } else {
-                                        ?>
+                                            ?>
                                             <div class="d-flex align-items-center" id="payment1">
-                                                <input checked style="width: 35px;height: 28px;cursor: pointer;" required id="visa_payment" type="radio" name="checkout_payment" value="الدفع الالكتروني">
+                                                <input checked style="width: 35px;height: 28px;cursor: pointer;" required
+                                                    id="visa_payment" type="radio" name="checkout_payment"
+                                                    value="الدفع الالكتروني">
                                                 <label style="width: 95%;" for="visa_payment" class="checkout_address">
                                                     <div class="address payment_method">
                                                         <div class='add_content'>
@@ -320,7 +370,7 @@ if (isset($_SESSION['user_id'])) {
                                                 </label>
                                             </div>
 
-                                        <?php
+                                            <?php
                                         }
 
                                         ?>
@@ -328,7 +378,8 @@ if (isset($_SESSION['user_id'])) {
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" name="order_compelete" class="btn global_button"> اكمال عملية الشراء </button>
+                            <button type="submit" name="order_compelete" class="btn global_button"> اكمال عملية الشراء
+                            </button>
 
                         </div>
                     </div>
@@ -341,7 +392,7 @@ if (isset($_SESSION['user_id'])) {
                     $grand_total = $_POST['grand_total'];
                     $_SESSION['grand_total'] = $grand_total;
                     $discountValue = $_POST['discountValue'];
-                    $_SESSION['discount_value'] =  $discountValue;
+                    $_SESSION['discount_value'] = $discountValue;
                     // $get user data 
                     $stmt = $connect->prepare("SELECT * FROM users WHERE id = ?");
                     $stmt->execute(array($user_id));
@@ -370,9 +421,13 @@ if (isset($_SESSION['user_id'])) {
                         $farm_service = 0;
                     }
                     $payment_method = $_POST['checkout_payment'];
-                    if (empty($shipping_value) || $shipping_value ==  0) {
-                        $formerror[] = ' من فضلك حدد الشحن  ';
+                    ############################ Edit Here ##################################
+                    if ($city != 'مدينة الرياض') {
+                        if (empty($shipping_value) || $shipping_value == 0) {
+                            $formerror[] = ' من فضلك حدد الشحن  ';
+                        }
                     }
+                    ############################## End Edit Here ##################################
                     if (empty($payment_method)) {
                         $formerror[] = ' من فضلك حدد وسيلة الدفع ';
                     }
@@ -440,10 +495,10 @@ if (isset($_SESSION['user_id'])) {
                                 $_SESSION['order_number'] = $order_number;
                                 foreach ($allitems as $item) {
                                     $product_id = $item['product_id'];
-                                    $quantity  = $item['quantity'];
-                                    $price  = $item['price'];
-                                    $farm_service  = $item['farm_service'];
-                                    $as_present  = $item['gift_id'];
+                                    $quantity = $item['quantity'];
+                                    $price = $item['price'];
+                                    $farm_service = $item['farm_service'];
+                                    $as_present = $item['gift_id'];
                                     $more_details = $item['vartion_name'];
                                     $total_price = $item['total_price'];
                                     // Insert Order Details
@@ -485,6 +540,13 @@ if (isset($_SESSION['user_id'])) {
                                     ));
                                 }
                                 if ($stmt) {
+                                    // إذا تم الإدخال بنجاح، أضف الطلب إلى Google Sheets
+                                    addOrderToGoogleSheet([
+                                        $order_number, // رقم الطلب
+                                        $product_id, // اسم العميل
+                                        $quantity, // المنتج
+                                        $pro_first_prices // السعر
+                                    ]);
                                     //include "send_mail/index.php";
                                     ////////// End Send Mail 
                                     // delete session 
@@ -506,9 +568,9 @@ if (isset($_SESSION['user_id'])) {
                             }
                         } elseif ($payment_method === 'الدفع الالكتروني') {
                             // Get the user's details (you can fetch these from your database)
-                            try{
+                            try {
 
-                            }catch(\Exception $e){
+                            } catch (\Exception $e) {
                                 echo $e;
                             }
                             $payment_method = 'الدفع الالكتروني';
@@ -548,10 +610,10 @@ if (isset($_SESSION['user_id'])) {
                             $_SESSION['order_number'] = $order_number;
                             foreach ($allitems as $item) {
                                 $product_id = $item['product_id'];
-                                $quantity  = $item['quantity'];
-                                $price  = $item['price'];
-                                $farm_service  = $item['farm_service'];
-                                $as_present  = $item['gift_id'];
+                                $quantity = $item['quantity'];
+                                $price = $item['price'];
+                                $farm_service = $item['farm_service'];
+                                $as_present = $item['gift_id'];
                                 $more_details = $item['vartion_name'];
                                 $total_price = $item['total_price'];
                                 // Insert Order Details
@@ -660,10 +722,10 @@ if (isset($_SESSION['user_id'])) {
                         }
                     } else {
                         foreach ($formerror as $error) {
-                ?>
+                            ?>
 
                             <div style="margin-top: 20px;" class="alert alert-danger"> <?php echo $error; ?> </div>
-                <?php
+                            <?php
                         }
                     }
                 }
@@ -671,7 +733,7 @@ if (isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
-<?php
+    <?php
 
 } else {
     header("Location:login");

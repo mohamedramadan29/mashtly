@@ -134,7 +134,7 @@ if (isset($_POST['add_to_cart'])) {
                 "zproduct_id" => $product_id,
                 "zproduct_name" => $product_name,
                 "zquantity" => $quantity,
-                "zprice" => $price,
+                "zprice" => $price, 
                 "zfarm_service" => $farm_planet,
                 "zgift_id" => $gift_id,
                 "ztotal_price" => $total_price,
@@ -200,7 +200,7 @@ if (isset($_POST['add_to_fav'])) {
 <div class="container">
     <div class="data">
         <div class="breadcrump">
-            <p> <a href="index"> الرئيسية </a> \ <span> <a href="http://localhost/mashtly/shop"> المتجر </a> </span> \ <span> <a href="http://localhost/mashtly/product-category/<?php echo $cat_slug; ?>"> <?php echo  $cat_name ?> </a> </span> \ <?php echo $product_name ?> </p>
+            <p> <a href="index"> الرئيسية </a> \ <span> <a href="https://www.mshtly.com/shop"> المتجر </a> </span> \ <span> <a href="https://www.mshtly.com/product-category/<?php echo $cat_slug; ?>"> <?php echo  $cat_name ?> </a> </span> \ <?php echo $product_name ?> </p>
         </div>
     </div>
 </div>
@@ -221,8 +221,8 @@ if (isset($_POST['add_to_fav'])) {
                             ?>
                                 <div class="main-slider gallery-lb">
                                     <div>
-                                        <a href="http://localhost/mashtly/uploads/products/<?php echo $product_data_image['main_image']; ?>">
-                                            <img loading="lazy" src="http://localhost/mashtly/uploads/products/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt'] ?>">
+                                        <a href="https://www.mshtly.com/uploads/products/<?php echo $product_data_image['main_image']; ?>">
+                                            <img loading="lazy" src="https://www.mshtly.com/uploads/products/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt'] ?>">
                                         </a>
                                     </div>
                                     <?php
@@ -236,8 +236,8 @@ if (isset($_POST['add_to_fav'])) {
                                             if ($gallary['image'] != null || $gallary['image'] != '') {
                                     ?>
                                                 <div>
-                                                    <a href="http://localhost/mashtly/uploads/products/<?php echo $gallary['image']; ?>">
-                                                        <img loading="lazy" src="http://localhost/mashtly/uploads/products/<?php echo $gallary['image']; ?>" alt="<?php echo $gallary['image_alt'] ?>">
+                                                    <a href="https://www.mshtly.com/uploads/products/<?php echo $gallary['image']; ?>">
+                                                        <img loading="lazy" src="https://www.mshtly.com/uploads/products/<?php echo $gallary['image']; ?>" alt="<?php echo $gallary['image_alt'] ?>">
                                                     </a>
                                                 </div>
                                             <?php
@@ -247,6 +247,7 @@ if (isset($_POST['add_to_fav'])) {
                                         }
                                         ?>
                                     <?php
+                                    } else {
                                     }
                                     ?>
                                     <?php
@@ -257,16 +258,17 @@ if (isset($_POST['add_to_fav'])) {
                                     $count_att_g = count($allattimages);
                                     if ($count_att_g > 0) {
                                         foreach ($allattimages as $att_image) {
-                                            if ($att_image['image'] != '' && $att_image['image'] != null) {
-                                    ?>
-                                                <div>
-                                                    <a href="http://localhost/mashtly/uploads/products/<?php echo $att_image['image']; ?>">
-                                                        <img loading="lazy" src="http://localhost/mashtly/uploads/products/<?php echo $att_image['image']; ?>" alt="<?php echo $att_image['image_alt']; ?>">
-                                                    </a>
-                                                </div>
-                                            <?php
+                                            if ($att_image['image'] != '' && $att_image['image'] != null){
+                                                ?>
+                                                  <div>
+                                                <a href="https://www.mshtly.com/uploads/products/<?php echo $att_image['image']; ?>">
+                                                    <img loading="lazy" src="https://www.mshtly.com/uploads/products/<?php echo $att_image['image']; ?>" alt="<?php echo $att_image['image_alt'] ?>">
+                                                </a>
+                                            </div>
+                                                <?php 
                                             }
-                                            ?>
+                                    ?>
+                                          
                                         <?php
                                         }
                                         ?>
@@ -280,7 +282,7 @@ if (isset($_POST['add_to_fav'])) {
                                 ?>
                                     <div class="thumbnail-slider products_thumnails" id="products_thumnails">
                                         <div>
-                                            <img class="thumbnail-image" loading="lazy" src="http://localhost/mashtly/uploads/products/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt'] ?>" data-image2="<?php echo $product_data_image['main_image']; ?>">
+                                            <img class="thumbnail-image" loading="lazy" src="https://www.mshtly.com/uploads/products/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt'] ?>" data-image2="<?php echo $product_data_image['main_image']; ?>">
                                         </div>
                                         <?php
                                         if ($count_g > 0) {
@@ -288,7 +290,7 @@ if (isset($_POST['add_to_fav'])) {
                                                 if ($gallary['image'] != null || $gallary['image'] != '') {
                                         ?>
                                                     <div>
-                                                        <img class="thumbnail-image" loading="lazy" src="http://localhost/mashtly/uploads/products/<?php echo $gallary['image']; ?>" alt="<?php echo $gallary['image_alt'] ?>" data-image2="<?php echo $gallary['image']; ?>">
+                                                        <img class="thumbnail-image" loading="lazy" src="https://www.mshtly.com/uploads/products/<?php echo $gallary['image']; ?>" alt="<?php echo $gallary['image_alt'] ?>" data-image2="<?php echo $gallary['image']; ?>">
                                                     </div>
                                                 <?php
                                                 }
@@ -303,7 +305,7 @@ if (isset($_POST['add_to_fav'])) {
                                                 if ($att_image['image'] != '' || $att_image['image'] != null) {
                                             ?>
                                                     <div>
-                                                        <img class="thumbnail-image" loading="lazy" src="http://localhost/mashtly/uploads/products/<?php echo $att_image['image']; ?>" alt="<?php echo $att_image['image_alt'] ?>" data-image2="<?php echo $att_image['image']; ?>">
+                                                        <img class="thumbnail-image" loading="lazy" src="https://www.mshtly.com/uploads/products/<?php echo $att_image['image']; ?>" alt="<?php echo $att_image['image_alt'] ?>" data-image2="<?php echo $att_image['image']; ?>">
                                                     </div>
                                                 <?php
                                                 }
@@ -319,6 +321,7 @@ if (isset($_POST['add_to_fav'])) {
                                 <?php
                                 }
                                 ?>
+
                             <?php
                             } else {
                             ?>
@@ -328,7 +331,7 @@ if (isset($_POST['add_to_fav'])) {
                             ?>
                         </div>
                         <div class="product_info">
-                            <h1 class="product_header"> <?php echo $product_name; ?> </h1>
+                            <h1 class='product_header'>  <?php echo $product_name; ?> </h2>
                             <!-- check if products have more price in attribute or not -->
                             <?php
                             $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
@@ -388,7 +391,7 @@ if (isset($_POST['add_to_fav'])) {
                         <div class="product_description">
                             <h3> وصف المنتج </h3>
                             <p> <?php echo $product_desc ?> </p>
-                           
+                            
                         </div>
                         <div class="social_share">
                             <div>
@@ -397,12 +400,12 @@ if (isset($_POST['add_to_fav'])) {
                             <!-- AddToAny BEGIN -->
                             <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
                                 <!-- <a class="a2a_dd" href="https://www.addtoany.com/share"></a> -->
-                                <a href='' class="a2a_button_facebook"></a>
-                                <a href='' class="a2a_button_whatsapp"></a>
-                                <a href='' class="a2a_button_linkedin"></a>
-                                <a href='' class="a2a_button_twitter"></a>
-                                <a href='' class="a2a_button_x"></a>
-                                <a href='' class="a2a_button_telegram"></a>
+                                <a rel="nofollow" class="a2a_button_facebook"></a>
+                                <a rel="nofollow" class="a2a_button_whatsapp"></a>
+                                <a rel="nofollow" class="a2a_button_linkedin"></a>
+                                <a rel="nofollow" class="a2a_button_twitter"></a>
+                                <a rel="nofollow" class="a2a_button_x"></a>
+                                <a rel="nofollow" class="a2a_button_telegram"></a>
                             </div>
                             <script async src="https://static.addtoany.com/menu/page.js"></script>
                             <!-- AddToAny END -->
@@ -525,7 +528,7 @@ if (isset($_POST['add_to_fav'])) {
                                                             <input style="display: none;" class="select_gift" value="<?php echo $gift['id'] ?>" type="radio" name="gift_id" id="<?php echo $gift['id']; ?>">
                                                             <label class="diffrent_price gifts" for="<?php echo $gift['id']; ?>">
                                                                 <div>
-                                                                    <img loading="lazy" src="http://localhost/mashtly/admin/gifts/images/<?php echo $gift['image']; ?>" alt="التغليف كهدية">
+                                                                    <img loading="lazy" src="https://www.mshtly.com/admin/gifts/images/<?php echo $gift['image']; ?>" alt="التغليف كهدية">
                                                                 </div>
                                                                 <div>
                                                                     <p> يكتب هنا اسم ووصف التغليف <br><span> <?php echo $gift['price'] ?> ريال </span> </p>
@@ -585,7 +588,7 @@ if (isset($_POST['add_to_fav'])) {
                                                                 foreach ($available_tail as $tail) { ?>
                                                                     <div class="diffrent_price">
                                                                         <div>
-                                                                            <img loading="lazy" src="<?php echo $uploads ?>/tree.svg" alt="خدمة الزراعة">
+                                                                            <img loading="lazy" src="<?php echo $uploads ?>/tree.svg" alt="زراعة النباتات">
                                                                         </div>
                                                                         <div>
                                                                             <p> <?php echo $tail['name']; ?> <span> <?php echo $tail['price']; ?> ريال </span> </p>
@@ -604,10 +607,31 @@ if (isset($_POST['add_to_fav'])) {
                                 <?php
                                 }
                                 ?>
-                                <?php
-                                ?>
-                                   
-                                 
+                                <div class="add_cart">
+                                    <?php
+                                    $stmt = $connect->prepare("SELECT * FROM cart WHERE product_id = ? AND cookie_id = ?");
+                                    $stmt->execute(array($product_id, $cookie_id));
+                                    $count_pro = $stmt->rowCount();
+                                    // if ($count_pro > 0) {
+                                    ?>
+                                    <!-- <a class="btn global_button cart" href="https://www.mshtly.com/cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt="سلة الشراء"> مشاهدة السلة </a> -->
+                                    <?php
+                                    // } else {
+                                    ?>
+                                     <?php 
+                                        if($product_status_store !=1){
+                                            ?>
+                                           <p class='btn global_button'> المنتج غير متوفر  </p>
+                                            <?php 
+                                        }else{
+                                            ?>
+                                             <button class="btn global_button cart" name="add_to_cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt="سلة الشراء"> أضف الي السلة </button>
+                                            <?php 
+                                        }
+                                        ?>
+                                        
+                                    <!-- <button class="btn wishlist" name="add_to_wishlist"> <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt="المفضلة"> أضف الي المفضلة </button> -->
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -616,7 +640,7 @@ if (isset($_POST['add_to_fav'])) {
                     <div class="product_description">
                         <h3> وصف المنتج </h3>
                         <p> <?php echo $product_desc ?> </p>
-                        <!-- <button class="btn"> رقم المنتج:#<?php echo $product_id; ?> </button> -->
+                       
                     </div>
                     <div class="social_share">
                         <div>
@@ -625,12 +649,12 @@ if (isset($_POST['add_to_fav'])) {
                         <!-- AddToAny BEGIN -->
                         <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
                             <!-- <a class="a2a_dd" href="https://www.addtoany.com/share"></a> -->
-                            <a href="" class="a2a_button_facebook"></a>
-                            <a href="" class="a2a_button_whatsapp"></a>
-                            <a href="" class="a2a_button_linkedin"></a>
-                            <a href="" class="a2a_button_twitter"></a>
-                            <a href="" class="a2a_button_x"></a>
-                            <a href="" class="a2a_button_telegram"></a>
+                            <a rel="nofollow" class="a2a_button_facebook"></a>
+                            <a rel="nofollow" class="a2a_button_whatsapp"></a>
+                            <a rel="nofollow" class="a2a_button_linkedin"></a>
+                            <a rel="nofollow" class="a2a_button_twitter"></a>
+                            <a rel="nofollow" class="a2a_button_x"></a>
+                            <a rel="nofollow" class="a2a_button_telegram"></a>
                         </div>
                         <script async src="https://static.addtoany.com/menu/page.js"></script>
                         <!-- AddToAny END -->
@@ -669,85 +693,8 @@ if (isset($_POST['add_to_fav'])) {
     </div>
 </div>
 <!-- START NEWWER PRODUCTS -->
-<?php
-
-if ($related_products != null) { ?>
-    <div class="new_producs related_product">
-        <div class="container">
-            <div class="data">
-                <div class="data_header">
-                    <div class="data_header_name">
-                        <br>
-                        <br>
-                        <h2 class='header2' style="margin-bottom: 25px;">كثيرًا ما يتم شراؤها معًا </h2>
-                    </div>
-                </div>
-                <div class="linked_products">
-                    <?php
-                    $related_products = explode(',', $related_products);
-                    $related_total_price = 0;
-                    foreach ($related_products as $relate_pro) {
-                        $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ?");
-                        $stmt->execute(array($relate_pro));
-                        $product_related = $stmt->fetch();
-                        $product_related_count = $stmt->rowCount();
-                        if ($product_related_count > 0) {
-                        } else {
-                            $stmt = $connect->prepare("SELECT * FROM products WHERE id = ?");
-                            $stmt->execute(array($relate_pro));
-                            $product_data_related = $stmt->fetch();
-                    ?>
-                            <div class="link_pro">
-                                <!-- <input type="checkbox" name="related_select" checked> -->
-                                <!-- get the product image  -->
-                                <?php
-                                $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
-                                $stmt->execute(array($product_data_related['id']));
-                                $product_image_data = $stmt->fetch();
-                                $product_image_data_count = $stmt->rowCount();
-                                if ($product_image_data_count > 0) {
-                                    $product_image_related = $product_image_data['main_image'];
-                                ?>
-                                    <img loading="lazy" class="main_image" src="http://localhost/mashtly/uploads/products/<?php echo $product_image_related; ?>" alt="<?php echo $product_data_related['name']; ?>">
-                                <?php
-                                } else {
-                                ?>
-                                    <img loading="lazy" class="main_image" src="uploads/product.png" alt="صورة المنتج">
-                                <?php
-                                }
-                                ?>
-                                <div class="product_details">
-                                    <h2> <a href="product?slug=<?php echo $product_data_related['slug']; ?>"> <?php echo $product_data_related['name']; ?> </a> </h2>
-                                    <?php
-                                    if ($product_data_related['sale_price'] != '') {
-                                        $related_price = $product_data_related['sale_price'];
-                                    ?>
-                                        <h4 class='price' style="text-decoration: line-through;"> <?php echo number_format($product_data_related['price'], 2); ?> ر.س </h4>
-                                        <h4 class='price'> <?php echo number_format($product_data_related['sale_price'], 2); ?> ر.س </h4>
-                                    <?php
-                                    } else {
-                                        $related_price = $product_data_related['price'];
-                                    ?>
-                                        <h4 class='price'> <?php echo number_format($product_data_related['price'], 2); ?> ر.س </h4>
-                                    <?php
-                                    }
-                                    ?>
-                                </div>
-                            </div>
-                            <span class="plus_related"> + </span>
-                        <?php
-                            $related_total_price = $related_total_price + $related_price;
-                        }
-                        ?>
-                    <?php
-                    }
-                    ?>
-                 
-                </div>
-            </div>
-        </div>
-    </div>
-<?php  } ?>
+ 
+ 
 <!-- END NEWWER PRODUCTS  -->
 <!-- START NEWWER PRODUCTS -->
 <div class="new_producs index_all_cat">
@@ -793,7 +740,8 @@ if ($related_products != null) { ?>
     }
 </style>
 <!-- END NEWWER PRODUCTS  -->
-
+ 
+<!-- END NEWWER PRODUCTS  -->
 
 <!-- START NEWWER PRODUCTS -->
 <div class="new_producs index_all_cat" style="padding-top: 0;">
@@ -974,34 +922,32 @@ ob_end_flush();
         mainSlides[mainIndex].style.display = 'block';
 
         // تنفيذ الشريط المصغر
-        if (thumbnailSelect) {
-            thumbnailSelect.addEventListener('change', function() {
-                let selectedIndex = thumbnailSelect.selectedIndex;
-                mainSlides[mainIndex].style.display = 'none';
-                mainIndex = selectedIndex;
-                mainSlides[mainIndex].style.display = 'block';
+         if (thumbnailSelect) {
+        thumbnailSelect.addEventListener('change', function() {
+            let selectedIndex = thumbnailSelect.selectedIndex;
+            mainSlides[mainIndex].style.display = 'none';
+            mainIndex = selectedIndex;
+            mainSlides[mainIndex].style.display = 'block';
 
-                // تحديث الصورة الخلفية
-                const selectedImage = thumbnailSelect.options[selectedIndex].getAttribute('data-image');
-                if (selectedImage) {
-                    mainSlides[mainIndex].style.backgroundImage = 'url(http://localhost/mashtly/uploads/products/' + selectedImage + ')';
-                    const mainImageSlide = mainSlides[mainIndex].querySelector('img');
-                    mainImageSlide.src = 'http://localhost/mashtly/uploads/products/' + selectedImage;
-                }
-            });
-        }
-
+            // تحديث الصورة الخلفية
+            const selectedImage = thumbnailSelect.options[selectedIndex].getAttribute('data-image');
+            if (selectedImage) {
+                mainSlides[mainIndex].style.backgroundImage = 'url(https://mshtly.com/uploads/products/' + selectedImage + ')';
+                const mainImageSlide = mainSlides[mainIndex].querySelector('img');
+                mainImageSlide.src = 'https://mshtly.com/uploads/products/' + selectedImage;
+            }
+        });
+         }
         //////////////
         thumbnailImages.forEach(thumbnailImage => {
             thumbnailImage.addEventListener('click', function() {
                 // تحديث الصورة الرئيسية بناءً على الصورة المصغرة المنقر عليها
                 const selectedImage = thumbnailImage.getAttribute('data-image2');
-                // console.log(selectedImage);
+                //console.log(selectedImage);
                 if (selectedImage) {
-                    mainSlides[mainIndex].style.backgroundImage = 'url(http://localhost/mashtly/uploads/products/' + selectedImage + ')';
+                    mainSlides[mainIndex].style.backgroundImage = 'url(https://mshtly.com/uploads/products/' + selectedImage + ')';
                     const mainImageSlide = mainSlides[mainIndex].querySelector('img');
-                    mainImageSlide.src = 'http://localhost/mashtly/uploads/products/' + selectedImage;
-                    // console.log(mainImageSlide);
+                    mainImageSlide.src = 'https://mshtly.com/uploads/products/' + selectedImage;
                 }
             });
         });
@@ -1030,26 +976,26 @@ ob_end_flush();
 </script>
 
 <!---------------- IN Mobile ------------------>
-<!-- <script>
-    $(document).ready(function() {
-        const vartionSelect2 = document.querySelector('select[name="vartion_select2"]');
-        const selectedPriceElement2 = document.getElementById('selected_price2');
-        const priceValueInput2 = document.getElementById('price_value2');
+<script>
+    // $(document).ready(function() {
+    //     const vartionSelect2 = document.querySelector('select[name="vartion_select2"]');
+    //     const selectedPriceElement2 = document.getElementById('selected_price2');
+    //     const priceValueInput2 = document.getElementById('price_value2');
 
-        vartionSelect2.addEventListener('change', function() {
-            const selectedOption = vartionSelect2.options[vartionSelect2.selectedIndex];
-            const selectedPrice2 = selectedOption.getAttribute('data-price');
+    //     vartionSelect2.addEventListener('change', function() {
+    //         const selectedOption = vartionSelect2.options[vartionSelect2.selectedIndex];
+    //         const selectedPrice2 = selectedOption.getAttribute('data-price');
 
-            if (selectedPrice2 !== undefined) {
-                selectedPriceElement2.textContent = selectedPrice2 + ' ر.س';
-                priceValueInput2.value = selectedPrice2;
-            } else {
-                selectedPriceElement2.textContent = '0.00 ر.س';
-                priceValueInput2.value = '0.00';
-            }
-        });
-    });
-</script> -->
+    //         if (selectedPrice2 !== undefined) {
+    //             selectedPriceElement2.textContent = selectedPrice2 + ' ر.س';
+    //             priceValueInput2.value = selectedPrice2;
+    //         } else {
+    //             selectedPriceElement2.textContent = '0.00 ر.س';
+    //             priceValueInput2.value = '0.00';
+    //         }
+    //     });
+    // });
+</script>
 
 <!-- To Make Slider To Product Images  -->
 <script>

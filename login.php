@@ -4,6 +4,40 @@ session_start();
 $page_title = 'تسجيل الدخول';
 $description = 'سجل الدخول للوصول إلى أفضل النباتات المنزلية وتصاميم الحدائق المميزة. استمتع بخدمات زراعية فريدة وحلول لتجميل المساحات الخارجية والداخلية بأسهل الطرق الممكنة.';
 include "init.php";
+require 'admin/vendor/autoload.php';
+use Google\Client;
+use Google\Service\Sheets;
+
+function addClientToGoogleSheet($clientData)
+{
+    // تحميل بيانات الاعتماد من ملف JSON
+    $client = new Client();
+    $client->setAuthConfig('refreshing-glow-438708-b2-b759bbeb40eb.json');
+    $client->addScope(Sheets::SPREADSHEETS);
+    $service = new Sheets($client);
+    // إعدادات الـ Google Sheet
+    $spreadsheetId = '1Z8M4FIcK4RbY_9ctBu-DxlX2-0x2qJpnoaLFADgwjPw'; // ضع هنا الـ ID من رابط Google Sheet
+    $range = 'Sheet1!A1'; // الورقة والنطاق
+    $values = [$clientData]; // بيانات الطلبات
+    $body = new Sheets\ValueRange(['values' => $values]);
+
+    // كتابة البيانات في Google Sheet
+    $params = ['valueInputOption' => 'RAW'];
+    $result = $service->spreadsheets_values->append($spreadsheetId, $range, $body, $params);
+
+    return $result;
+}
+
+$client->setClientId('97629819536-q1o4om4q3onf2iskp0iglo65o6ici4bv.apps.googleusercontent.com'); // استبدل بـ Client ID
+$client->setClientSecret('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'); // استبدل بـ Client Secret
+$client->setRedirectUri('http://www.mshtly.com/googlecallback.php'); // استبدل بـ Redirect URI
+$client->addScope('email');
+$client->addScope('profile');
+
+// إنشاء رابط تسجيل الدخول
+$loginUrl = $client->createAuthUrl();
+
+
 if (isset($_SESSION['user_id'])) {
     header("location:profile");
 }
@@ -98,13 +132,13 @@ require_once 'send_mail/vendor/autoload.php';
                                     ->setBody($body_message, 'text/html');
                                 $result = $mailer->send($message);
                                 if ($result) {
-                        ?>
+                                    ?>
                                     <div class="alert alert-success"> تم ارسال ايميل التفعيل بنجاح </div>
-                                <?php
+                                    <?php
                                 } else {
-                                ?>
+                                    ?>
                                     <div class="alert alert-danger"> حدث خطا من فضلك حاول مره اخري </div>
-                            <?php
+                                    <?php
                                 }
                             }
                         }
@@ -112,10 +146,10 @@ require_once 'send_mail/vendor/autoload.php';
                         if (isset($_SESSION['success_active_code'])) {
                             ?>
                             <div class="alert alert-success"> <?php echo $_SESSION['success_active_code']; ?> </div>
-                        <?php
+                            <?php
                         }
                         if (isset($_SESSION['error_active_code'])) {
-                        ?>
+                            ?>
                             <div class="alert alert-danger"> <?php echo $_SESSION['error_active_code']; ?> </div>
                             <?php
                         }
@@ -153,65 +187,80 @@ require_once 'send_mail/vendor/autoload.php';
                                     } else {
                                         header("Location:profile");
                                     }
-
                                     exit();
                                 } else {
-                            ?>
-                                    <div class="alert alert-danger text-center" role="alert"> من فضلك يجب عليك تفعيل الحساب الخاص بك اولا من خلال الايميل المرسل
+                                    ?>
+                                    <div class="alert alert-danger text-center" role="alert"> من فضلك يجب عليك تفعيل الحساب الخاص بك
+                                        اولا من خلال الايميل المرسل
                                         <form action="" method="post">
                                             <input type="hidden" name="emailoruser" value="<?php echo $user_data['email'] ?>">
-                                            <button style="background-color: var(--second-color); border-color:var(--second-color)" class="btn btn-primary mt-3" type="submit" name="resend_email_active"> إعادة ارسال </button>
+                                            <button style="background-color: var(--second-color); border-color:var(--second-color)"
+                                                class="btn btn-primary mt-3" type="submit" name="resend_email_active"> إعادة ارسال
+                                            </button>
                                         </form>
                                     </div>
-                                <?php
+                                    <?php
                                 }
                             } else {
                                 $formerror[] = 'لا يوجد سجل بهذة البيانات';
 
                                 foreach ($formerror as $error) {
-                                ?>
-                                    <div style="max-width: 400px; text-align:center;margin:auto;margin-top:15px;" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    ?>
+                                    <div style="max-width: 400px; text-align:center;margin:auto;margin-top:15px;"
+                                        class="alert alert-danger alert-dismissible fade show" role="alert">
                                         <?php echo $error; ?>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
-                        <?php
+                                    <?php
                                 }
                             }
                         }
                         ?>
                         <?php
                         if (isset($_SESSION["send_message_to_email"])) {
-                        ?>
-                            <div style="max-width: 500px; text-align:center;margin:auto;margin-top:15px;" class="alert alert-success alert-dismissible fade show" role="alert">
+                            ?>
+                            <div style="max-width: 500px; text-align:center;margin:auto;margin-top:15px;"
+                                class="alert alert-success alert-dismissible fade show" role="alert">
                                 <!-- تم تسجيل حسابك بنجاح من فضلك فعلك حسابك من خلال البريد الالكتروني لتتمكن من تسجيل الدخول -->
                                 تم تسجيل حسابك بنجاح من فضلك سجل دخولك الان
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
-                        <?php
+                            <?php
                         }
                         unset($_SESSION["send_message_to_email"]);
                         ?>
+                        <div class="social_media_login">
+                            <div class="google_login">
+                                <a href="<?= $loginUrl ?>"> سجل الان من خلال جوجل <i class="bi bi-google"></i> </a>
+                                <br>
+                                <span> او </span>
+                            </div>
+                        </div>
                         <form action="" method="post">
                             <div class='row'>
                                 <div class='box'>
                                     <div class="input_box">
                                         <label for="name"> البريد الألكتروني او اسم المستخدم </label>
-                                        <input id="name" type="text" name="user_name" class='form-control' placeholder="اكتب…" value="<?php if (isset($_COOKIE['email'])) {
-                                                                                                                                            echo $_COOKIE['email'];
-                                                                                                                                        } ?>">
+                                        <input id="name" type="text" name="user_name" class='form-control'
+                                            placeholder="اكتب…" value="<?php if (isset($_COOKIE['email'])) {
+                                                echo $_COOKIE['email'];
+                                            } ?>">
                                     </div>
                                 </div>
                                 <div class="input_box">
                                     <label for="password">كلمة المرور</label>
-                                    <input id="password2" type="password" name="password" class="password form-control" placeholder="اكتب..." value="<?php if (isset($_COOKIE['pass'])) {
-                                                                                                                                                            echo $_COOKIE['pass'];
-                                                                                                                                                        } ?>">
-                                    <span onclick="togglePasswordVisibility('password2', this)" class="fa fa-eye-slash show_eye password_show_icon"></span>
+                                    <input id="password2" type="password" name="password" class="password form-control"
+                                        placeholder="اكتب..." value="<?php if (isset($_COOKIE['pass'])) {
+                                            echo $_COOKIE['pass'];
+                                        } ?>">
+                                    <span onclick="togglePasswordVisibility('password2', this)"
+                                        class="fa fa-eye-slash show_eye password_show_icon"></span>
                                 </div>
                                 <div class="box">
                                     <div class="input_box">
                                         <div class="form-check">
-                                            <input name="remember_me" class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                                            <input name="remember_me" class="form-check-input" type="checkbox" value=""
+                                                id="flexCheckChecked">
                                             <label class="form-check-label" for="flexCheckChecked">
                                                 تذكرني
                                             </label>
@@ -243,6 +292,14 @@ require_once 'send_mail/vendor/autoload.php';
                             <div class="data_header_name">
                                 <h2 class='header2'> إنشاء حساب جديد </h2>
                                 <p> أنشئ حسابك مجاناً واحصل علي أفضل النباتات </p>
+                                <div class="social_media_login">
+                                    <div class="google_login">
+                                        <a href="<?= $loginUrl ?>"> انشاء حساب من خلال جوجل <i class="bi bi-google"></i>
+                                        </a>
+                                        <br>
+                                        <span> او </span>
+                                    </div>
+                                </div>
                                 <?php
                                 if (isset($_POST['new_account'])) {
                                     // Generate a unique activation code 
@@ -303,16 +360,28 @@ require_once 'send_mail/vendor/autoload.php';
                                                 'zactive_status' => 1,
                                                 "zactive_status_code" => $active_status_code,
                                                 "zemail_sub" => $emails_subscribe,
-                                                'zcreated_at' =>  date("n/j/Y g:i A"),
+                                                'zcreated_at' => date("n/j/Y g:i A"),
                                             ));
                                         } catch (\Exception $e) {
                                             echo $e;
                                         }
                                         // $stmt = insertData($connect, $table, $data);
                                         if ($stmt) {
-
+                                            $stmt = $connect->prepare("SELECT * FROM users ORDER BY id DESC LIMIT 1");
+                                            $stmt->execute();
+                                            $last_user = $stmt->fetch();
+                                            $user_id = $last_user['id'];
+                                            addClientToGoogleSheet([
+                                                $user_id,
+                                                $username,
+                                                $email,
+                                                1,
+                                                $emails_subscribe,
+                                                1,
+                                                date("n/j/Y g:i A"),
+                                            ]);
                                             //////////////////// Send Email Activation ////////////////////////////
-
+                                
                                             //             $transport = (new Swift_SmtpTransport('smtp.entiqa.co', 587))
                                             //                 ->setUsername('support@entiqa.co')
                                             //                 ->setPassword('mohamedramadan2930');
@@ -320,7 +389,7 @@ require_once 'send_mail/vendor/autoload.php';
                                             //             $body_message = '
                                             //         <!DOCTYPE html>
                                             //         <html lang="ar" dir="rtl">
-
+                                
                                             //         <head>
                                             //             <meta charset="UTF-8">
                                             //             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -357,11 +426,11 @@ require_once 'send_mail/vendor/autoload.php';
                                             //                 </div>
                                             //             </div>
                                             //         </body>
-
+                                
                                             //         </html>
                                             //         ';
                                             //             $title = 'طلب شراء';
-
+                                
                                             //             // Create a message
                                             //             $message = (new Swift_Message('Confrim Account'))
                                             //                 ->setFrom(['support@entiqa.co' => 'Mshtly'])
@@ -370,7 +439,7 @@ require_once 'send_mail/vendor/autoload.php';
                                             //             $result = $mailer->send($message);
                                             //             if ($result) {
                                             // 
-                                ?>
+                                            ?>
                                             <!-- <div class="alert alert-success"> تم ارسال ايميل التفعيل بنجاح </div> -->
                                             <?php
                                             //             } else {
@@ -380,8 +449,8 @@ require_once 'send_mail/vendor/autoload.php';
                                             <?php
                                             //             }
                                             ?>
+                                            <?php
 
-                                        <?php
                                             $_SESSION["send_message_to_email"] = "Send Message To Email";
                                             header("Location:login");
                                         }
@@ -390,12 +459,14 @@ require_once 'send_mail/vendor/autoload.php';
                                         <br><br>
                                         <?php
                                         foreach ($formerror as $error) {
-                                        ?>
-                                            <div style="max-width: 500px; text-align:center;margin:auto;margin-top:15px;" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            ?>
+                                            <div style="max-width: 500px; text-align:center;margin:auto;margin-top:15px;"
+                                                class="alert alert-danger alert-dismissible fade show" role="alert">
                                                 <?php echo $error; ?>
-                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                    aria-label="Close"></button>
                                             </div>
-                                <?php
+                                            <?php
                                         }
                                     }
                                 } ?>
@@ -406,37 +477,47 @@ require_once 'send_mail/vendor/autoload.php';
                                 <div class='box'>
                                     <div class="input_box">
                                         <label for="user_name"> اسم المستخدم </label>
-                                        <input required id="user_name" type="text" name="user_name" class='form-control' placeholder="اكتب…" value="<?php if (isset($_REQUEST['user_name'])) echo $_REQUEST['user_name']; ?>">
+                                        <input required id="user_name" type="text" name="user_name" class='form-control'
+                                            placeholder="اكتب…" value="<?php if (isset($_REQUEST['user_name']))
+                                                echo $_REQUEST['user_name']; ?>">
                                     </div>
                                 </div>
                                 <div class='box'>
                                     <div class="input_box">
                                         <label for="email"> البريد الألكتروني </label>
-                                        <input value="<?php if (isset($_REQUEST['email'])) echo $_REQUEST['email']; ?>" required id="email" type="email" name="email" class='form-control' placeholder="اكتب…">
+                                        <input value="<?php if (isset($_REQUEST['email']))
+                                            echo $_REQUEST['email']; ?>" required id="email" type="email" name="email"
+                                            class='form-control' placeholder="اكتب…">
                                     </div>
                                 </div>
 
                                 <div class='box'>
                                     <div class="input_box">
                                         <label for="email"> رقم الهاتف </label>
-                                        <input value="<?php if (isset($_REQUEST['phone'])) echo $_REQUEST['phone']; ?>" required id="phone" type="text" name="phone" class='form-control' placeholder="اكتب…">
+                                        <input value="<?php if (isset($_REQUEST['phone']))
+                                            echo $_REQUEST['phone']; ?>" required id="phone" type="text" name="phone"
+                                            class='form-control' placeholder="اكتب…">
                                     </div>
                                 </div>
 
                                 <div class='box'>
                                     <div class="input_box">
                                         <label for="password"> كلمة المرور </label>
-                                        <input required id="password" type="password" name="password" class='password form-control' placeholder="اكتب…">
-                                        <span onclick="togglePasswordVisibility('password', this)" class="fa fa-eye-slash show_eye password_show_icon"></span>
+                                        <input required id="password" type="password" name="password"
+                                            class='password form-control' placeholder="اكتب…">
+                                        <span onclick="togglePasswordVisibility('password', this)"
+                                            class="fa fa-eye-slash show_eye password_show_icon"></span>
 
                                     </div>
                                 </div>
                                 <div class="box">
                                     <div class="input_box">
                                         <div class="form-check">
-                                            <input required class="form-check-input" type="checkbox" value="" name="agree_policy" id="agree_terms" checked>
+                                            <input required class="form-check-input" type="checkbox" value=""
+                                                name="agree_policy" id="agree_terms" checked>
                                             <label class="form-check-label" for="agree_terms">
-                                                أوافق علي <a href="terms" target="_blank" style="color: var(--second-color);"> الشروط والأحكام </a>
+                                                أوافق علي <a href="terms" target="_blank"
+                                                    style="color: var(--second-color);"> الشروط والأحكام </a>
                                             </label>
                                         </div>
                                     </div>
@@ -444,7 +525,8 @@ require_once 'send_mail/vendor/autoload.php';
                                 <div class="box">
                                     <div class="input_box">
                                         <div class="form-check">
-                                            <input class="form-check-input" name="emails_subscribe" type="checkbox" value="" id="subscribe_mail" checked>
+                                            <input class="form-check-input" name="emails_subscribe" type="checkbox"
+                                                value="" id="subscribe_mail" checked>
                                             <label class="form-check-label" for="subscribe_mail">
                                                 اشترك في القائمة البريدية لتصلك آخر العروض والخصومات
                                             </label>

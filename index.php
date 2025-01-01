@@ -7,52 +7,11 @@ $page_keywords = ' مشتلي ,متجر مشتلي  ';
 include "init.php";
 
 ?>
-<div class="hero">
-    <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-            <?php
-            $stmt = $connect->prepare("SELECT * FROM banners ORDER BY id asc LIMIT 1");
-            $stmt->execute();
-            $banner1_data = $stmt->fetch();
-            $banner1_data_id = $banner1_data['id'];
-            $stmt = $connect->prepare("SELECT * FROM banners WHERE id !=? ");
-            $stmt->execute(array($banner1_data_id));
-            $allbanners = $stmt->fetchAll();
-            ?>
-            <div class="carousel-item carousel-item1 active" style="background-image: url('admin/banners/images/<?php echo $banner1_data['image']; ?>');">
-                <div class="overlay"></div>
-                <div class="carousel-caption">
-                    <h5> <?php echo $banner1_data['head_name'] ?> </h5>
-                    <p> <?php echo $banner1_data['description'] ?> </p>
-                    <a target="_blank" href="https://t.me/mshtly" class="btn"> تواصل مع الخبير </a>
-                </div>
-            </div>
-            <?php
-            foreach ($allbanners as $banner) {
-            ?>
-                <div class="carousel-item carousel-item1" style="background-image: url('admin/banners/images/<?php echo $banner['image']; ?>');">
-                    <div class="overlay"></div>
-                    <div class="carousel-caption">
-                        <h5> <?php echo $banner['head_name']; ?> </h5>
-                        <p> <?php echo $banner['description']; ?> </p>
-                        <a target="_blank" href="https://t.me/mshtly" class="btn"> تواصل مع الخبير </a>
-                    </div>
-                </div>
-            <?php
-            }
-            ?>
-        </div>
-    </div>
-</div>
+
 
 <div id='hero_lg'></div>
 <div id='hero_mobile'></div>
-<!-- 
+ 
 <script>
     // دالة للتحقق من حجم الشاشة وتحميل القسم المناسب
     function loadBlogSection() {
@@ -72,13 +31,13 @@ include "init.php";
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img loading="lazy" src="uploads/lgbanner1.webp" class="d-block w-100" alt="عروض اليوم الوطني">
+                            <img loading="lazy" src="uploads/mshtly_order_10.jpeg" class="d-block w-100" alt="عروض اليوم الوطني">
                         </div>
                         <div class="carousel-item">
-                            <img src="uploads/lgbanner2.webp" class="d-block w-100" alt="عروض اليوم الوطني">
+                            <img src="uploads/offer2.png" class="d-block w-100" alt="عروض اليوم الوطني">
                         </div>
                         <div class="carousel-item">
-                            <img src="uploads/lgbanner3.webp" class="d-block w-100" alt="عروض اليوم الوطني">
+                            <img src="uploads/offer3.png" class="d-block w-100" alt="عروض اليوم الوطني">
                         </div>
                     </div>
                 </div>
@@ -95,13 +54,13 @@ include "init.php";
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img loading="lazy" src="uploads/mbanner11.webp" class="d-block w-100" alt="عروض اليوم الوطني">
+                            <img loading="lazy" src="uploads/mahtly_order_10m.jpeg" class="d-block w-100" alt="عروض اليوم الوطني">
                         </div>
                         <div class="carousel-item">
-                            <img src="uploads/mbanner2.webp" class="d-block w-100" alt="عروض اليوم الوطني">
+                            <img src="uploads/m_offer2.png" class="d-block w-100" alt="عروض اليوم الوطني">
                         </div>
                         <div class="carousel-item">
-                            <img src="uploads/mbanner3.webp" class="d-block w-100" alt="عروض اليوم الوطني">
+                            <img src="uploads/m_offer3.png" class="d-block w-100" alt="عروض اليوم الوطني">
                         </div>
                     </div>
                 </div>
@@ -114,7 +73,7 @@ include "init.php";
 
     // استدعاء الدالة عند تغيير حجم الشاشة
     window.addEventListener('resize', loadBlogSection);
-</script> -->
+</script>
 
 <!-- START AUTOMATIC SEARCH INDEX -->
 
@@ -225,7 +184,8 @@ if (isset($_POST['add_to_cart'])) {
     <div class="container">
         <div class="data">
             <h2> مستلزمات العناية بنباتاتك </h2>
-            <a href="categories" class="btn global_button"> تصفح جميع المستلزمات <img loading="lazy" src="<?php echo $uploads ?>left.svg" alt="جميع المستلزمات"> </a>
+            <a href="categories" class="btn global_button"> تصفح جميع المستلزمات <img loading="lazy"
+                    src="<?php echo $uploads ?>left.svg" alt="جميع المستلزمات"> </a>
         </div>
     </div>
 </div>
@@ -290,10 +250,10 @@ if (isset($_POST['add_to_cart'])) {
                             $stmt->execute();
                             $allcats = $stmt->fetchAll();
                             foreach ($allcats as $cat) {
-                            ?>
-                                <li><a data-section="categories" href="category_products?cat=<?php echo $cat['slug']; ?>"> <?php echo $cat['name']; ?> </a>
-                                </li>
-                            <?php
+                                ?>
+                                    <li><a data-section="categories" href="category_products?cat=<?php echo $cat['slug']; ?>"> <?php echo $cat['name']; ?> </a>
+                                    </li>
+                                <?php
                             }
                             ?>
                         </ul>
@@ -306,13 +266,13 @@ if (isset($_POST['add_to_cart'])) {
                         $stmt->execute();
                         $allproducts = $stmt->fetchAll();
                         foreach ($allproducts as $product) {
-                        ?>
-                            <div class="col-lg-4">
-                                <?php
-                                include 'tempelate/product.php';
-                                ?>
-                            </div>
-                        <?php
+                            ?>
+                                <div class="col-lg-4">
+                                    <?php
+                                    include 'tempelate/product.php';
+                                    ?>
+                                </div>
+                            <?php
                         }
                         /*
                             } else {
@@ -344,13 +304,15 @@ if (isset($_POST['add_to_cart'])) {
                 <div class="col-lg-6">
                     <div class="info info1">
                         <h3> خدمات الحدائق </h3>
-                        <a href="landscap" class="btn global_button"> اعرف المزيد <img loading="lazy" src="<?php echo $uploads; ?>/arrow_left.svg" alt="المزيد"> </a>
+                        <a href="landscap" class="btn global_button"> اعرف المزيد <img loading="lazy"
+                                src="<?php echo $uploads; ?>/arrow_left.svg" alt="المزيد"> </a>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="info info2">
                         <h3> الطلبات الكبيرة </h3>
-                        <a href="big_orders" class="btn global_button"> اعرف المزيد <img loading="lazy" src="<?php echo $uploads; ?>/right-arrow-2.svg" alt="المزيد"> </a>
+                        <a href="big_orders" class="btn global_button"> اعرف المزيد <img loading="lazy"
+                                src="<?php echo $uploads; ?>/right-arrow-2.svg" alt="المزيد"> </a>
                     </div>
                 </div>
             </div>
@@ -366,7 +328,7 @@ $countSaleproduct = $stmt->rowCount();
 if ($countSaleproduct > 0) {
     $allproduct = $stmt->fetchAll();
 
-?>
+    ?>
     <div class="new_producs product_discounts best_products">
         <div class="container">
             <div class="data">
@@ -383,7 +345,7 @@ if ($countSaleproduct > 0) {
                     <?php
 
                     foreach ($allproduct as $product) {
-                    ?>
+                        ?>
                         <div class="product_info">
                             <!-- get the product image -->
                             <?php
@@ -393,13 +355,15 @@ if ($countSaleproduct > 0) {
                             $count_image = $stmt->rowCount();
                             $product_data_image = $stmt->fetch();
                             if ($count_image > 0) {
-                            ?>
-                                <img loading="lazy" class="main_image" src="admin/product_images/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product_data_image['image_alt']; ?>">
-                            <?php
+                                ?>
+                                <img loading="lazy" class="main_image"
+                                    src="admin/product_images/<?php echo $product_data_image['main_image']; ?>"
+                                    alt="<?php echo $product_data_image['image_alt']; ?>">
+                                <?php
                             } else {
-                            ?>
+                                ?>
                                 <img loading="lazy" class="main_image" src="uploads/product.png" alt="الصورة الرئيسية للمنتج">
-                            <?php
+                                <?php
                             }
                             ?>
 
@@ -421,53 +385,56 @@ if ($countSaleproduct > 0) {
                                         $maximumPrice = max($maximumPrice, $pro_price);
                                         $minimumPrice = min($minimumPrice, $pro_price);
                                     }
-                                ?>
+                                    ?>
                                     <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?>
                                         - <?php echo number_format($maximumPrice, 2); ?> ر.س </h4>
-                                <?php
+                                    <?php
                                 } else {
-                                ?>
+                                    ?>
                                     <div class='price_diffrent'>
                                         <h4 class='price'><?php echo number_format($product['sale_price'], 2) ?>
                                             ر.س </h4>
                                         <h4 class='old'> <?php echo number_format($product['price'], 2) ?> ر.س </h4>
                                     </div>
-                                <?php
+                                    <?php
                                 }
                                 ?>
                                 <form action="" method="post">
                                     <input type="hidden" name="price" value="<?php if ($product['sale_price'] != '' && $product['sale_price'] != 0) {
-                                                                                    echo $product['sale_price'];
-                                                                                } else {
-                                                                                    echo $product['price'];
-                                                                                } ?>">
+                                        echo $product['sale_price'];
+                                    } else {
+                                        echo $product['price'];
+                                    } ?>">
                                     <div class='add_cart'>
                                         <div>
                                             <?php
                                             if (checkIfProductInCart($connect, $cookie_id, $product['id'])) {
-                                            ?>
-                                                <a href="cart" class='btn global_button'> <img loading="lazy" src="uploads/shopping-cart.png" alt="سلة المشتريات">
+                                                ?>
+                                                <a href="cart" class='btn global_button'> <img loading="lazy"
+                                                        src="uploads/shopping-cart.png" alt="سلة المشتريات">
                                                     مشاهدة السلة
                                                 </a>
-                                            <?php
+                                                <?php
                                             } else {
-                                            ?>
+                                                ?>
                                                 <?php
                                                 if ($count_pro_attr > 0) {
-                                                ?>
-                                                    <a href="product?slug=<?php echo $product['slug']; ?>" class='btn global_button'> <img loading="lazy" src="uploads/shopping-cart.png" alt="خيارات المنتج">
+                                                    ?>
+                                                    <a href="product?slug=<?php echo $product['slug']; ?>" class='btn global_button'>
+                                                        <img loading="lazy" src="uploads/shopping-cart.png" alt="خيارات المنتج">
                                                         مشاهدة الاختيارات
                                                     </a>
-                                                <?php
+                                                    <?php
                                                 } else {
-                                                ?>
-                                                    <button name="add_to_cart" class='btn global_button'><img loading="lazy" src="uploads/shopping-cart.png" alt="سلة المشتريات"> أضف
+                                                    ?>
+                                                    <button name="add_to_cart" class='btn global_button'><img loading="lazy"
+                                                            src="uploads/shopping-cart.png" alt="سلة المشتريات"> أضف
                                                         الي السلة
                                                     </button>
-                                                <?php
+                                                    <?php
                                                 }
                                                 ?>
-                                            <?php
+                                                <?php
                                             }
                                             ?>
                                         </div>
@@ -475,20 +442,21 @@ if ($countSaleproduct > 0) {
                                             <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
                                             <?php
                                             if (isset($_SESSION['user_id']) && checkIfProductIsFavourite($connect, $_SESSION['user_id'], $product['id'])) {
-                                            ?>
+                                                ?>
                                                 <img loading="lazy" src="<?php echo $uploads; ?>/heart2.svg" alt="المفضلة">
-                                            <?php
+                                                <?php
                                             } else {
-                                            ?>
+                                                ?>
                                                 <button id='add_to_fav2' name="add_to_fav" type="submit">
                                                     <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt="المفضلة">
                                                 </button>
                                                 <style>
-                                                    #add_to_fav2{
-                                                        border: none; background-color:transparent
+                                                    #add_to_fav2 {
+                                                        border: none;
+                                                        background-color: transparent
                                                     }
                                                 </style>
-                                            <?php
+                                                <?php
                                             }
                                             ?>
                                         </div>
@@ -496,14 +464,14 @@ if ($countSaleproduct > 0) {
                                 </form>
                             </div>
                         </div>
-                    <?php
+                        <?php
                     }
                     ?>
                 </div>
             </div>
         </div>
     </div>
-<?php
+    <?php
 }
 ?>
 
@@ -516,7 +484,8 @@ if ($countSaleproduct > 0) {
                 <div class="col-lg-5">
                     <div class="info">
                         <h2>تواصل مع الخبير <br> للعناية بنباتاتك المنزلية</h2>
-                        <p> يرغب متجر مشتلي في أن تتمتع بنباتات نامية وصحية، وأن تتوفق لاختيار أفضل المنتجات, لذلك وفرنا خبراء متخصصين بالهندسة الزراعية لتقديم الدعم والتوجيه والمساعدة. </p>
+                        <p> يرغب متجر مشتلي في أن تتمتع بنباتات نامية وصحية، وأن تتوفق لاختيار أفضل المنتجات, لذلك وفرنا
+                            خبراء متخصصين بالهندسة الزراعية لتقديم الدعم والتوجيه والمساعدة. </p>
                         <a target="_blank" href="https://t.me/mshtly" class="btn global_button">تواصل مع الخبير</a>
                     </div>
                 </div>
@@ -651,7 +620,8 @@ if ($countSaleproduct > 0) {
             <div class='row'>
                 <div class="col-lg-6">
                     <div class="info">
-                        <img loading="lazy" src="admin/posts/images/<?php echo $post_image; ?>" alt="<?php echo $post_head ?>">
+                        <img loading="lazy" src="admin/posts/images/<?php echo $post_image; ?>"
+                            alt="<?php echo $post_head ?>">
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -680,17 +650,17 @@ if ($countSaleproduct > 0) {
                         $cleaned_desc = strip_tags($post['description']);
                         $post_desc = explode(' ', $cleaned_desc);
                         $post_desc = implode(' ', array_slice($post_desc, 0, 20));
-                    ?>
-                        <div class="col-lg-3">
-                            <a href="blog/<?php echo $post['slug']; ?>" style="text-decoration: none;">
-                                <div class="post_info">
-                                    <img loading="lazy" src="admin/posts/images/<?php echo $post['main_image'] ?>" alt="<?php echo $post['name'] ?>">
-                                    <h4> <?php echo $post['name']; ?> </h4>
-                                    <p> <?php echo $post_desc . "..."; ?> </p>
-                                </div>
-                            </a>
-                        </div>
-                    <?php
+                        ?>
+                            <div class="col-lg-3">
+                                <a href="blog/<?php echo $post['slug']; ?>" style="text-decoration: none;">
+                                    <div class="post_info">
+                                        <img loading="lazy" src="admin/posts/images/<?php echo $post['main_image'] ?>" alt="<?php echo $post['name'] ?>">
+                                        <h4> <?php echo $post['name']; ?> </h4>
+                                        <p> <?php echo $post_desc . "..."; ?> </p>
+                                    </div>
+                                </a>
+                            </div>
+                        <?php
                     }
                     ?>
                 </div>
@@ -770,7 +740,7 @@ if ($countSaleproduct > 0) {
                 $stmt->execute();
                 $alltest = $stmt->fetchAll();
                 foreach ($alltest as $test) {
-                ?>
+                    ?>
                     <div class="person_info">
                         <div class='head'>
                             <div>
@@ -787,13 +757,13 @@ if ($countSaleproduct > 0) {
                             <div>
                                 <?php
                                 if ($test['image'] != '') {
-                                ?>
+                                    ?>
                                     <img loading="lazy" src="uploads/plant.svg" alt="مشتلي ">
-                                <?php
+                                    <?php
                                 } else {
-                                ?>
+                                    ?>
                                     <img loading="lazy" src="uploads/plant.svg" alt="مشتلي">
-                                <?php
+                                    <?php
                                 }
                                 ?>
                             </div>
@@ -802,7 +772,7 @@ if ($countSaleproduct > 0) {
                             </div>
                         </div>
                     </div>
-                <?php
+                    <?php
                 }
                 ?>
             </div>
@@ -889,7 +859,7 @@ ob_end_flush();
 
 <!-- for insta footer -->
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.insta_slider').slick({
             rtl: true,
             slidesToShow: 5,
@@ -902,20 +872,20 @@ ob_end_flush();
             centerMode: true,
             variableWidth: true,
             responsive: [{
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3,
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
 
-                    }
-                },
-                {
-                    breakpoint: 600,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2
-                    }
                 }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
+            }
                 // You can unslick at a given breakpoint now by adding:
                 // settings: "unslick"
                 // instead of a settings object
@@ -926,7 +896,7 @@ ob_end_flush();
 </script>
 <!-- for products -->
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.products').slick({
             rtl: true,
             slidesToShow: 4,
@@ -939,27 +909,27 @@ ob_end_flush();
             centerMode: false,
             variableWidth: false,
             responsive: [{
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 4,
-                        slidesToScroll: 3,
-                    }
-                },
-                {
-                    breakpoint: 900,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 1,
-                        variableWidth: true,
-                    }
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 3,
                 }
+            },
+            {
+                breakpoint: 900,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    variableWidth: true,
+                }
+            }
             ]
 
         });
     });
 </script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.products_thumnails').slick({
             rtl: true,
             slidesToShow: 3,
@@ -972,20 +942,20 @@ ob_end_flush();
             centerMode: false,
             variableWidth: false,
             responsive: [{
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 1,
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
 
-                    }
-                },
-                {
-                    breakpoint: 900,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 1,
-                    }
                 }
+            },
+            {
+                breakpoint: 900,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                }
+            }
                 // You can unslick at a given breakpoint now by adding:
                 // settings: "unslick"
                 // instead of a settings object
@@ -996,7 +966,7 @@ ob_end_flush();
 </script>
 <!-- for testmonails -->
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.testmon').slick({
             rtl: true,
             slidesToShow: 2,
@@ -1009,20 +979,20 @@ ob_end_flush();
             centerMode: false,
             variableWidth: true,
             responsive: [{
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 1,
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
 
-                    }
-                },
-                {
-                    breakpoint: 900,
-                    settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
-                    }
                 }
+            },
+            {
+                breakpoint: 900,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                }
+            }
                 // You can unslick at a given breakpoint now by adding:
                 // settings: "unslick"
                 // instead of a settings object
@@ -1031,7 +1001,7 @@ ob_end_flush();
     });
 </script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const lazyBackgrounds = document.querySelectorAll('.lazy-background');
 
         function lazyLoad() {
@@ -1058,18 +1028,18 @@ ob_end_flush();
 <script>
     let lazySections = document.querySelectorAll('.lazy-section');
 
-let observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            let section = entry.target;
-            section.classList.add('visible');
-            observer.unobserve(section); // إلغاء المراقبة بعد التحميل
-        }
+    let observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                let section = entry.target;
+                section.classList.add('visible');
+                observer.unobserve(section); // إلغاء المراقبة بعد التحميل
+            }
+        });
     });
-});
 
-lazySections.forEach(section => {
-    observer.observe(section);
-});
+    lazySections.forEach(section => {
+        observer.observe(section);
+    });
 
 </script>
