@@ -185,6 +185,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="main.php?dir=orders&page=inside_outside_orders" class="nav-link">
+                                <p> تقرير الطلبات الخارجية والداخلية  </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="main.php?dir=orders&page=compeleted_orders" class="nav-link">
                                 <p> الطلبات المكتملة </p>
                             </a>

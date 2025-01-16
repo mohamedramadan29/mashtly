@@ -1,6 +1,6 @@
 <!-- Whats App Button  -->
 <div class="whatsapp_footer">
-    <a href="https://wa.me/966530047542"> <i class="bi bi-whatsapp"></i>  </a>
+    <a href="https://wa.me/966530047542" aria-label="واتساب" rel="nofollow"> <i class="bi bi-whatsapp"></i>  </a>
 </div>
 <div>
     <!--Start of Tawk.to Script-->

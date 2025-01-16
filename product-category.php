@@ -169,7 +169,7 @@ if ($check_cat > 0) {
         <div class="data">
             <div class="data_header">
                 <div class="data_header_name">
-                    <h2 class='header2'> <a href="shop"
+                    <h2 class='header2'> <a href="https://www.mshtly.com/shop"
                             style="text-decoration: none; color: var(--main-color);">المتجر</a> / <span
                             style="color: var(--main-color);"> <?php echo $cat_data['name'] ?> </span> </h2>
                     <p> اجمالي النتائج :<span> <?php echo $num_products; ?> </span> </p>
