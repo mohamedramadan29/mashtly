@@ -16,17 +16,17 @@ try {
         $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
         $stmt->execute([$product['id']]);
         $productImage = $stmt->fetch();
-        $imagePath = !empty($productImage) ? 'https://mshtly.com/uploads/products/' . $productImage['main_image'] : null;
+       // $imagePath = !empty($productImage) ? 'https://mshtly.com/uploads/products/' . $productImage['main_image'] : null;
 
         $urls[] = [
             'loc' => 'https://mshtly.com/product/' . $product['slug'],
             'lastmod' => (new DateTime($product['updated_at']))->format('c'),
             'changefreq' => 'always',
             'priority' => 0.5,
-            'image' => $imagePath ? [
-                'loc' => $imagePath,
-                'title' => htmlspecialchars($product['name']),
-            ] : null,
+            // 'image' => $imagePath ? [
+            //     'loc' => $imagePath,
+            //     'title' => htmlspecialchars($product['name']),
+            // ] : null,
         ];
     }
 
@@ -50,7 +50,7 @@ try {
     $allarticles = $stmt->fetchAll();
 
     foreach ($allarticles as $article) {
-        $imagePath = !empty($article['image']) ? 'https://mshtly.com/uploads/posts/' . $article['image'] : null;
+       // $imagePath = !empty($article['image']) ? 'https://mshtly.com/uploads/posts/' . $article['image'] : null;
 
         $articleData = [
             'loc' => 'https://mshtly.com/blog/' . $article['slug'],
@@ -59,12 +59,12 @@ try {
             'priority' => 0.5,
         ];
 
-        if ($imagePath) {
-            $articleData['image'] = [
-                'loc' => $imagePath,
-                'title' => htmlspecialchars($article['title']),
-            ];
-        }
+        // if ($imagePath) {
+        //     $articleData['image'] = [
+        //         'loc' => $imagePath,
+        //         'title' => htmlspecialchars($article['title']),
+        //     ];
+        // }
 
         $urls[] = $articleData;
     }
@@ -125,12 +125,12 @@ try {
         $xml->writeElement('changefreq', $url['changefreq']);
         $xml->writeElement('priority', $url['priority']);
 
-        if (isset($url['image'])) {
-            $xml->startElement('image:image');
-            $xml->writeElement('image:loc', $url['image']['loc']);
-            $xml->writeElement('image:title', $url['image']['title']);
-            $xml->endElement();
-        }
+        // if (isset($url['image'])) {
+        //     $xml->startElement('image:image');
+        //     $xml->writeElement('image:loc', $url['image']['loc']);
+        //     $xml->writeElement('image:title', $url['image']['title']);
+        //     $xml->endElement();
+        // }
 
         $xml->endElement();
     }

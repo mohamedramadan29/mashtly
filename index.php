@@ -5,20 +5,15 @@ $page_title = 'متجر مشتلي لمختلف أنواع النباتات ال
 $description = ' مشتلي هي منصة إلكترونية مبتكرة تتيح للعملاء شراء مختلف أنواع النباتات، بما في ذلك الأشجار والزهور والنباتات المنزلية، بشكل مريح وسريع. تتميز المنصة بتوفير تجربة تسوق فريدة من نوعها، حيث يمكن للعميل اختيار النباتات التي تناسب احتياجاته دون الحاجة لزيارة المشاتل التقليدية، مما يسهل عليه الحصول على كل ما يحتاجه من راحة منزله. ';
 $page_keywords = ' مشتلي ,متجر مشتلي  ';
 include "init.php";
-
 ?>
-
-
 <div id='hero_lg'></div>
 <div id='hero_mobile'></div>
- 
 <script>
     // دالة للتحقق من حجم الشاشة وتحميل القسم المناسب
     function loadBlogSection() {
         // تفريغ المحتويات من كلا القسمين للتأكد من عدم التكرار
         document.getElementById('hero_lg').innerHTML = '';
         document.getElementById('hero_mobile').innerHTML = '';
-
         if (window.innerWidth > 991) {
             // تحميل الكاروسيل الخاص بالشاشات الكبيرة
             document.getElementById('hero_lg').innerHTML = `

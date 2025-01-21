@@ -5,37 +5,37 @@ $page_title = 'تسجيل الدخول';
 $description = 'سجل الدخول للوصول إلى أفضل النباتات المنزلية وتصاميم الحدائق المميزة. استمتع بخدمات زراعية فريدة وحلول لتجميل المساحات الخارجية والداخلية بأسهل الطرق الممكنة.';
 include "init.php";
 require 'admin/vendor/autoload.php';
-use Google\Client;
-use Google\Service\Sheets;
+// use Google\Client;
+// use Google\Service\Sheets;
 
-function addClientToGoogleSheet($clientData)
-{
-    // تحميل بيانات الاعتماد من ملف JSON
-    $client = new Client();
-    $client->setAuthConfig('refreshing-glow-438708-b2-b759bbeb40eb.json');
-    $client->addScope(Sheets::SPREADSHEETS);
-    $service = new Sheets($client);
-    // إعدادات الـ Google Sheet
-    $spreadsheetId = '1Z8M4FIcK4RbY_9ctBu-DxlX2-0x2qJpnoaLFADgwjPw'; // ضع هنا الـ ID من رابط Google Sheet
-    $range = 'Sheet1!A1'; // الورقة والنطاق
-    $values = [$clientData]; // بيانات الطلبات
-    $body = new Sheets\ValueRange(['values' => $values]);
+// function addClientToGoogleSheet($clientData)
+// {
+//     // تحميل بيانات الاعتماد من ملف JSON
+//     $client = new Client();
+//     $client->setAuthConfig('refreshing-glow-438708-b2-b759bbeb40eb.json');
+//     $client->addScope(Sheets::SPREADSHEETS);
+//     $service = new Sheets($client);
+//     // إعدادات الـ Google Sheet
+//     $spreadsheetId = '1Z8M4FIcK4RbY_9ctBu-DxlX2-0x2qJpnoaLFADgwjPw'; // ضع هنا الـ ID من رابط Google Sheet
+//     $range = 'Sheet1!A1'; // الورقة والنطاق
+//     $values = [$clientData]; // بيانات الطلبات
+//     $body = new Sheets\ValueRange(['values' => $values]);
 
-    // كتابة البيانات في Google Sheet
-    $params = ['valueInputOption' => 'RAW'];
-    $result = $service->spreadsheets_values->append($spreadsheetId, $range, $body, $params);
+//     // كتابة البيانات في Google Sheet
+//     $params = ['valueInputOption' => 'RAW'];
+//     $result = $service->spreadsheets_values->append($spreadsheetId, $range, $body, $params);
 
-    return $result;
-}
+//     return $result;
+// }
 
-$client->setClientId('97629819536-q1o4om4q3onf2iskp0iglo65o6ici4bv.apps.googleusercontent.com'); // استبدل بـ Client ID
-$client->setClientSecret('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'); // استبدل بـ Client Secret
-$client->setRedirectUri('http://www.mshtly.com/googlecallback.php'); // استبدل بـ Redirect URI
-$client->addScope('email');
-$client->addScope('profile');
+// $client->setClientId('97629819536-q1o4om4q3onf2iskp0iglo65o6ici4bv.apps.googleusercontent.com'); // استبدل بـ Client ID
+// $client->setClientSecret('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'); // استبدل بـ Client Secret
+// $client->setRedirectUri('http://www.mshtly.com/googlecallback.php'); // استبدل بـ Redirect URI
+// $client->addScope('email');
+// $client->addScope('profile');
 
-// إنشاء رابط تسجيل الدخول
-$loginUrl = $client->createAuthUrl();
+// // إنشاء رابط تسجيل الدخول
+// $loginUrl = $client->createAuthUrl();
 
 
 if (isset($_SESSION['user_id'])) {

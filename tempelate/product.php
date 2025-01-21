@@ -7,15 +7,17 @@
     $count_image = $stmt->rowCount();
     $product_data_image = $stmt->fetch();
     if ($count_image > 0) {
-    ?>
+        ?>
         <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>">
-            <img loading="lazy" class="main_image" src="http://localhost/mashtly/uploads/products/<?php echo $product_data_image['main_image']; ?>" alt="<?php echo $product['name']; ?>">
+            <img loading="lazy" class="main_image"
+                src="http://localhost/mashtly/uploads/products/<?php echo $product_data_image['main_image']; ?>"
+                alt="<?php echo $product['name']; ?>">
         </a>
-    <?php
+        <?php
     } else {
-    ?>
+        ?>
         <img loading="lazy" class="main_image" src="uploads/product.png" alt="صورة المنتج">
-    <?php
+        <?php
     }
     ?>
     <div class="product_details">
@@ -34,9 +36,10 @@
             $shortened_name .= ' ...';
         }
         // عرض الاسم المختصر
-
+        
         ?>
-        <p> <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>"> <?php echo $shortened_name; ?> </a> </p>
+        <p> <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>"> <?php echo $shortened_name; ?>
+            </a> </p>
         <?php
         $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
         $minimumPrice = INF; // قيمة أدنى سعر ممكنة
@@ -47,43 +50,43 @@
         if ($count_pro_attr > 0) {
             $allproduct_data = $stmt->fetchAll();
             foreach ($allproduct_data as $product_data) {
-                $pro_price =  $product_data['price'];
+                $pro_price = $product_data['price'];
                 $maximumPrice = max($maximumPrice, $pro_price);
                 $minimumPrice = min($minimumPrice, $pro_price);
             }
             if ($maximumPrice === $minimumPrice) {
-        ?>
+                ?>
                 <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?> ر.س </h4>
-            <?php
+                <?php
             } else {
-            ?>
-                <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س </h4>
-            <?php
+                ?>
+                <h4 class='price'> <?php echo number_format($minimumPrice, 2); ?> -
+                    <?php echo number_format($maximumPrice, 2); ?> ر.س </h4>
+                <?php
             }
             ?>
-
-        <?php
+            <?php
         } else {
-        ?>
+            ?>
             <h4 class='price'> <?php
-                                if ($product['sale_price'] != '' && $product['sale_price'] != 0) {
-                                    echo number_format($product['sale_price'], 2);
-                                } else {
+            if ($product['sale_price'] != '' && $product['sale_price'] != 0) {
+                echo number_format($product['sale_price'], 2);
+            } else {
 
-                                    echo number_format($product['price'], 2);
-                                }
-                                ?> ر.س </h4>
-        <?php
+                echo number_format($product['price'], 2);
+            }
+            ?> ر.س </h4>
+            <?php
         }
         ?>
         <form action="" method="post">
 
             <input type="hidden" name="product_name" value="<?php echo $product['name']; ?>">
             <input type="hidden" name="price" value="<?php if ($product['sale_price'] != '' && $product['sale_price'] != 0) {
-                                                            echo $product['sale_price'];
-                                                        } else {
-                                                            echo $product['price'];
-                                                        } ?>">
+                echo $product['sale_price'];
+            } else {
+                echo $product['price'];
+            } ?>">
             <div class='add_cart'>
                 <div>
                     <?php
@@ -97,45 +100,46 @@
                     ?>
                     <?php
                     if ($count_pro_attr > 0) {
-                    ?>
+                        ?>
                         <?php
                         if ($product['product_status_store'] != 1) {
-                        ?>
+                            ?>
                             <p class="btn global_button"> المنتج غير متوفر </p>
-                        <?php
+                            <?php
                         } else {
-                        ?>
-                            <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>" class='btn global_button'>
-                                  
+                            ?>
+                            <a href="http://localhost/mashtly/product/<?php echo $product['slug']; ?>"
+                                class='btn global_button'>
+
                                 مشاهدة الاختيارات
                             </a>
 
-                            
-                        <?php
+
+                            <?php
                         }
                         ?>
 
-                    <?php
+                        <?php
                     } else {
-                    ?>
+                        ?>
                         <?php
                         if ($product['product_status_store'] != 1) {
-                        ?>
+                            ?>
                             <button class="btn global_button"> المنتج غير متوفر </button>
-                        <?php
+                            <?php
                         } else {
-                        ?>
+                            ?>
                             <button name="add_to_cart" class='btn global_button'>
 
                                 <img loading="lazy" src="https://www.mshtly.com/uploads/shopping-cart.png" alt="سلة الشراء ">
                                 أضف
                                 الي السلة
                             </button>
-                        <?php
+                            <?php
                         }
                         ?>
 
-                    <?php
+                        <?php
                     }
                     ?>
                     <?php
@@ -147,11 +151,11 @@
 
                     <?php
                     if (isset($_SESSION['user_id']) && checkIfProductIsFavourite($connect, $_SESSION['user_id'], $product['id'])) {
-                    ?>
+                        ?>
                         <img loading="lazy" src="https://www.mshtly.com/uploads/heart2.svg" alt="المفضلة">
-                    <?php
+                        <?php
                     } else {
-                    ?>
+                        ?>
                         <button id="add_to_fav" name="add_to_fav" type="submit">
                             <img loading="lazy" src="https://www.mshtly.com/uploads/heart.png" alt="المفضلة">
                         </button>
@@ -161,7 +165,7 @@
                                 background-color: transparent
                             }
                         </style>
-                    <?php
+                        <?php
                     }
                     ?>
                 </div>

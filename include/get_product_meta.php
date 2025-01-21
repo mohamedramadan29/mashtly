@@ -12,11 +12,11 @@ $product_index = array_search($keyword1, $url_parts);
 if ($product_index !== false && isset($url_parts[$product_index + 1])) {
     // استخراج اسم المنتج بعد "product/"
     $product_name = $url_parts[$product_index + 1];
-    $slug =  urldecode($product_name);
+    $slug = urldecode($product_name);
     $stmt = $connect->prepare("SELECT * FROM products WHERE slug = ? ORDER BY id DESC LIMIT 1 ");
     $stmt->execute(array($slug));
     $product_data = $stmt->fetch();
-    $count  = $stmt->rowCount();
+    $count = $stmt->rowCount();
     /* get the product meta */
     $meta_keywords = $product_data['tags'];
     $meta_short_description = strip_tags($product_data['short_desc']);
@@ -41,11 +41,11 @@ if ($blog_index !== false && isset($url_parts[$blog_index + 1])) {
     $stmt = $connect->prepare("SELECT * FROM posts WHERE slug = ? ORDER BY id DESC LIMIT 1 ");
     $stmt->execute(array($slug));
     $product_data = $stmt->fetch();
-    $count  = $stmt->rowCount();
+    $count = $stmt->rowCount();
     /* get the product meta */
     $meta_keywords = $product_data['tags'];
     $meta_short_description = strip_tags($product_data['short_desc']);
-    $meta_title = 'المدونة / '.$product_data['name'];
+    $meta_title = $product_data['name'] . ' - المدونة';
 }
 
 if (isset($_GET['slug']) && strpos($current_url, $keyword3) !== false) {
@@ -53,7 +53,7 @@ if (isset($_GET['slug']) && strpos($current_url, $keyword3) !== false) {
     $stmt = $connect->prepare("SELECT * FROM landscap WHERE slug = ? ORDER BY id DESC LIMIT 1 ");
     $stmt->execute(array($slug));
     $product_data = $stmt->fetch();
-    $count  = $stmt->rowCount();
+    $count = $stmt->rowCount();
     /* get the product meta */
     $meta_keywords = $product_data['tags'];
     $meta_short_description = $product_data['short_desc'];
@@ -68,7 +68,7 @@ if ($category_index !== false && isset($url_parts[$category_index + 1])) {
     $stmt = $connect->prepare("SELECT * FROM categories WHERE slug = ? ORDER BY id DESC LIMIT 1 ");
     $stmt->execute(array($slug));
     $product_data = $stmt->fetch();
-    $count  = $stmt->rowCount();
+    $count = $stmt->rowCount();
     /* get the product meta */
     $meta_keywords = $product_data['tags'];
     $meta_short_description = strip_tags($product_data['description']);
@@ -90,7 +90,7 @@ if ($blog_category_index !== false && isset($url_parts[$blog_category_index + 1]
     $stmt = $connect->prepare("SELECT * FROM category_posts WHERE slug = ? ORDER BY id DESC LIMIT 1 ");
     $stmt->execute(array($slug));
     $category_data = $stmt->fetch();
-    $count  = $stmt->rowCount();
+    $count = $stmt->rowCount();
     /* get the product meta */
     $meta_keywords = '';
     $meta_short_description = strip_tags($category_data['description']);
@@ -102,5 +102,5 @@ if ($blog_category_index !== false && isset($url_parts[$blog_category_index + 1]
     } else {
         $description = $description; // Use the full description if it's shorter than 160 characters
     }
-    $meta_title = 'المدونة / '.$category_data['name'];
+    $meta_title = 'المدونة / ' . $category_data['name'];
 }

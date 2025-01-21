@@ -1,21 +1,23 @@
 <!-- Whats App Button  -->
 <div class="whatsapp_footer">
-    <a href="https://wa.me/966530047542" aria-label="واتساب" rel="nofollow"> <i class="bi bi-whatsapp"></i>  </a>
+    <a href="https://wa.me/966530047542" aria-label="واتساب" rel="nofollow"> <i class="bi bi-whatsapp"></i> </a>
 </div>
 <div>
     <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-        var Tawk_API = Tawk_API || {},
-            Tawk_LoadStart = new Date();
-        (function() {
-            var s1 = document.createElement("script"),
-                s0 = document.getElementsByTagName("script")[0];
-            s1.async = true;
-            s1.src = 'https://embed.tawk.to/5e03d92d27773e0d832aaaf7/1f9ulcd48';
-            s1.charset = 'UTF-8';
-            s1.setAttribute('crossorigin', '*');
-            s0.parentNode.insertBefore(s1, s0);
-        })();
+    <script>
+        if (window.innerWidth > 768) { // تحميل السكربت فقط إذا كانت الشاشة أكبر من 768 بكسل
+            var Tawk_API = Tawk_API || {},
+                Tawk_LoadStart = new Date();
+            (function () {
+                var s1 = document.createElement("script"),
+                    s0 = document.getElementsByTagName("script")[0];
+                s1.async = true;
+                s1.src = 'https://embed.tawk.to/5e03d92d27773e0d832aaaf7/1f9ulcd48';
+                s1.charset = 'UTF-8';
+                s1.setAttribute('crossorigin', '*');
+                s0.parentNode.insertBefore(s1, s0);
+            })();
+        }
     </script>
     <!--End of Tawk.to Script-->
 </div>
@@ -43,7 +45,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="https://www.youtube.com/channel/UC97csCKptQNPdwQX1AidVXg" aria-label="يوتيوب" rel="nofollow">
+                                    <a href="https://www.youtube.com/channel/UC97csCKptQNPdwQX1AidVXg"
+                                        aria-label="يوتيوب" rel="nofollow">
                                         <i class="bi bi-youtube"></i>
                                     </a>
                                 </li>
@@ -159,7 +162,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="https://www.youtube.com/channel/UC97csCKptQNPdwQX1AidVXg" aria-label="يوتيوب" rel="nofollow">
+                                    <a href="https://www.youtube.com/channel/UC97csCKptQNPdwQX1AidVXg"
+                                        aria-label="يوتيوب" rel="nofollow">
                                         <i class="bi bi-youtube"></i>
                                     </a>
                                 </li>
@@ -209,10 +213,10 @@
     </div>
 </div>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
- 
+
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 <script src='<?php echo $js; ?>/jquery.min.js'></script>
-<script src='<?php echo $js; ?>/bootstrap.min.js'></script> 
+<script src='<?php echo $js; ?>/bootstrap.min.js'></script>
 
 <!-- <script src="https://kit.fontawesome.com/588e070751.js" crossorigin="anonymous"></script> -->
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"> -->
@@ -224,14 +228,14 @@
 <!-- end large image -->
 <!-- Sweet Alert  -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
- 
+<script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" defer integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 <script src='<?php echo $js; ?>/jquery.magnific-popup.min.js'></script>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/lite-youtube-embed/src/lite-yt-embed.js"></script>
 <script src='<?php echo $js; ?>/slick.min.js'></script>
 <script src='<?php echo $js; ?>/slick-custom.js'></script>
- <script src='<?php echo $js; ?>/select2.min.js'></script> 
+<script src='<?php echo $js; ?>/select2.min.js'></script>
 <script src='<?php echo $js; ?>/main.js'></script>
 </body>
 
@@ -239,7 +243,7 @@
 
 <!-- for insta footer -->
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.insta_slider').slick({
             rtl: true,
             slidesToShow: 5,
@@ -252,20 +256,20 @@
             centerMode: true,
             variableWidth: true,
             responsive: [{
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3,
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
 
-                    }
-                },
-                {
-                    breakpoint: 600,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2
-                    }
                 }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
+            }
                 // You can unslick at a given breakpoint now by adding:
                 // settings: "unslick"
                 // instead of a settings object
@@ -279,7 +283,7 @@
 
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.products').slick({
             rtl: true,
             slidesToShow: 4,
@@ -292,20 +296,20 @@
             centerMode: false,
             variableWidth: false,
             responsive: [{
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 4,
-                        slidesToScroll: 3,
-                    }
-                },
-                {
-                    breakpoint: 900,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 1,
-                        variableWidth: true,
-                    }
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 3,
                 }
+            },
+            {
+                breakpoint: 900,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    variableWidth: true,
+                }
+            }
             ]
 
         });
@@ -313,7 +317,7 @@
 </script>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.products_thumnails').slick({
             rtl: true,
             slidesToShow: 3,
@@ -326,20 +330,20 @@
             centerMode: false,
             variableWidth: false,
             responsive: [{
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 1,
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
 
-                    }
-                },
-                {
-                    breakpoint: 900,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 1,
-                    }
                 }
+            },
+            {
+                breakpoint: 900,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                }
+            }
                 // You can unslick at a given breakpoint now by adding:
                 // settings: "unslick"
                 // instead of a settings object
@@ -351,7 +355,7 @@
 
 <!-- for testmonails -->
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.testmon').slick({
             rtl: true,
             slidesToShow: 2,
@@ -364,20 +368,20 @@
             centerMode: false,
             variableWidth: true,
             responsive: [{
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 1,
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
 
-                    }
-                },
-                {
-                    breakpoint: 900,
-                    settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
-                    }
                 }
+            },
+            {
+                breakpoint: 900,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                }
+            }
                 // You can unslick at a given breakpoint now by adding:
                 // settings: "unslick"
                 // instead of a settings object
@@ -385,5 +389,5 @@
 
         });
     });
-   
+
 </script>

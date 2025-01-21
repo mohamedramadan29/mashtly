@@ -58,24 +58,11 @@
               }
             </style>
           </div>
-          <?php
-          $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
-          $stmt->execute(array($cookie_id));
-          $count_carts = $stmt->rowCount();
-          $allitems = $stmt->fetchAll();
-          ?>
           <div class='col-lg-4'>
             <div class="info">
               <div class="cart">
                 <a data-bs-toggle="offcanvas" href="#cartItems" role="button" aria-controls="cartItems">
-                  <?php
-                  if ($count_carts > 0) {
-                    ?>
-                    <span class="cart_count count_carts"> <?php echo $count_carts; ?> </span>
-                    <?php
-                  }
-                  ?>
-
+                  <span class="cart_count count_carts"> </span>
                   <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart.webp" alt="سلة المشتريات">
                 </a>
               </div>
@@ -157,6 +144,10 @@
                 <a data-bs-toggle="offcanvas" href="#cartItems" role="button" aria-controls="cartItems">
                   <?php
                   // get all product from user cart
+                  $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
+                  $stmt->execute(array($cookie_id));
+                  $count_carts = $stmt->rowCount();
+                  $allitems = $stmt->fetchAll();
                   if ($count_carts > 0) {
                     ?>
                     <span class="cart_count count_carts"> <?php echo $count_carts; ?> </span>
@@ -178,7 +169,7 @@
                     <div class="image">
                       <img loading="lazy" style="width:17px" src="<?php echo $uploads ?>/user.svg" alt="حسابي ">
                     </div>
-
+                  
                     <div class="links">
                       <ul class="list-unstyled">
                         <li> <img loading="lazy" src="<?php echo $uploads ?>/purches.svg" alt="مشترياتي"> <a
@@ -387,12 +378,12 @@
                   $allcategories = $stmt->fetchAll();
                   foreach ($allcategories as $category) {
                     ?>
-                                                        <div class="col-3">
-                                                          <a style="color: #000;" href="http://localhost/mashtly/product-category/<?php echo $category['slug']; ?>">
-                                                            <li> <?php echo $category['name'] ?> </li>
-                                                          </a>
-                                                        </div>
-                                                      <?php
+                                            <div class="col-3">
+                                              <a style="color: #000;" href="http://localhost/mashtly/product-category/<?php echo $category['slug']; ?>">
+                                                <li> <?php echo $category['name'] ?> </li>
+                                              </a>
+                                            </div>
+                                          <?php
                   }
                   ?>
 
@@ -442,6 +433,51 @@
 
 </div>
 
+<script>
+  function fetchData() {
+    // Retrieve the user_key cookie value
+    var cookies = document.cookie.split(';');
+    var userKeyCookie = cookies.find(function (cookie) {
+      return cookie.trim().startsWith('user_key=');
+    });
+
+    var cookie_id;
+    if (userKeyCookie) {
+      cookie_id = userKeyCookie.split('=')[1];
+    } else {
+      // Handle the case when the user_key cookie is not set
+      console.error('user_key cookie not set!');
+      return;
+    }
+    // Make an AJAX request to the PHP script
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          // Update the count_carts variable with the updated data
+          var count_carts = xhr.responseText;
+          // Update the UI with the updated count_carts value
+          //document.getElementById('count_carts').innerText = count_carts;
+          // Update all elements with the class 'count_carts'
+          var countCartsElements = document.getElementsByClassName('count_carts');
+          for (var i = 0; i < countCartsElements.length; i++) {
+            countCartsElements[i].innerText = count_carts;
+          }
+        } else {
+          console.error('Error fetching data:', xhr.status);
+        }
+      }
+    };
+    xhr.open('GET', 'http://localhost/mashtly/fetch_cart_count.php?cookie_id=' + encodeURIComponent(cookie_id), true);
+    xhr.send();
+  }
+
+  // Call the fetchData function initially
+  fetchData();
+
+  // Call the fetchData function every 10 seconds
+  setInterval(fetchData, 10000); // 10 seconds in milliseconds
+</script>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {

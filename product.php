@@ -43,6 +43,7 @@ if ($count > 0) {
     $cat_name = $category_data['name'];
     $cat_slug = $category_data['slug'];
     $category_type = $category_data['main_category'];
+    $main_category = $category_data['main_category'];
 } else {
     header("Location:https://www.mshtly.com/404");
 }
@@ -141,11 +142,26 @@ if (isset($_POST['add_to_cart'])) {
             ));
         }
     }
-
     if ($stmt) {
-        alertcart();
+        $_SESSION['item_added_to_cart'] = true;
+       header("Location: " . $_SERVER['REQUEST_URI']);
+       exit; // تأكد من إنهاء التنفيذ بعد إعادة التوجيه
+       // alertcart();
     }
 }
+?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        <?php if (isset($_SESSION['item_added_to_cart']) && $_SESSION['item_added_to_cart']): ?>
+            // افتح السلة باستخدام Bootstrap
+            var cartOffcanvas = new bootstrap.Offcanvas(document.getElementById('cartItems'));
+            cartOffcanvas.show();
+            <?php unset($_SESSION['item_added_to_cart']); // إزالة الحالة بعد استخدامها ?>
+        <?php endif; ?>
+    });
+</script>
+<?php 
 // add to favorite
 if (isset($_POST['add_to_fav'])) {
     if (isset($_SESSION['user_id'])) {
@@ -197,7 +213,7 @@ if (isset($_POST['add_to_fav'])) {
 </div>
 <!-- END SELECT DATA HEADER -->
 <!-- START breadcrump  -->
-<div class="container">
+<div class="container product_page">
     <div class="data">
         <div class="breadcrump">
             <p> <a href="https://www.mshtly.com"> الرئيسية </a> \ <span> <a href="https://www.mshtly.com/shop"> المتجر </a> </span> \ <span> <a href="https://www.mshtly.com/product-category/<?php echo $cat_slug; ?>"> <?php echo  $cat_name ?> </a> </span> \ <?php echo $product_name ?> </p>
@@ -381,10 +397,16 @@ if (isset($_POST['add_to_fav'])) {
                                     </a>
                                 </div>
                             </div>
-                            <div class="attention">
+                            <?php 
+                            if($main_category == 1){
+                                ?>
+                                 <div class="attention">
                                 <h3> تنويه </h3>
                                 <p> الصور المعروضة للمنتج هنا توضح مميزاتها وشكلها بعد زراعتها ورعايتها وتقديم كامل احتياجاتها كما هو موضح في وصف النبتة، وبإمكانكم الحصول على تفاصيل أكثر من خلال دعم خبرائنا المجاني . </p>
                             </div>
+                                <?php
+                            }
+                            ?>
                         </div>
                     </div>
                     <div class="product_description_large_screen">
@@ -639,8 +661,16 @@ if (isset($_POST['add_to_fav'])) {
                 <div class="product_description_small_screen">
                     <div class="product_description">
                         <h3> وصف المنتج </h3>
-                        <p> <?php echo $product_desc ?> </p>
-                       
+                        <p id="product_desc">
+                            <?php 
+                            $description_words = explode(' ', $product_desc);
+                            $first_30_words = implode(' ', array_slice($description_words, 0, 60)); 
+                            $remaining_words = implode(' ', array_slice($description_words, 60)); 
+                            ?>
+                            <div class="short-desc"><?php echo $first_30_words; ?>...</div>
+                            <div class="full-desc" style="display: none;"><?php echo $remaining_words; ?></div>
+                            <a href="javascript:void(0);" id="toggleDescription" class="toggle-btn"> قراءة المزيد </a>
+                        </p>
                     </div>
                     <div class="social_share">
                         <div>
@@ -707,7 +737,7 @@ if (isset($_POST['add_to_fav'])) {
             </div>
             <div class="row">
                 <?php
-                $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND price !='' AND cat_id = 935 ORDER BY id LIMIT 8");
+                $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND price !='' AND cat_id = 935 ORDER BY id LIMIT 6");
                 $stmt->execute();
                 $allproducts = $stmt->fetchAll();
                 foreach ($allproducts as $product) {
@@ -739,91 +769,8 @@ if (isset($_POST['add_to_fav'])) {
         }
     }
 </style>
-<!-- END NEWWER PRODUCTS  -->
  
 <!-- END NEWWER PRODUCTS  -->
-
-<!-- START NEWWER PRODUCTS -->
-<div class="new_producs index_all_cat" style="padding-top: 0;">
-    <div class="container">
-        <div class="data" style="box-shadow: none;">
-            <div class="data_header">
-                <div class="data_header_name">
-                    <h2 class='header2' style="margin-right:0"> ربما يعجبك أيضا </h2>
-                    <p> لأنك تصفحت <?php echo $product_name; ?> </p>
-                </div>
-            </div>
-            <div class="row">
-                <?php
-                // get product from the same category 
-                $stmt = $connect->prepare("SELECT * FROM products WHERE cat_id = ? AND  publish = 1  AND  name !='' AND price !='' AND id !=? ORDER BY id DESC LIMIT 8");
-                $stmt->execute(array($product_category, $product_id));
-                $allproduct = $stmt->fetchAll();
-                foreach ($allproduct as $product) {
-                ?>
-                    <div class="col-lg-3 col-6">
-                        <?php
-                        include 'tempelate/product.php';
-                        ?>
-                    </div>
-                <?php
-                }
-                ?>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- END NEWWER PRODUCTS  -->
-
-
-<!-- START NEWWER PRODUCTS -->
-<!-- <div class="index_all_cat product_testmonails" style="padding-top: 0;">
-        <div class="container">
-            <div class="data" style="box-shadow: none;">
-                <div class="data_header">
-                    <div class="data_header_name">
-                        <h2 class='header2' style="margin-right:0"> التقييمات </h2>
-                        <p> ماذا قال العملاء عن النبتة والمتجر </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="testmonails">
-                            <p> لقد كانت النباتات التي استلمتها بحالة جيدة وصحية،
-                                وقد تم تغليفها بشكل جيد
-                                وبعناية لضمان وصولها بشكل آمن وسليم. كما أن النباتات تتمتع بأوراق خضراء جميلة وصحية،
-                                وقد كانت مطابقة للصور المعروضة على الموقع.
-                            </p>
-                            <h4> مازن محمد </h4>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="testmonails">
-                            <p> لقد كانت النباتات التي استلمتها بحالة جيدة وصحية،
-                                وقد تم تغليفها بشكل جيد
-                                وبعناية لضمان وصولها بشكل آمن وسليم. كما أن النباتات تتمتع بأوراق خضراء جميلة وصحية،
-                                وقد كانت مطابقة للصور المعروضة على الموقع.
-                            </p>
-                            <h4> مازن محمد </h4>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="testmonails">
-                            <p> لقد كانت النباتات التي استلمتها بحالة جيدة وصحية،
-                                وقد تم تغليفها بشكل جيد
-                                وبعناية لضمان وصولها بشكل آمن وسليم. كما أن النباتات تتمتع بأوراق خضراء جميلة وصحية،
-                                وقد كانت مطابقة للصور المعروضة على الموقع.
-                            </p>
-                            <h4> مازن محمد </h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-<!-- END NEWWER PRODUCTS  -->
-
-
 <?php
 
 include $tem . 'footer.php';
@@ -975,28 +922,7 @@ ob_end_flush();
     });
 </script>
 
-<!---------------- IN Mobile ------------------>
-<script>
-    // $(document).ready(function() {
-    //     const vartionSelect2 = document.querySelector('select[name="vartion_select2"]');
-    //     const selectedPriceElement2 = document.getElementById('selected_price2');
-    //     const priceValueInput2 = document.getElementById('price_value2');
-
-    //     vartionSelect2.addEventListener('change', function() {
-    //         const selectedOption = vartionSelect2.options[vartionSelect2.selectedIndex];
-    //         const selectedPrice2 = selectedOption.getAttribute('data-price');
-
-    //         if (selectedPrice2 !== undefined) {
-    //             selectedPriceElement2.textContent = selectedPrice2 + ' ر.س';
-    //             priceValueInput2.value = selectedPrice2;
-    //         } else {
-    //             selectedPriceElement2.textContent = '0.00 ر.س';
-    //             priceValueInput2.value = '0.00';
-    //         }
-    //     });
-    // });
-</script>
-
+ 
 <!-- To Make Slider To Product Images  -->
 <script>
     $('.gallery-lb').each(function() { // the containers for all your galleries
@@ -1009,5 +935,21 @@ ob_end_flush();
             mainClass: 'mfp-fade',
 
         });
+    });
+</script>
+
+<script>
+    document.getElementById('toggleDescription').addEventListener('click', function () {
+        const shortDesc = document.querySelector('.short-desc');
+        const fullDesc = document.querySelector('.full-desc');
+        if (shortDesc.style.display === 'none') {
+            shortDesc.style.display = 'inline';
+            fullDesc.style.display = 'none';
+            this.textContent = ' قراءة المزيد ...';
+        } else {
+            shortDesc.style.display = 'none';
+            fullDesc.style.display = 'inline';
+            this.textContent = 'عرض أقل';
+        }
     });
 </script>
