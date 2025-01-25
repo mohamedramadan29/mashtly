@@ -216,7 +216,59 @@ if (isset($_POST['add_to_cart'])) {
 </div>
 <!-- END NEWWER PRODUCTS  -->
 
-
+<!-- START CUSTOMER TESTMON -->
+<div class='testmonails'>
+    <div class="container">
+        <div class="data">
+            <div class="data_header_name">
+                <h2 class='header2'> آراء العملاء </h2>
+                <p> ماذا يقول عملائنا عن منتجات مشتلي </p>
+            </div>
+            <div class="testmon" id='testmon'>
+                <?php
+                $stmt = $connect->prepare("SELECT * FROM testmonails");
+                $stmt->execute();
+                $alltest = $stmt->fetchAll();
+                foreach ($alltest as $test) {
+                    ?>
+                    <div class="person_info">
+                        <div class='head'>
+                            <div>
+                                <h3> <?php echo $test['head']; ?> </h3>
+                            </div>
+                            <div>
+                                <img loading="lazy" src="uploads/quote.svg" alt="اراء العملاء">
+                            </div>
+                        </div>
+                        <p>
+                            <?php echo $test['description']; ?>
+                        </p>
+                        <div class='foo'>
+                            <div>
+                                <?php
+                                if ($test['image'] != '') {
+                                    ?>
+                                    <img loading="lazy" src="uploads/plant.svg" alt="مشتلي ">
+                                    <?php
+                                } else {
+                                    ?>
+                                    <img loading="lazy" src="uploads/plant.svg" alt="مشتلي">
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                            <div>
+                                <h5> <?php echo $test['name']; ?> </h5>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -721,59 +773,7 @@ if ($countSaleproduct > 0) {
     window.addEventListener('resize', loadvideoSection);
 </script>
 <!--- END INDEX VIDEO  -->
-<!-- START CUSTOMER TESTMON -->
-<div class='testmonails'>
-    <div class="container">
-        <div class="data">
-            <div class="data_header_name">
-                <h2 class='header2'> آراء العملاء </h2>
-                <p> ماذا يقول عملائنا عن منتجات مشتلي </p>
-            </div>
-            <div class="testmon" id='testmon'>
-                <?php
-                $stmt = $connect->prepare("SELECT * FROM testmonails");
-                $stmt->execute();
-                $alltest = $stmt->fetchAll();
-                foreach ($alltest as $test) {
-                    ?>
-                    <div class="person_info">
-                        <div class='head'>
-                            <div>
-                                <h3> <?php echo $test['head']; ?> </h3>
-                            </div>
-                            <div>
-                                <img loading="lazy" src="uploads/quote.svg" alt="اراء العملاء">
-                            </div>
-                        </div>
-                        <p>
-                            <?php echo $test['description']; ?>
-                        </p>
-                        <div class='foo'>
-                            <div>
-                                <?php
-                                if ($test['image'] != '') {
-                                    ?>
-                                    <img loading="lazy" src="uploads/plant.svg" alt="مشتلي ">
-                                    <?php
-                                } else {
-                                    ?>
-                                    <img loading="lazy" src="uploads/plant.svg" alt="مشتلي">
-                                    <?php
-                                }
-                                ?>
-                            </div>
-                            <div>
-                                <h5> <?php echo $test['name']; ?> </h5>
-                            </div>
-                        </div>
-                    </div>
-                    <?php
-                }
-                ?>
-            </div>
-        </div>
-    </div>
-</div>
+
 <div class="instagrame_footer">
     <div class="container">
         <div class="data">

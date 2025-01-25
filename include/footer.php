@@ -1,8 +1,37 @@
-<!-- Whats App Button  -->
+<!-- WhatsApp Button -->
 <div class="whatsapp_footer">
-    <a href="https://wa.me/966530047542" aria-label="واتساب" rel="nofollow"> <i class="bi bi-whatsapp"></i> </a>
+    <button id="whatsappButton" aria-label="واتساب" class="whatsapp_button">
+        <i class="bi bi-wechat"></i>
+    </button>
+    <div id="whatsappMenu" class="whatsapp_menu hidden">
+        <a href="https://wa.me/966530047542" target="_blank" rel="nofollow">تواصل واتساب</a>
+        <a href="https://t.me/mshtly" target="_blank" rel="nofollow">الدعم الفني</a>
+    </div>
 </div>
-<div>
+<!-- CSS -->
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
+
+<!-- JavaScript -->
+<script>
+    const whatsappButton = document.getElementById('whatsappButton');
+    const whatsappMenu = document.getElementById('whatsappMenu');
+
+    whatsappButton.addEventListener('click', () => {
+        whatsappMenu.classList.toggle('hidden');
+    });
+
+    // Close the menu when clicking outside
+    document.addEventListener('click', (event) => {
+        if (!whatsappButton.contains(event.target) && !whatsappMenu.contains(event.target)) {
+            whatsappMenu.classList.add('hidden');
+        }
+    });
+</script>
+<div class="tawk_button">
     <!--Start of Tawk.to Script-->
     <script>
         if (window.innerWidth > 768) { // تحميل السكربت فقط إذا كانت الشاشة أكبر من 768 بكسل

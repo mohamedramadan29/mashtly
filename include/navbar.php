@@ -3,7 +3,8 @@
     <div class="container">
       <div class="data">
         <div class="speed_contact">
-          <p>للتواصل السريع أو الاستفسارات 0530047542 </p>
+          <p> <a target="_blank" href="https://wa.me/9660530047542"> للاستفسارات او الشكاوى <i
+                class="bi bi-whatsapp"></i> </a> </p>
         </div>
         <div class='country'> <img loading="lazy" src="<?php echo $uploads ?>/sudia_logo.png" alt="لوجو السعودية">
           السعودية </div>
@@ -387,12 +388,12 @@
                   $allcategories = $stmt->fetchAll();
                   foreach ($allcategories as $category) {
                     ?>
-                                                        <div class="col-3">
-                                                          <a style="color: #000;" href="http://localhost/mashtly/product-category/<?php echo $category['slug']; ?>">
-                                                            <li> <?php echo $category['name'] ?> </li>
-                                                          </a>
-                                                        </div>
-                                                      <?php
+                                                          <div class="col-3">
+                                                            <a style="color: #000;" href="http://localhost/mashtly/product-category/<?php echo $category['slug']; ?>">
+                                                              <li> <?php echo $category['name'] ?> </li>
+                                                            </a>
+                                                          </div>
+                                                        <?php
                   }
                   ?>
 

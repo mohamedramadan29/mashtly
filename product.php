@@ -397,16 +397,7 @@ if (isset($_POST['add_to_fav'])) {
                                     </a>
                                 </div>
                             </div>
-                            <?php 
-                            if($main_category == 1){
-                                ?>
-                                 <div class="attention">
-                                <h3> تنويه </h3>
-                                <p> الصور المعروضة للمنتج هنا توضح مميزاتها وشكلها بعد زراعتها ورعايتها وتقديم كامل احتياجاتها كما هو موضح في وصف النبتة، وبإمكانكم الحصول على تفاصيل أكثر من خلال دعم خبرائنا المجاني . </p>
-                            </div>
-                                <?php
-                            }
-                            ?>
+                           
                         </div>
                     </div>
                     <div class="product_description_large_screen">
@@ -432,6 +423,16 @@ if (isset($_POST['add_to_fav'])) {
                             <script async src="https://static.addtoany.com/menu/page.js"></script>
                             <!-- AddToAny END -->
                         </div>
+                        <?php 
+                            if($main_category == 1){
+                                ?>
+                                 <div class="attention">
+                                <h3> تنويه </h3>
+                                <p> الصور المعروضة للمنتج هنا توضح مميزاتها وشكلها بعد زراعتها ورعايتها وتقديم كامل احتياجاتها كما هو موضح في وصف النبتة، وبإمكانكم الحصول على تفاصيل أكثر من خلال دعم خبرائنا المجاني . </p>
+                            </div>
+                                <?php
+                            }
+                            ?>
                         <div class="faq">
                             <?php
                             // get product faqs 
@@ -689,6 +690,21 @@ if (isset($_POST['add_to_fav'])) {
                         <script async src="https://static.addtoany.com/menu/page.js"></script>
                         <!-- AddToAny END -->
                     </div>
+                    <?php 
+                            if($main_category == 1){
+                                ?> 
+                                <div class="product">
+                                <div class="product_info">
+                                 <div class="attention">
+                                <h3> تنويه </h3>
+                                <p> الصور المعروضة للمنتج هنا توضح مميزاتها وشكلها بعد زراعتها ورعايتها وتقديم كامل احتياجاتها كما هو موضح في وصف النبتة، وبإمكانكم الحصول على تفاصيل أكثر من خلال دعم خبرائنا المجاني . </p>
+                                </div>
+                                </div>
+                                </div>
+                            
+                                <?php
+                            }
+                            ?>
                     <div class="faq">
                         <?php
                         // get product faqs 
