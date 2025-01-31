@@ -61,9 +61,9 @@ if (isset($_POST['add_to_cart'])) {
     } else {
         $vartion_name = null;
         if ($product_sale_price != '') {
-            $price = $product_sale_price;
+            $price = $product_sale_price + ($product_sale_price * 0.10) * (1 - 0.22);
         } else {
-            $price = $product_price;
+            $price = $product_price + ($product_price * 0.10) *  (1 - 0.22);
         }
     }
     if (isset($_POST['quantity'])) {
@@ -352,31 +352,49 @@ if (isset($_POST['add_to_fav'])) {
                             <?php
                             $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
                             $minimumPrice = INF; // قيمة أدنى سعر ممكنة
+                            $oldmaximumPrice = -INF; // قيمة أقصى سعر ممكنة
+                            $oldminimumPrice = INF; // قيمة أدنى سعر ممكنة
                             $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ? AND price !='' AND price !=0");
                             $stmt->execute(array($product_id));
                             $att_count = $stmt->rowCount();
                             if ($att_count > 0) {
                                 $allproduct_data = $stmt->fetchAll();
                                 foreach ($allproduct_data as $product_data) {
-                                    $pro_price =  $product_data['price'];
+                                 //   $pro_price =  $product_data['price'] + ($product_data['price'] * 0.10);
+
+                                    $pro_price = $product_data['price'];
+                                    // السعر بعد زيادة 10% فقط
+                                    $old_pro_price = $pro_price + ($pro_price * 0.10);
+                                    // السعر بعد زيادة 10% وخصم 22%
+                                    $pro_price = ($pro_price + ($pro_price * 0.10)) * (1 - 0.22);
                                     $maximumPrice = max($maximumPrice, $pro_price);
                                     $minimumPrice = min($minimumPrice, $pro_price);
+                                    $oldmaximumPrice = max($oldmaximumPrice, $old_pro_price);
+                                    $oldminimumPrice = min($oldminimumPrice, $old_pro_price);
                                 }
                             ?>
-                                <p> يبدأ من: <span> <?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س </span> </p>
+                                <!-- <p> يبدأ من: <span> <?php // echo number_format($minimumPrice, 2); ?> - <?php //echo number_format($maximumPrice, 2); ?> ر.س </span> </p> -->
+                                   <!-- عرض النتائج -->
+                                <p> 
+                                      السعر : 
+                                    <span><?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س</span>
+                                </p>
+                                <p> 
+                                    <span style="text-decoration: line-through; color: #8f8989;"><?php echo number_format($oldminimumPrice, 2); ?> - <?php echo number_format($oldmaximumPrice, 2); ?> ر.س</span>
+                                </p>
                             <?php
                             } else {
                             ?>
                                 <?php
                                 if (empty($product_sale_price)) {
                                 ?>
-                                    <p> السعر : <span> <?php echo number_format($product_price, 2); ?> ر.س </span> </p>
+                                    <p> السعر : <span style="text-decoration: line-through; color: #8f8989;"> <?php echo number_format($product_price + ($product_price * 0.10), 2); ?> </span> <span> <?php echo number_format($product_price + ($product_price * 0.10) * (1 - 0.22) , 2); ?>  ر.س </span> </p>
                                 <?php
                                 } else {
                                 ?>
                                     <div style="display: flex;">
-                                        <p> السعر : <span style="text-decoration: line-through; margin-left: 15px;"> <?php echo number_format($product_price, 2); ?> ر.س </span> </p>
-                                        <p style="font-weight: bold;"> <span> <?php echo number_format($product_sale_price, 2); ?> ر.س </span> </p>
+                                        <p> السعر : <span style="text-decoration: line-through; margin-left: 15px;"> <?php echo number_format($product_price + ($product_price * 0.10), 2); ?> ر.س </span> </p>
+                                        <p style="font-weight: bold;"> <span> <?php echo number_format($product_sale_price + ($product_sale_price * 0.10), 2); ?> ر.س </span> </p>
                                     </div>
                                 <?php
                                 }
@@ -488,7 +506,12 @@ if (isset($_POST['add_to_fav'])) {
                                         echo '<select class="form-control" name="vartion_select" required>';
                                         echo '<option value=""> "حدد احد الخيارات" </option>';
                                         foreach ($allpro_attibutes as $allpro_att) {
-                                            echo '<option value="' . $allpro_att['id'] . '" data-image="' . $allpro_att['image'] . '" data-price="' . $allpro_att['price'] . '" id="' . $allpro_att['id'] . '">' . $allpro_att['vartions_name'] . '</option>';
+                                            echo '<option value="' . $allpro_att['id'] . '" 
+                                                    data-image="' . $allpro_att['image'] . '" 
+                                                    data-price="' . (($allpro_att['price'] + ($allpro_att['price'] * 0.10)) * (1 - 0.22)) . '" 
+                                                    id="' . $allpro_att['id'] . '">' 
+                                                    . $allpro_att['vartions_name'] . 
+                                                '</option>';
                                         }
                                         echo '</select>';
                                         echo '<div>';
@@ -926,9 +949,8 @@ ob_end_flush();
         vartionSelect.addEventListener('change', function() {
             const selectedOption = vartionSelect.options[vartionSelect.selectedIndex];
             const selectedPrice = selectedOption.getAttribute('data-price');
-
             if (selectedPrice !== undefined) {
-                selectedPriceElement.textContent = selectedPrice + 'ر.س';
+                selectedPriceElement.textContent = selectedPrice  + 'ر.س';
                 priceValueInput.value = selectedPrice;
             } else {
                 selectedPriceElement.textContent = '0.00 ر.س';

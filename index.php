@@ -26,13 +26,13 @@ include "init.php";
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img loading="lazy" src="uploads/mshtly_order_10.jpeg" class="d-block w-100" alt="عروض اليوم الوطني">
+                            <img loading="lazy" src="uploads/mshtly1.png" class="d-block w-100" alt="عروض اليوم الوطني">
                         </div>
                         <div class="carousel-item">
-                            <img src="uploads/offer2.png" class="d-block w-100" alt="عروض اليوم الوطني">
+                            <img src="uploads/mshtly2.png" class="d-block w-100" alt="عروض اليوم الوطني">
                         </div>
                         <div class="carousel-item">
-                            <img src="uploads/offer3.png" class="d-block w-100" alt="عروض اليوم الوطني">
+                            <img src="uploads/mshtly3.png" class="d-block w-100" alt="عروض اليوم الوطني">
                         </div>
                     </div>
                 </div>
@@ -49,13 +49,13 @@ include "init.php";
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img loading="lazy" src="uploads/mahtly_order_10m.jpeg" class="d-block w-100" alt="عروض اليوم الوطني">
+                            <img loading="lazy" src="uploads/mshtly_m_1.png" class="d-block w-100" alt="عروض اليوم الوطني">
                         </div>
                         <div class="carousel-item">
-                            <img src="uploads/m_offer2.png" class="d-block w-100" alt="عروض اليوم الوطني">
+                            <img src="uploads/mshtly_m_2.png" class="d-block w-100" alt="عروض اليوم الوطني">
                         </div>
                         <div class="carousel-item">
-                            <img src="uploads/m_offer3.png" class="d-block w-100" alt="عروض اليوم الوطني">
+                            <img src="uploads/mshtly_m_3.png" class="d-block w-100" alt="عروض اليوم الوطني">
                         </div>
                     </div>
                 </div>

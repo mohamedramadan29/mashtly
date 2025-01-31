@@ -241,6 +241,7 @@
                                                 <th> طريقة الدفع</th>
                                                 <th> حالة الطلب</th>
                                                 <th> خصم</th>
+                                                <th> الهدية  </th>
                                                 <th> السعر الكلي</th>
                                                 <th> مشاكل شحن</th>
                                                 <?php
@@ -342,6 +343,15 @@
                                                             } else {
                                                             ?>
                                                                 <span class="badge badge-danger"> لا يوجد خصم </span>
+                                                            <?php
+                                                            }
+                                                            ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php 
+                                                            if($order['present_id'] != null){
+                                                            ?>
+                                                            <span class="badge badge-info"> <?php echo $order['present_id']; ?> </span>
                                                             <?php
                                                             }
                                                             ?>

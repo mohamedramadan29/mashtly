@@ -91,31 +91,46 @@ if (isset($_SESSION['user_id'])) {
                                                                 $('#payment2').hide(); // إخفاء الدفع عند الاستلام
                                                                 $('#payment1').show(); // إظهار الدفع الإلكتروني فقط
                                                             }
-                                                            $.ajax({
-                                                                url: 'tempelate/shiping_price2.php', // صفحة معالجة تكلفة الشحن
-                                                                type: 'POST',
-                                                                data: {
-                                                                    city: city
-                                                                },
-                                                                success: function (response) {
-                                                                    // تحويل response إلى قيمة عددية 
-                                                                    var shippingCost = parseFloat(response);
-                                                                    if (isNaN(shippingCost)) {
-                                                                        alert(' نعتذر لك عميلنا العزيز، حالياً لا تتوفر خدمة التوصيل للمنطقة التي اخترتها، وسنوافيكم بمجرد توفرها لاحقاً بإذن الله.');
-                                                                        return;
-                                                                    } else {
-                                                                        // تحديث قيمة الشحن
-                                                                        $('#shipping-cost').html(shippingCost + ' ر.س');
-                                                                        $('#lastshippingvalue').val(shippingCost);
 
-                                                                        // حساب المجموع الكلي 
-                                                                        var grandTotal = sessionTotal + shippingCost;
-                                                                        // تحديث المجموع الكلي في الصفحة
-                                                                        $('#grand_total').html(grandTotal + ' ر.س');
-                                                                        $('#grand_total_value').val(grandTotal);
+                                                            // تحقق من المدينة والمجموع لتعيين الشحن إلى صفر
+                                                            if (city === 'مدينة الرياض' && sessionTotal >= 222) {
+                                                                var shippingCost = 0;
+
+                                                                // تحديث قيمة الشحن والمجموع الكلي
+                                                                $('#shipping-cost').html(shippingCost + ' ر.س');
+                                                                $('#lastshippingvalue').val(shippingCost);
+
+                                                                var grandTotal = sessionTotal + shippingCost;
+                                                                $('#grand_total').html(grandTotal + ' ر.س');
+                                                                $('#grand_total_value').val(grandTotal);
+                                                            } else {
+                                                                $.ajax({
+                                                                    url: 'tempelate/shiping_price2.php', // صفحة معالجة تكلفة الشحن
+                                                                    type: 'POST',
+                                                                    data: {
+                                                                        city: city
+                                                                    },
+                                                                    success: function (response) {
+                                                                        // تحويل response إلى قيمة عددية 
+                                                                        var shippingCost = parseFloat(response);
+                                                                        if (isNaN(shippingCost)) {
+                                                                            alert(' نعتذر لك عميلنا العزيز، حالياً لا تتوفر خدمة التوصيل للمنطقة التي اخترتها، وسنوافيكم بمجرد توفرها لاحقاً بإذن الله.');
+                                                                            return;
+                                                                        } else {
+                                                                            // تحديث قيمة الشحن
+                                                                            $('#shipping-cost').html(shippingCost + ' ر.س');
+                                                                            $('#lastshippingvalue').val(shippingCost);
+
+                                                                            // حساب المجموع الكلي 
+                                                                            var grandTotal = sessionTotal + shippingCost;
+                                                                            // تحديث المجموع الكلي في الصفحة
+                                                                            $('#grand_total').html(grandTotal + ' ر.س');
+                                                                            $('#grand_total_value').val(grandTotal);
+                                                                        }
                                                                     }
-                                                                }
-                                                            });
+                                                                });
+                                                            }
+
                                                         });
                                                     });
                                                 </script>
@@ -176,6 +191,85 @@ if (isset($_SESSION['user_id'])) {
                                         name="order_details" class="form-control"
                                         placeholder="ملاحظات اضافية علي طلبك"></textarea>
                                 </div>
+                                <div class="product_details">
+                                    <div class="data">
+                                        <div class="request">
+                                            <div class="options">
+                                                <div class="present" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModalgift">
+                                                    <div class="image">
+                                                        <div class="pre_image">
+                                                            <i class="bi bi-award"></i>
+                                                        </div>
+                                                        <div>
+                                                            <h4> اختر الهدية المجانية الخاصة بك </h4>
+                                                            <p> </p>
+                                                        </div>
+                                                    </div>
+                                                    <div style="cursor: pointer;">
+                                                        <img loading="lazy"
+                                                            src="<?php echo $uploads ?>/small_left_model.png"
+                                                            alt="التغليف كهدية">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="farm_price preset_price">
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModalgift" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="modal_price">
+                                                        <div class="header">
+                                                            <h3> اختر تغليف الهدية المناسبة لك </h3>
+                                                            <p> تكلفة تغليف الهدية تحسب علي كل نبته </p>
+                                                        </div>
+                                                        <p class="public"> يختلف كل تغليف من حيث التكلفة النهائية </p>
+                                                        <?php
+                                                        // Get Gifts 
+                                                        $stmt = $connect->prepare("SELECT * FROM gifts");
+                                                        $stmt->execute();
+                                                        $allgifts = $stmt->fetchAll();
+                                                        foreach ($allgifts as $gift) {
+                                                            ?>
+                                                            <input style="display: none;" class="select_gift"
+                                                                value="<?php echo $gift['name'] ?>" type="radio" name="gift_id"
+                                                                id="<?php echo $gift['id']; ?>">
+                                                            <label class="diffrent_price gifts"
+                                                                for="<?php echo $gift['id']; ?>">
+                                                                <div>
+                                                                    <img loading="lazy"
+                                                                        src="https://www.mshtly.com/uploads/gifts/<?php echo $gift['image']; ?>"
+                                                                        alt="التغليف كهدية">
+                                                                </div>
+                                                                <div>
+                                                                    <p> <?php echo $gift['name'] ?> <br>
+                                                                        <!-- <span>
+                                                                            <?php echo $gift['price'] ?> ريال </span> -->
+                                                                    </p>
+                                                                </div>
+                                                            </label>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </div>
+                                                    <button type="button" data-bs-dismiss="modal" aria-label="Close"
+                                                        style="background-color:#5c8e00; border-radius: 50px; color:#fff;margin:auto;display: block;"
+                                                        class="btn"> حفظ </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-------------- End Gifts ---------------->
                                 <br>
                                 <div class="col-lg-12">
                                     <div class="cart_price_info">
@@ -244,7 +338,6 @@ if (isset($_SESSION['user_id'])) {
                                                 </div>
                                             </div>
                                             <?php
-
                                             if (isset($_SESSION['coupon'])) {
                                                 ?>
                                                 <input type="hidden" name="" id="discountCoupon"
@@ -374,6 +467,7 @@ if (isset($_SESSION['user_id'])) {
                     $status_value = 'لم يبدا';
                     $farm_service = $_SESSION['farm_services'];
                     $grand_total = $_SESSION['grand_total'];
+                    $gift_id = $_POST['gift_id'];
 
                     if ($farm_service == '') {
                         $farm_service = 0;
@@ -416,6 +510,7 @@ if (isset($_SESSION['user_id'])) {
                             'coupon_code' => $_SESSION['coupon'],
                             'discount_value' => $_SESSION['discount_value'],
                             "order_details" => $order_details,
+                            'gift_id' => $gift_id,
                         ];
                         if ($payment_method === 'الدفع عن الاستلام') {
                             echo "الدفع عند الاستلام";
@@ -423,9 +518,9 @@ if (isset($_SESSION['user_id'])) {
                             try {
                                 $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
                                 area, city, address, ship_price,order_details, order_date, status,status_value,farm_service_price,total_price,
-                                payment_method,coupon_code,discount_value,shipping_problem) 
+                                payment_method,coupon_code,discount_value,shipping_problem,present_id) 
                                 VALUES (:zorder_number , :zuser_id , :zname , :zemail ,:zphone , :zarea , :zcity , :zaddress,
-                                :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value,:zshipping_problem)");
+                                :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value,:zshipping_problem,:zpresent_id)");
                                 $stmt->execute(array(
                                     "zorder_number" => $order_number,
                                     "zuser_id" => $user_id,
@@ -445,7 +540,9 @@ if (isset($_SESSION['user_id'])) {
                                     "zpayment_method" => $payment_method,
                                     "zcoupon_code" => $_SESSION['coupon_name'],
                                     "zdiscount_value" => $_SESSION['discount_value'],
-                                    "zshipping_problem" => $_SESSION['shipping_problem']
+                                    "zshipping_problem" => $_SESSION['shipping_problem'],
+                                    'zpresent_id' => $gift_id
+
                                 ));
                                 // get the last order number  id and number 
                                 $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
@@ -528,9 +625,9 @@ if (isset($_SESSION['user_id'])) {
                                 $status_value = 'pending';
                                 $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
                                     area, city, address, ship_price,order_details, order_date, status,status_value,farm_service_price,total_price,
-                                    payment_method,coupon_code,discount_value,shipping_problem) 
+                                    payment_method,coupon_code,discount_value,shipping_problem,present_id) 
                                     VALUES (:zorder_number , :zuser_id , :zname , :zemail ,:zphone , :zarea , :zcity , :zaddress,
-                                    :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value,:zshipping_problem)");
+                                    :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value,:zshipping_problem,:zpresent_id)");
                                 $stmt->execute(array(
                                     "zorder_number" => $order_number,
                                     "zuser_id" => $user_id,
@@ -550,7 +647,8 @@ if (isset($_SESSION['user_id'])) {
                                     "zpayment_method" => $payment_method,
                                     "zcoupon_code" => $_SESSION['coupon_name'],
                                     "zdiscount_value" => $_SESSION['discount_value'],
-                                    "zshipping_problem" => $_SESSION['shipping_problem']
+                                    "zshipping_problem" => $_SESSION['shipping_problem'],
+                                    'zpresent_id' => $gift_id
                                 ));
                                 // get the last order number  id and number 
                                 $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
@@ -729,16 +827,6 @@ ob_end_flush();
         // يمكنك تخزين القيمة الإجمالية في الجلسة للاحتفاظ بها بين الصفحات إذا لزم الأمر
         <?php $_SESSION['grand_total'] = "grandTotal"; ?>
         ///////////////// select payment method ///////////
-        //var selectedValue = selectedRadio.value;
-        if (shippingValue == "35") {
-            // إذا تم اختيار داخل الرياض 
-            document.getElementById("payment1").style.setProperty('display', 'block', 'important');
-            document.getElementById("payment2").style.setProperty('display', 'block', 'important');
-        } else if (shippingValue == "65") {
-            // إذا تم اختيار خارج الرياض
-            document.getElementById("payment1").style.setProperty('display', 'block', 'important');
-            document.getElementById("payment2").style.setProperty('display', 'none', 'important');
-        }
     }
 </script>
 

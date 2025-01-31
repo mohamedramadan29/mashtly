@@ -54,7 +54,7 @@ $allitems = $stmt->fetchAll();
                                    }
                                    echo $product_name; ?> </a></p>
                                 <p dir="rtl"> <span> <?php echo $item['quantity']; ?> </span> <i class="bi bi-x"></i> <span>
-                                        <?php echo $item['price']; ?> ريال </span></p>
+                                        <?php echo number_format($item['price'], 2); ?> ريال </span></p>
                                 <?php
                                 if ($item['vartion_name'] != null && $item['vartion_name'] != '') {
                                     $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE id = ?");

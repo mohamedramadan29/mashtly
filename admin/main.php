@@ -291,6 +291,8 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
         include "orders/order_qrcode.php";
     }elseif ($dir == 'orders' && $page =='inside_outside_orders') {
         include "orders/inside_outside_orders.php";
+    }elseif ($dir == 'orders' && $page =='pending') {
+        include "orders/pending.php";
     }
     // START employee
     if ($dir == 'employee' && $page == 'add') {

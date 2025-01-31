@@ -91,7 +91,7 @@
                                             <td> <?php echo $i; ?> </td>
                                             <td> <?php echo  $gift['name']; ?> </td>
                                             <td> <?php echo  $gift['price']; ?> </td>
-                                            <td> <img style="width: 80px; height:80px;" src="gifts/images/<?php echo  $gift['image']; ?>" alt=""> </td>
+                                            <td> <img style="width: 80px; height:80px;" src="../uploads/gifts/<?php echo  $gift['image']; ?>" alt=""> </td>
                                             <td>
                                                 <button type="button" class="btn btn-success btn-sm waves-effect" data-toggle="modal" data-target="#edit-Modal_<?php echo $gift['id']; ?>"> تعديل <i class='fa fa-pen'></i> </button>
                                                 <a href="main.php?dir=gifts&page=delete&gift_id=<?php echo $gift['id']; ?>" class="confirm btn btn-danger btn-sm"> حذف <i class='fa fa-trash'></i> </a>
