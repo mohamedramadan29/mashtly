@@ -54,86 +54,90 @@ if (isset($_SESSION['user_id'])) {
                                                 </div>
                                                 <br>
                                                 <div class="input_box">
-                                                    <label for="country"> المدينة <span style="color:red;font-size: 16px;">
-                                                            * </span> </label>
+                                                    <label for="country"> المدينة <span style="color:red;font-size: 16px;"> * </span> </label>
                                                     <select required name="city" id="city" class='form-control'>
                                                         <option value=""> حدد المدينة </option>
                                                         <?php
                                                         $stmt = $connect->prepare("SELECT * FROM suadia_city");
                                                         $stmt->execute();
                                                         $allsaucountry = $stmt->fetchAll();
-                                                        foreach ($allsaucountry as $city) {
-                                                            ?>
-                                                            <option data-region='<?php echo $city['region']; ?>' <?php if (isset($_REQUEST['city']) && $_REQUEST['city'] == $city['name'])
-                                                                   echo "selected"; ?> value="<?php echo $city['name']; ?>">
+                                                        $selectedCity = isset($_REQUEST['city']) ? $_REQUEST['city'] : ''; // استرجاع المدينة المحددة
+                                                        
+                                                        foreach ($allsaucountry as $city) { ?>
+                                                            <option data-region='<?php echo $city['region']; ?>' 
+                                                                value="<?php echo $city['name']; ?>" 
+                                                                <?php echo ($selectedCity == $city['name']) ? "selected" : ""; ?>>
                                                                 <?php echo $city['name']; ?>
                                                             </option>
-                                                            <?php
-                                                        }
-                                                        ?>
+                                                        <?php } ?>
                                                     </select>
                                                 </div>
                                                 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-                                                <script src="themes/js/tome_select.min.js"></script>
-                                                <script>
-                                                    var sessionTotal = <?php echo $_SESSION['total']; ?>;
-                                                    $(document).ready(function () {
+                                                    <script src="themes/js/tome_select.min.js"></script>
 
-                                                        var citySelect = new TomSelect('#city', {});
-                                                        $(document).on('change', '#city', function () {
-                                                            // console.log('city Changed');
-                                                            var city = $(this).val();
-                                                            var region = $('#city option:selected').data('region');
-                                                            if (region === 'منطقة الرياض') {
-                                                                $('#payment2').show(); // الدفع عند الاستلام
-                                                                $('#payment1').show(); // الدفع الإلكتروني
-                                                            } else {
-                                                                $('#payment2').hide(); // إخفاء الدفع عند الاستلام
-                                                                $('#payment1').show(); // إظهار الدفع الإلكتروني فقط
+                                                    <script>
+                                                        $(document).ready(function () {
+                                                            var sessionTotal = <?php echo isset($_SESSION['total']) ? $_SESSION['total'] : 0; ?>;
+                                                            var selectedCity = "<?php echo $selectedCity; ?>"; // استعادة المدينة المحددة
+
+                                                            // تهيئة TomSelect بعد تحميل الصفحة
+                                                            var citySelect = new TomSelect('#city', {});
+
+                                                            // إعادة تعيين القيمة المخزنة بعد تحميل الصفحة
+                                                            if (selectedCity) {
+                                                                setTimeout(function() {
+                                                                    citySelect.setValue(selectedCity);
+                                                                }, 500); // تأخير طفيف لحل أي مشاكل في تحميل TomSelect
                                                             }
 
-                                                            // تحقق من المدينة والمجموع لتعيين الشحن إلى صفر
-                                                            if (city === 'مدينة الرياض' && sessionTotal >= 222) {
-                                                                var shippingCost = 0;
+                                                            // حدث عند تغيير المدينة
+                                                            $(document).on('change', '#city', function () {
+                                                                var city = $(this).val();
+                                                                var region = $('#city option:selected').data('region');
 
-                                                                // تحديث قيمة الشحن والمجموع الكلي
+                                                                // إظهار أو إخفاء طرق الدفع حسب المنطقة
+                                                                if (region === 'منطقة الرياض') {
+                                                                    $('#payment2').show(); // الدفع عند الاستلام
+                                                                    $('#payment1').show(); // الدفع الإلكتروني
+                                                                } else {
+                                                                    $('#payment2').hide(); // إخفاء الدفع عند الاستلام
+                                                                    $('#payment1').show(); // إظهار الدفع الإلكتروني فقط
+                                                                }
+
+                                                                // تحديث تكلفة الشحن
+                                                                if (city === 'مدينة الرياض' && sessionTotal >= 222) {
+                                                                    var shippingCost = 0;
+                                                                } else {
+                                                                    $.ajax({
+                                                                        url: 'tempelate/shiping_price2.php',
+                                                                        type: 'POST',
+                                                                        data: { city: city },
+                                                                        success: function (response) {
+                                                                            var shippingCost = parseFloat(response);
+                                                                            if (isNaN(shippingCost)) {
+                                                                                alert(' نعتذر لك عميلنا العزيز، حالياً لا تتوفر خدمة التوصيل للمنطقة التي اخترتها، وسنوافيكم بمجرد توفرها لاحقاً بإذن الله.');
+                                                                                return;
+                                                                            }
+                                                                            updateShippingCost(shippingCost);
+                                                                        }
+                                                                    });
+                                                                    return;
+                                                                }
+                                                                updateShippingCost(shippingCost);
+                                                            });
+
+                                                            // تحديث تكلفة الشحن والمجموع الكلي
+                                                            function updateShippingCost(shippingCost) {
                                                                 $('#shipping-cost').html(shippingCost + ' ر.س');
                                                                 $('#lastshippingvalue').val(shippingCost);
 
                                                                 var grandTotal = sessionTotal + shippingCost;
                                                                 $('#grand_total').html(grandTotal + ' ر.س');
                                                                 $('#grand_total_value').val(grandTotal);
-                                                            } else {
-                                                                $.ajax({
-                                                                    url: 'tempelate/shiping_price2.php', // صفحة معالجة تكلفة الشحن
-                                                                    type: 'POST',
-                                                                    data: {
-                                                                        city: city
-                                                                    },
-                                                                    success: function (response) {
-                                                                        // تحويل response إلى قيمة عددية 
-                                                                        var shippingCost = parseFloat(response);
-                                                                        if (isNaN(shippingCost)) {
-                                                                            alert(' نعتذر لك عميلنا العزيز، حالياً لا تتوفر خدمة التوصيل للمنطقة التي اخترتها، وسنوافيكم بمجرد توفرها لاحقاً بإذن الله.');
-                                                                            return;
-                                                                        } else {
-                                                                            // تحديث قيمة الشحن
-                                                                            $('#shipping-cost').html(shippingCost + ' ر.س');
-                                                                            $('#lastshippingvalue').val(shippingCost);
-
-                                                                            // حساب المجموع الكلي 
-                                                                            var grandTotal = sessionTotal + shippingCost;
-                                                                            // تحديث المجموع الكلي في الصفحة
-                                                                            $('#grand_total').html(grandTotal + ' ر.س');
-                                                                            $('#grand_total_value').val(grandTotal);
-                                                                        }
-                                                                    }
-                                                                });
                                                             }
-
                                                         });
-                                                    });
-                                                </script>
+                                                    </script>
+
                                             </div>
                                             <div class='box'>
                                                 <div class="input_box">
@@ -475,9 +479,9 @@ if (isset($_SESSION['user_id'])) {
 
                     ############################ Edit Here ##################################
                     // if ($city != 'مدينة الرياض') {
-                    if (empty($shipping_value) || $shipping_value == 0) {
-                        $formerror[] = ' من فضلك حدد الشحن  ';
-                    }
+                    // if (empty($shipping_value) || $shipping_value == 0) {
+                    //     $formerror[] = ' من فضلك حدد الشحن  ';
+                    // }
                     // }
                     ############################## End Edit Here ##################################
             
@@ -598,7 +602,7 @@ if (isset($_SESSION['user_id'])) {
                                     ));
                                 }
                                 if ($stmt) {
-                                    include "send_mail/index.php";
+                                   // include "send_mail/index.php";
                                     //// End Send Mail 
                                     // delete session 
                                     unset($_SESSION['total']);
@@ -808,26 +812,26 @@ ob_end_flush();
 ?>
 
 <script>
-    function updateTotal(selectedRadio) {
-        var shippingValue = parseFloat(selectedRadio.value); // القيمة المحددة للشحن
-        document.getElementById('lastshippingvalue').value = shippingValue;
-        var subTotal = <?php echo $_SESSION['total'] + $_SESSION['farm_services']; ?>; // المجموع الفرعي
-        var grandTotal = subTotal + shippingValue; // الإجمالي الجديد
-        var discount = 0; // الخصم، افترض صفرًا
-        // إذا كان هناك خصم موجود
-        <?php if (isset($_SESSION['coupon'])) { ?>
-            discount = grandTotal * document.getElementById("discountCoupon").value;
-            grandTotal -= discount; // تطبيق الخصم
-            document.getElementById("discountValue").value = discount;
-            document.getElementById('discountValue_total').innerHTML = discount.toFixed(2) + " ر.س";
-        <?php } ?>
-        // عرض الإجمالي الجديد بعد تطبيق الخصم
-        document.getElementById('grand_total').innerHTML = grandTotal.toFixed(2) + " ر.س";
-        document.getElementById('grand_total_value').value = grandTotal;
-        // يمكنك تخزين القيمة الإجمالية في الجلسة للاحتفاظ بها بين الصفحات إذا لزم الأمر
-        <?php $_SESSION['grand_total'] = "grandTotal"; ?>
-        ///////////////// select payment method ///////////
-    }
+    // function updateTotal(selectedRadio) {
+    //     var shippingValue = parseFloat(selectedRadio.value); // القيمة المحددة للشحن
+    //     document.getElementById('lastshippingvalue').value = shippingValue;
+    //     var subTotal = <?php echo $_SESSION['total'] + $_SESSION['farm_services']; ?>; // المجموع الفرعي
+    //     var grandTotal = subTotal + shippingValue; // الإجمالي الجديد
+    //     var discount = 0; // الخصم، افترض صفرًا
+    //     // إذا كان هناك خصم موجود
+    //     <?php if (isset($_SESSION['coupon'])) { ?>
+        //         discount = grandTotal * document.getElementById("discountCoupon").value;
+        //         grandTotal -= discount; // تطبيق الخصم
+        //         document.getElementById("discountValue").value = discount;
+        //         document.getElementById('discountValue_total').innerHTML = discount.toFixed(2) + " ر.س";
+        //     <?php } ?>
+    //     // عرض الإجمالي الجديد بعد تطبيق الخصم
+    //     document.getElementById('grand_total').innerHTML = grandTotal.toFixed(2) + " ر.س";
+    //     document.getElementById('grand_total_value').value = grandTotal;
+    //     // يمكنك تخزين القيمة الإجمالية في الجلسة للاحتفاظ بها بين الصفحات إذا لزم الأمر
+    //     <?php $_SESSION['grand_total'] = "grandTotal"; ?>
+    //     ///////////////// select payment method ///////////
+    // }
 </script>
 
 

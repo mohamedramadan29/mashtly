@@ -356,7 +356,7 @@
                                                             }
                                                             ?>
                                                         </td>
-                                                        <td> <?php echo $order['total_price']; ?> ر.س</td>
+                                                        <td> <?php echo number_format($order['total_price'],2); ?>   ر.س</td>
                                                         <td> <?php echo $order['shipping_problem']; ?> </td>
                                                         <?php
                                                         if (isset($_SESSION['admin_username'])) {
