@@ -27,6 +27,7 @@ if (isset($_POST['add_pro'])) {
   $related_product = $_POST['related_product'];
   $related_product_string = implode(',', (array) $related_product);
   $main_checked = $_POST['main_checked'];
+  $meta_title = $_POST['meta_title']; 
   // plant options 
   $plants_options = $_POST['plants_options'];
   /**
@@ -161,9 +162,9 @@ if (isset($_POST['add_pro'])) {
 
   if (empty($formerror)) {
     $stmt = $connect->prepare("INSERT INTO products (cat_id,more_cat,name, slug , description,short_desc,video,main_checked,purchase_price,
-    price, sale_price , av_num,tags,related_product,publish,public_tail,ship_weight,ship_tail,more_info)
+    price, sale_price , av_num,tags,related_product,publish,public_tail,ship_weight,ship_tail,more_info,meta_title)
     VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zshort_desc,:zvideo,:zmain_checked,:zpurchase_price,
-    :zprice,:zsale_price,:zav_num,:ztags,:zrelated_product,:zpublish,:zpublic_tail,:zship_weight,:zship_tail,:zmore_info)");
+    :zprice,:zsale_price,:zav_num,:ztags,:zrelated_product,:zpublish,:zpublic_tail,:zship_weight,:zship_tail,:zmore_info,:zmeta_title)");
     $stmt->execute(array(
       "zcat" => $cat_id,
       "zmore_cat" => $more_cat_string,
@@ -186,6 +187,7 @@ if (isset($_POST['add_pro'])) {
       "zship_weight" => $ship_weight,
       "zship_tail" => $ship_tail,
       "zmore_info" => $more_info,
+      "zmeta_title" => $meta_title
     ));
     // get the last product
     $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC LIMIT 1");
@@ -486,6 +488,10 @@ if (isset($_POST['add_pro'])) {
               <div class="form-group">
                 <label for="Company-2" class="block"> اضافة التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
                 <input required id="Company-2" name="tags" type="text" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="Company-2" class="block"> meta title  </label>
+                <input required id="Company-2" name="meta_title" type="text" class="form-control">
               </div>
             </div>
             <!-- /.card-body -->

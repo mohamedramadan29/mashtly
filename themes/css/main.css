@@ -653,7 +653,7 @@ body {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
-    -o-border-radius: 5px
+    -o-border-radius: 5px;
 }
 
 .index_all_cat .product_info .main_image, .new_producs .products .product_info .main_image {
@@ -4360,4 +4360,16 @@ body {
     .tawk_button{
         display: none;
     }
+}
+
+.index_all_cat .product_info, .new_producs .products .product_info .discount_value{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #e74c3c;
+    color: #fff;
+    font-size: 13px;
+    padding: 5px;
+    border-radius: 4px 0;
+    font-weight: bold;
 }

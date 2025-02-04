@@ -1,4 +1,5 @@
 <div class="product_info">
+<span class="discount_value"> خصم 22 % </span>
     <!-- get the product image -->
     <?php
     $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
@@ -21,6 +22,7 @@
     }
     ?>
     <div class="product_details">
+        
         <?php
         // استخراج الاسم
         $name = $product['name'];

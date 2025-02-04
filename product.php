@@ -414,14 +414,108 @@ if (isset($_POST['add_to_fav'])) {
                                         <p style="color: #3c3b3b;"> للعناية بالنباتات أو اختيار الأنسب من مهندسي مشتلي </p>
                                     </a>
                                 </div>
-                            </div>
-                           
+                            </div> 
                         </div>
                     </div>
                     <div class="product_description_large_screen">
                         <div class="product_description">
                             <h3> وصف المنتج </h3>
-                            <p> <?php echo $product_desc ?> </p>
+                            <?php 
+
+
+$product_desc = $product_data['description'];
+
+// استخراج العناوين <h2> والمحتوى الذي يليها
+preg_match_all('/<h2.*?>(.*?)<\/h2>(.*?)(?=<h2|$)/s', $product_desc, $matches, PREG_SET_ORDER);
+
+$tabData = [];
+
+foreach ($matches as $match) {
+    $title = trim($match[1]); // العنوان داخل <h2>
+    $content = trim($match[2]); // المحتوى التابع للعنوان
+    $tabData[] = ['title' => $title, 'content' => $content];
+}
+?>
+
+<!-- كود عرض التبويبات بأسلوب التبديل (Toggle) -->
+<div class="container mt-4">
+    <?php foreach ($tabData as $index => $tab) : ?>
+        <div class="tab-item">
+            <button class="tab-button" onclick="toggleTab(<?= $index; ?>)">
+                <?= htmlspecialchars($tab['title']); ?>
+                <span class="icon">+</span>
+            </button>
+            <div class="tab-content" id="tab<?= $index; ?>">
+                <?= $tab['content']; ?> <!-- عرض المحتوى كما هو دون تعديل -->
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<!-- إضافة CSS مخصص -->
+<style>
+    .tab-item {
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .tab-button {
+        background: #f1f3f4;
+        border: none;
+        width: 100%;
+        text-align: left;
+        padding: 12px 16px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.3s;
+    }
+
+    .tab-button:hover {
+        background: #e8eaed;
+    }
+
+    .tab-content {
+        display: none;
+        padding: 10px 15px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 5px;
+    }
+
+    .icon {
+        font-weight: bold;
+        transition: transform 0.3s;
+    }
+
+    .tab-button.active .icon {
+        transform: rotate(45deg);
+    }
+</style>
+
+<!-- إضافة JavaScript لتفعيل التبديل -->
+<script>
+    function toggleTab(index) {
+        let button = document.querySelectorAll(".tab-button")[index];
+        let content = document.getElementById("tab" + index);
+        
+        if (content.style.display === "block") {
+            content.style.display = "none";
+            button.classList.remove("active");
+        } else {
+            document.querySelectorAll(".tab-content").forEach(tab => tab.style.display = "none");
+            document.querySelectorAll(".tab-button").forEach(btn => btn.classList.remove("active"));
+
+            content.style.display = "block";
+            button.classList.add("active");
+        }
+    }
+</script>
+
                             
                         </div>
                         <div class="social_share">

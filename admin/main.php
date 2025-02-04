@@ -433,6 +433,8 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
     // START SiteMap
     if ($dir == 'sitemap' && $page == 'sitemap') {
         include "sitemap/sitemap.php";
+    }elseif ($dir == 'sitemap' && $page == 'imagesitemap') {
+        include "sitemap/imagesitemap.php";
     }
     // START Product Tail 
     if ($dir == 'product_tail' && $page == 'add') {
