@@ -20,6 +20,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
             $publish = $_POST['publish'];
             $related_product = $_POST['related_product'];
             $meta_title = $_POST['meta_title'];
+            $new_description_status = $_POST['new_description_status'];
             $related_product_string = implode(',', (array) $related_product);
             if (isset($_POST['main_checked'])) {
                 $main_checked = $_POST['main_checked'];
@@ -156,7 +157,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
             }
             if (empty($formerror)) {
                 $stmt = $connect->prepare("UPDATE products SET cat_id=?,more_cat=?,name=?, description=?,short_desc=?,main_checked=?,purchase_price=?,
-        price=?,sale_price=?,av_num=?,tags=?,related_product=?,publish=?,public_tail=?,ship_weight=?,ship_tail=?,more_info=?,meta_title=? WHERE id = ? ");
+        price=?,sale_price=?,av_num=?,tags=?,related_product=?,publish=?,public_tail=?,ship_weight=?,ship_tail=?,more_info=?,meta_title=?,new_description_status=? WHERE id = ? ");
                 $stmt->execute(array(
                     $cat_id,
                     $more_cat_string,
@@ -176,6 +177,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                     $ship_tail,
                     $more_info,
                     $meta_title,
+                    $new_description_status,
                     $pro_id
                 ));
                 // UPDATE Main Images To db 
@@ -195,7 +197,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                 } else {
                     // Insert Main Images To db 
                     $stmt = $connect->prepare("INSERT INTO products_image (product_id, main_image,image_name, image_alt , image_desc,image_keys)
-    VALUES(:zproduct_id,:zmain_image,:zimage_name,:zimage_alt, :zimage_desc,:zimage_keys)");
+                    VALUES(:zproduct_id,:zmain_image,:zimage_name,:zimage_alt, :zimage_desc,:zimage_keys)");
                     $stmt->execute(array(
                         "zproduct_id" => $pro_id,
                         "zmain_image" => $main_image_uploaded,
@@ -205,8 +207,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                         "zimage_keys" => $image_keys,
                     ));
                 }
-
-
+                
                 // UPDATE Product Gallery To db 
                 // DELETE all image Gallary AND make INSERT AGAIN
                 if ($total_images > 0) {
@@ -379,27 +380,24 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="inputName"> الأسم </label>
-                                    <input required type="text" id="name" name="name" class="form-control"
-                                        value="<?php if (isset($_REQUEST['name'])) {
-                                            echo $_REQUEST['name'];
-                                        } else {
-                                            echo $pro_data['name'];
-                                        } ?>">
+                                    <input required type="text" id="name" name="name" class="form-control" value="<?php if (isset($_REQUEST['name'])) {
+                                        echo $_REQUEST['name'];
+                                    } else {
+                                        echo $pro_data['name'];
+                                    } ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="description"> الوصف </label>
-                                    <textarea id="summernote" name="description" class="form-control"
-                                        rows="4"><?php if (isset($_REQUEST['description'])) {
-                                            echo $_REQUEST['description'];
-                                        } else {
-                                            echo $pro_data['description'];
-                                        } ?></textarea>
+                                    <textarea id="summernote" name="description" class="form-control" rows="4"><?php if (isset($_REQUEST['description'])) {
+                                        echo $_REQUEST['description'];
+                                    } else {
+                                        echo $pro_data['description'];
+                                    } ?></textarea>
                                 </div>
                                 <div class='form-group'>
                                     <label> الوصف المختصر </label>
                                     <textarea maxlength="160" name="short_desc" id="short_desc" class="form-control"
-                                        rows="2"
-                                        style="min-height: 120px;"><?php if (isset($_REQUEST['short_desc'])) {
+                                        rows="2" style="min-height: 120px;"><?php if (isset($_REQUEST['short_desc'])) {
                                             echo $_REQUEST['short_desc'];
                                         } else {
                                             echo $pro_data['short_desc'];
@@ -473,7 +471,8 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                                 ?>
                                                 <option <?php if (isset($_REQUEST['more_cat']) && $_REQUEST['more_cat'] == $cat['id'])
                                                     echo "selected"; ?> value="<?php echo $cat['id']; ?>">
-                                                    <?php echo $cat['name'] ?> </option>
+                                                    <?php echo $cat['name'] ?>
+                                                </option>
                                                 <?php
                                             }
                                             ?>
@@ -571,7 +570,17 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                 </div>
                                 <div class="form-group">
                                     <label for="Company-2" class="block"> meta title </label>
-                                    <input required id="Company-2" name="meta_title" type="text" class="form-control" value="<?php echo $pro_data['meta_title']; ?>">
+                                    <input required id="Company-2" name="meta_title" type="text" class="form-control"
+                                        value="<?php echo $pro_data['meta_title']; ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Company-2" class="block"> تفيل نظام الوصف الجديد </label>
+                                    <select class="form-control" name="new_description_status">
+                                        <option value="0" <?php if ($pro_data['new_description_status'] == 0)
+                                            echo 'selected'; ?>> غير مفعل </option>
+                                        <option value="1" <?php if ($pro_data['new_description_status'] == 1)
+                                            echo 'selected'; ?>> مفعل </option>
+                                    </select>
                                 </div>
                                 <!-- /.card-body -->
                             </div>
@@ -599,12 +608,11 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                 </div>
                                 <div class="form-group">
                                     <label for="inputEstimatedBudget"> سعر التخفيض </label>
-                                    <input type="number" id="sale_price" name="sale_price" class="form-control"
-                                        value="<?php if (isset($_REQUEST['sale_price'])) {
-                                            echo $_REQUEST['sale_price'];
-                                        } else {
-                                            echo $pro_data['sale_price'];
-                                        } ?>">
+                                    <input type="number" id="sale_price" name="sale_price" class="form-control" value="<?php if (isset($_REQUEST['sale_price'])) {
+                                        echo $_REQUEST['sale_price'];
+                                    } else {
+                                        echo $pro_data['sale_price'];
+                                    } ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="inputEstimatedBudget"> العدد المتاح </label>
@@ -747,30 +755,27 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                 </div>
                                 <div class="form-group">
                                     <label for="ship_weight"> وزن المنتج للشحن </label>
-                                    <input type="text" id="ship_weight" name="ship_weight" class="form-control"
-                                        value="<?php if (isset($_REQUEST['ship_weight'])) {
-                                            echo $_REQUEST['ship_weight'];
-                                        } else {
-                                            echo $pro_data['ship_weight'];
-                                        } ?>">
+                                    <input type="text" id="ship_weight" name="ship_weight" class="form-control" value="<?php if (isset($_REQUEST['ship_weight'])) {
+                                        echo $_REQUEST['ship_weight'];
+                                    } else {
+                                        echo $pro_data['ship_weight'];
+                                    } ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="ship_tail"> طول المنتج لتحديد الوزن [للشحن] </label>
-                                    <input type="text" id="ship_tail" name="ship_tail" class="form-control"
-                                        value="<?php if (isset($_REQUEST['ship_tail'])) {
-                                            echo $_REQUEST['ship_tail'];
-                                        } else {
-                                            echo $pro_data['ship_tail'];
-                                        } ?>">
+                                    <input type="text" id="ship_tail" name="ship_tail" class="form-control" value="<?php if (isset($_REQUEST['ship_tail'])) {
+                                        echo $_REQUEST['ship_tail'];
+                                    } else {
+                                        echo $pro_data['ship_tail'];
+                                    } ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="ship_weight"> معلومات اضافية </label>
-                                    <textarea name="more_info" class="form-control summernote"
-                                        rows="2"><?php if (isset($_REQUEST['more_info'])) {
-                                            echo $_REQUEST['more_info'];
-                                        } else {
-                                            echo $pro_data['more_info'];
-                                        } ?></textarea>
+                                    <textarea name="more_info" class="form-control summernote" rows="2"><?php if (isset($_REQUEST['more_info'])) {
+                                        echo $_REQUEST['more_info'];
+                                    } else {
+                                        echo $pro_data['more_info'];
+                                    } ?></textarea>
 
                                 </div>
                             </div>

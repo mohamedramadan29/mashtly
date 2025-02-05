@@ -20,7 +20,7 @@ if ($product_index !== false && isset($url_parts[$product_index + 1])) {
     /* get the product meta */
     $meta_keywords = $product_data['tags'];
     $meta_short_description = strip_tags($product_data['short_desc']);
-    $meta_title = $product_data['name'];
+    $meta_title = !empty($product_data['meta_title']) ? $product_data['meta_title'] : $product_data['name'];
     ///// get the product image
     $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
     $stmt->execute(array($product_data['id']));

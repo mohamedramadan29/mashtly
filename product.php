@@ -63,7 +63,7 @@ if (isset($_POST['add_to_cart'])) {
         if ($product_sale_price != '') {
             $price = $product_sale_price + ($product_sale_price * 0.10) * (1 - 0.22);
         } else {
-            $price = $product_price + ($product_price * 0.10) *  (1 - 0.22);
+            $price = ($product_price + ($product_price * 0.10)) *  (1 - 0.22); 
         }
     }
     if (isset($_POST['quantity'])) {
@@ -386,9 +386,9 @@ if (isset($_POST['add_to_fav'])) {
                             } else {
                             ?>
                                 <?php
-                                if (empty($product_sale_price)) {
+                                if (empty($product_sale_price)) {                                                                                                                                            
                                 ?>
-                                    <p> السعر : <span style="text-decoration: line-through; color: #8f8989;"> <?php echo number_format($product_price + ($product_price * 0.10), 2); ?> </span> <span> <?php echo number_format($product_price + ($product_price * 0.10) * (1 - 0.22) , 2); ?>  ر.س </span> </p>
+                                    <p> السعر : <span style="text-decoration: line-through; color: #8f8989;"> <?php echo number_format($product_price + ($product_price * 0.10), 2); ?> </span> <span> <?php echo  number_format(($product_price + ($product_price * 0.10)) * (1 - 0.22), 2) ?>  ر.س </span> </p>
                                 <?php
                                 } else {
                                 ?>
@@ -421,102 +421,49 @@ if (isset($_POST['add_to_fav'])) {
                         <div class="product_description">
                             <h3> وصف المنتج </h3>
                             <?php 
+                            $product_desc = $product_data['description'];
+                            if($product_data['new_description_status'] == 1){
+                            $parts = preg_split('/<h2.*?>/', $product_data['description'], 2, PREG_SPLIT_NO_EMPTY);
+                            $intro = isset($parts[0]) ? trim($parts[0]) : ''; // المقدمة
 
+                            // استخراج العناوين <h2> والمحتوى الذي يليها
+                            preg_match_all('/<h2.*?>(.*?)<\/h2>(.*?)(?=<h2|$)/s', $product_data['description'], $matches, PREG_SET_ORDER);
 
-$product_desc = $product_data['description'];
+                            $tabData = [];
 
-// استخراج العناوين <h2> والمحتوى الذي يليها
-preg_match_all('/<h2.*?>(.*?)<\/h2>(.*?)(?=<h2|$)/s', $product_desc, $matches, PREG_SET_ORDER);
+                            foreach ($matches as $match) {
+                                $title = trim(strip_tags($match[1])); // إزالة الأكواد HTML من العنوان
+                                $content = trim($match[2]); // المحتوى التابع للعنوان
+                                $tabData[] = ['title' => $title, 'content' => $content];
+                            }
+                            ?>
 
-$tabData = [];
+                            <!-- عرض مقدمة المنتج إن وجدت -->
+                            <?php if (!empty($intro)) : ?>
+                                <div class="product-intro">
+                                    <?= $intro; ?>
+                                </div>
+                            <?php endif; ?>
 
-foreach ($matches as $match) {
-    $title = trim($match[1]); // العنوان داخل <h2>
-    $content = trim($match[2]); // المحتوى التابع للعنوان
-    $tabData[] = ['title' => $title, 'content' => $content];
-}
-?>
-
-<!-- كود عرض التبويبات بأسلوب التبديل (Toggle) -->
-<div class="container mt-4">
-    <?php foreach ($tabData as $index => $tab) : ?>
-        <div class="tab-item">
-            <button class="tab-button" onclick="toggleTab(<?= $index; ?>)">
-                <?= htmlspecialchars($tab['title']); ?>
-                <span class="icon">+</span>
-            </button>
-            <div class="tab-content" id="tab<?= $index; ?>">
-                <?= $tab['content']; ?> <!-- عرض المحتوى كما هو دون تعديل -->
-            </div>
-        </div>
-    <?php endforeach; ?>
-</div>
-
-<!-- إضافة CSS مخصص -->
-<style>
-    .tab-item {
-        margin-bottom: 10px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .tab-button {
-        background: #f1f3f4;
-        border: none;
-        width: 100%;
-        text-align: left;
-        padding: 12px 16px;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 8px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        transition: background 0.3s;
-    }
-
-    .tab-button:hover {
-        background: #e8eaed;
-    }
-
-    .tab-content {
-        display: none;
-        padding: 10px 15px;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin-top: 5px;
-    }
-
-    .icon {
-        font-weight: bold;
-        transition: transform 0.3s;
-    }
-
-    .tab-button.active .icon {
-        transform: rotate(45deg);
-    }
-</style>
-
-<!-- إضافة JavaScript لتفعيل التبديل -->
-<script>
-    function toggleTab(index) {
-        let button = document.querySelectorAll(".tab-button")[index];
-        let content = document.getElementById("tab" + index);
-        
-        if (content.style.display === "block") {
-            content.style.display = "none";
-            button.classList.remove("active");
-        } else {
-            document.querySelectorAll(".tab-content").forEach(tab => tab.style.display = "none");
-            document.querySelectorAll(".tab-button").forEach(btn => btn.classList.remove("active"));
-
-            content.style.display = "block";
-            button.classList.add("active");
-        }
-    }
-</script>
-
-                            
+                            <!-- كود عرض التبويبات بأسلوب التبديل (Toggle) -->
+                            <div class="container mt-4 new_product_description">
+                                <?php foreach ($tabData as $index => $tab) : ?>
+                                    <div class="tab-item">
+                                        <button class="tab-button" onclick="toggleTab(<?= $index; ?>)">
+                                            <?= htmlspecialchars($tab['title']); ?>
+                                            <span class="icon"> <i class="bi bi-chevron-down"></i> </span>
+                                        </button>
+                                        <div class="tab-content" id="tab<?= $index; ?>">
+                                            <?= $tab['content']; ?> <!-- عرض المحتوى كما هو دون تعديل -->
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <?php 
+                            }else{
+                                echo $product_data['description'];
+                            }
+                            ?>
                         </div>
                         <div class="social_share">
                             <div>
@@ -779,7 +726,50 @@ foreach ($matches as $match) {
                 <div class="product_description_small_screen">
                     <div class="product_description">
                         <h3> وصف المنتج </h3>
-                        <p id="product_desc">
+
+                        <?php 
+                            $product_desc = $product_data['description'];
+                            if($product_data['new_description_status'] == 1){
+                                $parts = preg_split('/<h2.*?>/', $product_desc, 2, PREG_SPLIT_NO_EMPTY);
+                            $intro = isset($parts[0]) ? trim($parts[0]) : ''; // المقدمة
+
+                            // استخراج العناوين <h2> والمحتوى الذي يليها
+                            preg_match_all('/<h2.*?>(.*?)<\/h2>(.*?)(?=<h2|$)/s', $product_desc, $matches, PREG_SET_ORDER);
+
+                            $tabData = [];
+
+                            foreach ($matches as $match) {
+                                $title = trim(strip_tags($match[1])); // إزالة الأكواد HTML من العنوان
+                                $content = trim($match[2]); // المحتوى التابع للعنوان
+                                $tabData[] = ['title' => $title, 'content' => $content];
+                            }
+                            ?>
+
+                            <!-- عرض مقدمة المنتج إن وجدت -->
+                            <?php if (!empty($intro)) : ?>
+                                <div class="product-intro">
+                                    <?= $intro; ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <!-- كود عرض التبويبات بأسلوب التبديل (Toggle) -->
+                            <div class="container mt-4 new_product_description">
+                                <?php foreach ($tabData as $index => $tab) : ?>
+                                    <div class="tab-item">
+                                        <button class="tab-button" onclick="toggleTab(<?= $index; ?>)">
+                                            <?= htmlspecialchars($tab['title']); ?>
+                                            <span class="icon"> <i class="bi bi-chevron-down"></i> </span>
+                                        </button>
+                                        <div class="tab-content" id="tab_mobile<?= $index; ?>">
+                                            <?= $tab['content']; ?> <!-- عرض المحتوى كما هو دون تعديل -->
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <?php 
+                            }else{
+                                ?>
+                                <p id="product_desc">
                             <?php 
                             $description_words = explode(' ', $product_desc);
                             $first_30_words = implode(' ', array_slice($description_words, 0, 60)); 
@@ -789,6 +779,11 @@ foreach ($matches as $match) {
                             <div class="full-desc" style="display: none;"><?php echo $remaining_words; ?></div>
                             <a href="javascript:void(0);" id="toggleDescription" class="toggle-btn"> قراءة المزيد </a>
                         </p>
+                                <?php 
+                            }
+                            ?>
+ 
+                        
                     </div>
                     <div class="social_share">
                         <div>
@@ -1084,4 +1079,28 @@ ob_end_flush();
             this.textContent = 'عرض أقل';
         }
     });
+</script>
+
+
+<!-- إضافة JavaScript لتفعيل التبديل -->
+<script>
+    function toggleTab(index) {
+        let button = document.querySelectorAll(".tab-button")[index];
+        let content = document.getElementById("tab" + index);
+        let content_mobile = document.getElementById("tab_mobile" + index);
+        
+        if (content.style.display === "block" || content_mobile.style.display === "block") {
+            content.style.display = "none";
+            content_mobile.style.display = "none";
+            button.classList.remove("active");
+        } else {
+            document.querySelectorAll(".tab-content").forEach(tab => tab.style.display = "none");
+
+            document.querySelectorAll(".tab-button").forEach(btn => btn.classList.remove("active"));
+
+            content.style.display = "block";
+            content_mobile.style.display = "block";
+            button.classList.add("active");
+        }
+    }
 </script>
