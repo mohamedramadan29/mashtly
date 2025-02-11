@@ -15,18 +15,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta property="og:title" content="<?php echo isset($meta_title) ? $meta_title : $page_title; ?>">
   <meta property="og:description" content="<?php echo isset($meta_short_description) ? $meta_short_description : $description; ?>">
-  <meta property="og:image" content="<?php echo $uploads; ?>/logo.png">
-  <meta property="og:image" content="<?php echo isset($pro_image) && $pro_image != '' ? 'admin/product_images/' . $pro_image : $uploads . '/logo.png'; ?>">
+  <!-- <meta property="og:image" content="<?php echo $uploads; ?>/logo.png"> -->
+  <meta property="og:image" content="<?php echo isset($pro_image) && $pro_image != '' ? 'uploads/products/' . $pro_image : $uploads . '/logo.png'; ?>">
   <meta property="og:url" content="<?php echo $current_url; ?>">
   <meta property="og:type" content="website"> <!-- يجب أن يكون النوع "website" أو نوع مناسب آخر -->
   <!-- يمكنك أيضًا إضافة Twitter Cards إذا كنت ترغب في ذلك -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="<?php echo isset($meta_title) ? $meta_title : $page_title; ?>" />
   <meta name="twitter:description" content="<?php echo isset($meta_short_description) ? $meta_short_description : $description; ?>" />
-  <meta name="twitter:image" content="<?php echo isset($pro_image) && $pro_image != '' ? 'admin/product_images/' . $pro_image : $uploads . '/logo.png'; ?>" />
+  <meta name="twitter:image" content="<?php echo isset($pro_image) && $pro_image != '' ? 'uploads/products/' . $pro_image : $uploads . '/logo.png'; ?>" />
   <link rel="alternate" href="http://mshtly.com/" hreflang="ar-SA" />
   <link rel="alternate" href="http://mshtly.com/" hreflang="x-default" />
-  <link rel="icon" href="<?php echo $uploads; ?>/logo.png" type="image/x-icon">
+  <link rel="icon" href="<?php echo isset($pro_image) && $pro_image != '' ? 'uploads/products/' . $pro_image : $uploads . '/logo.png'; ?>" type="image/x-icon">
   <link rel="stylesheet" href="<?php echo $css; ?>bootstrap.rtl.min.css">
   <link rel="stylesheet" rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <!-- <link rel="stylesheet" rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">

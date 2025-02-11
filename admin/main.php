@@ -593,6 +593,19 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
         include "account/edit.php";
     }
 
+    ############ start Redirect 
+
+    if($dir=='redirect' && $page == 'index'){
+        include "redirect/index.php";
+
+    }elseif($dir=='redirect' && $page == 'add'){
+        include "redirect/add.php";
+    }elseif($dir=='redirect' && $page == 'edit'){
+        include "redirect/edit.php";
+    }elseif($dir=='redirect' && $page == 'delete'){
+        include "redirect/delete.php";
+    }
+
     ?>
 
 </div>
