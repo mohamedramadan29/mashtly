@@ -4,7 +4,6 @@ session_start();
 $page_title = ' اتمام عملية الشراء  ';
 include "init.php";
 if (isset($_SESSION['user_id'])) {
-    //cho $_SESSION['cookie_id'];
     $user_id = $_SESSION['user_id'];
     // get all product from user cart
     $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
@@ -15,20 +14,27 @@ if (isset($_SESSION['user_id'])) {
     } else {
         header("Location:cart");
     }
+
+    $stmt = $connect->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute(array($user_id));
+    $user_data = $stmt->fetch();
+
     ?>
+
     <div class="profile_page adress_page add_new_address">
         <div class='container'>
             <div class="data">
                 <div class="breadcrump">
-                    <p> <a href="index"> الرئيسية </a> \ <span> اتمام عملية الطلب من خدمة العملاء </span> </p>
+                    <p> <a href="index"> الرئيسية </a> \ <span> اتمام عملية الشراء </span> </p>
                 </div>
                 <div class="purches_header">
                     <div class="data_header_name">
-                        <h2 class='header2'> اتمام عملية الطلب من خدمة العملاء </h2>
+                        <h2 class='header2'> اتمام عملية الشراء </h2>
                         <p> عدد العناصر : <span> <?php echo $count ?> </span></p>
                     </div>
+
                 </div>
-                <form action="" method="post">
+                <form action="" method="post" autocomplete="off">
                     <div class="cart">
                         <div class="row">
                             <div class="col-lg-8">
@@ -48,57 +54,133 @@ if (isset($_SESSION['user_id'])) {
                                                 </div>
                                                 <br>
                                                 <div class="input_box">
-                                                    <label for="country"> المدينة </label>
+                                                    <label for="country"> المدينة <span style="color:red;font-size: 16px;"> * </span> </label>
                                                     <select required name="city" id="city" class='form-control'>
                                                         <option value=""> حدد المدينة </option>
                                                         <?php
                                                         $stmt = $connect->prepare("SELECT * FROM suadia_city");
                                                         $stmt->execute();
                                                         $allsaucountry = $stmt->fetchAll();
-                                                        foreach ($allsaucountry as $city) {
-                                                            ?>
-                                                            <option <?php if (isset($_REQUEST['city']) && $_REQUEST['city'] == $city['name'])
-                                                                echo "selected"; ?>
-                                                                value="<?php echo $city['name']; ?>">
+                                                        $selectedCity = isset($_REQUEST['city']) ? $_REQUEST['city'] : ''; // استرجاع المدينة المحددة
+                                                        
+                                                        foreach ($allsaucountry as $city) { ?>
+                                                            <option data-region='<?php echo $city['region']; ?>' 
+                                                                value="<?php echo $city['name']; ?>" 
+                                                                <?php echo ($selectedCity == $city['name']) ? "selected" : ""; ?>>
                                                                 <?php echo $city['name']; ?>
                                                             </option>
-                                                            <?php
-                                                        }
-                                                        ?>
+                                                        <?php } ?>
                                                     </select>
                                                 </div>
+                                                <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                                                    <script src="themes/js/tome_select.min.js"></script>
+
+                                                    <script>
+                                                        $(document).ready(function () {
+                                                            var sessionTotal = <?php echo isset($_SESSION['total']) ? $_SESSION['total'] : 0; ?>;
+                                                            var selectedCity = "<?php echo $selectedCity; ?>"; // استعادة المدينة المحددة
+
+                                                            // تهيئة TomSelect بعد تحميل الصفحة
+                                                            var citySelect = new TomSelect('#city', {});
+
+                                                            // إعادة تعيين القيمة المخزنة بعد تحميل الصفحة
+                                                            if (selectedCity) {
+                                                                setTimeout(function() {
+                                                                    citySelect.setValue(selectedCity);
+                                                                }, 500); // تأخير طفيف لحل أي مشاكل في تحميل TomSelect
+                                                            }
+
+                                                            // حدث عند تغيير المدينة
+                                                            $(document).on('change', '#city', function () {
+                                                                var city = $(this).val();
+                                                                var region = $('#city option:selected').data('region');
+
+                                                                // إظهار أو إخفاء طرق الدفع حسب المنطقة
+                                                                if (region === 'منطقة الرياض') {
+                                                                    $('#payment2').show(); // الدفع عند الاستلام
+                                                                    $('#payment1').show(); // الدفع الإلكتروني
+                                                                } else {
+                                                                    $('#payment2').show(); // إخفاء الدفع عند الاستلام
+                                                                    $('#payment1').show(); // إظهار الدفع الإلكتروني فقط
+                                                                }
+
+                                                                // تحديث تكلفة الشحن
+                                                                if (city === 'مدينة الرياض' && sessionTotal >= 222) {
+                                                                    var shippingCost = 0;
+                                                                } else {
+                                                                    $.ajax({
+                                                                        url: 'tempelate/shiping_price2.php',
+                                                                        type: 'POST',
+                                                                        data: { city: city },
+                                                                        success: function (response) {
+                                                                            var shippingCost = parseFloat(response);
+                                                                            if (isNaN(shippingCost)) {
+                                                                                alert(' نعتذر لك عميلنا العزيز، حالياً لا تتوفر خدمة التوصيل للمنطقة التي اخترتها، وسنوافيكم بمجرد توفرها لاحقاً بإذن الله.');
+                                                                                return;
+                                                                            }
+                                                                            updateShippingCost(shippingCost);
+                                                                        }
+                                                                    });
+                                                                    return;
+                                                                }
+                                                                updateShippingCost(shippingCost);
+                                                            });
+
+                                                            // تحديث تكلفة الشحن والمجموع الكلي
+                                                            function updateShippingCost(shippingCost) {
+                                                                $('#shipping-cost').html(shippingCost + ' ر.س');
+                                                                $('#lastshippingvalue').val(shippingCost);
+
+                                                                var grandTotal = sessionTotal + shippingCost;
+                                                                $('#grand_total').html(grandTotal + ' ر.س');
+                                                                $('#grand_total_value').val(grandTotal);
+                                                            }
+                                                        });
+                                                    </script>
+
                                             </div>
                                             <div class='box'>
                                                 <div class="input_box">
-                                                    <label for="name"> الاسم بالكامل </label>
+                                                    <label for="name"> الاسم بالكامل <span
+                                                            style="color:red;font-size: 16px;"> * </span></label>
                                                     <input required id="name" type="text" name="name" class='form-control'
                                                         placeholder="اكتب…" value="<?php if (isset($_REQUEST['name']))
-                                                            echo $_REQUEST['name']; ?>">
+                                                            echo $_REQUEST['name'];
+                                                        else
+                                                            echo $user_data['user_name']; ?>">
                                                 </div>
                                                 <div class="input_box">
-                                                    <label for="phone"> رقم الجوال </label>
+                                                    <label for="phone"> رقم الجوال <span style="color:red;font-size: 16px;">
+                                                            * </span></label>
                                                     <input required id="phone" type="text" name="phone" class='form-control'
                                                         placeholder="اكتب…" value="<?php if (isset($_REQUEST['phone']))
-                                                            echo $_REQUEST['phone']; ?>">
+                                                            echo $_REQUEST['phone'];
+                                                        else
+                                                            echo $user_data['phone'] ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="box">
+                                                    <div class="input_box">
+                                                        <label for="email"> البريد الالكتروني <span
+                                                                style="color:red;font-size: 16px;"> * </span></label>
+                                                        <input required id="email" type="text" name="email" class='form-control'
+                                                            placeholder="اكتب…" value="<?php if (isset($_REQUEST['email']))
+                                                            echo $_REQUEST['email'];
+                                                        else
+                                                            echo $user_data['email']; ?>">
                                                 </div>
                                             </div>
                                             <div class="box">
                                                 <div class="input_box">
-                                                    <label for="email"> البريد الالكتروني </label>
-                                                    <input required id="email" type="text" name="email" class='form-control'
-                                                        placeholder="اكتب…" value="<?php if (isset($_REQUEST['email']))
-                                                            echo $_REQUEST['email']; ?>">
-                                                </div>
-                                            </div>
-                                            <div class="box">
-                                                <div class="input_box">
-                                                    <label for="street_name"> اسم الشارع </label>
+                                                    <label for="street_name"> اسم الشارع <span
+                                                            style="color:red;font-size: 16px;"> * </span></label>
                                                     <input required id="street_name" type="text" name="street_name"
                                                         class='form-control' placeholder="اكتب…" value="<?php if (isset($_REQUEST['street_name']))
                                                             echo $_REQUEST['street_name']; ?>">
                                                 </div>
                                                 <div class="input_box">
-                                                    <label for="build_number"> رقم المبني </label>
+                                                    <label for="build_number"> رقم المبني <span
+                                                            style="color:red;font-size: 16px;"> * </span> </label>
                                                     <input required id="build_number" type="text" name="build_number"
                                                         class='form-control' placeholder="اكتب…" value="<?php if (isset($_REQUEST['build_number']))
                                                             echo $_REQUEST['build_number']; ?>">
@@ -113,6 +195,85 @@ if (isset($_SESSION['user_id'])) {
                                         name="order_details" class="form-control"
                                         placeholder="ملاحظات اضافية علي طلبك"></textarea>
                                 </div>
+                                <div class="product_details">
+                                    <div class="data">
+                                        <div class="request">
+                                            <div class="options">
+                                                <div class="present" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModalgift">
+                                                    <div class="image">
+                                                        <div class="pre_image">
+                                                            <i class="bi bi-award"></i>
+                                                        </div>
+                                                        <div>
+                                                            <h4> اختر الهدية المجانية الخاصة بك </h4>
+                                                            <p> </p>
+                                                        </div>
+                                                    </div>
+                                                    <div style="cursor: pointer;">
+                                                        <img loading="lazy"
+                                                            src="<?php echo $uploads ?>/small_left_model.png"
+                                                            alt="التغليف كهدية">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="farm_price preset_price">
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModalgift" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="modal_price">
+                                                        <div class="header">
+                                                            <h3> اختر تغليف الهدية المناسبة لك </h3>
+                                                            <p> تكلفة تغليف الهدية تحسب علي كل نبته </p>
+                                                        </div>
+                                                        <p class="public"> يختلف كل تغليف من حيث التكلفة النهائية </p>
+                                                        <?php
+                                                        // Get Gifts 
+                                                        $stmt = $connect->prepare("SELECT * FROM gifts");
+                                                        $stmt->execute();
+                                                        $allgifts = $stmt->fetchAll();
+                                                        foreach ($allgifts as $gift) {
+                                                            ?>
+                                                            <input style="display: none;" class="select_gift"
+                                                                value="<?php echo $gift['name'] ?>" type="radio" name="gift_id"
+                                                                id="<?php echo $gift['id']; ?>">
+                                                            <label class="diffrent_price gifts"
+                                                                for="<?php echo $gift['id']; ?>">
+                                                                <div>
+                                                                    <img loading="lazy"
+                                                                        src="https://www.mshtly.com/uploads/gifts/<?php echo $gift['image']; ?>"
+                                                                        alt="التغليف كهدية">
+                                                                </div>
+                                                                <div>
+                                                                    <p> <?php echo $gift['name'] ?> <br>
+                                                                        <!-- <span>
+                                                                            <?php echo $gift['price'] ?> ريال </span> -->
+                                                                    </p>
+                                                                </div>
+                                                            </label>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </div>
+                                                    <button type="button" data-bs-dismiss="modal" aria-label="Close"
+                                                        style="background-color:#5c8e00; border-radius: 50px; color:#fff;margin:auto;display: block;"
+                                                        class="btn"> حفظ </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-------------- End Gifts ---------------->
                                 <br>
                                 <div class="col-lg-12">
                                     <div class="cart_price_info">
@@ -127,8 +288,6 @@ if (isset($_SESSION['user_id'])) {
                                                     <p> إجمالي سعر المنتجات في السلة </p>
                                                 </div>
                                                 <div>
-                                                    <input type="hidden" id='product_total'
-                                                        value="<?php echo $_SESSION['total']; ?>">
                                                     <h2 class="total"> <?php echo number_format($_SESSION['total'], 2); ?>
                                                         ر.س </h2>
                                                 </div>
@@ -150,13 +309,7 @@ if (isset($_SESSION['user_id'])) {
                                                     <h3> الشحن والتسليم: </h3>
                                                     <p> يحدد سعر الشحن حسب الموقع </p>
                                                 </div>
-                                                <!-- <div id="shipping-cost">
-
-                                                </div> -->
-
                                                 <div>
-                                                    <!-- <h2 class="total"> <?php //include 'tempelate/shiping_price.php'; 
-                                                        ?> </h2> -->
                                                     <h2 id="shipping-cost"></h2>
                                                     <input type="hidden" name="last_shipping_value" id="lastshippingvalue"
                                                         value="<?php echo $shipping_value; ?>">
@@ -189,7 +342,6 @@ if (isset($_SESSION['user_id'])) {
                                                 </div>
                                             </div>
                                             <?php
-
                                             if (isset($_SESSION['coupon'])) {
                                                 ?>
                                                 <input type="hidden" name="" id="discountCoupon"
@@ -220,96 +372,11 @@ if (isset($_SESSION['user_id'])) {
                                     <div style="margin-top: 20px;">
                                         <h5> حدد الشحن والتسليم لاختيار طريقة الدفع المناسبة لك </h5>
                                     </div>
-                                    <!-- <div>
-                                        <a href="profile/payment/add"> <i class="fa fa-plus"></i> اضف بطاقة جديدة </a>
-                                    </div> -->
                                 </div>
                                 <!-- get payments   -->
                                 <div class="addresses">
                                     <div class="row">
-                                        <?php
-                                        $encryptionKey = "!#@_MOHAMED_!#@_MASHTLY";
-                                        $stmt = $connect->prepare("SELECT * FROM user_payments WHERE user_id = ? AND default_payment = 1");
-                                        $stmt->execute(array($user_id));
-                                        $allpayments = $stmt->fetchAll();
-                                        foreach ($allpayments as $payment) {
-                                            $id = $payment['id'];
-                                            $card_name = $payment['card_name'];
-                                            $card_number = $payment['card_number'];
-                                            $card_number = openssl_decrypt($card_number, "AES-128-ECB", $encryptionKey);
-                                            $first_number = substr($card_number, 0, 1);
-                                            $lastFourDigits = substr($card_number, -4);
-                                            $end_date = $payment['end_date'];
-                                            $cvc = $payment['cvc'];
-                                            $default = $payment['default_payment'];
-                                            ?>
-
-                                            <input required style="display: none;" id="visa_payment" type="radio"
-                                                name="checkout_payment" value="الدفع الالكتروني">
-                                            <label for="visa_payment" class="checkout_address">
-                                                <div class="address payment_method">
-                                                    <div class='add_content'>
-                                                        <div class="card_image">
-                                                            <?php
-                                                            $visa_public_name = 'فيزا';
-                                                            if ($first_number == 5 || $first_number == 2) {
-                                                                $visa_public_name = 'ماستر كارد ';
-                                                                ?>
-                                                                <img src="<?php echo $uploads ?>master.png" alt="">
-                                                                <?php
-                                                            } elseif ($first_number == 4) {
-                                                                $visa_public_name = 'فيزا';
-                                                                ?>
-                                                                <img src="<?php echo $uploads ?>visa.svg" alt="">
-                                                                <?php
-                                                            } else {
-                                                                ?>
-                                                                <img src="<?php echo $uploads ?>visa.svg" alt="">
-                                                                <?php
-                                                            }
-                                                            ?>
-                                                        </div>
-                                                        <div class="card_data">
-                                                            <p class="number"> <?php echo $visa_public_name; ?> تنتهي ب
-                                                                <?php echo $lastFourDigits; ?>
-                                                            </p>
-                                                            <p class="end_date"> الأسم علي البطاقة : <span
-                                                                    style="font-weight: bold; color:#000">
-                                                                    <?php echo $card_name; ?></span> </p>
-                                                            <p class="end_date"> تنتهي صلاحية البطاقة : <span
-                                                                    style="font-weight: bold; color:#000">
-                                                                    <?php echo $end_date; ?></span> </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="security_number">
-                                                        <label for=""> رقم التحقق CVC </label>
-                                                        <input maxlength="3" type="text" name="security_number"
-                                                            placeholder="123">
-                                                    </div>
-                                                </div>
-                                            </label>
-                                            <?php
-                                        }
-                                        ?>
-
-                                        <div class="d-flex align-items-center" id="payment1">
-                                            <input checked style="width: 35px;height: 28px;cursor: pointer;" required
-                                                id="visa_payment" type="radio" name="checkout_payment"
-                                                value="الدفع الالكتروني">
-                                            <label style="width: 95%;" for="visa_payment" class="checkout_address">
-                                                <div class="address payment_method">
-                                                    <div class='add_content'>
-                                                        <div class="card_image">
-                                                            <img src="<?php echo $uploads ?>visa.svg" alt="">
-                                                        </div>
-                                                        <div class="card_data">
-                                                            <p class="number"> الدفع الالكتروني </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </div>
-                                        <div class="d-flex align-items-center" id="payment2">
+                                        <div class="align-items-center" id="payment2">
                                             <input style="width: 35px;height: 28px;cursor: pointer;" required
                                                 id="when_drive" type="radio" name="checkout_payment"
                                                 value="الدفع عن الاستلام">
@@ -327,6 +394,29 @@ if (isset($_SESSION['user_id'])) {
                                                 </div>
                                             </label>
                                         </div>
+                                        <style>
+                                            #payment2 {
+                                                display: flex;
+                                            }
+                                        </style>
+                                        <div class="d-flex align-items-center" id="payment1">
+                                            <input checked style="width: 35px;height: 28px;cursor: pointer;" required
+                                                id="visa_payment" type="radio" name="checkout_payment"
+                                                value="الدفع الالكتروني">
+                                            <label style="width: 95%;" for="visa_payment" class="checkout_address">
+                                                <div class="address payment_method">
+                                                    <div class='add_content'>
+                                                        <div class="card_image">
+                                                            <img src="<?php echo $uploads ?>visa.svg" alt="">
+                                                        </div>
+                                                        <div class="card_data">
+                                                            <p class="number"> الدفع الالكتروني </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -345,13 +435,23 @@ if (isset($_SESSION['user_id'])) {
                     $_SESSION['grand_total'] = $grand_total;
                     $discountValue = $_POST['discountValue'];
                     $_SESSION['discount_value'] = $discountValue;
+                    // $get user data 
+                    $stmt = $connect->prepare("SELECT * FROM users WHERE id = ?");
+                    $stmt->execute(array($user_id));
+                    $user_data = $stmt->fetch();
+
                     // get the last order number  id and number 
                     $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
                     $stmt->execute();
                     $order_data = $stmt->fetch();
                     $order_id = $order_data['id'];
+                    //$order_number = $order_data['order_number'];
+                    // $stmt = $connect->prepare("SELECT COUNT(*) AS order_count FROM orders");
+                    // $stmt->execute();
+                    // $order_count = $stmt->fetchColumn();
                     // Increment the count by 1 for the new order number
                     $order_number = $order_data['order_number'] + 1;
+                    // $order_number = $order_count + 1;
                     $user_id = $user_id;
                     $country = $_POST['country'];
                     $name = $_POST['name'];
@@ -363,7 +463,6 @@ if (isset($_SESSION['user_id'])) {
                     $stmt->execute(array($city));
                     $city_data = $stmt->fetch();
                     $area = $city_data['region'];
-                    $area_code = $city_data['reg_id'];
                     $address = $build_number . '-' . $street_name . '-' . $area . '-' . $city . '-' . $country;
                     $email = $_POST['email'];
                     $ship_price = $shipping_value;
@@ -371,15 +470,23 @@ if (isset($_SESSION['user_id'])) {
                     $status = 0;
                     $status_value = 'لم يبدا';
                     $farm_service = $_SESSION['farm_services'];
-                    // $grand_total = $_SESSION['grand_total'];
-            
+                    $grand_total = $_SESSION['grand_total'];
+                    $gift_id = $_POST['gift_id'];
+
                     if ($farm_service == '') {
                         $farm_service = 0;
                     }
+
+                    ############################ Edit Here ##################################
+                    // if ($city != 'مدينة الرياض') {
+                    // if (empty($shipping_value) || $shipping_value == 0) {
+                    //     $formerror[] = ' من فضلك حدد الشحن  ';
+                    // }
+                    // }
+                    ############################## End Edit Here ##################################
+            
                     $payment_method = $_POST['checkout_payment'];
-                    if (empty($shipping_value) || $shipping_value == 0) {
-                        $formerror[] = ' من فضلك حدد الشحن  ';
-                    }
+
                     if (empty($payment_method)) {
                         $formerror[] = ' من فضلك حدد وسيلة الدفع ';
                     }
@@ -407,6 +514,7 @@ if (isset($_SESSION['user_id'])) {
                             'coupon_code' => $_SESSION['coupon'],
                             'discount_value' => $_SESSION['discount_value'],
                             "order_details" => $order_details,
+                            'gift_id' => $gift_id,
                         ];
                         if ($payment_method === 'الدفع عن الاستلام') {
                             echo "الدفع عند الاستلام";
@@ -414,9 +522,9 @@ if (isset($_SESSION['user_id'])) {
                             try {
                                 $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
                                 area, city, address, ship_price,order_details, order_date, status,status_value,farm_service_price,total_price,
-                                payment_method,coupon_code,discount_value,shipping_problem) 
+                                payment_method,coupon_code,discount_value,shipping_problem,present_id) 
                                 VALUES (:zorder_number , :zuser_id , :zname , :zemail ,:zphone , :zarea , :zcity , :zaddress,
-                                :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value,:zshipping_problem)");
+                                :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value,:zshipping_problem,:zpresent_id)");
                                 $stmt->execute(array(
                                     "zorder_number" => $order_number,
                                     "zuser_id" => $user_id,
@@ -436,7 +544,9 @@ if (isset($_SESSION['user_id'])) {
                                     "zpayment_method" => $payment_method,
                                     "zcoupon_code" => $_SESSION['coupon_name'],
                                     "zdiscount_value" => $_SESSION['discount_value'],
-                                    "zshipping_problem" => $_SESSION['shipping_problem']
+                                    "zshipping_problem" => $_SESSION['shipping_problem'],
+                                    'zpresent_id' => $gift_id
+
                                 ));
                                 // get the last order number  id and number 
                                 $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
@@ -492,8 +602,8 @@ if (isset($_SESSION['user_id'])) {
                                     ));
                                 }
                                 if ($stmt) {
-                                    //include "send_mail/index.php";
-                                    ////////// End Send Mail 
+                                   // include "send_mail/index.php";
+                                    //// End Send Mail 
                                     // delete session 
                                     unset($_SESSION['total']);
                                     unset($_SESSION['farm_services']);
@@ -504,8 +614,8 @@ if (isset($_SESSION['user_id'])) {
                                     unset($_SESSION['coupon_name']);
                                     unset($_SESSION['grand_total']);
                                     unset($_SESSION['shipping_problem']);
-                                    $stmt = $connect->prepare("DELETE FROM cart WHERE cookie_id = ? OR user_id = ?");
-                                    $stmt->execute(array($cookie_id, $user_id));
+                                    $stmt = $connect->prepare("DELETE FROM cart WHERE cookie_id = ?");
+                                    $stmt->execute(array($cookie_id));
                                     header("Location:profile/orders/compelete");
                                 }
                             } catch (\Exception $e) {
@@ -514,6 +624,95 @@ if (isset($_SESSION['user_id'])) {
                         } elseif ($payment_method === 'الدفع الالكتروني') {
                             // Get the user's details (you can fetch these from your database)
             
+                            try {
+                                $payment_method = 'الدفع الالكتروني';
+                                $status_value = 'pending';
+                                $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
+                                    area, city, address, ship_price,order_details, order_date, status,status_value,farm_service_price,total_price,
+                                    payment_method,coupon_code,discount_value,shipping_problem,present_id) 
+                                    VALUES (:zorder_number , :zuser_id , :zname , :zemail ,:zphone , :zarea , :zcity , :zaddress,
+                                    :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value,:zshipping_problem,:zpresent_id)");
+                                $stmt->execute(array(
+                                    "zorder_number" => $order_number,
+                                    "zuser_id" => $user_id,
+                                    "zname" => $name,
+                                    "zemail" => $email,
+                                    "zphone" => $phone,
+                                    "zarea" => $area,
+                                    "zcity" => $city,
+                                    "zaddress" => $address,
+                                    "zship_price" => $ship_price,
+                                    "zorder_details" => $order_details,
+                                    "zorder_date" => $order_date,
+                                    "zstatus" => $status,
+                                    "zstatus_value" => $status_value,
+                                    "zfarm_service_price" => $farm_service,
+                                    "ztotal_price" => $grand_total,
+                                    "zpayment_method" => $payment_method,
+                                    "zcoupon_code" => $_SESSION['coupon_name'],
+                                    "zdiscount_value" => $_SESSION['discount_value'],
+                                    "zshipping_problem" => $_SESSION['shipping_problem'],
+                                    'zpresent_id' => $gift_id
+                                ));
+                                // get the last order number  id and number 
+                                $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
+                                $stmt->execute();
+                                $order_data = $stmt->fetch();
+                                $order_id = $order_data['id'];
+                                $order_number = $order_data['order_number'];
+                                $_SESSION['order_number'] = $order_number;
+                                $_SESSION['order_id'] = $order_id;
+                                foreach ($allitems as $item) {
+                                    $product_id = $item['product_id'];
+                                    $quantity = $item['quantity'];
+                                    $price = $item['price'];
+                                    $farm_service = $item['farm_service'];
+                                    $as_present = $item['gift_id'];
+                                    $more_details = $item['vartion_name'];
+                                    $total_price = $item['total_price'];
+                                    // Insert Order Details
+                                    $stmt = $connect->prepare("INSERT INTO order_details (order_id, order_number,product_id,
+                                    qty, product_price, total,farm_service, as_present,more_details)
+                                    VALUES (:zorder_id, :zorder_number,:zproduct_id,
+                                    :zqty, :zproduct_price, :ztotal,:zfarm_service, :zas_present,:zmore_details)
+                                    ");
+                                    $stmt->execute(array(
+                                        "zorder_id" => $order_id,
+                                        "zorder_number" => $order_number,
+                                        "zproduct_id" => $product_id,
+                                        "zqty" => $quantity,
+                                        "zproduct_price" => $price,
+                                        "ztotal" => $total_price,
+                                        "zfarm_service" => $farm_service,
+                                        "zas_present" => $as_present,
+                                        "zmore_details" => $more_details,
+                                    ));
+                                    // insert order steps 
+                                    // get the  date
+                                    date_default_timezone_set('Asia/Riyadh'); // تحديد المنطقة الزمنية
+                                    $date = date('d/m/Y h:i a'); // تنسيق التاريخ والوقت
+                                    // Add Order Steps 
+                                    $stmt = $connect->prepare("SELECT * FROM employes WHERE role_name='التواصل'");
+                                    $stmt->execute();
+                                    $emp_data = $stmt->fetch();
+                                    $stmt = $connect->prepare("INSERT INTO order_steps (order_id,order_number,username,date,step_name,description,step_status)
+                                        VALUES(:zorder_id,:zorder_number,:zusername,:zdate,:zstep_name,:zdescription,:zstep_status)
+                                        ");
+                                    $stmt->execute(array(
+                                        "zorder_id" => $order_id,
+                                        "zorder_number" => $order_number,
+                                        "zusername" => $emp_data['id'],
+                                        "zdate" => $date,
+                                        "zstep_name" => 'التواصل',
+                                        "zdescription" => ' التواصل مع العميل لبدء الطلب  ',
+                                        "zstep_status" => 'لم يبدا'
+                                    ));
+                                }
+                            } catch (\Exception $e) {
+                                echo $e;
+                            }
+
+
                             $name = $name;
                             $email = $email;
                             $phone = $phone;
@@ -612,84 +811,32 @@ include $tem . 'footer.php';
 ob_end_flush();
 ?>
 
-
-
-
 <script>
-    function updateTotal(selectedRadio) {
-        var shippingValue = parseFloat(selectedRadio.value); // القيمة المحددة للشحن
-        document.getElementById('lastshippingvalue').value = shippingValue;
-        var subTotal = <?php echo $_SESSION['total'] + $_SESSION['farm_services']; ?>; // المجموع الفرعي
-        var grandTotal = subTotal + shippingValue; // الإجمالي الجديد
-        var discount = 0; // الخصم، افترض صفرًا
-        // إذا كان هناك خصم موجود
-        <?php if (isset($_SESSION['coupon'])) { ?>
-            discount = grandTotal * document.getElementById("discountCoupon").value;
-            grandTotal -= discount; // تطبيق الخصم
-            document.getElementById("discountValue").value = discount;
-            document.getElementById('discountValue_total').innerHTML = discount.toFixed(2) + " ر.س";
-        <?php } ?>
-        // عرض الإجمالي الجديد بعد تطبيق الخصم
-        document.getElementById('grand_total').innerHTML = grandTotal.toFixed(2) + " ر.س";
-        document.getElementById('grand_total_value').value = grandTotal;
-        // يمكنك تخزين القيمة الإجمالية في الجلسة للاحتفاظ بها بين الصفحات إذا لزم الأمر
-        <?php $_SESSION['grand_total'] = "grandTotal"; ?>
-        ///////////////// select payment method ///////////
-        //var selectedValue = selectedRadio.value;
-        if (shippingValue == "35") {
-            // إذا تم اختيار داخل الرياض 
-            document.getElementById("payment1").style.setProperty('display', 'block', 'important');
-            document.getElementById("payment2").style.setProperty('display', 'block', 'important');
-        } else if (shippingValue == "65") {
-            // إذا تم اختيار خارج الرياض
-            document.getElementById("payment1").style.setProperty('display', 'block', 'important');
-            document.getElementById("payment2").style.setProperty('display', 'none', 'important');
-        }
-    }
+    // function updateTotal(selectedRadio) {
+    //     var shippingValue = parseFloat(selectedRadio.value); // القيمة المحددة للشحن
+    //     document.getElementById('lastshippingvalue').value = shippingValue;
+    //     var subTotal = <?php echo $_SESSION['total'] + $_SESSION['farm_services']; ?>; // المجموع الفرعي
+    //     var grandTotal = subTotal + shippingValue; // الإجمالي الجديد
+    //     var discount = 0; // الخصم، افترض صفرًا
+    //     // إذا كان هناك خصم موجود
+    //     <?php if (isset($_SESSION['coupon'])) { ?>
+        //         discount = grandTotal * document.getElementById("discountCoupon").value;
+        //         grandTotal -= discount; // تطبيق الخصم
+        //         document.getElementById("discountValue").value = discount;
+        //         document.getElementById('discountValue_total').innerHTML = discount.toFixed(2) + " ر.س";
+        //     <?php } ?>
+    //     // عرض الإجمالي الجديد بعد تطبيق الخصم
+    //     document.getElementById('grand_total').innerHTML = grandTotal.toFixed(2) + " ر.س";
+    //     document.getElementById('grand_total_value').value = grandTotal;
+    //     // يمكنك تخزين القيمة الإجمالية في الجلسة للاحتفاظ بها بين الصفحات إذا لزم الأمر
+    //     <?php $_SESSION['grand_total'] = "grandTotal"; ?>
+    //     ///////////////// select payment method ///////////
+    // }
 </script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-    var sessionTotal = <?php echo $_SESSION['total']; ?>;
-    $(document).ready(function () {
-        var citySelect = new Choices('#city', {
-            searchEnabled: true, // تفعيل خاصية البحث
-            removeItemButton: true, // إمكانية إزالة العناصر (اختياري)
-            placeholder: true,
-            placeholderValue: 'حدد المدينة',
-        });
-        $('#city').change(function () {
-            // console.log('city Changed');
-            var city = $(this).val();
-            $.ajax({
-                url: 'tempelate/shiping_price2.php', // صفحة معالجة تكلفة الشحن
-                type: 'POST',
-                data: {
-                    city: city
-                },
-                success: function (response) {
-                    // تحويل response إلى قيمة عددية 
-                    var shippingCost = parseFloat(response);
-                    if (isNaN(shippingCost)) {
-                        alert(' نعتذر لك عميلنا العزيز، حالياً لا تتوفر خدمة التوصيل للمنطقة التي اخترتها، وسنوافيكم بمجرد توفرها لاحقاً بإذن الله.');
-                        return;
-                    } else {
-                        // تحديث قيمة الشحن
-                        $('#shipping-cost').html(shippingCost + ' ر.س');
-                        $('#lastshippingvalue').val(shippingCost);
 
-                        // حساب المجموع الكلي 
-                        var grandTotal = sessionTotal + shippingCost;
-                        // تحديث المجموع الكلي في الصفحة
-                        $('#grand_total').html(grandTotal + ' ر.س');
-                        $('#grand_total_value').val(grandTotal);
-                    }
-                }
-            });
-        });
-    });
-</script>
+
+
+
 
 <script>
     if (window.history.replaceState) {
