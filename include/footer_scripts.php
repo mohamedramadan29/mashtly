@@ -19,6 +19,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/lite-youtube-embed/src/lite-yt-embed.js"></script>
 <script src='<?php echo $js; ?>/slick.min.js'></script>
 <script src='<?php echo $js; ?>/slick-custom.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.6.2/fuse.min.js"></script>
 
 <script src='<?php echo $js; ?>/main.js'></script>
 </body>

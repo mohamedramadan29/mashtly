@@ -445,92 +445,151 @@
 
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    var form = document.getElementById('searchForm');
-    var form2 = document.getElementById('searchForm2');
+  // document.addEventListener("DOMContentLoaded", function () {
+  //   var form = document.getElementById('searchForm');
+  //   var form2 = document.getElementById('searchForm2');
+  //   var searchInput = document.getElementById('searchInput');
+  //   var searchInput2 = document.getElementById('searchInput2');
+  //   var searchResults = document.getElementById('searchResults');
+  //   var searchResults2 = document.getElementById('searchResults2');
+  //   // استخدام الحدث "input" بدلاً من "submit"
+  //   searchInput.addEventListener('input', function () {
+  //     var searchValue = searchInput.value.trim();
+  //     if (!searchValue) {
+  //       searchResults.innerHTML = '';
+  //       return;
+  //     }
+  //     // إرسال طلب AJAX للبحث
+  //     var xhr = new XMLHttpRequest();
+  //     xhr.open('GET', 'http://localhost/mashtly/search2?search=' + encodeURIComponent(searchValue), true);
+  //     xhr.onreadystatechange = function () {
+  //       if (xhr.readyState === 4) {
+  //         if (xhr.status === 200) {
+  //           var response = JSON.parse(xhr.responseText);
+  //           // عرض النتائج في العنصر المخصص
+  //           displayResults(response);
+  //         } else {
+  //           searchResults.innerHTML = 'حدث خطأ أثناء جلب البيانات';
+  //         }
+  //       }
+  //     };
+  //     xhr.send();
+  //   });
+  //   // In Mobile 
+  //   searchInput2.addEventListener('input', function () {
+  //     var searchValue2 = searchInput2.value.trim();
+  //     if (!searchValue2) {
+  //       searchResults2.innerHTML = '';
+  //       return;
+  //     }
+  //     // إرسال طلب AJAX للبحث
+  //     var xhr = new XMLHttpRequest();
+  //     xhr.open('GET', 'http://localhost/mashtly/search2?search=' + encodeURIComponent(searchValue2), true);
+  //     xhr.onreadystatechange = function () {
+  //       if (xhr.readyState === 4) {
+  //         if (xhr.status === 200) {
+  //           var response2 = JSON.parse(xhr.responseText);
+  //           // عرض النتائج في العنصر المخصص
+  //           displayResults2(response2);
+  //         } else {
+  //           // searchResults2.innerHTML = 'حدث خطأ أثناء جلب البيانات';
+  //         }
+  //       }
+  //     };
+  //     xhr.send();
+  //   });
+
+  //   function displayResults2(results) {
+  //     // مسح النتائج السابقة
+  //     searchResults2.innerHTML = '';
+  //     if (results.length === 0) {
+  //       searchResults2.innerHTML = 'لا توجد نتائج للبحث';
+  //       return;
+  //     }
+  //     // عرض النتائج في العنصر المخصص
+  //     // عرض النتائج في العنصر المخصص
+  //     results.forEach(function (result) {
+  //       var resultLink2 = document.createElement('a'); // إنشاء عنصر الرابط
+  //       resultLink2.textContent = result.name; // تحديد نص الرابط
+  //       resultLink2.href = 'http://localhost/mashtly/product/' + result.slug; // تحديد عنوان الرابط مع الإشارة إلى صفحة تفاصيل المنتج
+  //       searchResults2.appendChild(resultLink2); // إضافة الرابط إلى عنصر النتيجة
+  //     });
+  //   }
+  //   /////////
+  //   function displayResults(results) {
+  //     // مسح النتائج السابقة
+  //     searchResults.innerHTML = '';
+  //     if (results.length === 0) {
+  //       searchResults.innerHTML = 'لا توجد نتائج للبحث';
+  //       return;
+  //     }
+  //     // عرض النتائج في العنصر المخصص
+  //     // عرض النتائج في العنصر المخصص
+  //     results.forEach(function (result) {
+  //       var resultLink = document.createElement('a'); // إنشاء عنصر الرابط
+  //       resultLink.textContent = result.name; // تحديد نص الرابط
+  //       resultLink.href = 'http://localhost/mashtly/product/' + result.slug; // تحديد عنوان الرابط مع الإشارة إلى صفحة تفاصيل المنتج
+  //       searchResults.appendChild(resultLink); // إضافة الرابط إلى عنصر النتيجة
+  //     });
+  //   }
+  // });
+</script>
+<!----------------------------------------------- NEw Search ---------------------------------------------------->
+<script>
+  document.addEventListener("DOMContentLoaded", async function () {
     var searchInput = document.getElementById('searchInput');
-    var searchInput2 = document.getElementById('searchInput2');
     var searchResults = document.getElementById('searchResults');
+
+    var searchInput2 = document.getElementById('searchInput2');
     var searchResults2 = document.getElementById('searchResults2');
-    // استخدام الحدث "input" بدلاً من "submit"
-    searchInput.addEventListener('input', function () {
-      var searchValue = searchInput.value.trim();
-      if (!searchValue) {
-        searchResults.innerHTML = '';
-        return;
-      }
-      // إرسال طلب AJAX للبحث
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', 'http://localhost/mashtly/search2?search=' + encodeURIComponent(searchValue), true);
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            // عرض النتائج في العنصر المخصص
-            displayResults(response);
-          } else {
-            searchResults.innerHTML = 'حدث خطأ أثناء جلب البيانات';
-          }
-        }
-      };
-      xhr.send();
-    });
-    // In Mobile 
-    searchInput2.addEventListener('input', function () {
-      var searchValue2 = searchInput2.value.trim();
-      if (!searchValue2) {
-        searchResults2.innerHTML = '';
-        return;
-      }
-      // إرسال طلب AJAX للبحث
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', 'http://localhost/mashtly/search2?search=' + encodeURIComponent(searchValue2), true);
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            var response2 = JSON.parse(xhr.responseText);
-            // عرض النتائج في العنصر المخصص
-            displayResults2(response2);
-          } else {
-            // searchResults2.innerHTML = 'حدث خطأ أثناء جلب البيانات';
-          }
-        }
-      };
-      xhr.send();
+
+    let products = [];
+    try {
+      const response = await fetch('https://www.mshtly.com/search2');
+      products = await response.json();
+      console.log("عدد المنتجات المحملة:", products.length);
+    } catch (error) {
+      console.error("خطأ في جلب البيانات:", error);
+    }
+
+    if (products.length === 0) return;
+
+    const fuse = new Fuse(products, {
+      keys: ["name"],
+      threshold: 0.5,
     });
 
-    function displayResults2(results) {
-      // مسح النتائج السابقة
-      searchResults2.innerHTML = '';
-      if (results.length === 0) {
-        searchResults2.innerHTML = 'لا توجد نتائج للبحث';
-        return;
-      }
-      // عرض النتائج في العنصر المخصص
-      // عرض النتائج في العنصر المخصص
-      results.forEach(function (result) {
-        var resultLink2 = document.createElement('a'); // إنشاء عنصر الرابط
-        resultLink2.textContent = result.name; // تحديد نص الرابط
-        resultLink2.href = 'http://localhost/mashtly/product/' + result.slug; // تحديد عنوان الرابط مع الإشارة إلى صفحة تفاصيل المنتج
-        searchResults2.appendChild(resultLink2); // إضافة الرابط إلى عنصر النتيجة
+    function handleSearch(inputField, resultsContainer) {
+      inputField.addEventListener('input', function () {
+        var searchValue = inputField.value.trim();
+        if (!searchValue) {
+          resultsContainer.innerHTML = '';
+          return;
+        }
+
+        var results = fuse.search(searchValue);
+        displayResults(results.map(r => r.item), resultsContainer);
       });
     }
-    /////////
-    function displayResults(results) {
-      // مسح النتائج السابقة
-      searchResults.innerHTML = '';
+
+    function displayResults(results, resultsContainer) {
+      resultsContainer.innerHTML = '';
+
       if (results.length === 0) {
-        searchResults.innerHTML = 'لا توجد نتائج للبحث';
+        resultsContainer.innerHTML = 'لا توجد نتائج للبحث';
         return;
       }
-      // عرض النتائج في العنصر المخصص
-      // عرض النتائج في العنصر المخصص
+
       results.forEach(function (result) {
-        var resultLink = document.createElement('a'); // إنشاء عنصر الرابط
-        resultLink.textContent = result.name; // تحديد نص الرابط
-        resultLink.href = 'http://localhost/mashtly/product/' + result.slug; // تحديد عنوان الرابط مع الإشارة إلى صفحة تفاصيل المنتج
-        searchResults.appendChild(resultLink); // إضافة الرابط إلى عنصر النتيجة
+        var resultLink = document.createElement('a');
+        resultLink.textContent = result.name;
+        resultLink.href = 'https://www.mshtly.com/product/' + result.slug;
+        resultsContainer.appendChild(resultLink);
       });
     }
+
+    // تشغيل البحث على الحقلين
+    handleSearch(searchInput, searchResults);
+    handleSearch(searchInput2, searchResults2);
   });
 </script>
