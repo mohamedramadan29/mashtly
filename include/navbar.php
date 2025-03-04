@@ -547,9 +547,9 @@
     try {
       const response = await fetch('https://www.mshtly.com/search2');
       products = await response.json();
-      console.log("عدد المنتجات المحملة:", products.length);
+      //console.log("عدد المنتجات المحملة:", products.length);
     } catch (error) {
-      console.error("خطأ في جلب البيانات:", error);
+     // console.error("خطأ في جلب البيانات:", error);
     }
 
     if (products.length === 0) return;

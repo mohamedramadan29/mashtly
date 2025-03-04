@@ -1,8 +1,32 @@
 <?php
 ob_start();
 session_start();
+
 $page_title = ' اتمام عملية الشراء  ';
 include "init.php";
+require 'admin/vendor/autoload.php';
+use Google\Client;
+use Google\Service\Sheets;
+function addOrderToGoogleSheet($orderData)
+{
+    // تحميل بيانات الاعتماد من ملف JSON
+    $client = new Client();
+    $client->setAuthConfig('refreshing-glow-438708-b2-a68943cf6319.json');
+    $client->addScope(Sheets::SPREADSHEETS);
+    $service = new Sheets($client);
+    // إعدادات الـ Google Sheet
+    $spreadsheetId = '1Maxt487hN-r0SpUReaRZQ7CONfpaVsEPFdq2PyqplwQ'; // ضع هنا الـ ID من رابط Google Sheet
+    $range = 'orders_old!A1'; // الورقة والنطاق
+    $values = [$orderData]; // بيانات الطلبات
+    $body = new Sheets\ValueRange(['values' => $values]);
+
+    // كتابة البيانات في Google Sheet
+    $params = ['valueInputOption' => 'RAW'];
+    $result = $service->spreadsheets_values->append($spreadsheetId, $range, $body, $params);
+
+    return $result;
+}
+
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
     // get all product from user cart
@@ -103,11 +127,6 @@ if (isset($_SESSION['user_id'])) {
                                                                     $('#payment2').hide(); // إخفاء الدفع عند الاستلام
                                                                     $('#payment1').show(); // إظهار الدفع الإلكتروني فقط
                                                                 }
-
-                                                                // تحديث تكلفة الشحن
-                                                                if (city === 'مدينة الرياض' && sessionTotal >= 222) {
-                                                                    var shippingCost = 0;
-                                                                } else {
                                                                     $.ajax({
                                                                         url: 'tempelate/shiping_price2.php',
                                                                         type: 'POST',
@@ -116,13 +135,14 @@ if (isset($_SESSION['user_id'])) {
                                                                             var shippingCost = parseFloat(response);
                                                                             if (isNaN(shippingCost)) {
                                                                                 alert(' نعتذر لك عميلنا العزيز، حالياً لا تتوفر خدمة التوصيل للمنطقة التي اخترتها، وسنوافيكم بمجرد توفرها لاحقاً بإذن الله.');
+                                                                                // **تحديث الشحن إلى 0 عند عدم توفر التوصيل**
+                                                                                updateShippingCost(0);
                                                                                 return;
                                                                             }
                                                                             updateShippingCost(shippingCost);
                                                                         }
                                                                     });
                                                                     return;
-                                                                }
                                                                 updateShippingCost(shippingCost);
                                                             });
 
@@ -137,7 +157,6 @@ if (isset($_SESSION['user_id'])) {
                                                             }
                                                         });
                                                     </script>
-
                                             </div>
                                             <div class='box'>
                                                 <div class="input_box">
@@ -479,9 +498,9 @@ if (isset($_SESSION['user_id'])) {
 
                     ############################ Edit Here ##################################
                     // if ($city != 'مدينة الرياض') {
-                    // if (empty($shipping_value) || $shipping_value == 0) {
-                    //     $formerror[] = ' من فضلك حدد الشحن  ';
-                    // }
+                    if (empty($shipping_value) || $shipping_value == 0) {
+                        $formerror[] = ' من فضلك حدد الشحن  ';
+                    }
                     // }
                     ############################## End Edit Here ##################################
             
@@ -517,7 +536,7 @@ if (isset($_SESSION['user_id'])) {
                             'gift_id' => $gift_id,
                         ];
                         if ($payment_method === 'الدفع عن الاستلام') {
-                            echo "الدفع عند الاستلام";
+                           // echo "الدفع عند الاستلام";
                             // inset order into orders 
                             try {
                                 $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
@@ -602,6 +621,29 @@ if (isset($_SESSION['user_id'])) {
                                     ));
                                 }
                                 if ($stmt) {
+
+                                    #### Add Data to GoogleSheet 
+                                    $OrderData = array_map(function ($value) {
+                                        return $value ?? '';
+                                    }, [
+                                        $order_id,
+                                        $order_number,
+                                        $_SESSION['user_id'] ?? '',
+                                        $name,
+                                        $email,
+                                        $area,
+                                        $city,
+                                        $ship_price,
+                                        $order_date,
+                                        'لم يبدا',
+                                        $farm_service ?? 0,
+                                        $grand_total,
+                                        'دفع عند الاستلام',
+                                        '1',
+                                        $_SESSION['discount_value'] ?? 'NULL',
+                                        ''
+                                    ]);
+                                    addOrderToGoogleSheet($OrderData);
                                    // include "send_mail/index.php";
                                     //// End Send Mail 
                                     // delete session 
@@ -708,6 +750,29 @@ if (isset($_SESSION['user_id'])) {
                                         "zstep_status" => 'لم يبدا'
                                     ));
                                 }
+
+                            #### Add Data to GoogleSheet 
+                            $OrderData = array_map(function ($value) {
+                                return $value ?? '';
+                            }, [
+                                $order_id,
+                                $order_number,
+                                $_SESSION['user_id'] ?? '',
+                                $name,
+                                $email,
+                                $area,
+                                $city,
+                                $ship_price,
+                                $order_date,
+                                'لم يبدا',
+                                $farm_service ?? 0,
+                                $grand_total,
+                                'الدفع الالكتروني',
+                                '1',
+                                $_SESSION['discount_value'] ?? 'NULL',
+                                ''
+                            ]);
+                            addOrderToGoogleSheet($OrderData);
                             } catch (\Exception $e) {
                                 echo $e;
                             }

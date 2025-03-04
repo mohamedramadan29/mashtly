@@ -10,8 +10,8 @@ function addOrderToGoogleSheet($orderData)
     $client->addScope(Sheets::SPREADSHEETS);
     $service = new Sheets($client);
     // إعدادات الـ Google Sheet
-    $spreadsheetId = '1NExU2NocmTc5w3ECdgerdBWXdYNsq5VyJgi98-S_jLc'; // ضع هنا الـ ID من رابط Google Sheet
-    $range = 'Sheet1!A1'; // الورقة والنطاق
+    $spreadsheetId = '1Maxt487hN-r0SpUReaRZQ7CONfpaVsEPFdq2PyqplwQ'; // ضع هنا الـ ID من رابط Google Sheet
+    $range = 'orders_old!A1'; // الورقة والنطاق
     $values = [$orderData]; // بيانات الطلبات
     $body = new Sheets\ValueRange(['values' => $values]);
 
@@ -28,29 +28,29 @@ $orderData = [
     'Order12355444',          // رقم الطلب
     'mohamed ramadan',          // اسم العميل
     'المنتج الاول ',       // المنتج
-    '100 ريال ' ,           // السعر
-    '100 ريال ' ,           // السعر
-    '100 ريال ' ,           // السعر
-    '100 ريال ' ,           // السعر
-    '100 ريال ' ,           // السعر
-    '100 ريال ' ,           // السعر
-    '100 ريال ' ,           // السعر
-    '100 ريال ' ,           // السعر
-    '100 ريال ' ,           // السعر
-    '100 ريال ' ,           // السعر
-    '100 ريال ' ,           // السعر
-    '' ,           // السعر
+    '100 ريال ',           // السعر
+    '100 ريال ',           // السعر
+    '100 ريال ',           // السعر
+    '100 ريال ',           // السعر
+    '100 ريال ',           // السعر
+    '100 ريال ',           // السعر
+    '100 ريال ',           // السعر
+    '100 ريال ',           // السعر
+    '100 ريال ',           // السعر
+    '100 ريال ',           // السعر
+    '100 ريال ',           // السعر
+    '',           // السعر
 ];
-try{
+try {
     $result = addOrderToGoogleSheet($orderData);
     if ($result) {
         echo "تمت إضافة الطلب إلى Google Sheet بنجاح!";
     } else {
         echo "حدث خطأ أثناء إضافة الطلب.";
     }
-    
-}catch(Exception $e){
-    echo 'Error:'. $e->getMessage() .'';
+
+} catch (Exception $e) {
+    echo 'Error:' . $e->getMessage() . '';
 }
 // إضافة البيانات إلى Google Sheet
 

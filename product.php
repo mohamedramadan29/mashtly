@@ -421,13 +421,14 @@ if (isset($_POST['add_to_fav'])) {
                         <div class="product_description">
                             <h3> وصف المنتج </h3>
                             <?php 
-                            $product_desc = $product_data['description'];
+                           // $product_desc = $product_data['description'];
+                            //echo $product_desc;
                             if($product_data['new_description_status'] == 1){
-                            $parts = preg_split('/<h2.*?>/', $product_data['description'], 2, PREG_SPLIT_NO_EMPTY);
+                            $parts = preg_split('/<h2.*?>/', $product_desc, 2, PREG_SPLIT_NO_EMPTY);
                             $intro = isset($parts[0]) ? trim($parts[0]) : ''; // المقدمة
 
                             // استخراج العناوين <h2> والمحتوى الذي يليها
-                            preg_match_all('/<h2.*?>(.*?)<\/h2>(.*?)(?=<h2|$)/s', $product_data['description'], $matches, PREG_SET_ORDER);
+                            preg_match_all('/<h2.*?>(.*?)<\/h2>(.*?)(?=<h2|$)/s', $product_desc, $matches, PREG_SET_ORDER);
 
                             $tabData = [];
 
@@ -461,7 +462,7 @@ if (isset($_POST['add_to_fav'])) {
                             </div>
                             <?php 
                             }else{
-                                echo $product_data['description'];
+                                echo $product_desc;
                             }
                             ?>
                         </div>

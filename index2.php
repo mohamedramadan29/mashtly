@@ -1,3 +1,6 @@
+
+
+
 <div class="hero">
     <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-indicators">
@@ -7,6 +10,8 @@
                 aria-label="Slide 2"></button>
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
                 aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
+                aria-label="Slide 4"></button>
         </div>
         <div class="carousel-inner">
             <?php
@@ -45,3 +50,70 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id='hero_lg'></div>
+<div id='hero_mobile'></div>
+<script>
+    // دالة للتحقق من حجم الشاشة وتحميل القسم المناسب
+    function loadBlogSection() {
+        // تفريغ المحتويات من كلا القسمين للتأكد من عدم التكرار
+        document.getElementById('hero_lg').innerHTML = '';
+        document.getElementById('hero_mobile').innerHTML = '';
+        if (window.innerWidth > 991) {
+            // تحميل الكاروسيل الخاص بالشاشات الكبيرة
+            document.getElementById('hero_lg').innerHTML = `
+            <div class="hero">
+                <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img loading="lazy" src="uploads/ramadan.png" class="d-block w-100" alt="عروض اليوم الوطني">
+                        </div> 
+                    </div>
+                </div>
+            </div>`;
+        } else {
+            // تحميل الكاروسيل الخاص بالشاشات الصغيرة (الموبايل)
+            document.getElementById('hero_mobile').innerHTML = `
+            <div class="hero">
+                <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img loading="lazy" src="uploads/ramadan_mobile.png" class="d-block w-100" alt="عروض اليوم الوطني">
+                        </div> 
+                    </div>
+                </div>
+            </div>`;
+        }
+    }
+
+    // استدعاء الدالة فور تحميل الصفحة
+    loadBlogSection();
+
+    // استدعاء الدالة عند تغيير حجم الشاشة
+    window.addEventListener('resize', loadBlogSection);
+</script>
+

@@ -1,5 +1,5 @@
 <div class="product_info">
-<span class="discount_value"> خصم 22 % </span>
+    <span class="discount_value"> خصم 22 % </span>
     <!-- get the product image -->
     <?php
     $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
@@ -22,7 +22,7 @@
     }
     ?>
     <div class="product_details">
-        
+
         <?php
         // استخراج الاسم
         $name = $product['name'];
@@ -56,35 +56,28 @@
             foreach ($allproduct_data as $product_data) {
                 //$pro_price = $product_data['price'];
                 $pro_price = $product_data['price'];
-                // السعر بعد زيادة 10% فقط
-                $old_pro_price = $pro_price + ($pro_price * 0.10);
+
                 // السعر بعد زيادة 10% وخصم 22%
-                $pro_price = ($pro_price + ($pro_price * 0.10)) * (1 - 0.22);
+                $pro_price = $pro_price + ($pro_price * 0.05);
                 // تحديث القيم القصوى والدنيا
                 $maximumPrice = max($maximumPrice, $pro_price);
                 $minimumPrice = min($minimumPrice, $pro_price);
-                $oldmaximumPrice = max($oldmaximumPrice, $old_pro_price);
-                $oldminimumPrice = min($oldminimumPrice, $old_pro_price);
             }
             // عرض السعر
             if ($maximumPrice === $minimumPrice) {
                 ?>
                 <h4 class='price'>
-                    <span style="text-decoration: line-through; color: #8f8989;">
-                        <?php echo number_format($oldminimumPrice, 2); ?>
-                    </span>
-                    <?php echo number_format($minimumPrice, 2); ?> ر.س
+
+                    <?php echo number_format($minimumPrice, 2); ?> <img src="https://www.localhost/mashtly/uploads/riyal.svg"
+                        width="30px" height="30px">
                 </h4>
                 <?php
             } else {
                 ?>
                 <h4 class='price'>
-                    <span style="text-decoration: line-through; color: #8f8989;">
-                        <?php echo number_format($oldminimumPrice, 2); ?> -
-                        <?php echo number_format($oldmaximumPrice, 2); ?>
-                    </span>
                     <?php echo number_format($minimumPrice, 2); ?> -
-                    <?php echo number_format($maximumPrice, 2); ?> ر.س
+                    <?php echo number_format($maximumPrice, 2); ?> <img src="https://www.localhost/mashtly/uploads/riyal.svg"
+                        width="30px" height="30px">
                 </h4>
                 <?php
             }
@@ -95,26 +88,21 @@
             <h4 class='price'> <?php
             if ($product['sale_price'] != '' && $product['sale_price'] != 0) {
                 ?>
-                    <span style="text-decoration: line-through;color: #8f8989;">
-                        <?php echo number_format($product['sale_price'] + ($product['sale_price'] * 0.10), 2); ?>
-                    </span>
+
                     <span style="font-weight: bold;">
-                        <?php echo number_format(($product['sale_price'] + ($product['sale_price'] * 0.10)) * (1 - 0.22), 2); ?>
+                        <?php echo number_format($product['sale_price'] + ($product['sale_price'] * 0.05), 2); ?>
                     </span>
                     <?php
 
             } else {
                 ?>
-                    <span style="text-decoration: line-through;color: #8f8989;">
-                        <?php echo number_format($product['price'] + ($product['price'] * 0.10), 2); ?>
-                    </span>
                     <span style="font-weight: bold;">
-                        <?php echo number_format(($product['price'] + ($product['price'] * 0.10)) * (1 - 0.22), 2); ?>
+                        <?php echo number_format($product['price'] + ($product['price'] * 0.05), 2); ?>
                     </span>
                     <?php
 
             }
-            ?> ر.س
+            ?> <img src="https://www.localhost/mashtly/uploads/riyal.svg" width="30px" height="30px">
             </h4>
             <?php
         }
