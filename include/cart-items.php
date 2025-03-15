@@ -91,7 +91,7 @@ $allitems = $stmt->fetchAll();
                     </div>
                     <div class="buttons">
                         <a href="cart" class="btn global_button"> مشاهدة سلة الشراء </a>
-                        <a href="checkout" class="btn global_button checkout"> الدفع واتمام الطلب </a>
+                        <!-- <a href="checkout" class="btn global_button checkout"> الدفع واتمام الطلب </a> -->
                     </div>
                 </div>
                 <?php

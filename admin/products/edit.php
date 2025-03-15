@@ -22,6 +22,9 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
             $meta_title = $_POST['meta_title'];
             $new_description_status = $_POST['new_description_status'];
             $related_product_string = implode(',', (array) $related_product);
+            $writer_id = $_POST['writer_id'];
+            $reviewer_id = $_POST['reviewer_id'];
+            $supervisor_id = $_POST['supervisor_id'];
             if (isset($_POST['main_checked'])) {
                 $main_checked = $_POST['main_checked'];
             } else {
@@ -157,7 +160,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
             }
             if (empty($formerror)) {
                 $stmt = $connect->prepare("UPDATE products SET cat_id=?,more_cat=?,name=?, description=?,short_desc=?,main_checked=?,purchase_price=?,
-        price=?,sale_price=?,av_num=?,tags=?,related_product=?,publish=?,public_tail=?,ship_weight=?,ship_tail=?,more_info=?,meta_title=?,new_description_status=? WHERE id = ? ");
+        price=?,sale_price=?,av_num=?,tags=?,related_product=?,publish=?,public_tail=?,ship_weight=?,ship_tail=?,more_info=?,meta_title=?,new_description_status=?,writer_id=?,reviewer_id=?,supervisor_id=? WHERE id = ? ");
                 $stmt->execute(array(
                     $cat_id,
                     $more_cat_string,
@@ -178,6 +181,9 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                     $more_info,
                     $meta_title,
                     $new_description_status,
+                    $writer_id,
+                    $reviewer_id,
+                    $supervisor_id,
                     $pro_id
                 ));
                 // UPDATE Main Images To db 
@@ -207,7 +213,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                         "zimage_keys" => $image_keys,
                     ));
                 }
-                
+
                 // UPDATE Product Gallery To db 
                 // DELETE all image Gallary AND make INSERT AGAIN
                 if ($total_images > 0) {
@@ -582,7 +588,61 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                             echo 'selected'; ?>> مفعل </option>
                                     </select>
                                 </div>
+
                                 <!-- /.card-body -->
+                            </div>
+                            <div class="card-body">
+                                <!-- بيانات الكاتب والمشرف -->
+                                <?php
+                                $stmt = $connect->prepare("SELECT * FROM employes");
+                                $stmt->execute();
+                                $allwriters = $stmt->fetchAll();
+                                ?>
+                                <div class="form-group">
+                                    <label for="Company-2" class="block"> الكاتب </label>
+                                    <select name="writer_id" id="" class="form-control select2">
+                                        <option value="" selected disabled> اختر الكاتب </option>
+                                        <?php
+                                        foreach ($allwriters as $writer) {
+                                            ?>
+                                            <option value="<?php echo $writer['id']; ?>" <?php if ($pro_data['writer_id'] == $writer['id'])
+                                                echo 'selected'; ?>> <?php echo $writer['username']; ?>
+                                            </option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Company-2" class="block"> المراجع </label>
+                                    <select name="reviewer_id" id="" class="form-control select2">
+                                        <option value="" selected disabled> اختر المراجع </option>
+                                        <?php
+                                        foreach ($allwriters as $writer) {
+                                            ?>
+                                            <option value="<?php echo $writer['id']; ?>" <?php if ($pro_data['reviewer_id'] == $writer['id'])
+                                                echo 'selected'; ?>> <?php echo $writer['username']; ?>
+                                            </option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Company-2" class="block"> المشرف </label>
+                                    <select name="supervisor_id" id="" class="form-control select2">
+                                        <option value="" selected disabled> اختر المشرف </option>
+                                        <?php
+                                        foreach ($allwriters as $writer) {
+                                            ?>
+                                            <option value="<?php echo $writer['id']; ?>" <?php if ($pro_data['supervisor_id'] == $writer['id'])
+                                                echo 'selected'; ?>> <?php echo $writer['username']; ?>
+                                            </option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>

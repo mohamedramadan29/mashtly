@@ -1,6 +1,22 @@
 <div class="product_info">
-    <span class="discount_value"> خصم 22 % </span>
+
     <!-- get the product image -->
+    <!-- check product category type -->
+    <?php
+    $stmt = $connect->prepare("SELECT main_category FROM categories WHERE id = ?");
+    $stmt->execute(array($product['cat_id']));
+    $category_data = $stmt->fetch();
+    $category_type = $category_data['main_category'];
+
+    if ($category_type == 1) {
+        ?>
+        <span class="discount_value"> خصم 10 % </span>
+        
+        <?php
+    }
+
+    ?>
+    <!--  End Check Product Category Type -->
     <?php
     $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ?");
     $stmt->execute(array($product['id']));
@@ -56,9 +72,12 @@
             foreach ($allproduct_data as $product_data) {
                 //$pro_price = $product_data['price'];
                 $pro_price = $product_data['price'];
-
+                // إضافة 5% على السعر
+                if ($category_type == 1) {
+                    $pro_price += $pro_price * 0.05;
+                }
                 // السعر بعد زيادة 10% وخصم 22%
-                $pro_price = $pro_price + ($pro_price * 0.05);
+                //   $pro_price = $pro_price + ($pro_price * 0.05);
                 // تحديث القيم القصوى والدنيا
                 $maximumPrice = max($maximumPrice, $pro_price);
                 $minimumPrice = min($minimumPrice, $pro_price);
@@ -84,20 +103,36 @@
             ?>
             <?php
         } else {
+
             ?>
             <h4 class='price'> <?php
+            $sale_price = $product['price'];
+
+
+
+
+            // إضافة 5% على السعر
+            if ($category_type == 1) {
+                $sale_price += $sale_price * 0.05;
+            }
             if ($product['sale_price'] != '' && $product['sale_price'] != 0) {
                 ?>
-
                     <span style="font-weight: bold;">
-                        <?php echo number_format($product['sale_price'] + ($product['sale_price'] * 0.05), 2); ?>
+                        <?php echo number_format($sale_price, 2); ?>
                     </span>
                     <?php
-
             } else {
+                $product_price = $product['price'];
+
+
+                // إذا كان المنتج نبات، يتم خصم 10%
+                if ($category_type == 1) {
+                    // إضافة 5% على السعر
+                    $product_price += $product_price * 0.05;
+                }
                 ?>
                     <span style="font-weight: bold;">
-                        <?php echo number_format($product['price'] + ($product['price'] * 0.05), 2); ?>
+                        <?php echo number_format($product_price, 2); ?>
                     </span>
                     <?php
 

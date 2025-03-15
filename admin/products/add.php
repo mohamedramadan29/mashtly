@@ -27,7 +27,10 @@ if (isset($_POST['add_pro'])) {
   $related_product = $_POST['related_product'];
   $related_product_string = implode(',', (array) $related_product);
   $main_checked = $_POST['main_checked'];
-  $meta_title = $_POST['meta_title']; 
+  $meta_title = $_POST['meta_title'];
+  $writer_id = $_POST['writer_id'];
+  $reviewer_id = $_POST['reviewer_id'];
+  $supervisor_id = $_POST['supervisor_id'];
   // plant options 
   $plants_options = $_POST['plants_options'];
   /**
@@ -162,9 +165,9 @@ if (isset($_POST['add_pro'])) {
 
   if (empty($formerror)) {
     $stmt = $connect->prepare("INSERT INTO products (cat_id,more_cat,name, slug , description,short_desc,video,main_checked,purchase_price,
-    price, sale_price , av_num,tags,related_product,publish,public_tail,ship_weight,ship_tail,more_info,meta_title)
+      price, sale_price , av_num,tags,related_product,publish,public_tail,ship_weight,ship_tail,more_info,meta_title,writer_id,reviewer_id,supervisor_id)
     VALUES (:zcat,:zmore_cat,:zname,:zslug,:zdesc,:zshort_desc,:zvideo,:zmain_checked,:zpurchase_price,
-    :zprice,:zsale_price,:zav_num,:ztags,:zrelated_product,:zpublish,:zpublic_tail,:zship_weight,:zship_tail,:zmore_info,:zmeta_title)");
+    :zprice,:zsale_price,:zav_num,:ztags,:zrelated_product,:zpublish,:zpublic_tail,:zship_weight,:zship_tail,:zmore_info,:zmeta_title,:zwriter_id,:zreviewer_id,:zsupervisor_id)");
     $stmt->execute(array(
       "zcat" => $cat_id,
       "zmore_cat" => $more_cat_string,
@@ -187,7 +190,10 @@ if (isset($_POST['add_pro'])) {
       "zship_weight" => $ship_weight,
       "zship_tail" => $ship_tail,
       "zmore_info" => $more_info,
-      "zmeta_title" => $meta_title
+      "zmeta_title" => $meta_title,
+      "zwriter_id" => $writer_id,
+      "zreviewer_id" => $reviewer_id,
+      "zsupervisor_id" => $supervisor_id
     ));
     // get the last product
     $stmt = $connect->prepare("SELECT * FROM products ORDER BY id DESC LIMIT 1");
@@ -280,8 +286,8 @@ if (isset($_POST['add_pro'])) {
     $var_image_keyss = $_POST['var_image_keys'];
     if ($vartions_name > 0) {
       for ($i = 0; $i < count($vartions_name); $i++) {
-        $vartion_name =   $vartions_name[$i];
-        $vartion_price =  $vartions_price[$i];
+        $vartion_name = $vartions_name[$i];
+        $vartion_price = $vartions_price[$i];
         $var_image_name = $var_image_names[$i];
         $var_image_alt = $var_image_alts[$i];
         $var_image_desc = $var_image_descs[$i];
@@ -332,13 +338,13 @@ if (isset($_POST['add_pro'])) {
       if (isset($_SESSION['success_message'])) {
         $message = $_SESSION['success_message'];
         unset($_SESSION['success_message']);
-?>
+        ?>
         <?php
         ?>
         <script src="plugins/jquery/jquery.min.js"></script>
         <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
         <script>
-          $(function() {
+          $(function () {
             Swal.fire({
               position: 'center',
               icon: 'success',
@@ -348,7 +354,7 @@ if (isset($_POST['add_pro'])) {
             })
           })
         </script>
-      <?php
+        <?php
       }
       header('Location:main?dir=products&page=add');
     }
@@ -360,7 +366,7 @@ if (isset($_POST['add_pro'])) {
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <?php echo $error; ?>
       </div>
-<?php
+      <?php
     }
     unset($_SESSION['error_messages']);
   }
@@ -397,45 +403,51 @@ if (isset($_POST['add_pro'])) {
             <div class="card-body">
               <div class="form-group">
                 <label for="inputName"> الأسم </label>
-                <input required type="text" id="name" name="name" class="form-control" value="<?php if (isset($_REQUEST['name'])) echo $_REQUEST['name'] ?>">
-              </div>
-              <div class='form-group'>
-                <label> الوصف </label>
-                <textarea name="description" class="form-control" id="summernote" rows="4"  > <?php if (isset($_REQUEST['description'])) echo $_REQUEST['description'] ?> </textarea>
-              </div>
-              <div class='form-group'>
-                <label> الوصف المختصر </label>
-                <textarea maxlength="160" name="short_desc" id="short_desc" class="form-control" rows="2" style="min-height: 120px;"><?php if (isset($_REQUEST['short_desc'])) echo $_REQUEST['short_desc'] ?></textarea>
-                <div class="badge badge-pill" id="charCount"> عدد الأحرف المتبقي: 160 </div>
-                <script>
-                  document.addEventListener("DOMContentLoaded", function() {
-                    var textarea = document.getElementById("short_desc");
-                    var charCountElement = document.getElementById("charCount");
-                    var maxLength = 160;
+                <input required type="text" id="name" name="name" class="form-control" value="<?php if (isset($_REQUEST['name']))
+                  echo $_REQUEST['name'] ?>">
+                </div>
+                <div class='form-group'>
+                  <label> الوصف </label>
+                  <textarea name="description" class="form-control" id="summernote" rows="4"> <?php if (isset($_REQUEST['description']))
+                  echo $_REQUEST['description'] ?> </textarea>
+                </div>
+                <div class='form-group'>
+                  <label> الوصف المختصر </label>
+                  <textarea maxlength="160" name="short_desc" id="short_desc" class="form-control" rows="2"
+                    style="min-height: 120px;"><?php if (isset($_REQUEST['short_desc']))
+                  echo $_REQUEST['short_desc'] ?></textarea>
+                  <div class="badge badge-pill" id="charCount"> عدد الأحرف المتبقي: 160 </div>
+                  <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                      var textarea = document.getElementById("short_desc");
+                      var charCountElement = document.getElementById("charCount");
+                      var maxLength = 160;
 
-                    textarea.addEventListener("input", function() {
-                      var currentLength = textarea.value.length;
-                      var remainingChars = maxLength - currentLength;
+                      textarea.addEventListener("input", function () {
+                        var currentLength = textarea.value.length;
+                        var remainingChars = maxLength - currentLength;
 
-                      charCountElement.textContent = "عدد الأحرف المتبقي: " + remainingChars;
+                        charCountElement.textContent = "عدد الأحرف المتبقي: " + remainingChars;
+                      });
                     });
-                  });
-                </script>
-              </div>
-              <div class="form-group">
-                <label for="inputStatus"> القسم الرئيسي </label>
-                <select required id="" class="form-control custom-select select2" name="cat_id">
-                  <option selected disabled> -- اختر -- </option>
-                  <?php
-                  $stmt = $connect->prepare("SELECT * FROM categories");
-                  $stmt->execute();
-                  $allcat = $stmt->fetchAll();
-                  foreach ($allcat as $cat) {
+                  </script>
+                </div>
+                <div class="form-group">
+                  <label for="inputStatus"> القسم الرئيسي </label>
+                  <select required id="" class="form-control custom-select select2" name="cat_id">
+                    <option selected disabled> -- اختر -- </option>
+                    <?php
+                $stmt = $connect->prepare("SELECT * FROM categories");
+                $stmt->execute();
+                $allcat = $stmt->fetchAll();
+                foreach ($allcat as $cat) {
                   ?>
-                    <option <?php if (isset($_REQUEST['cat_id']) && $_REQUEST['cat_id'] == $cat['id']) echo "selected"; ?> value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
-                  <?php
-                  }
-                  ?>
+                    <option <?php if (isset($_REQUEST['cat_id']) && $_REQUEST['cat_id'] == $cat['id'])
+                      echo "selected"; ?>
+                      value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
+                    <?php
+                }
+                ?>
                 </select>
               </div>
               <div class="form-group">
@@ -446,9 +458,10 @@ if (isset($_POST['add_pro'])) {
                   $stmt->execute();
                   $allcat = $stmt->fetchAll();
                   foreach ($allcat as $cat) {
-                  ?>
-                    <option <?php if (isset($_REQUEST['more_cat']) && $_REQUEST['more_cat'] == $cat['id']) echo "selected"; ?> value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
-                  <?php
+                    ?>
+                    <option <?php if (isset($_REQUEST['more_cat']) && $_REQUEST['more_cat'] == $cat['id'])
+                      echo "selected"; ?> value="<?php echo $cat['id']; ?>"> <?php echo $cat['name'] ?> </option>
+                    <?php
                   }
                   ?>
                 </select>
@@ -463,9 +476,10 @@ if (isset($_POST['add_pro'])) {
                   $stmt->execute();
                   $allpro = $stmt->fetchAll();
                   foreach ($allpro as $pro) {
-                  ?>
-                    <option <?php if (isset($_REQUEST['related_product']) && $_REQUEST['related_product'] == $pro['id']) echo "selected"; ?> value="<?php echo $pro['id']; ?>"> <?php echo $pro['name'] ?> </option>
-                  <?php
+                    ?>
+                    <option <?php if (isset($_REQUEST['related_product']) && $_REQUEST['related_product'] == $pro['id'])
+                      echo "selected"; ?> value="<?php echo $pro['id']; ?>"> <?php echo $pro['name'] ?> </option>
+                    <?php
                   }
                   ?>
                 </select>
@@ -478,20 +492,71 @@ if (isset($_POST['add_pro'])) {
                   $stmt->execute();
                   $alloptions = $stmt->fetchAll();
                   foreach ($alloptions as $option) {
-                  ?>
-                    <option <?php if (isset($_REQUEST['plants_options']) && $_REQUEST['plants_options'] == $option['id']) echo "selected"; ?> value="<?php echo $option['id']; ?>"> <?php echo $option['name'] ?> </option>
-                  <?php
+                    ?>
+                    <option <?php if (isset($_REQUEST['plants_options']) && $_REQUEST['plants_options'] == $option['id'])
+                      echo "selected"; ?> value="<?php echo $option['id']; ?>"> <?php echo $option['name'] ?> </option>
+                    <?php
                   }
                   ?>
                 </select>
               </div>
               <div class="form-group">
-                <label for="Company-2" class="block"> اضافة التاج <span class="badge badge-danger"> من فضلك افصل بين كل تاج والاخر (,) </span> </label>
+                <label for="Company-2" class="block"> اضافة التاج <span class="badge badge-danger"> من فضلك افصل بين كل
+                    تاج والاخر (,) </span> </label>
                 <input required id="Company-2" name="tags" type="text" class="form-control">
               </div>
               <div class="form-group">
-                <label for="Company-2" class="block"> meta title  </label>
+                <label for="Company-2" class="block"> meta title </label>
                 <input required id="Company-2" name="meta_title" type="text" class="form-control">
+              </div>
+
+
+            </div>
+            <div class="card-body">
+              <!-- بيانات الكاتب والمشرف -->
+              <?php
+              $stmt = $connect->prepare("SELECT * FROM employes");
+              $stmt->execute();
+              $allwriters = $stmt->fetchAll();
+              ?>
+              <div class="form-group">
+                <label for="Company-2" class="block"> الكاتب </label>
+                <select name="writer_id" id="" class="form-control select2">
+                  <option value="" selected disabled> اختر الكاتب </option>
+                  <?php
+                  foreach ($allwriters as $writer) {
+                    ?>
+                    <option value="<?php echo $writer['id']; ?>"> <?php echo $writer['username']; ?> </option>
+                    <?php
+                  }
+                  ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="Company-2" class="block"> المراجع </label>
+                <select name="reviewer_id" id="" class="form-control select2">
+                  <option value="" selected disabled> اختر المراجع </option>
+                  <?php
+                  foreach ($allwriters as $writer) {
+                    ?>
+                    <option value="<?php echo $writer['id']; ?>"> <?php echo $writer['username']; ?> </option>
+                    <?php
+                  }
+                  ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="Company-2" class="block"> المشرف </label>
+                <select name="supervisor_id" id="" class="form-control select2">
+                  <option value="" selected disabled> اختر المشرف </option>
+                  <?php
+                  foreach ($allwriters as $writer) {
+                    ?>
+                    <option value="<?php echo $writer['id']; ?>"> <?php echo $writer['username']; ?> </option>
+                    <?php
+                  }
+                  ?>
+                </select>
               </div>
             </div>
             <!-- /.card-body -->
@@ -503,118 +568,130 @@ if (isset($_POST['add_pro'])) {
             <div class="card-body">
               <div class="form-group">
                 <label for="inputEstimatedBudget"> سعر الشراء </label>
-                <input type="number" id="purchase_price" name="purchase_price" class="form-control" value="<?php if (isset($_REQUEST['purchase_price'])) echo $_REQUEST['purchase_price'] ?>">
-              </div>
-              <div class="form-group">
-                <label for="inputEstimatedBudget"> سعر البيع </label>
-                <input required type="number" id="price" name="price" class="form-control" value="<?php if (isset($_REQUEST['price'])) echo $_REQUEST['price'] ?>">
-              </div>
-              <div class="form-group">
-                <label for="inputEstimatedBudget"> سعر التخفيض </label>
-                <input type="number" id="sale_price" name="sale_price" class="form-control" value="<?php if (isset($_REQUEST['sale_price'])) echo $_REQUEST['sale_price'] ?>">
-              </div>
-              <div class="form-group">
-                <label for="inputEstimatedBudget"> العدد المتاح </label>
-                <input type="number" id="av_num" name="av_num" class="form-control" value="<?php if (isset($_REQUEST['av_num'])) echo $_REQUEST['av_num'] ?>">
-              </div>
+                <input type="number" id="purchase_price" name="purchase_price" class="form-control" value="<?php if (isset($_REQUEST['purchase_price']))
+                  echo $_REQUEST['purchase_price'] ?>">
+                </div>
+                <div class="form-group">
+                  <label for="inputEstimatedBudget"> سعر البيع </label>
+                  <input required type="number" id="price" name="price" class="form-control" value="<?php if (isset($_REQUEST['price']))
+                  echo $_REQUEST['price'] ?>">
+                </div>
+                <div class="form-group">
+                  <label for="inputEstimatedBudget"> سعر التخفيض </label>
+                  <input type="number" id="sale_price" name="sale_price" class="form-control" value="<?php if (isset($_REQUEST['sale_price']))
+                  echo $_REQUEST['sale_price'] ?>">
+                </div>
+                <div class="form-group">
+                  <label for="inputEstimatedBudget"> العدد المتاح </label>
+                  <input type="number" id="av_num" name="av_num" class="form-control" value="<?php if (isset($_REQUEST['av_num']))
+                  echo $_REQUEST['av_num'] ?>">
+                </div>
 
-              <!--
+                <!--
               <div class="form-group">
                 <label for="description"> مميزات المنتج <span style="color: #c0392b; font-size: 14px;"> [ افصل بين كل ميزة والاخري ب (,) ] </span> </label>
-                <textarea id="product_adv" name="product_adv" class="form-control" rows="4"><?php if (isset($_REQUEST['product_adv'])) echo $_REQUEST['product_adv'] ?></textarea>
+                <textarea id="product_adv" name="product_adv" class="form-control" rows="4"><?php if (isset($_REQUEST['product_adv']))
+                  echo $_REQUEST['product_adv'] ?></textarea>
               </div>
                 -->
-              <div class="form-group">
-                <label for="customFile"> صورة المنتج </label>
-                <input type="file" class="dropify" multiple data-height="150" data-allowed-file-extensions="jpg jpeg png svg webp" data-max-file-size="4M" name="main_image" data-show-loader="true" />
-                <br>
-                <p class="btn btn-warning btn-sm" id="show_details_image"> تفاصيل اضافية <i class="fa fa-plus"></i> </p>
-                <style>
-                  .image_details {
-                    display: none;
-                  }
-                </style>
-                <div class="image_details">
+                <div class="form-group">
+                  <label for="customFile"> صورة المنتج </label>
+                  <input type="file" class="dropify" multiple data-height="150"
+                    data-allowed-file-extensions="jpg jpeg png svg webp" data-max-file-size="4M" name="main_image"
+                    data-show-loader="true" />
                   <br>
-                  <input type="text" class="form-control" name="image_name" placeholder="اسم الصورة">
-                  <br>
-                  <input type="text" class="form-control" name="image_alt" placeholder="الاسم البديل">
-                  <br>
-                  <input type="text" class="form-control" name="image_desc" placeholder="وصف مختصر ">
-                  <br>
-                  <input type="text" class="form-control" name="image_keys" placeholder=" كلمات مفتاحية للصورة  ">
-                </div>
-                <!--
+                  <p class="btn btn-warning btn-sm" id="show_details_image"> تفاصيل اضافية <i class="fa fa-plus"></i> </p>
+                  <style>
+                    .image_details {
+                      display: none;
+                    }
+                  </style>
+                  <div class="image_details">
+                    <br>
+                    <input type="text" class="form-control" name="image_name" placeholder="اسم الصورة">
+                    <br>
+                    <input type="text" class="form-control" name="image_alt" placeholder="الاسم البديل">
+                    <br>
+                    <input type="text" class="form-control" name="image_desc" placeholder="وصف مختصر ">
+                    <br>
+                    <input type="text" class="form-control" name="image_keys" placeholder=" كلمات مفتاحية للصورة  ">
+                  </div>
+                  <!--
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="customFile" accept='image/*' name="" value="<?php if (isset($_REQUEST['main_image'])) echo $_REQUEST['main_image'] ?>">
+                  <input type="file" class="custom-file-input" id="customFile" accept='image/*' name="" value="<?php if (isset($_REQUEST['main_image']))
+                  echo $_REQUEST['main_image'] ?>">
                   <label class="custom-file-label" for="customFile">اختر الصورة</label>
                 </div>
                 -->
-              </div>
-              <div class="form-group">
-                <label for="customFile"> فيديو المنتج </label>
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="customFile" accept='video/*' name="video">
-                  <label class="custom-file-label" for="customFile"> حمل الفيديو </label>
                 </div>
-              </div>
-              <div class="form-group">
-                <label for=""> الرئيسي </label>
-                <div class="form-check">
-                  <input class="form-check-input" value="image" type="radio" name="main_checked" id="flexRadioDefault1" checked>
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    صورة المنتج
-                  </label>
+                <div class="form-group">
+                  <label for="customFile"> فيديو المنتج </label>
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="customFile" accept='video/*' name="video">
+                    <label class="custom-file-label" for="customFile"> حمل الفيديو </label>
+                  </div>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" value="video" type="radio" name="main_checked" id="flexRadioDefault2">
-                  <label class="form-check-label" for="flexRadioDefault2">
-                    الفيديو
-                  </label>
+                <div class="form-group">
+                  <label for=""> الرئيسي </label>
+                  <div class="form-check">
+                    <input class="form-check-input" value="image" type="radio" name="main_checked" id="flexRadioDefault1"
+                      checked>
+                    <label class="form-check-label" for="flexRadioDefault1">
+                      صورة المنتج
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" value="video" type="radio" name="main_checked" id="flexRadioDefault2">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      الفيديو
+                    </label>
+                  </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <p class="btn btn-primary btn-sm" id="add_to_gallary"> اضافة الي المعرض <i class="fa fa-plus"></i> </p>
-              </div>
-              <div class="image_gallary">
-              </div>
-              <div></div>
+                <div class="form-group">
+                  <p class="btn btn-primary btn-sm" id="add_to_gallary"> اضافة الي المعرض <i class="fa fa-plus"></i> </p>
+                </div>
+                <div class="image_gallary">
+                </div>
+                <div></div>
 
-              <div class="form-group">
-                <label for="Company-2" class="block"> نشر المنتج </label>
-                <select name="publish" id="" class="form-control select2">
-                  <option value="" disabled> اختر الحالة </option>
-                  <option value="1"> نشر المنتج </option>
-                  <option value="0"> ارشيف </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="Company-2" class="block"> الطول لتحديد سعر الزراعه </label>
-                <select name="public_tail" id="" class="form-control select2">
-                  <option value=""> اختر الطول </option>
-                  <?php
-                  $stmt = $connect->prepare("SELECT * FROM public_tails");
-                  $stmt->execute();
-                  $alltails = $stmt->fetchAll();
-                  foreach ($alltails as $tail) {
+                <div class="form-group">
+                  <label for="Company-2" class="block"> نشر المنتج </label>
+                  <select name="publish" id="" class="form-control select2">
+                    <option value="" disabled> اختر الحالة </option>
+                    <option value="1"> نشر المنتج </option>
+                    <option value="0"> ارشيف </option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="Company-2" class="block"> الطول لتحديد سعر الزراعه </label>
+                  <select name="public_tail" id="" class="form-control select2">
+                    <option value=""> اختر الطول </option>
+                    <?php
+                $stmt = $connect->prepare("SELECT * FROM public_tails");
+                $stmt->execute();
+                $alltails = $stmt->fetchAll();
+                foreach ($alltails as $tail) {
                   ?>
                     <option value="<?php echo $tail['id']; ?>"> <?php echo $tail['name']; ?> </option>
-                  <?php
-                  }
-                  ?>
+                    <?php
+                }
+                ?>
                 </select>
               </div>
               <div class="form-group">
                 <label for="ship_weight"> وزن المنتج للشحن </label>
-                <input type="text" id="ship_weight" name="ship_weight" class="form-control" value="<?php if (isset($_REQUEST['ship_weight'])) echo $_REQUEST['ship_weight'] ?>">
-              </div>
-              <div class="form-group">
-                <label for="ship_tail"> طول المنتج لتحديد الوزن [للشحن] </label>
-                <input type="text" id="ship_tail" name="ship_tail" class="form-control" value="<?php if (isset($_REQUEST['ship_tail'])) echo $_REQUEST['ship_tail'] ?>">
-              </div>
-              <div class="form-group">
-                <label for="ship_weight"> معلومات اضافية </label>
-                <textarea name="more_info" class="form-control summernote" rows="2"><?php if (isset($_REQUEST['more_info'])) echo $_REQUEST['more_info']; ?></textarea>
+                <input type="text" id="ship_weight" name="ship_weight" class="form-control" value="<?php if (isset($_REQUEST['ship_weight']))
+                  echo $_REQUEST['ship_weight'] ?>">
+                </div>
+                <div class="form-group">
+                  <label for="ship_tail"> طول المنتج لتحديد الوزن [للشحن] </label>
+                  <input type="text" id="ship_tail" name="ship_tail" class="form-control" value="<?php if (isset($_REQUEST['ship_tail']))
+                  echo $_REQUEST['ship_tail'] ?>">
+                </div>
+                <div class="form-group">
+                  <label for="ship_weight"> معلومات اضافية </label>
+                  <textarea name="more_info" class="form-control summernote" rows="2"><?php if (isset($_REQUEST['more_info']))
+                  echo $_REQUEST['more_info']; ?></textarea>
               </div>
             </div>
             <!-- /.card-body -->

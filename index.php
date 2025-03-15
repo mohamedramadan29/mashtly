@@ -115,8 +115,6 @@ if (isset($_POST['add_to_cart'])) {
 }
 ?>
 <br>
-<br>
-<br>
 
 <!-- START BEST PRODUCTS -->
 <div class="new_producs best_products lazy-section">
@@ -156,20 +154,36 @@ if (isset($_POST['add_to_cart'])) {
     </div>
 </div>
 <!-- END BEST  PRODUCTS  -->
+<br>
 
-
-<!-- START PLANTS REQUIRES -->
-<div class='planets_require_index lazy-section'>
+<!-- START In And Out Plants PRODUCTS -->
+<div class="new_producs best_products lazy-section">
     <div class="container">
         <div class="data">
-            <h2> مستلزمات العناية بنباتاتك </h2>
-            <a href="categories" class="btn global_button"> تصفح جميع المستلزمات <img loading="lazy"
-                    src="<?php echo $uploads ?>left.svg" alt="جميع المستلزمات"> </a>
+            <div class="data_header">
+                <div class="data_header_name">
+                    <h2 class='header2'> نباتات خارجية وداخلية </h2>
+                    <p> افضل النباتات الداخلية والخارجية </p>
+                </div>
+                <div>
+                    <a href="shop" class='global_button btn'> تصفح المزيد </a>
+                </div>
+            </div>
+            <div class="products" id='products'>
+                <?php
+                $stmt = $connect->prepare("SELECT * FROM products WHERE  publish = 1 AND product_status_store = 1 AND  (cat_id = 227 OR cat_id = 1014)  AND  name !='' AND price !='' ORDER BY RAND() LIMIT 10");
+                $stmt->execute();
+                $allproduct = $stmt->fetchAll();
+                foreach ($allproduct as $product) {
+                    include 'tempelate/product.php';
+                }
+                ?>
+            </div>
         </div>
     </div>
 </div>
-<!-- END PLANTS REQUIRES -->
-
+<!-- END In Out Plants  PRODUCTS  -->
+<br>
 
 
 
@@ -628,6 +642,18 @@ if ($countSaleproduct > 0) {
     </div>
 </div>
 <!-- END WHY MASHTLY -->
+<!-- START PLANTS REQUIRES -->
+<div class='planets_require_index lazy-section'>
+    <div class="container">
+        <div class="data">
+            <h2> مستلزمات العناية بنباتاتك </h2>
+            <a href="categories" class="btn global_button"> تصفح جميع المستلزمات <img loading="lazy"
+                    src="<?php echo $uploads ?>left.svg" alt="جميع المستلزمات"> </a>
+        </div>
+    </div>
+</div>
+<!-- END PLANTS REQUIRES -->
+
 
 <!-- START POST INDEX -->
 <div class='index_posts'>

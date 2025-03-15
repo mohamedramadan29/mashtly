@@ -32,6 +32,10 @@ if ($count > 0) {
     $related_products = $product_data['related_product'];
     $public_tail = $product_data['public_tail'];
     $product_status_store = $product_data['product_status_store'];
+    $description_status =   $product_data['new_description_status']; 
+    $writer_id = $product_data['writer_id'];
+    $reviewer_id = $product_data['reviewer_id'];
+    $supervisor_id = $product_data['supervisor_id'];
     if ($public_tail == '' || $public_tail == 0 || $public_tail == null) {
         $public_tail = 5;
     }
@@ -61,9 +65,15 @@ if (isset($_POST['add_to_cart'])) {
     } else {
         $vartion_name = null;
         if ($product_sale_price != '') {
-            $price = $product_sale_price + ($product_sale_price * 0.10) * (1 - 0.22);
+            $price = $product_sale_price; 
+            if ($category_type == 1) {
+                $price = $product_sale_price + ($product_sale_price * 0.05); // إضافة 5%
+            }
         } else {
-            $price = ($product_price + ($product_price * 0.10)) *  (1 - 0.22); 
+            $price = $product_price; 
+            if ($category_type == 1) {
+                $price += $price * 0.05;
+            }
         }
     }
     if (isset($_POST['quantity'])) {
@@ -361,16 +371,16 @@ if (isset($_POST['add_to_fav'])) {
                                 $allproduct_data = $stmt->fetchAll();
                                 foreach ($allproduct_data as $product_data) {
                                  //   $pro_price =  $product_data['price'] + ($product_data['price'] * 0.10);
-
+                                    #######
                                     $pro_price = $product_data['price'];
-                                    // السعر بعد زيادة 10% فقط
-                                    $old_pro_price = $pro_price + ($pro_price * 0.10);
-                                    // السعر بعد زيادة 10% وخصم 22%
-                                    $pro_price = ($pro_price + ($pro_price * 0.10)) * (1 - 0.22);
+                                   
+                                    if ($category_type == 1) {
+                                        // إضافة 5% على السعر
+                                    $pro_price += $pro_price * 0.05;
+                                    }
+
                                     $maximumPrice = max($maximumPrice, $pro_price);
                                     $minimumPrice = min($minimumPrice, $pro_price);
-                                    $oldmaximumPrice = max($oldmaximumPrice, $old_pro_price);
-                                    $oldminimumPrice = min($oldminimumPrice, $old_pro_price);
                                 }
                             ?>
                                 <!-- <p> يبدأ من: <span> <?php // echo number_format($minimumPrice, 2); ?> - <?php //echo number_format($maximumPrice, 2); ?> ر.س </span> </p> -->
@@ -379,22 +389,30 @@ if (isset($_POST['add_to_fav'])) {
                                       السعر : 
                                     <span><?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س</span>
                                 </p>
-                                <p> 
-                                    <span style="text-decoration: line-through; color: #8f8989;"><?php echo number_format($oldminimumPrice, 2); ?> - <?php echo number_format($oldmaximumPrice, 2); ?> ر.س</span>
-                                </p>
+                               
                             <?php
                             } else {
                             ?>
                                 <?php
-                                if (empty($product_sale_price)) {                                                                                                                                            
+                                if (empty($product_sale_price)) { 
+                                    // إذا كان المنتج نبات، يتم خصم 10%
+                                    if ($category_type == 1) {
+                                        $product_price += $product_price * 0.05;
+                                    }                                                                                                                                           
                                 ?>
-                                    <p> السعر : <span style="text-decoration: line-through; color: #8f8989;"> <?php echo number_format($product_price + ($product_price * 0.10), 2); ?> </span> <span> <?php echo  number_format(($product_price + ($product_price * 0.10)) * (1 - 0.22), 2) ?>  ر.س </span> </p>
+                                    <p> السعر : <span> <?php echo  number_format($product_price, 2) ?>  ر.س </span> </p>
                                 <?php
                                 } else {
+                                     // إضافة 5% على السعر
+                         
+                                    if ($category_type == 1) {
+                                        $product_sale_price += $product_sale_price * 0.05;
+
+                                    }  
                                 ?>
                                     <div style="display: flex;">
-                                        <p> السعر : <span style="text-decoration: line-through; margin-left: 15px;"> <?php echo number_format($product_price + ($product_price * 0.10), 2); ?> ر.س </span> </p>
-                                        <p style="font-weight: bold;"> <span> <?php echo number_format($product_sale_price + ($product_sale_price * 0.10), 2); ?> ر.س </span> </p>
+                                        
+                                        <p  style="font-weight: bold;">  السعر :   <span> <?php echo number_format($product_sale_price , 2); ?> ر.س </span> </p>
                                     </div>
                                 <?php
                                 }
@@ -422,8 +440,7 @@ if (isset($_POST['add_to_fav'])) {
                             <h3> وصف المنتج </h3>
                             <?php 
                            // $product_desc = $product_data['description'];
-                            //echo $product_desc;
-                            if($product_data['new_description_status'] == 1){
+                            if($description_status == 1){
                             $parts = preg_split('/<h2.*?>/', $product_desc, 2, PREG_SPLIT_NO_EMPTY);
                             $intro = isset($parts[0]) ? trim($parts[0]) : ''; // المقدمة
 
@@ -466,6 +483,57 @@ if (isset($_POST['add_to_fav'])) {
                             }
                             ?>
                         </div>
+
+                        <div class="writer_info">
+
+                            <?php 
+                            if($writer_id != ''){
+                            $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
+                            $stmt->execute(array($writer_id));
+                            $writer = $stmt->fetch();
+                            ?>
+
+                        <a href="https://www.localhost/mashtly/writer-info?username=<?php echo $writer['username']; ?>">
+                        <div class="writer_info_item">
+                            <p> <i class="bi bi-pencil-square"></i> الكاتب  </p>
+                            <p> <?php echo $writer['username']; ?> </p>
+                        </div>
+                        </a>
+                        <?php 
+                        }
+                        ?>
+                        <?php 
+                        if($reviewer_id != ''){
+                        $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
+                        $stmt->execute(array($reviewer_id));
+                        $reviewer = $stmt->fetch();
+                        ?>
+                        <a href="https://www.localhost/mashtly/writer-info?username=<?php echo $reviewer['username']; ?>"> 
+                        <div class="writer_info_item">
+                            <p> <i class="bi bi-pencil-square"></i> المراجع  </p>
+                            <p> <?php echo $reviewer['username']; ?> </p>
+                        </div>
+                        </a>
+                        <?php 
+                        }
+                        ?>
+                        <?php 
+                        if($supervisor_id != ''){
+                        $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
+                        $stmt->execute(array($supervisor_id));
+                        $supervisor = $stmt->fetch();
+                        ?>
+                        <a href="https://www.localhost/mashtly/writer-info?username=<?php echo $supervisor['username']; ?>"> 
+                        <div class="writer_info_item">
+                            <p> <i class="bi bi-pencil-square"></i> المشرف  </p>
+                            <p> <?php echo $supervisor['username']; ?> </p>
+                        </div>
+                        </a>
+                        <?php 
+                        }
+                        ?>
+                      </div>
+                
                         <div class="social_share">
                             <div>
                                 <p> شارك عبر </p>
@@ -545,15 +613,26 @@ if (isset($_POST['add_to_fav'])) {
                                 <div class="colors">
                                     <?php
                                     if ($allpro_attibutes_count > 0) {
+                                        
                                         echo '<select class="form-control" name="vartion_select" required>';
                                         echo '<option value=""> "حدد احد الخيارات" </option>';
                                         foreach ($allpro_attibutes as $allpro_att) {
-                                            echo '<option value="' . $allpro_att['id'] . '" 
+                                            if($main_category == 1){
+                                                echo '<option value="' . $allpro_att['id'] . '" 
                                                     data-image="' . $allpro_att['image'] . '" 
-                                                    data-price="' . (($allpro_att['price'] + ($allpro_att['price'] * 0.10)) * (1 - 0.22)) . '" 
+                                                    data-price="' . ($allpro_att['price'] + ($allpro_att['price'] * 0.05)) . '" 
                                                     id="' . $allpro_att['id'] . '">' 
                                                     . $allpro_att['vartions_name'] . 
                                                 '</option>';
+                                            }else{
+                                                echo '<option value="' . $allpro_att['id'] . '" 
+                                                    data-image="' . $allpro_att['image'] . '" 
+                                                    data-price="' . $allpro_att['price'] . '" 
+                                                    id="' . $allpro_att['id'] . '">' 
+                                                    . $allpro_att['vartions_name'] . 
+                                                '</option>';
+                                            }
+                                            
                                         }
                                         echo '</select>';
                                         echo '<div>';
@@ -562,8 +641,12 @@ if (isset($_POST['add_to_fav'])) {
                                             echo '<span class="text-bold" id="selected_price">0.00 ر.س</span>';
                                             echo '<input id="price_value" type="hidden" name="select_price" value="' . $allpro_att['price'] . '">';
                                         } else {
-                                            echo '<span class="text-bold">' . $product_data['price'] . ' ر.س</span>';
-                                            echo '<input type="hidden" name="select_price" value="' . $product_data['price'] . '">';
+                                            if($main_category == 1){
+                                                $product_data_price = $product_data['price'];
+                                                $product_data_price += $product_data_price * 0.05;
+                                            }
+                                            echo '<span class="text-bold">' . $product_data_price . ' ر.س</span>';
+                                            echo '<input type="hidden" name="select_price" value="' . $product_data_price . '">';
                                         }
 
                                         echo '</div>';
@@ -729,8 +812,8 @@ if (isset($_POST['add_to_fav'])) {
                         <h3> وصف المنتج </h3>
 
                         <?php 
-                            $product_desc = $product_data['description'];
-                            if($product_data['new_description_status'] == 1){
+                          //  $product_desc = $product_data['description'];
+                            if($description_status == 1){
                                 $parts = preg_split('/<h2.*?>/', $product_desc, 2, PREG_SPLIT_NO_EMPTY);
                             $intro = isset($parts[0]) ? trim($parts[0]) : ''; // المقدمة
 
@@ -786,6 +869,55 @@ if (isset($_POST['add_to_fav'])) {
  
                         
                     </div>
+                    <div class="writer_info">
+
+                            <?php 
+                            if($writer_id != ''){
+                            $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
+                            $stmt->execute(array($writer_id));
+                            $writer = $stmt->fetch();
+                            ?>
+
+                        <a href="https://www.localhost/mashtly/writer-info?username=<?php echo $writer['username']; ?>">
+                        <div class="writer_info_item">
+                            <p> <i class="bi bi-pencil-square"></i> الكاتب  </p>
+                            <p> <?php echo $writer['username']; ?> </p>
+                        </div>
+                        </a>
+                        <?php 
+                        }
+                        ?>
+                        <?php 
+                        if($reviewer_id != ''){
+                        $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
+                        $stmt->execute(array($reviewer_id));
+                        $reviewer = $stmt->fetch();
+                        ?>
+                        <a href="https://www.localhost/mashtly/writer-info?username=<?php echo $reviewer['username']; ?>"> 
+                        <div class="writer_info_item">
+                            <p> <i class="bi bi-pencil-square"></i> المراجع  </p>
+                            <p> <?php echo $reviewer['username']; ?> </p>
+                        </div>
+                        </a>
+                        <?php 
+                        }
+                        ?>
+                        <?php 
+                        if($supervisor_id != ''){
+                        $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
+                        $stmt->execute(array($supervisor_id));
+                        $supervisor = $stmt->fetch();
+                        ?>
+                        <a href="https://www.localhost/mashtly/writer-info?username=<?php echo $supervisor['username']; ?>"> 
+                        <div class="writer_info_item">
+                            <p> <i class="bi bi-pencil-square"></i> المشرف  </p>
+                            <p> <?php echo $supervisor['username']; ?> </p>
+                        </div>
+                        </a>
+                        <?php 
+                        }
+                        ?>
+                      </div>
                     <div class="social_share">
                         <div>
                             <p> شارك عبر </p>
