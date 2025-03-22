@@ -25,7 +25,7 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 // جلب جميع المنتجات مرة واحدة
-$stmt = $connect->prepare("SELECT name, slug FROM products WHERE publish = 1 AND product_status_store = 1");
+$stmt = $connect->prepare("SELECT name, slug FROM products WHERE publish = 1");
 $stmt->execute();
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

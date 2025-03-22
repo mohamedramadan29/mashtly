@@ -153,6 +153,16 @@ if (isset($_POST['add_to_cart'])) {
         }
     }
     if ($stmt) {
+        $total_price = 0;
+        $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
+        $stmt->execute(array($cookie_id));
+        $count = $stmt->rowCount();
+        $allitems = $stmt->fetchAll();
+        foreach ($allitems as $item) {
+            $total_price = $total_price + ($item['price'] * $item['quantity']);
+        }
+        // تحديث قيمة الجلسة
+        $_SESSION['total'] = $total_price;
         $_SESSION['item_added_to_cart'] = true;
        header("Location: " . $_SERVER['REQUEST_URI']);
        exit; // تأكد من إنهاء التنفيذ بعد إعادة التوجيه

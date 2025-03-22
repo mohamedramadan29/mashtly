@@ -91,7 +91,7 @@ $allitems = $stmt->fetchAll();
                     </div>
                     <div class="buttons">
                         <a href="cart" class="btn global_button"> مشاهدة سلة الشراء </a>
-                        <!-- <a href="checkout" class="btn global_button checkout"> الدفع واتمام الطلب </a> -->
+                        <a href="checkout" class="btn global_button checkout"> الدفع واتمام الطلب </a>
                     </div>
                 </div>
                 <?php
@@ -119,7 +119,20 @@ if (isset($_POST['remove_item'])) {
     $item_id = $_POST['item_id'];
     $stmt = $connect->prepare("DELETE FROM cart WHERE id = ? AND cookie_id=?");
     $stmt->execute(array($item_id, $cookie_id));
+
     if ($stmt) {
+
+        $total_price = 0;
+        // إعادة حساب الإجمالي بعد الحذف
+        $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
+        $stmt->execute(array($cookie_id));
+        $count = $stmt->rowCount();
+        $allitems = $stmt->fetchAll();
+        foreach ($allitems as $item) {
+            $total_price = $total_price + ($item['price'] * $item['quantity']);
+        }
+        // تحديث قيمة الجلسة
+        $_SESSION['total'] = $total_price;
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit; // تأكد من إنهاء التنفيذ بعد إعادة التوجيه
     }
