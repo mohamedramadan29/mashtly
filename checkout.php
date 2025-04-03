@@ -830,7 +830,7 @@ if (isset($_SESSION['user_id'])) {
                                     ]
                                 ],
                                 'headers' => [
-                                    'Authorization' => 'Bearer sk_live_btGUwFZROMA1vTSK4LomyIWn',
+                                    'Authorization' => 'Bearer sk_test',
                                     'accept' => 'application/json',
                                     'content-type' => 'application/json',
                                 ],
