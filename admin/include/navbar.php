@@ -95,6 +95,14 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="main.php?dir=product_gallary/categories&page=index" class="nav-link">
+                        <p>
+                        معرض الصور 
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
 
                     <a href="#" class="nav-link">
                         <p>

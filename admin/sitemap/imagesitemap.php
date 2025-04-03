@@ -8,7 +8,7 @@ $sitemapFileName = "../sitemap-images.xml";
 try {
     // قاعدة البيانات: جلب صور المنتجات
     $stmt = $connect->prepare("SELECT p.id, p.slug, p.name, pi.main_image FROM products p 
-                              JOIN products_image pi ON p.id = pi.product_id WHERE p.publish = 1");
+                            JOIN products_image pi ON p.id = pi.product_id WHERE p.publish = 1");
     $stmt->execute();
     $allProductImages = $stmt->fetchAll();
 
@@ -40,7 +40,7 @@ try {
 
     // إضافة صور المقالات إلى Sitemap
     foreach ($allArticleImages as $article) {
-        $imagePath = 'https://mshtly.com/uploads/posts/' . $article['image'];
+        $imagePath = 'https://mshtly.com/uploads/posts/' . $article['main_image'];
         $xml->startElement('url');
         $xml->writeElement('loc', $yourSiteUrl . 'blog/' . $article['slug']);
         $xml->startElement('image:image');

@@ -44,7 +44,7 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
         include 'marketer-dashboard.php';
     } elseif ($dir == 'dashboard' && $page == 'fetch_orders') {
         include 'fetch_orders.php';
-    }elseif ($dir == 'dashboard' && $page == 'writer-dashboard') {
+    } elseif ($dir == 'dashboard' && $page == 'writer-dashboard') {
         include 'writer-dashboard.php';
     }
     // END DASHBAORD{}
@@ -289,9 +289,9 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
         include "orders/compeleted_orders.php";
     } elseif ($dir == 'orders' && $page == 'order_qrcode') {
         include "orders/order_qrcode.php";
-    }elseif ($dir == 'orders' && $page =='inside_outside_orders') {
+    } elseif ($dir == 'orders' && $page == 'inside_outside_orders') {
         include "orders/inside_outside_orders.php";
-    }elseif ($dir == 'orders' && $page =='pending') {
+    } elseif ($dir == 'orders' && $page == 'pending') {
         include "orders/pending.php";
     }
     // START employee
@@ -433,7 +433,7 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
     // START SiteMap
     if ($dir == 'sitemap' && $page == 'sitemap') {
         include "sitemap/sitemap.php";
-    }elseif ($dir == 'sitemap' && $page == 'imagesitemap') {
+    } elseif ($dir == 'sitemap' && $page == 'imagesitemap') {
         include "sitemap/imagesitemap.php";
     }
     // START Product Tail 
@@ -467,7 +467,7 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
     /////////////////////////// Start OutSide Orders
     ///
     // START Landscap  Orders
-
+    
     // START OutSide Orders
     if ($dir == 'outside_orders' && $page == 'add') {
         include "outside_orders/add.php";
@@ -563,7 +563,7 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
     }
 
     //////////// Start Reports ////////////////// 
-
+    
     if ($dir == 'reports' && $page == 'index') {
         include "reports/index.php";
     } elseif ($dir == 'reports' && $page == 'orders') {
@@ -594,17 +594,41 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
     }
 
     ############ start Redirect 
-
-    if($dir=='redirect' && $page == 'index'){
+    
+    if ($dir == 'redirect' && $page == 'index') {
         include "redirect/index.php";
-
-    }elseif($dir=='redirect' && $page == 'add'){
+    } elseif ($dir == 'redirect' && $page == 'add') {
         include "redirect/add.php";
-    }elseif($dir=='redirect' && $page == 'edit'){
+    } elseif ($dir == 'redirect' && $page == 'edit') {
         include "redirect/edit.php";
-    }elseif($dir=='redirect' && $page == 'delete'){
+    } elseif ($dir == 'redirect' && $page == 'delete') {
         include "redirect/delete.php";
     }
+
+    ###################### start Product Gallary ################
+    
+    if ($dir == 'product_gallary/categories' && $page == 'index') {
+        include "product_gallary/categories/index.php";
+    } elseif ($dir == 'product_gallary/categories' && $page == 'add') {
+        include "product_gallary/categories/add.php";
+    } elseif ($dir == 'product_gallary/categories' && $page == 'edit') {
+        include "product_gallary/categories/edit.php";
+    } elseif ($dir == 'product_gallary/categories' && $page == 'delete') {
+        include "product_gallary/categories/delete.php";
+    }
+
+    if ($dir == 'product_gallary/products' && $page == 'index') {
+        include "product_gallary/products/index.php";
+    } elseif ($dir == 'product_gallary/products' && $page == 'add') {
+        include "product_gallary/products/add.php";
+    } elseif ($dir == 'product_gallary/products' && $page == 'edit') {
+        include "product_gallary/products/edit.php";
+    } elseif ($dir == 'product_gallary/products' && $page == 'delete') {
+        include "product_gallary/products/delete.php";
+    }
+
+    ##################### End Product Gallary ###############
+
 
     ?>
 
