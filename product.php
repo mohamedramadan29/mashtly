@@ -30,6 +30,7 @@ if ($count > 0) {
     $product_sale_price = $product_data['sale_price'];
     $product_category = $product_data['cat_id'];
     $related_products = $product_data['related_product'];
+    $related_product = explode(',', $related_products);
     $public_tail = $product_data['public_tail'];
     $product_status_store = $product_data['product_status_store'];
     $description_status =   $product_data['new_description_status']; 
@@ -997,8 +998,53 @@ if (isset($_POST['add_to_fav'])) {
  
  
 <!-- END NEWWER PRODUCTS  -->
+                        <!-- Start Related Products   -->
+                         <?php
+                         if (!empty($related_products)) {
+                         ?>
+  <div class="new_producs index_all_cat">
+    <div class="container">
+        <div class="data" style="box-shadow: none;">
+            <div class="data_header">
+                <div class="data_header_name">
+                    <h2 class='header2' style="margin-right:0"> المنتجات المرتبطة  </h2>
+                </div>
+            </div>
+            <div class="row">
+                <?php  
+                           //  $related_product = array_filter(explode(',', $related_product), fn($id) => is_numeric($id));
+
+                        //    echo $related_products;
+                        //      $related_product = explode(',', $related_product);
+                        //     var_dump($related_product);
+                             if (!empty($related_product)) {
+                                $placeholders = implode(',', array_fill(0, count($related_product), '?'));
+                                $stmt = $connect->prepare("SELECT * FROM products WHERE id IN ($placeholders)");
+                                $stmt->execute($related_product);
+                                $allrelatedproducts = $stmt->fetchAll();
+                            
+                                if (!empty($allrelatedproducts)) {
+                                    foreach ($allrelatedproducts as $product) {
+                                        ?>
+                                        <div class="col-lg-3 col-6">
+                                            <?php include 'tempelate/product.php'; ?>
+                                        </div>
+                                        <?php
+                                    }
+                                }
+                            }
+ 
+                         
+                         ?>
+            </div>
+        </div>
+    </div>
+</div>
+<?php }
+?>
+                        <!--  End Related Products   -->
 <!-- START NEWWER PRODUCTS -->
-<div class="new_producs index_all_cat">
+<!-- <div class="new_producs index_all_cat">
     <div class="container">
         <div class="data" style="box-shadow: none;">
             <div class="data_header">
@@ -1008,23 +1054,23 @@ if (isset($_POST['add_to_fav'])) {
             </div>
             <div class="row">
                 <?php
-                $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND price !='' AND cat_id = 935 ORDER BY id LIMIT 6");
-                $stmt->execute();
-                $allproducts = $stmt->fetchAll();
-                foreach ($allproducts as $product) {
+                // $stmt = $connect->prepare("SELECT * FROM products WHERE publish = 1 AND price !='' AND cat_id = 935 ORDER BY id LIMIT 6");
+                // $stmt->execute();
+                // $allproducts = $stmt->fetchAll();
+                // foreach ($allproducts as $product) {
                 ?>
                     <div class="col-lg-3 col-6">
                         <?php
-                        include 'tempelate/product.php';
+                        //include 'tempelate/product.php';
                         ?>
                     </div>
                 <?php
-                }
+               // }
                 ?>
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <style>
     .product_description_small_screen {
         display: none;

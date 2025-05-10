@@ -300,6 +300,11 @@ if (isset($_SESSION['user_id'])) {
                                             <img src="<?php echo $uploads ?>free.svg" alt="">
                                             مدة الشحن المتوقعة 2-7 ايام
                                         </p>
+                                        <p class="no_sheap_price">
+                                            <img src="<?php echo $uploads ?>free.svg" alt="">
+                                            داخل الرياض :
+                                            ( قيمة التوصيل لاتشمل الطلبيات الكبيرة جدآ )
+                                        </p>
                                         <div class="price_sections">
                                             <div class="first">
                                                 <div>

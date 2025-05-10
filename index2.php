@@ -1,6 +1,3 @@
-
-
-
 <div class="hero">
     <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-indicators">
@@ -116,4 +113,3 @@
     // استدعاء الدالة عند تغيير حجم الشاشة
     window.addEventListener('resize', loadBlogSection);
 </script>
-

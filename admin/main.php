@@ -232,6 +232,13 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
     elseif ($dir == 'products' && $page == 'mstlzamat_products') {
         include "products/mstlzamat_products.php";
     }
+    elseif ($dir == 'products' && $page == 'mstlzamat_excel') {
+        include "products/mstlzamat_excel.php";
+    }
+    //////// النباتات الزراعية 
+    elseif ($dir == 'products' && $page == 'plant_products') {
+        include "products/plant_products.php";
+    }
     /* 
     elseif ($dir == 'products' && $page == 'add_vartions') {
         include "products/add_vartions.php";
@@ -628,7 +635,7 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
     }
 
     ##################### End Product Gallary ###############
-
+    
 
     ?>
 

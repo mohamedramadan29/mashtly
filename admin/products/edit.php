@@ -606,7 +606,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                         foreach ($allwriters as $writer) {
                                             ?>
                                             <option value="<?php echo $writer['id']; ?>" <?php if ($pro_data['writer_id'] == $writer['id'])
-                                                echo 'selected'; ?>> <?php echo $writer['username']; ?>
+                                                   echo 'selected'; ?>> <?php echo $writer['username']; ?>
                                             </option>
                                             <?php
                                         }
@@ -621,7 +621,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                         foreach ($allwriters as $writer) {
                                             ?>
                                             <option value="<?php echo $writer['id']; ?>" <?php if ($pro_data['reviewer_id'] == $writer['id'])
-                                                echo 'selected'; ?>> <?php echo $writer['username']; ?>
+                                                   echo 'selected'; ?>> <?php echo $writer['username']; ?>
                                             </option>
                                             <?php
                                         }
@@ -636,7 +636,7 @@ if (isset($_GET['pro_id']) && is_numeric($_GET['pro_id'])) {
                                         foreach ($allwriters as $writer) {
                                             ?>
                                             <option value="<?php echo $writer['id']; ?>" <?php if ($pro_data['supervisor_id'] == $writer['id'])
-                                                echo 'selected'; ?>> <?php echo $writer['username']; ?>
+                                                   echo 'selected'; ?>> <?php echo $writer['username']; ?>
                                             </option>
                                             <?php
                                         }

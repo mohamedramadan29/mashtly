@@ -338,10 +338,6 @@ if (isset($_GET['report_page'])) {
                                                             ?>
                                                         </th>
 
-
-
-
-
                                                         <td>
                                                             <?php
                                                             $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ? LIMIT 1");
@@ -647,7 +643,7 @@ if (isset($_GET['report_page'])) {
                                                         if ($image_count > 0) {
                                                             $product_img_data = $stmt->fetch();
                                                         ?>
-                                                            <img class="img-thumbnail" style="width: 80px; height:80px;" src="product_images/<?php echo $product_img_data['main_image']; ?>" alt="">
+                                                            <img class="img-thumbnail" style="width: 80px; height:80px;" src="http://localhost/mashtly/uploads/products/<?php echo $product_img_data['main_image']; ?>" alt="">
                                                         <?php
                                                         }
                                                         ?>
