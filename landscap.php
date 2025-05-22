@@ -29,7 +29,8 @@ include "init.php";
                 ?>
                     <div class="col-lg-3">
                         <div class="info">
-                            <img src="admin/landscap/images/<?php  echo $landscap['image'] ?>" alt="">
+                        <!-- <img src="admin/landscap/images/<?php  echo $landscap['image'] ?>" alt=""> -->
+                        <img src="uploads/landscap/<?php  echo $landscap['image'] ?>" alt="<?php echo $landscap['name'] ?>">
                             <div class="heading">
                                 <h3> <?php echo $landscap['name']; ?> </h3>
                                 <a href="land/<?php echo $landscap['slug']; ?>" class="global_button"> المزيد عن الخدمة </a>

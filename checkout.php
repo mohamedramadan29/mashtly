@@ -1,8 +1,6 @@
 <?php
 ob_start();
 session_start();
-
-$page_title = ' اتمام عملية الشراء  ';
 include "init.php";
 require 'admin/vendor/autoload.php';
 use Google\Client;
@@ -26,7 +24,6 @@ function addOrderToGoogleSheet($orderData)
 
     return $result;
 }
-
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
     // get all product from user cart

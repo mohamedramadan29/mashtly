@@ -43,7 +43,7 @@ $cat_count = count($allcat);
                                             <?php
                                             if ($cat['image'] != '') {
                                             ?>
-                                                <img src="admin/category_images/<?php echo $cat['image']; ?>" alt="">
+                                                <img src="uplodas/category_images/<?php echo $cat['image']; ?>" alt="<?php echo $cat['name'] ?>">
                                             <?php
                                             } else { ?>
                                                 <img src="<?php echo $uploads ?>cat.png" alt="">

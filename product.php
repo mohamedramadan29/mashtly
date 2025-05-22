@@ -33,7 +33,7 @@ if ($count > 0) {
     $related_product = explode(',', $related_products);
     $public_tail = $product_data['public_tail'];
     $product_status_store = $product_data['product_status_store'];
-    $description_status =   $product_data['new_description_status']; 
+    $description_status =   $product_data['new_description_status'];
     $writer_id = $product_data['writer_id'];
     $reviewer_id = $product_data['reviewer_id'];
     $supervisor_id = $product_data['supervisor_id'];
@@ -66,12 +66,12 @@ if (isset($_POST['add_to_cart'])) {
     } else {
         $vartion_name = null;
         if ($product_sale_price != '') {
-            $price = $product_sale_price; 
+            $price = $product_sale_price;
             if ($category_type == 1) {
                 $price = $product_sale_price + ($product_sale_price * 0.05); // إضافة 5%
             }
         } else {
-            $price = $product_price; 
+            $price = $product_price;
             if ($category_type == 1) {
                 $price += $price * 0.05;
             }
@@ -146,7 +146,7 @@ if (isset($_POST['add_to_cart'])) {
                 "zproduct_id" => $product_id,
                 "zproduct_name" => $product_name,
                 "zquantity" => $quantity,
-                "zprice" => $price, 
+                "zprice" => $price,
                 "zfarm_service" => $farm_planet,
                 "zgift_id" => $gift_id,
                 "ztotal_price" => $total_price,
@@ -165,24 +165,25 @@ if (isset($_POST['add_to_cart'])) {
         // تحديث قيمة الجلسة
         $_SESSION['total'] = $total_price;
         $_SESSION['item_added_to_cart'] = true;
-       header("Location: " . $_SERVER['REQUEST_URI']);
-       exit; // تأكد من إنهاء التنفيذ بعد إعادة التوجيه
-       // alertcart();
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit; // تأكد من إنهاء التنفيذ بعد إعادة التوجيه
+        // alertcart();
     }
 }
 ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         <?php if (isset($_SESSION['item_added_to_cart']) && $_SESSION['item_added_to_cart']): ?>
             // افتح السلة باستخدام Bootstrap
             var cartOffcanvas = new bootstrap.Offcanvas(document.getElementById('cartItems'));
             cartOffcanvas.show();
-            <?php unset($_SESSION['item_added_to_cart']); // إزالة الحالة بعد استخدامها ?>
+            <?php unset($_SESSION['item_added_to_cart']); // إزالة الحالة بعد استخدامها 
+            ?>
         <?php endif; ?>
     });
 </script>
-<?php 
+<?php
 // add to favorite
 if (isset($_POST['add_to_fav'])) {
     if (isset($_SESSION['user_id'])) {
@@ -295,17 +296,17 @@ if (isset($_POST['add_to_fav'])) {
                                     $count_att_g = count($allattimages);
                                     if ($count_att_g > 0) {
                                         foreach ($allattimages as $att_image) {
-                                            if ($att_image['image'] != '' && $att_image['image'] != null){
-                                                ?>
-                                                  <div>
-                                                <a href="https://www.mshtly.com/uploads/products/<?php echo $att_image['image']; ?>">
-                                                    <img loading="lazy" src="https://www.mshtly.com/uploads/products/<?php echo $att_image['image']; ?>" alt="<?php echo $att_image['image_alt'] ?>">
-                                                </a>
-                                            </div>
-                                                <?php 
-                                            }
+                                            if ($att_image['image'] != '' && $att_image['image'] != null) {
                                     ?>
-                                          
+                                                <div>
+                                                    <a href="https://www.mshtly.com/uploads/products/<?php echo $att_image['image']; ?>">
+                                                        <img loading="lazy" src="https://www.mshtly.com/uploads/products/<?php echo $att_image['image']; ?>" alt="<?php echo $att_image['image_alt'] ?>">
+                                                    </a>
+                                                </div>
+                                            <?php
+                                            }
+                                            ?>
+
                                         <?php
                                         }
                                         ?>
@@ -368,128 +369,129 @@ if (isset($_POST['add_to_fav'])) {
                             ?>
                         </div>
                         <div class="product_info">
-                            <h1 class='product_header'>  <?php echo $product_name; ?> </h2>
-                            <!-- check if products have more price in attribute or not -->
-                            <?php
-                            $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
-                            $minimumPrice = INF; // قيمة أدنى سعر ممكنة
-                            $oldmaximumPrice = -INF; // قيمة أقصى سعر ممكنة
-                            $oldminimumPrice = INF; // قيمة أدنى سعر ممكنة
-                            $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ? AND price !='' AND price !=0");
-                            $stmt->execute(array($product_id));
-                            $att_count = $stmt->rowCount();
-                            if ($att_count > 0) {
-                                $allproduct_data = $stmt->fetchAll();
-                                foreach ($allproduct_data as $product_data) {
-                                 //   $pro_price =  $product_data['price'] + ($product_data['price'] * 0.10);
-                                    #######
-                                    $pro_price = $product_data['price'];
-                                   
-                                    if ($category_type == 1) {
-                                        // إضافة 5% على السعر
-                                    $pro_price += $pro_price * 0.05;
-                                    }
-
-                                    $maximumPrice = max($maximumPrice, $pro_price);
-                                    $minimumPrice = min($minimumPrice, $pro_price);
-                                }
-                            ?>
-                                <!-- <p> يبدأ من: <span> <?php // echo number_format($minimumPrice, 2); ?> - <?php //echo number_format($maximumPrice, 2); ?> ر.س </span> </p> -->
-                                   <!-- عرض النتائج -->
-                                <p> 
-                                      السعر : 
-                                    <span><?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س</span>
-                                </p>
-                               
-                            <?php
-                            } else {
-                            ?>
+                            <h1 class='product_header'> <?php echo $product_name; ?> </h2>
+                                <!-- check if products have more price in attribute or not -->
                                 <?php
-                                if (empty($product_sale_price)) { 
-                                    // إذا كان المنتج نبات، يتم خصم 10%
-                                    if ($category_type == 1) {
-                                        $product_price += $product_price * 0.05;
-                                    }                                                                                                                                           
+                                $maximumPrice = -INF; // قيمة أقصى سعر ممكنة
+                                $minimumPrice = INF; // قيمة أدنى سعر ممكنة
+                                $oldmaximumPrice = -INF; // قيمة أقصى سعر ممكنة
+                                $oldminimumPrice = INF; // قيمة أدنى سعر ممكنة
+                                $stmt = $connect->prepare("SELECT * FROM product_details2 WHERE product_id = ? AND price !='' AND price !=0");
+                                $stmt->execute(array($product_id));
+                                $att_count = $stmt->rowCount();
+                                if ($att_count > 0) {
+                                    $allproduct_data = $stmt->fetchAll();
+                                    foreach ($allproduct_data as $product_data) {
+                                        //   $pro_price =  $product_data['price'] + ($product_data['price'] * 0.10);
+                                        #######
+                                        $pro_price = $product_data['price'];
+
+                                        if ($category_type == 1) {
+                                            // إضافة 5% على السعر
+                                            $pro_price += $pro_price * 0.05;
+                                        }
+
+                                        $maximumPrice = max($maximumPrice, $pro_price);
+                                        $minimumPrice = min($minimumPrice, $pro_price);
+                                    }
                                 ?>
-                                    <p> السعر : <span> <?php echo  number_format($product_price, 2) ?>  ر.س </span> </p>
+                                    <!-- <p> يبدأ من: <span> <?php // echo number_format($minimumPrice, 2); 
+                                                                ?> - <?php //echo number_format($maximumPrice, 2); 
+                                                                                                                    ?> ر.س </span> </p> -->
+                                    <!-- عرض النتائج -->
+                                    <p>
+                                        السعر :
+                                        <span><?php echo number_format($minimumPrice, 2); ?> - <?php echo number_format($maximumPrice, 2); ?> ر.س</span>
+                                    </p>
+
                                 <?php
                                 } else {
-                                     // إضافة 5% على السعر
-                         
-                                    if ($category_type == 1) {
-                                        $product_sale_price += $product_sale_price * 0.05;
+                                ?>
+                                    <?php
+                                    if (empty($product_sale_price)) {
+                                        // إذا كان المنتج نبات، يتم خصم 10%
+                                        if ($category_type == 1) {
+                                            $product_price += $product_price * 0.05;
+                                        }
+                                    ?>
+                                        <p> السعر : <span> <?php echo  number_format($product_price, 2) ?> ر.س </span> </p>
+                                    <?php
+                                    } else {
+                                        // إضافة 5% على السعر
 
-                                    }  
-                                ?>
-                                    <div style="display: flex;">
-                                        
-                                        <p  style="font-weight: bold;">  السعر :   <span> <?php echo number_format($product_sale_price , 2); ?> ر.س </span> </p>
-                                    </div>
+                                        if ($category_type == 1) {
+                                            $product_sale_price += $product_sale_price * 0.05;
+                                        }
+                                    ?>
+                                        <div style="display: flex;">
+
+                                            <p style="font-weight: bold;"> السعر : <span> <?php echo number_format($product_sale_price, 2); ?> ر.س </span> </p>
+                                        </div>
+                                    <?php
+                                    }
+                                    ?>
                                 <?php
-                                }
-                                ?>
-                            <?php
-                            } ?>
-                            <div class="more_info">
-                                <p style="color: #000 !important;"> <?php echo $more_info; ?> </p>
-                            </div>
-                            <div class="support">
-                                <div>
-                                    <img loading="lazy" src="<?php echo $uploads ?>/support.svg" alt="دعم الخبراء">
+                                } ?>
+                                <div class="more_info">
+                                    <p style="color: #000 !important;"> <?php echo $more_info; ?> </p>
                                 </div>
-                                <div>
-                                    <a href="https://t.me/mshtly" style="text-decoration: none;">
-                                        <h4> دعم الخبراء المجاني </h4>
-                                        <p style="color: #3c3b3b;"> للعناية بالنباتات أو اختيار الأنسب من مهندسي مشتلي </p>
-                                    </a>
+                                <div class="support">
+                                    <div>
+                                        <img loading="lazy" src="<?php echo $uploads ?>/support.svg" alt="دعم الخبراء">
+                                    </div>
+                                    <div>
+                                        <a href="https://t.me/mshtly" style="text-decoration: none;">
+                                            <h4> دعم الخبراء المجاني </h4>
+                                            <p style="color: #3c3b3b;"> للعناية بالنباتات أو اختيار الأنسب من مهندسي مشتلي </p>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div> 
                         </div>
                     </div>
                     <div class="product_description_large_screen">
                         <div class="product_description">
                             <h3> وصف المنتج </h3>
-                            <?php 
-                           // $product_desc = $product_data['description'];
-                            if($description_status == 1){
-                            $parts = preg_split('/<h2.*?>/', $product_desc, 2, PREG_SPLIT_NO_EMPTY);
-                            $intro = isset($parts[0]) ? trim($parts[0]) : ''; // المقدمة
+                            <?php
+                            // $product_desc = $product_data['description'];
+                            if ($description_status == 1) {
+                                $parts = preg_split('/<h2.*?>/', $product_desc, 2, PREG_SPLIT_NO_EMPTY);
+                                $intro = isset($parts[0]) ? trim($parts[0]) : ''; // المقدمة
 
-                            // استخراج العناوين <h2> والمحتوى الذي يليها
-                            preg_match_all('/<h2.*?>(.*?)<\/h2>(.*?)(?=<h2|$)/s', $product_desc, $matches, PREG_SET_ORDER);
+                                // استخراج العناوين <h2> والمحتوى الذي يليها
+                                preg_match_all('/<h2.*?>(.*?)<\/h2>(.*?)(?=<h2|$)/s', $product_desc, $matches, PREG_SET_ORDER);
 
-                            $tabData = [];
+                                $tabData = [];
 
-                            foreach ($matches as $match) {
-                                $title = trim(strip_tags($match[1])); // إزالة الأكواد HTML من العنوان
-                                $content = trim($match[2]); // المحتوى التابع للعنوان
-                                $tabData[] = ['title' => $title, 'content' => $content];
-                            }
+                                foreach ($matches as $match) {
+                                    $title = trim(strip_tags($match[1])); // إزالة الأكواد HTML من العنوان
+                                    $content = trim($match[2]); // المحتوى التابع للعنوان
+                                    $tabData[] = ['title' => $title, 'content' => $content];
+                                }
                             ?>
 
-                            <!-- عرض مقدمة المنتج إن وجدت -->
-                            <?php if (!empty($intro)) : ?>
-                                <div class="product-intro">
-                                    <?= $intro; ?>
-                                </div>
-                            <?php endif; ?>
-
-                            <!-- كود عرض التبويبات بأسلوب التبديل (Toggle) -->
-                            <div class="container mt-4 new_product_description">
-                                <?php foreach ($tabData as $index => $tab) : ?>
-                                    <div class="tab-item">
-                                        <button class="tab-button" onclick="toggleTab(<?= $index; ?>)">
-                                            <?= htmlspecialchars($tab['title']); ?>
-                                            <span class="icon"> <i class="bi bi-chevron-down"></i> </span>
-                                        </button>
-                                        <div class="tab-content" id="tab<?= $index; ?>">
-                                            <?= $tab['content']; ?> <!-- عرض المحتوى كما هو دون تعديل -->
-                                        </div>
+                                <!-- عرض مقدمة المنتج إن وجدت -->
+                                <?php if (!empty($intro)) : ?>
+                                    <div class="product-intro">
+                                        <?= $intro; ?>
                                     </div>
-                                <?php endforeach; ?>
-                            </div>
-                            <?php 
-                            }else{
+                                <?php endif; ?>
+
+                                <!-- كود عرض التبويبات بأسلوب التبديل (Toggle) -->
+                                <div class="container mt-4 new_product_description">
+                                    <?php foreach ($tabData as $index => $tab) : ?>
+                                        <div class="tab-item">
+                                            <button class="tab-button" onclick="toggleTab(<?= $index; ?>)">
+                                                <?= htmlspecialchars($tab['title']); ?>
+                                                <span class="icon"> <i class="bi bi-chevron-down"></i> </span>
+                                            </button>
+                                            <div class="tab-content" id="tab<?= $index; ?>">
+                                                <?= $tab['content']; ?> <!-- عرض المحتوى كما هو دون تعديل -->
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php
+                            } else {
                                 echo $product_desc;
                             }
                             ?>
@@ -497,54 +499,54 @@ if (isset($_POST['add_to_fav'])) {
 
                         <div class="writer_info">
 
-                            <?php 
-                            if($writer_id != ''){
-                            $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
-                            $stmt->execute(array($writer_id));
-                            $writer = $stmt->fetch();
+                            <?php
+                            if ($writer_id != '') {
+                                $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
+                                $stmt->execute(array($writer_id));
+                                $writer = $stmt->fetch();
                             ?>
 
-                        <a href="https://www.localhost/mashtly/writer-info?username=<?php echo $writer['username']; ?>">
-                        <div class="writer_info_item">
-                            <p> <i class="bi bi-pencil-square"></i> الكاتب  </p>
-                            <p> <?php echo $writer['username']; ?> </p>
+                                <a href="https://www.localhost/mashtly/writer-info?username=<?php echo $writer['username']; ?>">
+                                    <div class="writer_info_item">
+                                        <p> <i class="bi bi-pencil-square"></i> الكاتب </p>
+                                        <p> <?php echo $writer['username']; ?> </p>
+                                    </div>
+                                </a>
+                            <?php
+                            }
+                            ?>
+                            <?php
+                            if ($reviewer_id != '') {
+                                $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
+                                $stmt->execute(array($reviewer_id));
+                                $reviewer = $stmt->fetch();
+                            ?>
+                                <a href="https://www.localhost/mashtly/writer-info?username=<?php echo $reviewer['username']; ?>">
+                                    <div class="writer_info_item">
+                                        <p> <i class="bi bi-pencil-square"></i> المراجع </p>
+                                        <p> <?php echo $reviewer['username']; ?> </p>
+                                    </div>
+                                </a>
+                            <?php
+                            }
+                            ?>
+                            <?php
+                            if ($supervisor_id != '') {
+                                $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
+                                $stmt->execute(array($supervisor_id));
+                                $supervisor = $stmt->fetch();
+                            ?>
+                                <a href="https://www.localhost/mashtly/writer-info?username=<?php echo $supervisor['username']; ?>">
+                                    <div class="writer_info_item">
+                                        <p> <i class="bi bi-pencil-square"></i> المشرف </p>
+                                        <p> <?php echo $supervisor['username']; ?> </p>
+                                    </div>
+                                </a>
+                            <?php
+                            }
+                            ?>
                         </div>
-                        </a>
-                        <?php 
-                        }
-                        ?>
-                        <?php 
-                        if($reviewer_id != ''){
-                        $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
-                        $stmt->execute(array($reviewer_id));
-                        $reviewer = $stmt->fetch();
-                        ?>
-                        <a href="https://www.localhost/mashtly/writer-info?username=<?php echo $reviewer['username']; ?>"> 
-                        <div class="writer_info_item">
-                            <p> <i class="bi bi-pencil-square"></i> المراجع  </p>
-                            <p> <?php echo $reviewer['username']; ?> </p>
-                        </div>
-                        </a>
-                        <?php 
-                        }
-                        ?>
-                        <?php 
-                        if($supervisor_id != ''){
-                        $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
-                        $stmt->execute(array($supervisor_id));
-                        $supervisor = $stmt->fetch();
-                        ?>
-                        <a href="https://www.localhost/mashtly/writer-info?username=<?php echo $supervisor['username']; ?>"> 
-                        <div class="writer_info_item">
-                            <p> <i class="bi bi-pencil-square"></i> المشرف  </p>
-                            <p> <?php echo $supervisor['username']; ?> </p>
-                        </div>
-                        </a>
-                        <?php 
-                        }
-                        ?>
-                      </div>
-                
+
                         <div class="social_share">
                             <div>
                                 <p> شارك عبر </p>
@@ -562,16 +564,16 @@ if (isset($_POST['add_to_fav'])) {
                             <script async src="https://static.addtoany.com/menu/page.js"></script>
                             <!-- AddToAny END -->
                         </div>
-                        <?php 
-                            if($main_category == 1){
-                                ?>
-                                 <div class="attention">
+                        <?php
+                        if ($main_category == 1) {
+                        ?>
+                            <div class="attention">
                                 <h3> تنويه </h3>
                                 <p> الصور المعروضة للمنتج هنا توضح مميزاتها وشكلها بعد زراعتها ورعايتها وتقديم كامل احتياجاتها كما هو موضح في وصف النبتة، وبإمكانكم الحصول على تفاصيل أكثر من خلال دعم خبرائنا المجاني . </p>
                             </div>
-                                <?php
-                            }
-                            ?>
+                        <?php
+                        }
+                        ?>
                         <div class="faq">
                             <?php
                             // get product faqs 
@@ -624,26 +626,25 @@ if (isset($_POST['add_to_fav'])) {
                                 <div class="colors">
                                     <?php
                                     if ($allpro_attibutes_count > 0) {
-                                        
+
                                         echo '<select class="form-control" name="vartion_select" required>';
                                         echo '<option value=""> "حدد احد الخيارات" </option>';
                                         foreach ($allpro_attibutes as $allpro_att) {
-                                            if($main_category == 1){
+                                            if ($main_category == 1) {
                                                 echo '<option value="' . $allpro_att['id'] . '" 
                                                     data-image="' . $allpro_att['image'] . '" 
                                                     data-price="' . ($allpro_att['price'] + ($allpro_att['price'] * 0.05)) . '" 
-                                                    id="' . $allpro_att['id'] . '">' 
-                                                    . $allpro_att['vartions_name'] . 
-                                                '</option>';
-                                            }else{
+                                                    id="' . $allpro_att['id'] . '">'
+                                                    . $allpro_att['vartions_name'] .
+                                                    '</option>';
+                                            } else {
                                                 echo '<option value="' . $allpro_att['id'] . '" 
                                                     data-image="' . $allpro_att['image'] . '" 
                                                     data-price="' . $allpro_att['price'] . '" 
-                                                    id="' . $allpro_att['id'] . '">' 
-                                                    . $allpro_att['vartions_name'] . 
-                                                '</option>';
+                                                    id="' . $allpro_att['id'] . '">'
+                                                    . $allpro_att['vartions_name'] .
+                                                    '</option>';
                                             }
-                                            
                                         }
                                         echo '</select>';
                                         echo '<div>';
@@ -652,7 +653,7 @@ if (isset($_POST['add_to_fav'])) {
                                             echo '<span class="text-bold" id="selected_price">0.00 ر.س</span>';
                                             echo '<input id="price_value" type="hidden" name="select_price" value="' . $allpro_att['price'] . '">';
                                         } else {
-                                            if($main_category == 1){
+                                            if ($main_category == 1) {
                                                 $product_data_price = $product_data['price'];
                                                 $product_data_price += $product_data_price * 0.05;
                                             }
@@ -710,7 +711,7 @@ if (isset($_POST['add_to_fav'])) {
                                                             <input style="display: none;" class="select_gift" value="<?php echo $gift['id'] ?>" type="radio" name="gift_id" id="<?php echo $gift['id']; ?>">
                                                             <label class="diffrent_price gifts" for="<?php echo $gift['id']; ?>">
                                                                 <div>
-                                                                    <img loading="lazy" src="https://www.mshtly.com/admin/gifts/images/<?php echo $gift['image']; ?>" alt="التغليف كهدية">
+                                                                    <!-- <img loading="lazy" src="https://www.mshtly.com/admin/gifts/images/<?php echo $gift['image']; ?>" alt="التغليف كهدية"> -->
                                                                 </div>
                                                                 <div>
                                                                     <p> يكتب هنا اسم ووصف التغليف <br><span> <?php echo $gift['price'] ?> ريال </span> </p>
@@ -800,18 +801,18 @@ if (isset($_POST['add_to_fav'])) {
                                     <?php
                                     // } else {
                                     ?>
-                                     <?php 
-                                        if($product_status_store !=1){
-                                            ?>
-                                           <p class='btn global_button'> المنتج غير متوفر  </p>
-                                            <?php 
-                                        }else{
-                                            ?>
-                                             <button class="btn global_button cart" name="add_to_cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt="سلة الشراء"> أضف الي السلة </button>
-                                            <?php 
-                                        }
-                                        ?>
-                                        
+                                    <?php
+                                    if ($product_status_store != 1) {
+                                    ?>
+                                        <p class='btn global_button'> المنتج غير متوفر </p>
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <button class="btn global_button cart" name="add_to_cart"> <img loading="lazy" src="<?php echo $uploads ?>/shopping-cart-2.png" alt="سلة الشراء"> أضف الي السلة </button>
+                                    <?php
+                                    }
+                                    ?>
+
                                     <!-- <button class="btn wishlist" name="add_to_wishlist"> <img loading="lazy" src="<?php echo $uploads ?>/heart.png" alt="المفضلة"> أضف الي المفضلة </button> -->
                                 </div>
                             </div>
@@ -822,10 +823,10 @@ if (isset($_POST['add_to_fav'])) {
                     <div class="product_description">
                         <h3> وصف المنتج </h3>
 
-                        <?php 
-                          //  $product_desc = $product_data['description'];
-                            if($description_status == 1){
-                                $parts = preg_split('/<h2.*?>/', $product_desc, 2, PREG_SPLIT_NO_EMPTY);
+                        <?php
+                        //  $product_desc = $product_data['description'];
+                        if ($description_status == 1) {
+                            $parts = preg_split('/<h2.*?>/', $product_desc, 2, PREG_SPLIT_NO_EMPTY);
                             $intro = isset($parts[0]) ? trim($parts[0]) : ''; // المقدمة
 
                             // استخراج العناوين <h2> والمحتوى الذي يليها
@@ -838,7 +839,7 @@ if (isset($_POST['add_to_fav'])) {
                                 $content = trim($match[2]); // المحتوى التابع للعنوان
                                 $tabData[] = ['title' => $title, 'content' => $content];
                             }
-                            ?>
+                        ?>
 
                             <!-- عرض مقدمة المنتج إن وجدت -->
                             <?php if (!empty($intro)) : ?>
@@ -861,74 +862,74 @@ if (isset($_POST['add_to_fav'])) {
                                     </div>
                                 <?php endforeach; ?>
                             </div>
-                            <?php 
-                            }else{
+                        <?php
+                        } else {
+                        ?>
+                            <p id="product_desc">
+                                <?php
+                                $description_words = explode(' ', $product_desc);
+                                $first_30_words = implode(' ', array_slice($description_words, 0, 60));
+                                $remaining_words = implode(' ', array_slice($description_words, 60));
                                 ?>
-                                <p id="product_desc">
-                            <?php 
-                            $description_words = explode(' ', $product_desc);
-                            $first_30_words = implode(' ', array_slice($description_words, 0, 60)); 
-                            $remaining_words = implode(' ', array_slice($description_words, 60)); 
-                            ?>
                             <div class="short-desc"><?php echo $first_30_words; ?>...</div>
                             <div class="full-desc" style="display: none;"><?php echo $remaining_words; ?></div>
                             <a href="javascript:void(0);" id="toggleDescription" class="toggle-btn"> قراءة المزيد </a>
-                        </p>
-                                <?php 
-                            }
-                            ?>
- 
-                        
+                            </p>
+                        <?php
+                        }
+                        ?>
+
+
                     </div>
                     <div class="writer_info">
 
-                            <?php 
-                            if($writer_id != ''){
+                        <?php
+                        if ($writer_id != '') {
                             $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
                             $stmt->execute(array($writer_id));
                             $writer = $stmt->fetch();
-                            ?>
+                        ?>
 
-                        <a href="https://www.localhost/mashtly/writer-info?username=<?php echo $writer['username']; ?>">
-                        <div class="writer_info_item">
-                            <p> <i class="bi bi-pencil-square"></i> الكاتب  </p>
-                            <p> <?php echo $writer['username']; ?> </p>
-                        </div>
-                        </a>
-                        <?php 
+                            <a href="https://www.localhost/mashtly/writer-info?username=<?php echo $writer['username']; ?>">
+                                <div class="writer_info_item">
+                                    <p> <i class="bi bi-pencil-square"></i> الكاتب </p>
+                                    <p> <?php echo $writer['username']; ?> </p>
+                                </div>
+                            </a>
+                        <?php
                         }
                         ?>
-                        <?php 
-                        if($reviewer_id != ''){
-                        $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
-                        $stmt->execute(array($reviewer_id));
-                        $reviewer = $stmt->fetch();
+                        <?php
+                        if ($reviewer_id != '') {
+                            $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
+                            $stmt->execute(array($reviewer_id));
+                            $reviewer = $stmt->fetch();
                         ?>
-                        <a href="https://www.localhost/mashtly/writer-info?username=<?php echo $reviewer['username']; ?>"> 
-                        <div class="writer_info_item">
-                            <p> <i class="bi bi-pencil-square"></i> المراجع  </p>
-                            <p> <?php echo $reviewer['username']; ?> </p>
-                        </div>
-                        </a>
-                        <?php 
+                            <a href="https://www.localhost/mashtly/writer-info?username=<?php echo $reviewer['username']; ?>">
+                                <div class="writer_info_item">
+                                    <p> <i class="bi bi-pencil-square"></i> المراجع </p>
+                                    <p> <?php echo $reviewer['username']; ?> </p>
+                                </div>
+                            </a>
+                        <?php
                         }
                         ?>
-                        <?php 
-                        if($supervisor_id != ''){
-                        $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
-                        $stmt->execute(array($supervisor_id));
-                        $supervisor = $stmt->fetch();
+                        <?php
+                        if ($supervisor_id != '') {
+                            $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
+                            $stmt->execute(array($supervisor_id));
+                            $supervisor = $stmt->fetch();
                         ?>
-                        <a href="https://www.localhost/mashtly/writer-info?username=<?php echo $supervisor['username']; ?>"> 
-                        <div class="writer_info_item">
-                            <p> <i class="bi bi-pencil-square"></i> المشرف  </p>
-                            <p> <?php echo $supervisor['username']; ?> </p>
-                        </div>
-                        </a>
-                        <?php 
+                            <a href="https://www.localhost/mashtly/writer-info?username=<?php echo $supervisor['username']; ?>">
+                                <div class="writer_info_item">
+                                    <p> <i class="bi bi-pencil-square"></i> المشرف </p>
+                                    <p> <?php echo $supervisor['username']; ?> </p>
+                                </div>
+                            </a>
+                        <?php
                         }
                         ?>
-                      </div>
+                    </div>
                     <div class="social_share">
                         <div>
                             <p> شارك عبر </p>
@@ -946,21 +947,21 @@ if (isset($_POST['add_to_fav'])) {
                         <script async src="https://static.addtoany.com/menu/page.js"></script>
                         <!-- AddToAny END -->
                     </div>
-                    <?php 
-                            if($main_category == 1){
-                                ?> 
-                                <div class="product">
-                                <div class="product_info">
-                                 <div class="attention">
-                                <h3> تنويه </h3>
-                                <p> الصور المعروضة للمنتج هنا توضح مميزاتها وشكلها بعد زراعتها ورعايتها وتقديم كامل احتياجاتها كما هو موضح في وصف النبتة، وبإمكانكم الحصول على تفاصيل أكثر من خلال دعم خبرائنا المجاني . </p>
+                    <?php
+                    if ($main_category == 1) {
+                    ?>
+                        <div class="product">
+                            <div class="product_info">
+                                <div class="attention">
+                                    <h3> تنويه </h3>
+                                    <p> الصور المعروضة للمنتج هنا توضح مميزاتها وشكلها بعد زراعتها ورعايتها وتقديم كامل احتياجاتها كما هو موضح في وصف النبتة، وبإمكانكم الحصول على تفاصيل أكثر من خلال دعم خبرائنا المجاني . </p>
                                 </div>
-                                </div>
-                                </div>
-                            
-                                <?php
-                            }
-                            ?>
+                            </div>
+                        </div>
+
+                    <?php
+                    }
+                    ?>
                     <div class="faq">
                         <?php
                         // get product faqs 
@@ -995,54 +996,54 @@ if (isset($_POST['add_to_fav'])) {
     </div>
 </div>
 <!-- START NEWWER PRODUCTS -->
- 
- 
-<!-- END NEWWER PRODUCTS  -->
-                        <!-- Start Related Products   -->
-                         <?php
-                         if (!empty($related_products)) {
-                         ?>
-  <div class="new_producs index_all_cat">
-    <div class="container">
-        <div class="data" style="box-shadow: none;">
-            <div class="data_header">
-                <div class="data_header_name">
-                    <h2 class='header2' style="margin-right:0"> المنتجات المرتبطة  </h2>
-                </div>
-            </div>
-            <div class="row">
-                <?php  
-                           //  $related_product = array_filter(explode(',', $related_product), fn($id) => is_numeric($id));
 
-                        //    echo $related_products;
-                        //      $related_product = explode(',', $related_product);
-                        //     var_dump($related_product);
-                             if (!empty($related_product)) {
-                                $placeholders = implode(',', array_fill(0, count($related_product), '?'));
-                                $stmt = $connect->prepare("SELECT * FROM products WHERE id IN ($placeholders)");
-                                $stmt->execute($related_product);
-                                $allrelatedproducts = $stmt->fetchAll();
-                            
-                                if (!empty($allrelatedproducts)) {
-                                    foreach ($allrelatedproducts as $product) {
-                                        ?>
-                                        <div class="col-lg-3 col-6">
-                                            <?php include 'tempelate/product.php'; ?>
-                                        </div>
-                                        <?php
-                                    }
-                                }
+
+<!-- END NEWWER PRODUCTS  -->
+<!-- Start Related Products   -->
+<?php
+if (!empty($related_products)) {
+?>
+    <div class="new_producs index_all_cat">
+        <div class="container">
+            <div class="data" style="box-shadow: none;">
+                <div class="data_header">
+                    <div class="data_header_name">
+                        <h2 class='header2' style="margin-right:0"> المنتجات المرتبطة </h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <?php
+                    //  $related_product = array_filter(explode(',', $related_product), fn($id) => is_numeric($id));
+
+                    //    echo $related_products;
+                    //      $related_product = explode(',', $related_product);
+                    //     var_dump($related_product);
+                    if (!empty($related_product)) {
+                        $placeholders = implode(',', array_fill(0, count($related_product), '?'));
+                        $stmt = $connect->prepare("SELECT * FROM products WHERE id IN ($placeholders)");
+                        $stmt->execute($related_product);
+                        $allrelatedproducts = $stmt->fetchAll();
+
+                        if (!empty($allrelatedproducts)) {
+                            foreach ($allrelatedproducts as $product) {
+                    ?>
+                                <div class="col-lg-3 col-6">
+                                    <?php include 'tempelate/product.php'; ?>
+                                </div>
+                    <?php
                             }
- 
-                         
-                         ?>
+                        }
+                    }
+
+
+                    ?>
+                </div>
             </div>
         </div>
     </div>
-</div>
 <?php }
 ?>
-                        <!--  End Related Products   -->
+<!--  End Related Products   -->
 <!-- START NEWWER PRODUCTS -->
 <!-- <div class="new_producs index_all_cat">
     <div class="container">
@@ -1065,7 +1066,7 @@ if (isset($_POST['add_to_fav'])) {
                         ?>
                     </div>
                 <?php
-               // }
+                // }
                 ?>
             </div>
         </div>
@@ -1086,7 +1087,7 @@ if (isset($_POST['add_to_fav'])) {
         }
     }
 </style>
- 
+
 <!-- END NEWWER PRODUCTS  -->
 <?php
 
@@ -1186,22 +1187,22 @@ ob_end_flush();
         mainSlides[mainIndex].style.display = 'block';
 
         // تنفيذ الشريط المصغر
-         if (thumbnailSelect) {
-        thumbnailSelect.addEventListener('change', function() {
-            let selectedIndex = thumbnailSelect.selectedIndex;
-            mainSlides[mainIndex].style.display = 'none';
-            mainIndex = selectedIndex;
-            mainSlides[mainIndex].style.display = 'block';
+        if (thumbnailSelect) {
+            thumbnailSelect.addEventListener('change', function() {
+                let selectedIndex = thumbnailSelect.selectedIndex;
+                mainSlides[mainIndex].style.display = 'none';
+                mainIndex = selectedIndex;
+                mainSlides[mainIndex].style.display = 'block';
 
-            // تحديث الصورة الخلفية
-            const selectedImage = thumbnailSelect.options[selectedIndex].getAttribute('data-image');
-            if (selectedImage) {
-                mainSlides[mainIndex].style.backgroundImage = 'url(https://mshtly.com/uploads/products/' + selectedImage + ')';
-                const mainImageSlide = mainSlides[mainIndex].querySelector('img');
-                mainImageSlide.src = 'https://mshtly.com/uploads/products/' + selectedImage;
-            }
-        });
-         }
+                // تحديث الصورة الخلفية
+                const selectedImage = thumbnailSelect.options[selectedIndex].getAttribute('data-image');
+                if (selectedImage) {
+                    mainSlides[mainIndex].style.backgroundImage = 'url(https://mshtly.com/uploads/products/' + selectedImage + ')';
+                    const mainImageSlide = mainSlides[mainIndex].querySelector('img');
+                    mainImageSlide.src = 'https://mshtly.com/uploads/products/' + selectedImage;
+                }
+            });
+        }
         //////////////
         thumbnailImages.forEach(thumbnailImage => {
             thumbnailImage.addEventListener('click', function() {
@@ -1228,7 +1229,7 @@ ob_end_flush();
             const selectedOption = vartionSelect.options[vartionSelect.selectedIndex];
             const selectedPrice = selectedOption.getAttribute('data-price');
             if (selectedPrice !== undefined) {
-                selectedPriceElement.textContent = selectedPrice  + 'ر.س';
+                selectedPriceElement.textContent = selectedPrice + 'ر.س';
                 priceValueInput.value = selectedPrice;
             } else {
                 selectedPriceElement.textContent = '0.00 ر.س';
@@ -1238,7 +1239,7 @@ ob_end_flush();
     });
 </script>
 
- 
+
 <!-- To Make Slider To Product Images  -->
 <script>
     $('.gallery-lb').each(function() { // the containers for all your galleries
@@ -1255,7 +1256,7 @@ ob_end_flush();
 </script>
 
 <script>
-    document.getElementById('toggleDescription').addEventListener('click', function () {
+    document.getElementById('toggleDescription').addEventListener('click', function() {
         const shortDesc = document.querySelector('.short-desc');
         const fullDesc = document.querySelector('.full-desc');
         if (shortDesc.style.display === 'none') {
@@ -1277,7 +1278,7 @@ ob_end_flush();
         let button = document.querySelectorAll(".tab-button")[index];
         let content = document.getElementById("tab" + index);
         let content_mobile = document.getElementById("tab_mobile" + index);
-        
+
         if (content.style.display === "block" || content_mobile.style.display === "block") {
             content.style.display = "none";
             content_mobile.style.display = "none";

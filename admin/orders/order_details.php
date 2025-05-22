@@ -2,6 +2,7 @@
   .nav-tabs .nav-link.active {
     color: #111 !important;
   }
+  
 </style>
 <?php
 if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
@@ -17,7 +18,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
   $items_count = $stmt->rowCount();
   // get order attachment 
   // get order process
-?>
+  ?>
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <div class="container-fluid">
@@ -44,13 +45,13 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
   if (isset($_SESSION['success_message'])) {
     $message = $_SESSION['success_message'];
     unset($_SESSION['success_message']);
-  ?>
+    ?>
     <?php
     ?>
     <script src="plugins/jquery/jquery.min.js"></script>
     <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
     <script>
-      $(function() {
+      $(function () {
         Swal.fire({
           position: 'center',
           icon: 'success',
@@ -64,12 +65,12 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
   } elseif (isset($_SESSION['error_messages'])) {
     $formerror = $_SESSION['error_messages'];
     foreach ($formerror as $error) {
-    ?>
+      ?>
       <div class="alert alert-danger alert-dismissible" style="max-width: 800px; margin:20px">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <?php echo $error; ?>
       </div>
-  <?php
+      <?php
     }
     unset($_SESSION['error_messages']);
   }
@@ -82,46 +83,57 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
             <div class="card-header p-0 pt-1">
               <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true"> معلومات العميل </a>
+                  <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home"
+                    role="tab" aria-controls="custom-tabs-one-home" aria-selected="true"> معلومات العميل </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false"> تفاصيل الطلب </a>
+                  <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile"
+                    role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false"> تفاصيل الطلب </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-order_status" role="tab" aria-controls="custom-tabs-one-order_status" aria-selected="false"> حاله الطلب </a>
+                  <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill"
+                    href="#custom-tabs-one-order_status" role="tab" aria-controls="custom-tabs-one-order_status"
+                    aria-selected="false"> حاله الطلب </a>
                 </li>
                 <!-- <li class="nav-item">
                   <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false"> العمليات علي الطلب </a>
                 </li> -->
- 
+
                 <li class="nav-item">
-                  <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false"> المرفقات </a>
+                  <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill"
+                    href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings"
+                    aria-selected="false"> المرفقات </a>
                 </li>
-           
+
               </ul>
             </div>
             <div class="card-body">
               <div class="tab-content" id="custom-tabs-one-tabContent">
-                <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel"
+                  aria-labelledby="custom-tabs-one-home-tab">
                   <!-- START USER ORDER  -->
                   <form action="" method="post">
                     <div class="row">
                       <div class="col-lg-6">
                         <div class="form-group">
                           <label for="inputName"> الأسم </label>
-                          <input required type="text" id="name" name="name" class="form-control" value="<?php echo $order_data['name']; ?>">
+                          <input required type="text" id="name" name="name" class="form-control"
+                            value="<?php echo $order_data['name']; ?>">
                         </div>
                         <div class="form-group">
                           <label for="inputName"> البريد الألكتروني </label>
-                          <input required type="text" id="email" name="email" class="form-control" value="<?php echo $order_data['email']; ?>">
+                          <input required type="text" id="email" name="email" class="form-control"
+                            value="<?php echo $order_data['email']; ?>">
                         </div>
                         <div class="form-group">
                           <label for="inputName"> رقم الهاتف </label>
-                          <input required type="text" id="phone" name="phone" class="form-control" value="<?php echo $order_data['phone']; ?>">
+                          <input required type="text" id="phone" name="phone" class="form-control"
+                            value="<?php echo $order_data['phone']; ?>">
                         </div>
                         <div class="form-group">
                           <label for="inputName"> المنطقة </label>
-                          <input required type="text" id="area" name="area" class="form-control" value="<?php echo $order_data['area']; ?>">
+                          <input required type="text" id="area" name="area" class="form-control"
+                            value="<?php echo $order_data['area']; ?>">
                         </div>
                         <!--
                         <div class="form-group">
@@ -131,7 +143,8 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
 -->
                         <div class="form-group">
                           <label for="inputName"> الشارع او الحي </label>
-                          <input required type="text" id="address" name="address" class="form-control" value="<?php echo $order_data['address']; ?>">
+                          <input required type="text" id="address" name="address" class="form-control"
+                            value="<?php echo $order_data['address']; ?>">
                         </div>
                       </div>
                       <div class="col-lg-6">
@@ -140,11 +153,13 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                         </div>
                         <div class="form-group">
                           <label for="inputName"> الأسم </label>
-                          <input required type="text" id="ship_name" name="ship_name" class="form-control" value="<?php echo $order_data['ship_name']; ?>">
+                          <input required type="text" id="ship_name" name="ship_name" class="form-control"
+                            value="<?php echo $order_data['ship_name']; ?>">
                         </div>
                         <div class="form-group">
                           <label for="inputName"> رقم الهاتف </label>
-                          <input required type="text" id="ship_phone" name="ship_phone" class="form-control" value="<?php echo $order_data['ship_phone']; ?>">
+                          <input required type="text" id="ship_phone" name="ship_phone" class="form-control"
+                            value="<?php echo $order_data['ship_phone']; ?>">
                         </div>
                         <?php
                         if (!empty($order_data['ship_area'])) {
@@ -152,19 +167,20 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                           $stmt = $connect->prepare("SELECT * FROM area WHERE id=?");
                           $stmt->execute(array($ship_area));
                           $ship_area_data = $stmt->fetch();
-                        ?>
+                          ?>
                           <div class="form-group">
                             <label for="inputName"> المنطقة </label>
-                            <input required type="text" id="ship_area" name="ship_area" class="form-control" value="<?php echo $ship_area_data['name']; ?>">
+                            <input required type="text" id="ship_area" name="ship_area" class="form-control"
+                              value="<?php echo $ship_area_data['name']; ?>">
                           </div>
-                        <?php
+                          <?php
                         } else {
-                        ?>
+                          ?>
                           <div class="form-group">
                             <label for="inputName"> المنطقة </label>
                             <input required type="text" id="ship_area" name="ship_area" class="form-control" value="">
                           </div>
-                        <?php
+                          <?php
                         }
 
                         ?>
@@ -177,7 +193,8 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
 -->
                         <div class="form-group">
                           <label for="inputName"> الشارع او الحي </label>
-                          <input required type="text" id="ship_address" name="ship_address" class="form-control" value="<?php echo $order_data['ship_address']; ?>">
+                          <input required type="text" id="ship_address" name="ship_address" class="form-control"
+                            value="<?php echo $order_data['ship_address']; ?>">
                         </div>
                         <!--
                         <div class="form-group">
@@ -190,7 +207,8 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
 
                   </form>
                 </div>
-                <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel"
+                  aria-labelledby="custom-tabs-one-profile-tab">
                   <form action="" method="post">
                     <div class="row">
                       <div class="col-lg-6">
@@ -201,22 +219,24 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                             $stmt->execute(array($order_details['product_id']));
                             $product_data = $stmt->fetch();
                             // get the product image 
-
+                        
                             $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id=?");
                             $stmt->execute(array($product_data['id']));
                             $image_data = $stmt->fetch();
                             $product_image = $image_data['main_image'];
-                          ?>
+                            ?>
                             <div class="row">
                               <div class="col-lg-2">
                                 <div class="form-group">
-                                  <img style="width: 80px; height:80px;" src="product_images/<?php echo $product_image; ?>" alt="">
+                                  <img style="width: 80px; height:80px;" src="product_images/<?php echo $product_image; ?>"
+                                    alt="">
                                 </div>
                               </div>
                               <div class="col-lg-10">
                                 <div class="form-group">
                                   <label for="inputStatus"> اسم المنتج </label>
-                                  <input type="text" name="pro_name" class="form-control" value="<?php echo $product_data['name']; ?>">
+                                  <input type="text" name="pro_name" class="form-control"
+                                    value="<?php echo $product_data['name']; ?>">
                                 </div>
                               </div>
                             </div>
@@ -224,19 +244,22 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                               <div class="col-4">
                                 <div class="form-group">
                                   <label for="inputName"> العدد </label>
-                                  <input required type="text" id="product_qty" name="product_qty" class="form-control" value="<?php echo $order_details['qty']; ?>">
+                                  <input required type="text" id="product_qty" name="product_qty" class="form-control"
+                                    value="<?php echo $order_details['qty']; ?>">
                                 </div>
                               </div>
                               <div class="col-4">
                                 <div class="form-group">
                                   <label for="inputName"> سعر المنتج </label>
-                                  <input required type="text" id="product_qty" name="product_qty" class="form-control" value="<?php echo $order_details['product_price']; ?>">
+                                  <input required type="text" id="product_qty" name="product_qty" class="form-control"
+                                    value="<?php echo $order_details['product_price']; ?>">
                                 </div>
                               </div>
                               <div class="col-4">
                                 <div class="form-group">
                                   <label for="inputName"> المجموع الفرعي </label>
-                                  <input required type="text" id="sale_price" name="sale_price" class="form-control" value="<?php echo $order_details['product_price'] * $order_details['qty']; ?>">
+                                  <input required type="text" id="sale_price" name="sale_price" class="form-control"
+                                    value="<?php echo $order_details['product_price'] * $order_details['qty']; ?>">
                                 </div>
                               </div>
                               <?php
@@ -245,7 +268,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                               $stmt->execute(array($order_details['more_details']));
                               $more_details_data = $stmt->fetch();
                               $more_detail_name = $more_details_data['vartions_name']
-                              ?>
+                                ?>
                               <p class="badge badge-danger"><?php echo $more_detail_name; ?></p>
                               <br>
                               <p style="display: block; width: 100%;"> امكانية الزراعه ::
@@ -253,22 +276,23 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                                   echo "لا";
                                 } else {
                                   echo "نعم ";
-                                } ?> </p>
+                                } ?>
+                              </p>
                               <?php
                               if ($order_details['as_present'] != null) {
-                              ?>
+                                ?>
                                 <p> الهدية : <?php
-                                              $stmt = $connect->prepare("SELECT * FROM gifts WHERE id = ?");
-                                              $stmt->execute(array($order_details['as_present']));
-                                              $gift_data = $stmt->fetch();
-                                              echo $gift_data['name']; ?></p>
-                              <?php
+                                $stmt = $connect->prepare("SELECT * FROM gifts WHERE id = ?");
+                                $stmt->execute(array($order_details['as_present']));
+                                $gift_data = $stmt->fetch();
+                                echo $gift_data['name']; ?></p>
+                                <?php
                               }
 
                               ?>
                             </div>
                             <hr>
-                          <?php
+                            <?php
                           }
                           ?>
                         </div>
@@ -276,7 +300,8 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                       <div class="col-lg-6">
                         <div class="form-group">
                           <label for="description"> ملاحظات</label>
-                          <textarea id="order_details" name="order_details" class="form-control" rows="3"><?php echo $order_data['order_details']; ?></textarea>
+                          <textarea id="order_details" name="order_details" class="form-control"
+                            rows="3"><?php echo $order_data['order_details']; ?></textarea>
                         </div>
                         <div class="form-group">
                           <p class="badge badge-warning" style="font-size: 16px;"> عدد المنتجات ::: </p>
@@ -294,7 +319,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                         </div>
                         <?php
                         if ($order_data['coupon_code'] != '') {
-                        ?>
+                          ?>
                           <div class="form-group">
                             <p class="badge badge-danger" style="font-size: 16px;"> كوبون الخصم ::: </p>
                             <span> <strong> <?php echo $order_data['coupon_code']; ?> </strong> </span>
@@ -303,7 +328,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                             <p class="badge badge-danger" style="font-size: 16px;"> قيمه الخصم ::: </p>
                             <span> <strong> <?php echo $order_data['discount_value']; ?> </strong> ريال </span>
                           </div>
-                        <?php
+                          <?php
                         }
                         ?>
 
@@ -316,14 +341,15 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
 
                   </form>
                 </div>
-                <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+                <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel"
+                  aria-labelledby="custom-tabs-one-messages-tab">
                   <div class="row">
                     <div class="col-12">
                       <div class="card">
                         <?php
                         if (isset($_SESSION['admin_username'])) { ?>
                           <!-- <button type="button" class="btn btn-warning waves-effect" data-toggle="modal" data-target="#add-Modal"> اضافة عملية جديدة علي الطلب <i class="fa fa-plus"></i> </button> -->
-                        <?php
+                          <?php
                         }
                         ?>
                         <div class="card-body">
@@ -353,52 +379,60 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                                 $i = 0;
                                 foreach ($allsteps as $step) {
                                   $i++;
-                                ?>
+                                  ?>
                                   <tr>
                                     <td> <?php echo $i; ?> </td>
-                                    <td> <?php echo  $step['order_number']; ?> </td>
-                                    <td> <span class="badge badge-danger"> <?php echo  $step['step_name']; ?> </span> </td>
-                                    <td> <?php echo  $step['date']; ?> </td>
-                                    <td> <span class="badge badge-info"> <?php echo  $step['step_status']; ?> </span> </td>
+                                    <td> <?php echo $step['order_number']; ?> </td>
+                                    <td> <span class="badge badge-danger"> <?php echo $step['step_name']; ?> </span> </td>
+                                    <td> <?php echo $step['date']; ?> </td>
+                                    <td> <span class="badge badge-info"> <?php echo $step['step_status']; ?> </span> </td>
                                     <?php
                                     $stmt = $connect->prepare("SELECT * FROM employes WHERE id = ?");
                                     $stmt->execute(array($step['username']));
                                     $user_data = $stmt->fetch();
                                     ?>
-                                    <td> <?php echo  $user_data['username']; ?> </td>
+                                    <td> <?php echo $user_data['username']; ?> </td>
                                     <td>
                                       <?php
                                       if (isset($_SESSION['admin_username'])) {
-                                      ?>
+                                        ?>
                                         <!--   <a href="main.php?dir=orders&page=order_details&order_id=<?php echo $step['id']; ?>" class="btn btn-success waves-effect btn-sm"> متابعة العملية <i class='fa fa-eye'></i></a> -->
                                         <?php
                                       } elseif (isset($_SESSION['username'])) {
                                         if ($user_data['role_name'] == 'التواصل') {
-                                        ?>
-                                          <a href="main.php?dir=orders&page=edit_step&step_id=<?php echo $step['id']; ?>" class="btn btn-info waves-effect btn-sm"> متابعه التواصل مع العميل <i class='fa fa-eye'></i></a>
-                                        <?php
+                                          ?>
+                                          <a href="main.php?dir=orders&page=edit_step&step_id=<?php echo $step['id']; ?>"
+                                            class="btn btn-info waves-effect btn-sm"> متابعه التواصل مع العميل <i
+                                              class='fa fa-eye'></i></a>
+                                          <?php
                                         } elseif ($user_data['role_name'] == 'التجهيز') {
-                                        ?>
-                                          <a href="main.php?dir=orders&page=prepare_order&step_id=<?php echo $step['id']; ?>" class="btn btn-info waves-effect btn-sm"> تجهيز الطلب <i class='fa fa-eye'></i></a>
-                                        <?php
+                                          ?>
+                                          <a href="main.php?dir=orders&page=prepare_order&step_id=<?php echo $step['id']; ?>"
+                                            class="btn btn-info waves-effect btn-sm"> تجهيز الطلب <i class='fa fa-eye'></i></a>
+                                          <?php
                                         } elseif ($user_data['role_name'] == 'الجودة') {
-                                        ?>
-                                          <a href="main.php?dir=orders&page=quality_order&step_id=<?php echo $step['id']; ?>" class="btn btn-info waves-effect btn-sm"> ملاحظات الجودة <i class='fa fa-eye'></i></a>
-                                        <?php
+                                          ?>
+                                          <a href="main.php?dir=orders&page=quality_order&step_id=<?php echo $step['id']; ?>"
+                                            class="btn btn-info waves-effect btn-sm"> ملاحظات الجودة <i
+                                              class='fa fa-eye'></i></a>
+                                          <?php
                                         } elseif ($user_data['role_name'] == 'التوصيل') {
-                                        ?>
-                                          <a href="main.php?dir=orders&page=order_delivery&step_id=<?php echo $step['id']; ?>" class="btn btn-info waves-effect btn-sm"> توصيل واتمام الطلب <i class='fa fa-eye'></i></a>
-                                        <?php
+                                          ?>
+                                          <a href="main.php?dir=orders&page=order_delivery&step_id=<?php echo $step['id']; ?>"
+                                            class="btn btn-info waves-effect btn-sm"> توصيل واتمام الطلب <i
+                                              class='fa fa-eye'></i></a>
+                                          <?php
                                         } elseif ($user_data['role_name'] == 'المحاسبة') {
-                                        ?>
-                                          <a href="main.php?dir=orders&page=accounting&step_id=<?php echo $step['id']; ?>" class="btn btn-info waves-effect btn-sm"> المحاسبة <i class='fa fa-eye'></i></a>
-                                      <?php
+                                          ?>
+                                          <a href="main.php?dir=orders&page=accounting&step_id=<?php echo $step['id']; ?>"
+                                            class="btn btn-info waves-effect btn-sm"> المحاسبة <i class='fa fa-eye'></i></a>
+                                          <?php
                                         }
                                       }
                                       ?>
                                     </td>
                                   </tr>
-                                <?php
+                                  <?php
                                 }
                                 ?>
                             </table>
@@ -418,7 +452,8 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                             <div class="modal-body">
                               <div class="form-group">
                                 <input type="hidden" name="order_id" value="<?php echo $order_id ?>">
-                                <input type="hidden" name="order_number" value="<?php echo $order_data['order_number']; ?>">
+                                <input type="hidden" name="order_number"
+                                  value="<?php echo $order_data['order_number']; ?>">
                                 <label for="Company-2" class="block"> الموظف </label>
                                 <select required class='form-control select2' name='username'>
                                   <option value=""> -- اختر -- </option>
@@ -427,9 +462,9 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                                   $stmt->execute();
                                   $allemp = $stmt->fetchAll();
                                   foreach ($allemp as $emp) {
-                                  ?>
+                                    ?>
                                     <option value="<?php echo $emp['id']; ?>"> <?php echo $emp['username'] ?> </option>
-                                  <?php
+                                    <?php
                                   }
                                   ?>
                                 </select>
@@ -446,8 +481,10 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                               </div>
                             </div>
                             <div class="modal-footer">
-                              <button type="submit" name="add_cat" class="btn btn-primary waves-effect waves-light "> حفظ </button>
-                              <button type="button" class="btn btn-default waves-effect " data-dismiss="modal"> رجوع </button>
+                              <button type="submit" name="add_cat" class="btn btn-primary waves-effect waves-light "> حفظ
+                              </button>
+                              <button type="button" class="btn btn-default waves-effect " data-dismiss="modal"> رجوع
+                              </button>
                             </div>
                           </form>
                         </div>
@@ -455,7 +492,8 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                     </div>
                   </div>
                 </div>
-                <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+                <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel"
+                  aria-labelledby="custom-tabs-one-settings-tab">
                   <table class="table table-bordered">
                     <thead>
                       <h6 class="badge badge-warning"> فاتورة الطلب </h6>
@@ -467,8 +505,10 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                     <tbody>
                       <tr>
                         <td> <?php echo $order_data['order_number']; ?> </td>
-                        <td> <a href="main.php?dir=orders&page=order_invoice&order_id=<?php echo $order_id; ?>" class="btn btn-primary btn-sm"> مشاهدة الفاتورة <i class="fa fa-file-invoice"></i> </a> </td>
-                        <td> <a href="main.php?dir=orders&page=order_qrcode&order_id=<?php echo $order_id; ?>" class="btn btn-primary btn-sm"> ملصقات الطلب  <i class="fa fa-file-invoice"></i> </a> </td>
+                        <td> <a href="main.php?dir=orders&page=order_invoice&order_id=<?php echo $order_id; ?>"
+                            class="btn btn-primary btn-sm"> مشاهدة الفاتورة <i class="fa fa-file-invoice"></i> </a> </td>
+                        <td> <a href="main.php?dir=orders&page=order_qrcode&order_id=<?php echo $order_id; ?>"
+                            class="btn btn-primary btn-sm"> ملصقات الطلب <i class="fa fa-file-invoice"></i> </a> </td>
                       </tr>
                     </tbody>
                   </table>
@@ -503,7 +543,8 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                     </tbody>
                   </table> -->
                 </div>
-                <div class="tab-pane fade" id="custom-tabs-one-order_status" role="tabpanel" aria-labelledby="custom-tabs-one-order_status-tab">
+                <div class="tab-pane fade" id="custom-tabs-one-order_status" role="tabpanel"
+                  aria-labelledby="custom-tabs-one-order_status-tab">
 
                   <?php
                   // get all order status and the last status 
@@ -512,7 +553,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                   $count_order_status = $stmt->rowCount();
                   $order_status = $stmt->fetchAll();
                   if ($count_order_status > 0) {
-                  ?>
+                    ?>
                     <table class="table table-bordered">
                       <thead>
                         <tr>
@@ -523,18 +564,18 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                       <tbody>
                         <?php
                         foreach ($order_status as $status) {
-                        ?>
+                          ?>
                           <tr>
                             <td> <?php echo $status['change_date'] ?> </td>
                             <td> <?php echo $status['status'] ?> </td>
                           </tr>
-                        <?php
+                          <?php
                         }
                         ?>
                         <tr></tr>
                       </tbody>
                     </table>
-                  <?php
+                    <?php
                   }
                   ?>
                   <?php
@@ -549,13 +590,24 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                     <div class="form-group">
                       <label for=""> حاله الطلب الحاليه </label>
                       <select name="order_status" class="form-control select2" id="">
-                        <option <?php if ($status_data['status'] == 'لم يبدا' || $count_last_status == 0) echo "selected"; ?> value="لم يبدا"> لم يبدا </option>
-                        <option <?php if ($status_data['status'] == 'قيد الانتظار') echo 'selected'; ?> value="قيد الانتظار"> قيد الانتظار </option>
-                        <option <?php if ($status_data['status'] == 'قيد التنفيذ') echo 'selected'; ?> value="قيد التنفيذ"> قيد التنفيذ </option>
+                        <option <?php if ($status_data['status'] == 'لم يبدا' || $count_last_status == 0)
+                          echo "selected"; ?>
+                          value="لم يبدا"> لم يبدا </option>
+                        <option <?php if ($status_data['status'] == 'قيد الانتظار')
+                          echo 'selected'; ?>
+                          value="قيد الانتظار"> قيد الانتظار </option>
+                        <option <?php if ($status_data['status'] == 'قيد التنفيذ')
+                          echo 'selected'; ?> value="قيد التنفيذ">
+                          قيد التنفيذ </option>
 
-                        <option <?php if ($status_data['status'] == 'مكتمل') echo 'selected'; ?> value="مكتمل"> مكتمل </option>
-                        <option <?php if ($status_data['status'] == 'ملغي') echo 'selected'; ?> value="ملغي">ملغي</option>
-                        <option <?php if ($status_data['status'] == 'مسوده') echo 'selected'; ?> value="مسوده">مسوده</option>
+                        <option <?php if ($status_data['status'] == 'مكتمل')
+                          echo 'selected'; ?> value="مكتمل"> مكتمل
+                        </option>
+                        <option <?php if ($status_data['status'] == 'ملغي')
+                          echo 'selected'; ?> value="ملغي">ملغي</option>
+                        <option <?php if ($status_data['status'] == 'مسوده')
+                          echo 'selected'; ?> value="مسوده">مسوده
+                        </option>
                       </select>
                     </div>
                     <div class="form-group">
@@ -578,11 +630,29 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                       // change status in order 
                       $stmt = $connect->prepare("UPDATE orders SET status_value = ? WHERE id = ?");
                       $stmt->execute(array($order_status, $order_id));
-                      header("Location:main.php?dir=orders&page=order_details&order_id=" . $order_id);
-                  ?>
+
+                      ########### Google Sheet ###########
+                      // تحديث الحالة في Google Sheet
+                      $updateResult = updateOrderStatusInGoogleSheet($order_data['order_number'], $order_status);
+                      if ($updateResult) {
+                        echo "نجاح التحديث في Google Sheet";
+                        // نجاح التحديث في Google Sheet
+                        ?>
+                        <div class="alert alert-success"> تم تحديث حالة الطلب بنجاح في قاعدة البيانات و Google Sheet </div>
+                        <?php
+                      } else {
+                        echo "فشل التحديث في Google Sheet";
+                        // فشل التحديث في Google Sheet
+                        ?>
+                        <div class="alert alert-warning"> تم تحديث حالة الطلب في قاعدة البيانات، لكن فشل تحديث Google Sheet
+                        </div>
+                        <?php
+                      }
+                     // header("Location:main.php?dir=orders&page=order_details&order_id=" . $order_id);
+                      ?>
 
                       <div class="alert alert-danger"> تم اضافه الطلب بنجاح </div>
-                  <?php
+                      <?php
                     }
                   }
                   ?>
@@ -601,7 +671,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
 
     <!-- /.container-fluid -->
   </section>
-<?php
+  <?php
 } else {
   header('Location:main.php?dir=orders&page=report');
   exit();

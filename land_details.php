@@ -48,7 +48,7 @@ $land_id = $design_data['id'];
             <div class="landscap_details">
                 <div class="row">
                     <h6> نمط التصميم </h6>
-                    <img src="https://www.mshtly.com/admin/landscap/images/<?php echo $image ?>" alt="">
+                    <img src="https://www.mshtly.com/uploads/landscap/images/<?php echo $image ?>" alt="<?php echo $name ?>">
                 </div>
             </div>
             <div class="purches_header">
