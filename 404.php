@@ -12,7 +12,7 @@ include 'init.php';
                 <div class="info">
                     <img src="<?php echo $uploads ?>plant.png" alt="">
                     <br>
-                    <h3> لا يوجد سجل بهذة البيانات </h3>
+                    <h1 class="title" style="color: var(--main-color);font-size: 15px;font-weight: bold;"> لا يوجد سجل بهذة البيانات </h1>
                     <br>
                     
                     <a href="index" class="btn global_button"> الرئيسية </a>

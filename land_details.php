@@ -42,7 +42,7 @@ $land_id = $design_data['id'];
             </div>
             <div class="purches_header">
                 <div class="data_header_name">
-                    <h2 class='header2'> <?php echo $name ?> </h2>
+                    <h1 class='header2'> <?php echo $name ?> </h1>
                 </div>
             </div>
             <div class="landscap_details">

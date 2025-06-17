@@ -70,7 +70,7 @@ function updateOrderStatusInGoogleSheet($orderId, $newStatus)
         }
 
         // الحالة في العمود J (العمود العاشر)
-        $statusColumn = 'J';
+        $statusColumn = 'K';
         $updateRange = "orders_old!{$statusColumn}{$rowIndex}";
 
         // التحقق من القيمة الحالية قبل التحديث

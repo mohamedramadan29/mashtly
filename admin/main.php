@@ -301,6 +301,9 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
     } elseif ($dir == 'orders' && $page == 'pending') {
         include "orders/pending.php";
     }
+    elseif ($dir == 'orders' && $page == 'add_to_google_sheet') {
+        include "orders/add_to_google_sheet.php";
+    }
     // START employee
     if ($dir == 'employee' && $page == 'add') {
         include "employee/add.php";
@@ -514,6 +517,8 @@ if (!isset($_SESSION['admin_username']) && !isset($_SESSION['username']) && !iss
         include "outside_orders/edit_order.php";
     } elseif ($dir == 'outside_orders' && $page == 'compeleted_orders') {
         include "outside_orders/compeleted_orders.php";
+    }elseif ($dir == 'outside_orders' && $page == 'add_to_google_sheet') {
+        include "outside_orders/add_to_google_sheet.php";
     }
 
 

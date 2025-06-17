@@ -29,6 +29,40 @@
 </section>
 <!-- /.content-header -->
 <!-- DOM/Jquery table start -->
+<?php
+  if (isset($_SESSION['success_message'])) {
+    $message = $_SESSION['success_message'];
+    unset($_SESSION['success_message']);
+    ?>
+    <?php
+    ?>
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+    <script>
+      $(function () {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '<?php echo $message; ?>',
+          showConfirmButton: false,
+          timer: 2000
+        })
+      })
+    </script>
+    <?php
+  } elseif (isset($_SESSION['error_messages'])) {
+    $formerror = $_SESSION['error_messages'];
+    foreach ($formerror as $error) {
+      ?>
+      <div class="alert alert-danger alert-dismissible" style="max-width: 800px; margin:20px">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <?php echo $error; ?>
+      </div>
+      <?php
+    }
+    unset($_SESSION['error_messages']);
+  }
+  ?>
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -263,6 +297,10 @@
                                                         <td> <?php echo $order['shipping_problem']; ?> </td>
                                                         <td>
                                                             <a href="main.php?dir=outside_orders&page=order_details&order_id=<?php echo $order['id']; ?>" class="btn btn-success waves-effect btn-sm"> تفاصيل الطلب <i class='fa fa-eye'></i></a>
+                                                            <?php 
+                                                            if($order['add_to_sheet'] == 0){ ?>
+                                                            <a href="main.php?dir=outside_orders&page=add_to_google_sheet&order_id=<?php echo htmlspecialchars($order['id']); ?>" class="btn btn-warning waves-effect btn-sm"> اضافة الي الشيت  </a>
+                                                            <?php } ?>
                                                             <?php
                                                             if (isset($_SESSION['admin_username'])) {
                                                             ?>

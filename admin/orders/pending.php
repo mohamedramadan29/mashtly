@@ -230,6 +230,11 @@
                                                                 <a href="main.php?dir=orders&page=order_details&order_id=<?php echo $order['id']; ?>"
                                                                     class="btn btn-success waves-effect btn-sm"> تفاصيل الطلب <i
                                                                         class='fa fa-eye'></i></a>
+                                                                        <?php
+                                                                        $_SESSION['from_page'] = 'pending_orders';
+                                                                            if($order['add_to_sheet'] == 0){ ?>
+                                                                            <a href="main.php?dir=orders&page=add_to_google_sheet&order_id=<?php echo htmlspecialchars($order['id']); ?>" class="btn btn-warning waves-effect btn-sm"> اضافة الي الشيت  </a>
+                                                                            <?php } ?>
                                                             </td>
                                                         <?php } ?>
                                                     </tr>

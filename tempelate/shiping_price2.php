@@ -128,7 +128,7 @@ if (in_array('1', $ship_type) && in_array('2', $ship_type)) {
 } elseif (in_array('2', $ship_type)) {
     $ship_type_data = 'مستلزمات';
 } else {
-    echo 'نوع الفئة غير متوقع';
+    $ship_type_data =  '';
 }
 //echo $ship_type_data;
 ?>
@@ -222,7 +222,8 @@ if ($company_shipping2 == 0) {
 ?>
 <?php // echo number_format($shipping_value, 2); ?>
 <?php $_SESSION['shipping_value'] = number_format($shipping_value,2);
-echo $shipping_value;
+
+$_SESSION['shipping_type'] = $ship_type_data;
 
 ?>
 

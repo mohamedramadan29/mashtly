@@ -6,7 +6,7 @@ $Nonavbar = '';
 include 'connect.php';
 if (isset($_POST['login']) == 'POST' && $_POST['permision'] == 'admin') {
   $username = $_POST['username'];
-  $password = $_POST['password'];
+  $password = sha1($_POST['password']);
   $stmt = $connect->prepare(
     'SELECT * FROM admins WHERE username=? AND password=?'
   );

@@ -33,7 +33,6 @@
                 // var_dump($response);
                 $response_tap = $responseTap->status;
                 if ($responseTap->status == 'CAPTURED') {
-
                     // get all product from user cart
                     $order_data = $_SESSION['order_data'];
                     $stmt = $connect->prepare("SELECT * FROM cart WHERE cookie_id = ?");
@@ -46,10 +45,12 @@
                     $order_id = $_SESSION['order_id'];
                     $stmt = $connect->prepare("SELECT * FROM orders WHERE id = ?");
                     $stmt->execute(array($order_id));
+                    $order_data2 = $stmt->fetch();
                     $count_orders = $stmt->rowCount();
                     if ($count_orders > 0) {
                         $stmt = $connect->prepare("UPDATE orders SET status_value = 'لم يبدا', payment_status_tap = ?,response = ? WHERE id = ? ");
                         $stmt->execute(array($response_tap, $response, $order_id));
+                        $updateResult = updateOrderStatusInGoogleSheet($order_data2['order_number'], 'لم يبدا');
                     }
                     // $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
                     //     area, city, address, ship_price,order_details , order_date, status,status_value,farm_service_price,total_price,

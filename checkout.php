@@ -297,6 +297,7 @@ if (isset($_SESSION['user_id'])) {
                                             <img src="<?php echo $uploads ?>free.svg" alt="">
                                             مدة الشحن المتوقعة 2-7 ايام
                                         </p>
+                                        <?php echo $_SESSION['shipping_type'] ?> 
                                         <p class="no_sheap_price">
                                             <img src="<?php echo $uploads ?>free.svg" alt="">
                                             داخل الرياض :
@@ -543,9 +544,9 @@ if (isset($_SESSION['user_id'])) {
                             try {
                                 $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
                                 area, city, address, ship_price,order_details, order_date, status,status_value,farm_service_price,total_price,
-                                payment_method,coupon_code,discount_value,shipping_problem,present_id) 
+                                payment_method,coupon_code,discount_value,shipping_problem,present_id,order_type,add_to_sheet) 
                                 VALUES (:zorder_number , :zuser_id , :zname , :zemail ,:zphone , :zarea , :zcity , :zaddress,
-                                :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value,:zshipping_problem,:zpresent_id)");
+                                :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value,:zshipping_problem,:zpresent_id,:zorder_type,:zadd_to_sheet)");
                                 $stmt->execute(array(
                                     "zorder_number" => $order_number,
                                     "zuser_id" => $user_id,
@@ -566,7 +567,9 @@ if (isset($_SESSION['user_id'])) {
                                     "zcoupon_code" => $_SESSION['coupon_name'],
                                     "zdiscount_value" => $_SESSION['discount_value'],
                                     "zshipping_problem" => $_SESSION['shipping_problem'],
-                                    'zpresent_id' => $gift_id
+                                    'zpresent_id' => $gift_id,
+                                    "zorder_type"=>$_SESSION['shipping_type'] ?? '',
+                                    "zadd_to_sheet"=>0
 
                                 ));
                                 // get the last order number  id and number 
@@ -673,9 +676,9 @@ if (isset($_SESSION['user_id'])) {
                                 $status_value = 'pending';
                                 $stmt = $connect->prepare("INSERT INTO orders (order_number, user_id, name, email,phone,
                                     area, city, address, ship_price,order_details, order_date, status,status_value,farm_service_price,total_price,
-                                    payment_method,coupon_code,discount_value,shipping_problem,present_id) 
+                                    payment_method,coupon_code,discount_value,shipping_problem,present_id,order_type,add_to_sheet) 
                                     VALUES (:zorder_number , :zuser_id , :zname , :zemail ,:zphone , :zarea , :zcity , :zaddress,
-                                    :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value,:zshipping_problem,:zpresent_id)");
+                                    :zship_price,:zorder_details, :zorder_date, :zstatus, :zstatus_value,:zfarm_service_price,:ztotal_price,:zpayment_method,:zcoupon_code,:zdiscount_value,:zshipping_problem,:zpresent_id,:zorder_type,:zadd_to_sheet)");
                                 $stmt->execute(array(
                                     "zorder_number" => $order_number,
                                     "zuser_id" => $user_id,
@@ -696,7 +699,9 @@ if (isset($_SESSION['user_id'])) {
                                     "zcoupon_code" => $_SESSION['coupon_name'],
                                     "zdiscount_value" => $_SESSION['discount_value'],
                                     "zshipping_problem" => $_SESSION['shipping_problem'],
-                                    'zpresent_id' => $gift_id
+                                    'zpresent_id' => $gift_id,
+                                    "zorder_type"=>$_SESSION['shipping_type'] ?? '',
+                                    "zadd_to_sheet"=>0
                                 ));
                                 // get the last order number  id and number 
                                 $stmt = $connect->prepare("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
@@ -766,7 +771,7 @@ if (isset($_SESSION['user_id'])) {
                                 $city,
                                 $ship_price,
                                 $order_date,
-                                'لم يبدا',
+                                'دفع الكتروني لم يكتمل',
                                 $farm_service ?? 0,
                                 $grand_total,
                                 'الدفع الالكتروني',

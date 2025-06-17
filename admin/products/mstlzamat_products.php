@@ -92,7 +92,7 @@ if (isset($_GET['report_page'])) {
                                                 <th> سعر التخفيض</th>
                                                 <th> المخزون</th>
                                                 <th> نشر المنتج</th>
-                                                <th> صورة</th>
+                                                <!-- <th> صورة</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -172,25 +172,48 @@ if (isset($_GET['report_page'])) {
 
                                             <?php
                                             }
-                                        } else {
-                                            $query = "
-                                                    SELECT p.* 
-                                                    FROM products p
-                                                    JOIN categories c_main ON p.cat_id = c_main.id
-                                                    LEFT JOIN categories c_sub ON FIND_IN_SET(c_sub.id, p.more_cat)
-                                                    WHERE (c_main.main_category = 2 OR c_sub.main_category = 2)
-                                                    ORDER BY p.id DESC
-                                                ";
-                                            $statement = $connect->prepare($query);
-                                            $statement->execute();
-                                            $allpro = $statement->fetchAll(PDO::FETCH_ASSOC);
+                                        } else { 
+                                        // الاستعلام الأول: جلب المنتجات التابعة للأقسام 942 و1184 (الأسمدة)
+                                        $query_fertilizers = "
+                                            SELECT p.* 
+                                            FROM products p
+                                            JOIN categories c_main ON p.cat_id = c_main.id
+                                            LEFT JOIN categories c_sub ON FIND_IN_SET(c_sub.id, p.more_cat)
+                                            WHERE p.publish = 1
+                                            AND (c_main.main_category = 2 OR c_sub.main_category = 2)
+                                            AND (p.cat_id IN (942, 1184) OR FIND_IN_SET(942, p.more_cat) OR FIND_IN_SET(1184, p.more_cat))
+                                            ORDER BY p.id DESC
+                                        ";
+                                        $statement_fertilizers = $connect->prepare($query_fertilizers);
+                                        $statement_fertilizers->execute();
+                                        $fertilizers = $statement_fertilizers->fetchAll(PDO::FETCH_ASSOC);
+
+                                        // الاستعلام الثاني: جلب باقي المنتجات (غير التابعة للأقسام 942 و1184)
+                                        $query_others = "
+                                            SELECT p.* 
+                                            FROM products p
+                                            JOIN categories c_main ON p.cat_id = c_main.id
+                                            LEFT JOIN categories c_sub ON FIND_IN_SET(c_sub.id, p.more_cat)
+                                            WHERE p.publish = 1
+                                            AND (c_main.main_category = 2 OR c_sub.main_category = 2)
+                                            AND p.cat_id NOT IN (942, 1184)
+                                            AND NOT FIND_IN_SET(942, p.more_cat)
+                                            AND NOT FIND_IN_SET(1184, p.more_cat)
+                                            ORDER BY p.id DESC
+                                        ";
+                                        $statement_others = $connect->prepare($query_others);
+                                        $statement_others->execute();
+                                        $others = $statement_others->fetchAll(PDO::FETCH_ASSOC);
+
+                                        // دمج النتائج: الأسمدة أولاً، ثم باقي المنتجات
+                                        $allpro = array_merge($fertilizers, $others);
                                             ?>
                                             <form action="" method="post">
                                                 <table id="my_table" class="table table-striped table-bordered">
                                                     <thead>
-                                                        <tr>
-                                                            <th> # </th>
+                                                        <tr> 
                                                             <th>الأسم</th>
+                                                            <th>الرابط</th>
                                                             <th> القسم</th>
                                                             <th> نباتات / مستلزمات </th>
                                                             <th> سعر الشراء </th>
@@ -198,19 +221,25 @@ if (isset($_GET['report_page'])) {
                                                             <th> سعر التخفيض</th>
                                                             <th> المخزون</th>
                                                             <th> نشر المنتج</th>
-                                                            <th> صورة</th>
+                                                            <!-- <th> صورة</th> -->
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <?php
                                                         $i = 0;
-                                                        foreach ($allpro as $pro) {
+                                                        foreach ($fertilizers as $pro) {
                                                             $i++;
                                                         ?>
                                                             <tr>
+ 
+                                                              <td>
+                                                                   <?php echo $pro['name']; ?>
+                                                                </td>
 
-                                                                <td> <?php echo $i; ?> </td>
-                                                                <td> <a href="main.php?dir=products&page=edit&pro_id=<?php echo $pro['id']; ?>"> <?php echo $pro['name']; ?> </a> </td>
+                                                                <td>
+                                                                    <a href="https://www.mshtly.com/product/<?php echo $pro['slug']; ?>"><?php echo $pro['name']; ?></a>
+                                                                    <span class="url-hidden" style="display:none;"> <?php echo "https://www.mshtly.com/product/" . $pro['slug']; ?> </span>
+                                                                </td>
                                                                 <td> <?php
                                                                         if ($pro['cat_id'] != null) { ?>
                                                                         <?php
@@ -259,28 +288,18 @@ if (isset($_GET['report_page'])) {
                                                                         <span class="badge badge-danger"> ارشيف </span>
                                                                     <?php
                                                                     } ?>
-                                                                </td>
-
-                                                                <td>
-                                                                    <?php
-                                                                    $stmt = $connect->prepare("SELECT * FROM products_image WHERE product_id = ? LIMIT 1");
-                                                                    $stmt->execute(array($pro['id']));
-                                                                    $image_count = $stmt->rowCount();
-                                                                    if ($image_count > 0) {
-                                                                        $product_img_data = $stmt->fetch();
-                                                                    ?>
-                                                                        <img class="img-thumbnail" style="width: 80px; height:80px;" src="product_images/<?php echo $product_img_data['main_image']; ?>" alt="">
-                                                                    <?php
-                                                                    }
-                                                                    ?>
-                                                                </td>
+                                                                </td> 
                                                             </tr>
+                                                            <?php 
+                                                        }
+                                                        ?>
+                                                        
                                             </form>
                                             <?php
 
                                             ?>
                             </div>
-                    <?php }
+                    <?php 
                                                     }
                     ?>
                     </table>
@@ -302,4 +321,56 @@ if (isset($_GET['report_page'])) {
     if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
     }
+</script> 
+
+<script> 
+    $('#my_table').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excel',
+                text: 'Export to Excel',
+                exportOptions: {
+                    columns: ':visible',
+                    format: {
+                        body: function(data, row, column, node) {
+                            // العمود الثاني (الأسم) يحتوي على الرابط
+                            if (column === 1) { // العمود الثاني (الأسم)
+                                var url = $(node).find('.url-hidden').text().trim(); // استخراج الرابط من span
+                                var text = $(node).find('a').text().trim(); // استخراج اسم المنتج
+                                if (url && text) {
+                                    // تنظيف النص والرابط من الأحرف الخاصة
+                                    url = url.replace(/"/g, '""'); // التعامل مع علامات الاقتباس
+                                    text = text.replace(/"/g, '""'); // التعامل مع علامات الاقتباس
+                                    // إرجاع صيغة HYPERLINK
+                                    return url;
+                                }
+                                return text || data; // إرجاع النص فقط إذا لم يكن هناك رابط
+                            }
+                            // معالجة العمود الثالث (القسم) لاستخراج النص فقط
+                            if (column === 2) {
+                                return $(node).text().trim(); // استخراج النص من span (مثل "سماد" أو "لا يوجد")
+                            }
+                            // إرجاع البيانات كما هي للأعمدة الأخرى
+                            return data;
+                        }
+                    }
+                },
+                customize: function(xlsx) {
+                    // ضمان دعم النصوص العربية والروابط التشعبية في Excel
+                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                    $('row c', sheet).each(function() {
+                        // تعيين نمط يدعم النصوص العربية
+                        $(this).attr('s', '25');
+                        // التأكد من أن الخلايا التي تحتوي على صيغة HYPERLINK تُعامَل كصيغ
+                        if ($(this).text().startsWith('=HYPERLINK')) {
+                            $(this).attr('t', 'str'); // تعيين نوع الخلية كصيغة
+                        }
+                    });
+                }
+            }
+        ],
+ 
+    });
+ 
 </script>

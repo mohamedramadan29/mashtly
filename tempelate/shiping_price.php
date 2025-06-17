@@ -127,6 +127,7 @@ if (isset($_SESSION['user_id'])) {
     }
 
     echo $ship_type_data;
+    $_SESSION['shipping_type'] = $ship_type_data;
     ?>
     <!-- <h2> نوع المنتجات في السلة :: <?php echo $ship_type_data; ?> </h2> -->
     <?php
@@ -197,6 +198,7 @@ if (isset($_SESSION['user_id'])) {
         // if ($shipping_value == 0) {
         //     $shipping_value = 45;
         // }
+      
          
     ?>
         <h2 class="total"><?php echo number_format($shipping_value, 2); ?> ر.س </h2>

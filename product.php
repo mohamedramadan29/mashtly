@@ -369,7 +369,7 @@ if (isset($_POST['add_to_fav'])) {
                             ?>
                         </div>
                         <div class="product_info">
-                            <h1 class='product_header'> <?php echo $product_name; ?> </h2>
+                            <h1 class='product_header'> <?php echo $product_name; ?> </h1>
                                 <!-- check if products have more price in attribute or not -->
                                 <?php
                                 $maximumPrice = -INF; // قيمة أقصى سعر ممكنة

@@ -40,7 +40,7 @@ $post_image = $last_post['main_image'];
             </div>
             <div class="post_details">
                 <!-- <h5> <img class="calendar_name" src="<?php echo $uploads ?>/calendar2.svg" alt=""> <?php echo $post_date; ?> </h5> -->
-                <h2> <?php echo $post_head; ?> </h2>
+                <h1> <?php echo $post_head; ?> </h1>
                 <img src="uploads/posts/<?php echo $post_image; ?>" alt="<?php echo $post_head ?>">
                 <?php echo $post_desc; ?>
                 <?php echo $post_desc2; ?>

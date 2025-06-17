@@ -624,6 +624,8 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                             $stmt = $connect->prepare("DELETE FROM outside_services WHERE id = ?");
                             $stmt->execute(array($outsideserv_id));
 
+
+
                             if ($stmt) {
                               header("Location:main.php?dir=outside_orders&page=order_details&order_id=" . $order_id);
                             }
@@ -877,6 +879,17 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                       // change status in order 
                       $stmt = $connect->prepare("UPDATE outside_orders SET status_value = ? WHERE id = ?");
                       $stmt->execute(array($order_status, $order_id));
+                      ###############
+
+                      try {
+                        $updateResult = updateOrderStatusInGoogleSheet($order_data['order_number'], $order_status);
+                        var_dump($updateResult); // تحقق من القيمة المعادة
+                    } catch (Exception $e) {
+                        echo "خطأ: " . $e->getMessage();
+                        ?>
+                        <div class="alert alert-warning"> تم تحديث حالة الطلب في قاعدة البيانات، لكن فشل تحديث Google Sheet </div>
+                        <?php
+                    }
                       header("Location:main.php?dir=outside_orders&page=order_details&order_id=" . $order_id);
                   ?>
 

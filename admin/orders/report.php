@@ -28,6 +28,40 @@
     <!-- /.container-fluid -->
 </section>
 <!-- /.content-header -->
+<?php
+  if (isset($_SESSION['success_message'])) {
+    $message = $_SESSION['success_message'];
+    unset($_SESSION['success_message']);
+    ?>
+    <?php
+    ?>
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+    <script>
+      $(function () {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '<?php echo $message; ?>',
+          showConfirmButton: false,
+          timer: 2000
+        })
+      })
+    </script>
+    <?php
+  } elseif (isset($_SESSION['error_messages'])) {
+    $formerror = $_SESSION['error_messages'];
+    foreach ($formerror as $error) {
+      ?>
+      <div class="alert alert-danger alert-dismissible" style="max-width: 800px; margin:20px">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <?php echo $error; ?>
+      </div>
+      <?php
+    }
+    unset($_SESSION['error_messages']);
+  }
+  ?>
 <!-- DOM/Jquery table start -->
 <section class="content">
     <div class="container-fluid">
@@ -371,8 +405,12 @@
                                                                     <a href="main.php?dir=orders&page=edit_order&order_id=<?php echo $order['id']; ?>"
                                                                         class="btn btn-primary waves-effect btn-sm"> <i
                                                                             class='fa fa-edit'></i></a>
-
-                                                                    <a href="main.php?dir=orders&page=delete&order_id=<?php echo $order['id']; ?>"
+                                                                            <?php
+                                                                            $_SESSION['from_page'] = 'orders';
+                                                                            if($order['add_to_sheet'] == 0){ ?>
+                                                                            <a href="main.php?dir=orders&page=add_to_google_sheet&order_id=<?php echo htmlspecialchars($order['id']); ?>" class="btn btn-warning waves-effect btn-sm"> اضافة الي الشيت  </a>
+                                                                            <?php } ?>
+                                                                    <a onclick="return confirm('هل انت متاكد من حذف هذا الطلب؟')" href="main.php?dir=orders&page=delete&order_id=<?php echo $order['id']; ?>"
                                                                         class="confirm btn btn-danger btn-sm"> حذف <i
                                                                             class='fa fa-trash'></i> </a>
                                                                 <?php
@@ -502,4 +540,30 @@
     if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
     }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.add-to-sheet').click(function() {
+        var orderId = $(this).data('order-id');
+        var button = $(this);
+        $.ajax({
+            url: 'main.php?dir=orders&page=add_to_google_sheet',
+            type: 'POST',
+            data: { order_id: orderId },
+            success: function(response) {
+                if (response.success) {
+                    alert('Order added to Google Sheet successfully!');
+                    button.prop('disabled', true).text('Added');
+                } else {
+                    alert('Failed to add order to Google Sheet: ' + response.message);
+                }
+            },
+            error: function() {
+                alert('Error occurred while adding to Google Sheet.');
+            }
+        });
+    });
+});
 </script>

@@ -16,7 +16,7 @@ $description = 'سياسة التوصيل والإرجاع تعرف عليهما
             </div>
             <div class="purches_header">
                 <div class="data_header_name">
-                    <h2 class='header2'> التوصيل والإرجاع </h2>
+                    <h1 class='header2'> التوصيل والإرجاع </h1>
                     <p class="last_update"> تاريخ آخر تحديث: <span> ١٣ أبريل ٢٠٢٣ </span> </p>
                 </div>
             </div>

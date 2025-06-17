@@ -180,7 +180,7 @@
                                     <div class="form-group d-flex align-items-center">
                                         <div>
                                             <input type="hidden" name="vartion_id" value="<?php echo $pro_attribut['id']; ?>">
-                                            <img src="product_images/<?php echo $pro_attribut['image']; ?>" width="60px" height="60px" alt="">
+                                            <img src="../uploads/products/<?php echo $pro_attribut['image']; ?>" width="60px" height="60px" alt="">
                                         </div>
                                         <div>
                                             <label style='display:block'> صورة المنتج </label>
@@ -323,7 +323,7 @@ if (isset($_POST['save_vartion'])) {
             $main_image_uploaded = $image_att_name;
             move_uploaded_file(
                 $image_att_temp,
-                'product_images/' . $main_image_uploaded
+                '../uploads/products/' . $main_image_uploaded
             );
             $stmt = $connect->prepare("INSERT INTO product_details2 (product_id,vartions_name,vartions_weghit,price,image,image_name,image_alt,image_desc,image_keys) VALUES 
             (:zpro_id,:zvartion_name,:zvartions_weghit,:zprice,:zimage,:zimage_name,:zimage_alt,:zimage_desc,:zimage_keys)");
@@ -376,13 +376,13 @@ if (isset($_POST['edit_vartion'])) {
             $vartion_image_uploaded = $image_name . '.' . $image_extension;
             move_uploaded_file(
                 $main_image_temp,
-                'product_images/' . $vartion_image_uploaded
+                '../uploads/products/' . $vartion_image_uploaded
             );
         } else {
             $vartion_image_uploaded = $vartion_image_name;
             move_uploaded_file(
                 $vartion_image_temp,
-                'product_images/' . $vartion_image_uploaded
+                '../uploads/products/' . $vartion_image_uploaded
             );
         }
     }
@@ -419,13 +419,13 @@ if (isset($_POST['add_new_var'])) {
             $vartion_image_uploaded = $image_name . '.' . $image_extension;
             move_uploaded_file(
                 $main_image_temp,
-                'product_images/' . $vartion_image_uploaded
+                '../uploads/products/' . $vartion_image_uploaded
             );
         } else {
             $vartion_image_uploaded = $vartion_image_name;
             move_uploaded_file(
                 $vartion_image_temp,
-                'product_images/' . $vartion_image_uploaded
+                '../uploads/products/' . $vartion_image_uploaded
             );
         }
     } else {

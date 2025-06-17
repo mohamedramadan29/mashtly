@@ -631,24 +631,16 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
                       $stmt = $connect->prepare("UPDATE orders SET status_value = ? WHERE id = ?");
                       $stmt->execute(array($order_status, $order_id));
 
-                      ########### Google Sheet ###########
-                      // تحديث الحالة في Google Sheet
-                      $updateResult = updateOrderStatusInGoogleSheet($order_data['order_number'], $order_status);
-                      if ($updateResult) {
-                        echo "نجاح التحديث في Google Sheet";
-                        // نجاح التحديث في Google Sheet
+                      try {
+                        $updateResult = updateOrderStatusInGoogleSheet($order_data['order_number'], $order_status);
+                        var_dump($updateResult); // تحقق من القيمة المعادة
+                    } catch (Exception $e) {
+                        echo "خطأ: " . $e->getMessage();
                         ?>
-                        <div class="alert alert-success"> تم تحديث حالة الطلب بنجاح في قاعدة البيانات و Google Sheet </div>
+                        <div class="alert alert-warning"> تم تحديث حالة الطلب في قاعدة البيانات، لكن فشل تحديث Google Sheet </div>
                         <?php
-                      } else {
-                        echo "فشل التحديث في Google Sheet";
-                        // فشل التحديث في Google Sheet
-                        ?>
-                        <div class="alert alert-warning"> تم تحديث حالة الطلب في قاعدة البيانات، لكن فشل تحديث Google Sheet
-                        </div>
-                        <?php
-                      }
-                     // header("Location:main.php?dir=orders&page=order_details&order_id=" . $order_id);
+                    }
+                      header("Location:main.php?dir=orders&page=order_details&order_id=" . $order_id);
                       ?>
 
                       <div class="alert alert-danger"> تم اضافه الطلب بنجاح </div>
